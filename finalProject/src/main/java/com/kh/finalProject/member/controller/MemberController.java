@@ -8,4 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MemberController {
 
 	
+	@RequestMapping("memberJoin.do")
+	public String memberJoin(Model model) {
+		return "member/memberJoin";
+	}
 }
