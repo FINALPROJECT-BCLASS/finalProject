@@ -36,4 +36,8 @@ public class HomeController {
 		return "home";
 	}
 	
+	@RequestMapping("memberJoin.do")
+	public String memberJoin(Model model) {
+		return "member/memberJoin";
+	}
 }

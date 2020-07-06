@@ -1,0 +1,165 @@
+html, body {
+    height:100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    background-color:white;
+    margin: 0;
+    padding: 0;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.048);
+}
+
+
+
+.navi-area {
+    position: relative;
+    display: inline-block;
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    padding-left: 100px;
+}
+
+
+.navi-area > li {
+    position : relative;
+    display: inline-block;
+    text-align: center;
+    padding : 20px 0;
+    width: 125px;
+    font-size: 16px;
+    font-weight: 600;
+    color : rgba(72, 72, 72, 1);
+}
+
+.logo-area {
+    
+    display: inline-block;
+    padding: 20px 30px;
+    color: rgba(72, 72, 72, 1);
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.sub-navi {
+    padding: 0;
+    margin: 0 auto;
+    position: absolute;
+    display: none;
+    width: 172px;
+    top: 63px;
+    right: -18%;
+    background-color: #F3F3F3;
+    border-radius: 0 0 10px 10px;
+    list-style: none;
+}
+
+.sub-navi > li {
+    font-size : 14px;
+    font-weight: 500;
+}
+
+.sub-navi > li > a {
+    padding: 15px 20px;
+    text-decoration: none;
+    display: block;
+    color: rgba(72, 72, 72, 1);
+}
+
+.navi-area > li:hover > ul {
+    border-top: 2px solid #FBD14B;
+    display: inline-block;
+}
+
+.navi-area > li > ul > li:hover {
+    background-color: #FBD14B;
+}
+
+.l-login-square {
+    width: 15px;
+    height: 15px;
+    background-color: #F3F3F3;
+    position: absolute;
+    top: 60px;
+    left: 25%;
+    transform: rotate(45deg);
+}
+
+.l-login-area {
+    
+    position: relative;
+    display: inline-block;
+    float: right;
+    padding : 20px 60px;
+
+}
+
+.l-login-area > div > a {
+    display: inline-block;
+    margin-top: 5px;
+    text-decoration: none;
+    color:rgba(72, 72, 72, 1);
+    font-size: 18px;
+    font-weight: 700;
+    padding-left: 10px;
+}
+
+.l-login-area > div {
+    display: inline-block;
+    width: 25px;
+    height : 26px;
+    background-color: #FBD14B;
+    border-radius: 50%;
+    vertical-align: middle;
+    margin-left: -60px;
+    margin-top: -3px;
+}
+
+.l-hide {
+    display:none;
+}
+
+.l-login-sub {
+    position: absolute;
+    display: none;
+    padding: 0;
+    margin: 0 auto;    
+    left: -10px;
+    top: 67px;
+    text-align: center;
+    color:rgba(72, 72, 72, 1);
+    background-color: #F3F3F3;
+    border-radius: 10px;
+    list-style: none;
+}
+
+.l-login-sub > li > a {
+    
+    padding: 9px 20px;
+    text-decoration: none;
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(72, 72, 72, 1);
+}
+
+.l-login-sub > li:hover {
+    background: #FBD14B;
+}
+
+.b-radius {
+    border-radius: 0 0 10px 10px;
+}
+
+.t-radius {
+    border-radius: 10px 10px 0 0;
+}
+
+.blue {
+    color:#2860E1 !important;
+}

@@ -7,12 +7,12 @@
 	<title>Home</title>
 </head>
 <body>
-<h1>
-	Hello world!  
-</h1>
 
-<P>  The time on the server is ${serverTime}. </P>
-
-	<jsp:include page="common/menubar.jsp"/>
+	<jsp:include page="common/header.jsp"/>
+	<c:url var="memberJoin" value="memberJoin.do"></c:url>
+	<button onclick="location.href='${memberJoin}'">이동하기</button>
+		
+	
+	
 </body>
 </html>
