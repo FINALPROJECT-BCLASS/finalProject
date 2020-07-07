@@ -5,6 +5,7 @@ html, body {
 body {
     margin: 0;
     padding: 0;
+    z-index: 1;
 }
 
 .header {
@@ -28,6 +29,7 @@ body {
 
 .navi-area > li {
     position : relative;
+    cursor: pointer;
     display: inline-block;
     text-align: center;
     padding : 20px 0;
@@ -152,6 +154,8 @@ body {
     background: #FBD14B;
 }
 
+/* 색상 */
+
 .b-radius {
     border-radius: 0 0 10px 10px;
 }
@@ -163,3 +167,34 @@ body {
 .blue {
     color:#2860E1 !important;
 }
+
+.yellow {
+    color:#FBD14B !important;
+}
+
+.white {
+    color:white;
+}
+
+.rightgray {
+    color:#F3F3F3;
+}
+
+.b-blue {
+    background:#2860E1;
+}
+
+.b-yell {
+    background:#FBD14B;
+}
+
+.b-white {
+    background:white;
+}
+
+.b-rightgray {
+    background:#F3F3F3;
+}
+
+
+
