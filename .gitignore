@@ -7,5 +7,6 @@
 /target/
 /.classpath
 /*.project
-/.settings
+.settings/
 /*.springBeans
+*.DS_Store

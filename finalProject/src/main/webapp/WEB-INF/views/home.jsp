@@ -15,7 +15,7 @@
 <%-- 	<c:url var="memberJoin" value="memberJoin.do"></c:url>
 	<button onclick="location.href='${memberJoin}'">이동하기</button> --%>
 	
-	
+	hi
 	
 	
 	<jsp:include page="common/footer.jsp"/>	
