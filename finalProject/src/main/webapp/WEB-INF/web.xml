@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
 	<!-- ** <async-supported>true</async-supported> 사용하기 위해서, version 2.5에서 3.0으로 변경  -->
 
@@ -28,7 +28,7 @@
 		<load-on-startup>1</load-on-startup>
 		
 		<!-- ** 서버의 클라이언트 중복 접속시 오류해결  -->
-		<async-supported>true</async-supported>
+		<!-- <async-supported>true</async-supported> -->
 		
 	</servlet>
 		
