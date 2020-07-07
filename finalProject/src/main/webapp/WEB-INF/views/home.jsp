@@ -9,9 +9,16 @@
 <body>
 
 	<jsp:include page="common/header.jsp"/>
-	<c:url var="memberJoin" value="memberJoin.do"></c:url>
-	<button onclick="location.href='${memberJoin}'">이동하기</button>
-		
+	
+	
+	
+<%-- 	<c:url var="memberJoin" value="memberJoin.do"></c:url>
+	<button onclick="location.href='${memberJoin}'">이동하기</button> --%>
+	
+	
+	
+	
+	<jsp:include page="common/footer.jsp"/>	
 	
 	
 </body>
