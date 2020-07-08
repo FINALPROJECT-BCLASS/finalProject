@@ -31,12 +31,13 @@
     .noticeBoardTb{width:100%; background:white;border:0.5px solid lightgray;}
     .noticeBoardTitle{padding-top:20px; padding-left:10px;font-weight: 600; font-size: 20px;}
     .noticeBoardDate{padding-left:10px; font-size:12px; font-weight: 600;}
-    .noticeBoardContent{padding-left:10px; height:50px; overflow:scroll; overflow-x:hidden; font-size:13px;}
+    .noticeBoardContent{padding-top:5px; padding-left:10px; height:50px; overflow:scroll; overflow-x:hidden; font-size:13px;}
 	</style>
 </head>
 <body>
 
 	<jsp:include page="common/header.jsp"/>
+
 	<jsp:include page="common/sidenaviGroup.jsp"/>
 
 	  <div class="noticeText">
@@ -105,7 +106,7 @@
             </div>
           
          </div>
-	
+
 	<jsp:include page="common/footer.jsp"/>	
 	
 	
