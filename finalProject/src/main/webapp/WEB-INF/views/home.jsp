@@ -9,7 +9,7 @@
 <body>
 
 	<jsp:include page="common/header.jsp"/>
-	
+	<jsp:include page="common/sidenavi.jsp"/>
 	
 	
 <%-- 	<c:url var="memberJoin" value="memberJoin.do"></c:url>

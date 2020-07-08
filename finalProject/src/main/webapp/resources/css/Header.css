@@ -5,6 +5,7 @@ html, body {
 body {
     margin: 0;
     padding: 0;
+    z-index: 1;
 }
 
 .header {
@@ -28,6 +29,7 @@ body {
 
 .navi-area > li {
     position : relative;
+    cursor: pointer;
     display: inline-block;
     text-align: center;
     padding : 20px 0;
@@ -35,6 +37,7 @@ body {
     font-size: 16px;
     font-weight: 600;
     color : rgba(72, 72, 72, 1);
+    cursur : pointer;
 }
 
 .logo-area {
@@ -96,12 +99,12 @@ body {
     display: inline-block;
     float: right;
     padding : 20px 60px;
+    cursor : pointer !important;
 
 }
 
 .l-login-area > div > a {
     display: inline-block;
-    margin-top: 5px;
     text-decoration: none;
     color:rgba(72, 72, 72, 1);
     font-size: 18px;
@@ -148,9 +151,25 @@ body {
     color: rgba(72, 72, 72, 1);
 }
 
+.l-login-area > div > a:hover {
+    color : rgba(72, 72, 72, 1);
+}
+
 .l-login-sub > li:hover {
     background: #FBD14B;
 }
+
+/* 기본 버튼 */
+
+.default-btn {
+	border-style: none;
+    border-radius: 8px;
+    height: 40px;
+    width: 80px;
+}
+
+
+/* 색상 */
 
 .b-radius {
     border-radius: 0 0 10px 10px;
@@ -162,4 +181,32 @@ body {
 
 .blue {
     color:#2860E1 !important;
+}
+
+.yellow {
+    color:#FBD14B !important;
+}
+
+.white {
+    color:white !important;
+}
+
+.rightgray {
+    color:#F3F3F3 !important;
+}
+
+.b-blue {
+    background:#2860E1;
+}
+
+.b-yell {
+    background:#FBD14B;
+}
+
+.b-white {
+    background:white;
+}
+
+.b-rightgray {
+    background:#F3F3F3;
 }
