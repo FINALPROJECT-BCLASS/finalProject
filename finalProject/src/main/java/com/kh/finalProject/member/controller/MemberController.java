@@ -10,6 +10,11 @@ public class MemberController {
 	
 	@RequestMapping("memberJoin.do")
 	public String memberJoin(Model model) {
-		return "member/memberJoin";
+		return "member/join";
+	}
+	
+	@RequestMapping("memberLogin.do")
+	public String memberLogin(Model model) {
+		return "member/login";
 	}
 }

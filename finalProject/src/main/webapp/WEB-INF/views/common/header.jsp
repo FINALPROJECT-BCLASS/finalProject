@@ -63,7 +63,8 @@
                     </ul>
                 </li>
             </ul>
-            <div class="l-login-area">
+            <c:url var="login" value="memberLogin.do"></c:url>
+            <div class="l-login-area" onclick="location.href='${login}'">
                 <div><a>Login</a>
                     <div class="l-hide l-login-square"></div>
                     <ul class="l-hide l-login-sub">

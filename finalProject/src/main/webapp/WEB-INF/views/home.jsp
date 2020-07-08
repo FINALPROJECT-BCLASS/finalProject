@@ -177,7 +177,7 @@
 	
 	
 	
-<%-- 	<c:url var="memberJoin" value="memberJoin.do"></c:url>
+<%-- <c:url var="memberJoin" value="memberJoin.do"></c:url>
 	<button onclick="location.href='${memberJoin}'">이동하기</button> --%>
 	<!-- Swiper -->
 	
