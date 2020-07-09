@@ -20,13 +20,17 @@
 <c:set var="contextPath" value="${pageContext.servletContext.contextPath }" scope="application"/>
     <header class="header">
         <nav>
+        	
+        	<!-- url var -->
+        	<c:url var="mplist" value="mplist.do"/>
+        	
             <div class="logo-area">
                 <a class="blue">LIFE</a>NOTE
             </div>
             <ul class = "navi-area">
                 <li>Plan
                         <ul class="sub-navi">
-                            <li><a href="#">Monthly Planner</a></li>
+                            <li><a href="${mplist }">Monthly Planner</a></li>
                             <li><a href="#">Timetable</a></li>
                             <li class="b-radius"><a href="#">Menstrual Calendar</a></li>
                         </ul>
