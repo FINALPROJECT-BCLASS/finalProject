@@ -81,7 +81,6 @@
 
     .back-btn:hover {
         color:#FBD14B;
-        background:#FBD14B;
         border-color:#FBD14B;
         cursor: pointer;
     }
