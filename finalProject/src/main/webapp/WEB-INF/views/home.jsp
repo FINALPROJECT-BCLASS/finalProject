@@ -1,14 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page session="false" %>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<title>Home</title>
 </head>
 <body>
 
-	<% response.sendRedirect(request.getContextPath() + "/home.do"); %>
-	<!-- 예지 푸시함 -->   
-</body> 
+	<jsp:include page="common/header.jsp"/>
+	
+	
+	
+<%-- 	<c:url var="memberJoin" value="memberJoin.do"></c:url>
+	<button onclick="location.href='${memberJoin}'">이동하기</button> --%>
+	
+	hi
+	
+	<jsp:include page="common/footer.jsp"/>	
+	
+	
+</body>
 </html>

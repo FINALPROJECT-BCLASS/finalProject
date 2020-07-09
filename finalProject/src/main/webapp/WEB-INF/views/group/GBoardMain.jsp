@@ -428,8 +428,6 @@
 
 	  	 $("span.emptyHeart").click(function(){
 	  		$(this).html($(this).html() == 'favorite_border' ? 'favorite' : 'favorite_border');
-	  		
-	  		$(this).find("span").toggleClass("material-icons heart");
 	  	}) 
   	</script>
 	  
