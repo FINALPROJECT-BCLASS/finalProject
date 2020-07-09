@@ -7,15 +7,6 @@
 /target/
 /.classpath
 /*.project
-<<<<<<< HEAD
-/.settings
-/*.springBeans
-<<<<<<< HEAD
-
-=======
->>>>>>> refs/remotes/origin/yeji
-=======
 .settings/
 /*.springBeans
 *.DS_Store
->>>>>>> refs/remotes/origin/dev5
