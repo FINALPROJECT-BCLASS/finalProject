@@ -60,6 +60,7 @@ body {
     background-color: #F3F3F3;
     border-radius: 0 0 10px 10px;
     list-style: none;
+    box-shadow: 2px 8px 11px -4px #00000014;
 }
 
 .sub-navi > li {
@@ -162,14 +163,14 @@ body {
 /* 기본 버튼 */
 
 .default-btn {
+	font-size: 15px;
+    font-weight: 600;
+    color: #484848;
 	border-style: none;
     border-radius: 8px;
     height: 40px;
     width: 80px;
 }
-
-
-/* 색상 */
 
 .b-radius {
     border-radius: 0 0 10px 10px;
@@ -178,6 +179,8 @@ body {
 .t-radius {
     border-radius: 10px 10px 0 0;
 }
+
+/* 색상 */
 
 .blue {
     color:#2860E1 !important;
@@ -191,7 +194,11 @@ body {
     color:white !important;
 }
 
-.rightgray {
+.gray{
+	color:gray !important;
+}
+
+.lightgray {
     color:#F3F3F3 !important;
 }
 
@@ -207,6 +214,7 @@ body {
     background:white;
 }
 
-.b-rightgray {
+.b-lightgray {
     background:#F3F3F3;
+
 }
