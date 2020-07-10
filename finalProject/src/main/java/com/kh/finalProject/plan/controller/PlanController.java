@@ -7,9 +7,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class PlanController {
 	
 	@RequestMapping("mplist.do")
-	public String enrollView() {
+	public String monthlyView() {
 		
 		return "plan/monthlyPlanner";
+	}
+	
+	@RequestMapping("ttlist.do")
+	public String timetableView() {
+		
+		return "plan/timetable";
+	}
+	
+	@RequestMapping("mclist.do")
+	public String menstrualView() {
+		
+		return "plan/menstrualCalendar";
 	}
 
 }
