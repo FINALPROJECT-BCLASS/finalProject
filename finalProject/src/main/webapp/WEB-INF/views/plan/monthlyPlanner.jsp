@@ -8,7 +8,7 @@
     <title>Document</title>
     <script type="text/javascript"></script>
     
-    <link href='resources/lib/main.css' rel='stylesheet' />
+    <link href='resources/css/main.css' rel='stylesheet' />
     <script src='resources/lib/main.js'></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
