@@ -5,8 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link href='resources/lib/main.css' rel='stylesheet' />
-    <script src='resources/lib/main.js'></script>
+    <!-- <link href='/lib/main.css' rel='stylesheet' />
+    <script src='/lib/main.js'></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
@@ -79,7 +79,7 @@
         });
     </script> -->
     <title>Document</title>
-    <script type="text/javascript" src="${contextPath }resources/js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript"></script>
     <style>
         #listTable{
             margin-top: 5px;
@@ -151,16 +151,8 @@
         }
     </style>
 </head>
-<link rel="stylesheet" href="resources/css/navi.css">
-<!-- 합쳐지고 최소화된 최신 CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-
 <!-- 부가적인 테마 -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-
-<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="resources/css/leftNavi.css">
 
 
 <body>
