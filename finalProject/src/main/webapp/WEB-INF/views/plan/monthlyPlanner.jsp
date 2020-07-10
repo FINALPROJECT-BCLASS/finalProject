@@ -5,8 +5,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link href='/lib/main.css' rel='stylesheet' />
-    <script src='/lib/main.js'></script>
+    <title>Document</title>
+    <script type="text/javascript"></script>
+    
+    <link href='resources/lib/main.css' rel='stylesheet' />
+    <script src='resources/lib/main.js'></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
@@ -77,9 +80,8 @@
 
             calendar.render();
         });
-    </script> -->
-    <title>Document</title>
-    <script type="text/javascript"></script>
+    </script>
+    
     <style>
         #listTable{
             margin-top: 5px;
@@ -105,6 +107,7 @@
 
         .listInput{
             width: 100%;
+            border: none;
         }
 
         #circle{
@@ -116,7 +119,7 @@
         }
 
         #circleArea{
-            width: 150px;
+            width: 200px;
             display: flex;
             align-items: center;
         }
@@ -133,7 +136,7 @@
         }
 
         .modal-content{
-            width: 400px;
+            width: 440px !important;
         }
 
         #addTable td{
@@ -151,9 +154,6 @@
         }
     </style>
 </head>
-<!-- 부가적인 테마 -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-
 
 <body>
     <jsp:include page="../common/header.jsp"/>
@@ -178,7 +178,7 @@
                                     <table id="addTable">
                                         <tr>
                                             <td><b>Title</b></td>
-                                            <td><input type="text" name="planTitle"></td>
+                                            <td><input type="text" name="planTitle" size="42"></td>
                                         </tr>
                                         <tr>
                                             <td><b>Date</b></td>
@@ -189,39 +189,44 @@
                                         </tr>
                                         <tr>
                                             <td><b>Time</b></td>
-                                            <td><input type="time" name="planTime"></td>
+                                            <td>
+                                            	<input type="time" name="planTime" style="width: 335px;">
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2"><b>Location</b>&nbsp;<button type="button">Search</button></td>
+                                            <td colspan="2">
+                                            	<b>Location</b>&nbsp;
+                                            	<button type="button" class="default-btn">Search</button>
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2"><input type="text"></td>
+                                            <td colspan="2"><input type="text" size="49"></td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2"><input type="text"></td>
+                                            <td colspan="2"><input type="text" size="49"></td>
                                         </tr>
                                         <tr>
                                             <td colspan="2"><b>Memo</b></td>
                                         </tr>
                                         <tr>
                                             <td colspan="2">
-                                                <textarea cols="30" rows="5"></textarea>
+                                                <textarea cols="52" rows="5"></textarea>
                                             </td>
                                         </tr>
                                     </table>
-                                    <button type="submit">Add</button>
+                                    <button type="submit" class="default-btn">Add</button>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- <div id='calendar'></div> -->
+                <div id='calendar'></div>
             </div>
             <div class="col-md-2">
                 <div id="circleArea">
                     <div id="circle"></div>
                     <b id="listLogo">To do List</b>&nbsp;&nbsp;&nbsp;
-                    <input type="button" value="Save">
+                    <button type="button" class="default-btn">Save</button>
                 </div>
                 <table id="listTable">
                     <tr>
