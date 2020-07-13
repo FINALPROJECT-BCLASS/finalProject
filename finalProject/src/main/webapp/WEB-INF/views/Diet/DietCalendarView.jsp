@@ -60,7 +60,7 @@
 			  </div>
 			  
 			
-			  <div id='loading'>loading...</div>
+			  <div id='loading'>loading...</div><!-- 로딩을 보여주는곳? -->
 			
 			  <div id='calendar'></div>
 				
