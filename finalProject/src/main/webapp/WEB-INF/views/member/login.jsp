@@ -83,22 +83,22 @@
 	<jsp:include page="../common/header.jsp"/>
     <div class="login-form-area">
         <span class="pSubject">Login</span>
-        <form action="#">
+        <form action="login.do" method="post">
             <table cellpadding="6px">
                 <tr>
                     <td>
                         Id <br>
-                        <input type="text" placeholder="아이디를 입력해 주세요.">
+                        <input type="text" name="id" placeholder="아이디를 입력해 주세요.">
                     </td>
                 </tr>
                 <tr>
                     <td>
                         Password <br>
-                        <input type="password" placeholder="비밀번호를 입력해 주세요.">
+                        <input type="password" name="pwd" placeholder="비밀번호를 입력해 주세요.">
                     </td>
                 </tr>
                 <tr>
-                    <td><button class="login-btn b-blue white">Login</button>
+                    <td><button type="submit" class="login-btn b-blue white">Login</button>
                     </td>
                 </tr>
             </table>

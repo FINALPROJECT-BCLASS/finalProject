@@ -35,14 +35,4 @@
     <filter-name>encodingFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
-  <servlet>
-    <description></description>
-    <display-name>hi1</display-name>
-    <servlet-name>hi1</servlet-name>
-    <servlet-class>hi1</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>hi1</servlet-name>
-    <url-pattern>/hi1</url-pattern>
-  </servlet-mapping>
 </web-app>
