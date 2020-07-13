@@ -15,6 +15,6 @@ public class MemberController {
 	
 	@RequestMapping("memberLogin.do")
 	public String memberLogin(Model model) {
-		return "member/login";
+		return "daily/bookmarkList";
 	}
 }

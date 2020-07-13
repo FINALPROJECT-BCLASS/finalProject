@@ -60,6 +60,7 @@ body {
     background-color: #F3F3F3;
     border-radius: 0 0 10px 10px;
     list-style: none;
+    box-shadow: 2px 8px 11px -4px #00000014;
 }
 
 .sub-navi > li {
@@ -77,6 +78,7 @@ body {
 .navi-area > li:hover > ul {
     border-top: 2px solid #FBD14B;
     display: inline-block;
+    z-index: 1;
 }
 
 .navi-area > li > ul > li:hover {
@@ -171,9 +173,6 @@ body {
     width: 80px;
 }
 
-
-/* 색상 */
-
 .b-radius {
     border-radius: 0 0 10px 10px;
 }
@@ -181,6 +180,8 @@ body {
 .t-radius {
     border-radius: 10px 10px 0 0;
 }
+
+/* 색상 */
 
 .blue {
     color:#2860E1 !important;
@@ -194,7 +195,11 @@ body {
     color:white !important;
 }
 
-.rightgray {
+.gray{
+	color:gray !important;
+}
+
+.lightgray {
     color:#F3F3F3 !important;
 }
 
@@ -210,9 +215,7 @@ body {
     background:white;
 }
 
-.b-rightgray {
+.b-lightgray {
     background:#F3F3F3;
 
 }
-
-
