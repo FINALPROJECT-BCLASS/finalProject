@@ -7,11 +7,12 @@
 	</settings>
 	
 	<typeAliases>
-		
+		<typeAlias type="com.kh.finalProject.group.model.vo.GroupTable" alias="GroupTable"/>
+		<typeAlias type="com.kh.finalProject.group.model.vo.GroupMember" alias="GroupMember"/>
 	</typeAliases>
 
 	<mappers>
-	
+		<mapper resource="mappers/group-mapper.xml"/>
 	</mappers>
 	
 </configuration>

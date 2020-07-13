@@ -1,0 +1,28 @@
+package com.kh.finalProject.group.model.service;
+
+import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.kh.finalProject.group.model.dao.GroupDao;
+import com.kh.finalProject.group.model.vo.GroupMember;
+import com.kh.finalProject.group.model.vo.GroupTable;
+
+@Service("gService")
+public class GroupServiceImpl implements GroupService{
+
+	@Autowired
+	GroupDao gDao;
+
+	@Override
+	public ArrayList<GroupTable> selectGroup() {
+		return gDao.selectGroup();
+	}
+
+	@Override
+	public ArrayList<GroupMember> selectGroupMember() {
+		return gDao.selectGroupMember();
+	}
+	
+}
