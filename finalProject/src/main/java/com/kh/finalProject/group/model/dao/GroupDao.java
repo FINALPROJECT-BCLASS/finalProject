@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupTable;
+import com.kh.finalProject.group.model.vo.Member;
 
 @Repository("gDao")
 public class GroupDao {
@@ -21,6 +22,10 @@ public class GroupDao {
 
 	public ArrayList<GroupMember> selectGroupMember() {
 		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectGroupMember");
+	}
+
+	public ArrayList<Member> searchNameList(String searchName) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.searchNameList");
 	}
 	
 	

@@ -1,17 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="groupMapper">
+
+	<resultMap id="groupTableResultSet" type="GroupTable">
+		<id property="gNo" column="G_NO"/>
+		<result property="gTitle" column="G_TITLE"/>
+		<result property="gCon" column="G_CON"/>
+		<result property="gOrigin" column="G_ORIGIN"/>
+		<result property="gRename" column="G_RENAME"/>
+		<result property="gDelete" column="G_DELETE"/>
+		<result property="id" column="ID"/>
+		<result property="gDate" column="G_DATE"/>
+	</resultMap>
+	
 	<resultMap id="GroupMemberList" type="GroupMember">
-		<id property="GM_NO" column="GM_NO"/>
-		<result property="GM_ID" column="GM_ID"/>
-		<result property="G_NO" column="G_NO"/>
-		<result property="GM_DELETE" column="GM_DELETE"/>
-		<result property="NAME" column="NAME"/>
+		<id property="gmNO" column="GM_NO"/>
+		<result property="gmId" column="GM_ID"/>
+		<result property="gNo" column="G_NO"/>
+		<result property="gmDelete" column="GM_DELETE"/>
+		<result property="name" column="NAME"/>
+	</resultMap>
+	
+	<resultMap id="MemberResultSet" type="Member">
+		<id property="name" column="NAME"/>
 	</resultMap>
 
 
 
-	<select id="selectGroup" resultType="GroupTable">
+	<select id="selectGroup" resultMap="groupTableResultSet">
 		SELECT * 
 		FROM GROUP_TABLE
 	</select>
@@ -20,6 +36,11 @@
 		SELECT GM_NO, GM_ID, G_NO, GM_DELETE, NAME
 		FROM GROUP_MEMBER TM
 		JOIN MEMBER M ON(TM.GM_ID  = M.ID)
-	</select>
+	</select> 
 
+	<select id="searchNameList" resultMap="MemberResultSet">
+		SELECT NAME
+		FROM MEMBER
+		WHERE NAME LIKE '%' || #{searchName} || '%'
+	</select>
 </mapper>

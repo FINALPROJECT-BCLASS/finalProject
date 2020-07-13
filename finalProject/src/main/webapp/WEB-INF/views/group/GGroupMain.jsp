@@ -32,48 +32,39 @@
 	
 	
   <!-- Container (Portfolio Section) -->
+
 <div class="groupMain">
     <br>
     <h1>Group Diary</h1>
     <h4>What we have created</h4>
 
-     <button id="groupWrite" onclick="location.href='groupWrite.do'" ><img src="resources/images/write.png" id="writeBtn"></button>
-	
+    <button id="groupWrite" onclick="location.href='groupInsertView.do'" ><img src="resources/images/write.png" id="writeBtn"></button>
+
     <div style="clear:both"></div>  
+    
+    	
+	<c:if test="${empty list }">
+		<br>
+		<br>
+		<h4 align="center">가입한 그룹이 없습니다.</h4>
+	</c:if>  
     
     <div id="gropTbForm">
     <table class="groupTb" align="center">
         <tr>
         	<c:forEach var="g" items="${list }">
             <td>
-                <a href="#" data-toggle="tooltip" data-placement="bottom" title="신희지 김혜린">
-                    <img src="resources/images/"+${g.G_ORIGIN }+"">
-                </a>
-                <p><b>히지를 사랑하는 모임</b></p>
-                <p>히지를 사랑하면 가입해주세요.</p>
+            	<c:forEach var="m" items="${memberList}">
+	                <a href="#" data-toggle="tooltip" data-placement="bottom" title="${m.name }">
+                 </c:forEach>
+	                     <img src="resources/images/${g.gOrigin}">
+	                </a>
+               
+                <p><b>${g.gTitle }</b></p>
+                <p>${g.gCon }</p>
             </td>
             </c:forEach>
-          <!--   <td>
-                <a href="#" data-toggle="tooltip" data-placement="bottom" title="신희지 김혜린">
-                    <img src="resources/images/히지.png">
-                </a>
-                <p><b>히지를 사랑하는 모임</b></p>
-                <p>히지를 사랑하면 가입해주세요.</p>
-            </td>
-            <td>
-                <a href="#" data-toggle="tooltip" data-placement="bottom" title="신희지 김혜린">
-                    <img src="resources/images/히지.png">
-                </a>
-                <p><b>히지를 사랑하는 모임</b></p>
-                <p>히지를 사랑하면 가입해주세요.</p>
-            </td>
-            <td>
-                <a href="#" data-toggle="tooltip" data-placement="bottom" title="신희지 김혜린">
-                    <img src="resources/images/히지.png">
-                </a>
-                <p><b>히지를 사랑하는 모임</b></p>
-                <p>히지를 사랑하면 가입해주세요.</p>
-            </td> -->
+
         </tr>
     </table>
 </div>

@@ -9,63 +9,63 @@ public class GroupMember implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private int GM_NO;
-	private String GM_ID;
-	private String G_NO;
-	private String GM_DELETE;
-	private String NAME;
+	private int gmNO;
+	private String gmId;
+	private String gNo;
+	private String gmDelete;
+	private String name;
 	
 	public GroupMember() {
 		super();
 	}
 
-	public GroupMember(int gM_NO, String gM_ID, String g_NO, String gM_DELETE, String nAME) {
+	public GroupMember(int gmNO, String gmId, String gNo, String gmDelete, String name) {
 		super();
-		GM_NO = gM_NO;
-		GM_ID = gM_ID;
-		G_NO = g_NO;
-		GM_DELETE = gM_DELETE;
-		NAME = nAME;
+		this.gmNO = gmNO;
+		this.gmId = gmId;
+		this.gNo = gNo;
+		this.gmDelete = gmDelete;
+		this.name = name;
 	}
 
-	public int getGM_NO() {
-		return GM_NO;
+	public int getGmNO() {
+		return gmNO;
 	}
 
-	public void setGM_NO(int gM_NO) {
-		GM_NO = gM_NO;
+	public void setGmNO(int gmNO) {
+		this.gmNO = gmNO;
 	}
 
-	public String getGM_ID() {
-		return GM_ID;
+	public String getGmId() {
+		return gmId;
 	}
 
-	public void setGM_ID(String gM_ID) {
-		GM_ID = gM_ID;
+	public void setGmId(String gmId) {
+		this.gmId = gmId;
 	}
 
-	public String getG_NO() {
-		return G_NO;
+	public String getgNo() {
+		return gNo;
 	}
 
-	public void setG_NO(String g_NO) {
-		G_NO = g_NO;
+	public void setgNo(String gNo) {
+		this.gNo = gNo;
 	}
 
-	public String getGM_DELETE() {
-		return GM_DELETE;
+	public String getGmDelete() {
+		return gmDelete;
 	}
 
-	public void setGM_DELETE(String gM_DELETE) {
-		GM_DELETE = gM_DELETE;
+	public void setGmDelete(String gmDelete) {
+		this.gmDelete = gmDelete;
 	}
 
-	public String getNAME() {
-		return NAME;
+	public String getName() {
+		return name;
 	}
 
-	public void setNAME(String nAME) {
-		NAME = nAME;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public static long getSerialversionuid() {
@@ -74,8 +74,8 @@ public class GroupMember implements Serializable{
 
 	@Override
 	public String toString() {
-		return "GroupMember [GM_NO=" + GM_NO + ", GM_ID=" + GM_ID + ", G_NO=" + G_NO + ", GM_DELETE=" + GM_DELETE
-				+ ", NAME=" + NAME + "]\n";
+		return "GroupMember [gmNO=" + gmNO + ", gmId=" + gmId + ", gNo=" + gNo + ", gmDelete=" + gmDelete + ", name="
+				+ name + "]\n";
 	}
 
 	
