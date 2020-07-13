@@ -9,9 +9,5 @@
 /*.project
 .settings/
 /*.springBeans
-<<<<<<< HEAD
-*.DS_Store
-=======
 *.DS_Store
 
->>>>>>> refs/remotes/origin/master
