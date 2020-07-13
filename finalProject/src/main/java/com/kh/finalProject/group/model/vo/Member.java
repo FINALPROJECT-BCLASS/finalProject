@@ -9,15 +9,25 @@ public class Member implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	private String id;
 	private String name;
 
 	public Member() {
 		super();
 	}
 
-	public Member(String name) {
+	public Member(String id, String name) {
 		super();
+		this.id = id;
 		this.name = name;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -34,10 +44,9 @@ public class Member implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Member [name=" + name + "]";
+		return "Member [id=" + id + ", name=" + name + "]\n";
 	}
 
-	
 	
 	
 	

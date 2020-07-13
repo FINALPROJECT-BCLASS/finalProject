@@ -12,6 +12,7 @@ public class GroupTable implements Serializable {
 	private int gNo;
 	private String gTitle;
 	private String gCon;
+	private String gName;
 	private String gOrigin;
 	private String gRename;
 	private String gDelete;
@@ -22,12 +23,13 @@ public class GroupTable implements Serializable {
 		super();
 	}
 
-	public GroupTable(int gNo, String gTitle, String gCon, String gOrigin, String gRename, String gDelete, int id,
-			String gDate) {
+	public GroupTable(int gNo, String gTitle, String gCon, String gName, String gOrigin, String gRename, String gDelete,
+			int id, String gDate) {
 		super();
 		this.gNo = gNo;
 		this.gTitle = gTitle;
 		this.gCon = gCon;
+		this.gName = gName;
 		this.gOrigin = gOrigin;
 		this.gRename = gRename;
 		this.gDelete = gDelete;
@@ -57,6 +59,14 @@ public class GroupTable implements Serializable {
 
 	public void setgCon(String gCon) {
 		this.gCon = gCon;
+	}
+
+	public String getgName() {
+		return gName;
+	}
+
+	public void setgName(String gName) {
+		this.gName = gName;
 	}
 
 	public String getgOrigin() {
@@ -105,10 +115,10 @@ public class GroupTable implements Serializable {
 
 	@Override
 	public String toString() {
-		return "GroupTable [gNo=" + gNo + ", gTitle=" + gTitle + ", gCon=" + gCon + ", gOrigin=" + gOrigin
-				+ ", gRename=" + gRename + ", gDelete=" + gDelete + ", id=" + id + ", gDate=" + gDate + "]\n";
+		return "GroupTable [gNo=" + gNo + ", gTitle=" + gTitle + ", gCon=" + gCon + ", gName=" + gName + ", gOrigin="
+				+ gOrigin + ", gRename=" + gRename + ", gDelete=" + gDelete + ", id=" + id + ", gDate=" + gDate + "]\n";
 	}
 
-	
+
 	
 }

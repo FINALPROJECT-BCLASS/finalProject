@@ -54,17 +54,13 @@
         <tr>
         	<c:forEach var="g" items="${list }">
             <td>
-            	<c:forEach var="m" items="${memberList}">
-	                <a href="#" data-toggle="tooltip" data-placement="bottom" title="${m.name }">
-                 </c:forEach>
-	                     <img src="resources/images/${g.gOrigin}">
-	                </a>
-               
+                <a href="#" data-toggle="tooltip" data-placement="bottom" title="${g.gName }">
+                     <img src="resources/images/${g.gOrigin}">
+                </a>
                 <p><b>${g.gTitle }</b></p>
                 <p>${g.gCon }</p>
             </td>
             </c:forEach>
-
         </tr>
     </table>
 </div>

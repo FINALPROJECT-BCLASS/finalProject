@@ -1,5 +1,6 @@
 package com.kh.finalProject.group.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletResponse;
@@ -10,6 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 import com.kh.finalProject.group.model.service.GroupService;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupTable;
@@ -47,12 +51,15 @@ public class GroupController {
 	
 	// 그룹생성
 	@RequestMapping("searchName.do")
-	public void searchNameList(HttpServletResponse response, String searchName) {
+	public void searchNameList(HttpServletResponse response, String searchName) throws JsonIOException, IOException {
 		System.out.println("searchName : " + searchName);
 		ArrayList<Member> list = gService.searchNameList(searchName);
 		
 		System.out.println("searchName list : " + list);
 		response.setContentType("application/json;charset=utf-8");
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy년 MM월 dd일").create();
+		gson.toJson(list, response.getWriter());
 		
 	}
 	

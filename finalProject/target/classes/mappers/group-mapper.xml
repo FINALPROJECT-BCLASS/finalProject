@@ -6,6 +6,7 @@
 		<id property="gNo" column="G_NO"/>
 		<result property="gTitle" column="G_TITLE"/>
 		<result property="gCon" column="G_CON"/>
+		<result property="gName" column="G_NAME"/>
 		<result property="gOrigin" column="G_ORIGIN"/>
 		<result property="gRename" column="G_RENAME"/>
 		<result property="gDelete" column="G_DELETE"/>
@@ -22,7 +23,8 @@
 	</resultMap>
 	
 	<resultMap id="memberResultSet" type="Member">
-		<id property="name" column="NAME"/>
+		<id property="id" column="ID"/>
+		<result property="name" column="NAME"/>
 	</resultMap>
 
 
@@ -39,9 +41,9 @@
 	</select> 
 
 	<select id="searchNameList" resultMap="memberResultSet">
-		SELECT NAME
+		SELECT ID,NAME
 		FROM MEMBER
-		<!-- WHERE NAME LIKE '%' || #{searchName} || '%' -->
-		where name like '김혜린'
+		WHERE NAME LIKE '%' || #{searchName} || '%'
+		
 	</select>
 </mapper>
