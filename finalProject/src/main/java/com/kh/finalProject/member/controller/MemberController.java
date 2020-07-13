@@ -43,8 +43,14 @@ public class MemberController {
 		} else {
 			return "member/login";
 		}
+	
+	}
+	
+	@RequestMapping(value="logout.do", method=RequestMethod.GET)
+	public String logout(HttpSession session) {
+		session.invalidate();
 		
-		
+		return "home";
 	}
 	
 	

@@ -63,19 +63,52 @@
                     </ul>
                 </li>
             </ul>
-            <c:url var="loginView" value="memberLoginView.do"></c:url>
-            <div class="l-login-area" onclick="location.href='${loginView}'">
-                <div><a>Login</a>
-                    <div class="l-hide l-login-square"></div>
-                    <ul class="l-hide l-login-sub">
-                        <li class="t-radius"><a href="#">Info</a></li>
-                        <li><a href="#">Chat</a></li>
-                        <li><a href="#">Alarm</a></li>
-                        <li class="b-radius"><a href="#">Logout</a></li>
-                    </ul>
-                </div>
-            </div>
+            <c:if test="${empty sessionScope.loginUser}">
+	            <c:url var="loginView" value="memberLoginView.do"></c:url>
+	            <div class="login-area" onclick="location.href='${loginView}'">
+	                <div><a>Login</a>
+	                </div>
+	            </div>
+            </c:if>
+            
+            <c:if test="${!empty sessionScope.loginUser}">
+            
+	            <c:url var="logout" value="logout.do"></c:url>
+	            
+	            <div class="login-area after">
+	                <div class="login-area-item">
+	                	<img class="h-profile-image" src="resources/images/icons/profile_default.png">
+	                    <div class="hide login-square"></div>
+	                    <ul class="hide login-sub">
+	                        <li class="t-radius"><a href="#">Info</a></li>
+	                        <li><a href="#">Chat</a></li>
+	                        <li><a href="#">Alarm</a></li>
+	                        <li class="b-radius"><a onclick ="location.href='${logout }'">Logout</a></li>
+	                    </ul>
+	                </div>
+	            </div>
+	            
+            </c:if>
         </nav>
     </header>
+    <script>
+	 	// 로그인 서브 메뉴
+	    $(document).ready(function(){
+	    $(".login-area>div").click(function(){
+	
+	        var submenu = $(this).children(".login-sub");
+	        var subdeco = $(this).children(".login-square");
+	        
+	         if(submenu.is(":visible")){
+	            submenu.slideUp();
+	            subdeco.toggleClass("hide");
+	        }else{
+	            submenu.slideDown();
+	            subdeco.toggleClass("hide");
+	        }
+	
+	        });
+	    });
+    </script>
 </body>
 </html>
