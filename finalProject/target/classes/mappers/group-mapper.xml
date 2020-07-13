@@ -13,7 +13,7 @@
 		<result property="gDate" column="G_DATE"/>
 	</resultMap>
 	
-	<resultMap id="GroupMemberList" type="GroupMember">
+	<resultMap id="groupMemberResultSet" type="GroupMember">
 		<id property="gmNO" column="GM_NO"/>
 		<result property="gmId" column="GM_ID"/>
 		<result property="gNo" column="G_NO"/>
@@ -21,7 +21,7 @@
 		<result property="name" column="NAME"/>
 	</resultMap>
 	
-	<resultMap id="MemberResultSet" type="Member">
+	<resultMap id="memberResultSet" type="Member">
 		<id property="name" column="NAME"/>
 	</resultMap>
 
@@ -32,15 +32,16 @@
 		FROM GROUP_TABLE
 	</select>
 
-	<select id="selectGroupMember" resultMap="GroupMemberList">
+	<select id="selectGroupMember" resultMap="groupMemberResultSet">
 		SELECT GM_NO, GM_ID, G_NO, GM_DELETE, NAME
 		FROM GROUP_MEMBER TM
 		JOIN MEMBER M ON(TM.GM_ID  = M.ID)
 	</select> 
 
-	<select id="searchNameList" resultMap="MemberResultSet">
+	<select id="searchNameList" resultMap="memberResultSet">
 		SELECT NAME
 		FROM MEMBER
-		WHERE NAME LIKE '%' || #{searchName} || '%'
+		<!-- WHERE NAME LIKE '%' || #{searchName} || '%' -->
+		where name like '김혜린'
 	</select>
 </mapper>

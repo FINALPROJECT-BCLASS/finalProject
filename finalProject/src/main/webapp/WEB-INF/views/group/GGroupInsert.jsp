@@ -143,9 +143,9 @@
          					alert("안녕");
          				},
          				error:function(request, status, errorData){
-							alert("error code: " + request.status + "\n"
+							/* alert("error code: " + request.status + "\n"
 									+"message: " + request.responseText
-									+"error: " + errorData);
+									+"error: " + errorData); */
 						}
          			})
          		})
