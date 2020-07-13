@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="planMapper">
+
+	<resultMap type="McRecord" id="McRecordSet">
+		<id property="mcrNo" column="MCR_NO"/>
+		<result property="id" column="ID"/>
+		<result property="mcrStart" column="MCR_START"/>
+		<result property="mcrEnd" column="MCR_END"/>
+		<result property="mcrDelete" column="MCR_DELETE"/>
+	</resultMap>
+	
+	<select id="selectMcrList" resultMap="McRecordSet">
+		SELECT MCR_NO, ID, TO_CHAR(MCR_START, 'YYYY-MM-DD') "MCR_START", TO_CHAR(MCR_END, 'YYYY-MM-DD') "MCR_END", MCR_DELETE
+		FROM M_CALENDAR_RECORD
+		WHERE ID = 'test'
+			AND MCR_DELETE = 'N'
+	</select>
+	
+</mapper>

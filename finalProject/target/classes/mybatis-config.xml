@@ -7,11 +7,11 @@
 	</settings>
 	
 	<typeAliases>
-		
+		<typeAlias type="com.kh.finalProject.plan.model.vo.McRecord" alias="McRecord"/>	<!-- 예지 -->
 	</typeAliases>
 
 	<mappers>
-	
+		<mapper resource="/mappers/plan-mapper.xml"/>	<!-- 예지 -->
 	</mappers>
 	
 </configuration>

@@ -18,7 +18,7 @@
         
 	        <c:url var="mplist" value="mplist.do"/>
 	        <c:url var="ttlist" value="ttlist.do"/>
-	        <c:url var="mclist" value="mclist.do"/>
+	        <c:url var="mclist" value="mcview.do"/>
 	        
             <span>Plan</span>
             <ul>
