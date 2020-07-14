@@ -60,7 +60,7 @@
             max-width: 900px;
             margin: 0 auto;
             margin-left: 300px;
-            /* z-index: 0; */
+            /* z-index: 0 !important; */
         }
 
         .fc-today-button{
@@ -125,7 +125,7 @@
                         <td>생리 예정일</td>
                     </tr>
                     <tr>
-                        <td style="color: seagreen;">★</td>
+                        <td style="color: #00CC66;">★</td>
                         <td>가임기</td>
                     </tr>
                 </table>
