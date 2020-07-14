@@ -9,7 +9,6 @@
 	<typeAliases>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupTable" alias="GroupTable"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupMember" alias="GroupMember"/>
-		<!-- <typeAlias type="com.kh.finalProject.group.model.vo.Member" alias="Member"/> -->
 		<typeAlias type="com.kh.finalProject.member.model.vo.Member" alias="Member"/>
 	</typeAliases>
 

@@ -16,7 +16,7 @@ public class GroupTable implements Serializable {
 	private String gOrigin;
 	private String gRename;
 	private String gDelete;
-	private int id;
+	private String id;
 	private String gDate;
 	
 	public GroupTable() {
@@ -24,7 +24,7 @@ public class GroupTable implements Serializable {
 	}
 
 	public GroupTable(int gNo, String gTitle, String gCon, String gName, String gOrigin, String gRename, String gDelete,
-			int id, String gDate) {
+			String id, String gDate) {
 		super();
 		this.gNo = gNo;
 		this.gTitle = gTitle;
@@ -93,11 +93,11 @@ public class GroupTable implements Serializable {
 		this.gDelete = gDelete;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -119,6 +119,7 @@ public class GroupTable implements Serializable {
 				+ gOrigin + ", gRename=" + gRename + ", gDelete=" + gDelete + ", id=" + id + ", gDate=" + gDate + "]\n";
 	}
 
+	
 
 	
 }

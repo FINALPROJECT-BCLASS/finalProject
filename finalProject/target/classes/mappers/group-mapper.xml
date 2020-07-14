@@ -30,8 +30,9 @@
 
 
 	<select id="selectGroup" resultMap="groupTableResultSet">
-		SELECT * 
+		SELECT G_NO, G_TITLE, G_CON, G_NAME, G_ORIGIN, G_RENAME, G_DELETE, ID, G_DATE 
 		FROM GROUP_TABLE
+		WHERE ID = #{loginUserId}
 	</select>
 
 	<select id="selectGroupMember" resultMap="groupMemberResultSet">
@@ -41,10 +42,45 @@
 	</select> 
 
 	<select id="searchNameList" resultMap="memberResultSet">
-		SELECT ID,NAME
+		SELECT ID, NAME
 		FROM MEMBER
 		WHERE NAME LIKE '%' || #{searchName} || '%' 
-		
-		
 	</select>
+	
+	<insert id="groupInsert" parameterType="GroupTable">
+		INSERT INTO GROUP_TABLE VALUES(
+		SEQ_GID.NEXTVAL,
+		#{gTitle},
+		#{gCon},
+		#{gName},
+		#{gOrigin},
+		#{gOrigin},
+		#{gDelete},
+		#{id},
+		SYSDATE
+		)
+	</insert>
+	
+	<insert id="insertOrderList" parameterType="java.util.List">
+		INSERT INTO JUMUN(ORDER_NO, MENU, AMOUNT, ORDER_DATE, TABLE_NO, PAY_YN)
+		SELECT SEQ_JUMUN.NEXTVAL , J.*
+		FROM (
+		<foreach collection="list" item="item" index="ix" separator="UNION ALL">
+			SELECT #{item.MENU} AS MENU , #{item.AMOUNT} AS AMOUNT , SYSDATE AS ORDER_DATE , #{item.TABLE_NO} AS TABLE_NO, 'N'
+			FROM DUAL 
+		</foreach>
+		)J
+	</insert>
+	
+	
+	<insert id="groupMemberInsert" parameterType="arraylist">
+		INSERT INTO JUMUN(ORDER_NO, MENU, AMOUNT, ORDER_DATE, TABLE_NO, PAY_YN)
+		SELECT SEQ_GM.NEXTVAL , M.*
+		FROM (
+		<foreach collection="list" item="item" index="ix" separator="UNION ALL">
+			SELECT #{item.MENU} AS MENU , #{item.AMOUNT} AS AMOUNT , SYSDATE AS ORDER_DATE , #{item.TABLE_NO} AS TABLE_NO, 'N'
+			FROM DUAL 
+		</foreach>
+		)M
+	</insert>
 </mapper>

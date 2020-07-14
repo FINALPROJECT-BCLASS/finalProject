@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service;
 import com.kh.finalProject.group.model.dao.GroupDao;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupTable;
-import com.kh.finalProject.group.model.vo.Member;
+import com.kh.finalProject.member.model.vo.Member;
+
 
 @Service("gService")
 public class GroupServiceImpl implements GroupService{
@@ -17,8 +18,8 @@ public class GroupServiceImpl implements GroupService{
 	GroupDao gDao;
 
 	@Override
-	public ArrayList<GroupTable> selectGroup() {
-		return gDao.selectGroup();
+	public ArrayList<GroupTable> selectGroup(String loginUserId) {
+		return gDao.selectGroup(loginUserId);
 	}
 
 	@Override
@@ -29,6 +30,16 @@ public class GroupServiceImpl implements GroupService{
 	@Override
 	public ArrayList<Member> searchNameList(String searchName) {
 		return gDao.searchNameList(searchName);
+	}
+
+	@Override
+	public int groupInsert(GroupTable gt) {
+		return gDao.groupInsert(gt);
+	}
+
+	@Override
+	public int groupMemberInsert(ArrayList memberList) {
+		return gDao.groupMemberInsert(memberList);
 	}
 	
 }

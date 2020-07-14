@@ -52,8 +52,11 @@
                     </ul>
                 </li>
                 <li>Group
+                	<c:url var="groupMain" value="groupMain.do">
+							<c:param name="loginUser" value="${sessionScope.loginUser}"/>
+					</c:url>
                     <ul class="sub-navi">
-                            <li><a href="#">Main</a></li>
+                            <li><a href="${groupMain }">Main</a></li>
                             <li><a href="#">Vote</a></li>
                             <li><a href="#">Board</a></li>
                             <li><a href="#">Ladder Game</a></li>

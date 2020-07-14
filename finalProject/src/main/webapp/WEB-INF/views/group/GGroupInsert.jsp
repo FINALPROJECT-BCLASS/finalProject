@@ -20,12 +20,14 @@
     .search{border:1px solid grey; background:white; border:none; border-radius: 6px;}
     .searchImg{width:20px; height:20px;}
     #search{width:85%; border:none; }
-    .searchName{width:100%; cursor: pointer; padding-left: 20px;padding-bottom: 10px; padding-top: 10px; display:inline-block;}
-    .searchName:hover{background:#FBD14B;}
+    .searchName{width:80px; cursor: pointer; padding-left: 20px;padding-bottom: 10px; padding-top: 10px; display:inline-block;}
+    /* .searchName:hover{background:#FBD14B;} */
+    .oneSearchBox:hover{width:100%; cursor: pointer; background:#FBD14B;}
+    .oneSearchBox{width:100%; cursor: pointer; }
     .searchNameAfter{background:white; border:none; border-radius: 6px; height:100px; color:darkgray; height:150px; width:600px; overflow:scroll;  overflow-x:hidden;} /* width 다시보기*/
-    .searchNameBox{margin-bottom:20px; margin:5px; width:70px; height:30px; background:#FBD14B; border:none; border-radius: 5px;}
-    .searchNameBox:hover{margin-bottom:20px; margin:5px; width:70px; height:30px; background:darkgray; border:none; border-radius: 5px; cursor:pointer;}
-    .searchNameForm{display:none; height:200px; overflow:scroll;  overflow-x:hidden; }
+    .searchNameBox{margin-bottom:20px; margin:5px; width:100px; height:30px; background:#FBD14B; border:none; border-radius: 5px; font-size:small;}
+    .searchNameBox:hover{margin-bottom:20px; margin:5px; width:100px; height:30px; background:darkgray; border:none; border-radius: 5px; cursor:pointer;font-size:small;}
+    .searchNameForm{display:none; height:100px; overflow:scroll;  overflow-x:hidden; }
     .deleteBtn{width:20px;height:30px; border-radius: 3px; background:red; border:none; text-align: center;}
 	
     /* 구글 아이콘 */
@@ -89,11 +91,12 @@
         <h1>Group Diary</h1>
         <h4 class="pSubject">Join</h4><br>
             <div class="groupJoin">
-                <form action="#">
+                <form action="groupInsert.do" method="post" id="groupInsertFrom">
                     <table class="groupTb">
+                    	<input type="hidden" name="id" value="${loginUser.id }">
                         <tr>
                             <td class="groupTbTd">Title&nbsp;</td>
-                            <td><input type="text" id="title" placeholder="  그룹명 작성"></td>
+                            <td><input type="text" id="title" name="gTitle" placeholder="  그룹명 작성" required></td>
                         </tr>
                         <tr>
                             <td class="groupTbTd">Member Search&nbsp;</td>
@@ -127,17 +130,17 @@
                         <tr>
                             <td class="groupTbTd">Content&nbsp;</td>
                             <td>
-                                <textarea id="groupCon"></textarea>
+                                <textarea id="groupCon" name='gCon'></textarea>
                             </td> 
                         </tr>
                         
                         <tr>
                             <td class="groupTbTd">Profile Image&nbsp;</td>
                             <td>
-                                <div><img src="image/히지.png" class="groupPhoto"></div>
+                                <div><img src="resources/groupMain/히지.png" class="groupPhoto"></div>
                                <div class="filebox">
 								  <label for="ex_file">Upload</label>
-								  <input type="file" id="ex_file">
+								  <input type="file" id="ex_file" name="groupProfil">
 								</div>
                             </td>
                         </tr>
@@ -151,23 +154,28 @@
             </div>
          </div>
          <script>
-
-            // 클릭한 이름 삽입
-            $(".searchName").click(function(){
-                var $searchName = $(this).html();
-                var $searchNameAfter = $(".searchNameAfter");
-                var $searchNameBox = "<button type='button' class='searchNameBox'>"+ $searchName +"<input type='hidden' value='" + $searchName + "'></button>";
-                
-                $searchNameAfter.append($searchNameBox);
-
-                
-            })
-            
-             $(document).on("click", ".searchName", function(){
-                var $searchName = $(this).html();
-                var $searchNameAfter = $(".searchNameAfter");
-                var $searchNameBox = "<button type='button' class='searchNameBox'>"+ $searchName +"<input type='hidden' value='" + $searchName + "'></button>";
-                
+         
+			// submit
+			$("#submit").click(function(){
+				if($("#title").val() != ""){
+					$("#groupInsertFrom").submit();
+				}else{
+					alert("제목을 입력해주세요.");
+				}
+			})
+			
+            // 클릭한 이름 삽입 (★중복적용 안되게 해야됨)
+              $(document).on("click", ".oneSearchBox", function(){
+            	  var $searchNameAfter ="";
+            	  var $searchNameBox ="";
+            	  var $searchNameBoxValue ="";
+	           	  var $searchName = $(this).children(".searchName").html();
+	           	  /* console.log("$searchName :  " + $searchName); */
+	           	  var $searchId = $(this).children(".searchId").html();
+	           	  /* console.log("$searchId :  " + $searchId); */
+                $searchNameAfter = $(".searchNameAfter");
+                $searchNameBox = "<button type='button' class='searchNameBox' value='"+ $searchName + "'>"+ $searchName + "&nbsp;" + $searchId 
+                +"<input type='hidden' name='groupName' value='" + $searchName + "'>" +"<input type='hidden' name='groupId' value='" + $searchId + "'></button>";
                 $searchNameAfter.append($searchNameBox);
 
                 
@@ -203,11 +211,14 @@
          					$search.empty();
          					
          					for(i in data){
-         					var $searchName = $("<div>").text(data[i].name).attr("class","searchName");
-         					var $searchId = $("<div>").text(data[i].id).css({"display":"inline-block","color":"gray","font-size":"small"});
-         					$search.append($searchName);
-         					$searchName.append("&nbsp;");
-         					$searchName.append($searchId);
+         					var $oneSearchBox = $("<div>").attr("class","oneSearchBox");
+         					var $searchName = $("<span>").text(data[i].name).attr("class","searchName");
+         					var $searchId = $("<span>").text(data[i].id).css({"display":"inline-block","color":"gray","font-size":"small"}).attr("class","searchId");
+         					
+         					$search.append($oneSearchBox);
+         					$oneSearchBox.append($searchName);
+         					$oneSearchBox.append("&nbsp;");
+         					$oneSearchBox.append($searchId);
          					}
          					
          				},
