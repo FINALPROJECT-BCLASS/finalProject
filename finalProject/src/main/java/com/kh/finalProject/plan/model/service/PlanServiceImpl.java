@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.finalProject.plan.model.dao.PlanDao;
 import com.kh.finalProject.plan.model.vo.McRecord;
+import com.kh.finalProject.plan.model.vo.Menstrual;
 
 @Service("pService")
 public class PlanServiceImpl implements PlanService {
@@ -15,9 +16,39 @@ public class PlanServiceImpl implements PlanService {
 	PlanDao pDao;
 
 	@Override
-	public ArrayList<McRecord> selectMcrList() {
+	public ArrayList<McRecord> selectMcrList(String id) {
 		
-		return pDao.selectMcrList();
+		return pDao.selectMcrList(id);
+	}
+
+	@Override
+	public int checkInfo(String id) {
+		
+		return pDao.checkInfo(id);
+	}
+
+	@Override
+	public int insertMenstrual(Menstrual m) {
+		
+		return pDao.insertMenstrual(m);
+	}
+
+	@Override
+	public int insertMcRecord(String id) {
+	
+		return pDao.insertMcRecord(id);
+	}
+
+	@Override
+	public int insertMcOvulation(String id) {
+		
+		return pDao.insertMcOvulation(id);
+	}
+
+	@Override
+	public int updateMcLast(String id) {
+		
+		return pDao.updateMcLast(id);
 	}
 
 }

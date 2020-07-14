@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,7 +27,8 @@
 	            				for(var i in data.mcrList){
 		    	   					events.push({title:data.mcrList[i].eventTitle
 		    	   								,start:data.mcrList[i].mcrStart
-		    	   								,end:data.mcrList[i].mcrEnd})
+		    	   								,end:data.mcrList[i].mcrEnd
+		    	   								,color:'#F781BE'})
 		    	   				};
 	            				
 	            				successCallback(events);
@@ -82,15 +84,23 @@
                         <button type="button" class="close" data-dismiss="modal">×</button>
                     </div>
                     <div class="modal-body" align="center">
-                        <form>
-                            가장 최근의 월경 시작일을 입력하세요<br>
-                            <input type="date" style="margin: 5px;"><br>
-                            <button type="submit">Save</button>
+                        <form action="mcinsert.do" method="post">
+                            가장 최근의 생리 시작일을 입력하세요<br>
+                            <input type="hidden" name="id" readonly value="${loginUser.id }">
+                            <input type="date" name="mcFirst" style="margin: 5px;"><br>
+                            <button type="submit" class="default-btn">Save</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+        <c:if test="${check eq 0}">
+        	<script>
+        		$(function(){
+        			viewModal();
+        		})
+        	</script>
+        </c:if>
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-2">
@@ -111,8 +121,8 @@
             <div class="col-md-2">
                 <table style="font-size: 18px;">
                     <tr>
-                        <td style="color: hotpink;">♥</td>
-                        <td>월경 예정일</td>
+                        <td style="color: #F781BE;">♥</td>
+                        <td>생리 예정일</td>
                     </tr>
                     <tr>
                         <td style="color: seagreen;">★</td>
@@ -130,7 +140,9 @@
     <jsp:include page="../common/footer.jsp"/>	
 
     <script>
-        
+        function viewModal() {
+        	$("#setModal").modal();
+        }
     </script>
     
 </body>

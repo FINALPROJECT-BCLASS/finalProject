@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.finalProject.plan.model.vo.McRecord;
+import com.kh.finalProject.plan.model.vo.Menstrual;
 
 @Repository("pDao")
 public class PlanDao {
@@ -14,9 +15,34 @@ public class PlanDao {
 	@Autowired
 	SqlSessionTemplate sqlSessionTemplate;
 
-	public ArrayList<McRecord> selectMcrList() {
+	public ArrayList<McRecord> selectMcrList(String id) {
 		
-		return (ArrayList)sqlSessionTemplate.selectList("planMapper.selectMcrList");
+		return (ArrayList)sqlSessionTemplate.selectList("planMapper.selectMcrList", id);
+	}
+
+	public int checkInfo(String id) {
+		
+		return sqlSessionTemplate.selectOne("planMapper.checkInfo", id);
+	}
+
+	public int insertMenstrual(Menstrual m) {
+	
+		return sqlSessionTemplate.insert("planMapper.insertMenstrual", m);
+	}
+
+	public int insertMcRecord(String id) {
+		
+		return sqlSessionTemplate.insert("planMapper.insertMcRecord", id);
+	}
+
+	public int insertMcOvulation(String id) {
+		
+		return sqlSessionTemplate.insert("planMapper.insertMcOvulation", id);
+	}
+
+	public int updateMcLast(String id) {
+		
+		return sqlSessionTemplate.update("planMapper.updateMcLast", id);
 	}
 
 }

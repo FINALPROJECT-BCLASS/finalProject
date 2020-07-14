@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="planMapper">
 
-	<resultMap type="McRecord" id="McRecordSet">
+	<resultMap type="McRecord" id="mcRecordSet">
 		<id property="mcrNo" column="MCR_NO"/>
 		<result property="id" column="ID"/>
 		<result property="mcrStart" column="MCR_START"/>
@@ -10,11 +10,57 @@
 		<result property="mcrDelete" column="MCR_DELETE"/>
 	</resultMap>
 	
-	<select id="selectMcrList" resultMap="McRecordSet">
+	<resultMap type="Menstrual" id=""></resultMap>
+	
+	<select id="selectMcrList" parameterType="string" resultMap="mcRecordSet">
 		SELECT MCR_NO, ID, TO_CHAR(MCR_START, 'YYYY-MM-DD') "MCR_START", TO_CHAR(MCR_END, 'YYYY-MM-DD') "MCR_END", MCR_DELETE
 		FROM M_CALENDAR_RECORD
-		WHERE ID = 'test'
+		WHERE ID = #{id}
 			AND MCR_DELETE = 'N'
 	</select>
+	
+	<select id="checkInfo" parameterType="string" resultType="_int">
+		SELECT COUNT(*)
+		FROM MENSTRUAL_CALENDAR
+		WHERE ID = #{id}
+			AND MC_DELETE = 'N'
+	</select>
+	
+	<insert id="insertMenstrual" parameterType="Menstrual">
+		INSERT INTO MENSTRUAL_CALENDAR VALUES(
+			#{id}
+			, TO_DATE(#{mcFirst},'YYYY-MM-DD')
+			, 28
+			, 5
+			, TO_DATE(#{mcFirst},'YYYY-MM-DD')+28
+			, DEFAULT
+		)
+	</insert>
+	
+	<insert id="insertMcRecord" parameterType="string">
+		INSERT INTO M_CALENDAR_RECORD VALUES(
+			SEQ_MCR.NEXTVAL
+			, #{id}
+			, (SELECT MC_LAST FROM MENSTRUAL_CALENDAR WHERE ID=#{id})
+			, (SELECT MC_LAST FROM MENSTRUAL_CALENDAR WHERE ID=#{id})+(SELECT MC_PERIOD FROM MENSTRUAL_CALENDAR WHERE ID=#{id})
+			, DEFAULT
+		)
+	</insert>
+	
+	<insert id="insertMcOvulation" parameterType="string">
+		INSERT INTO M_CALENDAR_OVULATION VALUES(
+			SEQ_MCO.NEXTVAL
+			, #{id}
+			, (SELECT MC_LAST FROM MENSTRUAL_CALENDAR WHERE ID=#{id})-19
+			, (SELECT MC_LAST FROM MENSTRUAL_CALENDAR WHERE ID=#{id})-12
+			, DEFAULT
+		)
+	</insert>
+	
+	<update id="updateMcLast" parameterType="string">
+		UPDATE MENSTRUAL_CALENDAR
+		SET MC_LAST=MC_LAST+MC_CYCLE
+		WHERE ID=#{id}
+	</update>
 	
 </mapper>
