@@ -17,4 +17,8 @@ public class MemberDao {
 		return sqlSessionTemplate.selectOne("memberMapper.selectOne", m);
 	}
 	
+	public int checkId(String id){
+		return sqlSessionTemplate.selectOne("memberMapper.checkId", id);
+	}
+	
 }

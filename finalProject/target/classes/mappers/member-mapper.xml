@@ -26,5 +26,11 @@
 		AND PWD = #{pwd}
 		AND OUT_YN = 'N'
 	</select>
+	
+	<select id="checkId" parameterType="String" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE ID= #{id}
+	</select>
 
 </mapper>

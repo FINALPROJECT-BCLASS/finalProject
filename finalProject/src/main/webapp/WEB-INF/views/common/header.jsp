@@ -72,9 +72,6 @@
             </c:if>
             
             <c:if test="${!empty sessionScope.loginUser}">
-            
-	            <c:url var="logout" value="logout.do"></c:url>
-	            
 	            <div class="login-area after">
 	                <div class="login-area-item">
 	                	<img class="h-profile-image" src="resources/images/icons/profile_default.png">
@@ -83,7 +80,7 @@
 	                        <li class="t-radius"><a href="#">Info</a></li>
 	                        <li><a href="#">Chat</a></li>
 	                        <li><a href="#">Alarm</a></li>
-	                        <li class="b-radius"><a onclick ="location.href='${logout }'">Logout</a></li>
+	                        <li class="b-radius"><a href="logout.do">Logout</a></li>
 	                    </ul>
 	                </div>
 	            </div>
