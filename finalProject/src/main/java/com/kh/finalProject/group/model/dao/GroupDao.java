@@ -25,7 +25,7 @@ public class GroupDao {
 	}
 
 	public ArrayList<Member> searchNameList(String searchName) {
-		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.searchNameList");
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.searchNameList", searchName);
 	}
 	
 	

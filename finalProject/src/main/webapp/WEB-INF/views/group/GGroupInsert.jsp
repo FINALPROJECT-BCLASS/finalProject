@@ -105,6 +105,7 @@
                                     <div class="searchNameForm">
                                     	 <!-- <div class="searchName">&nbsp;김혜린</div>
                                    		 <div class="searchName">&nbsp;김경섭</div> -->
+                                   		 <!-- ★★★ input으로 넘기는 값은 이름만 되도록? group_member는 어떻게 insert할지 생각 ★★★ -->
                                     </div>
                              
                                 </div>

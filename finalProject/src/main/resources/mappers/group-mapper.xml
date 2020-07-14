@@ -43,7 +43,8 @@
 	<select id="searchNameList" resultMap="memberResultSet">
 		SELECT ID,NAME
 		FROM MEMBER
-		WHERE NAME LIKE '%' || #{searchName} || '%'
+		WHERE NAME LIKE '%' || #{searchName} || '%' 
+		
 		
 	</select>
 </mapper>
