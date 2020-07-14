@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.finalProject.plan.model.vo.McOvulation;
 import com.kh.finalProject.plan.model.vo.McRecord;
 import com.kh.finalProject.plan.model.vo.Menstrual;
 
@@ -14,11 +15,6 @@ public class PlanDao {
 	
 	@Autowired
 	SqlSessionTemplate sqlSessionTemplate;
-
-	public ArrayList<McRecord> selectMcrList(String id) {
-		
-		return (ArrayList)sqlSessionTemplate.selectList("planMapper.selectMcrList", id);
-	}
 
 	public int checkInfo(String id) {
 		
@@ -43,6 +39,16 @@ public class PlanDao {
 	public int updateMcLast(String id) {
 		
 		return sqlSessionTemplate.update("planMapper.updateMcLast", id);
+	}
+
+	public ArrayList<McRecord> selectMcrList(String id) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("planMapper.selectMcrList", id);
+	}
+	
+	public ArrayList<McOvulation> selectMcoList(String id) {
+	
+		return (ArrayList)sqlSessionTemplate.selectList("planMapper.selectMcoList", id);
 	}
 
 }

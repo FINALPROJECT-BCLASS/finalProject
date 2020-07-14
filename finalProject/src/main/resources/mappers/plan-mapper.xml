@@ -10,28 +10,27 @@
 		<result property="mcrDelete" column="MCR_DELETE"/>
 	</resultMap>
 	
-	<resultMap type="Menstrual" id=""></resultMap>
-	
-	<select id="selectMcrList" parameterType="string" resultMap="mcRecordSet">
-		SELECT MCR_NO, ID, TO_CHAR(MCR_START, 'YYYY-MM-DD') "MCR_START", TO_CHAR(MCR_END, 'YYYY-MM-DD') "MCR_END", MCR_DELETE
-		FROM M_CALENDAR_RECORD
-		WHERE ID = #{id}
-			AND MCR_DELETE = 'N'
-	</select>
+	<resultMap type="McOvulation" id="mcOvulationSet">
+		<id property="mcoNo" column="MCO_NO"/>
+		<result property="id" column="ID"/>
+		<result property="mcoStart" column="MCO_START"/>
+		<result property="mcoEnd" column="MCO_END"/>
+		<result property="mcoDelete" column="MCO_DELETE"/>
+	</resultMap>
 	
 	<select id="checkInfo" parameterType="string" resultType="_int">
 		SELECT COUNT(*)
 		FROM MENSTRUAL_CALENDAR
-		WHERE ID = #{id}
-			AND MC_DELETE = 'N'
+		WHERE ID=#{id}
+			AND MC_DELETE='N'
 	</select>
 	
 	<insert id="insertMenstrual" parameterType="Menstrual">
 		INSERT INTO MENSTRUAL_CALENDAR VALUES(
 			#{id}
 			, TO_DATE(#{mcFirst},'YYYY-MM-DD')
-			, 28
-			, 5
+			, DEFAULT
+			, DEFAULT
 			, TO_DATE(#{mcFirst},'YYYY-MM-DD')+28
 			, DEFAULT
 		)
@@ -62,5 +61,19 @@
 		SET MC_LAST=MC_LAST+MC_CYCLE
 		WHERE ID=#{id}
 	</update>
+	
+	<select id="selectMcrList" parameterType="string" resultMap="mcRecordSet">
+		SELECT MCR_NO, ID, TO_CHAR(MCR_START, 'YYYY-MM-DD') "MCR_START", TO_CHAR(MCR_END, 'YYYY-MM-DD') "MCR_END", MCR_DELETE
+		FROM M_CALENDAR_RECORD
+		WHERE ID=#{id}
+			AND MCR_DELETE='N'
+	</select>
+	
+	<select id="selectMcoList" parameterType="string" resultMap="mcOvulationSet">
+		SELECT MCO_NO, ID, TO_CHAR(MCO_START, 'YYYY-MM-DD') "MCO_START", TO_CHAR(MCO_END, 'YYYY-MM-DD') "MCO_END", MCO_DELETE
+		FROM M_CALENDAR_OVULATION
+		WHERE ID=#{id}
+			AND MCO_DELETE='N'
+	</select>
 	
 </mapper>

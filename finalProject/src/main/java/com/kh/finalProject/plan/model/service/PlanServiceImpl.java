@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.finalProject.plan.model.dao.PlanDao;
+import com.kh.finalProject.plan.model.vo.McOvulation;
 import com.kh.finalProject.plan.model.vo.McRecord;
 import com.kh.finalProject.plan.model.vo.Menstrual;
 
@@ -14,12 +15,6 @@ public class PlanServiceImpl implements PlanService {
 	
 	@Autowired
 	PlanDao pDao;
-
-	@Override
-	public ArrayList<McRecord> selectMcrList(String id) {
-		
-		return pDao.selectMcrList(id);
-	}
 
 	@Override
 	public int checkInfo(String id) {
@@ -49,6 +44,18 @@ public class PlanServiceImpl implements PlanService {
 	public int updateMcLast(String id) {
 		
 		return pDao.updateMcLast(id);
+	}
+
+	@Override
+	public ArrayList<McRecord> selectMcrList(String id) {
+		
+		return pDao.selectMcrList(id);
+	}
+	
+	@Override
+	public ArrayList<McOvulation> selectMcoList(String id) {
+		
+		return pDao.selectMcoList(id);
 	}
 
 }

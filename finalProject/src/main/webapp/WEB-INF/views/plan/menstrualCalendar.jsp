@@ -21,14 +21,14 @@
 	            		var events = [];
 	            		
 	            		$.ajax({
-	            			url: 'mcrlist.do',
+	            			url: 'mclist.do',
 	            			dataType: 'json',
 	            			success: function(data) {
-	            				for(var i in data.mcrList){
-		    	   					events.push({title:data.mcrList[i].eventTitle
-		    	   								,start:data.mcrList[i].mcrStart
-		    	   								,end:data.mcrList[i].mcrEnd
-		    	   								,color:'#F781BE'})
+	            				for(var i in data.mcList){
+		    	   					events.push({title:data.mcList[i].eventTitle
+		    	   								,start:data.mcList[i].start
+		    	   								,end:data.mcList[i].end
+		    	   								,color:data.mcList[i].color})
 		    	   				};
 	            				
 	            				successCallback(events);

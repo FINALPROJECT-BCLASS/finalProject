@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.finalProject.member.model.vo.Member;
 import com.kh.finalProject.plan.model.exception.PlanException;
 import com.kh.finalProject.plan.model.service.PlanService;
+import com.kh.finalProject.plan.model.vo.McOvulation;
 import com.kh.finalProject.plan.model.vo.McRecord;
 import com.kh.finalProject.plan.model.vo.Menstrual;
 
@@ -72,32 +73,44 @@ public class PlanController {
 		
 	}
 	
-	@RequestMapping("mcrlist.do")
-	public void menstrualView(HttpSession session, HttpServletResponse response) throws IOException {
+	@RequestMapping("mclist.do")
+	public void mcRecordList(HttpSession session, HttpServletResponse response) throws IOException {
 		response.setContentType("application/json;charset=utf-8");
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		String id = loginUser.getId();
 		
 		ArrayList<McRecord> mcrList = pService.selectMcrList(id);
+		ArrayList<McOvulation> mcoList = pService.selectMcoList(id);
 		
 		JSONArray jArr = new JSONArray();
-		
 		
 		for(McRecord m : mcrList) {
 			JSONObject jObj = new JSONObject();
 			jObj.put("eventTitle", "생리예정일");
-			jObj.put("mcrNo", m.getMcrNo());
+			jObj.put("no", m.getMcrNo());
 			jObj.put("id", m.getId());
-			jObj.put("mcrStart", m.getMcrStart());
-			jObj.put("mcrEnd", m.getMcrEnd());
-			jObj.put("mcrDelete", m.getMcrDelete());
+			jObj.put("start", m.getMcrStart());
+			jObj.put("end", m.getMcrEnd());
+			jObj.put("color", "#F781BE");
+			
+			jArr.add(jObj);
+		}
+		
+		for(McOvulation m : mcoList) {
+			JSONObject jObj = new JSONObject();
+			jObj.put("eventTitle", "가임기");
+			jObj.put("no", m.getMcoNo());
+			jObj.put("id", m.getId());
+			jObj.put("start", m.getMcoStart());
+			jObj.put("end", m.getMcoEnd());
+			jObj.put("color", "#00CC66");
 			
 			jArr.add(jObj);
 		}
 		
 		JSONObject sendJson = new JSONObject();
-		sendJson.put("mcrList", jArr);
+		sendJson.put("mcList", jArr);
 		
 		PrintWriter out = response.getWriter();
 		out.print(sendJson);
