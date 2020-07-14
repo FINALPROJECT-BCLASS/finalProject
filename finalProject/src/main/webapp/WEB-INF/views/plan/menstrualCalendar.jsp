@@ -10,94 +10,34 @@
     <link href='resources/css/main.css' rel='stylesheet' />
     <script src='resources/lib/main.js'></script>
     <script>
-        /* document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialDate: new Date,
-            editable: true,
-            selectable: true,
-            businessHours: true,
-            dayMaxEvents: true,
-            events: function() {
-            	$.ajax({
-    				url:"mcrlist.do",
-    				dataType:"json",
-    				success:function(data){
-    					for(var i in data.mcrList){
-    			        	calendar.addEvent({
-    			            	title: data.mcrList[i].eventTitle,
-    			            	start: data.mcrList[i].mcrStart,
-    			            	end: data.mcrList[i].mcrEnd,
-    			            	allDay: true
-    			          	});
-    					}
-    				},
-    				error:function(request, status, errorData){
-                        alert("error code: " + request.status + "\n"
-                              +"message: " + request.responseText
-                              +"error: " + errorData);
-                    }   
-    			})
-            }
-            });
-
-            calendar.render();
-        }); */
-        
-        document.addEventListener('DOMContentLoaded', function() {
-          var calendarEl = document.getElementById('calendar');
-
-          var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            headerToolbar: {
-              center: 'addEventButton'
-            },
-            customButtons: {
-              addEventButton: {
-                text: 'add event...',
-                click: function() {
-                	$.ajax({
-        				url:"mcrlist.do",
-        				dataType:"json",
-        				success:function(data){
-        					for(var i in data.mcrList){
-        			        	calendar.addEvent({
-        			            	title: data.mcrList[i].eventTitle,
-        			            	start: data.mcrList[i].mcrStart,
-        			            	end: data.mcrList[i].mcrEnd,
-        			            	allDay: true
-        			          	});
-        					}
-        				},
-        				error:function(request, status, errorData){
-                            alert("error code: " + request.status + "\n"
-                                  +"message: " + request.responseText
-                                  +"error: " + errorData);
-                        }   
-        			})
-        			
-                  var dateStr = prompt('Enter a date in YYYY-MM-DD format');
-                  var date = new Date(dateStr + 'T00:00:00'); // will be in local time
-
-                  if (!isNaN(date.valueOf())) { // valid?
-                    calendar.addEvent({
-                      title: 'dynamic event',
-                      start: date,
-                      allDay: true
-                    });
-                    alert('Great. Now, update your database...');
-                  } else {
-                    alert('Invalid date.');
-                  }
-                }
-              }
-            }
-          });
-
-          calendar.render();
-        });
-
+	    document.addEventListener('DOMContentLoaded', function() {
+	        var calendarEl = document.getElementById('calendar');
+	
+	        var calendar = new FullCalendar.Calendar(calendarEl, {
+	            initialView: 'dayGridMonth',
+	            eventSources: [{
+	            	events: function(info,successCallback,failureCallback) {
+	            		var events = [];
+	            		
+	            		$.ajax({
+	            			url: 'mcrlist.do',
+	            			dataType: 'json',
+	            			success: function(data) {
+	            				for(var i in data.mcrList){
+		    	   					events.push({title:data.mcrList[i].eventTitle
+		    	   								,start:data.mcrList[i].mcrStart
+		    	   								,end:data.mcrList[i].mcrEnd})
+		    	   				};
+	            				
+	            				successCallback(events);
+	            			}
+	            		})
+	            	}
+	            }]
+	        });
+	
+	        calendar.render();
+	    });
     </script>
     
     <style>

@@ -35,16 +35,6 @@ public class PlanController {
 		return "plan/timetable";
 	}
 	
-//	@RequestMapping("mclist.do")
-//	public String menstrualView() {
-//		
-//		Map<String, McRecord> javaMap = new HashMap<String, McRecord>();
-//		 
-//		javaMap.put("evt1", new McRecord("이벤트1", 1, "test", "2020-06-25", "2020-06-29", "N")); 
-//		
-//		return "plan/menstrualCalendar";
-//	}
-	
 	@RequestMapping("mcview.do")
 	public String menstrualView() {
 		
@@ -56,14 +46,13 @@ public class PlanController {
 		response.setContentType("application/json;charset=utf-8");
 		
 		ArrayList<McRecord> mcrList = pService.selectMcrList();
-		System.out.println("되니? : " + mcrList);
 		
 		JSONArray jArr = new JSONArray();
 		
 		
 		for(McRecord m : mcrList) {
 			JSONObject jObj = new JSONObject();
-			jObj.put("eventTitle", "이벤트1");
+			jObj.put("eventTitle", "생리예정일");
 			jObj.put("mcrNo", m.getMcrNo());
 			jObj.put("id", m.getId());
 			jObj.put("mcrStart", m.getMcrStart());
