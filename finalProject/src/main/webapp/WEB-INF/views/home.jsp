@@ -8,17 +8,6 @@
 </head>
 <body>
 
-	<jsp:include page="common/header.jsp"/>
-	
-	
-	
- 	<c:url var="groupMain" value="groupMain.do"></c:url>
-	<button onclick="location.href='${groupMain}'">이동하기</button>
-	
-	
-	
-	<jsp:include page="common/footer.jsp"/>	
-	
 	
 </body>
 </html>
