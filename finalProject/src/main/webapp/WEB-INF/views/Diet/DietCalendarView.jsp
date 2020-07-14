@@ -8,9 +8,7 @@
 <title>DietCalendarView</title>
 	<!-- slim.js -->
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script>
-  <!-- bootstrap -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
 	<!-- Calendar -->
 	<link href='resources/css/main.css' rel='stylesheet' />
 	<script src='resources/js/main.js'></script>
@@ -48,6 +46,41 @@
     padding: 0 10px;
   }
 	
+   .modal-content{ 
+	position: auto;
+	top:50%;
+	left:50%;
+	transform: translate(-50%,-50%);
+    width: 85% !important;	
+    display: flex;
+    align-items: center;
+    padding: 40px; 
+	}
+	.modal-dialog{
+		height: 100%;
+	}
+	
+	.round {
+		width: 70px;
+	    height: 70px;
+	    background: #f3f3f3;
+	    border-radius: 50%;
+	}
+	#dietDetail{
+		display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    text-align: center;
+        margin: 20px 0;
+
+	}
+	.ModalTitle{
+	    font-size: 30px;
+	    font-weight: 700;
+	    text-align: center;
+	}
+
+
 	</style>
 </head>
 <body>
@@ -56,7 +89,7 @@
 			<div style="Float:right; width:81%">
 				
 			  <div id='script-warning'>
-		<%-- 	 <code>php/get-events.php</code> must be running.  --%>
+		 		 
 			  </div>
 			  
 			
@@ -65,11 +98,46 @@
 			  <div id='calendar'></div>
 				
 			</div>
+			
+			
+			<!-- modal -->
+			<div class="modal fade" id="modal">
+  				<div class="modal-dialog">
+  					  <div class="modal-content">
+  					  		<span class="ModalTitle">Today's Diet</span>
+  					  		<table cellpadding="8px" id="dietDetail">
+  					  			<tr>
+  					  				<td><div class="round"></div></td>
+  					  				<td><div class="round"></div></td>
+  					  				<td><div class="round"></div></td>
+  					  			</tr>
+  					  			<tr>
+  					  				<td>아침</td>
+  					  				<td>오전간식</td>
+  					  				<td>점심</td>
+  					  			</tr>
+  					  			<tr>
+  					  				<td><div class="round"></div></td>
+  					  				<td><div class="round"></div></td>
+  					  				<td><div class="round"></div></td>
+  					  			</tr>
+  					  			<tr>
+  					  				<td>점심간식</td>
+  					  				<td>저녁</td>
+  					  				<td>저녁간식</td>
+  					  			</tr>
+  					  		</table>
+  					  		<button class="default-btn b-yell" type="button">상세보기</button>
+       					 <!-- remote ajax call이 되는영역 -->
+   					 </div>
+  				</div>
+			</div>
+			
 		<jsp:include page="../common/footer.jsp"/>	
 </body>
 
 	<script>
-	 document.addEventListener('DOMContentLoaded', function() {		
+	 $(document).ready(function() {		
 		 				//addEventListener ->지정한 이벤트가 대상에 전달될 때마다 호출할 함수 지정
 		    var calendarEl = document.getElementById('calendar');
 
@@ -77,18 +145,28 @@
 		      headerToolbar: {
 		        left: 'prev,next today',
 		        center: 'title',
-		         right: /*'dayGridMonth,timeGridWeek,timeGridDay,listWeek' */''
+		        right: ''/*'dayGridMonth,timeGridWeek,timeGridDay,listWeek' */
 		      },
-		      initialDate: '2020-07-13',
-		      editable: true,
-		      navLinks: true, // can click day/week names to navigate views
+		      initialDate: new Date,
+		      editable: false,		//편집 가능여부(드래그했을떄 옮겨가는것)
+		      navLinks: false, // can click day/week names to navigate views
 		      dayMaxEvents: true, // allow "more" link when too many events
 		      events: {
-		        url: 'php/get-events.php',
 		        
 		        failure: function() {
-		          document.getElementById('script-warning').style.display = 'block'
+		          			alert.log("에욱");
 		        }
+		      },
+		      dateClick: function(info){
+		    	 	$("#modal").modal();
+		    	 	calendar.getEvents();
+		    	 	
+		    	 	 alert('Clicked on: ' + info.dateStr);
+		    	  /*    alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+		    	     alert('Current view: ' + info.view.type); */
+		    	     // change the day's background color just for fun
+		    	 /*     info.dayEl.style.backgroundColor = 'red'; */
+		    	 	
 		      },
 		      loading: function(bool) {
 		        document.getElementById('loading').style.display =
