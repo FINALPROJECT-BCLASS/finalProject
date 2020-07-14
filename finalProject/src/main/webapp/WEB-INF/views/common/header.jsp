@@ -40,7 +40,7 @@
                 </li>
                 <li>Diet
                     <ul class="sub-navi">
-                            <li><a href="#">Calendar</a></li>
+                            <li><a href="DietCalendarView.do">Calendar</a></li>
                             <li class="b-radius"><a href="#">Graph</a></li>
                     </ul>
                 </li>

@@ -56,6 +56,7 @@
     align-items: center;
     padding: 40px; 
 	}
+	
 	.modal-dialog{
 		height: 100%;
 	}
@@ -127,7 +128,7 @@
   					  				<td>저녁간식</td>
   					  			</tr>
   					  		</table>
-  					  		<button class="default-btn b-yell" type="button">상세보기</button>
+  					  		<button id="detailbtn" class="default-btn b-yell" type="button">상세보기</button>
        					 <!-- remote ajax call이 되는영역 -->
    					 </div>
   				</div>
@@ -137,6 +138,14 @@
 </body>
 
 	<script>
+		function currentdate(date){
+			var currentdate = date;
+			console.log("에욱 " +currentdate);
+			$("#detailbtn").click(function(){
+				location.href="DietDetail.do?currentdate="+currentdate;
+			})
+		}
+		
 	 $(document).ready(function() {		
 		 				//addEventListener ->지정한 이벤트가 대상에 전달될 때마다 호출할 함수 지정
 		    var calendarEl = document.getElementById('calendar');
@@ -162,6 +171,9 @@
 		    	 	calendar.getEvents();
 		    	 	
 		    	 	 alert('Clicked on: ' + info.dateStr);
+		    	 	 
+		    	 	currentdate(info.dateStr);
+		    	 	 
 		    	  /*    alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
 		    	     alert('Current view: ' + info.view.type); */
 		    	     // change the day's background color just for fun
