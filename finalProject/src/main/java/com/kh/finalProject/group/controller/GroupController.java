@@ -39,6 +39,9 @@ public class GroupController {
 	@Autowired
 	GroupMemberList gmList;
 	
+	
+	
+	
 	// 그룹 메인
 	@RequestMapping(value="groupMain.do", method=RequestMethod.GET)
 	public ModelAndView groupMain(ModelAndView mv, HttpSession session) {
@@ -47,7 +50,7 @@ public class GroupController {
 		if(loginUser != null) {
 			String loginUserId = loginUser.getId();
 			ArrayList<GroupTable> list = gService.selectGroup(loginUserId);
-
+			System.out.println("그룹 메인 list : " + list);
 			mv.addObject("list" , list);
 			mv.setViewName("group/GGroupMain");
 		}else {
@@ -160,7 +163,25 @@ public class GroupController {
 		return filePath;
 	}
 	
-
+	// ---------------------------------- 그룹 메인 & 생성 end -------------------------------------------
+	
+	
+	// ---------------------------------- 캘린더 ------------------------------------------------------
+	// 캘린더 메인
+	@RequestMapping(value="groupCalendarMain.do", method=RequestMethod.GET)
+	public String CalendarMain(Model model, HttpSession session, Member m, @RequestParam("groupNo") int groupNo) {
+		Member loginUser = (Member)session.getAttribute("loginUser");		
+		String id = loginUser.getId();
+		System.out.println("캘린더 메인 id : " + id);
+		
+		System.out.println("캘린더 메인 groupInfo : " + groupNo);
+		
+		// 아이디랑 그룹번호 세션만들어주기.
+		
+		return "group/GCalendarMain";
+		
+	}
+	
 	// 게시판 메인
 	@RequestMapping(value="boardMain.do", method=RequestMethod.GET)
 	public String boardMain(Model model) {

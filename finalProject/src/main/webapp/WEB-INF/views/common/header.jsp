@@ -56,13 +56,16 @@
                 	<c:url var="groupMain" value="groupMain.do">
 							<c:param name="loginUser" value="${sessionScope.loginUser}"/>
 					</c:url>
+					<c:url var="groupCalendar" value="groupCalendarMain.do">
+							<c:param name="loginUser" value="${sessionScope.loginUser}"/>
+					</c:url>
                     <ul class="sub-navi">
                             <li><a href="${groupMain }">Main</a></li>
-                            <li><a href="#">Vote</a></li>
-                            <li><a href="#">Board</a></li>
-                            <li><a href="#">Ladder Game</a></li>
-                            <li><a href="#">Plan</a></li>
-                            <li><a href="#">Account Book</a></li>
+                         	<li><a href="${groupCalendar }">Calendar</a></li>
+			                <li><a href="#">Sharing</a></li>
+			                <li><a href="#">Vote</a></li>
+			                <li><a href="#">Account Book</a></li>
+			                <li><a href="#">Ladder Game</a></li>
                             <li class="b-radius"><a href="#">Settings</a></li>
                     </ul>
                 </li>

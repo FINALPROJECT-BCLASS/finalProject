@@ -16,7 +16,8 @@
         <nav class="left-sub-navi">
             <span>GROUP</span>
             <ul>
-                <li><a href="#">Calendar</a></li>
+            	<li><a href="groupMain">Main</a></li>
+                <li><a href="groupCalendarMain.do">Calendar</a></li>
                 <li><a href="#">Sharing</a></li>
                 <li><a href="#">Vote</a></li>
                 <li><a href="#">Account Book</a></li>
