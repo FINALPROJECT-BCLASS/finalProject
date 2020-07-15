@@ -82,7 +82,7 @@
 	  overflow: hidden;
 	  clip: rect(0, 0, 0, 0);
 	  border: 0;
-	}       
+	}    
   </style>
 </head>
 <body>
@@ -91,7 +91,7 @@
         <h1>Group Diary</h1>
         <h4 class="pSubject">Join</h4><br>
             <div class="groupJoin">
-                <form action="groupInsert.do" method="post" id="groupInsertFrom">
+                <form action="groupInsert.do" method="post" id="groupInsertFrom" enctype="Multipart/form-data">
                     <table class="groupTb">
                     	<input type="hidden" name="id" value="${loginUser.id }">
                         <tr>
@@ -140,7 +140,7 @@
                                 <div><img src="resources/groupMain/히지.png" class="groupPhoto"></div>
                                <div class="filebox">
 								  <label for="ex_file">Upload</label>
-								  <input type="file" id="ex_file" name="groupProfil">
+								  <input type="file" id="ex_file" name="uploadFile">
 								</div>
                             </td>
                         </tr>

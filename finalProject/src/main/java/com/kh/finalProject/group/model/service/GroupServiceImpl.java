@@ -41,5 +41,11 @@ public class GroupServiceImpl implements GroupService{
 	public int groupMemberInsert(ArrayList memberList) {
 		return gDao.groupMemberInsert(memberList);
 	}
-	
+
+	@Override
+	public int groupNoSelect() {
+		return gDao.groupNoSelect();
+	}
+
+
 }
