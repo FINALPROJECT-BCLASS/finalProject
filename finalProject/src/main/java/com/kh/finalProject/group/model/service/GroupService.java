@@ -19,4 +19,6 @@ public interface GroupService {
 
 	int groupMemberInsert(ArrayList memberList);
 
+	int groupNoSelect();
+
 }

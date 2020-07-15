@@ -48,7 +48,7 @@
         }
         
        /* 업로드 버튼 */
-    /* .filebox label {
+    .filebox label {
        width:100px;
        height: 40px;
        padding:10px 10px 30px 24px;
@@ -82,7 +82,7 @@
 	  overflow: hidden;
 	  clip: rect(0, 0, 0, 0);
 	  border: 0;
-	}        */
+	}    
   </style>
 </head>
 <body>

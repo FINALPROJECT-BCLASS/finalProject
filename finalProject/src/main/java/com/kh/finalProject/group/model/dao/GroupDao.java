@@ -36,6 +36,12 @@ public class GroupDao {
 	public int groupMemberInsert(ArrayList memberList) {
 		return sqlSessionTemplate.insert("groupMapper.groupMemberInsert", memberList);
 	}
+
+
+	public int groupNoSelect() {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectOne("groupMapper.groupNoSelect");
+	}
 	
 	
 	

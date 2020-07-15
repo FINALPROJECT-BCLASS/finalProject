@@ -72,6 +72,12 @@
 		)J
 	</insert>
 	
+	<select id="groupNoSelect" resultType="_int">
+		SELECT SEQ_GID.CURRVAL
+		FROM DUAL
+	</select>
+	
+	
 	
 	<insert id="groupMemberInsert" parameterType="arraylist">
 		INSERT INTO GROUP_MEMBER(GM_NO, GM_ID, G_NO, GM_DELETE)

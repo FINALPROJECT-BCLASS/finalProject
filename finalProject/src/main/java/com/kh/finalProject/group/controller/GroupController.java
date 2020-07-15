@@ -44,18 +44,11 @@ public class GroupController {
 	public ModelAndView groupMain(ModelAndView mv, HttpSession session) {
 		Member loginUser = (Member)session.getAttribute("loginUser");		
 		
-//		System.out.println("groupMain loginUser : " + loginUser);
-		
 		if(loginUser != null) {
 			String loginUserId = loginUser.getId();
 			ArrayList<GroupTable> list = gService.selectGroup(loginUserId);
-//			System.out.println("groupMain list : " + list);
-			
-//			ArrayList<GroupMember> memberList = gService.selectGroupMember();
-//			System.out.println("groupMain memberList : " + memberList);
-			
+
 			mv.addObject("list" , list);
-//			mv.addObject("memberList", memberList); 
 			mv.setViewName("group/GGroupMain");
 		}else {
 			mv.setViewName("group/GGroupMain");
@@ -76,10 +69,9 @@ public class GroupController {
 	// 그룹생성 이름검색
 	@RequestMapping(value="searchName.do", method=RequestMethod.GET)
 	public void searchNameList(HttpServletResponse response, String searchName) throws JsonIOException, IOException {
-//		System.out.println("searchName : " + searchName);
+
 		ArrayList<Member> list = gService.searchNameList(searchName);
 		
-//		System.out.println("searchName list : " + list);
 		response.setContentType("application/json;charset=utf-8");
 		
 		Gson gson = new GsonBuilder().setDateFormat("yyyy년 MM월 dd일").create();
@@ -89,7 +81,8 @@ public class GroupController {
 	
 	// 그룹생성
 	@RequestMapping(value="groupInsert.do", method=RequestMethod.POST)
-	public String groupInsert(Model model, HttpServletRequest request, GroupTable gt , @RequestParam(value="groupName", required=false) String groupName,
+	public String groupInsert(Model model, HttpServletRequest request, GroupTable gt , 
+								@RequestParam(value="groupName", required=false) String groupName,
 								@RequestParam(name="uploadFile", required=false) MultipartFile file,
 								@RequestParam(value="groupId", required=false) String groupId) {
 		
@@ -100,47 +93,41 @@ public class GroupController {
 		gt.setgName(groupName);
 		gt.setgDelete("N");
 		
-//		System.out.println("그룹 생성  gt: " + gt);
-		
 		// 사진 파일 저장
-		if(!file.getOriginalFilename().contentEquals("")) {	/// 빈파일이 아니라면
-			String savePath = saveFile(file, request); 	
-			
-			System.out.println("controller savePath1 :" + savePath);
-			
-			if(savePath != null) {	 // 파일이 잘 저장된 경우
+		if(!file.getOriginalFilename().contentEquals("")) {	// 빈파일이 아니라면
+			String savePath = saveFile(file, request); 				
+			if(savePath != null) {	 						// 파일이 잘 저장된 경우
 				gt.setgOrigin(file.getOriginalFilename()); 
 			}	
 		}
 		
-		// 그룹테이블 insert
+		// GROUP_TABLE INSERT
 		int result = gService.groupInsert(gt);
-//		System.out.println("그룹생성 result : " + result);
 		
 		
 		if(result > 0) {	// 그룹 테이블 insert 성공시 그룹멤버 테이블 insert
+
+			int groupNo =  gService.groupNoSelect();
+
 			if(groupId != null) {
 				String[] groupIds = groupId.split(",");
-				
-				
+
 				ArrayList<GroupMemberList> memberList = new ArrayList<>();
-					
 				
 				
-				for(String id : groupIds) {
-					System.out.println("그룹 생성  id: " + id);
-					gmList.setGroupMemberId(id);
-					gmList.setGroupNo(gt.getgNo());
+				for(int i = 0 ; i < groupIds.length; i++) {
+					gmList = new GroupMemberList();
+//					System.out.println("그룹 생성 id : " + System.identityHashCode(groupIds[i]));
 					
-					System.out.println("그룹 생성 gmList : " + gmList);
-					
-					
+					gmList.setGroupMemberId(groupIds[i]);
+					gmList.setGroupNo(groupNo);
 					
 					memberList.add(gmList);
-					System.out.println("그룹생성 memberList : " + memberList);
 				}
+
+				// GROUP_MEMBER INSERT
 				int memberResult = gService.groupMemberInsert(memberList);
-				System.out.println("그룹생성 memberResult : " + memberResult);
+
 			}
 			return "redirect:groupMain.do";			
 		}else { 
@@ -153,7 +140,7 @@ public class GroupController {
 
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "\\groupMainFiles";
-		System.out.println("controller savePath : " + savePath);
+
 		File folder = new File(savePath);
 		
 		if(!folder.exists()) {
@@ -173,11 +160,7 @@ public class GroupController {
 		return filePath;
 	}
 	
-	
-	
-	
-	
-	
+
 	// 게시판 메인
 	@RequestMapping(value="boardMain.do", method=RequestMethod.GET)
 	public String boardMain(Model model) {
