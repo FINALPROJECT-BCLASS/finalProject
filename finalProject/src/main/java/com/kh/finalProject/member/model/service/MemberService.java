@@ -11,5 +11,7 @@ public interface MemberService {
 	Member loginMember(Member m);
 	
 	public void checkId(String id, HttpServletResponse response) throws IOException;
+
+	int insertMember(Member m);
 	
 }

@@ -31,5 +31,11 @@ public class MemberServiceImpl implements MemberService {
 		out.close();
 		
 	}
+
+	@Override
+	public int insertMember(Member m) {
+		
+		return mDao.insertMember(m);
+	}
 	
 }

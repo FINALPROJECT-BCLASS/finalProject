@@ -10,6 +10,7 @@
 		<result property="email" column="EMAIL"/>
 		<result property="phone" column="PHONE"/>
 		<result property="birthday" column="BIRTHDAY"/>
+		<result property="address" column="ADDRESS"/>
 		<result property="main_no" column="MAIN_NO"/>
 		<result property="original_file" column="ORIGINAL_FILE"/>
 		<result property="rename_file" column="RENAME_FILE"/>
@@ -23,7 +24,6 @@
 		SELECT *
 		FROM MEMBER
 		WHERE ID = #{id}
-		AND PWD = #{pwd}
 		AND OUT_YN = 'N'
 	</select>
 	
@@ -31,6 +31,12 @@
 		SELECT COUNT(*)
 		FROM MEMBER
 		WHERE ID= #{id}
+	</select>
+	
+	<select id="insertMember" parameterType="Member" resultType="_int">
+		INSERT INTO MEMBER
+		VALUES(#{id}, #{name}, #{nickname}, #{pwd}, #{email}, #{phone},
+				#{birthday}, #{address}, #{main_no}, #{original_file}, #{rename_file}, SYSDATE, DEFAULT)
 	</select>
 
 </mapper>
