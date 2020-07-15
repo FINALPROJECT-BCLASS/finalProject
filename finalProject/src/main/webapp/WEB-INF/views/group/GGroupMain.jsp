@@ -74,7 +74,7 @@
 	        	<c:forEach var="g" items="${list }">
 	            <td>
 	                <a href="#" data-toggle="tooltip" data-placement="bottom" title="${g.gName }">
-	                     <img src="resources/groupMain/${g.gOrigin}">
+	                     <img src="resources/groupMainFiles/${g.gOrigin}">
 	                </a>
 	                <p><b>${g.gTitle }</b></p>
 	                <p>${g.gCon }</p>

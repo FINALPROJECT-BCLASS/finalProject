@@ -32,6 +32,7 @@
 		SELECT G_NO, G_TITLE, G_CON, G_NAME, G_ORIGIN, G_RENAME, G_DELETE, ID, G_DATE 
 		FROM GROUP_TABLE
 		WHERE ID = #{loginUserId}
+		ORDER BY G_DATE DESC
 	</select>
 
 	<select id="selectGroupMember" resultMap="groupMemberResultSet">
@@ -74,10 +75,10 @@
 	
 	<insert id="groupMemberInsert" parameterType="arraylist">
 		INSERT INTO GROUP_MEMBER(GM_NO, GM_ID, G_NO, GM_DELETE)
-		SELECT 100 , M.*
+		SELECT SEQ_GM.NEXTVAL , M.*
 		FROM (
 		<foreach collection="list" item="memberList" index="ix" separator="UNION ALL">
-			SELECT #{memberList} AS GM_ID, 100, 'N' 
+			SELECT #{memberList.groupMemberId} AS GM_ID, #{memberList.groupNo} AS G_NO , 'N' 
 			FROM DUAL 
 		</foreach>
 		)M
