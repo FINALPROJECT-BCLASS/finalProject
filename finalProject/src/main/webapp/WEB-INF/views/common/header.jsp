@@ -41,7 +41,7 @@
                 </li>
                 <li>Diet
                     <ul class="sub-navi">
-                            <li><a href="#">Calendar</a></li>
+                            <li><a href="DietCalendarView.do">Calendar</a></li>
                             <li class="b-radius"><a href="#">Graph</a></li>
                     </ul>
                 </li>
@@ -53,8 +53,11 @@
                     </ul>
                 </li>
                 <li>Group
+                	<c:url var="groupMain" value="groupMain.do">
+							<c:param name="loginUser" value="${sessionScope.loginUser}"/>
+					</c:url>
                     <ul class="sub-navi">
-                            <li><a href="#">Main</a></li>
+                            <li><a href="${groupMain }">Main</a></li>
                             <li><a href="#">Vote</a></li>
                             <li><a href="#">Board</a></li>
                             <li><a href="#">Ladder Game</a></li>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="groupMapper">
+
+	<resultMap id="groupTableResultSet" type="GroupTable">
+		<id property="gNo" column="G_NO"/>
+		<result property="gTitle" column="G_TITLE"/>
+		<result property="gCon" column="G_CON"/>
+		<result property="gName" column="G_NAME"/>
+		<result property="gOrigin" column="G_ORIGIN"/>
+		<result property="gRename" column="G_RENAME"/>
+		<result property="gDelete" column="G_DELETE"/>
+		<result property="id" column="ID"/>
+		<result property="gDate" column="G_DATE"/>
+	</resultMap>
+	
+	<resultMap id="groupMemberResultSet" type="GroupMember">
+		<id property="gmNO" column="GM_NO"/>
+		<result property="gmId" column="GM_ID"/>
+		<result property="gNo" column="G_NO"/>
+		<result property="gmDelete" column="GM_DELETE"/>
+	</resultMap>
+	
+	<resultMap id="memberResultSet" type="Member">
+		<id property="id" column="ID"/>
+		<result property="name" column="NAME"/>
+	</resultMap>
+
+
+
+	<select id="selectGroup" resultMap="groupTableResultSet">
+		SELECT G_NO, G_TITLE, G_CON, G_NAME, G_ORIGIN, G_RENAME, G_DELETE, ID, G_DATE 
+		FROM GROUP_TABLE
+		WHERE ID = #{loginUserId}
+	</select>
+
+	<select id="selectGroupMember" resultMap="groupMemberResultSet">
+		SELECT GM_NO, GM_ID, G_NO, GM_DELETE, NAME
+		FROM GROUP_MEMBER TM
+		JOIN MEMBER M ON(TM.GM_ID  = M.ID)
+	</select> 
+
+	<select id="searchNameList" resultMap="memberResultSet">
+		SELECT ID, NAME
+		FROM MEMBER
+		WHERE NAME LIKE '%' || #{searchName} || '%' 
+	</select>
+	
+	<insert id="groupInsert" parameterType="GroupTable">
+		INSERT INTO GROUP_TABLE VALUES(
+		SEQ_GID.NEXTVAL,
+		#{gTitle},
+		#{gCon},
+		#{gName},
+		#{gOrigin},
+		#{gOrigin},
+		#{gDelete},
+		#{id},
+		SYSDATE
+		)
+	</insert>
+	
+	<insert id="insertOrderList" parameterType="java.util.List">
+		INSERT INTO JUMUN(ORDER_NO, MENU, AMOUNT, ORDER_DATE, TABLE_NO, PAY_YN)
+		SELECT SEQ_JUMUN.NEXTVAL , J.*
+		FROM (
+		<foreach collection="list" item="item" index="ix" separator="UNION ALL">
+			SELECT #{item.MENU} AS MENU , #{item.AMOUNT} AS AMOUNT , SYSDATE AS ORDER_DATE , #{item.TABLE_NO} AS TABLE_NO, 'N'
+			FROM DUAL 
+		</foreach>
+		)J
+	</insert>
+	
+	
+	<insert id="groupMemberInsert" parameterType="arraylist">
+		INSERT INTO GROUP_MEMBER(GM_NO, GM_ID, G_NO, GM_DELETE)
+		SELECT 100 , M.*
+		FROM (
+		<foreach collection="list" item="memberList" index="ix" separator="UNION ALL">
+			SELECT #{memberList} AS GM_ID, 100, 'N' 
+			FROM DUAL 
+		</foreach>
+		)M
+	</insert>
+</mapper>
