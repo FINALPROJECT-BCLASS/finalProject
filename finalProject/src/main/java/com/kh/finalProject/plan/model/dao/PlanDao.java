@@ -26,19 +26,19 @@ public class PlanDao {
 		return sqlSessionTemplate.insert("planMapper.insertMenstrual", m);
 	}
 
-	public int insertMcRecord(String id) {
+	public int insertMcRecord(Menstrual m) {
 		
-		return sqlSessionTemplate.insert("planMapper.insertMcRecord", id);
+		return sqlSessionTemplate.insert("planMapper.insertMcRecord", m);
 	}
 
-	public int insertMcOvulation(String id) {
+	public int insertMcOvulation(Menstrual m) {
 		
-		return sqlSessionTemplate.insert("planMapper.insertMcOvulation", id);
+		return sqlSessionTemplate.insert("planMapper.insertMcOvulation", m);
 	}
 
-	public int updateMcLast(String id) {
+	public int updateMcLast(Menstrual m) {
 		
-		return sqlSessionTemplate.update("planMapper.updateMcLast", id);
+		return sqlSessionTemplate.update("planMapper.updateMcLast", m);
 	}
 
 	public ArrayList<McRecord> selectMcrList(String id) {
@@ -59,6 +59,41 @@ public class PlanDao {
 	public int updateMenstrual(Menstrual m) {
 		
 		return sqlSessionTemplate.update("planMapper.updateMenstrual", m);
+	}
+
+	public ArrayList<McRecord> afterMcrList(Menstrual m) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("planMapper.afterMcrList", m);
+	}
+
+	public ArrayList<McOvulation> afterMcoList(Menstrual m) {
+	
+		return (ArrayList)sqlSessionTemplate.selectList("planMapper.afterMcoList", m);
+	}
+
+	public int deleteMcRecord(McRecord m) {
+		
+		return sqlSessionTemplate.delete("planMapper.deleteMcRecord", m);
+	}
+
+	public int deleteMcOvulation(McOvulation m) {
+		
+		return sqlSessionTemplate.delete("planMapper.deleteMcOvulation", m);
+	}
+
+	public int reMcLast(Menstrual m) {
+		
+		return sqlSessionTemplate.update("planMapper.reMcLast", m);
+	}
+
+	public String selectMcLast(Menstrual m) {
+		
+		return sqlSessionTemplate.selectOne("planMapper.selectMcLast", m);
+	}
+
+	public int firstMcLast(Menstrual m) {
+		
+		return sqlSessionTemplate.update("planMapper.firstMcLast", m);
 	}
 
 }

@@ -59,16 +59,18 @@ public class PlanController {
 	}
 	
 	@RequestMapping("mcinsert.do")
-	public String menstrualInsert(Model model, Menstrual m) throws PlanException {
+	public String menstrualInsert(Model model, Menstrual menstrual) throws PlanException {
 		
-		int result1 = pService.insertMenstrual(m);
+		int result1 = pService.insertMenstrual(menstrual);
 		
 		if(result1 > 0) {
 			
 			for(int i = 0; i < 3; i ++) {
-				int result2 = pService.insertMcRecord(m.getId());
-				int result3 = pService.insertMcOvulation(m.getId());
-				int result4 = pService.updateMcLast(m.getId());
+				Menstrual m = pService.selectMenstrual(menstrual.getId());
+				
+				int result2 = pService.insertMcRecord(m);
+				int result3 = pService.insertMcOvulation(m);
+				int result4 = pService.updateMcLast(m);
 			}
 			
 			return "redirect:mcview.do";
@@ -124,21 +126,50 @@ public class PlanController {
 	}
 	
 	@RequestMapping("mcupdate.do")
-	public String menstrualUpdate(Model model, Menstrual m) throws PlanException {
+	public String menstrualUpdate(HttpSession session, Model model, Menstrual menstrual) throws PlanException {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String id = loginUser.getId();
 		
-		int result1 = pService.updateMenstrual(m);
+		int result1 = pService.updateMenstrual(menstrual);
+		
+		Menstrual m = pService.selectMenstrual(id);
 		
 		if(result1 > 0) {
+			ArrayList<McRecord> afterMcrList = pService.afterMcrList(m);
 			
-//			for(int i = 0; i < 3; i ++) {
-//				int result2 = pService.insertMcRecord(m.getId());
-//				int result3 = pService.insertMcOvulation(m.getId());
-//				int result4 = pService.updateMcLast(m.getId());
-//			}
+			for(int i = 0; i < afterMcrList.size(); i++) {
+				int result2 = 0;
+				result2 += pService.deleteMcRecord(afterMcrList.get(i));
+			}
+			
+			ArrayList<McOvulation> afterMcoList = pService.afterMcoList(m);
+			
+			for(int i = 0; i < afterMcrList.size(); i++) {
+				int result3 = 0;
+				result3 += pService.deleteMcOvulation(afterMcoList.get(i));
+			}
+			
+			int result4 = pService.reMcLast(m);
+			
+			if(result4 > 0) {
+				String mcLast = pService.selectMcLast(m);
+				
+				if(mcLast == null) {
+					int result5 = pService.firstMcLast(m);
+				}
+			}
+			
+			for(int i = 0; i < afterMcrList.size(); i++) {
+				Menstrual updateM = pService.selectMenstrual(id);
+				
+				int result6 = pService.insertMcRecord(updateM);
+				int result7 = pService.insertMcOvulation(updateM);
+				int result8 = pService.updateMcLast(updateM);
+			}
 			
 			return "redirect:mcview.do";
 		} else {
-			throw new PlanException("생리달력 등록 실패");
+			throw new PlanException("생리달력 수정 실패");
 		}
 		
 	}

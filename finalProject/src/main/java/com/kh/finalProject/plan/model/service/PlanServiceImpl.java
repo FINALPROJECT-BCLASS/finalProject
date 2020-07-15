@@ -29,21 +29,21 @@ public class PlanServiceImpl implements PlanService {
 	}
 
 	@Override
-	public int insertMcRecord(String id) {
+	public int insertMcRecord(Menstrual m) {
 	
-		return pDao.insertMcRecord(id);
+		return pDao.insertMcRecord(m);
 	}
 
 	@Override
-	public int insertMcOvulation(String id) {
+	public int insertMcOvulation(Menstrual m) {
 		
-		return pDao.insertMcOvulation(id);
+		return pDao.insertMcOvulation(m);
 	}
 
 	@Override
-	public int updateMcLast(String id) {
+	public int updateMcLast(Menstrual m) {
 		
-		return pDao.updateMcLast(id);
+		return pDao.updateMcLast(m);
 	}
 
 	@Override
@@ -68,6 +68,48 @@ public class PlanServiceImpl implements PlanService {
 	public int updateMenstrual(Menstrual m) {
 		
 		return pDao.updateMenstrual(m);
+	}
+
+	@Override
+	public ArrayList<McRecord> afterMcrList(Menstrual m) {
+		
+		return pDao.afterMcrList(m);
+	}
+
+	@Override
+	public ArrayList<McOvulation> afterMcoList(Menstrual m) {
+	
+		return pDao.afterMcoList(m);
+	}
+
+	@Override
+	public int deleteMcRecord(McRecord m) {
+		
+		return pDao.deleteMcRecord(m);
+	}
+
+	@Override
+	public int deleteMcOvulation(McOvulation m) {
+		
+		return pDao.deleteMcOvulation(m);
+	}
+
+	@Override
+	public int reMcLast(Menstrual m) {
+		
+		return pDao.reMcLast(m);
+	}
+
+	@Override
+	public String selectMcLast(Menstrual m) {
+	
+		return pDao.selectMcLast(m);
+	}
+
+	@Override
+	public int firstMcLast(Menstrual m) {
+		
+		return pDao.firstMcLast(m);
 	}
 
 }

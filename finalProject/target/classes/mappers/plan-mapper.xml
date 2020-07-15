@@ -55,27 +55,27 @@
 		)
 	</insert>
 	
-	<insert id="insertMcRecord" parameterType="string">
+	<insert id="insertMcRecord" parameterType="Menstrual">
 		INSERT INTO M_CALENDAR_RECORD VALUES(
 			SEQ_MCR.NEXTVAL
 			, #{id}
-			, (SELECT MC_LAST FROM MENSTRUAL_CALENDAR WHERE ID=#{id})
-			, (SELECT MC_LAST FROM MENSTRUAL_CALENDAR WHERE ID=#{id})+(SELECT MC_PERIOD FROM MENSTRUAL_CALENDAR WHERE ID=#{id})
+			, TO_DATE(#{mcLast},'YYYY-MM-DD')
+			, TO_DATE(#{mcLast},'YYYY-MM-DD')+#{mcPeriod}
 			, DEFAULT
 		)
 	</insert>
 	
-	<insert id="insertMcOvulation" parameterType="string">
+	<insert id="insertMcOvulation" parameterType="Menstrual">
 		INSERT INTO M_CALENDAR_OVULATION VALUES(
 			SEQ_MCO.NEXTVAL
 			, #{id}
-			, (SELECT MC_LAST FROM MENSTRUAL_CALENDAR WHERE ID=#{id})-19
-			, (SELECT MC_LAST FROM MENSTRUAL_CALENDAR WHERE ID=#{id})-12
+			, TO_DATE(#{mcLast},'YYYY-MM-DD')-19
+			, TO_DATE(#{mcLast},'YYYY-MM-DD')-12
 			, DEFAULT
 		)
 	</insert>
 	
-	<update id="updateMcLast" parameterType="string">
+	<update id="updateMcLast" parameterType="Menstrual">
 		UPDATE MENSTRUAL_CALENDAR
 		SET MC_LAST=MC_LAST+MC_CYCLE
 		WHERE ID=#{id}
@@ -100,6 +100,57 @@
 		SET MC_CYCLE=#{mcCycle}
 			, MC_PERIOD=#{mcPeriod}
 			, MC_UPDATE=SYSDATE
+		WHERE ID=#{id}
+	</update>
+	
+	<select id="afterMcrList" parameterType="Menstrual" resultMap="mcrResultSet">
+		SELECT MCR_NO, ID, TO_CHAR(MCR_START, 'YYYY-MM-DD') "MCR_START", TO_CHAR(MCR_END, 'YYYY-MM-DD') "MCR_END", MCR_DELETE
+		FROM M_CALENDAR_RECORD
+		WHERE ID=#{id}
+            AND MCR_START >= SYSDATE
+			AND MCR_DELETE='N'
+	</select>
+	
+	<select id="afterMcoList" parameterType="Menstrual" resultMap="mcoResultSet">
+		SELECT MCO_NO, ID, TO_CHAR(MCO_START, 'YYYY-MM-DD') "MCO_START", TO_CHAR(MCO_END, 'YYYY-MM-DD') "MCO_END", MCO_DELETE
+		FROM M_CALENDAR_OVULATION
+		WHERE ID=#{id}
+            AND MCO_START >= SYSDATE
+			AND MCO_DELETE='N'
+	</select>
+	
+	<delete id="deleteMcRecord" parameterType="McRecord">
+		DELETE
+		FROM M_CALENDAR_RECORD
+		WHERE MCR_NO=#{mcrNo}
+	</delete>
+	
+	<delete id="deleteMcOvulation" parameterType="McOvulation">
+		DELETE
+		FROM M_CALENDAR_OVULATION
+		WHERE MCO_NO=#{mcoNo}
+	</delete>
+	
+	<update id="reMcLast" parameterType="Menstrual">
+		UPDATE MENSTRUAL_CALENDAR
+		SET MC_LAST=(SELECT MCR_START
+		            FROM(SELECT *
+		                FROM M_CALENDAR_RECORD
+		                WHERE ID=#{id}
+		                ORDER BY MCR_START DESC)
+		            WHERE ROWNUM = 1) + MC_CYCLE
+		WHERE ID=#{id}
+	</update>
+	
+	<select id="selectMcLast" parameterType="Menstrual" resultType="string">
+		SELECT TO_CHAR(MC_LAST, 'YYYY-MM-DD') "MC_LAST"
+		FROM MENSTRUAL_CALENDAR
+		WHERE ID=#{id}
+	</select>
+	
+	<update id="firstMcLast" parameterType="Menstrual">
+		UPDATE MENSTRUAL_CALENDAR
+		SET MC_LAST=MC_FIRST+MC_CYCLE
 		WHERE ID=#{id}
 	</update>
 	
