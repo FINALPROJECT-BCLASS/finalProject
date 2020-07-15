@@ -112,6 +112,7 @@ public class GroupController {
 				}
 				System.out.println("그룹생성 memberList : " + memberList);
 				int memberResult = gService.groupMemberInsert(memberList);
+				System.out.println("그룹생성 memberResult : " + memberResult);
 			}
 			return "redirect:groupMain.do";			
 		}else { 

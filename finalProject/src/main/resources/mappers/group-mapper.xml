@@ -19,7 +19,6 @@
 		<result property="gmId" column="GM_ID"/>
 		<result property="gNo" column="G_NO"/>
 		<result property="gmDelete" column="GM_DELETE"/>
-		<result property="name" column="NAME"/>
 	</resultMap>
 	
 	<resultMap id="memberResultSet" type="Member">
@@ -74,11 +73,11 @@
 	
 	
 	<insert id="groupMemberInsert" parameterType="arraylist">
-		INSERT INTO JUMUN(ORDER_NO, MENU, AMOUNT, ORDER_DATE, TABLE_NO, PAY_YN)
-		SELECT SEQ_GM.NEXTVAL , M.*
+		INSERT INTO GROUP_MEMBER(GM_NO, GM_ID, G_NO, GM_DELETE)
+		SELECT 100 , M.*
 		FROM (
-		<foreach collection="list" item="item" index="ix" separator="UNION ALL">
-			SELECT #{item.MENU} AS MENU , #{item.AMOUNT} AS AMOUNT , SYSDATE AS ORDER_DATE , #{item.TABLE_NO} AS TABLE_NO, 'N'
+		<foreach collection="list" item="memberList" index="ix" separator="UNION ALL">
+			SELECT #{memberList} AS GM_ID, 100, 'N' 
 			FROM DUAL 
 		</foreach>
 		)M
