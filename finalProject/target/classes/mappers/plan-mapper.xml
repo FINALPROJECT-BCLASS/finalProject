@@ -146,6 +146,7 @@
 		SELECT TO_CHAR(MC_LAST, 'YYYY-MM-DD') "MC_LAST"
 		FROM MENSTRUAL_CALENDAR
 		WHERE ID=#{id}
+			AND MC_DELETE='N'
 	</select>
 	
 	<update id="firstMcLast" parameterType="Menstrual">
@@ -153,5 +154,13 @@
 		SET MC_LAST=MC_FIRST+MC_CYCLE
 		WHERE ID=#{id}
 	</update>
+	
+	<select id="checkMcLast" parameterType="Menstrual" resultType="_int">
+		SELECT COUNT(*)
+		FROM M_CALENDAR_RECORD
+		WHERE ID=#{id}
+		    AND EXTRACT(MONTH FROM MCR_START)>EXTRACT(MONTH FROM SYSDATE)
+		    AND MCR_DELETE='N'
+	</select>
 	
 </mapper>

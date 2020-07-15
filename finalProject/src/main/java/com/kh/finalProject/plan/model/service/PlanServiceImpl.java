@@ -112,4 +112,10 @@ public class PlanServiceImpl implements PlanService {
 		return pDao.firstMcLast(m);
 	}
 
+	@Override
+	public int checkMcLast(Menstrual m) {
+	
+		return pDao.checkMcLast(m);
+	}
+
 }

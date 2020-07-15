@@ -32,7 +32,12 @@
 		    	   				};
 	            				
 	            				successCallback(events);
-	            			}
+	            			},
+	            			error:function(request, status, errorData){
+	                            alert("error code: " + request.status + "\n"
+	                                  +"message: " + request.responseText
+	                                  +"error: " + errorData);
+	                        }   
 	            		})
 	            	}
 	            }]
@@ -99,6 +104,7 @@
                 </div>
             </div>
         </div>
+        
         <c:if test="${check eq 0}">
         	<script>
         		$(function(){
@@ -106,6 +112,13 @@
         		})
         	</script>
         </c:if>
+        
+        <c:if test="${!empty msg }">
+        	<script>
+        		alert("예정일이 업데이트 되었습니다.");
+        	</script>
+        </c:if>
+        
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-3">
@@ -121,7 +134,14 @@
 	                        	<td><input type="number" min="1" max="31" value="${menstrual.mcCycle }" name="mcCycle"><br></td>	
 	                        </c:if>
 	                        <td><b>days</b></td>
-	                        <td rowspan="2"><button type="submit" class="default-btn">Save</button></td>
+	                        <c:if test="${check ne 0}">
+	                        	<td rowspan="2"><button type="submit" class="default-btn">Save</button></td>	                        
+	                        </c:if>
+	                        <c:if test="${check eq 0}">
+	                        	<td rowspan="2">
+	                        		<button class="default-btn" type="button" data-toggle="modal" data-target="#setModal">Save</button>
+	                        	</td>	                        
+	                        </c:if>
 	                    </tr>
 	                    <tr>
 	                        <td style="text-align: right;"><b>Period :&nbsp;</b></td>

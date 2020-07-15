@@ -49,6 +49,29 @@ public class PlanController {
 		
 		if(check > 0) {
 			Menstrual m = pService.selectMenstrual(id);
+			
+			int lastCheck = pService.checkMcLast(m);
+			
+			int result1 = 0;
+			int result2 = 0;
+			int result3 = 0;
+			
+			while(lastCheck <= 2) {
+				m = pService.selectMenstrual(id);
+				
+				result1 += pService.insertMcRecord(m);
+				result2 += pService.insertMcOvulation(m);
+				result3 += pService.updateMcLast(m);
+				
+				lastCheck = pService.checkMcLast(m);
+			}
+			
+			if(result1 > 0) {
+				mv.addObject("msg", "예정일이 업데이트 되었습니다.");				
+			}
+			
+			m = pService.selectMenstrual(id);
+			
 			mv.addObject("menstrual", m);
 		}
 		
@@ -65,7 +88,7 @@ public class PlanController {
 		
 		if(result1 > 0) {
 			
-			for(int i = 0; i < 3; i ++) {
+			for(int i = 0; i < 4; i ++) {
 				Menstrual m = pService.selectMenstrual(menstrual.getId());
 				
 				int result2 = pService.insertMcRecord(m);
@@ -144,7 +167,7 @@ public class PlanController {
 			
 			ArrayList<McOvulation> afterMcoList = pService.afterMcoList(m);
 			
-			for(int i = 0; i < afterMcrList.size(); i++) {
+			for(int i = 0; i < afterMcoList.size(); i++) {
 				int result3 = 0;
 				result3 += pService.deleteMcOvulation(afterMcoList.get(i));
 			}
@@ -162,9 +185,15 @@ public class PlanController {
 			for(int i = 0; i < afterMcrList.size(); i++) {
 				Menstrual updateM = pService.selectMenstrual(id);
 				
-				int result6 = pService.insertMcRecord(updateM);
-				int result7 = pService.insertMcOvulation(updateM);
-				int result8 = pService.updateMcLast(updateM);
+				if(i == 0) {
+					int result6 = pService.insertMcRecord(updateM);
+					int result8 = pService.updateMcLast(updateM);
+				} else {
+					int result6 = pService.insertMcRecord(updateM);
+					int result7 = pService.insertMcOvulation(updateM);
+					int result8 = pService.updateMcLast(updateM);					
+				}
+				
 			}
 			
 			return "redirect:mcview.do";

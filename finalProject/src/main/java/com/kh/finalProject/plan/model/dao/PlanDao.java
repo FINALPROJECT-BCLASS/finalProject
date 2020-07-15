@@ -96,4 +96,9 @@ public class PlanDao {
 		return sqlSessionTemplate.update("planMapper.firstMcLast", m);
 	}
 
+	public int checkMcLast(Menstrual m) {
+	
+		return sqlSessionTemplate.selectOne("planMapper.checkMcLast", m);
+	}
+
 }

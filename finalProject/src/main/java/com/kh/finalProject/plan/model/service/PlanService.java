@@ -40,4 +40,6 @@ public interface PlanService {
 
 	int firstMcLast(Menstrual m);
 
+	int checkMcLast(Menstrual m);
+
 }
