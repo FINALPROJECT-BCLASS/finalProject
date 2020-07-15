@@ -46,6 +46,7 @@
         #personalInfo{
             border-collapse: separate;
             border-spacing: 0 5px;
+            width: 300px;
         }
 
         .col-md-6, .col-md-2 {
@@ -65,6 +66,10 @@
 
         .fc-today-button{
             display: none !important;
+        }
+        
+        .default-btn{
+        	margin-left: 15px;
         }
     </style>
 </head>
@@ -104,18 +109,31 @@
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-2">
-                <table id="personalInfo">
-                    <tr>
-                        <td><b>Cycle :&nbsp;</b></td>
-                        <td><input type="number" min="1" max="31" value="28"><br></td>
-                        <td><b>&nbsp;days</b></td>
-                    </tr>
-                    <tr>
-                        <td><b>Period :&nbsp;</b></td>
-                        <td><input type="number" min="1" max="31" value="5"><br></td>
-                        <td><b>&nbsp;days</b></td>
-                    </tr>
-                </table>
+            	<form>
+	                <table id="personalInfo">
+	                    <tr>
+	                        <td style="text-align: right;"><b>Cycle :&nbsp;</b></td>
+	                        <c:if test="${empty menstrual }">
+	                        	<td><input type="number" min="1" max="31" value="28"><br></td>	                        	
+	                        </c:if>
+	                        <c:if test="${!empty menstrual }">
+	                        	<td><input type="number" min="1" max="31" value="${menstrual.mcCycle }"><br></td>	
+	                        </c:if>
+	                        <td><b>days</b></td>
+	                        <td rowspan="2"><button type="submit" class="default-btn">Save</button></td>
+	                    </tr>
+	                    <tr>
+	                        <td style="text-align: right;"><b>Period :&nbsp;</b></td>
+	                        <c:if test="${empty menstrual }">
+	                        	<td><input type="number" min="1" max="31" value="5"><br></td>	                        	
+	                        </c:if>
+	                        <c:if test="${!empty menstrual }">
+	                        	<td><input type="number" min="1" max="31" value="${menstrual.mcPeriod }"><br></td>	
+	                        </c:if>
+	                        <td><b>days</b></td>
+	                    </tr>
+	                </table>
+            	</form>
             </div>
             <div class="col-md-6"></div>
             <div class="col-md-2">

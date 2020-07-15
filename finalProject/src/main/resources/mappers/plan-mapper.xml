@@ -2,7 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="planMapper">
 
-	<resultMap type="McRecord" id="mcRecordSet">
+	<resultMap type="Menstrual" id="mcResultSet">
+		<id property="id" column="ID"/>
+		<result property="mcFirst" column="MC_FIRST"/>
+		<result property="mcCycle" column="MC_CYCLE"/>
+		<result property="mcPeriod" column="MC_PERIOD"/>
+		<result property="mcLast" column="MC_LAST"/>
+		
+		<result property="mcDelete" column="MC_DELETE"/>
+	</resultMap>
+
+	<resultMap type="McRecord" id="mcrResultSet">
 		<id property="mcrNo" column="MCR_NO"/>
 		<result property="id" column="ID"/>
 		<result property="mcrStart" column="MCR_START"/>
@@ -10,7 +20,7 @@
 		<result property="mcrDelete" column="MCR_DELETE"/>
 	</resultMap>
 	
-	<resultMap type="McOvulation" id="mcOvulationSet">
+	<resultMap type="McOvulation" id="mcoResultSet">
 		<id property="mcoNo" column="MCO_NO"/>
 		<result property="id" column="ID"/>
 		<result property="mcoStart" column="MCO_START"/>
@@ -25,6 +35,14 @@
 			AND MC_DELETE='N'
 	</select>
 	
+	<select id="selectMenstrual" parameterType="string" resultMap="mcResultSet">
+		SELECT ID, TO_CHAR(MC_FIRST, 'YYYY-MM-DD') "MC_FIRST", MC_CYCLE
+		    , MC_PERIOD, TO_CHAR(MC_LAST, 'YYYY-MM-DD') "MC_LAST", MC_DELETE
+		FROM MENSTRUAL_CALENDAR
+		WHERE ID=#{id}
+		    AND MC_DELETE='N'
+	</select>
+	
 	<insert id="insertMenstrual" parameterType="Menstrual">
 		INSERT INTO MENSTRUAL_CALENDAR VALUES(
 			#{id}
@@ -32,6 +50,7 @@
 			, DEFAULT
 			, DEFAULT
 			, TO_DATE(#{mcFirst},'YYYY-MM-DD')+28
+			, DEFAULT
 			, DEFAULT
 		)
 	</insert>
@@ -62,14 +81,14 @@
 		WHERE ID=#{id}
 	</update>
 	
-	<select id="selectMcrList" parameterType="string" resultMap="mcRecordSet">
+	<select id="selectMcrList" parameterType="string" resultMap="mcrResultSet">
 		SELECT MCR_NO, ID, TO_CHAR(MCR_START, 'YYYY-MM-DD') "MCR_START", TO_CHAR(MCR_END, 'YYYY-MM-DD') "MCR_END", MCR_DELETE
 		FROM M_CALENDAR_RECORD
 		WHERE ID=#{id}
 			AND MCR_DELETE='N'
 	</select>
 	
-	<select id="selectMcoList" parameterType="string" resultMap="mcOvulationSet">
+	<select id="selectMcoList" parameterType="string" resultMap="mcoResultSet">
 		SELECT MCO_NO, ID, TO_CHAR(MCO_START, 'YYYY-MM-DD') "MCO_START", TO_CHAR(MCO_END, 'YYYY-MM-DD') "MCO_END", MCO_DELETE
 		FROM M_CALENDAR_OVULATION
 		WHERE ID=#{id}

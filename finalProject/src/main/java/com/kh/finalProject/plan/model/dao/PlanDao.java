@@ -51,4 +51,9 @@ public class PlanDao {
 		return (ArrayList)sqlSessionTemplate.selectList("planMapper.selectMcoList", id);
 	}
 
+	public Menstrual selectMenstrual(String id) {
+		
+		return sqlSessionTemplate.selectOne("planMapper.selectMenstrual", id);
+	}
+
 }

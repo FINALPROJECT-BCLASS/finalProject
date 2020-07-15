@@ -47,6 +47,11 @@ public class PlanController {
 		
 		int check = pService.checkInfo(id);
 		
+		if(check > 0) {
+			Menstrual m = pService.selectMenstrual(id);
+			mv.addObject("menstrual", m);
+		}
+		
 		mv.addObject("check", check);
 		mv.setViewName("plan/menstrualCalendar");
 		

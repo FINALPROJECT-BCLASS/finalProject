@@ -58,4 +58,10 @@ public class PlanServiceImpl implements PlanService {
 		return pDao.selectMcoList(id);
 	}
 
+	@Override
+	public Menstrual selectMenstrual(String id) {
+		
+		return pDao.selectMenstrual(id);
+	}
+
 }

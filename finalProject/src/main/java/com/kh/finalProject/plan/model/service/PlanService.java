@@ -22,4 +22,6 @@ public interface PlanService {
 
 	ArrayList<McOvulation> selectMcoList(String id);
 
+	Menstrual selectMenstrual(String id);
+
 }
