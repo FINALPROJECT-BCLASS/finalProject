@@ -95,4 +95,12 @@
 			AND MCO_DELETE='N'
 	</select>
 	
+	<update id="updateMenstrual" parameterType="Menstrual">
+		UPDATE MENSTRUAL_CALENDAR
+		SET MC_CYCLE=#{mcCycle}
+			, MC_PERIOD=#{mcPeriod}
+			, MC_UPDATE=SYSDATE
+		WHERE ID=#{id}
+	</update>
+	
 </mapper>

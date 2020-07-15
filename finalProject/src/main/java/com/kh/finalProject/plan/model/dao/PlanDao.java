@@ -56,4 +56,9 @@ public class PlanDao {
 		return sqlSessionTemplate.selectOne("planMapper.selectMenstrual", id);
 	}
 
+	public int updateMenstrual(Menstrual m) {
+		
+		return sqlSessionTemplate.update("planMapper.updateMenstrual", m);
+	}
+
 }

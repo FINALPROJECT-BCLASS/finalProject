@@ -122,5 +122,25 @@ public class PlanController {
 		out.flush();
 		out.close();
 	}
+	
+	@RequestMapping("mcupdate.do")
+	public String menstrualUpdate(Model model, Menstrual m) throws PlanException {
+		
+		int result1 = pService.updateMenstrual(m);
+		
+		if(result1 > 0) {
+			
+//			for(int i = 0; i < 3; i ++) {
+//				int result2 = pService.insertMcRecord(m.getId());
+//				int result3 = pService.insertMcOvulation(m.getId());
+//				int result4 = pService.updateMcLast(m.getId());
+//			}
+			
+			return "redirect:mcview.do";
+		} else {
+			throw new PlanException("생리달력 등록 실패");
+		}
+		
+	}
 
 }

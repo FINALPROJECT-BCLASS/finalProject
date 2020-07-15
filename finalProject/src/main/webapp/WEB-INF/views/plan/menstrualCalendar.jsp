@@ -91,7 +91,7 @@
                     <div class="modal-body" align="center">
                         <form action="mcinsert.do" method="post">
                             가장 최근의 생리 시작일을 입력하세요<br>
-                            <input type="hidden" name="id" readonly value="${loginUser.id }">
+                            <input type="hidden" name="id" value="${loginUser.id }">
                             <input type="date" name="mcFirst" style="margin: 5px;"><br>
                             <button type="submit" class="default-btn">Save</button>
                         </form>
@@ -108,16 +108,17 @@
         </c:if>
         <div class="row">
             <div class="col-md-2"></div>
-            <div class="col-md-2">
-            	<form>
+            <div class="col-md-3">
+            	<form action="mcupdate.do" method="post">
+            		<input type="hidden" name="id" value="${loginUser.id }">
 	                <table id="personalInfo">
 	                    <tr>
 	                        <td style="text-align: right;"><b>Cycle :&nbsp;</b></td>
 	                        <c:if test="${empty menstrual }">
-	                        	<td><input type="number" min="1" max="31" value="28"><br></td>	                        	
+	                        	<td><input type="number" min="1" max="31" value="28" name="mcCycle"><br></td>	                        	
 	                        </c:if>
 	                        <c:if test="${!empty menstrual }">
-	                        	<td><input type="number" min="1" max="31" value="${menstrual.mcCycle }"><br></td>	
+	                        	<td><input type="number" min="1" max="31" value="${menstrual.mcCycle }" name="mcCycle"><br></td>	
 	                        </c:if>
 	                        <td><b>days</b></td>
 	                        <td rowspan="2"><button type="submit" class="default-btn">Save</button></td>
@@ -125,17 +126,17 @@
 	                    <tr>
 	                        <td style="text-align: right;"><b>Period :&nbsp;</b></td>
 	                        <c:if test="${empty menstrual }">
-	                        	<td><input type="number" min="1" max="31" value="5"><br></td>	                        	
+	                        	<td><input type="number" min="1" max="31" value="5" name="mcPeriod"><br></td>	                        	
 	                        </c:if>
 	                        <c:if test="${!empty menstrual }">
-	                        	<td><input type="number" min="1" max="31" value="${menstrual.mcPeriod }"><br></td>	
+	                        	<td><input type="number" min="1" max="31" value="${menstrual.mcPeriod }" name="mcPeriod"><br></td>	
 	                        </c:if>
 	                        <td><b>days</b></td>
 	                    </tr>
 	                </table>
             	</form>
             </div>
-            <div class="col-md-6"></div>
+            <div class="col-md-5"></div>
             <div class="col-md-2">
                 <table style="font-size: 18px;">
                     <tr>

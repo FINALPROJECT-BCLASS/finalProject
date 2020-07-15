@@ -24,4 +24,6 @@ public interface PlanService {
 
 	Menstrual selectMenstrual(String id);
 
+	int updateMenstrual(Menstrual m);
+
 }

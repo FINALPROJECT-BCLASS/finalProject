@@ -64,4 +64,10 @@ public class PlanServiceImpl implements PlanService {
 		return pDao.selectMenstrual(id);
 	}
 
+	@Override
+	public int updateMenstrual(Menstrual m) {
+		
+		return pDao.updateMenstrual(m);
+	}
+
 }
