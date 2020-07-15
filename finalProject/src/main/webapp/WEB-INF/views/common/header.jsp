@@ -26,7 +26,8 @@
             <ul class = "navi-area">
                 <li>Plan
                         <ul class="sub-navi">
-                            <li><a href="#">Monthly Planner</a></li>
+                        	<c:url var="mplist" value="mplist.do"/>
+                            <li><a href="${mplist }">Monthly Planner</a></li>
                             <li><a href="#">Timetable</a></li>
                             <li class="b-radius"><a href="#">Menstrual Calendar</a></li>
                         </ul>
