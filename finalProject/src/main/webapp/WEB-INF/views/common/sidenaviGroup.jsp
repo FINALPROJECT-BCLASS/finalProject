@@ -14,7 +14,7 @@
 <body>
     <div class="left-navi-area">
         <nav class="left-sub-navi">
-            <span>Plan</span>
+            <span>GROUP</span>
             <ul>
                 <li><a href="#">Calendar</a></li>
                 <li><a href="#">Sharing</a></li>
@@ -25,5 +25,6 @@
             </ul>
         </nav>
     </div>
+    
 </body>
 </html>

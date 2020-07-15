@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,11 +15,16 @@
 <body>
     <div class="left-navi-area">
         <nav class="left-sub-navi">
+        
+	        <c:url var="mplist" value="mplist.do"/>
+	        <c:url var="ttlist" value="ttlist.do"/>
+	        <c:url var="mclist" value="mcview.do"/>
+	        
             <span>Plan</span>
             <ul>
-                <li><a href="#">Monthly Planner</a></li>
-                <li><a href="#">Timetable</a></li>
-                <li class="l-last-line"><a href="#">Menstrual Calendar</a></li>
+                <li><a href="${mplist }">Monthly Planner</a></li>
+                <li><a href="${ttlist }">Timetable</a></li>
+                <li class="l-last-line"><a href="${mclist }">Menstrual Calendar</a></li>
             </ul>
         </nav>
     </div>
