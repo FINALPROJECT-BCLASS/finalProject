@@ -364,8 +364,9 @@
     });
   </script>
 	
-	<jsp:include page="common/footer.jsp"/>	
+	<jsp:include page="common/footer.jsp"/>
 	
+>>>>>>> refs/remotes/origin/master
 	
 </body>
 </html>

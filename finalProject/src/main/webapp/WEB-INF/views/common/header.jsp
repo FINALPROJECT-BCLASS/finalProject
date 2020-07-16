@@ -26,7 +26,8 @@
             <ul class = "navi-area">
                 <li>Plan
                         <ul class="sub-navi">
-                            <li><a href="#">Monthly Planner</a></li>
+                        	<c:url var="mplist" value="mplist.do"/>
+                            <li><a href="${mplist }">Monthly Planner</a></li>
                             <li><a href="#">Timetable</a></li>
                             <li class="b-radius"><a href="#">Menstrual Calendar</a></li>
                         </ul>
@@ -52,8 +53,11 @@
                     </ul>
                 </li>
                 <li>Group
+                	<c:url var="groupMain" value="groupMain.do">
+							<c:param name="loginUser" value="${sessionScope.loginUser}"/>
+					</c:url>
                     <ul class="sub-navi">
-                            <li><a href="#">Main</a></li>
+                            <li><a href="${groupMain }">Main</a></li>
                             <li><a href="#">Vote</a></li>
                             <li><a href="#">Board</a></li>
                             <li><a href="#">Ladder Game</a></li>
