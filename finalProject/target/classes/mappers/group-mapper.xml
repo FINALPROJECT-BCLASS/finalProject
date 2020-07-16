@@ -127,7 +127,7 @@
         JOIN MEMBER M ON (GM.GM_ID = M.ID)
         WHERE GM.G_NO = #{groupNo}
         AND GN.GM_NO = #{gmNo}
-		ORDER BY GN_DATE DESC
+		ORDER BY GN_NO DESC
 	</select>
 	
 	<select id="getListCount" resultType="_int">

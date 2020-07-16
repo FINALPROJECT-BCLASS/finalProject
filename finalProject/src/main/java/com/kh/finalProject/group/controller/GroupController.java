@@ -68,12 +68,10 @@ public class GroupController {
 			mv.addObject("list" , list);
 			mv.setViewName("group/GGroupMain");
 		}else {
+//			mv.setViewName("<script> alert('로그인을 해주세요.'); history.back(); </script>");
 			mv.setViewName("group/GGroupMain");
 		}
-				
-		
-		
-		
+	
 		return mv;
 	}
 	
@@ -204,10 +202,11 @@ public class GroupController {
 	// ---------------------------------- 공지 ------------------------------------------------------
 	// 공지 메인
 	@RequestMapping(value="noticeMain.do", method=RequestMethod.GET)
-	public String noticeMain(Model model, HttpSession session, @RequestParam(value="page", required=false) Integer page) {
+	public ModelAndView noticeMain(ModelAndView mv, HttpSession session, @RequestParam(value="page", required=false) Integer page) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		GroupInfo gInfo = (GroupInfo)session.getAttribute("gInfo");
 		
+		System.out.println("page : " + page);
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
@@ -221,18 +220,22 @@ public class GroupController {
 		pi.setLoginUserId(gInfo.getLoginUserId());
 		pi.setGroupNo(gInfo.getGroupNo());
 		pi.setGmNo(gInfo.getGmNo());
-		System.out.println("공지 pi : " + pi );
 		
 		ArrayList<GroupNotice> noticeList = gService.selectNoticeList(pi);
 		System.out.println("공지 : " + noticeList );
 		
-		
-		
-		
-		
-		model.addAttribute("noticeList", noticeList);
+		if(noticeList != null) {
+			mv.addObject("noticeList",noticeList);
+			mv.addObject("pi",pi);
+			mv.setViewName("group/GNoticeMain");
+			
+		}else {
+//			mv.setViewName("group/GNoticeMain");
+			mv.setViewName("<script> alert('공지사항 등록이 실패하였습니다.'); history.back(); </script>");
+		}
 
-		return "group/GNoticeMain";
+
+		return mv;
 	}
 
 	
