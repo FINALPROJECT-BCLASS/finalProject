@@ -73,25 +73,32 @@ public class MemberController {
 		m.setPwd(encPwd);
 		m.setAddress(postcode+","+mainAddress+","+subAddress);
 		
-		String renameFile = saveFile(file, m, request);
 		
-		if(!file.getName().equals("")) {
-			System.out.println("오리진 파일 :" + file.getName());
+		int result =0;
+		
+		if(!file.getOriginalFilename().equals("")) {
+			
+			String renameFile = saveFile(file, m, request);
+			
+			System.out.println("오리진 파일 :" + file.getOriginalFilename());
 			
 			m.setOriginal_file(file.getOriginalFilename());
 			m.setRename_file(renameFile);
+			
 		}
-	
-		int result = mService.insertMember(m);
+		
+		result = mService.insertMember(m);
 		
 		
 		if(result > 0) {
-			return "home";
+			return "member/login";
 		}else {
-			 return "redirect:login.do";
+			//로그인 실패
+            model.addAttribute("msg","회원가입에 실패하셨습니다. 다시 시도해 주세요.");
+            model.addAttribute("url","/join.do");
 			
+			return "common/redirect";
 		}	
-		
 	}
 	
 	// 저장 파일 이름 변경
@@ -110,7 +117,7 @@ public class MemberController {
 		}
 		
 		// 업로드 시간을 기준으로 파일명 변경
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm");
 		
 		String originFileName = file.getOriginalFilename();
 		

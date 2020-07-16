@@ -19,7 +19,7 @@
 <body>
 <c:set var="contextPath" value="${pageContext.servletContext.contextPath }" scope="application"/>
     <header class="header">
-        <nav>
+        <nav class="mainNav">
             <div class="logo-area">
                 <a class="blue">LIFE</a>NOTE
             </div>
@@ -78,7 +78,14 @@
             <c:if test="${!empty sessionScope.loginUser}">
 	            <div class="login-area after">
 	                <div class="login-area-item">
-	                	<img class="h-profile-image" src="resources/images/icons/profile_default.png">
+	                	<div class="h-profile-image-area">
+	                		<c:if test="${empty loginUser.rename_file }">
+	                		<img class="h-profile-image" src="resources/images/icons/profile_white.png">
+	                		</c:if>
+	                		<c:if test="${!empty loginUser.rename_file }">
+	                		<img class="h-profile-image" src="resources/muploadFiles/${loginUser.rename_file }">
+	                    	</c:if>
+	                    </div>
 	                    <div class="hide login-square"></div>
 	                    <ul class="hide login-sub">
 	                        <li class="t-radius"><a href="#">Info</a></li>
