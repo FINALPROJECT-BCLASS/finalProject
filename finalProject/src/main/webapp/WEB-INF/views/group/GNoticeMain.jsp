@@ -28,7 +28,7 @@
 
     /* 공지게시판 */
     .groupNotice{width:100%; height:400px;overflow:scroll; border-radius:10px; }
-    .noticeBoardTb{width:100%; background:white;border:0.5px solid lightgray;}
+    .noticeBoardTb{margin-bottom:10px; margin-right:5px; border-radius:6px; width:100%; background:white;border:0.5px solid lightgray;}
     .noticeBoardTitle{padding-top:20px; padding-left:10px;font-weight: 600; font-size: 20px;}
     .noticeBoardDate{padding-left:10px; font-size:12px; font-weight: 600;}
     .noticeBoardContent{padding-top:5px; padding-left:10px; height:50px; overflow:scroll; overflow-x:hidden; font-size:13px;}
@@ -52,7 +52,7 @@
         <h1>Group Diary</h1>
         <div class="btnList">
           
-            <button class="groupBtn noticeBtn">Notice</button>
+            <button class="groupBtn noticeBtn" onclick="location.href='noticeMain.do'">Notice</button>
             <button class="groupBtn BoardBtn">Board</button>
             <button class="groupBtn PhotoBtn">Photo</button>
             <button class="groupBtn VideoBtn">Video</button>

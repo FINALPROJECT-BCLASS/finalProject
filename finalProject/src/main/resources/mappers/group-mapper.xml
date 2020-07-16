@@ -11,7 +11,10 @@
 		<result property="gRename" column="G_RENAME"/>
 		<result property="gDelete" column="G_DELETE"/>
 		<result property="id" column="ID"/>
-		<result property="gDate" column="G_DATE"/>
+		
+		<result property="gmNo" column="GM_NO"/>
+		<result property="gmId" column="GM_ID"/>
+		<result property="gmDelete" column="GM_DELETE"/>
 	</resultMap>
 	
 	<resultMap id="groupMemberResultSet" type="GroupMember">
@@ -21,18 +24,19 @@
 		<result property="gmDelete" column="GM_DELETE"/>
 	</resultMap>
 	
+
 	<resultMap id="memberResultSet" type="Member">
 		<id property="id" column="ID"/>
 		<result property="name" column="NAME"/>
 	</resultMap>
 
 
-
+	<!-- 그룹 메인 및 생성 -->	
 	<select id="selectGroup" resultMap="groupTableResultSet">
-		SELECT G_NO, G_TITLE, G_CON, G_NAME, G_ORIGIN, G_RENAME, G_DELETE, ID, G_DATE 
-		FROM GROUP_TABLE
-		WHERE ID = #{loginUserId}
-		ORDER BY G_DATE DESC
+		select GT.G_NO AS G_NO, G_TITLE, G_CON, G_NAME, G_ORIGIN, G_DELETE, ID, G_DATE, GM_NO, GM_ID, GM_DELETE
+		FROM GROUP_TABLE GT
+		JOIN GROUP_MEMBER GM ON(GT.G_NO = GM.G_NO)
+		WHERE GM_ID = #{loginUserId}
 	</select>
 
 	<select id="selectGroupMember" resultMap="groupMemberResultSet">
@@ -89,4 +93,16 @@
 		</foreach>
 		)M
 	</insert>
+	
+	<!-- 그룹 메인 및 생성 end -->
+	
+	<!-- 그룹 캘린더 -->
+	<select id="memberNoSelect" parameterType="GroupInfo" resultType="_int">
+		SELECT GM_NO
+		FROM GROUP_MEMBER
+		WHERE G_NO = #{groupNo} 
+		AND GM_ID = #{loginUserId}
+	</select>
+	<!-- 그룹 캘린더 end-->
+	
 </mapper>

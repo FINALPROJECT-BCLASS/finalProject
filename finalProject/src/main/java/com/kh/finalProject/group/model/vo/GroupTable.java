@@ -9,6 +9,7 @@ public class GroupTable implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	// group_table
 	private int gNo;
 	private String gTitle;
 	private String gCon;
@@ -16,15 +17,20 @@ public class GroupTable implements Serializable {
 	private String gOrigin;
 	private String gRename;
 	private String gDelete;
-	private String id;
+	private String id;		// 관리자 아이디
 	private String gDate;
+	
+	// group_memeber
+	private int gmNo;
+	private String gmId;	// 그룹 멤버 아이디
+	private String gmDelete;
 	
 	public GroupTable() {
 		super();
 	}
 
 	public GroupTable(int gNo, String gTitle, String gCon, String gName, String gOrigin, String gRename, String gDelete,
-			String id, String gDate) {
+			String id, String gDate, int gmNo, String gmId, String gmDelete) {
 		super();
 		this.gNo = gNo;
 		this.gTitle = gTitle;
@@ -35,6 +41,9 @@ public class GroupTable implements Serializable {
 		this.gDelete = gDelete;
 		this.id = id;
 		this.gDate = gDate;
+		this.gmNo = gmNo;
+		this.gmId = gmId;
+		this.gmDelete = gmDelete;
 	}
 
 	public int getgNo() {
@@ -109,6 +118,30 @@ public class GroupTable implements Serializable {
 		this.gDate = gDate;
 	}
 
+	public int getGmNo() {
+		return gmNo;
+	}
+
+	public void setGmNo(int gmNo) {
+		this.gmNo = gmNo;
+	}
+
+	public String getGmId() {
+		return gmId;
+	}
+
+	public void setGmId(String gmId) {
+		this.gmId = gmId;
+	}
+
+	public String getGmDelete() {
+		return gmDelete;
+	}
+
+	public void setGmDelete(String gmDelete) {
+		this.gmDelete = gmDelete;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -116,8 +149,11 @@ public class GroupTable implements Serializable {
 	@Override
 	public String toString() {
 		return "GroupTable [gNo=" + gNo + ", gTitle=" + gTitle + ", gCon=" + gCon + ", gName=" + gName + ", gOrigin="
-				+ gOrigin + ", gRename=" + gRename + ", gDelete=" + gDelete + ", id=" + id + ", gDate=" + gDate + "]\n";
+				+ gOrigin + ", gRename=" + gRename + ", gDelete=" + gDelete + ", id=" + id + ", gDate=" + gDate
+				+ ", gmNo=" + gmNo + ", gmId=" + gmId + ", gmDelete=" + gmDelete + "]\n";
 	}
+
+
 
 	
 

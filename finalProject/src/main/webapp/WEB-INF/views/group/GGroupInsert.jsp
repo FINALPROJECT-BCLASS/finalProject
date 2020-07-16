@@ -119,10 +119,6 @@
                             <td style="height:100px;">
                                 <div class="searchNameAfter">
                                     &nbsp;&nbsp;Click and remove it.<br>
-                                   <!--  <button type="button" class="searchNameBox">김혜린<input type="hidden" value="김혜린"></button>
-                                    <button type="button" class="searchNameBox">김혜린<input type="hidden" value="김혜린"></button>
-                                    <button type="button" class="searchNameBox">김혜린<input type="hidden" value="김혜린"></button>
-                                    <button type="button" class="searchNameBox">김혜린<input type="hidden" value="김혜린"></button> -->
                                 </div>
                             </td>
                         </tr>
@@ -164,8 +160,9 @@
 				}
 			})
 			
-            // 클릭한 이름 삽입 (★중복적용 안되게 해야됨)
+            // 클릭한 이름 삽입 
               $(document).on("click", ".oneSearchBox", function(){
+            	  $(this).css("display","none");
             	  var $searchNameAfter ="";
             	  var $searchNameBox ="";
             	  var $searchNameBoxValue ="";
