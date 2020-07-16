@@ -25,5 +25,10 @@ public class MemberDao {
 
 		return sqlSessionTemplate.insert("memberMapper.insertMember", m);
 	}
+
+	public int updateMember(Member m) {
+
+		return sqlSessionTemplate.insert("memberMapper.updateMember", m);
+	}
 	
 }

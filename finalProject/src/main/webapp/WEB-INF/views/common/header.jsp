@@ -65,6 +65,8 @@
 	            </div>
             </c:if>
             
+			<c:url var="myInfoView" value="myInfoView.do"/>
+            
             <c:if test="${!empty sessionScope.loginUser}">
 	            <div class="login-area after">
 	                <div class="login-area-item">
@@ -73,13 +75,12 @@
 	                			<img class="h-profile-image" src="resources/images/icons/profile_white.png">
 	                		</c:if>
 	                		<c:if test="${!empty loginUser.rename_file }">
-	                		<img class="h-profile-image" src="resources/images/icons/profile_white.png">
 	                			<img class="h-profile-image" src="resources/muploadFiles/${loginUser.rename_file }">
 	                		</c:if>
 	                    </div>
 	                    <div class="hide login-square"></div>
 	                    <ul class="hide login-sub">
-	                        <li class="t-radius"><a href="#">Info</a></li>
+	                        <li class="t-radius"><a href="${myInfoView }">Info</a></li>
 	                        <li><a href="#">Chat</a></li>
 	                        <li><a href="#">Alarm</a></li>
 	                        <li class="b-radius"><a href="logout.do">Logout</a></li>

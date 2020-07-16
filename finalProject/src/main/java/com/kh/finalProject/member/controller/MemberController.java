@@ -2,11 +2,11 @@ package com.kh.finalProject.member.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,10 +19,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.kh.finalProject.member.model.exception.MemberException;
 import com.kh.finalProject.member.model.service.MemberService;
 import com.kh.finalProject.member.model.vo.Member;
-import com.sun.org.apache.xerces.internal.util.Status;
 
 
 @SessionAttributes("loginUser")
@@ -71,23 +69,21 @@ public class MemberController {
 		String encPwd = bcryptPasswordEncoder.encode(m.getPwd());
 		
 		m.setPwd(encPwd);
-		m.setAddress(postcode+","+mainAddress+","+subAddress);
+		m.setAddress(postcode+"_"+mainAddress+"_"+subAddress);
 		
-		
-		int result =0;
 		
 		if(!file.getOriginalFilename().equals("")) {
 			
 			String renameFile = saveFile(file, m, request);
 			
-			System.out.println("오리진 파일 :" + file.getOriginalFilename());
+//			System.out.println("오리진 파일 :" + file.getOriginalFilename());
 			
 			m.setOriginal_file(file.getOriginalFilename());
 			m.setRename_file(renameFile);
 			
 		}
 		
-		result = mService.insertMember(m);
+		int result = mService.insertMember(m);
 		
 		
 		if(result > 0) {
@@ -110,11 +106,12 @@ public class MemberController {
 		String savePath = root + "/muploadFiles/";
 		
 		File folder = new File(savePath);
-		System.out.println(folder);
+//		System.out.println(folder);
 		
 		if(!folder.exists()) {
 			folder.mkdirs();
 		}
+		
 		
 		// 업로드 시간을 기준으로 파일명 변경
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm");
@@ -176,6 +173,77 @@ public class MemberController {
 		status.setComplete();
 		
 		return "home";
+	}
+	
+	// 회원정보 수정 화면
+	@RequestMapping(value="myInfoView.do", method=RequestMethod.GET)
+	public String myInfoView() {
+		return "member/infoView";
+	}
+	
+	// 회원정보 수정
+	@RequestMapping("mupdate.do")
+	public String memberUpdate(Member m, Model model,
+								HttpServletRequest request,
+								@RequestParam("postcode") String postcode,
+								@RequestParam("mainAddress") String mainAddress,
+								@RequestParam("subAddress") String subAddress,
+								@RequestParam(value="file", required=false) MultipartFile file) {
+		
+
+		String encPwd = bcryptPasswordEncoder.encode(m.getPwd());
+		
+		m.setPwd(encPwd);
+		m.setAddress(postcode+"_"+mainAddress+"_"+subAddress);
+		
+		// 세션값 가져오기
+		HttpSession session = request.getSession();
+		
+		Member member = (Member) session.getAttribute("loginUser");
+		String rFile = member.getRename_file();
+//		System.out.println(rFile);
+		
+		// 파일 경로 저장
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "/muploadFiles/";
+		
+		
+		
+		if(!file.getOriginalFilename().equals("")) {
+			
+			String renameFile = saveFile(file, m, request);
+			
+			System.out.println("오리진 파일 :" + file.getOriginalFilename());
+			
+			m.setOriginal_file(file.getOriginalFilename());
+			m.setRename_file(renameFile);
+			
+		}
+		
+		int result = mService.updateMember(m);
+		
+		
+		if(result > 0) {
+			
+			model.addAttribute("loginUser", m);
+			model.addAttribute("msg","개인정보가 수정되었습니다.");
+            model.addAttribute("url","/home.do");
+            
+            if(rFile != null) {
+	            // 기존에 있던 사진파일 삭제
+	            File reFile = new File(savePath + rFile);
+	            reFile.delete();
+            }
+            
+			return "common/redirect";
+		}else {
+			//회원가입 실패
+            model.addAttribute("msg","개인정보 수정에 실패하셨습니다. 다시 시도해 주세요.");
+            model.addAttribute("url","/myInfoView.do");
+			
+			return "common/redirect";
+		}	
+		
 	}
 	
 	
