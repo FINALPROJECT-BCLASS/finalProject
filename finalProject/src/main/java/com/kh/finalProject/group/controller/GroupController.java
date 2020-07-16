@@ -198,11 +198,10 @@ public class GroupController {
 	// 공지 메인
 	@RequestMapping(value="noticeMain.do", method=RequestMethod.GET)
 	public String noticeMain(Model model, HttpSession session) {
-		int groupNo = (int)session.getAttribute("groupNo");
 		Member loginUser = (Member)session.getAttribute("loginUser");
-		System.out.println("공지 세션 groupNo : " + groupNo);
+		GroupInfo g = (GroupInfo)session.getAttribute("gInfo");
 		System.out.println("공지 세션 로그인 아이디 : " + loginUser.getId());
-		
+		System.out.println("공지 gInfo : " + gInfo);
 		
 		
 		
