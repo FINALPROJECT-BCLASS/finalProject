@@ -119,4 +119,10 @@ public class PlanServiceImpl implements PlanService {
 		return pDao.insertTimetable(t);
 	}
 
+	@Override
+	public ArrayList<Timetable> selectTtList(String id) {
+	
+		return pDao.selectTtList(id);
+	}
+
 }

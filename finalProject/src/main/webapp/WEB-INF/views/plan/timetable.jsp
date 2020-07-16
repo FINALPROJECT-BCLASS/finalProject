@@ -119,6 +119,27 @@
 			
 			$(function(){
 				$("#date").html(today.yyyymmdd());
+				
+				$.ajax({
+        			url: 'ttlist.do',
+        			dataType: 'json',
+        			success: function(data) {
+        				for(var i in data.ttList){
+    	   					var startHour = data.ttList[i].startHour;
+    	   					var startHalf = data.ttList[i].startHalf;
+    	   					if(startHalf == 1) {
+    	   						$("#"+startHour+"half").text(data.ttList[i].start + " " + data.ttList[i].title).css("background-color", "pink");
+    	   					} else {
+    	   						$("#"+startHour).text(data.ttList[i].start + " " + data.ttList[i].title).css("background-color", "pink");
+    	   					}
+    	   				};
+        			},
+        			error:function(request, status, errorData){
+                        alert("error code: " + request.status + "\n"
+                              +"message: " + request.responseText
+                              +"error: " + errorData);
+                    }   
+        		})
 			})
 		</script>
         
@@ -180,203 +201,203 @@
                 <table id="timeTable">
                     <tr>
                         <td class="time">&nbsp;0:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="0"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="0half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;1:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="1"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="1half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;2:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="2"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="2half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;3:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="3"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="3half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;4:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="4"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="4half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;5:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="5"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="5half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;6:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="6"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="6half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;7:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="7"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="7half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;8:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="8"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="8half"></td>
                     </tr>
                     <tr>
-                        <td class="time">&nbsp;8:00</td>
-                        <td class="timeContent"></td>
+                        <td class="time">&nbsp;9:00</td>
+                        <td class="timeContent" id="9"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="9half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;10:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="10"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="10half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;11:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="11"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="11half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;12:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="12"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="12half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;13:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="13"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="13half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;14:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="14"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="14half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;15:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="15"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="15half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;16:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="16"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="16half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;17:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="17"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="17half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;18:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="18"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="18half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;19:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="19"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="19half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;20:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="20"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="20half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;21:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="21"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="21half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;22:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="22"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="22half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;23:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="23"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="23half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;24:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="24"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="24half"></td>
                     </tr>
                 </table>
             </div>

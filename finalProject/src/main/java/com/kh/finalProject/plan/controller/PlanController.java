@@ -113,8 +113,6 @@ public class PlanController {
 		for(McRecord m : mcrList) {
 			JSONObject jObj = new JSONObject();
 			jObj.put("eventTitle", "생리예정일");
-			jObj.put("no", m.getMcrNo());
-			jObj.put("id", m.getId());
 			jObj.put("start", m.getMcrStart());
 			jObj.put("end", m.getMcrEnd());
 			jObj.put("color", "#F781BE");
@@ -125,8 +123,6 @@ public class PlanController {
 		for(McOvulation m : mcoList) {
 			JSONObject jObj = new JSONObject();
 			jObj.put("eventTitle", "가임기");
-			jObj.put("no", m.getMcoNo());
-			jObj.put("id", m.getId());
 			jObj.put("start", m.getMcoStart());
 			jObj.put("end", m.getMcoEnd());
 			jObj.put("color", "#00CC66");
@@ -188,6 +184,57 @@ public class PlanController {
 	public String timetableView() {
 		
 		return "plan/timetable";
+	}
+	
+	@RequestMapping("ttlist.do")
+	public void timetableList(HttpSession session, HttpServletResponse response) throws IOException {
+		response.setContentType("application/json;charset=utf-8");
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String id = loginUser.getId();
+		
+		ArrayList<Timetable> ttList = pService.selectTtList(id);
+		
+		JSONArray jArr = new JSONArray();
+		
+		for(Timetable t : ttList) {
+			int startHour = Integer.parseInt(t.getTtStart().substring(0, 2));
+			int startMinute = Integer.parseInt(t.getTtStart().substring(3));
+			int endHour = Integer.parseInt(t.getTtEnd().substring(0,2));
+			int endMinute = Integer.parseInt(t.getTtEnd().substring(3));
+			
+			int startHalf = 0;
+			if(startMinute > 30) {
+				startHalf = 1;
+			}
+			
+			int endHalf = 0;
+			if(endMinute > 30) {
+				endHalf = 1;
+			}
+			
+			JSONObject jObj = new JSONObject();
+			jObj.put("title", t.getTtTitle());
+			jObj.put("start", t.getTtStart());
+			jObj.put("end", t.getTtEnd());
+			jObj.put("startHour", startHour);
+			jObj.put("startMinute", startMinute);
+			jObj.put("startHalf", startHalf);
+			jObj.put("endHour", endHour);
+			jObj.put("endMinute", endMinute);
+			jObj.put("endHalf", endHalf);
+			jObj.put("color", "#F781BE");
+			
+			jArr.add(jObj);
+		}
+		
+		JSONObject sendJson = new JSONObject();
+		sendJson.put("ttList", jArr);
+		
+		PrintWriter out = response.getWriter();
+		out.print(sendJson);
+		out.flush();
+		out.close();
 	}
 	
 	@RequestMapping("ttinsert.do")

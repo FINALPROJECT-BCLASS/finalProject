@@ -102,4 +102,9 @@ public class PlanDao {
 		return sqlSessionTemplate.insert("planMapper.insertTimetable", t);
 	}
 
+	public ArrayList<Timetable> selectTtList(String id) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("planMapper.selectTtList", id);
+	}
+
 }

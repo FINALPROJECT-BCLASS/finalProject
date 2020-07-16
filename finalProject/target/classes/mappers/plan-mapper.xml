@@ -218,4 +218,11 @@
 		, DEFAULT)
 	</insert>
 	
+	<select id="selectTtList" parameterType="string" resultMap="ttResultSet">
+		SELECT TT_NO, ID, TT_TITLE, TO_CHAR(TT_DATE,'YYYY/MM/DD') "TT_DATE", TT_START, TT_END, TT_COLOR, TT_MEMO, TT_DELETE
+		FROM TIMETABLE
+		WHERE ID=#{id}
+		    AND TT_DELETE='N'
+	</select>
+	
 </mapper>
