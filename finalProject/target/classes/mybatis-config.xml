@@ -13,13 +13,14 @@
 		<typeAlias type="com.kh.finalProject.plan.model.vo.McOvulation" alias="McOvulation"/>	<!-- 예지 -->
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupTable" alias="GroupTable"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupMember" alias="GroupMember"/>
+		<typeAlias type="com.kh.finalProject.group.model.vo.GroupInfo" alias="GroupInfo"/>
 		<typeAlias type="com.kh.finalProject.member.model.vo.Member" alias="Member"/>
 	</typeAliases>
 
 	<mappers>
 		<mapper resource="/mappers/member-mapper.xml"/>
 		<mapper resource="/mappers/plan-mapper.xml"/>	<!-- 예지 -->
-		<mapper resource="mappers/group-mapper.xml"/>
+		<mapper resource="/mappers/group-mapper.xml"/>
 	</mappers>
 	
 </configuration>

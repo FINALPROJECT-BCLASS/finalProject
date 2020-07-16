@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.finalProject.group.model.dao.GroupDao;
+import com.kh.finalProject.group.model.vo.GroupInfo;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupTable;
 import com.kh.finalProject.member.model.vo.Member;
@@ -45,6 +46,11 @@ public class GroupServiceImpl implements GroupService{
 	@Override
 	public int groupNoSelect() {
 		return gDao.groupNoSelect();
+	}
+
+	@Override
+	public int memberNoSelect(GroupInfo gInfo) {
+		return gDao.memberNoSelect(gInfo);
 	}
 
 

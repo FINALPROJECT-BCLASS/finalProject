@@ -43,6 +43,21 @@ body {
     cursur : pointer;
 }
 
+.navi-area > li > a {
+    text-decoration: none !important;
+    display: block;
+    color: rgba(72, 72, 72, 1) !important;
+}
+
+.navi-area > li > a:hover {
+    text-decoration: none !important;
+    display: block;
+    color: rgba(72, 72, 72, 1) !important;
+}
+
+
+
+
 .logo-area {
     
     display: inline-block;
@@ -73,10 +88,11 @@ body {
 
 .sub-navi > li > a {
     padding: 15px 20px;
-    text-decoration: none;
+    text-decoration: none !important;
     display: block;
-    color: rgba(72, 72, 72, 1);
+    color: rgba(72, 72, 72, 1) !important;
 }
+
 
 .navi-area > li:hover > ul {
     border-top: 2px solid #FBD14B;

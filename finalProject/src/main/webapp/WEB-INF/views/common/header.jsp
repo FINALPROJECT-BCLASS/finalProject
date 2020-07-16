@@ -52,20 +52,10 @@
                             <li class="b-radius"><a href="#">Yealy Statistics</a></li>
                     </ul>
                 </li>
-                <li>Group
-                	<c:url var="groupMain" value="groupMain.do">
-							<c:param name="loginUser" value="${sessionScope.loginUser}"/>
-					</c:url>
-                    <ul class="sub-navi">
-                            <li><a href="${groupMain }">Main</a></li>
-                            <li><a href="#">Vote</a></li>
-                            <li><a href="#">Board</a></li>
-                            <li><a href="#">Ladder Game</a></li>
-                            <li><a href="#">Plan</a></li>
-                            <li><a href="#">Account Book</a></li>
-                            <li class="b-radius"><a href="#">Settings</a></li>
-                    </ul>
-                </li>
+               <c:url var="groupMain" value="groupMain.do">
+					<c:param name="loginUser" value="${sessionScope.loginUser}"/>
+				</c:url>
+                <li><a href="${groupMain }" class="groupA">Group</a></li>
             </ul>
             <c:if test="${empty sessionScope.loginUser}">
 	            <c:url var="loginView" value="memberLoginView.do"></c:url>
@@ -80,11 +70,12 @@
 	                <div class="login-area-item">
 	                	<div class="h-profile-image-area">
 	                		<c:if test="${empty loginUser.rename_file }">
-	                		<img class="h-profile-image" src="resources/images/icons/profile_white.png">
+	                			<img class="h-profile-image" src="resources/images/icons/profile_white.png">
 	                		</c:if>
 	                		<c:if test="${!empty loginUser.rename_file }">
-	                		<img class="h-profile-image" src="resources/muploadFiles/${loginUser.rename_file }">
-	                    	</c:if>
+	                		<img class="h-profile-image" src="resources/images/icons/profile_white.png">
+	                			<img class="h-profile-image" src="resources/muploadFiles/${loginUser.rename_file }">
+	                		</c:if>
 	                    </div>
 	                    <div class="hide login-square"></div>
 	                    <ul class="hide login-sub">
