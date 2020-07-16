@@ -83,39 +83,33 @@ public class PlanServiceImpl implements PlanService {
 	}
 
 	@Override
-	public int deleteMcRecord(McRecord m) {
-		
-		return pDao.deleteMcRecord(m);
-	}
-
-	@Override
-	public int deleteMcOvulation(McOvulation m) {
-		
-		return pDao.deleteMcOvulation(m);
-	}
-
-	@Override
-	public int reMcLast(Menstrual m) {
-		
-		return pDao.reMcLast(m);
-	}
-
-	@Override
-	public String selectMcLast(Menstrual m) {
-	
-		return pDao.selectMcLast(m);
-	}
-
-	@Override
-	public int firstMcLast(Menstrual m) {
-		
-		return pDao.firstMcLast(m);
-	}
-
-	@Override
 	public int checkMcLast(Menstrual m) {
 	
 		return pDao.checkMcLast(m);
+	}
+
+	@Override
+	public int selectGap(String id) {
+		
+		return pDao.selectGap(id);
+	}
+	
+	@Override
+	public int updateMcrStart(McRecord m) {
+		
+		return pDao.updateMcrStart(m);
+	}
+
+	@Override
+	public int updateMcrEnd(McRecord m) {
+		
+		return pDao.updateMcrEnd(m);
+	}
+
+	@Override
+	public int updateMcOvulation(McOvulation m) {
+		
+		return pDao.updateMcOvulation(m);
 	}
 
 }

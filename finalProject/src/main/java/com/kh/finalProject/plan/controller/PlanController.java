@@ -158,42 +158,28 @@ public class PlanController {
 		Menstrual m = pService.selectMenstrual(id);
 		
 		if(result1 > 0) {
-			ArrayList<McRecord> afterMcrList = pService.afterMcrList(m);
 			
-			for(int i = 0; i < afterMcrList.size(); i++) {
-				int result2 = 0;
-				result2 += pService.deleteMcRecord(afterMcrList.get(i));
-			}
+			int gap = pService.selectGap(id);
+			
+			ArrayList<McRecord> afterMcrList = pService.afterMcrList(m);
 			
 			ArrayList<McOvulation> afterMcoList = pService.afterMcoList(m);
 			
-			for(int i = 0; i < afterMcoList.size(); i++) {
-				int result3 = 0;
-				result3 += pService.deleteMcOvulation(afterMcoList.get(i));
-			}
-			
-			int result4 = pService.reMcLast(m);
-			
-			if(result4 > 0) {
-				String mcLast = pService.selectMcLast(m);
-				
-				if(mcLast == null) {
-					int result5 = pService.firstMcLast(m);
-				}
-			}
-			
 			for(int i = 0; i < afterMcrList.size(); i++) {
-				Menstrual updateM = pService.selectMenstrual(id);
+				afterMcrList.get(i).setGap(gap*(i+1));
 				
-				if(i == 0) {
-					int result6 = pService.insertMcRecord(updateM);
-					int result8 = pService.updateMcLast(updateM);
-				} else {
-					int result6 = pService.insertMcRecord(updateM);
-					int result7 = pService.insertMcOvulation(updateM);
-					int result8 = pService.updateMcLast(updateM);					
-				}
+				int result2 = 0;
+				result2 += pService.updateMcrStart(afterMcrList.get(i));
 				
+				int result3 = 0;
+				result3 += pService.updateMcrEnd(afterMcrList.get(i));
+			}
+			
+			for(int i = 0; i < afterMcoList.size(); i++) {
+				afterMcoList.get(i).setGap(gap*(i+1));
+				
+				int result4 = 0;
+				result4 += pService.updateMcOvulation(afterMcoList.get(i));
 			}
 			
 			return "redirect:mcview.do";

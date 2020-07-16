@@ -71,34 +71,29 @@ public class PlanDao {
 		return (ArrayList)sqlSessionTemplate.selectList("planMapper.afterMcoList", m);
 	}
 
-	public int deleteMcRecord(McRecord m) {
-		
-		return sqlSessionTemplate.delete("planMapper.deleteMcRecord", m);
-	}
-
-	public int deleteMcOvulation(McOvulation m) {
-		
-		return sqlSessionTemplate.delete("planMapper.deleteMcOvulation", m);
-	}
-
-	public int reMcLast(Menstrual m) {
-		
-		return sqlSessionTemplate.update("planMapper.reMcLast", m);
-	}
-
-	public String selectMcLast(Menstrual m) {
-		
-		return sqlSessionTemplate.selectOne("planMapper.selectMcLast", m);
-	}
-
-	public int firstMcLast(Menstrual m) {
-		
-		return sqlSessionTemplate.update("planMapper.firstMcLast", m);
-	}
-
 	public int checkMcLast(Menstrual m) {
 	
 		return sqlSessionTemplate.selectOne("planMapper.checkMcLast", m);
+	}
+
+	public int selectGap(String id) {
+		
+		return sqlSessionTemplate.selectOne("planMapper.selectGap", id);
+	}
+	
+	public int updateMcrStart(McRecord m) {
+
+		return sqlSessionTemplate.update("planMapper.updateMcrStart", m);
+	}
+
+	public int updateMcrEnd(McRecord m) {
+	
+		return sqlSessionTemplate.update("planMapper.updateMcrEnd", m);
+	}
+
+	public int updateMcOvulation(McOvulation m) {
+		
+		return sqlSessionTemplate.update("planMapper.updateMcOvulation", m);
 	}
 
 }

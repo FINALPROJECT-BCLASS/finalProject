@@ -8,7 +8,8 @@
 		<result property="mcCycle" column="MC_CYCLE"/>
 		<result property="mcPeriod" column="MC_PERIOD"/>
 		<result property="mcLast" column="MC_LAST"/>
-		
+		<result property="mcUpdate" column="MC_UPDATE"/>
+		<result property="mcPreCycle" column="MC_PRECYCLE"/>
 		<result property="mcDelete" column="MC_DELETE"/>
 	</resultMap>
 
@@ -36,8 +37,9 @@
 	</select>
 	
 	<select id="selectMenstrual" parameterType="string" resultMap="mcResultSet">
-		SELECT ID, TO_CHAR(MC_FIRST, 'YYYY-MM-DD') "MC_FIRST", MC_CYCLE
-		    , MC_PERIOD, TO_CHAR(MC_LAST, 'YYYY-MM-DD') "MC_LAST", MC_DELETE
+		SELECT ID, TO_CHAR(MC_FIRST, 'YYYY-MM-DD') "MC_FIRST", MC_CYCLE, MC_PERIOD
+			, TO_CHAR(MC_LAST, 'YYYY-MM-DD') "MC_LAST", TO_CHAR(MC_UPDATE, 'YYYY-MM-DD')
+			, MC_PRECYCLE, MC_DELETE
 		FROM MENSTRUAL_CALENDAR
 		WHERE ID=#{id}
 		    AND MC_DELETE='N'
@@ -50,6 +52,7 @@
 			, DEFAULT
 			, DEFAULT
 			, TO_DATE(#{mcFirst},'YYYY-MM-DD')+28
+			, DEFAULT
 			, DEFAULT
 			, DEFAULT
 		)
@@ -100,6 +103,7 @@
 		SET MC_CYCLE=#{mcCycle}
 			, MC_PERIOD=#{mcPeriod}
 			, MC_UPDATE=SYSDATE
+			, MC_PRECYCLE=MC_CYCLE
 		WHERE ID=#{id}
 	</update>
 	
@@ -162,5 +166,31 @@
 		    AND EXTRACT(MONTH FROM MCR_START)>EXTRACT(MONTH FROM SYSDATE)
 		    AND MCR_DELETE='N'
 	</select>
+	
+	<select id="selectGap" parameterType="string" resultType="_int">
+		SELECT MC_PRECYCLE-MC_CYCLE
+		FROM MENSTRUAL_CALENDAR
+		WHERE ID=#{id}
+		    AND MC_DELETE='N'
+	</select>
+	
+	<update id="updateMcrStart" parameterType="McRecord">
+		UPDATE M_CALENDAR_RECORD
+		SET MCR_START=MCR_START-#{gap}
+		WHERE MCR_NO=#{mcrNo}
+	</update>
+	
+	<update id="updateMcrEnd" parameterType="McRecord">
+		UPDATE M_CALENDAR_RECORD
+		SET MCR_END=MCR_START+(SELECT MC_PERIOD FROM MENSTRUAL_CALENDAR WHERE ID=#{id})
+		WHERE MCR_NO=#{mcrNo}
+	</update>
+	
+	<update id="updateMcOvulation" parameterType="McOvulation">
+		UPDATE M_CALENDAR_OVULATION
+		SET MCO_START=MCO_START-#{gap},
+		    MCO_END=MCO_END-#{gap}
+		WHERE MCO_NO=#{mcoNo}
+	</update>
 	
 </mapper>

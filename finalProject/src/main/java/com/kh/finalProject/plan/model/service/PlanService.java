@@ -25,21 +25,19 @@ public interface PlanService {
 	Menstrual selectMenstrual(String id);
 
 	int updateMenstrual(Menstrual m);
-
+ 
 	ArrayList<McRecord> afterMcrList(Menstrual m);
 
 	ArrayList<McOvulation> afterMcoList(Menstrual m);
 
-	int deleteMcRecord(McRecord mcRecord);
-
-	int deleteMcOvulation(McOvulation mcOvulation);
-
-	int reMcLast(Menstrual m);
-
-	String selectMcLast(Menstrual m);
-
-	int firstMcLast(Menstrual m);
-
 	int checkMcLast(Menstrual m);
+
+	int selectGap(String id);
+	
+	int updateMcrStart(McRecord m);
+
+	int updateMcrEnd(McRecord m);
+
+	int updateMcOvulation(McOvulation m);
 
 }
