@@ -8,10 +8,13 @@
 	
 	<typeAliases>
 		<typeAlias type="com.kh.finalProject.member.model.vo.Member" alias="Member"/>
+		<typeAlias type="com.kh.finalProject.Diet.model.vo.Inbody" alias="Inbody"/> 
+		<typeAlias type="com.kh.finalProject.Diet.model.vo.diet" alias="Diet"/>
 	</typeAliases>
 
 	<mappers>
 		<mapper resource="/mappers/member-mapper.xml"/>
+		<mapper resource="/mappers/diet-mapper.xml"/>
 	</mappers>
 	
 </configuration>

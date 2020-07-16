@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="DietMapper">
+
+	<resultMap type="Inbody" id="InbodyResultSet">
+		<id property="inNo" column="IN_NO"/>
+			<result property="id" column="ID"/>
+			<result property="inWeight" column="IN_WEIGHT"/>
+			<result property="inMuscle" column="IN_MUSCLE"/>
+			<result property="inFat" column="IN_FAT"/>
+			<result property="inDate" column="IN_DATE"/>
+			<result property="inDelete" column="IN_DELETE"/>
+	</resultMap>
+
+<insert id="InsertInBody" parameterType="Inbody">
+	INSERT INTO INBODY
+	VALUES(SEQ_INB.NEXTVAL
+			,#{id}
+			,#{inWeight}
+			,#{inMuscle}
+			,#{inFat}
+			,#{inDate}
+			,DEFAULT)
+</insert>
+
+<select id="selectInbody" parameterType="string" resultMap="InbodyResultSet">
+	SELECT *
+	FROM INBODY
+	WHERE IN_DATE = #{today}
+</select>
+</mapper>

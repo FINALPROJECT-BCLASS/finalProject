@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -144,6 +145,7 @@
 <body>
 	<jsp:include page="../common/header.jsp"/>
 	<jsp:include page="../common/sidenaviDiet.jsp"/>
+	<input type="hidden" name="today" value="${today }" id="today">
 	<div class="rightArea">
 		<h1 class="DietTitle">Today's Diet</h1>
 		<table id="Dietbar">
@@ -185,7 +187,27 @@
   			</tr>
   		</table>
   		<!--  form 추가부분2 -->
+  		<c:if test="${!empty inbody }">
 		<table cellpadding=8px; class="DietInbody">
+  			<tr>
+  				<td>몸무게</td>
+  				<td><div>${ inbody.inWeight}</div></td>
+  			</tr>
+  			<tr>
+  				<td>근육량</td>
+  				<td><div>${ inbody.inMuscle}</div></td>
+  			</tr>
+  			<tr>
+  				<td>체지방량</td>
+  				<td><div>${ inbody.inFat}</div></td>
+  			</tr>
+  			<tr>
+  				<td colspan="2"><button class="default-btn b-yell" style="float:right;" id="InbodyInsertbtn">Edit</button></td>
+  			</tr>
+  		</table>
+  		</c:if>
+  		<c:if test="${empty inbody }">
+  		<table cellpadding=8px; class="DietInbody">
   			<tr>
   				<td>몸무게</td>
   				<td><div>내용</div></td>
@@ -202,6 +224,7 @@
   				<td colspan="2"><button class="default-btn b-yell" style="float:right;" id="InbodyInsertbtn">Edit</button></td>
   			</tr>
   		</table>
+  		</c:if>
   		</div>
 	</div>
 	<jsp:include page="../common/footer.jsp"/>
@@ -210,7 +233,7 @@
 	<div class="modal fade" id="modal" >
   				<div class="modal-dialog">
   					  <div class="modal-content">
-  					  		<span class="ModalTitle"></span>
+  					  		<span class="ModalTitle"><div id="foodwhen"></div></span>
   					  		<table cellpadding="10px" class="modal-item">
   					  			<tr>
   					  				<td><input type="checkbox"> 라면</td>
@@ -220,6 +243,7 @@
   					  		<div class="button-area">
   					  			<button class="default-btn b-yell" id="TodayDietInsertbtn">Add</button>
   					  			<button class="default-btn b-yell">Edit</button>
+
   					  		</div>
   					  </div>
   				</div>
@@ -228,45 +252,49 @@
 <script>
 		$(function(){
 			$("#InbodyInsertbtn").click(function(){
-				location.href="InbodyInsertView.do";
+				var today = $("#today").val();
+				console.log(today);
+				  location.href="InbodyInsertView.do?today=" + today; 
 			})
 		})
 	
 		$(function(){
 			$("#TodayDietInsertbtn").click(function(){
- 				location.href="TodayDietInsertView.do";
+				var today = $("#today").val();
+				var dietwhen = $("#foodwhen").html();
+ 				location.href="TodayDietInsertView.do?today=" + today +"&&dietwhen="+ dietwhen;
 			})
 		});
 
 		
 	$(function(){
 		$("#Breakfast").click(function(){
-			$(".ModalTitle").html("아침");
+			$("#foodwhen").html("아침");
 			$("#modal").modal();
 		})
 		
 		$("#Morningsanck").click(function(){
-			$(".ModalTitle").html("아침간식");
+			$("#foodwhen").html("아침간식");
 			$("#modal").modal();
 		})
 		
 		$("#Lunch").click(function(){
-			$(".ModalTitle").html("점심");
+			$("#foodwhen").html("점심");
 			$("#modal").modal();
 		})
 		
 		$("#Lunchsnack").click(function(){
-			$(".ModalTitle").html("점심간식");
+			$("#foodwhen").html("점심간식");
 			$("#modal").modal();
 		})
 		
 		$("#Dinner").click(function(){
-			$(".ModalTitle").html("저녁");
+			$("#foodwhen").html("저녁");
 			$("#modal").modal();
 		})
 		
 		$("#Dinnersnack").click(function(){
-			$(".ModalTitle").html("저녁간식");
+			$("#foodwhen").html("저녁간식");
 			$("#modal").modal();
 		})
 		

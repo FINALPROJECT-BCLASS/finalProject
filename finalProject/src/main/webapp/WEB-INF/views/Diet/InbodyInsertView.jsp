@@ -37,19 +37,20 @@
 	<jsp:include page="../common/sidenaviDiet.jsp"/>
 		<div class="rightArea">
 			<h1 class="DietTitle">Edit Inbody</h1>
-			<form>
+			<form action="InbodyInsert.do" method="post" >
 				<table cellpadding="8px">
+				<input type="hidden" value="${today }" id="In_date" name="inDate">
 					<tr>
 						<td>체중</td>
-						<td><input type="text" id="Weight"></td>
+						<td><input type="text" id="In_weight" name="inWeight"></td>
 					</tr>
 					<tr>
 						<td>골격근량</td>
-						<td><input type="text" id="Muscle"></td>
+						<td><input type="text" id="In_muscle" name="inMuscle"></td>
 					</tr>
 					<tr>
 						<td>체지방량</td>
-						<td><input type="text" id="Fat"> <button type="submit" class="default-btn b-yell">Add</button></td>
+						<td><input type="text" id="In_fat" name="inFat"> <button type="submit" class="default-btn b-yell">Add</button></td>
 					</tr>
 				</table>
 			</form>

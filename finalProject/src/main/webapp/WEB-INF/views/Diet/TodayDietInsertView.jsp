@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,35 +54,37 @@
 		<div class="rightArea">
 			<h1 class="DietTitle">Add Diet</h1>
 			
-			<form>
+			<form action="DietInsert.do" method="post">
 				<table cellpadding="8px">
+					<input type="hidden" value="${today }" id="In_date" name="dtDate">
+					<input type="hidden" value="${dietwhentime }" name="dtWehen">
 					<tr>
 						<td>음식명</td>
-						<td><input type="text" id="FoodName"></td>
+						<td><input type="text" id="FoodName" name="diFood"></td>
 					</tr>
 					<tr>
 						<td>수량</td>
-						<td><input type="text" id="FoodCount"> <input type="text" id="FoodCountUnit"></td>
+						<td><input type="text" id="FoodCount" name="foodCount"> <input type="text" id="FoodCountUnit" name="foodCountUnit"></td>
 					</tr>
 					<tr>
 						<td>칼로리</td>
-						<td><input type="text" id="Kcal"></td>
+						<td><input type="text" id="Kcal" name="diKcal"></td>
 					</tr>
 					<tr>
 						<td>탄수화물</td>
-						<td><input type="text" id="Clabo"></td>
+						<td><input type="text" id="Clabo" name="diCar"></td>
 					</tr>
 					<tr>
 						<td>단백질</td>
-						<td><input type="text" id="Protain"></td>
+						<td><input type="text" id="Protain" name="diPro"></td>
 					</tr>
 					<tr>
 						<td>지방</td>
-						<td><input type="text" id="Fat"></td>
+						<td><input type="text" id="Fat" name="diFat"></td>
 					</tr>
 					<tr>
 						<td>나트륨</td>
-						<td><input type="text" id="Natrium"> <button type="submit" class="default-btn b-yell">Add</button></td>
+						<td><input type="text" id="Natrium" name="diNa"> <button type="submit" class="default-btn b-yell">Add</button></td>
 					</tr>
 				</table>
 			</form>
