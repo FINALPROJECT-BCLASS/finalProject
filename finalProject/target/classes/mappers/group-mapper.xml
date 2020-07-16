@@ -24,10 +24,12 @@
 		<result property="gmDelete" column="GM_DELETE"/>
 	</resultMap>
 	
+
 	<resultMap id="memberResultSet" type="Member">
 		<id property="id" column="ID"/>
 		<result property="name" column="NAME"/>
 	</resultMap>
+
 
 	<!-- 그룹 메인 및 생성 -->	
 	<select id="selectGroup" resultMap="groupTableResultSet">
@@ -93,5 +95,14 @@
 	</insert>
 	
 	<!-- 그룹 메인 및 생성 end -->
+	
+	<!-- 그룹 캘린더 -->
+	<select id="memberNoSelect" parameterType="GroupInfo" resultType="_int">
+		SELECT GM_NO
+		FROM GROUP_MEMBER
+		WHERE G_NO = #{groupNo} 
+		AND GM_ID = #{loginUserId}
+	</select>
+	<!-- 그룹 캘린더 end-->
 	
 </mapper>

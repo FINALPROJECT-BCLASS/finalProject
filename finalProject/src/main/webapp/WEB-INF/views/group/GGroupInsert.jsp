@@ -160,7 +160,7 @@
 				}
 			})
 			
-            // 클릭한 이름 삽입 (★중복적용 안되게 해야됨)
+            // 클릭한 이름 삽입 
               $(document).on("click", ".oneSearchBox", function(){
             	  $(this).css("display","none");
             	  var $searchNameAfter ="";

@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.finalProject.group.model.vo.GroupInfo;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupTable;
 import com.kh.finalProject.member.model.vo.Member;
@@ -39,8 +40,11 @@ public class GroupDao {
 
 
 	public int groupNoSelect() {
-		// TODO Auto-generated method stub
 		return sqlSessionTemplate.selectOne("groupMapper.groupNoSelect");
+	}
+
+	public int memberNoSelect(GroupInfo gInfo) {
+		return sqlSessionTemplate.selectOne("groupMapper.memberNoSelect",gInfo);
 	}
 	
 	

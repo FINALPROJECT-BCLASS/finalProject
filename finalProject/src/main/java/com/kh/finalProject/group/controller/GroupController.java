@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.kh.finalProject.group.model.service.GroupService;
+import com.kh.finalProject.group.model.vo.GroupInfo;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupMemberList;
 import com.kh.finalProject.group.model.vo.GroupTable;
@@ -39,8 +40,16 @@ public class GroupController {
 	@Autowired
 	GroupMemberList gmList;
 	
+	@Autowired
+	GroupInfo gInfo;
 	
-	
+	// 그룹 번호 세션 삭제
+	@RequestMapping(value="groupSessionDelete.do", method=RequestMethod.GET)
+	public String groupSessionDelete(Model model , HttpSession session) {
+		session.removeAttribute("gInfo");		
+		
+		return "redirect:groupMain.do";
+	}
 	
 	// 그룹 메인
 	@RequestMapping(value="groupMain.do", method=RequestMethod.GET)
@@ -167,20 +176,40 @@ public class GroupController {
 	
 	
 	// ---------------------------------- 캘린더 ------------------------------------------------------
-	// 캘린더 메인
+	// 캘린더 메인 (그룹번호 세션생성)
 	@RequestMapping(value="groupCalendarMain.do", method=RequestMethod.GET)
 	public String CalendarMain(Model model, HttpSession session, Member m, @RequestParam("groupNo") int groupNo) {
 		Member loginUser = (Member)session.getAttribute("loginUser");		
 		String id = loginUser.getId();
-		System.out.println("캘린더 메인 id : " + id);
+				
+		gInfo.setLoginUserId(id);
+		gInfo.setGroupNo(groupNo);
 		
-		System.out.println("캘린더 메인 groupInfo : " + groupNo);
+		int memberNo = gService.memberNoSelect(gInfo);
+		gInfo.setGmNo(memberNo);
 		
-		// 아이디랑 그룹번호 세션만들어주기.
+		
+		session.setAttribute("gInfo", gInfo);
 		
 		return "group/GCalendarMain";
 		
 	}
+	
+	// 공지 메인
+	@RequestMapping(value="noticeMain.do", method=RequestMethod.GET)
+	public String noticeMain(Model model, HttpSession session) {
+		int groupNo = (int)session.getAttribute("groupNo");
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		System.out.println("공지 세션 groupNo : " + groupNo);
+		System.out.println("공지 세션 로그인 아이디 : " + loginUser.getId());
+		
+		
+		
+		
+		return "group/GNoticeMain";
+	}
+
+	
 	
 	// 게시판 메인
 	@RequestMapping(value="boardMain.do", method=RequestMethod.GET)
@@ -188,9 +217,5 @@ public class GroupController {
 		return "group/GBoardMain";
 	}
 
-	// 공지 메인
-	@RequestMapping(value="noticeMain.do", method=RequestMethod.GET)
-	public String noticeMain(Model model) {
-		return "group/GNoticeMain";
-	}
+	
 }
