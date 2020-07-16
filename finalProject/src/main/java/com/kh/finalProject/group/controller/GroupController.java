@@ -2,12 +2,16 @@ package com.kh.finalProject.group.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -202,7 +206,7 @@ public class GroupController {
 	// ---------------------------------- 공지 ------------------------------------------------------
 	// 공지 메인
 	@RequestMapping(value="noticeMain.do", method=RequestMethod.GET)
-	public ModelAndView noticeMain(ModelAndView mv, HttpSession session, @RequestParam(value="page", required=false) Integer page) {
+	public ModelAndView noticeMain(HttpServletResponse response, ModelAndView mv, HttpSession session, @RequestParam(value="page", required=false) Integer page) throws JsonIOException, IOException {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		GroupInfo gInfo = (GroupInfo)session.getAttribute("gInfo");
 		
@@ -224,21 +228,92 @@ public class GroupController {
 		ArrayList<GroupNotice> noticeList = gService.selectNoticeList(pi);
 		System.out.println("공지 : " + noticeList );
 		
+		
+		
 		if(noticeList != null) {
+			
 			mv.addObject("noticeList",noticeList);
 			mv.addObject("pi",pi);
 			mv.setViewName("group/GNoticeMain");
 			
+			
 		}else {
-//			mv.setViewName("group/GNoticeMain");
-			mv.setViewName("<script> alert('공지사항 등록이 실패하였습니다.'); history.back(); </script>");
+			mv.setViewName("group/GNoticeMain");
+//			mv.setViewName("<script> alert('공지사항 등록이 실패하였습니다.'); history.back(); </script>");
 		}
 
 
 		return mv;
 	}
 
-	
+	// 공지 메인2
+		@RequestMapping(value="noticeMain2.do", method=RequestMethod.GET)
+		public ModelAndView noticeMain2(HttpServletResponse response, ModelAndView mv, HttpSession session, @RequestParam(value="page", required=false) Integer page) throws JsonIOException, IOException {
+			System.out.println("여긴 오니?");
+			
+			Member loginUser = (Member)session.getAttribute("loginUser");
+			GroupInfo gInfo = (GroupInfo)session.getAttribute("gInfo");
+			
+			System.out.println("page : " + page);
+			int currentPage = 1;
+			if(page != null) {
+				currentPage = page;
+			}
+			
+			int listCount = gService.getListCount();
+			System.out.println("공지 listCount : " + listCount);
+			
+			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+			
+			pi.setLoginUserId(gInfo.getLoginUserId());
+			pi.setGroupNo(gInfo.getGroupNo());
+			pi.setGmNo(gInfo.getGmNo());
+			
+			ArrayList<GroupNotice> noticeList = gService.selectNoticeList(pi);
+			System.out.println("공지 : " + noticeList );
+			
+			response.setContentType("application/json;charset=utf-8");
+			
+			JSONArray jArr = new JSONArray();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			if(noticeList != null) {
+				for(GroupNotice n : noticeList) {
+					JSONObject jObj = new JSONObject();
+					jObj.put("gnNo", n.getGnNo());
+					jObj.put("gmNo", n.getGmNo());
+					jObj.put("gNo", n.getgNo());
+					jObj.put("gnTitle", n.getGnTitle());	
+					jObj.put("gnCon", n.getGnCon());
+					jObj.put("gnDate",  n.getGnDate());
+					jObj.put("gnDelete", n.getGnDelete());
+					jObj.put("gnCount", n.getGnCount());
+					jObj.put("name", n.getName());
+					
+					
+					jArr.add(jObj);
+				}
+				
+				JSONObject sendJson = new JSONObject();
+				sendJson.put("noticeList", jArr);
+				
+				PrintWriter out = response.getWriter();
+				out.print(sendJson);
+				out.flush();
+				out.close();
+				
+				
+//				Gson gson = new GsonBuilder().setDateFormat("yyyy년 MM월 dd일").create();
+//				gson.toJson(noticeList, response.getWriter());
+
+			}else {
+				mv.setViewName("group/GNoticeMain");
+//				mv.setViewName("<script> alert('공지사항 등록이 실패하였습니다.'); history.back(); </script>");
+			}
+
+
+			return mv;
+		}
+
 	
 	// 게시판 메인
 	@RequestMapping(value="boardMain.do", method=RequestMethod.GET)

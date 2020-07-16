@@ -95,16 +95,14 @@
 	             
 	             	<c:if test="${!empty noticeList }">
 		              <c:forEach var="n" items="${noticeList }">
-		              <ul class="noticeUl">
-		              	<li>
+		            
 			              <table class="noticeBoardTb">
 			                <tr><td><div class="noticeBoardTitle">${n.gnTitle }</div></td></tr>
 			                <tr><td><div class="noticeBoardWriter">&nbsp;${n.name }</div></td></tr>
 			                <tr><td><div class="noticeBoardDate">${n.gnDate }</div></td></tr>
 			                <tr><td><div class="noticeBoardContent">${n.gnCon }</div></td></tr>
 			              </table>
-		              	</li>
-		              </ul>
+		            
 		              </c:forEach>
 	             </c:if>
              
@@ -121,17 +119,22 @@
              $(".groupNotice").scroll(function(){
                  let $window = $(this);
                  let scrollTop = $window.scrollTop();
+                 /* let windowHeight = $window.height(); */
                  let windowHeight = $window.height();
-                 let documentHeight = $(document).height();
+                 let documentHeight = $(window).height();
+                 /* let documentHeight = $(document).height(); */
+                 
                  
                  console.log("documentHeight:" + documentHeight + " | scrollTop:" + scrollTop + " | windowHeight: " + windowHeight );
+                 /* console.log("windowHeight:" + windowHeight + " | scrollTop:" + scrollTop  ); */
                  
                  // scrollbar의 thumb가 바닥 전 30px까지 도달 하면 리스트를 가져온다.
-                 if( scrollTop + windowHeight + 30 > documentHeight ){
+                 if( scrollTop + 30 < windowHeight  ){
+                	 console.log("if문 안에 오니? ");
                      fetchList();
                  }
              })
-             fetchList();
+             /* fetchList(); */
          })
          
          let fetchList = function(){
@@ -143,45 +146,92 @@
              // renderList 함수에서 html 코드를 보면 <li> 태그에 data-no 속성이 있는 것을 알 수 있다.
              // ajax에서는 data- 속성의 값을 가져오기 위해 data() 함수를 제공.
              /* let page = $(".noticeUl li").last().data("no") || 0; */
-             let page = "<c:url var='noticeMain' value='noticeMain.do' ><c:param name='page' value='${pi.currentPage+1}'/></c:url>";
+             let page = "<c:url var='noticeMain' value='noticeMain2.do' ><c:param name='page' value='${pi.currentPage+1}'/></c:url>";
              
              
              $.ajax({
                  url:"${noticeMain}",
                  type: "GET",
                  dataType: "json",
-                 success: function(result){
-                	 console.log("ajax result : " + result);
+                 success: function(data){
+                	 /* console.log("ajax result : " + data); */
+                	 console.log("성공엔 오니?");
                      // 컨트롤러에서 가져온 방명록 리스트는 result.data에 담겨오도록 했다.
                      // 남은 데이터가 5개 이하일 경우 무한 스크롤 종료
-                     let length = result.data.length;
+                	 
+                	 let length =  data.noticeList.length;
+                	 console.log("length : " + length);
                      if( length < 5 ){
                          isEnd = true;
                      }
-                     $.each(result.data, function(index, vo){
+                     
+                     for(i in data.noticeList){
+                    	
+                    	 
+                    	 
+                    	var gnNo = data.noticeList[i].gnTitle;
+                    	console.log("gnNo : " + gnNo);
+                    	var $groupNotice = $(".groupNotice");
+                    	var $noticeBoardTb = $("<table>");
+                    	var $tr = $("<tr>");
+                    	var $td = $("<td>");
+                    	var $noticeBoardTitle = $("<div>").text(data.noticeList[i].gnTitle).attr("class","noticeBoardTitle");
+                    	var $noticeBoardWriter = $("<div>").text(data.noticeList[i].name).attr("class","noticeBoardWriter");
+                    	var $noticeBoardDate = $("<div>").text(data.noticeList[i].gnDate).attr("class","noticeBoardDate");
+                    	var $noticeBoardContent = $("<div>").text(data.noticeList[i].gnCon).attr("class","noticeBoardContent");
+                    	
+                    	$groupNotice.append($noticeBoardTb);
+                    	$noticeBoardTb.append($tr);
+                    	$tr.append($td);
+                    	$td.append($noticeBoardTitle);
+                    	$tr.append($td);
+                    	$td.append($noticeBoardWriter);
+                    	$tr.append($td);
+                    	$td.append($noticeBoardDate);
+                    	$tr.append($td);
+                    	$td.append($noticeBoardContent);
+            
+                    	
+                    	
+                     }
+                    
+                     
+                     
+                     
+                     
+                     
+                   
+                    /*  $.each(data.noticeList[i], function(index, vo){
                          renderList(false, vo);
-                     })
-                 }
+                     }) */
+                 },
+                 error:function(request, status, errorData){
+						alert("error code: " + request.status + "\n"
+								+"message: " + request.responseText
+								+"error: " + errorData);
+					}
              });
          }
          
-         let renderList = function(mode, vo){
+         /* let renderList = function(mode, vo){
              // 리스트 html을 정의
-             let html = "<li data-no='"+ vo.no +"'>" +
+             let html = "<li data-no='"+ vo.gnNo +"'>" +
                  "<strong>"+ vo.name +"</strong>" +
                  "<p>"+ vo.content.replace(/\n/gi, "<br>") +"</p>" +
                  "<strong></strong>" +
                  "<a href='#' data-no='"+ vo.no +"'>삭제</a>" +
                  "</li>"
              
+             var name = "<div class='ajax'>"+ vo.name+"</div>";    
              if( mode ){
+            	 $(".btnList").append(name);
                  $(".groupNotice").prepend(html);
              }
              else{
                  $(".groupNotice").append(html);
              }
          }
-	         
+	      */    
 
         	
          </script>
