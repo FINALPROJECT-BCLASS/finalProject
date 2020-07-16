@@ -12,7 +12,7 @@
 
     #listTable td{
         border: 1px solid;
-        border-color: rgba(72, 72, 72, 1);
+        border-color: #484848;
         text-align: center;
     }
 
@@ -91,7 +91,7 @@
 
     #addBtnArea{
         display: inline-block;
-        width: 580px;
+        width: 450px;
         text-align: right;
     }
     
@@ -106,15 +106,30 @@
     <section>
 
 		<jsp:include page="../common/sidenavi.jsp"/>
+		
+		<script>			
+			var today = new Date();
+		
+			Date.prototype.yyyymmdd = function() {
+		    	var yyyy = this.getFullYear().toString();
+		      	var mm = (this.getMonth() + 1).toString();
+		      	var dd = this.getDate().toString();
+		      	return  yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]);
+		  	}
+			
+			$(function(){
+				$("#date").html(today.yyyymmdd());
+			})
+		</script>
         
         <br><br>
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8">
                 <a href="#" style="font-size: 30px; text-decoration: none; color: #2860E1"><</a>&nbsp;
-                <span style="font-size: 30px;">2020.07.05</span>&nbsp;
+                <span style="font-size: 30px;" id="date"></span>&nbsp;
                 <a href="#" style="font-size: 30px; text-decoration: none; color: #2860E1">></a>
-                &nbsp;<button type="button" class="default-btn">Select</button>
+                &nbsp;<input type="date" id="selectDate">
                 <div id="addBtnArea">
                     <button type="button" class="default-btn" data-toggle="modal" data-target="#addModal">Add</button>
                 </div>
@@ -125,25 +140,26 @@
                                 <button type="button" class="close" data-dismiss="modal">×</button>
                             </div>
                             <div class="modal-body" align="center">
-                                <form>
+                                <form action="ttinsert.do" method="post">
+                                	<input type="hidden" value="${loginUser.id }" name="id">
                                     <table id="addTable">
                                         <tr>
                                             <td><b>Title</b></td>
                                             <td>
-                                            	<input type="text" name="planTitle" size="30">
+                                            	<input type="text" name="ttTitle" size="30">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td><b>Date</b></td>
                                             <td>
-                                            	<input type="date" name="planDate" style="width: 250px;">
+                                            	<input type="date" name="ttDate" style="width: 250px;">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td><b>Time</b></td>
                                             <td>
-                                                <input type="time" name="planStart"> - 
-                                                <input type="time" name="planEnd">
+                                                <input type="time" name="ttStart"> - 
+                                                <input type="time" name="ttEnd">
                                             </td>
                                         </tr>
                                         <tr>
@@ -151,7 +167,7 @@
                                         </tr>
                                         <tr>
                                             <td colspan="2">
-                                                <textarea cols="40" rows="5"></textarea>
+                                                <textarea name="ttMemo" cols="40" rows="5"></textarea>
                                             </td>
                                         </tr>
                                     </table>

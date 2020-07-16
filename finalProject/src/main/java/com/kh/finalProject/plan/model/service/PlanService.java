@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.kh.finalProject.plan.model.vo.McOvulation;
 import com.kh.finalProject.plan.model.vo.McRecord;
 import com.kh.finalProject.plan.model.vo.Menstrual;
+import com.kh.finalProject.plan.model.vo.Timetable;
 
 public interface PlanService {
 
@@ -39,5 +40,7 @@ public interface PlanService {
 	int updateMcrEnd(McRecord m);
 
 	int updateMcOvulation(McOvulation m);
+
+	int insertTimetable(Timetable t);
 
 }

@@ -29,6 +29,18 @@
 		<result property="mcoDelete" column="MCO_DELETE"/>
 	</resultMap>
 	
+	<resultMap type="Timetable" id="ttResultSet">
+		<id property="ttNo" column="TT_NO"/>
+		<result property="id" column="ID"/>
+		<result property="ttTitle" column="TT_TITLE"/>
+		<result property="ttDate" column="TT_DATE"/>
+		<result property="ttStart" column="TT_START"/>
+		<result property="ttEnd" column="TT_END"/>
+		<result property="ttColor" column="TT_COLOR"/>
+		<result property="ttMemo" column="TT_MEMO"/>
+		<result property="ttDelete" column="TT_DELETE"/>
+	</resultMap>
+	
 	<select id="checkInfo" parameterType="string" resultType="_int">
 		SELECT COUNT(*)
 		FROM MENSTRUAL_CALENDAR
@@ -192,5 +204,18 @@
 		    MCO_END=MCO_END-#{gap}
 		WHERE MCO_NO=#{mcoNo}
 	</update>
+	
+	<insert id="insertTimetable" parameterType="Timetable">
+		INSERT INTO TIMETABLE
+		VALUES(SEQ_TT.NEXTVAL
+		, #{id}
+		, #{ttTitle}
+		, #{ttDate}
+		, #{ttStart}
+		, #{ttEnd}
+		, #{ttColor}
+		, #{ttMemo}
+		, DEFAULT)
+	</insert>
 	
 </mapper>

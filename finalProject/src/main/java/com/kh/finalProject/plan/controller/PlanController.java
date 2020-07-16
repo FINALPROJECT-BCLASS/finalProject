@@ -21,6 +21,7 @@ import com.kh.finalProject.plan.model.service.PlanService;
 import com.kh.finalProject.plan.model.vo.McOvulation;
 import com.kh.finalProject.plan.model.vo.McRecord;
 import com.kh.finalProject.plan.model.vo.Menstrual;
+import com.kh.finalProject.plan.model.vo.Timetable;
 
 @Controller
 public class PlanController {
@@ -32,12 +33,6 @@ public class PlanController {
 	public String monthlyView() {
 		
 		return "plan/monthlyPlanner";
-	}
-	
-	@RequestMapping("ttlist.do")
-	public String timetableView() {
-		
-		return "plan/timetable";
 	}
 	
 	@RequestMapping("mcview.do")
@@ -185,6 +180,25 @@ public class PlanController {
 			return "redirect:mcview.do";
 		} else {
 			throw new PlanException("생리달력 수정 실패");
+		}
+		
+	}
+	
+	@RequestMapping("ttview.do")
+	public String timetableView() {
+		
+		return "plan/timetable";
+	}
+	
+	@RequestMapping("ttinsert.do")
+	public String timetableInsert(Model model, Timetable t) throws PlanException {
+		
+		int result = pService.insertTimetable(t);
+		
+		if(result > 0) {
+			return "redirect:ttview.do";
+		} else {
+			throw new PlanException("시간표 등록 실패");
 		}
 		
 	}

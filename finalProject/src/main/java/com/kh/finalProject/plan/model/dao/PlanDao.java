@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.finalProject.plan.model.vo.McOvulation;
 import com.kh.finalProject.plan.model.vo.McRecord;
 import com.kh.finalProject.plan.model.vo.Menstrual;
+import com.kh.finalProject.plan.model.vo.Timetable;
 
 @Repository("pDao")
 public class PlanDao {
@@ -94,6 +95,11 @@ public class PlanDao {
 	public int updateMcOvulation(McOvulation m) {
 		
 		return sqlSessionTemplate.update("planMapper.updateMcOvulation", m);
+	}
+
+	public int insertTimetable(Timetable t) {
+		
+		return sqlSessionTemplate.insert("planMapper.insertTimetable", t);
 	}
 
 }

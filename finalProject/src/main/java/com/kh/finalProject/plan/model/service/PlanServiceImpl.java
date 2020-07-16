@@ -9,6 +9,7 @@ import com.kh.finalProject.plan.model.dao.PlanDao;
 import com.kh.finalProject.plan.model.vo.McOvulation;
 import com.kh.finalProject.plan.model.vo.McRecord;
 import com.kh.finalProject.plan.model.vo.Menstrual;
+import com.kh.finalProject.plan.model.vo.Timetable;
 
 @Service("pService")
 public class PlanServiceImpl implements PlanService {
@@ -110,6 +111,12 @@ public class PlanServiceImpl implements PlanService {
 	public int updateMcOvulation(McOvulation m) {
 		
 		return pDao.updateMcOvulation(m);
+	}
+
+	@Override
+	public int insertTimetable(Timetable t) {
+		
+		return pDao.insertTimetable(t);
 	}
 
 }
