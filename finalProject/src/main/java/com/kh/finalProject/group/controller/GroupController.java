@@ -20,6 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
+import com.kh.finalProject.group.common.PageInfo;
+import com.kh.finalProject.group.common.Pagination;
 import com.kh.finalProject.group.model.service.GroupService;
 import com.kh.finalProject.group.model.vo.GroupInfo;
 import com.kh.finalProject.group.model.vo.GroupMember;
@@ -27,6 +29,8 @@ import com.kh.finalProject.group.model.vo.GroupMemberList;
 import com.kh.finalProject.group.model.vo.GroupNotice;
 import com.kh.finalProject.group.model.vo.GroupTable;
 import com.kh.finalProject.member.model.vo.Member;
+
+
 
 
 @Controller
@@ -200,12 +204,32 @@ public class GroupController {
 	// ---------------------------------- 공지 ------------------------------------------------------
 	// 공지 메인
 	@RequestMapping(value="noticeMain.do", method=RequestMethod.GET)
-	public String noticeMain(Model model, HttpSession session) {
+	public String noticeMain(Model model, HttpSession session, @RequestParam(value="page", required=false) Integer page) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		GroupInfo gInfo = (GroupInfo)session.getAttribute("gInfo");
 		
-		ArrayList<GroupNotice> noticeList = gService.selectNoticeList(gInfo);
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		int listCount = gService.getListCount();
+		System.out.println("공지 listCount : " + listCount);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		
+		pi.setLoginUserId(gInfo.getLoginUserId());
+		pi.setGroupNo(gInfo.getGroupNo());
+		pi.setGmNo(gInfo.getGmNo());
+		System.out.println("공지 pi : " + pi );
+		
+		ArrayList<GroupNotice> noticeList = gService.selectNoticeList(pi);
 		System.out.println("공지 : " + noticeList );
+		
+		
+		
+		
+		
 		model.addAttribute("noticeList", noticeList);
 
 		return "group/GNoticeMain";

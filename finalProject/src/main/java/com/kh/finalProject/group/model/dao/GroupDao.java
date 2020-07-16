@@ -2,10 +2,12 @@ package com.kh.finalProject.group.model.dao;
 
 import java.util.ArrayList;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.finalProject.group.common.PageInfo;
 import com.kh.finalProject.group.model.vo.GroupInfo;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupNotice;
@@ -48,8 +50,16 @@ public class GroupDao {
 		return sqlSessionTemplate.selectOne("groupMapper.memberNoSelect",gInfo);
 	}
 
-	public ArrayList<GroupNotice> selectNoticeList(GroupInfo gInfo) {
-		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectNoticeList",gInfo);
+	public ArrayList<GroupNotice> selectNoticeList(PageInfo pi) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectNoticeList",pi, rowBounds);
+	}
+
+	public int getListCount() {
+		return sqlSessionTemplate.selectOne("groupMapper.getListCount");
 	}
 	
 	

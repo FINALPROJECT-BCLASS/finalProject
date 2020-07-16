@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.finalProject.group.common.PageInfo;
 import com.kh.finalProject.group.model.dao.GroupDao;
 import com.kh.finalProject.group.model.vo.GroupInfo;
 import com.kh.finalProject.group.model.vo.GroupMember;
@@ -55,9 +56,16 @@ public class GroupServiceImpl implements GroupService{
 	}
 
 	@Override
-	public ArrayList<GroupNotice> selectNoticeList(GroupInfo gInfo) {
-		return gDao.selectNoticeList(gInfo);
+	public ArrayList<GroupNotice> selectNoticeList(PageInfo pi) {
+		return gDao.selectNoticeList(pi);
 	}
+
+	@Override
+	public int getListCount() {
+		return gDao.getListCount();
+	}
+
+	
 
 
 }
