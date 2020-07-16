@@ -73,7 +73,6 @@
 	                			<img class="h-profile-image" src="resources/images/icons/profile_white.png">
 	                		</c:if>
 	                		<c:if test="${!empty loginUser.rename_file }">
-	                		<img class="h-profile-image" src="resources/images/icons/profile_white.png">
 	                			<img class="h-profile-image" src="resources/muploadFiles/${loginUser.rename_file }">
 	                		</c:if>
 	                    </div>
