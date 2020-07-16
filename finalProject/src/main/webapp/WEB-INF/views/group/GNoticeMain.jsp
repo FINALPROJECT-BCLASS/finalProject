@@ -23,15 +23,20 @@
     .noticeText{float: right;margin:auto; width: 81%; background:#c2c2c2; border-radius: 0 0 5px 5px;  }
     .noticeTb{margin-left:20px;}
     .noticeTitle{padding-top:20px; padding-left:10px;font-weight: 600; font-size: 20px;  text-shadow: 1.5px 1.5px 1.5px gray; }
+    .noticeWriter{padding-left:5px; font-size:12px; font-weight: 600;  text-shadow: 1.5px 1.5px 1.5px gray; }
     .noticeDate{padding-left:10px; font-size:12px; font-weight: 600;  text-shadow: 1.5px 1.5px 1.5px gray; }
     .noticeContent{padding-top:5px; padding-left:10px; padding-bottom: 20px; font-size:14px;  text-shadow: 1.5px 1.5px 1.5px gray; }
 
+	#groupWrite { width:50px; height: 50px; margin-right:40px; margin-bottom:10px; border:none;}
+    img {width:50px; height:40px; cursor: pointer; border-radius: 5px;}
+
     /* 공지게시판 */
-    .groupNotice{width:100%; height:400px;overflow:scroll; border-radius:10px; }
+    .groupNotice{width:100%; height:400px;overflow:scroll; overflow-x:hidden;}
     .noticeBoardTb{margin-bottom:10px; margin-right:5px; border-radius:6px; width:100%; background:white;border:0.5px solid lightgray;}
     .noticeBoardTitle{padding-top:20px; padding-left:10px;font-weight: 600; font-size: 20px;}
+    .noticeBoardWriter{padding-left:5px; font-size:12px; font-weight: 600;}
     .noticeBoardDate{padding-left:10px; font-size:12px; font-weight: 600;}
-    .noticeBoardContent{padding-top:5px; padding-left:10px; height:50px; overflow:scroll; overflow-x:hidden; font-size:13px;}
+    .noticeBoardContent{padding-top:5px; padding-left:10px; height:50px; overflow:scroll; overflow-x:hidden; overflow-y:hidden; font-size:13px;}
 	</style>
 </head>
 <body>
@@ -42,66 +47,41 @@
 
 	  <div class="noticeText">
         <table class="noticeTb">
-          <tr><td><span class="material-icons">campaign</span></td><td><div class="noticeTitle">깡삽이네조 파이널 프로젝트</div></td></tr>
-          <tr><td></td><td><div class="noticeDate">2020-06-12 오후 06:00</div></td></tr>
-          <tr><td></td><td><div class="noticeContent">파이널 프로젝트는 8월 27일에 종료됩니다.</div></td></tr>
+          <tr>
+	          <td><span class="material-icons">campaign</span></td>
+	          <td><div class="noticeTitle">${noticeList[0].gnTitle }</div></td>
+          </tr>
+          <tr><td></td><td><div class="noticeWriter">${noticeList[0].name }</div></td></tr>
+          <tr><td></td><td><div class="noticeDate">${noticeList[0].gnDate }</div></td></tr>
+          <tr><td></td><td><div class="noticeContent">${noticeList[0].gnCon }</div></td></tr>
         </table>
       </div>
       <div class="join-form-area">
   
         <h1>Group Diary</h1>
+        
         <div class="btnList">
-          
             <button class="groupBtn noticeBtn" onclick="location.href='noticeMain.do'">Notice</button>
             <button class="groupBtn BoardBtn">Board</button>
             <button class="groupBtn PhotoBtn">Photo</button>
             <button class="groupBtn VideoBtn">Video</button>
-          
-      </div>
+    	</div>
+    	
+      	<br>
+      	<button id="groupWrite" onclick="location.href='groupInsertView.do'" ><img src="resources/images/write.png" id="writeBtn"></button>
         <br>
-
+	
+		<div style="clear:both"></div>
+		
             <div class="groupNotice">
+              <c:forEach var="n" items="${noticeList }">
               <table class="noticeBoardTb">
-                <tr><td><div class="noticeBoardTitle">깡삽이네조 파이널 프로젝트</div></td></tr>
-                <tr><td><div class="noticeBoardDate">2020-06-12 오후 06:00</div></td></tr>
-                <tr><td><div class="noticeBoardContent">파이널 프로젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다.</div></td></tr>
+                <tr><td><div class="noticeBoardTitle">${n.gnTitle }</div></td></tr>
+                <tr><td><div class="noticeBoardWriter">&nbsp;${n.name }</div></td></tr>
+                <tr><td><div class="noticeBoardDate">${n.gnDate }</div></td></tr>
+                <tr><td><div class="noticeBoardContent">${n.gnCon }</div></td></tr>
               </table>
-             
-              <table class="noticeBoardTb">
-                <tr><td><div class="noticeBoardTitle">깡삽이네조 파이널 프로젝트</div></td></tr>
-                <tr><td><div class="noticeBoardDate">2020-06-12 오후 06:00</div></td></tr>
-                <tr><td><div class="noticeBoardContent">파이널 프로젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다.</div></td></tr>
-              </table>
-              <table class="noticeBoardTb">
-                <tr><td><div class="noticeBoardTitle">깡삽이네조 파이널 프로젝트</div></td></tr>
-                <tr><td><div class="noticeBoardDate">2020-06-12 오후 06:00</div></td></tr>
-                <tr><td><div class="noticeBoardContent">파이널 프로젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다.</div></td></tr>
-              </table>
-              <table class="noticeBoardTb">
-                <tr><td><div class="noticeBoardTitle">깡삽이네조 파이널 프로젝트</div></td></tr>
-                <tr><td><div class="noticeBoardDate">2020-06-12 오후 06:00</div></td></tr>
-                <tr><td><div class="noticeBoardContent">파이널 프로젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다.</div></td></tr>
-              </table>
-              <table class="noticeBoardTb">
-                <tr><td><div class="noticeBoardTitle">깡삽이네조 파이널 프로젝트</div></td></tr>
-                <tr><td><div class="noticeBoardDate">2020-06-12 오후 06:00</div></td></tr>
-                <tr><td><div class="noticeBoardContent">파이널 프로젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다.</div></td></tr>
-              </table>
-              <table class="noticeBoardTb">
-                <tr><td><div class="noticeBoardTitle">깡삽이네조 파이널 프로젝트</div></td></tr>
-                <tr><td><div class="noticeBoardDate">2020-06-12 오후 06:00</div></td></tr>
-                <tr><td><div class="noticeBoardContent">파이널 프로젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다.</div></td></tr>
-              </table>
-              <table class="noticeBoardTb">
-                <tr><td><div class="noticeBoardTitle">깡삽이네조 파이널 프로젝트</div></td></tr>
-                <tr><td><div class="noticeBoardDate">2020-06-12 오후 06:00</div></td></tr>
-                <tr><td><div class="noticeBoardContent">파이널 프로젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다.</div></td></tr>
-              </table>
-              <table class="noticeBoardTb">
-                <tr><td><div class="noticeBoardTitle">깡삽이네조 파이널 프로젝트</div></td></tr>
-                <tr><td><div class="noticeBoardDate">2020-06-12 오후 06:00</div></td></tr>
-                <tr><td><div class="noticeBoardContent">파이널 프로젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다.</div></td></tr>
-              </table>
+              </c:forEach>
              
             </div>
           

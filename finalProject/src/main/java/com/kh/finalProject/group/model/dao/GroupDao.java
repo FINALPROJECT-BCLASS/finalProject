@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.finalProject.group.model.vo.GroupInfo;
 import com.kh.finalProject.group.model.vo.GroupMember;
+import com.kh.finalProject.group.model.vo.GroupNotice;
 import com.kh.finalProject.group.model.vo.GroupTable;
 import com.kh.finalProject.member.model.vo.Member;
 
@@ -45,6 +46,10 @@ public class GroupDao {
 
 	public int memberNoSelect(GroupInfo gInfo) {
 		return sqlSessionTemplate.selectOne("groupMapper.memberNoSelect",gInfo);
+	}
+
+	public ArrayList<GroupNotice> selectNoticeList(GroupInfo gInfo) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectNoticeList",gInfo);
 	}
 	
 	

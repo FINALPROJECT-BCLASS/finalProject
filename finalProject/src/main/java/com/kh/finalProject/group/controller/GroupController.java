@@ -24,6 +24,7 @@ import com.kh.finalProject.group.model.service.GroupService;
 import com.kh.finalProject.group.model.vo.GroupInfo;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupMemberList;
+import com.kh.finalProject.group.model.vo.GroupNotice;
 import com.kh.finalProject.group.model.vo.GroupTable;
 import com.kh.finalProject.member.model.vo.Member;
 
@@ -195,16 +196,18 @@ public class GroupController {
 		
 	}
 	
+	
+	// ---------------------------------- 공지 ------------------------------------------------------
 	// 공지 메인
 	@RequestMapping(value="noticeMain.do", method=RequestMethod.GET)
 	public String noticeMain(Model model, HttpSession session) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
-		GroupInfo g = (GroupInfo)session.getAttribute("gInfo");
-		System.out.println("공지 세션 로그인 아이디 : " + loginUser.getId());
-		System.out.println("공지 gInfo : " + gInfo);
+		GroupInfo gInfo = (GroupInfo)session.getAttribute("gInfo");
 		
-		
-		
+		ArrayList<GroupNotice> noticeList = gService.selectNoticeList(gInfo);
+		System.out.println("공지 : " + noticeList );
+		model.addAttribute("noticeList", noticeList);
+
 		return "group/GNoticeMain";
 	}
 
