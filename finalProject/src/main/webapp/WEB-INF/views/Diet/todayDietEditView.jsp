@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>TodayDietInsertView</title>
+<title>todayDietEditView</title>
 <style>
-	.rightArea{
+.rightArea{
         	margin-left: 19%;
   			width: 81%;
   			padding: 70px;
@@ -43,53 +43,52 @@
 	    margin-left: 10px;
     }
     
-    
-    
 </style>
 </head>
 <body>
 		<jsp:include page="../common/header.jsp"/>
 		<jsp:include page="../common/sidenaviDiet.jsp"/>
-		
 		<div class="rightArea">
 			<h1 class="DietTitle">Add Diet</h1>
 			
-			<form action="DietInsert.do" method="post">
+			<form action="DietEdit.do" method="post">
 				<table cellpadding="8px">
-					<input type="hidden" value="${today }" id="In_date" name="dtDate">
-					<input type="hidden" value="${dietwhentime }" name="dtWhen">
+					<input type="hidden" value="${diet.diNo}" id="dtno" name="diNo">
+					<input type="hidden" value="${diet.dtDate}" id="In_date" name="dtDate">
+					<input type="hidden" value="${diet.dtWhen}" name="dtWhen">
 					<tr>
 						<td>음식명</td>
-						<td><input type="text" id="FoodName" name="diFood"></td>
+						<td><input type="text" id="FoodName" name="diFood" value="${diet.diFood}"></td>
 					</tr>
 					<tr>
 						<td>수량</td>
-						<td><input type="text" id="FoodCount" name="foodCount"> <input type="text" id="FoodCountUnit" name="foodCountUnit"></td>
+						<td><input type="text" id="FoodCount" name="foodCount" value="${foodCount}"> <input type="text" id="FoodCountUnit" name="foodCountUnit" value="${FoodCountUnit }"></td>
 					</tr>
 					<tr>
 						<td>칼로리</td>
-						<td><input type="text" id="Kcal" name="diKcal"></td>
+						<td><input type="text" id="Kcal" name="diKcal" value="${diet.diKcal}"></td>
 					</tr>
 					<tr>
 						<td>탄수화물</td>
-						<td><input type="text" id="Clabo" name="diCar"></td>
+						<td><input type="text" id="Clabo" name="diCar" value="${diet.diCar}"></td>
 					</tr>
 					<tr>
 						<td>단백질</td>
-						<td><input type="text" id="Protain" name="diPro"></td>
+						<td><input type="text" id="Protain" name="diPro" value="${diet.diPro}"></td>
 					</tr>
 					<tr>
 						<td>지방</td>
-						<td><input type="text" id="Fat" name="diFat"></td>
+						<td><input type="text" id="Fat" name="diFat" value="${diet.diFat}"></td>
 					</tr>
 					<tr>
 						<td>나트륨</td>
-						<td><input type="text" id="Natrium" name="diNa"> <button type="submit" class="default-btn b-yell">Add</button></td>
+						<td><input type="text" id="Natrium" name="diNa" value="${diet.diNa}"> <button type="submit" class="default-btn b-yell">Edit</button></td>
 					</tr>
 				</table>
 			</form>
 		</div>
 		
 		<jsp:include page="../common/footer.jsp"/>	
+
 </body>
 </html>

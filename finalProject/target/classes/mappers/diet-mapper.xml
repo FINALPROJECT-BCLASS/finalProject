@@ -12,6 +12,21 @@
 			<result property="inDelete" column="IN_DELETE"/>
 	</resultMap>
 
+	<resultMap type="Diet" id="DietResultSet">
+		<id property="diNo" column="DI_NO"/>
+			<result property="id" column="ID"/>
+			<result property="dtDate" column="DT_DATE"/>
+			<result property="dtWhen" column="DT_WHEN"/>
+			<result property="diFood" column="DI_FOOD"/>
+			<result property="diAmount" column="DI_AMOUNT"/>
+			<result property="diCar" column="DI_CAR"/>
+			<result property="diPro" column="DI_PRO"/>
+			<result property="diFat" column="DI_FAT"/>
+			<result property="diNa" column="DI_NA"/>
+			<result property="diKcal" column="DI_KCAL"/>
+			<result property="diDelete" column="DI_DELETE"/>
+	</resultMap>
+
 <insert id="InsertInBody" parameterType="Inbody">
 	INSERT INTO INBODY
 	VALUES(SEQ_INB.NEXTVAL
@@ -23,9 +38,67 @@
 			,DEFAULT)
 </insert>
 
-<select id="selectInbody" parameterType="string" resultMap="InbodyResultSet">
+<select id="selectInbody" parameterType="hashmap" resultMap="InbodyResultSet">
 	SELECT *
 	FROM INBODY
-	WHERE IN_DATE = #{today}
+	WHERE IN_DATE = #{date}
+			AND ID=#{Id}
 </select>
+
+<insert id="InsertDiet" parameterType="Diet">
+	INSERT INTO DIET
+	VALUES(SEQ_DI.NEXTVAL
+			,#{id}
+			,#{dtDate}
+			,#{dtWhen}
+			,#{diFood}
+			,#{diAmount}
+			,#{diCar}
+			,#{diPro}
+			,#{diFat}
+			,#{diNa}
+			,#{diKcal}
+			,DEFAULT)
+</insert>
+
+ <select id="selectDiet" parameterType="hashmap" resultMap="DietResultSet">
+ 	SELECT *
+ 	FROM DIET
+ 	WHERE DT_DATE =#{date}
+ 			AND ID=#{Id}
+ </select> 
+
+<select id="selectListDiet" parameterType="hashmap" resultMap="DietResultSet">
+	SELECT *
+	FROM DIET
+	WHERE DT_DATE= #{today}
+		AND ID= #{Id}
+		AND DT_WHEN= #{dtwhen}
+		
+</select>
+
+<select id="selectFoodDetail" parameterType="hashmap" resultMap="DietResultSet">
+	SELECT *
+	FROM DIET
+	WHERE ID=#{Id}
+		AND DT_DATE=#{today}
+		AND DI_FOOD=#{foodname}
+		AND DI_AMOUNT=#{amount}
+		AND DT_WHEN=#{foodwhen}
+</select>
+
+<update id="editDiet" parameterType="Diet">
+	UPDATE DIET
+	SET ID= #{id}
+		,DT_DATE=#{dtDate}
+		,DT_WHEN=#{dtWhen}
+		,DI_FOOD=#{diFood}
+		,DI_AMOUNT=#{diAmount}
+		,DI_CAR=#{diCar}
+		,DI_PRO=#{diPro}
+		,DI_FAT=#{diFat}
+		,DI_NA=#{diNa}
+		,DI_KCAL=#{diKcal}
+	WHERE DI_NO= #{diNo}
+</update>
 </mapper>
