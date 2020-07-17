@@ -43,6 +43,6 @@ public interface PlanService {
 
 	int insertTimetable(Timetable t);
 
-	ArrayList<Timetable> selectTtList(String id);
+	ArrayList<Timetable> selectTtList(Timetable t);
 
 }

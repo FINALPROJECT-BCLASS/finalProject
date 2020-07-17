@@ -91,7 +91,7 @@
 
     #addBtnArea{
         display: inline-block;
-        width: 450px;
+        width: 500px;
         text-align: right;
     }
     
@@ -109,28 +109,57 @@
 		
 		<script>			
 			var today = new Date();
-		
-			Date.prototype.yyyymmdd = function() {
-		    	var yyyy = this.getFullYear().toString();
-		      	var mm = (this.getMonth() + 1).toString();
-		      	var dd = this.getDate().toString();
-		      	return  yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]);
-		  	}
+			var year = today.getFullYear();
+			var month = today.getMonth()+1;
+			var date = today.getDate();
+			
+			if(month < 10){
+		        month = "0"+month;
+		    }
+		    if(date < 10){
+		        date = "0"+date;
+		    }
 			
 			$(function(){
-				$("#date").html(today.yyyymmdd());
+				$("#date").html(year.toString()+"-"+month.toString()+"-"+date.toString());
+				
+				var ttDate = $("#date").html();
 				
 				$.ajax({
         			url: 'ttlist.do',
+        			data: {ttDate:ttDate},
         			dataType: 'json',
         			success: function(data) {
         				for(var i in data.ttList){
+    	   					var $time = $("<b>").text(data.ttList[i].start + " - " + data.ttList[i].end + " " + data.ttList[i].title);
+    	   					
     	   					var startHour = data.ttList[i].startHour;
     	   					var startHalf = data.ttList[i].startHalf;
+    	   					
     	   					if(startHalf == 1) {
-    	   						$("#"+startHour+"half").text(data.ttList[i].start + " " + data.ttList[i].title).css("background-color", "pink");
+    	   						$("#"+startHour+"half").append($time).css("background-color", "pink");
     	   					} else {
-    	   						$("#"+startHour).text(data.ttList[i].start + " " + data.ttList[i].title).css("background-color", "pink");
+    	   						$("#"+startHour).append($time).css("background-color", "pink");
+    	   					}
+    	   					
+    	   					var endHour = data.ttList[i].endHour;
+    	   					var endHalf = data.ttList[i].endtHalf;
+    	   					
+    	   					if(endHalf == 1) {
+    	   						$("#"+endHour+"half").css("background-color", "pink");
+    	   					} else {
+    	   						$("#"+endHour).css("background-color", "pink");
+    	   					}
+    	   					
+    	   					var gap = data.ttList[i].gap;
+    	   					console.log(gap);
+    	   					if(gap > 0) {
+    	   						for(j = 1; j < gap; j++) {
+    	   							var gapHour = startHour+j;
+    	   							$("#"+startHour+"half").css("background-color", "pink");
+    	   							$("#"+gapHour).css("background-color", "pink");
+    	   							$("#"+gapHour+"half").css("background-color", "pink");
+    	   						}
     	   					}
     	   				};
         			},
@@ -140,16 +169,66 @@
                               +"error: " + errorData);
                     }   
         		})
+        		
+        		$("#selectDate").change(function(){
+        			var ttDate = $("#selectDate").val();
+        			
+        			$("#date").text(ttDate);
+        			
+        			$.ajax({
+            			url: 'ttlist.do',
+            			data: {ttDate:ttDate},
+            			dataType: 'json',
+            			success: function(data) {
+            				for(var i in data.ttList){
+        	   					var $time = $("<b>").text(data.ttList[i].start + " - " + data.ttList[i].end + " " + data.ttList[i].title);
+        	   					
+        	   					var startHour = data.ttList[i].startHour;
+        	   					var startHalf = data.ttList[i].startHalf;
+        	   					
+        	   					if(startHalf == 1) {
+        	   						$("#"+startHour+"half").append($time).css("background-color", "pink");
+        	   					} else {
+        	   						$("#"+startHour).append($time).css("background-color", "pink");
+        	   					}
+        	   					
+        	   					var endHour = data.ttList[i].endHour;
+        	   					var endHalf = data.ttList[i].endtHalf;
+        	   					
+        	   					if(endHalf == 1) {
+        	   						$("#"+endHour+"half").css("background-color", "pink");
+        	   					} else {
+        	   						$("#"+endHour).css("background-color", "pink");
+        	   					}
+        	   					
+        	   					var gap = data.ttList[i].gap;
+        	   					console.log(gap);
+        	   					if(gap > 0) {
+        	   						for(j = 1; j < gap; j++) {
+        	   							var gapHour = startHour+j;
+        	   							$("#"+startHour+"half").css("background-color", "pink");
+        	   							$("#"+gapHour).css("background-color", "pink");
+        	   							$("#"+gapHour+"half").css("background-color", "pink");
+        	   						}
+        	   					}
+        	   				};
+            			},
+            			error:function(request, status, errorData){
+                            alert("error code: " + request.status + "\n"
+                                  +"message: " + request.responseText
+                                  +"error: " + errorData);
+                        }   
+            		})
+        			
+        		})
 			})
 		</script>
-        
+         
         <br><br>
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8">
-                <a href="#" style="font-size: 30px; text-decoration: none; color: #2860E1"><</a>&nbsp;
                 <span style="font-size: 30px;" id="date"></span>&nbsp;
-                <a href="#" style="font-size: 30px; text-decoration: none; color: #2860E1">></a>
                 &nbsp;<input type="date" id="selectDate">
                 <div id="addBtnArea">
                     <button type="button" class="default-btn" data-toggle="modal" data-target="#addModal">Add</button>

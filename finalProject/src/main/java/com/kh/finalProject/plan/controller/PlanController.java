@@ -187,13 +187,14 @@ public class PlanController {
 	}
 	
 	@RequestMapping("ttlist.do")
-	public void timetableList(HttpSession session, HttpServletResponse response) throws IOException {
+	public void timetableList(HttpSession session, HttpServletResponse response, Timetable tt) throws IOException {
 		response.setContentType("application/json;charset=utf-8");
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		String id = loginUser.getId();
+		tt.setId(id);
 		
-		ArrayList<Timetable> ttList = pService.selectTtList(id);
+		ArrayList<Timetable> ttList = pService.selectTtList(tt);
 		
 		JSONArray jArr = new JSONArray();
 		
@@ -213,16 +214,17 @@ public class PlanController {
 				endHalf = 1;
 			}
 			
+			int gap = endHour - startHour;
+			
 			JSONObject jObj = new JSONObject();
 			jObj.put("title", t.getTtTitle());
 			jObj.put("start", t.getTtStart());
 			jObj.put("end", t.getTtEnd());
 			jObj.put("startHour", startHour);
-			jObj.put("startMinute", startMinute);
 			jObj.put("startHalf", startHalf);
 			jObj.put("endHour", endHour);
-			jObj.put("endMinute", endMinute);
 			jObj.put("endHalf", endHalf);
+			jObj.put("gap", gap);
 			jObj.put("color", "#F781BE");
 			
 			jArr.add(jObj);
