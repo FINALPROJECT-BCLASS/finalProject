@@ -93,7 +93,7 @@
             <div class="groupJoin">
                 <form action="groupInsert.do" method="post" id="groupInsertFrom" enctype="Multipart/form-data">
                     <table class="groupTb">
-                    	<input type="hidden" name="id" value="${loginUser.id }">
+                    	<%-- <input type="hidden" name="id" value="${loginUser.id }"> --%>
                         <tr>
                             <td class="groupTbTd">Title&nbsp;</td>
                             <td><input type="text" id="title" name="gTitle" placeholder="  그룹명 작성" required></td>

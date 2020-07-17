@@ -68,7 +68,7 @@ public class GroupController {
 		if(loginUser != null) {
 			String loginUserId = loginUser.getId();
 			ArrayList<GroupTable> list = gService.selectGroup(loginUserId);
-			System.out.println("그룹 메인 list : " + list);
+//			System.out.println("그룹 메인 list : " + list);
 			mv.addObject("list" , list);
 			mv.setViewName("group/GGroupMain");
 		}else {
@@ -100,17 +100,22 @@ public class GroupController {
 	
 	// 그룹생성
 	@RequestMapping(value="groupInsert.do", method=RequestMethod.POST)
-	public String groupInsert(Model model, HttpServletRequest request, GroupTable gt , 
+	public String groupInsert(Model model, HttpSession session, HttpServletRequest request, GroupTable gt , 
 								@RequestParam(value="groupName", required=false) String groupName,
 								@RequestParam(name="uploadFile", required=false) MultipartFile file,
 								@RequestParam(value="groupId", required=false) String groupId) {
 		
+		Member m = (Member)session.getAttribute("loginUser");
+		System.out.println("그룹 생성 loginId : " + m.getId());
 		System.out.println("그룹 생성  groupName: " + groupName);
 		System.out.println("그룹 생성 groupId : " + groupId);
 		System.out.println("그룹 생성 file: " + file);
 		
 		gt.setgName(groupName);
 		gt.setgDelete("N");
+		gt.setId(m.getId());
+		
+		System.out.println("그룹생성 gt : " + gt);
 		
 		// 사진 파일 저장
 		if(!file.getOriginalFilename().contentEquals("")) {	// 빈파일이 아니라면
@@ -143,7 +148,15 @@ public class GroupController {
 					
 					memberList.add(gmList);
 				}
-
+				
+				// 생성한 사람 GROUP_MEMBER INSERT 
+				gmList = new GroupMemberList();
+				gmList.setGroupMemberId(m.getId());
+				gmList.setGroupNo(groupNo);
+				
+				memberList.add(gmList);
+				
+				System.out.println("그룹 생성 memberList : "  + memberList);
 				// GROUP_MEMBER INSERT
 				int memberResult = gService.groupMemberInsert(memberList);
 
@@ -206,14 +219,17 @@ public class GroupController {
 	// ---------------------------------- 공지 ------------------------------------------------------
 	// 공지 메인
 	@RequestMapping(value="noticeMain.do", method=RequestMethod.GET)
-	public ModelAndView noticeMain(HttpServletResponse response, ModelAndView mv, HttpSession session, @RequestParam(value="page", required=false) Integer page) throws JsonIOException, IOException {
+	public ModelAndView noticeMain(HttpServletResponse response, ModelAndView mv, HttpSession session, @RequestParam(value="page", required=false) String page) throws JsonIOException, IOException {
+		
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		GroupInfo gInfo = (GroupInfo)session.getAttribute("gInfo");
 		
-		System.out.println("page : " + page);
+	
+		
 		int currentPage = 1;
 		if(page != null) {
-			currentPage = page;
+			int Cpage = Integer.parseInt(page);
+			currentPage = Cpage;
 		}
 		
 		int listCount = gService.getListCount();
@@ -248,8 +264,8 @@ public class GroupController {
 
 	// 공지 메인2
 		@RequestMapping(value="noticeMain2.do", method=RequestMethod.GET)
-		public ModelAndView noticeMain2(HttpServletResponse response, ModelAndView mv, HttpSession session, @RequestParam(value="page", required=false) Integer page) throws JsonIOException, IOException {
-			System.out.println("여긴 오니?");
+		public ModelAndView noticeMain2(HttpServletResponse response, ModelAndView mv, HttpSession session, @RequestParam(value="page", required=false) String page) throws JsonIOException, IOException {
+			
 			
 			Member loginUser = (Member)session.getAttribute("loginUser");
 			GroupInfo gInfo = (GroupInfo)session.getAttribute("gInfo");
@@ -257,7 +273,9 @@ public class GroupController {
 			System.out.println("page : " + page);
 			int currentPage = 1;
 			if(page != null) {
-				currentPage = page;
+				int Cpage = Integer.parseInt(page);
+				currentPage = Cpage;
+				System.out.println("ajax currentPage : " + currentPage);
 			}
 			
 			int listCount = gService.getListCount();
@@ -270,15 +288,23 @@ public class GroupController {
 			pi.setGmNo(gInfo.getGmNo());
 			
 			ArrayList<GroupNotice> noticeList = gService.selectNoticeList(pi);
+			
 			System.out.println("공지 : " + noticeList );
 			
 			response.setContentType("application/json;charset=utf-8");
 			
 			JSONArray jArr = new JSONArray();
+	
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			
 			if(noticeList != null) {
 				for(GroupNotice n : noticeList) {
+					n.setPage(currentPage);
+					
 					JSONObject jObj = new JSONObject();
+					
+					jObj.put("page", n.getPage());
+					
 					jObj.put("gnNo", n.getGnNo());
 					jObj.put("gmNo", n.getGmNo());
 					jObj.put("gNo", n.getgNo());
@@ -292,7 +318,7 @@ public class GroupController {
 					
 					jArr.add(jObj);
 				}
-				
+				System.out.println("공지 jArr : " + jArr);
 				JSONObject sendJson = new JSONObject();
 				sendJson.put("noticeList", jArr);
 				

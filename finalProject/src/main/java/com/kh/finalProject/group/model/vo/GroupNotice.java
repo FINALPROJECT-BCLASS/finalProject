@@ -21,12 +21,14 @@ public class GroupNotice implements Serializable{
 //	Member
 	private String name;
 	
+	private int page;	// 해당 jsp 페이지 정보
+	
 	public GroupNotice() {
 		super();
 	}
 
 	public GroupNotice(int gnNo, int gmNo, int gNo, String gnTitle, String gnCon, String gnDate, String gnDelete,
-			int gnCount, String name) {
+			int gnCount, String name, int page) {
 		super();
 		this.gnNo = gnNo;
 		this.gmNo = gmNo;
@@ -37,6 +39,7 @@ public class GroupNotice implements Serializable{
 		this.gnDelete = gnDelete;
 		this.gnCount = gnCount;
 		this.name = name;
+		this.page = page;
 	}
 
 	public int getGnNo() {
@@ -111,6 +114,14 @@ public class GroupNotice implements Serializable{
 		this.name = name;
 	}
 
+	public int getPage() {
+		return page;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -119,9 +130,12 @@ public class GroupNotice implements Serializable{
 	public String toString() {
 		return "GroupNotice [gnNo=" + gnNo + ", gmNo=" + gmNo + ", gNo=" + gNo + ", gnTitle=" + gnTitle + ", gnCon="
 				+ gnCon + ", gnDate=" + gnDate + ", gnDelete=" + gnDelete + ", gnCount=" + gnCount + ", name=" + name
-				+ "]\n";
+				+ ", page=" + page + "]\n";
 	}
 
+	
+
+	
 	
 	
 }
