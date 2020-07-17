@@ -330,8 +330,16 @@ public class GroupController {
 
 			return mv;
 		}
+		
 
 	
+		
+		
+		
+		
+		
+		
+		
 	// 게시판 메인
 	@RequestMapping(value="boardMain.do", method=RequestMethod.GET)
 	public String boardMain(Model model) {
