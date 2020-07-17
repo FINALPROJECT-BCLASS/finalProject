@@ -81,18 +81,7 @@
 	           		작성한 공지가 없습니다.
 	           	</c:if>
 	           	
-	           <%-- 	<c:if test="${!empty noticeList }">
-		              <c:forEach var="n" items="${noticeList }">
-		              <table class="noticeBoardTb">
-		                <tr><td><div class="noticeBoardTitle">${n.gnTitle }</div></td></tr>
-		                <tr><td><div class="noticeBoardWriter">&nbsp;${n.name }</div></td></tr>
-		                <tr><td><div class="noticeBoardDate">${n.gnDate }</div></td></tr>
-		                <tr><td><div class="noticeBoardContent">${n.gnCon }</div></td></tr>
-		              </table>
-		              </c:forEach>
-	             </c:if> --%>
-	             
-	             
+
 	             	<%-- <c:if test="${!empty noticeList }">
 		              <c:forEach var="n" items="${noticeList }">
 		            
@@ -120,18 +109,18 @@
          var pagePlus = 1;
          $(function(){
         	 
-             $(".groupNotice").scroll(function(){
-        	 console.log("ajax 전 page : " + ${pi.currentPage});
-            	 if ($(this)[0].scrollHeight - Math.round($(this).scrollTop()) == $(this).outerHeight()){
-                     /* alert('end'); */
-                     fetchList();
-                     
-                     console.log("$page : " + page);
-                 }       
-             })
-             
-               fetchList(); 
-         })
+        	    $(".groupNotice").scroll(function(){
+               	 console.log("ajax 전 page : " + ${pi.currentPage});
+                   	 if ($(this)[0].scrollHeight - Math.round($(this).scrollTop()) == $(this).outerHeight()){
+                   		 
+                            fetchList();
+                            
+                        }       
+                    })
+                    
+                      fetchList(); 
+                })
+         
          
          let fetchList = function(){
              if(isEnd == true){
@@ -145,9 +134,7 @@
                  data:{page:pagePlus},
                  success: function(data){
                 	 page = data.noticeList[0].page;
-                	 console.log("currentPage : " + data.noticeList[0].page);
                 	 pagePlus = page + 1;
-                	 console.log("+ 다음 currentPage : " + pagePlus);
                 	 
                      // 컨트롤러에서 가져온 방명록 리스트는 result.data에 담겨오도록 했다.
                      // 남은 데이터가 5개 이하일 경우 무한 스크롤 종료
@@ -158,29 +145,40 @@
                          isEnd = true;
                      }
                      
-                     var $tr;
+                     
                      for(i in data.noticeList){
 
                     	var $groupNotice = $(".groupNotice");
                     	var $noticeBoardTb = $("<table>").attr("class","noticeBoardTb");
-                    	var $tr = $("<tr>");
-                    	var $td = $("<td>");
+                    	var $tr1 = $("<tr>");
+                    	var $tr2 = $("<tr>");
+                    	var $tr3 = $("<tr>");
+                    	var $tr4 = $("<tr>");
+                   
+                    	var $td1 = $("<td>");
+                    	var $td2 = $("<td>");
+                    	var $td3 = $("<td>");
+                    	var $td4 = $("<td>");
+                    
                     	var $noticeBoardTitle = $("<div>").text(data.noticeList[i].gnTitle).attr("class","noticeBoardTitle");
                     	var $noticeBoardWriter = $("<div>").text(data.noticeList[i].name).attr("class","noticeBoardWriter");
                     	var $noticeBoardDate = $("<div>").text(data.noticeList[i].gnDate).attr("class","noticeBoardDate");
                     	var $noticeBoardContent = $("<div>").text(data.noticeList[i].gnCon).attr("class","noticeBoardContent");
                     	
                     	
-                    	$td.append($noticeBoardTitle);
-                    	$tr.append($td);
-                    	$td.append($noticeBoardWriter);
-                    	$tr.append($td);
-                    	$td.append($noticeBoardDate);
-                    	$tr.append($td);
-                    	$td.append($noticeBoardContent);
-                    	$tr.append($td);
+                    	$td1.append($noticeBoardTitle);
+                    	$tr1.append($td1);
+                    	$td2.append($noticeBoardWriter);
+                    	$tr2.append($td2);
+                    	$td3.append($noticeBoardDate);
+                    	$tr3.append($td3);
+                    	$td4.append($noticeBoardContent);
+                    	$tr4.append($td4);
                     	
-                    	$noticeBoardTb.append($tr);
+                    	$noticeBoardTb.append($tr1);
+                    	$noticeBoardTb.append($tr2);
+                    	$noticeBoardTb.append($tr3);
+                    	$noticeBoardTb.append($tr4);
                     	$groupNotice.append($noticeBoardTb); 
                     	
                     	

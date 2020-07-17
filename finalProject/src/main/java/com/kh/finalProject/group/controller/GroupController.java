@@ -270,16 +270,13 @@ public class GroupController {
 			Member loginUser = (Member)session.getAttribute("loginUser");
 			GroupInfo gInfo = (GroupInfo)session.getAttribute("gInfo");
 			
-			System.out.println("page : " + page);
 			int currentPage = 1;
 			if(page != null) {
 				int Cpage = Integer.parseInt(page);
 				currentPage = Cpage;
-				System.out.println("ajax currentPage : " + currentPage);
 			}
 			
 			int listCount = gService.getListCount();
-			System.out.println("공지 listCount : " + listCount);
 			
 			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 			
@@ -289,19 +286,17 @@ public class GroupController {
 			
 			ArrayList<GroupNotice> noticeList = gService.selectNoticeList(pi);
 			
-			System.out.println("공지 : " + noticeList );
-			
 			response.setContentType("application/json;charset=utf-8");
 			
 			JSONArray jArr = new JSONArray();
-	
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			
 			if(noticeList != null) {
 				for(GroupNotice n : noticeList) {
+					JSONObject jObj = new JSONObject();
 					n.setPage(currentPage);
 					
-					JSONObject jObj = new JSONObject();
+					
 					
 					jObj.put("page", n.getPage());
 					
@@ -326,10 +321,6 @@ public class GroupController {
 				out.print(sendJson);
 				out.flush();
 				out.close();
-				
-				
-//				Gson gson = new GsonBuilder().setDateFormat("yyyy년 MM월 dd일").create();
-//				gson.toJson(noticeList, response.getWriter());
 
 			}else {
 				mv.setViewName("group/GNoticeMain");
