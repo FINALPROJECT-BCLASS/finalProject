@@ -63,6 +63,7 @@
 	<div class="groupMain">
 	    <br>
 	    <h1>Group Diary</h1>
+	    <p>${sessionScope.loginUser.id }</p>
 	    <h4>What we have created</h4>
 	
 	    <button id="groupWrite" onclick="location.href='groupInsertView.do'" ><img src="resources/images/write.png" id="writeBtn"></button>

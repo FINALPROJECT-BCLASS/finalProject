@@ -21,7 +21,8 @@ public class GroupNotice implements Serializable{
 //	Member
 	private String name;
 	
-	private int page;	// 해당 jsp 페이지 정보
+//	해당 jsp 페이지 정보
+	private int page;	
 	
 	public GroupNotice() {
 		super();
@@ -134,7 +135,6 @@ public class GroupNotice implements Serializable{
 	}
 
 	
-
 	
 	
 	

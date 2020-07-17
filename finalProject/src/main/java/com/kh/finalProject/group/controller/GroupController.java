@@ -223,6 +223,7 @@ public class GroupController {
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		GroupInfo gInfo = (GroupInfo)session.getAttribute("gInfo");
+		System.out.println("공지 메인 gInfo : " + gInfo);
 		
 	
 		
@@ -242,7 +243,7 @@ public class GroupController {
 		pi.setGmNo(gInfo.getGmNo());
 		
 		ArrayList<GroupNotice> noticeList = gService.selectNoticeList(pi);
-		System.out.println("공지 : " + noticeList );
+		
 		
 		
 		
@@ -313,7 +314,7 @@ public class GroupController {
 					
 					jArr.add(jObj);
 				}
-				System.out.println("공지 jArr : " + jArr);
+				
 				JSONObject sendJson = new JSONObject();
 				sendJson.put("noticeList", jArr);
 				
@@ -331,7 +332,20 @@ public class GroupController {
 			return mv;
 		}
 		
-
+		// 공지 작성
+		@RequestMapping(value="gNoticeWrite.do", method=RequestMethod.POST)
+		public String gNoticeWrite(Model model, HttpSession session, GroupNotice gn) {
+			Member loginUser = (Member)session.getAttribute("loginUser");
+			GroupInfo gInfo = (GroupInfo)session.getAttribute("gInfo");
+			
+			gn.setgNo(gInfo.getGroupNo());
+			gn.setGmNo(gInfo.getGroupNo());
+			
+			
+			System.out.println("gn : " + gn);
+			
+			return "redirect:noticeMain.do";
+		}
 	
 		
 		

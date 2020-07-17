@@ -67,7 +67,22 @@
 	    text-align: center;
 	}
 	
-
+	
+	/* 공지사항 작성 */
+	.groupTb{margin:auto; width:600px; border-spacing: 10px; border-collapse: separate;}
+    .groupTbTd {text-align:end;}
+    input{width:100%;height:40px; background:#F3F3F3;  padding-left: 10px; border:none; border-radius: 6px;}
+    
+     #groupCon{width:100%; border:none; background:#F3F3F3; border-radius: 6px;}
+    
+    
+    tr > td:nth-child(1) {
+        color: #484848;
+        text-align: left;
+        font-weight: 600;
+        font-size: 16px;
+        width:40px;
+    }
 	</style>
 </head>
 <body>
@@ -104,6 +119,7 @@
       	<!-- <div id="groupWrite" onclick="location.href='noticeInsertView.do'" ><img src="resources/images/write.png" id="writeBtn"></div> -->
       	<div id="groupWrite" ><img src="resources/images/write.png" id="writeBtn"></div>
         <br>
+        
 		<div class="groupListCount">총 공지 : ${pi.listCount }</div>
 		<div style="clear:both"></div>
 		
@@ -235,30 +251,30 @@
 		 	<div class="modal fade" id="modal">
 		  				<div class="modal-dialog">
 		  					  <div class="modal-content">
-		  					  		<span class="ModalTitle">Today's Diet</span>
-		  					  		<table cellpadding="8px" id="dietDetail">
-		  					  			<tr>
-		  					  				<td><div class="round"></div></td>
-		  					  				<td><div class="round"></div></td>
-		  					  				<td><div class="round"></div></td>
-		  					  			</tr>
-		  					  			<tr>
-		  					  				<td>아침</td>
-		  					  				<td>오전간식</td>
-		  					  				<td>점심</td>
-		  					  			</tr>
-		  					  			<tr>
-		  					  				<td><div class="round"></div></td>
-		  					  				<td><div class="round"></div></td>
-		  					  				<td><div class="round"></div></td>
-		  					  			</tr>
-		  					  			<tr>
-		  					  				<td>점심간식</td>
-		  					  				<td>저녁</td>
-		  					  				<td>저녁간식</td>
-		  					  			</tr>
-		  					  		</table>
-		  					  		<button id="detailbtn" class="default-btn b-yell" type="button">상세보기</button>
+		  					  		<span class="ModalTitle">Group Diary</span>
+		  					  		<br>
+		  					  		<span>Notice Write</span>
+		  					  		
+
+		  					  		 <form id="noticeWriteForm" action="gNoticeWrite.do" method="post">
+					                    <table class="groupTb">
+					                    	
+					                        <tr>
+					                            <td class="groupTbTd">Title&nbsp;</td>
+					                            <td><input type="text" name="gnTitle" id="title" placeholder="  제목 작성"></td>
+					                        </tr>
+					                       
+					                 
+					                        <tr>
+					                            <td class="groupTbTd">Content&nbsp;</td>
+					                            <td>
+					                                <textarea id="groupCon" name="gnCon"></textarea>
+					                            </td> 
+					                        </tr>
+
+					                    </table>
+					                </form>
+		  					  		<button id="detailbtn" class="default-btn b-yell" type="button">submit</button>
 		       					 <!-- remote ajax call이 되는영역 -->
 		   					 </div>
 		  				</div>
@@ -268,6 +284,10 @@
 		 $("#groupWrite").click(function(){
 			 
 		 $("#modal").modal();
+		 })
+		 
+		 $("#detailbtn").click(function(){
+			 $("#noticeWriteForm").submit();
 		 })
 		 </script>
 		 <!-- 공지사항 글쓰기 modal end -->
