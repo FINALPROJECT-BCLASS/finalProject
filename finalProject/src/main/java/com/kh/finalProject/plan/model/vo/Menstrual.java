@@ -15,19 +15,21 @@ public class Menstrual implements Serializable {
 	private int mcPeriod;
 	private String mcLast;
 	private String mcUpdate;
+	private int mcPreCycle;
 	private String mcDelete;
 	
 	public Menstrual() {
 	}
 
 	public Menstrual(String id, String mcFirst, int mcCycle, int mcPeriod, String mcLast, String mcUpdate,
-			String mcDelete) {
+			int mcPreCycle, String mcDelete) {
 		this.id = id;
 		this.mcFirst = mcFirst;
 		this.mcCycle = mcCycle;
 		this.mcPeriod = mcPeriod;
 		this.mcLast = mcLast;
 		this.mcUpdate = mcUpdate;
+		this.mcPreCycle = mcPreCycle;
 		this.mcDelete = mcDelete;
 	}
 
@@ -79,6 +81,14 @@ public class Menstrual implements Serializable {
 		this.mcUpdate = mcUpdate;
 	}
 
+	public int getMcPreCycle() {
+		return mcPreCycle;
+	}
+
+	public void setMcPreCycle(int mcPreCycle) {
+		this.mcPreCycle = mcPreCycle;
+	}
+
 	public String getMcDelete() {
 		return mcDelete;
 	}
@@ -90,7 +100,8 @@ public class Menstrual implements Serializable {
 	@Override
 	public String toString() {
 		return "Menstrual [id=" + id + ", mcFirst=" + mcFirst + ", mcCycle=" + mcCycle + ", mcPeriod=" + mcPeriod
-				+ ", mcLast=" + mcLast + ", mcUpdate=" + mcUpdate + ", mcDelete=" + mcDelete + "]";
+				+ ", mcLast=" + mcLast + ", mcUpdate=" + mcUpdate + ", mcPreCycle=" + mcPreCycle + ", mcDelete="
+				+ mcDelete + "]";
 	}
 	
 }

@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.kh.finalProject.group.model.service.GroupService;
+import com.kh.finalProject.group.model.vo.GroupInfo;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupMemberList;
 import com.kh.finalProject.group.model.vo.GroupTable;
@@ -39,6 +40,17 @@ public class GroupController {
 	@Autowired
 	GroupMemberList gmList;
 	
+	@Autowired
+	GroupInfo gInfo;
+	
+	// 그룹 번호 세션 삭제
+	@RequestMapping(value="groupSessionDelete.do", method=RequestMethod.GET)
+	public String groupSessionDelete(Model model , HttpSession session) {
+		session.removeAttribute("gInfo");		
+		
+		return "redirect:groupMain.do";
+	}
+	
 	// 그룹 메인
 	@RequestMapping(value="groupMain.do", method=RequestMethod.GET)
 	public ModelAndView groupMain(ModelAndView mv, HttpSession session) {
@@ -47,7 +59,7 @@ public class GroupController {
 		if(loginUser != null) {
 			String loginUserId = loginUser.getId();
 			ArrayList<GroupTable> list = gService.selectGroup(loginUserId);
-
+			System.out.println("그룹 메인 list : " + list);
 			mv.addObject("list" , list);
 			mv.setViewName("group/GGroupMain");
 		}else {
@@ -160,16 +172,49 @@ public class GroupController {
 		return filePath;
 	}
 	
+	// ---------------------------------- 그룹 메인 & 생성 end -------------------------------------------
+	
+	
+	// ---------------------------------- 캘린더 ------------------------------------------------------
+	// 캘린더 메인 (그룹번호 세션생성)
+	@RequestMapping(value="groupCalendarMain.do", method=RequestMethod.GET)
+	public String CalendarMain(Model model, HttpSession session, Member m, @RequestParam("groupNo") int groupNo) {
+		Member loginUser = (Member)session.getAttribute("loginUser");		
+		String id = loginUser.getId();
+				
+		gInfo.setLoginUserId(id);
+		gInfo.setGroupNo(groupNo);
+		
+		int memberNo = gService.memberNoSelect(gInfo);
+		gInfo.setGmNo(memberNo);
+		
+		
+		session.setAttribute("gInfo", gInfo);
+		
+		return "group/GCalendarMain";
+		
+	}
+	
+	// 공지 메인
+	@RequestMapping(value="noticeMain.do", method=RequestMethod.GET)
+	public String noticeMain(Model model, HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		GroupInfo g = (GroupInfo)session.getAttribute("gInfo");
+		System.out.println("공지 세션 로그인 아이디 : " + loginUser.getId());
+		System.out.println("공지 gInfo : " + gInfo);
+		
+		
+		
+		return "group/GNoticeMain";
+	}
 
+	
+	
 	// 게시판 메인
 	@RequestMapping(value="boardMain.do", method=RequestMethod.GET)
 	public String boardMain(Model model) {
 		return "group/GBoardMain";
 	}
 
-	// 공지 메인
-	@RequestMapping(value="noticeMain.do", method=RequestMethod.GET)
-	public String noticeMain(Model model) {
-		return "group/GNoticeMain";
-	}
+	
 }

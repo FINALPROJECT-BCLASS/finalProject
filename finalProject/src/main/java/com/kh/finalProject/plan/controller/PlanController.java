@@ -49,6 +49,29 @@ public class PlanController {
 		
 		if(check > 0) {
 			Menstrual m = pService.selectMenstrual(id);
+			
+			int lastCheck = pService.checkMcLast(m);
+			
+			int result1 = 0;
+			int result2 = 0;
+			int result3 = 0;
+			
+			while(lastCheck <= 2) {
+				m = pService.selectMenstrual(id);
+				
+				result1 += pService.insertMcRecord(m);
+				result2 += pService.insertMcOvulation(m);
+				result3 += pService.updateMcLast(m);
+				
+				lastCheck = pService.checkMcLast(m);
+			}
+			
+			if(result1 > 0) {
+				mv.addObject("msg", "예정일이 업데이트 되었습니다.");				
+			}
+			
+			m = pService.selectMenstrual(id);
+			
 			mv.addObject("menstrual", m);
 		}
 		
@@ -59,16 +82,18 @@ public class PlanController {
 	}
 	
 	@RequestMapping("mcinsert.do")
-	public String menstrualInsert(Model model, Menstrual m) throws PlanException {
+	public String menstrualInsert(Model model, Menstrual menstrual) throws PlanException {
 		
-		int result1 = pService.insertMenstrual(m);
+		int result1 = pService.insertMenstrual(menstrual);
 		
 		if(result1 > 0) {
 			
-			for(int i = 0; i < 3; i ++) {
-				int result2 = pService.insertMcRecord(m.getId());
-				int result3 = pService.insertMcOvulation(m.getId());
-				int result4 = pService.updateMcLast(m.getId());
+			for(int i = 0; i < 4; i ++) {
+				Menstrual m = pService.selectMenstrual(menstrual.getId());
+				
+				int result2 = pService.insertMcRecord(m);
+				int result3 = pService.insertMcOvulation(m);
+				int result4 = pService.updateMcLast(m);
 			}
 			
 			return "redirect:mcview.do";
@@ -121,6 +146,47 @@ public class PlanController {
 		out.print(sendJson);
 		out.flush();
 		out.close();
+	}
+	
+	@RequestMapping("mcupdate.do")
+	public String menstrualUpdate(HttpSession session, Model model, Menstrual menstrual) throws PlanException {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String id = loginUser.getId();
+		
+		int result1 = pService.updateMenstrual(menstrual);
+		
+		Menstrual m = pService.selectMenstrual(id);
+		
+		if(result1 > 0) {
+			
+			int gap = pService.selectGap(id);
+			
+			ArrayList<McRecord> afterMcrList = pService.afterMcrList(m);
+			
+			ArrayList<McOvulation> afterMcoList = pService.afterMcoList(m);
+			
+			for(int i = 0; i < afterMcrList.size(); i++) {
+				afterMcrList.get(i).setGap(gap*(i+1));
+				
+				int result2 = 0;
+				result2 += pService.updateMcrStart(afterMcrList.get(i));
+				
+				int result3 = 0;
+				result3 += pService.updateMcrEnd(afterMcrList.get(i));
+			}
+			
+			for(int i = 0; i < afterMcoList.size(); i++) {
+				afterMcoList.get(i).setGap(gap*(i+1));
+				
+				int result4 = 0;
+				result4 += pService.updateMcOvulation(afterMcoList.get(i));
+			}
+			
+			return "redirect:mcview.do";
+		} else {
+			throw new PlanException("생리달력 수정 실패");
+		}
+		
 	}
 
 }

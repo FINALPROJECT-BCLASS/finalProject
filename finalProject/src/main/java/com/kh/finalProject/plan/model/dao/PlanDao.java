@@ -26,19 +26,19 @@ public class PlanDao {
 		return sqlSessionTemplate.insert("planMapper.insertMenstrual", m);
 	}
 
-	public int insertMcRecord(String id) {
+	public int insertMcRecord(Menstrual m) {
 		
-		return sqlSessionTemplate.insert("planMapper.insertMcRecord", id);
+		return sqlSessionTemplate.insert("planMapper.insertMcRecord", m);
 	}
 
-	public int insertMcOvulation(String id) {
+	public int insertMcOvulation(Menstrual m) {
 		
-		return sqlSessionTemplate.insert("planMapper.insertMcOvulation", id);
+		return sqlSessionTemplate.insert("planMapper.insertMcOvulation", m);
 	}
 
-	public int updateMcLast(String id) {
+	public int updateMcLast(Menstrual m) {
 		
-		return sqlSessionTemplate.update("planMapper.updateMcLast", id);
+		return sqlSessionTemplate.update("planMapper.updateMcLast", m);
 	}
 
 	public ArrayList<McRecord> selectMcrList(String id) {
@@ -54,6 +54,46 @@ public class PlanDao {
 	public Menstrual selectMenstrual(String id) {
 		
 		return sqlSessionTemplate.selectOne("planMapper.selectMenstrual", id);
+	}
+
+	public int updateMenstrual(Menstrual m) {
+		
+		return sqlSessionTemplate.update("planMapper.updateMenstrual", m);
+	}
+
+	public ArrayList<McRecord> afterMcrList(Menstrual m) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("planMapper.afterMcrList", m);
+	}
+
+	public ArrayList<McOvulation> afterMcoList(Menstrual m) {
+	
+		return (ArrayList)sqlSessionTemplate.selectList("planMapper.afterMcoList", m);
+	}
+
+	public int checkMcLast(Menstrual m) {
+	
+		return sqlSessionTemplate.selectOne("planMapper.checkMcLast", m);
+	}
+
+	public int selectGap(String id) {
+		
+		return sqlSessionTemplate.selectOne("planMapper.selectGap", id);
+	}
+	
+	public int updateMcrStart(McRecord m) {
+
+		return sqlSessionTemplate.update("planMapper.updateMcrStart", m);
+	}
+
+	public int updateMcrEnd(McRecord m) {
+	
+		return sqlSessionTemplate.update("planMapper.updateMcrEnd", m);
+	}
+
+	public int updateMcOvulation(McOvulation m) {
+		
+		return sqlSessionTemplate.update("planMapper.updateMcOvulation", m);
 	}
 
 }

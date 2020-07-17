@@ -15,17 +15,18 @@ public class McRecord implements Serializable {
 	private String mcrStart;
 	private String mcrEnd;
 	private String mcrDelete;
+	private int gap;
 	
 	public McRecord() {
 	}
 
-	public McRecord(int mcrNo, String id, String mcrStart, String mcrEnd, String mcrDelete) {
-		super();
+	public McRecord(int mcrNo, String id, String mcrStart, String mcrEnd, String mcrDelete, int gap) {
 		this.mcrNo = mcrNo;
 		this.id = id;
 		this.mcrStart = mcrStart;
 		this.mcrEnd = mcrEnd;
 		this.mcrDelete = mcrDelete;
+		this.gap = gap;
 	}
 
 	public int getMcrNo() {
@@ -68,10 +69,18 @@ public class McRecord implements Serializable {
 		this.mcrDelete = mcrDelete;
 	}
 
+	public int getGap() {
+		return gap;
+	}
+
+	public void setGap(int gap) {
+		this.gap = gap;
+	}
+
 	@Override
 	public String toString() {
 		return "McRecord [mcrNo=" + mcrNo + ", id=" + id + ", mcrStart=" + mcrStart + ", mcrEnd=" + mcrEnd
-				+ ", mcrDelete=" + mcrDelete + "]";
+				+ ", mcrDelete=" + mcrDelete + ", gap=" + gap + "]";
 	}
 	
 }

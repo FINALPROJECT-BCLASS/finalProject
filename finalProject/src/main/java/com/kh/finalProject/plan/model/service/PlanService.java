@@ -12,16 +12,32 @@ public interface PlanService {
 
 	int insertMenstrual(Menstrual m);
 
-	int insertMcRecord(String id);
+	int insertMcRecord(Menstrual m);
 
-	int insertMcOvulation(String id);
+	int insertMcOvulation(Menstrual m);
 
-	int updateMcLast(String id);
+	int updateMcLast(Menstrual m);
 	
 	ArrayList<McRecord> selectMcrList(String id);
 
 	ArrayList<McOvulation> selectMcoList(String id);
 
 	Menstrual selectMenstrual(String id);
+
+	int updateMenstrual(Menstrual m);
+ 
+	ArrayList<McRecord> afterMcrList(Menstrual m);
+
+	ArrayList<McOvulation> afterMcoList(Menstrual m);
+
+	int checkMcLast(Menstrual m);
+
+	int selectGap(String id);
+	
+	int updateMcrStart(McRecord m);
+
+	int updateMcrEnd(McRecord m);
+
+	int updateMcOvulation(McOvulation m);
 
 }

@@ -19,8 +19,8 @@
 <body>
 <c:set var="contextPath" value="${pageContext.servletContext.contextPath }" scope="application"/>
     <header class="header">
-        <nav>
-            <div class="logo-area">
+        <nav class="mainNav">
+            <div class="logo-area" onclick="location.href='home.do'">
                 <a class="blue">LIFE</a>NOTE
             </div>
             <ul class = "navi-area">
@@ -52,20 +52,10 @@
                             <li class="b-radius"><a href="#">Yealy Statistics</a></li>
                     </ul>
                 </li>
-                <li>Group
-                	<c:url var="groupMain" value="groupMain.do">
-							<c:param name="loginUser" value="${sessionScope.loginUser}"/>
-					</c:url>
-                    <ul class="sub-navi">
-                            <li><a href="${groupMain }">Main</a></li>
-                            <li><a href="#">Vote</a></li>
-                            <li><a href="#">Board</a></li>
-                            <li><a href="#">Ladder Game</a></li>
-                            <li><a href="#">Plan</a></li>
-                            <li><a href="#">Account Book</a></li>
-                            <li class="b-radius"><a href="#">Settings</a></li>
-                    </ul>
-                </li>
+               <c:url var="groupMain" value="groupMain.do">
+					<c:param name="loginUser" value="${sessionScope.loginUser}"/>
+				</c:url>
+                <li><a href="${groupMain }" class="groupA">Group</a></li>
             </ul>
             <c:if test="${empty sessionScope.loginUser}">
 	            <c:url var="loginView" value="memberLoginView.do"></c:url>
@@ -75,19 +65,25 @@
 	            </div>
             </c:if>
             
-            <c:if test="${!empty sessionScope.loginUser}">
+			<c:url var="myInfoView" value="myInfoView.do"/>
             
-	            <c:url var="logout" value="logout.do"></c:url>
-	            
+            <c:if test="${!empty sessionScope.loginUser}">
 	            <div class="login-area after">
 	                <div class="login-area-item">
-	                	<img class="h-profile-image" src="resources/images/icons/profile_default.png">
+	                	<div class="h-profile-image-area">
+	                		<c:if test="${empty loginUser.rename_file }">
+	                			<img class="h-profile-image" src="resources/images/icons/profile_white.png">
+	                		</c:if>
+	                		<c:if test="${!empty loginUser.rename_file }">
+	                			<img class="h-profile-image" src="resources/muploadFiles/${loginUser.rename_file }">
+	                		</c:if>
+	                    </div>
 	                    <div class="hide login-square"></div>
 	                    <ul class="hide login-sub">
-	                        <li class="t-radius"><a href="#">Info</a></li>
+	                        <li class="t-radius"><a href="${myInfoView }">Info</a></li>
 	                        <li><a href="#">Chat</a></li>
 	                        <li><a href="#">Alarm</a></li>
-	                        <li class="b-radius"><a onclick ="location.href='${logout }'">Logout</a></li>
+	                        <li class="b-radius"><a href="logout.do">Logout</a></li>
 	                    </ul>
 	                </div>
 	            </div>

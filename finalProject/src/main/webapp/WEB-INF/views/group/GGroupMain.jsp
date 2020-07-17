@@ -16,7 +16,7 @@
     .groupTb {border-spacing: 20px; border-collapse: separate;}
     .groupTb td{padding:20px; margin:20px; border:2px solid lightgrey; border-radius: 7px; background:white;}
     
-    #gropTbForm{height:500px;}
+    #gropTbForm{margin-bottom:70px;}
     
     a{background: #F3F3F3;}
     p{text-align:center; margin-top:5px;}
@@ -67,22 +67,31 @@
 	
 	    <button id="groupWrite" onclick="location.href='groupInsertView.do'" ><img src="resources/images/write.png" id="writeBtn"></button>
 	
-	    <div style="clear:both"></div>  
-	    <div id="gropTbForm">
-	    <table class="groupTb" align="center">
-	        <tr>
-	        	<c:forEach var="g" items="${list }">
-	            <td>
-	                <a href="#" data-toggle="tooltip" data-placement="bottom" title="${g.gName }">
-	                     <img src="resources/groupMainFiles/${g.gOrigin}">
-	                </a>
-	                <p><b>${g.gTitle }</b></p>
-	                <p>${g.gCon }</p>
-	            </td>
-	            </c:forEach>
-	        </tr>
-	    </table>
-	</div>
+	    <div style="clear:both"></div>
+
+		    <div id="gropTbForm">
+		    <table class="groupTb" align="center">
+		        <tr>
+		        	<c:forEach var="g" items="${list }" varStatus="status">
+		        	<c:if test="${status.index%4 ==0 }">
+		        		<tr></tr>
+		        	</c:if>
+		        	
+		            <td>
+		            	<c:url var="groupCalendar" value="groupCalendarMain.do">
+								<c:param name="loginUser" value="${sessionScope.loginUser}"/>
+								<c:param name="groupNo" value="${g.gNo}"/>
+						</c:url>
+		                <a href="${groupCalendar }" data-toggle="tooltip" data-placement="bottom" title="${g.gName }">
+		                     <img src="resources/groupMainFiles/${g.gOrigin}">
+		                </a>
+		                <p><b>${g.gTitle }</b></p>
+		                <p>${g.gCon }</p>
+		            </td>
+		            </c:forEach>
+		        </tr>
+		    </table>
+		</div>
 	
 	<!-- tooltip 부트스트랩 -->
 		<script>

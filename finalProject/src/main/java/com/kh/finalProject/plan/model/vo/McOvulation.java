@@ -14,53 +14,72 @@ public class McOvulation implements Serializable {
 	private String mcoStart;
 	private String mcoEnd;
 	private String mcoDelete;
+	private int gap;
 	
 	public McOvulation() {
 	}
-	
-	public McOvulation(int mcoNo, String id, String mcoStart, String mcoEnd, String mcoDelete) {
+
+	public McOvulation(int mcoNo, String id, String mcoStart, String mcoEnd, String mcoDelete, int gap) {
 		this.mcoNo = mcoNo;
 		this.id = id;
 		this.mcoStart = mcoStart;
 		this.mcoEnd = mcoEnd;
 		this.mcoDelete = mcoDelete;
+		this.gap = gap;
 	}
-	
+
 	public int getMcoNo() {
 		return mcoNo;
 	}
+
 	public void setMcoNo(int mcoNo) {
 		this.mcoNo = mcoNo;
 	}
+
 	public String getId() {
 		return id;
 	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
+
 	public String getMcoStart() {
 		return mcoStart;
 	}
+
 	public void setMcoStart(String mcoStart) {
 		this.mcoStart = mcoStart;
 	}
+
 	public String getMcoEnd() {
 		return mcoEnd;
 	}
+
 	public void setMcoEnd(String mcoEnd) {
 		this.mcoEnd = mcoEnd;
 	}
+
 	public String getMcoDelete() {
 		return mcoDelete;
 	}
+
 	public void setMcoDelete(String mcoDelete) {
 		this.mcoDelete = mcoDelete;
 	}
-	
+
+	public int getGap() {
+		return gap;
+	}
+
+	public void setGap(int gap) {
+		this.gap = gap;
+	}
+
 	@Override
 	public String toString() {
 		return "McOvulation [mcoNo=" + mcoNo + ", id=" + id + ", mcoStart=" + mcoStart + ", mcoEnd=" + mcoEnd
-				+ ", mcoDelete=" + mcoDelete + "]";
+				+ ", mcoDelete=" + mcoDelete + ", gap=" + gap + "]";
 	}
 
 }
