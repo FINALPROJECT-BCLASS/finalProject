@@ -20,7 +20,7 @@
 <c:set var="contextPath" value="${pageContext.servletContext.contextPath }" scope="application"/>
     <header class="header">
         <nav class="mainNav">
-            <div class="logo-area">
+            <div class="logo-area" onclick="location.href='home.do'">
                 <a class="blue">LIFE</a>NOTE
             </div>
             <ul class = "navi-area">
@@ -65,6 +65,8 @@
 	            </div>
             </c:if>
             
+			<c:url var="myInfoView" value="myInfoView.do"/>
+            
             <c:if test="${!empty sessionScope.loginUser}">
 	            <div class="login-area after">
 	                <div class="login-area-item">
@@ -78,7 +80,7 @@
 	                    </div>
 	                    <div class="hide login-square"></div>
 	                    <ul class="hide login-sub">
-	                        <li class="t-radius"><a href="#">Info</a></li>
+	                        <li class="t-radius"><a href="${myInfoView }">Info</a></li>
 	                        <li><a href="#">Chat</a></li>
 	                        <li><a href="#">Alarm</a></li>
 	                        <li class="b-radius"><a href="logout.do">Logout</a></li>

@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Join</title>
+<title>Info</title>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <style>
 	html, body {
@@ -63,12 +64,6 @@
 	    margin-right: 6px;
 		width:160px !important;
 	}
-	
-	#id {
-	    margin-right: 6px;
-		width:237px;
-	}
-	
 	
 	/* 이미지 업로드 */
 	
@@ -203,6 +198,10 @@
 	    transform: rotate(45deg);
     }
     
+    input:readonly {
+    	font-weight: 600;
+    }
+    
 
 
 	
@@ -213,41 +212,39 @@
 <jsp:include page="../common/header.jsp"/>
 
 <div class="join-form-area">
-        <span class="pSubject">Join</span>
-        <form action="minsert.do" method="post" enctype="multipart/form-data" id="joinForm">
+        <span class="pSubject">My Information</span>
+        <form action="mupdate.do" method="post" enctype="multipart/form-data" id="infoForm">
             <table cellpadding="6px">
                 <tr>
                     <td><a class="blue">*</a> Id</td>
                     <td>
-                    	<input type="text" name="id" id="id" required>
-                    	<button type="button" class="default-btn b-yell" onclick="idCheck()">Check</button>
-                    	<div class="check" id="checkId"></div>
+                    	<input type="text" name="id" id="id" value="${loginUser.id }" readonly>
                     </td>
                 </tr>
                 <tr>
                     <td><a class="blue">*</a> Name</td>
                     <td>
-                    	<input type="text" name="name" id="name" required>
+                    	<input type="text" name="name" id="name" value="${loginUser.name }" readonly>
                     </td>
                 </tr>
                 <tr>
                     <td><a class="blue">*</a> Nickname</td>
                     <td>
-                    	<input type="text" name="nickname" id="nickname" required>
+                    	<input type="text" name="nickname" id="nickname" value="${loginUser.nickname }" required>
                     	<div class="check" id="checkNickname"></div>
                     </td>
                 </tr>
                 <tr>
                     <td><a class="blue">*</a> Password</td>
                     <td>
-                    	<input type="password" name="pwd" id="pwd" required>
+                    	<input type="password" name="pwd" id="pwd" value="" required>
                     	<div class="check" id="checkPwd"></div>
                     </td>
                 </tr>
                 <tr>
                     <td><a class="blue">*</a> Check Password</td>
                     <td>
-                    	<input type="password" id="checkPassword" required>
+                    	<input type="password" id="checkPassword" value="" required>
                     	<div class="check" id="checkCheckPwd"></div>
                     </td>
                     
@@ -255,58 +252,96 @@
                 <tr>
                     <td><a class="blue">*</a> Email</td>
                     <td>
-                    	<input type="email" name="email" id="email" required>
+                    	<input type="email" name="email" id="email" value="${loginUser.email }" required>
                     	<div class="check" id="checkEmail"></div>
                     </td>
                 </tr>
                 <tr>
                     <td>&nbsp;&nbsp;Phone</td>
-                    <td><input type="tel" name="phone" id="phone" placeholder="ex) 010-1234-1234"></td>
+                    <td><input type="tel" name="phone" id="phone" placeholder="ex) 010-1234-1234" value="${loginUser.phone }"></td>
                 </tr>
                 <tr>
                     <td>&nbsp;&nbsp;Birth</td>
-                    <td><input type="date" name="birthday" id="birth"></td>
+                    <td><input type="date" name="birthday" id="birth" value="${loginUser.birthday }"></td>
                 </tr>
-                <tr>
-                    <td>&nbsp;&nbsp;Address</td>
-                    <td>
-                        <input type="text" name="postcode" id="postcode" class="postcode">
-                        <button type="button" class="default-btn b-yell" onclick="searchAddress()">Search</button>
-                    </td> 
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        <input type="text" name="mainAddress" id="mainAddress">
-                    </td>
-                </tr>
-                <tr>
-                	<td></td>
-                	<td>
-                        <input type="text" name="subAddress" id="subAddress">
-                	</td>
-                </tr>
+                <c:if test ="${loginUser.address ne '__'}">
+	              	<c:forTokens var="addr" items="${loginUser.address }" delims="_" varStatus="status">
+	                    <c:if test="${status.index eq 0 }">
+		                <tr>
+		                    <td>&nbsp;&nbsp;Address</td>
+		                    <td>
+			                    <input type="text" name="postcode" id="postcode" class="postcode" value="${addr }">
+		                        <button type="button" class="default-btn b-yell" onclick="searchAddress()">Search</button>
+		                    </td> 
+	                	</tr>
+	                   	</c:if> 
+	                  	<c:if test="${status.index eq 1 }">
+			                <tr>
+			                    <td></td>
+			                    <td>
+				                	<input type="text" name="mainAddress" id="mainAddress" value="${addr }">
+			                    </td>
+			                </tr>
+	                    </c:if>
+	                	<c:if test="${status.index eq 2 }">
+			                <tr>
+			                	<td></td>
+			                	<td>
+				                	<input type="text" name="subAddress" id="subAddress" value="${addr }">
+			                	</td>
+			                </tr>
+						</c:if>
+	                </c:forTokens>
+                </c:if>
+                <c:if test="${loginUser.address eq '__' }">
+	                <tr>
+	                    <td>&nbsp;&nbsp;Address</td>
+	                    <td>
+	                        <input type="text" name="postcode" id="postcode" class="postcode">
+	                        <button type="button" class="default-btn b-yell" onclick="searchAddress()">Search</button>
+	                    </td> 
+	                </tr>
+	                <tr>
+	                    <td></td>
+	                    <td>
+	                        <input type="text" name="mainAddress" id="mainAddress">
+	                    </td>
+	                </tr>
+	                <tr>
+	                	<td></td>
+	                	<td>
+	                        <input type="text" name="subAddress" id="subAddress">
+	                	</td>
+	                </tr>
+                </c:if>
                 <tr class="setMain">
                     <td class="setMain-td-f"><a class="blue">*</a> Set Main
                     	<div class="infoSetMain"><div class="square"></div>로그인시 첫 화면에 보여질 서비스를 선택하세요.</div>
                     </td>
                     <td>
-                        <input type="radio" name="main_no" id="1" value="1" checked> <label for="1">Plan</label>
+                        <input type="radio" name="main_no" id="1" value="1"> <label for="1">Plan</label>
                         <input type="radio" name="main_no" id="2" value="2"> <label for="2">Habit Tracker</label><br>
                         <input type="radio" name="main_no" id="3" value="3"> <label for="3">Daily Record</label>
                         <input type="radio" name="main_no" id="4" value="4"> <label for="4">Account Book</label><br>
                         <input type="radio" name="main_no" id="5" value="5"> <label for="5">Diet Diary</label>
+                    	
                     </td>
                 </tr>
                 <tr>
                     <td>&nbsp;&nbsp;Profile Image</td>
                     <td style="display: flex; align-items: center;">
-                    	<div class=profile-image-area>
-                        	<img class="profile-image" src="resources/images/icons/profile_default.png">
-                       	</div>
-                       <div class="filebox"> 
+                  	 	<div class=profile-image-area>
+                       		<c:if test="${empty loginUser.rename_file }">
+	                			<img class="profile-image" src="resources/images/icons/profile_white.png">
+	                		</c:if>
+                			<c:if test="${!empty loginUser.rename_file }">
+	                			<img class="profile-image" src="resources/muploadFiles/${loginUser.rename_file }">
+	                		</c:if>
+        				</div>
+	                		
+                       	<div class="filebox"> 
 							<input type="file" name="file" id="file" onchange="uploadPhoto(this);"> 
-						  	<input class="upload-name" value="Select file">
+						  	<input class="upload-name" value="${loginUser.original_file }">
 						  	<label class="b-yell" for="file">Upload</label> 
 						</div>
                          <!-- <input type="file" id="pImage"> -->  
@@ -315,14 +350,32 @@
             </table>
             <div class="button-area">
 	            <button onclick="history.go(-1)">Back</button>
-	            <button type="reset">Reset</button>
-	            <button type="button" onclick="joinSubmit()">submit</button>
+	            <button type="button" onclick="infoSubmit()">Edit</button>
             </div>
         </form>
     </div>
 
 
     <script>
+    $(document).ready(function(){
+    	
+    	var mainNo = ${loginUser.main_no}
+    	
+    	if(mainNo == "1") {
+    		$("#1").attr("checked", true);
+    	}else if(mainNo == "2") {
+    		$("#2").attr("checked", true);
+    	}else if(mainNo == "3") {
+    		$("#3").attr("checked", true);
+    	}else if(mainNo == "4") {
+    		$("#4").attr("checked", true);
+    	}else if(mainNo == "5") {
+    		$("#5").attr("checked", true);
+    	}
+    	
+    	document.getElementById("birth").value = "${loginUser.birthday}";
+    	
+    })
     
  
 	    /* 파일 업로드 */
@@ -346,58 +399,9 @@
 				reader.readAsDataURL(value.files[0]);
 			}
 	    }
-	   
-
-	    /* 아이디 중복확인 */
-	    
-	   	function idCheck(){
-			
-   			var userId = $("#id").val().trim();
-   			
-   			if(userId.length < 4){
-   				alert("아이디는 최소 4자리 이상이어야 합니다.");
-   				userId.focus();
-   				return;
-   			}else{
-   				$.ajax({
-   					url: "checkId.do",
-   					type: "post",
-   					data: {id:userId},
-   					success:function(data){
-   						
-   						if (data == 1) {
-   							alert("중복된 아이디가 있습니다.");
-   							$("#id").removeClass("finished");
-   							$("#id").val("");
-   							$("#id").focus();
-   						} else {
-   							alert("사용 가능한 아이디입니다.");
-   							$("#id").addClass("finished");
-   							$("#name").focus();
-   						}
-   						
-   					},
-   					error:function(request, status, errorData){
-                         alert("error code: " + request.status + "\n"
-                               +"message: " + request.responseText
-                               +"error: " + errorData);
-              		} 
-   				})
-   			}
-	   	}
-	    
-	    /* For 아이디 중복확인 후 다시 값이 변경될 때 중복확인 해제 */
-	    
-	    $(function(){
-	    	$("#id").on("change",function(){
-	    		$(this).removeClass("finished");
-	    	})
-	    })
 
 	    /* For 유효성 검사 */
 	    
-	    // 아이디 체크
-    	var check_i = RegExp(/^[a-z0-9_\-]{4,12}$/); 
     	// 패스워드 체크
     	var check_p = RegExp(/^(?=.*[a-z])(?=.*[0-9]).{4,15}$/);
     	// 닉네임 체크
@@ -405,40 +409,6 @@
     	// 이메일 체크
     	var check_e = RegExp(/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/);
         
-        
-        /* 아이디 유효성 */
-        
-	    $("#id").keyup(function(){
-	    	
-	    	if($(this).val() == ""){
-	    		
-	    		$("#checkId").show();
-	    		$("#checkId").html("아이디를 입력해 주세요.");
-	    		$("#checkId").removeClass("success");
-	    		
-	    	} else {
-	    	
-		    	if(!check_i.test($(this).val())){
-		    		
-		    		$("#checkId").show();
-		    		$("#checkId").html("영문 소문자와 숫자를 조합하여 4자~15자로 입력하세요.");
-		    		$("#checkId").removeClass("success");
-		    		
-		    		$(this).focusout(function(){
-		    			$("#checkId").show(); // 포커스 잃어도 div태그 보여주기
-		    		})
-		    	
-		    	}else{
-		    		
-		    		$("#checkId").html("정상적으로 입력되었습니다.");
-		    		$("#checkId").addClass("success");
-		    		
-		    		$(this).focusout(function(){ // 포커스 잃으면 div태그 숨기기
-		    			$("#checkId").hide();
-		    		})
-		    	}
-	    	}
-	    })
         
     	/* 닉네임 유효성 */
     	
@@ -560,41 +530,32 @@
 	    
 	    /* submit 버튼 누른 후 유효성 체크 */
 	    
-	    function joinSubmit() {
-				
-        	var id = $("#id").val();
-        	
-        	
-        	if(!$("#id").hasClass("finished")){
-        		alert("아이디 중복체크를 진행해 주세요.");
-        		$("#id").val(id);
-        		$("#id").val("");
-        		$("#id").val(id);
-        		$("#id").focus();
-        		return false;
-        		
-        	}else if(!check_i.test($("#id").val())){
-        		alert("아이디를 제대로 입력해 주세요.");
-        		$("#id").val("");
-        		return false;
-        		
-        	}else if($("#name").val() == ""){
-        		alert("이름을 제대로 입력해 주세요.");
-        		$("#name").val("");
-        		return false;
-        		
-        	}else if(!check_n.test($("#nickname").val())){
+	    function infoSubmit() {
+
+        	if(!check_n.test($("#nickname").val()) || $("#nickname").val() == ""){
         		alert("닉네임을 제대로 입력해 주세요.");
         		$("#nickname").val("");
+        		$("#nickname").focus();
         		return false;
         		
-        	}else if(!check_p.test($("#pwd").val())){
+        	}else if(!check_p.test($("#pwd").val()) || $("#pwd").val() == ""){
         		alert("비밀번호를 제대로 입력해 주세요.");
         		$("#pwd").val("");
+        		$("#pwd").focus();
         		return false;
         		
+        	}else if($("#checkPassword").val() != $("#pwd").val()){
+        		alert("입력한 비밀번호와 일치하지 않습니다.");
+        		$("#checkPassword").val("");
+        		$("#checkPassword").focus();
+        		return false;
         	}else {
-        		$("#joinForm").submit();
+        		if(confirm("정말 수정하시겠습니까?")) {
+        			$("#infoForm").submit();
+                } else {
+                    $("#id").focus();
+                    return false;
+                }
         	}
         }
         
