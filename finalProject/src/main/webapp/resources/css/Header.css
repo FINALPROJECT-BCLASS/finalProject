@@ -121,6 +121,7 @@ body {
     cursor: pointer !important;
     position: absolute;
     right: 0;
+    cursor: pointer;
 
 }
 
