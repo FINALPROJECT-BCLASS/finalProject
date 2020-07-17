@@ -20,7 +20,7 @@
 <c:set var="contextPath" value="${pageContext.servletContext.contextPath }" scope="application"/>
     <header class="header">
         <nav class="mainNav">
-            <div class="logo-area">
+            <div class="logo-area" onclick="location.href='home.do'">
                 <a class="blue">LIFE</a>NOTE
             </div>
             <ul class = "navi-area">
