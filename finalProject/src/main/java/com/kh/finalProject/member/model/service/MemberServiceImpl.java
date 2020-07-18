@@ -1,5 +1,10 @@
 package com.kh.finalProject.member.model.service;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +21,27 @@ public class MemberServiceImpl implements MemberService {
 	public Member loginMember(Member m) {
 		
 		return mDao.selectMember(m);
+	}
+
+	@Override
+	public void checkId(String id, HttpServletResponse response) throws IOException {
+		
+		PrintWriter out = response.getWriter();
+		out.println(mDao.checkId(id));
+		out.close();
+		
+	}
+
+	@Override
+	public int insertMember(Member m) {
+		
+		return mDao.insertMember(m);
+	}
+
+	@Override
+	public int updateMember(Member m) {
+
+		return mDao.updateMember(m);
 	}
 	
 }

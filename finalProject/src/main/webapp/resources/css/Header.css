@@ -65,6 +65,7 @@ body {
     color: rgba(72, 72, 72, 1);
     font-size: 18px;
     font-weight: 800;
+    cursor:pointer;
 }
 
 .sub-navi {
@@ -73,7 +74,7 @@ body {
     position: absolute;
     display: none;
     width: 172px;
-    top: 63px;
+    top: 65px;
     right: -18%;
     background-color: #F3F3F3;
     border-radius: 0 0 10px 10px;
@@ -191,6 +192,7 @@ body {
 
 /* 헤더 프로필 이미지 */
 .h-profile-image-area {
+	display: flex;
     width: 35px;
     height: 35px;
     overflow: hidden;
@@ -200,7 +202,7 @@ body {
 }
 
 .h-profile-image {
-    height: 102% !important;
+    height: 135% !important;
 }
 
 .after {
