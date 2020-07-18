@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.finalProject.member.model.vo.Member;
 import com.kh.finalProject.plan.model.exception.PlanException;
 import com.kh.finalProject.plan.model.service.PlanService;
+import com.kh.finalProject.plan.model.vo.DTodolist;
 import com.kh.finalProject.plan.model.vo.McOvulation;
 import com.kh.finalProject.plan.model.vo.McRecord;
 import com.kh.finalProject.plan.model.vo.Menstrual;
@@ -205,12 +206,12 @@ public class PlanController {
 			int endMinute = Integer.parseInt(t.getTtEnd().substring(3));
 			
 			int startHalf = 0;
-			if(startMinute > 30) {
+			if(startMinute >= 30) {
 				startHalf = 1;
 			}
 			
 			int endHalf = 0;
-			if(endMinute > 30) {
+			if(endMinute >= 30) {
 				endHalf = 1;
 			}
 			
@@ -221,11 +222,12 @@ public class PlanController {
 			jObj.put("start", t.getTtStart());
 			jObj.put("end", t.getTtEnd());
 			jObj.put("startHour", startHour);
-			jObj.put("startHalf", startHalf);
+			jObj.put("startMinute", startMinute);
 			jObj.put("endHour", endHour);
-			jObj.put("endHalf", endHalf);
+			jObj.put("endMinute", endMinute);
 			jObj.put("gap", gap);
 			jObj.put("color", "#F781BE");
+			jObj.put("memo", t.getTtMemo());
 			
 			jArr.add(jObj);
 		}

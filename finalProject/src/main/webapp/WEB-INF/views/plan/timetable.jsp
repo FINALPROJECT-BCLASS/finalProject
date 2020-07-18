@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 <style>
 	#listTable{
-            margin-top: 5px;
+    	margin-top: 5px;
     }
 
     #listTable td{
@@ -131,24 +131,28 @@
         			dataType: 'json',
         			success: function(data) {
         				for(var i in data.ttList){
-    	   					var $time = $("<b>").text(data.ttList[i].start + " - " + data.ttList[i].end + " " + data.ttList[i].title);
+    	   					var $time = $("<b>").html(data.ttList[i].start + " - " + data.ttList[i].end + " " + data.ttList[i].title
+    	   											+ "(" + data.ttList[i].memo + ")");
     	   					
     	   					var startHour = data.ttList[i].startHour;
-    	   					var startHalf = data.ttList[i].startHalf;
+    	   					var startMinute = data.ttList[i].startMinute;
     	   					
-    	   					if(startHalf == 1) {
-    	   						$("#"+startHour+"half").append($time).css("background-color", "pink");
+    	   					if(startMinute >= 30) {
+    	   						$("#"+startHour+"half").append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
     	   					} else {
-    	   						$("#"+startHour).append($time).css("background-color", "pink");
+    	   						$("#"+startHour).append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
     	   					}
     	   					
     	   					var endHour = data.ttList[i].endHour;
-    	   					var endHalf = data.ttList[i].endtHalf;
+    	   					var endMinute = data.ttList[i].endMinute;
     	   					
-    	   					if(endHalf == 1) {
-    	   						$("#"+endHour+"half").css("background-color", "pink");
-    	   					} else {
-    	   						$("#"+endHour).css("background-color", "pink");
+    	   					if(endMinute >= 30) {
+    	   						$("#"+endHour).css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid pink");
+    	   						$("#"+endHour+"half").css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid #484848");
+    	   					} else if(endMinute >= 1) {
+    	   						$("#"+endHour).css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid #484848");
+    	   					} else if(endMinute == 0) {
+    	   						$("#"+startHour+"half").css("background-color", "pink").css("border-bottom", "1px solid #484848");
     	   					}
     	   					
     	   					var gap = data.ttList[i].gap;
@@ -156,9 +160,11 @@
     	   					if(gap > 0) {
     	   						for(j = 1; j < gap; j++) {
     	   							var gapHour = startHour+j;
-    	   							$("#"+startHour+"half").css("background-color", "pink");
-    	   							$("#"+gapHour).css("background-color", "pink");
-    	   							$("#"+gapHour+"half").css("background-color", "pink");
+    	   							$("#"+startHour+"half").css("background-color", "pink").css("border-bottom", "1px solid pink");
+    	   							$("#"+gapHour).css("background-color", "pink").css("border-top", "1px solid pink")
+    	   										.css("border-bottom", "1px solid pink");
+    	   							$("#"+gapHour+"half").css("background-color", "pink").css("border-top", "1px solid pink")
+    	   												.css("border-bottom", "1px solid pink");;
     	   						}
     	   					}
     	   				};
@@ -175,30 +181,39 @@
         			
         			$("#date").text(ttDate);
         			
+        			$(".timeContent").empty();
+        			$(".timeContent").css("background-color", "transparent")
+        							.css("border-top", "1px solid #484848")
+        							.css("border-bottom", "1px solid #484848");
+        			
         			$.ajax({
             			url: 'ttlist.do',
             			data: {ttDate:ttDate},
             			dataType: 'json',
             			success: function(data) {
             				for(var i in data.ttList){
-        	   					var $time = $("<b>").text(data.ttList[i].start + " - " + data.ttList[i].end + " " + data.ttList[i].title);
+        	   					var $time = $("<b>").html(data.ttList[i].start + " - " + data.ttList[i].end + " " + data.ttList[i].title
+        	   											+ "(" + data.ttList[i].memo + ")");
         	   					
         	   					var startHour = data.ttList[i].startHour;
-        	   					var startHalf = data.ttList[i].startHalf;
+        	   					var startMinute = data.ttList[i].startMinute;
         	   					
-        	   					if(startHalf == 1) {
-        	   						$("#"+startHour+"half").append($time).css("background-color", "pink");
+        	   					if(startMinute >= 30) {
+        	   						$("#"+startHour+"half").append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
         	   					} else {
-        	   						$("#"+startHour).append($time).css("background-color", "pink");
+        	   						$("#"+startHour).append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
         	   					}
         	   					
         	   					var endHour = data.ttList[i].endHour;
-        	   					var endHalf = data.ttList[i].endtHalf;
+        	   					var endMinute = data.ttList[i].endMinute;
         	   					
-        	   					if(endHalf == 1) {
-        	   						$("#"+endHour+"half").css("background-color", "pink");
-        	   					} else {
-        	   						$("#"+endHour).css("background-color", "pink");
+        	   					if(endMinute >= 30) {
+        	   						$("#"+endHour).css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid pink");
+        	   						$("#"+endHour+"half").css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid #484848");
+        	   					} else if(endMinute >= 1) {
+        	   						$("#"+endHour).css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid #484848");
+        	   					} else if(endMinute == 0) {
+        	   						$("#"+startHour+"half").css("background-color", "pink").css("border-bottom", "1px solid #484848");
         	   					}
         	   					
         	   					var gap = data.ttList[i].gap;
@@ -206,9 +221,11 @@
         	   					if(gap > 0) {
         	   						for(j = 1; j < gap; j++) {
         	   							var gapHour = startHour+j;
-        	   							$("#"+startHour+"half").css("background-color", "pink");
-        	   							$("#"+gapHour).css("background-color", "pink");
-        	   							$("#"+gapHour+"half").css("background-color", "pink");
+        	   							$("#"+startHour+"half").css("background-color", "pink").css("border-bottom", "1px solid pink");
+        	   							$("#"+gapHour).css("background-color", "pink").css("border-top", "1px solid pink")
+        	   										.css("border-bottom", "1px solid pink");
+        	   							$("#"+gapHour+"half").css("background-color", "pink").css("border-top", "1px solid pink")
+        	   												.css("border-bottom", "1px solid pink");;
         	   						}
         	   					}
         	   				};
@@ -228,7 +245,7 @@
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8">
-                <span style="font-size: 30px;" id="date"></span>&nbsp;
+                <span style="font-size: 30px; color: #2860E1; font-weight: bold" id="date"></span>&nbsp;
                 &nbsp;<input type="date" id="selectDate">
                 <div id="addBtnArea">
                     <button type="button" class="default-btn" data-toggle="modal" data-target="#addModal">Add</button>
@@ -485,52 +502,52 @@
                     <div id="circleArea">
                         <div id="circle"></div>
                         <b id="listLogo">To do List</b>&nbsp;&nbsp;&nbsp;
-                        <button type="button" class="default-btn">Save</button>
+                        <button type="button" class="default-btn" id="todolistBtn">Save</button>
                     </div>
                     <table id="listTable">
                         <tr>
                             <td class="listNo">1</td>
-                            <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
-                            <td class="listCheck"><input type="checkbox"></td>
+                            <td class="listContent"><input type="text" class="listInput" name="dtCon"></td>
+                            <td class="listCheck"><input type="checkbox" name="dtComplete"></td>
                         </tr>
                         <tr>
                             <td class="listNo">2</td>
-                            <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
-                            <td class="listCheck"><input type="checkbox"></td>
+                            <td class="listContent"><input type="text" class="listInput" name="dtCon"></td>
+                            <td class="listCheck"><input type="checkbox" name="dtComplete"></td>
                         </tr>
                         <tr>
                             <td class="listNo">3</td>
-                            <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
-                            <td class="listCheck"><input type="checkbox"></td>
+                            <td class="listContent"><input type="text" class="listInput" name="dtCon"></td>
+                            <td class="listCheck"><input type="checkbox" name="dtComplete"></td>
                         </tr>
                         <tr>
                             <td class="listNo">4</td>
-                            <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
+                            <td class="listContent"><input type="text" class="listInput" name="dtCon"></td>
                             <td class="listCheck"><input type="checkbox"></td>
                         </tr>
                         <tr>
                             <td class="listNo">5</td>
-                            <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
+                            <td class="listContent"><input type="text" class="listInput" name="dtCon"></td>
                             <td class="listCheck"><input type="checkbox"></td>
                         </tr>
                         <tr>
                             <td class="listNo">6</td>
-                            <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
+                            <td class="listContent"><input type="text" class="listInput" name="dtCon"></td>
                             <td class="listCheck"><input type="checkbox"></td>
                         </tr>
                         <tr>
                             <td class="listNo">7</td>
-                            <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
+                            <td class="listContent"><input type="text" class="listInput" name="dtCon"></td>
                             <td class="listCheck"><input type="checkbox"></td>
                         </tr>
                         <tr>
                             <td class="listNo">8</td>
-                            <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
+                            <td class="listContent"><input type="text" class="listInput" name="dtCon"></td>
                             <td class="listCheck"><input type="checkbox"></td>
                         </tr>
                         <tr>
                             <td class="listNo">9</td>
-                            <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
+                            <td class="listContent"><input type="text" class="listInput" name="dtCon"></td>
                             <td class="listCheck"><input type="checkbox"></td>
                         </tr>
                         <tr>
@@ -545,7 +562,7 @@
        <br><br><br><br><br>
     </section>
 
-    <jsp:include page="../common/footer.jsp"/>	
+    <jsp:include page="../common/footer.jsp"/>
 
     <script>
         // 로그인 서브 메뉴
