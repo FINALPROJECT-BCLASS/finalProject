@@ -135,5 +135,17 @@
 		FROM GROUP_NOTICE
 		WHERE GN_DELETE = 'N'
 	</select>
+	
+	<insert id="noticeInsert" parameterType="GroupNotice">
+		INSERT INTO GROUP_NOTICE 
+		VALUES(SEQ_GN.NEXTVAL,
+				#{gmNo},
+				#{gNo},
+				#{gnTitle},
+				#{gnCon},
+				SYSDATE,
+				'N',
+				0)
+	</insert>
 	<!-- 그룹 공지  end -->
 </mapper>

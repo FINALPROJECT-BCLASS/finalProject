@@ -341,9 +341,10 @@ public class GroupController {
 			gn.setgNo(gInfo.getGroupNo());
 			gn.setGmNo(gInfo.getGroupNo());
 			
-			
 			System.out.println("gn : " + gn);
+			int result = gService.noticeInsert(gn); 
 			
+			System.out.println("공지 작성 result : " + result);
 			return "redirect:noticeMain.do";
 		}
 	

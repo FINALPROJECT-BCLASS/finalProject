@@ -65,6 +65,11 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.getListCount();
 	}
 
+	@Override
+	public int noticeInsert(GroupNotice gn) {
+		return gDao.noticeInsert(gn);
+	}
+
 	
 
 

@@ -61,6 +61,10 @@ public class GroupDao {
 	public int getListCount() {
 		return sqlSessionTemplate.selectOne("groupMapper.getListCount");
 	}
+
+	public int noticeInsert(GroupNotice gn) {
+		return sqlSessionTemplate.insert("groupMapper.noticeInsert", gn);
+	}
 	
 	
 	

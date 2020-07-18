@@ -30,4 +30,6 @@ public interface GroupService {
 
 	int getListCount();
 
+	int noticeInsert(GroupNotice gn);
+
 }
