@@ -254,21 +254,21 @@
 		  					  		<span class="ModalTitle">Group Diary</span>
 		  					  		<br>
 		  					  		<span>Notice Write</span>
-		  					  		
+		  					  		<br>
 
 		  					  		 <form id="noticeWriteForm" action="gNoticeWrite.do" method="post">
 					                    <table class="groupTb">
 					                    	
 					                        <tr>
 					                            <td class="groupTbTd">Title&nbsp;</td>
-					                            <td><input type="text" name="gnTitle" id="title" placeholder="  제목 작성"></td>
+					                            <td><input type="text" name="gnTitle" id="title" placeholder="  제목 작성" required></td>
 					                        </tr>
 					                       
 					                 
 					                        <tr>
 					                            <td class="groupTbTd">Content&nbsp;</td>
 					                            <td>
-					                                <textarea id="groupCon" name="gnCon"></textarea>
+					                                <textarea id="groupCon" name="gnCon" required></textarea>
 					                            </td> 
 					                        </tr>
 
@@ -287,7 +287,12 @@
 		 })
 		 
 		 $("#detailbtn").click(function(){
+			 if($("#title").val() == "" && $("#groupCon").val() == ""){
+				 alert("공지 제목 혹은 공지 내용을 입력해주세요.");
+			 }else{
+				 
 			 $("#noticeWriteForm").submit();
+			 }
 		 })
 		 </script>
 		 <!-- 공지사항 글쓰기 modal end -->

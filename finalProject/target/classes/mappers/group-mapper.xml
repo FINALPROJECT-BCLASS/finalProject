@@ -126,7 +126,7 @@
 		JOIN GROUP_MEMBER GM ON(GN.GM_NO = GM.GM_NO)
         JOIN MEMBER M ON (GM.GM_ID = M.ID)
         WHERE GM.G_NO = #{groupNo}
-        AND GN.GM_NO = #{gmNo}
+<!--         AND GN.GM_NO = #{gmNo} -->
 		ORDER BY GN_NO DESC
 	</select>
 	
