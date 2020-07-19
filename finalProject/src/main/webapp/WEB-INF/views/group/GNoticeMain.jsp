@@ -31,7 +31,7 @@
 	#groupWrite { text-align:right; width:100%; height: 50px; margin-right:40px; margin-bottom:10px; border:none;}
     img {width:50px; height:40px; cursor: pointer; border-radius: 5px;}
 	
-	.groupListCount{width:95%; text-align:right;}
+	.groupListCount{width:95%; margin-bottom:10px; text-align:right;}
 	
     /* 공지게시판 */
     .emptyNoticeList{margin-top:100px; text-align:center; font-size:20px; font-weight:600;}
@@ -43,6 +43,10 @@
     .noticeBoardDate{padding-left:10px; font-size:12px; font-weight: 600;}
     .noticeBoardContent{padding-top:5px; padding-left:10px; height:50px; overflow:scroll; overflow-x:hidden; overflow-y:hidden; font-size:13px;}
 	
+	/* 수정버튼  */
+	.aditBtn{border:none; cursor:pointer; padding-top:6px; text-align:center; border-radius:6px; background:#FBD14B; width:60px; height:35px; margin:0 auto;}
+	.aditBtn:hover{border:none; cursor:pointer; padding-top:6px; text-align:center; border-radius:6px; background:#fac107; width:60px; height:35px; margin:0 auto;}
+	 .td5{width:7%; }
 
 	/* modal */
 	 .modal-content{ 
@@ -131,7 +135,7 @@
 	           		<div class="emptyNoticeList"> 작성한 공지가 없습니다.</div>
 	           	</c:if>
 	           	
-
+				
 	             	<%-- <c:if test="${!empty noticeList }">
 		              <c:forEach var="n" items="${noticeList }">
 		            
@@ -154,6 +158,8 @@
 
 	  <!-- 스크롤 게시판-->
 	   <script>
+	   		var gInfo = ${gInfo.gmNo};
+	   		
 	         let isEnd = false;
 	        /*  var page = ${pi.currentPage + 1}; */
 	         var pagePlus = 1;
@@ -194,7 +200,7 @@
 	                     if( length < 5 ){
 	                         isEnd = true;
 	                     }
-	                     
+
 	                     
 	                     for(i in data.noticeList){
 	
@@ -209,21 +215,45 @@
 	                    	var $td2 = $("<td>");
 	                    	var $td3 = $("<td>");
 	                    	var $td4 = $("<td>");
-	                    
+	                    	var $td5 = $("<td>").attr("class","td5");
+	                    	
 	                    	var $noticeBoardTitle = $("<div>").text(data.noticeList[i].gnTitle).attr("class","noticeBoardTitle");
 	                    	var $noticeBoardWriter = $("<div>").text(data.noticeList[i].name).attr("class","noticeBoardWriter");
 	                    	var $noticeBoardDate = $("<div>").text(data.noticeList[i].gnDate).attr("class","noticeBoardDate");
 	                    	var $noticeBoardContent = $("<div>").text(data.noticeList[i].gnCon).attr("class","noticeBoardContent");
+	                    	var $aditBtn = $("<div>").text("Edit").attr("class","aditBtn");
 	                    	
+	                    	if(gInfo != data.noticeList[i].gmNo){
+	                    		console.log("gInfo " + gInfo);
+	                    		console.log("gmNo : " + data.noticeList[i].gmNo);
+	                    		$td1.append($noticeBoardTitle);
+		                    	$tr1.append($td1);
+		                    	$td2.append($noticeBoardWriter);
+		                    	$tr2.append($td2);
+		                    	$td3.append($noticeBoardDate);
+		                    	$tr3.append($td3);
+		                    	$td4.append($noticeBoardContent);
+		                    	$tr4.append($td4);
+		                    	
+		                    	
 	                    	
-	                    	$td1.append($noticeBoardTitle);
-	                    	$tr1.append($td1);
-	                    	$td2.append($noticeBoardWriter);
-	                    	$tr2.append($td2);
-	                    	$td3.append($noticeBoardDate);
-	                    	$tr3.append($td3);
-	                    	$td4.append($noticeBoardContent);
-	                    	$tr4.append($td4);
+	                    	} else{
+	                    		console.log("else gInfo " + gInfo);
+	                    		console.log("else gmNo : " + data.noticeList[i].gmNo);
+	                    		$td1.append($noticeBoardTitle);
+		                    	$tr1.append($td1);
+		                    	$td5.append($aditBtn);
+		                    	$tr1.append($td5);	
+		                    	$td2.append($noticeBoardWriter);
+		                    	$tr2.append($td2);
+		                    	$td3.append($noticeBoardDate);
+		                    	$tr3.append($td3);
+		                    	$td4.append($noticeBoardContent);
+		                    	$tr4.append($td4);
+		                    		
+	                    	}
+	                    		
+	                    	
 	                    	
 	                    	$noticeBoardTb.append($tr1);
 	                    	$noticeBoardTb.append($tr2);
@@ -243,7 +273,7 @@
 	         }
 	     
 		    </script>
-		    <!-- 스크롤 게시판 end -->
+			    <!-- 스크롤 게시판 end -->
 	      
 	      
 	 
@@ -274,7 +304,7 @@
 
 					                    </table>
 					                </form>
-		  					  		<button id="detailbtn" class="default-btn b-yell" type="button">submit</button>
+		  					  		<button id="detailbtn" class="default-btn b-yell" type="button">Submit</button>
 		       					 <!-- remote ajax call이 되는영역 -->
 		   					 </div>
 		  				</div>

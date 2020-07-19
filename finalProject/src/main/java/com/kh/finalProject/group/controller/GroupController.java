@@ -251,6 +251,7 @@ public class GroupController {
 			
 			mv.addObject("noticeList",noticeList);
 			mv.addObject("pi",pi);
+			mv.addObject("gInfo", gInfo);	
 			mv.setViewName("group/GNoticeMain");
 			
 			
