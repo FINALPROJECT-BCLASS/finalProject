@@ -125,4 +125,10 @@ public class PlanServiceImpl implements PlanService {
 		return pDao.selectTtList(t);
 	}
 
+	@Override
+	public int deleteTimetable(int ttNo) {
+		
+		return pDao.deleteTimetable(ttNo);
+	}
+
 }

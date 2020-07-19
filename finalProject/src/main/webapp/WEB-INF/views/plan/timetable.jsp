@@ -134,6 +134,8 @@
     	   					var $time = $("<b>").html(data.ttList[i].start + " - " + data.ttList[i].end + " " + data.ttList[i].title
     	   											+ "(" + data.ttList[i].memo + ")");
     	   					
+    	   					var $no = $("<input type='text' class='timeNo'>").val(data.ttList[i].no);
+    	   					
     	   					var startHour = data.ttList[i].startHour;
     	   					var startMinute = data.ttList[i].startMinute;
     	   					
@@ -144,37 +146,37 @@
     	   					var endOnTime = endHour - 1;
     	   					
     	   					if(startMinute >= 30 && gap <= 0) {
-    	   						$("#"+startHour+"half").append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
+    	   						$("#"+startHour+"half").append($no).append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
     	   					} else if(startMinute < 30 && gap > 0) {
-    	   						$("#"+startHour).append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
-    	   						$("#"+startHour+"half").css("background-color", "pink").css("border-bottom", "1px solid pink");
+    	   						$("#"+startHour).append($no).append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
+    	   						$("#"+startHour+"half").append($no).css("background-color", "pink").css("border-bottom", "1px solid pink");
     	   					} else if(startMinute >= 30 && gap > 0) {
-    	   						$("#"+startHour+"half").append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
+    	   						$("#"+startHour+"half").append($no).append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
     	   					} else {
-    	   						$("#"+startHour).append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
+    	   						$("#"+startHour).append($no).append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
     	   					}
     	   					
     	   						
    	   						for(j = startHour+1; j < endHour; j++) {
    	   							var gapHour = startHour+j;
-   	   							$("#"+j+"half").css("background-color", "pink").css("border-bottom", "1px solid pink");
-   	   							$("#"+j).css("background-color", "pink").css("border-top", "1px solid pink")
+   	   							$("#"+j+"half").append($no).css("background-color", "pink").css("border-bottom", "1px solid pink");
+   	   							$("#"+j).append($no).css("background-color", "pink").css("border-top", "1px solid pink")
    	   										.css("border-bottom", "1px solid pink");
-   	   							$("#"+j+"half").css("background-color", "pink").css("border-top", "1px solid pink")
+   	   							$("#"+j+"half").append($no).css("background-color", "pink").css("border-top", "1px solid pink")
    	   												.css("border-bottom", "1px solid pink");
     	   					}
    	   						
     	   					if(endMinute >= 30) {
-    	   						$("#"+endHour).css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid pink");
-    	   						$("#"+endHour+"half").css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid #484848");
+    	   						$("#"+endHour).append($no).css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid pink");
+    	   						$("#"+endHour+"half").append($no).css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid #484848");
     	   					} else if(endMinute >= 1) {
-    	   						$("#"+endHour).css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid #484848");
+    	   						$("#"+endHour).append($no).css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid #484848");
     	   					} else if(endMinute == 0 ) {
     	   						if(endHour == 24) {
-    	   							$("#24").css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid pink");
-    	   							$("#24half").css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid #484848");
+    	   							$("#24").append($no).css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid pink");
+    	   							$("#24half").append($no).css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid #484848");
     	   						} else {
-	    	   						$("#"+endOnTime+"half").css("background-color", "pink").css("border-bottom", "1px solid #484848");    	   							
+	    	   						$("#"+endOnTime+"half").append($no).css("background-color", "pink").css("border-bottom", "1px solid #484848");    	   							
     	   						}
     	   					}
     	   					
@@ -581,51 +583,6 @@
                 </div>
             <!-- </div> -->
         </div>
-        
-        <div class="modal fade" id="editModal" role="dialog">
-	        <div class="modal-dialog">
-	            <div class="modal-content">
-	                <div class="modal-header">
-	                    <button type="button" class="close" data-dismiss="modal">×</button>
-	                </div>
-	                <div class="modal-body" align="center">
-	                    <form action="ttinsert.do" method="post">
-	                    	<input type="hidden" value="${loginUser.id }" name="id">
-	                        <table id="addTable">
-	                            <tr>
-	                                <td><b>Title</b></td>
-	                                <td>
-	                                	<input type="text" name="ttTitle" size="30">
-	                                </td>
-	                            </tr>
-	                            <tr>
-	                                <td><b>Date</b></td>
-	                                <td>
-	                                	<input type="date" name="ttDate" style="width: 250px;">
-	                                </td>
-	                            </tr>
-	                            <tr>
-	                                <td><b>Time</b></td>
-	                                <td>
-	                                    <input type="time" name="ttStart"> - 
-	                                    <input type="time" name="ttEnd">
-	                                </td>
-	                            </tr>
-	                            <tr>
-	                                <td colspan="2"><b>Memo</b></td>
-	                            </tr>
-	                            <tr>
-	                                <td colspan="2">
-	                                    <textarea name="ttMemo" cols="40" rows="5"></textarea>
-	                                </td>
-	                            </tr>
-	                        </table>
-	                        <button type="submit" class="default-btn">Add</button>
-	                    </form>
-	                </div>
-	            </div>
-	        </div>
-	    </div>
                 
        <br><br><br><br><br>
     </section>
@@ -635,7 +592,17 @@
     <script>
     	$(function(){
     		$(".timeContent").click(function(){
-    			$("#editModal").modal();
+    			var ttNo = $(this).find(".timeNo").val();
+    			
+    			console.log(ttNo);
+    			
+    			var deleteCheck = confirm("일정을 삭제하시겠습니까?");
+    			if(deleteCheck == true){
+    				location.href="ttdelete.do?ttNo="+ttNo;
+    			}
+    			else if(deleteCheck == false){
+    				console.log("일정 삭제를 취소합니다.");
+    			}
     		})
     	})
     	

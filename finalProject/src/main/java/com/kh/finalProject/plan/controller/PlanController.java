@@ -13,12 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.finalProject.member.model.vo.Member;
 import com.kh.finalProject.plan.model.exception.PlanException;
 import com.kh.finalProject.plan.model.service.PlanService;
-import com.kh.finalProject.plan.model.vo.DTodolist;
 import com.kh.finalProject.plan.model.vo.McOvulation;
 import com.kh.finalProject.plan.model.vo.McRecord;
 import com.kh.finalProject.plan.model.vo.Menstrual;
@@ -222,6 +222,7 @@ public class PlanController {
 			jObj.put("gap", gap);
 			jObj.put("color", "#F781BE");
 			jObj.put("memo", t.getTtMemo());
+			jObj.put("no", t.getTtNo());
 			
 			jArr.add(jObj);
 		}
@@ -244,6 +245,28 @@ public class PlanController {
 			return "redirect:ttview.do";
 		} else {
 			throw new PlanException("시간표 등록 실패");
+		}
+		
+	}
+	
+	@RequestMapping("ttdelete.do")
+	public String timetableDelete(Model model, @RequestParam(value="ttNo") String no) throws PlanException {
+		System.out.println(no);
+		
+		int ttNo = 0;
+		
+		try {
+			ttNo = Integer.parseInt(no);
+		} catch(NumberFormatException e) {
+			e.getStackTrace();
+		}
+		
+		int result = pService.deleteTimetable(ttNo);
+		
+		if(result > 0) {
+			return "redirect:ttview.do";
+		} else {
+			throw new PlanException("시간표 삭제 실패");
 		}
 		
 	}

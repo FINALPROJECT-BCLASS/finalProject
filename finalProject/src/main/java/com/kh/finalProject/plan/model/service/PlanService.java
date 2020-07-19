@@ -45,4 +45,6 @@ public interface PlanService {
 
 	ArrayList<Timetable> selectTtList(Timetable t);
 
+	int deleteTimetable(int ttNo);
+
 }

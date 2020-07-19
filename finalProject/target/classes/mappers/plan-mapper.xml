@@ -226,4 +226,10 @@
 		    AND TT_DELETE='N'
 	</select>
 	
+	<delete id="deleteTimetable" parameterType="_int">
+		UPDATE TIMETABLE
+		SET TT_DELETE='Y'
+		WHERE TT_NO=#{ttNo}
+	</delete>
+	
 </mapper>

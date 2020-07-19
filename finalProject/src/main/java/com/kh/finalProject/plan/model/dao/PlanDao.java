@@ -107,4 +107,9 @@ public class PlanDao {
 		return (ArrayList)sqlSessionTemplate.selectList("planMapper.selectTtList", t);
 	}
 
+	public int deleteTimetable(int ttNo) {
+	
+		return sqlSessionTemplate.delete("planMapper.deleteTimetable", ttNo);
+	}
+
 }
