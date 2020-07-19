@@ -137,36 +137,47 @@
     	   					var startHour = data.ttList[i].startHour;
     	   					var startMinute = data.ttList[i].startMinute;
     	   					
-    	   					if(startMinute >= 30) {
+    	   					var gap = data.ttList[i].gap;
+    	   					
+    	   					var endHour = data.ttList[i].endHour;
+    	   					var endMinute = data.ttList[i].endMinute;
+    	   					var endOnTime = endHour - 1;
+    	   					
+    	   					if(startMinute >= 30 && gap <= 0) {
+    	   						$("#"+startHour+"half").append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
+    	   					} else if(startMinute < 30 && gap > 0) {
+    	   						$("#"+startHour).append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
+    	   						$("#"+startHour+"half").css("background-color", "pink").css("border-bottom", "1px solid pink");
+    	   					} else if(startMinute >= 30 && gap > 0) {
     	   						$("#"+startHour+"half").append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
     	   					} else {
     	   						$("#"+startHour).append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
     	   					}
     	   					
-    	   					var endHour = data.ttList[i].endHour;
-    	   					var endMinute = data.ttList[i].endMinute;
-    	   					
+    	   						
+   	   						for(j = startHour+1; j < endHour; j++) {
+   	   							var gapHour = startHour+j;
+   	   							$("#"+j+"half").css("background-color", "pink").css("border-bottom", "1px solid pink");
+   	   							$("#"+j).css("background-color", "pink").css("border-top", "1px solid pink")
+   	   										.css("border-bottom", "1px solid pink");
+   	   							$("#"+j+"half").css("background-color", "pink").css("border-top", "1px solid pink")
+   	   												.css("border-bottom", "1px solid pink");
+    	   					}
+   	   						
     	   					if(endMinute >= 30) {
     	   						$("#"+endHour).css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid pink");
     	   						$("#"+endHour+"half").css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid #484848");
     	   					} else if(endMinute >= 1) {
     	   						$("#"+endHour).css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid #484848");
-    	   					} else if(endMinute == 0) {
-    	   						$("#"+startHour+"half").css("background-color", "pink").css("border-bottom", "1px solid #484848");
-    	   					}
-    	   					
-    	   					var gap = data.ttList[i].gap;
-    	   					console.log(gap);
-    	   					if(gap > 0) {
-    	   						for(j = 1; j < gap; j++) {
-    	   							var gapHour = startHour+j;
-    	   							$("#"+startHour+"half").css("background-color", "pink").css("border-bottom", "1px solid pink");
-    	   							$("#"+gapHour).css("background-color", "pink").css("border-top", "1px solid pink")
-    	   										.css("border-bottom", "1px solid pink");
-    	   							$("#"+gapHour+"half").css("background-color", "pink").css("border-top", "1px solid pink")
-    	   												.css("border-bottom", "1px solid pink");;
+    	   					} else if(endMinute == 0 ) {
+    	   						if(endHour == 24) {
+    	   							$("#24").css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid pink");
+    	   							$("#24half").css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid #484848");
+    	   						} else {
+	    	   						$("#"+endOnTime+"half").css("background-color", "pink").css("border-bottom", "1px solid #484848");    	   							
     	   						}
     	   					}
+    	   					
     	   				};
         			},
         			error:function(request, status, errorData){
@@ -198,36 +209,47 @@
         	   					var startHour = data.ttList[i].startHour;
         	   					var startMinute = data.ttList[i].startMinute;
         	   					
-        	   					if(startMinute >= 30) {
+        	   					var gap = data.ttList[i].gap;
+        	   					
+        	   					var endHour = data.ttList[i].endHour;
+        	   					var endMinute = data.ttList[i].endMinute;
+        	   					var endOnTime = endHour - 1;
+        	   					
+        	   					if(startMinute >= 30 && gap <= 0) {
+        	   						$("#"+startHour+"half").append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
+        	   					} else if(startMinute < 30 && gap > 0) {
+        	   						$("#"+startHour).append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
+        	   						$("#"+startHour+"half").css("background-color", "pink").css("border-bottom", "1px solid pink");
+        	   					} else if(startMinute >= 30 && gap > 0) {
         	   						$("#"+startHour+"half").append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
         	   					} else {
         	   						$("#"+startHour).append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
         	   					}
         	   					
-        	   					var endHour = data.ttList[i].endHour;
-        	   					var endMinute = data.ttList[i].endMinute;
-        	   					
+        	   						
+       	   						for(j = startHour+1; j < endHour; j++) {
+       	   							var gapHour = startHour+j;
+       	   							$("#"+j+"half").css("background-color", "pink").css("border-bottom", "1px solid pink");
+       	   							$("#"+j).css("background-color", "pink").css("border-top", "1px solid pink")
+       	   										.css("border-bottom", "1px solid pink");
+       	   							$("#"+j+"half").css("background-color", "pink").css("border-top", "1px solid pink")
+       	   												.css("border-bottom", "1px solid pink");
+        	   					}
+       	   						
         	   					if(endMinute >= 30) {
         	   						$("#"+endHour).css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid pink");
         	   						$("#"+endHour+"half").css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid #484848");
         	   					} else if(endMinute >= 1) {
         	   						$("#"+endHour).css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid #484848");
-        	   					} else if(endMinute == 0) {
-        	   						$("#"+startHour+"half").css("background-color", "pink").css("border-bottom", "1px solid #484848");
-        	   					}
-        	   					
-        	   					var gap = data.ttList[i].gap;
-        	   					console.log(gap);
-        	   					if(gap > 0) {
-        	   						for(j = 1; j < gap; j++) {
-        	   							var gapHour = startHour+j;
-        	   							$("#"+startHour+"half").css("background-color", "pink").css("border-bottom", "1px solid pink");
-        	   							$("#"+gapHour).css("background-color", "pink").css("border-top", "1px solid pink")
-        	   										.css("border-bottom", "1px solid pink");
-        	   							$("#"+gapHour+"half").css("background-color", "pink").css("border-top", "1px solid pink")
-        	   												.css("border-bottom", "1px solid pink");;
+        	   					} else if(endMinute == 0 ) {
+        	   						if(endHour == 24) {
+        	   							$("#24").css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid pink");
+        	   							$("#24half").css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid #484848");
+        	   						} else {
+    	    	   						$("#"+endOnTime+"half").css("background-color", "pink").css("border-bottom", "1px solid #484848");    	   							
         	   						}
         	   					}
+        	   					
         	   				};
             			},
             			error:function(request, status, errorData){
@@ -559,12 +581,64 @@
                 </div>
             <!-- </div> -->
         </div>
+        
+        <div class="modal fade" id="editModal" role="dialog">
+	        <div class="modal-dialog">
+	            <div class="modal-content">
+	                <div class="modal-header">
+	                    <button type="button" class="close" data-dismiss="modal">×</button>
+	                </div>
+	                <div class="modal-body" align="center">
+	                    <form action="ttinsert.do" method="post">
+	                    	<input type="hidden" value="${loginUser.id }" name="id">
+	                        <table id="addTable">
+	                            <tr>
+	                                <td><b>Title</b></td>
+	                                <td>
+	                                	<input type="text" name="ttTitle" size="30">
+	                                </td>
+	                            </tr>
+	                            <tr>
+	                                <td><b>Date</b></td>
+	                                <td>
+	                                	<input type="date" name="ttDate" style="width: 250px;">
+	                                </td>
+	                            </tr>
+	                            <tr>
+	                                <td><b>Time</b></td>
+	                                <td>
+	                                    <input type="time" name="ttStart"> - 
+	                                    <input type="time" name="ttEnd">
+	                                </td>
+	                            </tr>
+	                            <tr>
+	                                <td colspan="2"><b>Memo</b></td>
+	                            </tr>
+	                            <tr>
+	                                <td colspan="2">
+	                                    <textarea name="ttMemo" cols="40" rows="5"></textarea>
+	                                </td>
+	                            </tr>
+	                        </table>
+	                        <button type="submit" class="default-btn">Add</button>
+	                    </form>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+                
        <br><br><br><br><br>
     </section>
 
     <jsp:include page="../common/footer.jsp"/>
 
     <script>
+    	$(function(){
+    		$(".timeContent").click(function(){
+    			$("#editModal").modal();
+    		})
+    	})
+    	
         // 로그인 서브 메뉴
         $(document).ready(function(){
         $(".l-login-area>div").click(function(){

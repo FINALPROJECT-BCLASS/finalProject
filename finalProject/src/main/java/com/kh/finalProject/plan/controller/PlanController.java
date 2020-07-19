@@ -205,14 +205,8 @@ public class PlanController {
 			int endHour = Integer.parseInt(t.getTtEnd().substring(0,2));
 			int endMinute = Integer.parseInt(t.getTtEnd().substring(3));
 			
-			int startHalf = 0;
-			if(startMinute >= 30) {
-				startHalf = 1;
-			}
-			
-			int endHalf = 0;
-			if(endMinute >= 30) {
-				endHalf = 1;
+			if(endHour == 0) {
+				endHour = 24;
 			}
 			
 			int gap = endHour - startHour;
