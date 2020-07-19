@@ -304,18 +304,19 @@ public class MemberController {
 		String setfrom = "toadl21@naver.com";         
 	    String tomail  = m.getEmail();     // 받는 사람 이메일
 	    String title   = "LIFENOTE에서 임시 비밀번호를 보내드립니다.";     // 제목
-	    String content = m.getId() + "님의 임시 비밀번호는 " + pw + "입니다. \n 로그인하여 비밀번호를 재설정해 주세요.";    // 내용
+	    String content = m.getId() + "님의 임시 비밀번호는 <h1>" + pw + "</h1>입니다. \n 로그인하여 비밀번호를 재설정해 주세요.";    // 내용
 	    String alert = "";
 	   
+	    MimeMessage message = mailSender.createMimeMessage();
+
 	    try {
-	      MimeMessage message = mailSender.createMimeMessage();
 	      MimeMessageHelper messageHelper 
-	                        = new MimeMessageHelper(message, true, "UTF-8");
+	                        = new MimeMessageHelper(message, false, "UTF-8");
 	 
 	      messageHelper.setFrom(setfrom);  // 보내는 사람
 	      messageHelper.setTo(tomail);     // 받는 사람 이메일
 	      messageHelper.setSubject(title); // 메일 제목 (생략 가능)
-	      messageHelper.setText(content);  // 메일 내용
+	      messageHelper.setText(content, true);  // 메일 내용
 	     
 	      mailSender.send(message);
 	      
