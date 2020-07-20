@@ -63,8 +63,8 @@ public class GroupServiceImpl implements GroupService{
 	}
 
 	@Override
-	public int getListCount() {
-		return gDao.getListCount();
+	public int getListCount(GroupInfo gInfo) {
+		return gDao.getListCount(gInfo);
 	}
 
 	@Override
@@ -78,8 +78,8 @@ public class GroupServiceImpl implements GroupService{
 	}
 
 	@Override
-	public GroupNotice selectNoticeOne() {
-		return gDao.selectNoticeOne();
+	public GroupNotice selectNoticeOne(GroupInfo gInfo) {
+		return gDao.selectNoticeOne(gInfo);
 	}
 
 	@Override

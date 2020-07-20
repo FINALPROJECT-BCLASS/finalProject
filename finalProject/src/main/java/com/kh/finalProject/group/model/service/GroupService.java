@@ -30,13 +30,13 @@ public interface GroupService {
 
 	ArrayList<GroupNotice> selectNoticeList(PageInfo pi);
 
-	int getListCount();
+	int getListCount(GroupInfo gInfo);
 
 	int noticeInsert(GroupNotice gn);
 
 	int noticeUpdate(GroupNotice gn);
 
-	GroupNotice selectNoticeOne();
+	GroupNotice selectNoticeOne(GroupInfo gInfo);
 
 	int boardGetListCount();
 

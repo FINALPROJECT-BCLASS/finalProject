@@ -5,7 +5,13 @@
 <html>
 <head>
 	<title>Home</title>
-	<style>
+	<!-- CSS -->
+	<link rel="stylesheet" href="resources/css/flickity/flickity.css">
+	<!-- JavaScript -->
+	<script src="resources/js/flickity/flickity.pkgd.min.js"></script>
+	
+	
+
 	
 	 <!-- Demo styles -->
   <style>
@@ -24,34 +30,20 @@
       padding: 0;
     }
 
-    .swiper-container {
-      width: 100%;
-      height: 100%;
-    }
-
-    .swiper-slide {
-      text-align: center;
-      font-size: 18px;
-      background: #fff;
-
-      /* Center slide text vertically */
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: -webkit-flex;
-      display: flex;
-      -webkit-box-pack: center;
-      -ms-flex-pack: center;
-      -webkit-justify-content: center;
-      justify-content: center;
-      -webkit-box-align: center;
-      -ms-flex-align: center;
-      -webkit-align-items: center;
-      align-items: center;
-    }
-    
-    
-    /* 혜린 수정 swiper css */
-    .swiperCon{width:20%; height:20%;}
+   
+    /* swiper css */
+    .carousel{width:90%;}
+    .carousel-cell {
+		  width: 200px;
+		  height: 100px !important;
+		  margin-right: 10px;
+		  background: #e9ecef;
+		  border-radius: 8px !important;
+		  counter-increment: carousel-cell;
+		  cursor: pointer;
+		  overflow: hidden;
+		}
+	.carImg {width:100%;}	
     
     /* 게시판 css */
      html, body { height:100%;}
@@ -76,12 +68,13 @@
     .noticeContent{padding-top:5px; padding-left:15px; padding-bottom: 20px; font-size:14px;  text-shadow: 1.5px 1.5px 1.5px gray; }
 
 	/* 글쓰기 버튼 */
-	#groupWrite { text-align:right; width:100%; height: 50px; margin-right:40px; margin-bottom:10px; border:none;}
-    img {width:50px; height:40px; cursor: pointer; border-radius: 5px;}
+	#groupWrite {text-align:right; width:100%; height: 50px; margin-right:40px; margin-bottom:10px; border:none;}
+    .groupWrite {width:50px; height:40px; cursor: pointer; border-radius: 5px;}
 	
 	.groupListCount{width:95%; margin-bottom:10px; text-align:right;}
 
-
+	.emptyNoticeList{margin-top:100px; text-align:center; font-size:20px; font-weight:600;}
+	    
     /* 공지게시판 */
     .groupNotice{width:100%; height:400px;overflow:scroll; overflow-x:hidden;}
     .noticeBoardTb{width:100%; margin-bottom:5px; background:white;border:0.5px solid lightgray; border-radius:10px;}
@@ -151,7 +144,7 @@
     	</div>
      	
      	<br>
-      	<div id="groupWrite" ><img src="resources/images/write.png" id="writeBtn"></div>
+      	<div id="groupWrite" ><img class="groupWrite" src="resources/images/write.png" id="writeBtn"></div>
         <br>
         
         <div class="groupListCount">총 게시판 : ${pi.listCount }</div>
@@ -172,27 +165,31 @@
               	<tr>
               		<td></td>
               		<td class="swiperTd">
-              			 <!-- Swiper -->
-						  <div class="swiper-container swiperCon">
-						    <div class="swiper-wrapper">
-				  	    		<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-						    </div>
-						    <!-- Add Pagination -->
-						    <div class="swiper-pagination"></div>
-						    <!-- Add Arrows -->
-						    <div class="swiper-button-next"></div>
-						    <div class="swiper-button-prev"></div>
-						  </div>
-						 <!-- Swiper end -->
+              		<!-- carousel -->
+              			<div class="carousel" data-flickity='{"draggable":false}'>
+              				<div class="carousel-cell">
+              					<img class="carImg" src="resources/images/emptyHeart.png">
+              				</div>
+              				<div class="carousel-cell">
+              					<img class="carImg" src="resources/images/emptyHeart.png">
+              				</div>
+              				<div class="carousel-cell">
+              					<img  class="carImg" src="resources/images/emptyHeart.png">
+              				</div>
+              				<div class="carousel-cell">
+              					<img src="resources/images/emptyHeart.png">
+              				</div>
+              				<div class="carousel-cell">
+              					<img src="resources/images/emptyHeart.png">
+              				</div>
+              				<div class="carousel-cell">
+              					<img class="carImg" src="resources/groupMainFiles/히지.png">
+              				</div>
+              			
+              			</div>
+              		<!-- carousel end -->
+              		
+              			
               		</td>
               	</tr>
               	<tr>
@@ -203,259 +200,143 @@
               	</tr>
               </table>
               
-              
-               <table class="noticeBoardTb">
-                <tr><td><span class="material-icons">perm_identity</span></td><td><div class="noticeBoardTitle">깡삽이네조 파이널 프로젝트</div></td></tr>
-                <tr><td></td><td><div class="noticeBoardWriter">김혜린</div></td></tr>
-                <tr><td></td><td><div class="noticeBoardDate">2020-06-12 오후 06:00</div></td></tr>
-                <tr><td></td><td><div class="noticeBoardContent">파이널 프로젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다.</div></td></tr>
-              	<tr>
-              		<td></td>
-              		<td class="swiperTd">
-              			 <!-- Swiper -->
-						  <div class="swiper-container swiperCon">
-						    <div class="swiper-wrapper">
-				  	    		<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-						    </div>
-						    <!-- Add Pagination -->
-						    <div class="swiper-pagination"></div>
-						    <!-- Add Arrows -->
-						    <div class="swiper-button-next"></div>
-						    <div class="swiper-button-prev"></div>
-						  </div>
-						 <!-- Swiper end -->
-              		</td>
-              	</tr>
-              	<tr>
-              		<td colspan="2">
-              			<div class="reply likeBox"><span class="material-icons emptyHeart">favorite_border</span><span class="reply">3</span></div>
-              			<div class="reply replyBox"><span class="material-icons">sms</span>&nbsp;<span class="reply">3</span></div>
-           			</td>
-              	</tr>
-              </table>
-               <table class="noticeBoardTb">
-                <tr><td><span class="material-icons">perm_identity</span></td><td><div class="noticeBoardTitle">깡삽이네조 파이널 프로젝트</div></td></tr>
-                <tr><td></td><td><div class="noticeBoardWriter">김혜린</div></td></tr>
-                <tr><td></td><td><div class="noticeBoardDate">2020-06-12 오후 06:00</div></td></tr>
-                <tr><td></td><td><div class="noticeBoardContent">파이널 프로젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다.</div></td></tr>
-              	<tr>
-              		<td></td>
-              		<td class="swiperTd">
-              			 <!-- Swiper -->
-						  <div class="swiper-container swiperCon">
-						    <div class="swiper-wrapper">
-				  	    		<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-						    </div>
-						    <!-- Add Pagination -->
-						    <div class="swiper-pagination"></div>
-						    <!-- Add Arrows -->
-						    <div class="swiper-button-next"></div>
-						    <div class="swiper-button-prev"></div>
-						  </div>
-						 <!-- Swiper end -->
-              		</td>
-              	</tr>
-              	<tr>
-              		<td colspan="2">
-              			<div class="reply likeBox"><span class="material-icons emptyHeart">favorite_border</span><span class="reply">3</span></div>
-              			<div class="reply replyBox"><span class="material-icons">sms</span>&nbsp;<span class="reply">3</span></div>
-           			</td>
-              	</tr>
-              </table>
-               <table class="noticeBoardTb">
-                <tr><td><span class="material-icons">perm_identity</span></td><td><div class="noticeBoardTitle">깡삽이네조 파이널 프로젝트</div></td></tr>
-                <tr><td></td><td><div class="noticeBoardWriter">김혜린</div></td></tr>
-                <tr><td></td><td><div class="noticeBoardDate">2020-06-12 오후 06:00</div></td></tr>
-                <tr><td></td><td><div class="noticeBoardContent">파이널 프로젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다.</div></td></tr>
-              	<tr>
-              		<td></td>
-              		<td class="swiperTd">
-              			 <!-- Swiper -->
-						  <div class="swiper-container swiperCon">
-						    <div class="swiper-wrapper">
-				  	    		<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-						    </div>
-						    <!-- Add Pagination -->
-						    <div class="swiper-pagination"></div>
-						    <!-- Add Arrows -->
-						    <div class="swiper-button-next"></div>
-						    <div class="swiper-button-prev"></div>
-						  </div>
-						 <!-- Swiper end -->
-              		</td>
-              	</tr>
-              	<tr>
-              		<td colspan="2">
-              			<div class="reply likeBox"><span class="material-icons emptyHeart">favorite_border</span><span class="reply">3</span></div>
-              			<div class="reply replyBox"><span class="material-icons">sms</span>&nbsp;<span class="reply">3</span></div>
-           			</td>
-              	</tr>
-              </table>
-               <table class="noticeBoardTb">
-                <tr><td><span class="material-icons">perm_identity</span></td><td><div class="noticeBoardTitle">깡삽이네조 파이널 프로젝트</div></td></tr>
-                <tr><td></td><td><div class="noticeBoardWriter">김혜린</div></td></tr>
-                <tr><td></td><td><div class="noticeBoardDate">2020-06-12 오후 06:00</div></td></tr>
-                <tr><td></td><td><div class="noticeBoardContent">파이널 프로젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다.</div></td></tr>
-              	<tr>
-              		<td></td>
-              		<td class="swiperTd">
-              			 <!-- Swiper -->
-						  <div class="swiper-container swiperCon">
-						    <div class="swiper-wrapper">
-				  	    		<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-						    </div>
-						    <!-- Add Pagination -->
-						    <div class="swiper-pagination"></div>
-						    <!-- Add Arrows -->
-						    <div class="swiper-button-next"></div>
-						    <div class="swiper-button-prev"></div>
-						  </div>
-						 <!-- Swiper end -->
-              		</td>
-              	</tr>
-              	<tr>
-              		<td colspan="2">
-              			<div class="reply likeBox"><span class="material-icons emptyHeart">favorite_border</span><span class="reply">3</span></div>
-              			<div class="reply replyBox"><span class="material-icons">sms</span>&nbsp;<span class="reply">3</span></div>
-           			</td>
-              	</tr>
-              </table>
-               <table class="noticeBoardTb">
-                <tr><td><span class="material-icons">perm_identity</span></td><td><div class="noticeBoardTitle">깡삽이네조 파이널 프로젝트</div></td></tr>
-                <tr><td></td><td><div class="noticeBoardWriter">김혜린</div></td></tr>
-                <tr><td></td><td><div class="noticeBoardDate">2020-06-12 오후 06:00</div></td></tr>
-                <tr><td></td><td><div class="noticeBoardContent">파이널 프로젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다.</div></td></tr>
-              	<tr>
-              		<td></td>
-              		<td class="swiperTd">
-              			 <!-- Swiper -->
-						  <div class="swiper-container swiperCon">
-						    <div class="swiper-wrapper">
-				  	    		<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-						    </div>
-						    <!-- Add Pagination -->
-						    <div class="swiper-pagination"></div>
-						    <!-- Add Arrows -->
-						    <div class="swiper-button-next"></div>
-						    <div class="swiper-button-prev"></div>
-						  </div>
-						 <!-- Swiper end -->
-              		</td>
-              	</tr>
-              	<tr>
-              		<td colspan="2">
-              			<div class="reply likeBox"><span class="material-icons emptyHeart">favorite_border</span><span class="reply">3</span></div>
-              			<div class="reply replyBox"><span class="material-icons">sms</span>&nbsp;<span class="reply">3</span></div>
-           			</td>
-              	</tr>
-              </table>
-               <table class="noticeBoardTb">
-                <tr><td><span class="material-icons">perm_identity</span></td><td><div class="noticeBoardTitle">깡삽이네조 파이널 프로젝트</div></td></tr>
-                <tr><td></td><td><div class="noticeBoardWriter">김혜린</div></td></tr>
-                <tr><td></td><td><div class="noticeBoardDate">2020-06-12 오후 06:00</div></td></tr>
-                <tr><td></td><td><div class="noticeBoardContent">파이널 프로젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다.</div></td></tr>
-              	<tr>
-              		<td></td>
-              		<td class="swiperTd">
-              			 <!-- Swiper -->
-						  <div class="swiper-container swiperCon">
-						    <div class="swiper-wrapper">
-				  	    		<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-				       			<div class="swiper-slide"><img class="swiperImg" src="resources/images/히지.png"></div>
-						    </div>
-						    <!-- Add Pagination -->
-						    <div class="swiper-pagination"></div>
-						    <!-- Add Arrows -->
-						    <div class="swiper-button-next"></div>
-						    <div class="swiper-button-prev"></div>
-						  </div>
-						 <!-- Swiper end -->
-              		</td>
-              	</tr>
-              	<tr>
-              		<td colspan="2">
-              			<div class="reply likeBox"><span class="material-icons emptyHeart">favorite_border</span><span class="reply">3</span></div>
-              			<div class="reply replyBox"><span class="material-icons">sms</span>&nbsp;<span class="reply">3</span></div>
-           			</td>
-              	</tr>
-              </table>
-            
           </div>
 	
 	  </div>
 
-	  <!-- Initialize Swiper -->
+	
+	  <!-- 스크롤 게시판 -->
 	  <script>
-	    var swiper = new Swiper('.swiper-container', {
-	      slidesPerView: 3,
-	      spaceBetween: 30,
-	      slidesPerGroup: 3,
-	      loop: true,
-	      loopFillGroupWithBlank: true,
-	      pagination: {
-	        el: '.swiper-pagination',
-	        clickable: true,
-	      },
-	      navigation: {
-	        nextEl: '.swiper-button-next',
-	        prevEl: '.swiper-button-prev',
-	      },
-	    });
-	  </script>
-	  
+ 		/* var gInfo = ${gInfo.gmNo}; */
+ 		
+       let isEnd = false;
+      
+       var pagePlus = 1;
+       $(function(){
+      	 
+      	    $(".groupNotice").scroll(function(){
+             	 console.log("ajax 전 page : " + ${pi.currentPage});
+                 	 if ($(this)[0].scrollHeight - Math.round($(this).scrollTop()) == $(this).outerHeight()){
+                 		 
+                          fetchList();
+                          
+                      }       
+                  })
+                  
+                    fetchList(); 
+              })
+       
+       
+       let fetchList = function(){
+           if(isEnd == true){
+               return;
+           }
+        
+           $.ajax({
+               url:"boardMainAjax.do",
+               type: "GET",
+               dataType: "json",
+               data:{page:pagePlus},
+               success: function(data){
+              	 page = data.noticeList[0].page;
+              	 pagePlus = page + 1;
+              	 
+                   // 컨트롤러에서 가져온 방명록 리스트는 result.data에 담겨오도록 했다.
+                   // 남은 데이터가 5개 이하일 경우 무한 스크롤 종료
+              	 let length =  data.noticeList.length;
+              	 console.log("length : " + length);
+              	 
+                   if( length < 5 ){
+                       isEnd = true;
+                   }
+
+                   
+                   for(i in data.noticeList){
+
+                  	var $groupNotice = $(".groupNotice");
+                  	var $noticeBoardTb = $("<table>").attr("class","noticeBoardTb");
+                  	var $tr1 = $("<tr>");
+                  	var $tr2 = $("<tr>");
+                  	var $tr3 = $("<tr>");
+                  	var $tr4 = $("<tr>");
+                 
+                  	var $td1 = $("<td>");
+                  	var $td2 = $("<td>");
+                  	var $td3 = $("<td>");
+                  	var $td4 = $("<td>");
+                  	var $td5 = $("<td>").attr("class","td5");
+                  	
+                  	var $noticeBoardTitle = $("<div>").text(data.noticeList[i].gnTitle).attr("class","noticeBoardTitle");
+                  	var $titleInput = $("<input type='hidden' id='noticeTitle' value='"+ data.noticeList[i].gnTitle+"'>");
+                  	
+                  	var $noticeBoardWriter = $("<div>").text(data.noticeList[i].name).attr("class","noticeBoardWriter");
+                  	var $noticeBoardDate = $("<div>").text(data.noticeList[i].gnDate).attr("class","noticeBoardDate");
+                  	
+                  	var $noticeBoardContent = $("<div>").text(data.noticeList[i].gnCon).attr("class","noticeBoardContent td4");
+                  	var $conInput = $("<input type='hidden' id='noticeCon' value='"+ data.noticeList[i].gnCon +"'>")  
+                  		
+                  	var $aditBtn = $("<div>").text("Edit").attr("class","aditBtn");
+                  	var $gnNo = $("<input type='hidden' id='gnNo' value='"+data.noticeList[i].gnNo+"'>");
+                  	
+                  	if(gInfo != data.noticeList[i].gmNo){
+                  		$td1.append($noticeBoardTitle);
+                  		$td1.append($titleInput);
+	                    	$tr1.append($td1);
+	                    	
+	                    	$td2.append($noticeBoardWriter);
+	                    	$tr2.append($td2);
+	                    	
+	                    	$td3.append($noticeBoardDate);
+	                    	$tr3.append($td3);
+	                    	
+	                    	$td4.append($noticeBoardContent);
+	                    	$td4.append($conInput);
+	                    	$tr4.append($td4);
+	                    	
+	                    	
+                  	
+                  	} else{
+                  		$td1.append($noticeBoardTitle);
+                  		$td1.append($titleInput);
+	                    	$tr1.append($td1);
+	                    	$td5.append($aditBtn);
+	                    	$td5.append($gnNo);
+	                    	$tr1.append($td5);	
+	                    	
+	                    	$td2.append($noticeBoardWriter);
+	                    	$tr2.append($td2);
+	                    	
+	                    	$td3.append($noticeBoardDate);
+	                    	$tr3.append($td3);
+	                    	
+	                    	$td4.append($noticeBoardContent);
+	                    	$td4.append($conInput);
+	                    	$tr4.append($td4);
+	                    		
+                  	}
+                  		
+                  	
+                  	
+                  	$noticeBoardTb.append($tr1);
+                  	$noticeBoardTb.append($tr2);
+                  	$noticeBoardTb.append($tr3);
+                  	$noticeBoardTb.append($tr4);
+                  	$groupNotice.append($noticeBoardTb); 
+
+                   }
+
+               },
+               error:function(request, status, errorData){
+						alert("error code: " + request.status + "\n"
+								+"message: " + request.responseText
+								+"error: " + errorData);
+					}
+           });
+       }
+   
+	    </script>
+		    <!-- 스크롤 게시판 end -->
+    
 	  <!-- 하트 누르기 -->
 	  <script>
 

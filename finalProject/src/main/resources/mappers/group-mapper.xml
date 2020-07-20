@@ -137,7 +137,7 @@
 		FROM GROUP_NOTICE GN
 		JOIN GROUP_MEMBER GM ON(GN.GM_NO = GM.GM_NO)
         JOIN MEMBER M ON (GM.GM_ID = M.ID)
-        WHERE GM.G_NO = #{groupNo}
+        WHERE GN.G_NO = #{groupNo}
 <!--         AND GN.GM_NO = #{gmNo} -->
 		ORDER BY GN_NO DESC
 	</select>
@@ -146,6 +146,7 @@
 		SELECT COUNT(*)
 		FROM GROUP_NOTICE
 		WHERE GN_DELETE = 'N'
+		AND G_NO = #{groupNo}
 	</select>
 	
 	<insert id="noticeInsert" parameterType="GroupNotice">
@@ -174,6 +175,7 @@
 			FROM GROUP_NOTICE GN
 			JOIN GROUP_MEMBER GM ON(GN.GM_NO = GM.GM_NO)
 	        JOIN MEMBER M ON (GM.GM_ID = M.ID)
+	        WHERE GN.G_NO = #{groupNo}
 	        ORDER BY GN_NO DESC
 		)
 		WHERE ROWNUM =1

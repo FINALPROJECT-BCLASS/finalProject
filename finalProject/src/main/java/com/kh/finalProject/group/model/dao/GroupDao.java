@@ -60,8 +60,8 @@ public class GroupDao {
 		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectNoticeList",pi, rowBounds);
 	}
 
-	public int getListCount() {
-		return sqlSessionTemplate.selectOne("groupMapper.getListCount");
+	public int getListCount(GroupInfo gInfo) {
+		return sqlSessionTemplate.selectOne("groupMapper.getListCount", gInfo);
 	}
 
 	public int noticeInsert(GroupNotice gn) {
@@ -72,8 +72,8 @@ public class GroupDao {
 		return sqlSessionTemplate.update("groupMapper.noticeUpdate", gn);
 	}
 
-	public GroupNotice selectNoticeOne() {
-		return sqlSessionTemplate.selectOne("groupMapper.selectNoticeOne");
+	public GroupNotice selectNoticeOne(GroupInfo gInfo) {
+		return sqlSessionTemplate.selectOne("groupMapper.selectNoticeOne", gInfo);
 	}
 
 	public int boardGetListCount() {
