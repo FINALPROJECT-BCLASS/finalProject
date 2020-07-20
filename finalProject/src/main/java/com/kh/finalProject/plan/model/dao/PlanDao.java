@@ -97,6 +97,21 @@ public class PlanDao {
 		
 		return sqlSessionTemplate.update("planMapper.updateMcOvulation", m);
 	}
+	
+	public int deleteMcRecord(String id) {
+		
+		return sqlSessionTemplate.delete("planMapper.deleteMcRecord", id);
+	}
+	
+	public int deleteMcOvulation(String id) {
+		
+		return sqlSessionTemplate.delete("planMapper.deleteMcOvulation", id);
+	}
+	
+	public int deleteMenstrual(String id) {
+		
+		return sqlSessionTemplate.delete("planMapper.deleteMenstrual", id);
+	}
 
 	public int insertTimetable(Timetable t) {
 		
@@ -127,5 +142,7 @@ public class PlanDao {
 		
 		return (ArrayList)sqlSessionTemplate.selectList("planMapper.selectDtList", dt);
 	}
+
+
 
 }

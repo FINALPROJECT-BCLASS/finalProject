@@ -182,6 +182,28 @@ public class PlanController {
 		
 	}
 	
+	@RequestMapping("mcdelete.do")
+	public String menstrualDelete(Model model, HttpSession session) throws PlanException {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String id = loginUser.getId();
+		
+		int result1 = pService.deleteMcRecord(id);
+		
+		int result2 = pService.deleteMcOvulation(id);
+		
+		int result3 = 0;
+		if(result1 > 0 && result2 > 0) {			
+			result3 = pService.deleteMenstrual(id);
+		}
+		
+		if(result3 > 0) {
+			return "redirect:mcview.do";
+		} else {
+			throw new PlanException("생리달력 삭제 실패");
+		}
+		
+	}
+	
 	@RequestMapping("ttview.do")
 	public String timetableView() {
 		

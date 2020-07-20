@@ -144,42 +144,6 @@
 			AND MCO_DELETE='N'
 	</select>
 	
-	<delete id="deleteMcRecord" parameterType="McRecord">
-		DELETE
-		FROM M_CALENDAR_RECORD
-		WHERE MCR_NO=#{mcrNo}
-	</delete>
-	
-	<delete id="deleteMcOvulation" parameterType="McOvulation">
-		DELETE
-		FROM M_CALENDAR_OVULATION
-		WHERE MCO_NO=#{mcoNo}
-	</delete>
-	
-	<update id="reMcLast" parameterType="Menstrual">
-		UPDATE MENSTRUAL_CALENDAR
-		SET MC_LAST=(SELECT MCR_START
-		            FROM(SELECT *
-		                FROM M_CALENDAR_RECORD
-		                WHERE ID=#{id}
-		                ORDER BY MCR_START DESC)
-		            WHERE ROWNUM = 1) + MC_CYCLE
-		WHERE ID=#{id}
-	</update>
-	
-	<select id="selectMcLast" parameterType="Menstrual" resultType="string">
-		SELECT TO_CHAR(MC_LAST, 'YYYY-MM-DD') "MC_LAST"
-		FROM MENSTRUAL_CALENDAR
-		WHERE ID=#{id}
-			AND MC_DELETE='N'
-	</select>
-	
-	<update id="firstMcLast" parameterType="Menstrual">
-		UPDATE MENSTRUAL_CALENDAR
-		SET MC_LAST=MC_FIRST+MC_CYCLE
-		WHERE ID=#{id}
-	</update>
-	
 	<select id="checkMcLast" parameterType="Menstrual" resultType="_int">
 		SELECT COUNT(*)
 		FROM M_CALENDAR_RECORD
@@ -213,6 +177,24 @@
 		    MCO_END=MCO_END-#{gap}
 		WHERE MCO_NO=#{mcoNo}
 	</update>
+	
+	<delete id="deleteMcRecord" parameterType="string">
+		DELETE
+		FROM M_CALENDAR_RECORD
+		WHERE ID=#{id}
+	</delete>
+	
+	<delete id="deleteMcOvulation" parameterType="string">
+		DELETE
+		FROM M_CALENDAR_OVULATION
+		WHERE ID=#{id}
+	</delete>
+	
+	<delete id="deleteMenstrual" parameterType="string">
+		DELETE
+		FROM MENSTRUAL_CALENDAR
+		WHERE ID=#{id}
+	</delete>
 	
 	<insert id="insertTimetable" parameterType="Timetable">
 		INSERT INTO TIMETABLE

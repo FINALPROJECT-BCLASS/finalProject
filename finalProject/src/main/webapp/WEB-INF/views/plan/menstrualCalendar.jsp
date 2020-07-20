@@ -135,11 +135,11 @@
 	                        </c:if>
 	                        <td><b>days</b></td>
 	                        <c:if test="${check ne 0}">
-	                        	<td rowspan="2"><button type="submit" class="default-btn">Save</button></td>	                        
+	                        	<td><button type="button" class="default-btn b-lightgray" id="resetBtn">Reset</button></td>	                        
 	                        </c:if>
 	                        <c:if test="${check eq 0}">
-	                        	<td rowspan="2">
-	                        		<button class="default-btn" type="button" data-toggle="modal" data-target="#setModal">Save</button>
+	                        	<td>
+	                        		<button class="default-btn b-lightgray" type="button" disabled>Reset</button>
 	                        	</td>	                        
 	                        </c:if>
 	                    </tr>
@@ -152,6 +152,14 @@
 	                        	<td><input type="number" min="1" max="31" value="${menstrual.mcPeriod }" name="mcPeriod"><br></td>	
 	                        </c:if>
 	                        <td><b>days</b></td>
+	                        <c:if test="${check ne 0}">
+	                        	<td><button type="submit" class="default-btn b-lightgray">Save</button></td>	                        
+	                        </c:if>
+	                        <c:if test="${check eq 0}">
+	                        	<td>
+	                        		<button class="default-btn b-lightgray" type="button" data-toggle="modal" data-target="#setModal">Save</button>
+	                        	</td>	                        
+	                        </c:if>
 	                    </tr>
 	                </table>
             	</form>
@@ -182,6 +190,12 @@
         function viewModal() {
         	$("#setModal").modal();
         }
+        
+      	$(function(){
+      		$("#resetBtn").click(function(){
+      			location.href="mcdelete.do";
+      		})
+      	})
     </script>
     
 </body>

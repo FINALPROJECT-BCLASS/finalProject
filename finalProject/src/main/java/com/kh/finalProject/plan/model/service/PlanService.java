@@ -42,6 +42,12 @@ public interface PlanService {
 
 	int updateMcOvulation(McOvulation m);
 
+	int deleteMcRecord(String id);
+	
+	int deleteMcOvulation(String id);
+	
+	int deleteMenstrual(String id);
+	
 	int insertTimetable(Timetable t);
 
 	ArrayList<Timetable> selectTtList(Timetable t);
