@@ -1,5 +1,6 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-#Mon Jul 20 12:10:58 KST 2020
+#Mon Jul 20 12:58:26 KST 2020
 spring-beans-5.2.7.RELEASE.pom>central=
 spring-beans-5.2.7.RELEASE-sources.jar>central=
+spring-beans-5.2.7.RELEASE-javadoc.jar>central=
 spring-beans-5.2.7.RELEASE.jar>central=

@@ -1,4 +1,9 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-#Mon Jul 20 12:10:16 KST 2020
-plexus-component-annotations-1.5.5.jar>central=
+<<<<<<< HEAD
+#Mon Jul 20 12:58:01 KST 2020
 plexus-component-annotations-1.5.5.pom>central=
+plexus-component-annotations-1.5.5.jar>central=
+=======
+#Mon Jul 20 13:45:29 KST 2020
+plexus-component-annotations-1.5.5.pom>central=
+>>>>>>> refs/remotes/origin/dev30

@@ -17,14 +17,14 @@
         <nav class="left-sub-navi">
         
 	        <c:url var="mplist" value="mplist.do"/>
-	        <c:url var="ttlist" value="ttlist.do"/>
-	        <c:url var="mclist" value="mcview.do"/>
+	        <c:url var="ttview" value="ttview.do"/>
+	        <c:url var="mcview" value="mcview.do"/>
 	        
             <span>Plan</span>
             <ul>
                 <li><a href="${mplist }">Monthly Planner</a></li>
-                <li><a href="${ttlist }">Timetable</a></li>
-                <li class="l-last-line"><a href="${mclist }">Menstrual Calendar</a></li>
+                <li><a href="${ttview }">Timetable</a></li>
+                <li class="l-last-line"><a href="${mcview }">Menstrual Calendar</a></li>
             </ul>
         </nav>
     </div>

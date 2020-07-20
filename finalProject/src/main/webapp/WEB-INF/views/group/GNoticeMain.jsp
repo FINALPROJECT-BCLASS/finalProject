@@ -114,13 +114,12 @@
         
         <div class="btnList">
             <button class="groupBtn noticeBtn" onclick="location.href='noticeMain.do'">Notice</button>
-            <button class="groupBtn BoardBtn">Board</button>
+            <button class="groupBtn BoardBtn" onclick="location.href='boardMain.do'">Board</button>
             <button class="groupBtn PhotoBtn">Photo</button>
             <button class="groupBtn VideoBtn">Video</button>
     	</div>
     	
       	<br>
-      	<!-- <div id="groupWrite" onclick="location.href='noticeInsertView.do'" ><img src="resources/images/write.png" id="writeBtn"></div> -->
       	<div id="groupWrite" ><img src="resources/images/write.png" id="writeBtn"></div>
         <br>
         
@@ -134,21 +133,7 @@
 	           	<c:if test="${empty noticeList }">
 	           		<div class="emptyNoticeList"> 작성한 공지가 없습니다.</div>
 	           	</c:if>
-	           	
-				
-	             	<%-- <c:if test="${!empty noticeList }">
-		              <c:forEach var="n" items="${noticeList }">
-		            
-			              <table class="noticeBoardTb">
-			                <tr><td><div class="noticeBoardTitle">${n.gnTitle }</div></td></tr>
-			                <tr><td><div class="noticeBoardWriter">&nbsp;${n.name }</div></td></tr>
-			                <tr><td><div class="noticeBoardDate">${n.gnDate }</div></td></tr>
-			                <tr><td><div class="noticeBoardContent">${n.gnCon }</div></td></tr>
-			              </table>
-		            
-		              </c:forEach>
-	             </c:if> --%>
-             
+
             </div>
           
          </div>

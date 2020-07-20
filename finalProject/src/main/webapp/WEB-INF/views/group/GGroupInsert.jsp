@@ -119,6 +119,7 @@
                             <td style="height:100px;">
                                 <div class="searchNameAfter">
                                     &nbsp;&nbsp;Click and remove it.<br>
+                                    <div class="searchNameAfterIn"></div>
                                 </div>
                             </td>
                         </tr>
@@ -150,15 +151,19 @@
             </div>
          </div>
          <script>
-         
+         	
 			// submit
 			$("#submit").click(function(){
-				if($("#title").val() != ""){
-					$("#groupInsertFrom").submit();
-				}else{
+			
+				if($("#title").val() == "" ){
 					alert("제목을 입력해주세요.");
-				}
-			})
+				}else if($(".searchNameAfterIn").html() == ""){
+					alert("가입할 멤버를 등록해주세요");
+					}else {
+						var aminName = "<input type='hidden' name='groupName' value='${sessionScope.loginUser.id}'>";
+						$("#groupInsertFrom").submit();
+					}
+				})
 			
             // 클릭한 이름 삽입 
               $(document).on("click", ".oneSearchBox", function(){
@@ -167,10 +172,9 @@
             	  var $searchNameBox ="";
             	  var $searchNameBoxValue ="";
 	           	  var $searchName = $(this).children(".searchName").html();
-	           	  /* console.log("$searchName :  " + $searchName); */
 	           	  var $searchId = $(this).children(".searchId").html();
-	           	  /* console.log("$searchId :  " + $searchId); */
-                $searchNameAfter = $(".searchNameAfter");
+
+                $searchNameAfter = $(".searchNameAfterIn");
                 $searchNameBox = "<button type='button' class='searchNameBox' value='"+ $searchName + "'>"+ $searchName + "&nbsp;" + $searchId 
                 +"<input type='hidden' name='groupName' value='" + $searchName + "'>" +"<input type='hidden' name='groupId' value='" + $searchId + "'></button>";
                 $searchNameAfter.append($searchNameBox);
@@ -195,6 +199,7 @@
          <!-- 이름 검색  -->
          <script>
          	$(function(){
+
          		$("#search").keyup(function(){
          			$(".searchNameForm").css("display","block");
          			var searchName = $("#search").val();
@@ -208,15 +213,19 @@
          					$search.empty();
          					
          					for(i in data){
-         					var $oneSearchBox = $("<div>").attr("class","oneSearchBox");
-         					var $searchName = $("<span>").text(data[i].name).attr("class","searchName");
-         					var $searchId = $("<span>").text(data[i].id).css({"display":"inline-block","color":"gray","font-size":"small"}).attr("class","searchId");
-         					
-         					$search.append($oneSearchBox);
-         					$oneSearchBox.append($searchName);
-         					$oneSearchBox.append("&nbsp;");
-         					$oneSearchBox.append($searchId);
-         					}
+         						
+	         					var $oneSearchBox = $("<div>").attr("class","oneSearchBox");
+	         					var $searchName = $("<span>").text(data[i].name).attr("class","searchName");
+	         					var $searchId = $("<span>").text(data[i].id).css({"display":"inline-block","color":"gray","font-size":"small"}).attr("class","searchId");
+       						
+	         					
+	         					
+	         					$search.append($oneSearchBox);
+
+	         					$oneSearchBox.append($searchName);
+	         					$oneSearchBox.append("&nbsp;");
+	         					$oneSearchBox.append($searchId);
+	         					}
          					
          				},
          				error:function(request, status, errorData){

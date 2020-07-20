@@ -2,9 +2,11 @@ package com.kh.finalProject.plan.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.finalProject.plan.model.vo.DTodolist;
 import com.kh.finalProject.plan.model.vo.McOvulation;
 import com.kh.finalProject.plan.model.vo.McRecord;
 import com.kh.finalProject.plan.model.vo.Menstrual;
+import com.kh.finalProject.plan.model.vo.Timetable;
 
 public interface PlanService {
 
@@ -39,5 +41,17 @@ public interface PlanService {
 	int updateMcrEnd(McRecord m);
 
 	int updateMcOvulation(McOvulation m);
+
+	int insertTimetable(Timetable t);
+
+	ArrayList<Timetable> selectTtList(Timetable t);
+
+	int deleteTimetable(int ttNo);
+
+	int insertDTodolist(DTodolist dt);
+	
+	int deleteDTodolist(DTodolist dt);
+
+	ArrayList<DTodolist> selectDtList(DTodolist dt);
 
 }

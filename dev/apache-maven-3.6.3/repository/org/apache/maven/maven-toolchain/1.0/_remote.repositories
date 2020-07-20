@@ -1,4 +1,9 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-#Mon Jul 20 12:10:16 KST 2020
-maven-toolchain-1.0.jar>central=
+<<<<<<< HEAD
+#Mon Jul 20 12:58:01 KST 2020
 maven-toolchain-1.0.pom>central=
+maven-toolchain-1.0.jar>central=
+=======
+#Mon Jul 20 13:45:13 KST 2020
+maven-toolchain-1.0.pom>central=
+>>>>>>> refs/remotes/origin/dev30
