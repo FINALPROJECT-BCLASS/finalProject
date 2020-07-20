@@ -70,10 +70,11 @@
 		JOIN MEMBER M ON(TM.GM_ID  = M.ID)
 	</select> 
 
-	<select id="searchNameList" resultMap="memberResultSet">
+	<select id="searchNameList" parameterType="GroupSearchName" resultMap="memberResultSet">
 		SELECT ID, NAME
 		FROM MEMBER
 		WHERE NAME LIKE '%' || #{searchName} || '%' 
+		 AND ID NOT IN  #{loginUserId}
 	</select>
 	
 	<insert id="groupInsert" parameterType="GroupTable">

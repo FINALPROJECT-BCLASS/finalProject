@@ -11,6 +11,7 @@ import com.kh.finalProject.group.model.vo.GroupBoard;
 import com.kh.finalProject.group.model.vo.GroupInfo;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupNotice;
+import com.kh.finalProject.group.model.vo.GroupSearchName;
 import com.kh.finalProject.group.model.vo.GroupTable;
 import com.kh.finalProject.member.model.vo.Member;
 
@@ -32,8 +33,8 @@ public class GroupServiceImpl implements GroupService{
 	}
 
 	@Override
-	public ArrayList<Member> searchNameList(String searchName) {
-		return gDao.searchNameList(searchName);
+	public ArrayList<Member> searchNameList(GroupSearchName gSearch) {
+		return gDao.searchNameList(gSearch);
 	}
 
 	@Override

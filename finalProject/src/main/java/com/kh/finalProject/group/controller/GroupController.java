@@ -32,6 +32,7 @@ import com.kh.finalProject.group.model.vo.GroupInfo;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupMemberList;
 import com.kh.finalProject.group.model.vo.GroupNotice;
+import com.kh.finalProject.group.model.vo.GroupSearchName;
 import com.kh.finalProject.group.model.vo.GroupTable;
 import com.kh.finalProject.member.model.vo.Member;
 
@@ -53,6 +54,9 @@ public class GroupController {
 	@Autowired
 	GroupInfo gInfo;
 	
+	@Autowired
+	GroupSearchName gSearch;
+	
 	// 그룹 번호 세션 삭제
 	@RequestMapping(value="groupSessionDelete.do", method=RequestMethod.GET)
 	public String groupSessionDelete(Model model , HttpSession session) {
@@ -65,11 +69,10 @@ public class GroupController {
 	@RequestMapping(value="groupMain.do", method=RequestMethod.GET)
 	public ModelAndView groupMain(ModelAndView mv, HttpSession session) {
 		Member loginUser = (Member)session.getAttribute("loginUser");		
-		
 		if(loginUser != null) {
 			String loginUserId = loginUser.getId();
 			ArrayList<GroupTable> list = gService.selectGroup(loginUserId);
-//			System.out.println("그룹 메인 list : " + list);
+//			
 			mv.addObject("list" , list);
 			mv.setViewName("group/GGroupMain");
 		}else {
@@ -88,9 +91,14 @@ public class GroupController {
 	
 	// 그룹생성 이름검색
 	@RequestMapping(value="searchName.do", method=RequestMethod.GET)
-	public void searchNameList(HttpServletResponse response, String searchName) throws JsonIOException, IOException {
-
-		ArrayList<Member> list = gService.searchNameList(searchName);
+	public void searchNameList(HttpSession session, HttpServletResponse response, String searchName) throws JsonIOException, IOException {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		gSearch.setLoginUserId(loginUser.getId());
+		gSearch.setSearchName(searchName);
+		
+		ArrayList<Member> list = gService.searchNameList(gSearch);
+		
+		System.out.println("그룹생성 검색 : " + list);
 		
 		response.setContentType("application/json;charset=utf-8");
 		

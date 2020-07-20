@@ -93,6 +93,7 @@
 		                </a>
 		                <p><b>${g.gTitle }</b></p>
 		                <p>${g.gCon }</p>
+		                <p>${g.gName }</p>
 		            </td>
 		            </c:forEach>
 		        </tr>

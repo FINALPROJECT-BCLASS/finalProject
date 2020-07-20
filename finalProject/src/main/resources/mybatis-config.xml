@@ -13,6 +13,7 @@
 		<typeAlias type="com.kh.finalProject.plan.model.vo.McOvulation" alias="McOvulation"/>	<!-- 예지 -->
 		
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupTable" alias="GroupTable"/>
+		<typeAlias type="com.kh.finalProject.group.model.vo.GroupSearchName" alias="GroupSearchName"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupMember" alias="GroupMember"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupInfo" alias="GroupInfo"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupNotice" alias="GroupNotice"/>
