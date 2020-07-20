@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.finalProject.group.common.PageInfo;
+import com.kh.finalProject.group.model.vo.GroupBoard;
 import com.kh.finalProject.group.model.vo.GroupInfo;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupNotice;
+import com.kh.finalProject.group.model.vo.GroupSearchName;
 import com.kh.finalProject.group.model.vo.GroupTable;
 import com.kh.finalProject.member.model.vo.Member;
 
@@ -29,8 +31,8 @@ public class GroupDao {
 		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectGroupMember");
 	}
 
-	public ArrayList<Member> searchNameList(String searchName) {
-		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.searchNameList", searchName);
+	public ArrayList<Member> searchNameList(GroupSearchName gSearch) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.searchNameList", gSearch);
 	}
 
 	public int groupInsert(GroupTable gt) {
@@ -68,6 +70,18 @@ public class GroupDao {
 
 	public int noticeUpdate(GroupNotice gn) {
 		return sqlSessionTemplate.update("groupMapper.noticeUpdate", gn);
+	}
+
+	public GroupNotice selectNoticeOne() {
+		return sqlSessionTemplate.selectOne("groupMapper.selectNoticeOne");
+	}
+
+	public int boardGetListCount() {
+		return sqlSessionTemplate.selectOne("groupMapper.boardGetListCount");
+	}
+
+	public ArrayList<GroupBoard> selectBoardList(PageInfo pi) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectBoardList", pi);
 	}
 	
 	
