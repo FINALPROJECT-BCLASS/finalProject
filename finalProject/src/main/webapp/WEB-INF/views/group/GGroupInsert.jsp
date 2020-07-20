@@ -154,17 +154,16 @@
          	
 			// submit
 			$("#submit").click(function(){
-				if($("#title").val() != "" && $(".searchNameAfterIn").html() != ""){
-					var aminName = "<input type='hidden' name='groupName' value='"+ ${sessionScope.loginUser.id}+"'>";
-					$("#groupInsertFrom").submit();
-				}else{
-					if($("#title").val() == ""){
-						alert("제목을 입력해주세요.");
-					}else if($(".searchNameAfterIn").html() == ""){
-						alert("가입할 멤버를 등록해주세요");
+			
+				if($("#title").val() == "" ){
+					alert("제목을 입력해주세요.");
+				}else if($(".searchNameAfterIn").html() == ""){
+					alert("가입할 멤버를 등록해주세요");
+					}else {
+						var aminName = "<input type='hidden' name='groupName' value='${sessionScope.loginUser.id}'>";
+						$("#groupInsertFrom").submit();
 					}
-				}
-			})
+				})
 			
             // 클릭한 이름 삽입 
               $(document).on("click", ".oneSearchBox", function(){
