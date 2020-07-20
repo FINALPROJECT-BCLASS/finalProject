@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.finalProject.plan.model.vo.DTodolist;
 import com.kh.finalProject.plan.model.vo.McOvulation;
 import com.kh.finalProject.plan.model.vo.McRecord;
 import com.kh.finalProject.plan.model.vo.Menstrual;
@@ -110,6 +111,21 @@ public class PlanDao {
 	public int deleteTimetable(int ttNo) {
 	
 		return sqlSessionTemplate.delete("planMapper.deleteTimetable", ttNo);
+	}
+
+	public int insertDTodolist(DTodolist dt) {
+		
+		return sqlSessionTemplate.insert("planMapper.insertDTodolist", dt);
+	}
+
+	public int deleteDTodolist(DTodolist dt) {
+		
+		return sqlSessionTemplate.delete("planMapper.deleteDTodolist", dt);
+	}
+
+	public ArrayList<DTodolist> selectDtList(DTodolist dt) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("planMapper.selectDtList", dt);
 	}
 
 }

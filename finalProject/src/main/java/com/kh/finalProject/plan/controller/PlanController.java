@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.finalProject.member.model.vo.Member;
 import com.kh.finalProject.plan.model.exception.PlanException;
 import com.kh.finalProject.plan.model.service.PlanService;
+import com.kh.finalProject.plan.model.vo.DTodolist;
 import com.kh.finalProject.plan.model.vo.McOvulation;
 import com.kh.finalProject.plan.model.vo.McRecord;
 import com.kh.finalProject.plan.model.vo.Menstrual;
@@ -207,6 +208,7 @@ public class PlanController {
 			
 			if(endHour == 0) {
 				endHour = 24;
+				t.setTtEnd("24:"+t.getTtStart().substring(3));
 			}
 			
 			int gap = endHour - startHour;
@@ -269,6 +271,68 @@ public class PlanController {
 			throw new PlanException("시간표 삭제 실패");
 		}
 		
+	}
+	
+	@RequestMapping("dtinsert.do")
+	public String dTodolistInsert(Model model, HttpSession session, DTodolist dt
+								, @RequestParam(value="listContent") String[] dtConArr
+								, @RequestParam(value="checkResult") String[] dtComArr
+								, @RequestParam(value="dtDate") String dtDate) throws PlanException {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String id = loginUser.getId();
+		dt.setId(id);
+		
+		pService.deleteDTodolist(dt);
+		int result = 0;
+		
+		for(int i = 0; i < dtConArr.length; i++) {
+			if(!dtConArr[i].equals("")) {
+				DTodolist insertDt = new DTodolist();
+				
+				insertDt.setId(id);
+				insertDt.setDtCon(dtConArr[i]);
+				insertDt.setDtComplete(dtComArr[i]);
+				insertDt.setDtDate(dtDate);
+				
+				result += pService.insertDTodolist(insertDt);				
+			}
+		}				
+		
+		if(result > 0) {
+			return "redirect:ttview.do";
+		} else {
+			throw new PlanException("todolist 등록 실패");
+		}
+	}
+	
+	@RequestMapping("dtlist.do")
+	public void dTodolistList(HttpSession session, HttpServletResponse response, DTodolist dt) throws IOException {
+		response.setContentType("application/json;charset=utf-8");
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String id = loginUser.getId();
+		dt.setId(id);
+		
+		ArrayList<DTodolist> dtList = pService.selectDtList(dt);
+		
+		JSONArray jArr = new JSONArray();
+		
+		for(DTodolist d : dtList) {
+			JSONObject jObj = new JSONObject();
+			jObj.put("content", d.getDtCon());
+			jObj.put("complete", d.getDtComplete());
+			
+			jArr.add(jObj);
+		}
+		
+		JSONObject sendJson = new JSONObject();
+		sendJson.put("dtList", jArr);
+		
+		PrintWriter out = response.getWriter();
+		out.print(sendJson);
+		out.flush();
+		out.close();
 	}
 
 }

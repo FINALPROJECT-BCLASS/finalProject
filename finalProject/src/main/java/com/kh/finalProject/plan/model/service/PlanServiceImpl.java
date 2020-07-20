@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.finalProject.plan.model.dao.PlanDao;
+import com.kh.finalProject.plan.model.vo.DTodolist;
 import com.kh.finalProject.plan.model.vo.McOvulation;
 import com.kh.finalProject.plan.model.vo.McRecord;
 import com.kh.finalProject.plan.model.vo.Menstrual;
@@ -129,6 +130,24 @@ public class PlanServiceImpl implements PlanService {
 	public int deleteTimetable(int ttNo) {
 		
 		return pDao.deleteTimetable(ttNo);
+	}
+
+	@Override
+	public int insertDTodolist(DTodolist dt) {
+		
+		return pDao.insertDTodolist(dt);
+	}
+
+	@Override
+	public int deleteDTodolist(DTodolist dt) {
+		
+		return pDao.deleteDTodolist(dt);
+	}
+
+	@Override
+	public ArrayList<DTodolist> selectDtList(DTodolist dt) {
+		
+		return pDao.selectDtList(dt);
 	}
 
 }

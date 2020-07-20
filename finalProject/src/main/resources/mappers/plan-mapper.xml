@@ -41,6 +41,15 @@
 		<result property="ttDelete" column="TT_DELETE"/>
 	</resultMap>
 	
+	<resultMap type="DTodolist" id="dtResultSet">
+		<id property="dtNo" column="DT_NO"/>
+		<result property="id" column="ID"/>
+		<result property="dtDate" column="DT_DATE"/>
+		<result property="dtCon" column="DT_CON"/>
+		<result property="dtComplete" column="DT_COMPLETE"/>
+		<result property="dtDelete" column="DT_DELETE"/>
+	</resultMap>
+	
 	<select id="checkInfo" parameterType="string" resultType="_int">
 		SELECT COUNT(*)
 		FROM MENSTRUAL_CALENDAR
@@ -231,5 +240,32 @@
 		SET TT_DELETE='Y'
 		WHERE TT_NO=#{ttNo}
 	</delete>
+	
+	<insert id="insertDTodolist" parameterType="DTodolist">
+		INSERT INTO DAY_TODOLIST
+		VALUES(SEQ_DT.NEXTVAL
+			, #{id}
+			, #{dtDate}
+			, #{dtCon}
+			, #{dtComplete}
+			, DEFAULT)
+	</insert>
+	
+	<delete id="deleteDTodolist" parameterType="DTodolist">
+		DELETE
+		FROM DAY_TODOLIST
+		WHERE ID=#{id}
+			AND DT_DATE=#{dtDate}
+	</delete>
+	
+	<select id="selectDtList" parameterType="DTodolist" resultMap="dtResultSet">
+		SELECT DT_NO, DT_CON, DT_COMPLETE
+		FROM (SELECT *
+		    FROM DAY_TODOLIST
+		    WHERE ID=#{id}
+		    	AND DT_DATE=#{dtDate}
+		    	AND DT_DELETE='N')
+		ORDER BY DT_NO ASC
+	</select>
 	
 </mapper>
