@@ -188,6 +188,10 @@
 
 		    calendar.render();
 		  });
+	 
+	 $(function(){
+		 $()
+	 })
 	</script>
 
 
