@@ -2,8 +2,10 @@ package com.kh.finalProject.group.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.finalProject.group.common.PageInfo;
 import com.kh.finalProject.group.model.vo.GroupInfo;
 import com.kh.finalProject.group.model.vo.GroupMember;
+import com.kh.finalProject.group.model.vo.GroupNotice;
 import com.kh.finalProject.group.model.vo.GroupTable;
 import com.kh.finalProject.member.model.vo.Member;
 
@@ -23,5 +25,13 @@ public interface GroupService {
 	int groupNoSelect();
 
 	int memberNoSelect(GroupInfo gInfo);
+
+	ArrayList<GroupNotice> selectNoticeList(PageInfo pi);
+
+	int getListCount();
+
+	int noticeInsert(GroupNotice gn);
+
+	int noticeUpdate(GroupNotice gn);
 
 }
