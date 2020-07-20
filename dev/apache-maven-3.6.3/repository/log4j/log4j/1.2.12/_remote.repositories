@@ -1,3 +1,8 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+<<<<<<< HEAD
+#Mon Jul 20 12:58:02 KST 2020
+log4j-1.2.12.jar>central=
+=======
 #Mon Jul 20 13:45:38 KST 2020
+>>>>>>> refs/remotes/origin/dev30
 log4j-1.2.12.pom>central=

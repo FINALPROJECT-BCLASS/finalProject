@@ -95,29 +95,59 @@
 <body>
 	<jsp:include page="../common/header.jsp"/>
     <div class="login-form-area">
-        <div class="back-btn">X</div>
+        <div onclick="history.go(-1)" class="back-btn"><a>X</a></div>
         <span class="pSubject">Reset Password</span>
-        <form action="#">
+        <form action="findPwd.do" method="post">
             <table cellpadding="6px">
                 <tr>
                     <td>
                         Id <br>
-                        <input type="text" placeholder="아이디를 입력해 주세요.">
+                        <input type="text" name="id" id="id" placeholder="아이디를 입력해 주세요.">
                     </td>
                 </tr>
                 <tr>
                     <td>
                         Email <br>
-                        <input type="email" placeholder="이메일을 입력해 주세요.">
+                        <input type="email" name="email" id="email" placeholder="이메일을 입력해 주세요.">
                     </td>
                 </tr>
                 <tr>
-                    <td><button class="login-btn b-blue white">Submit</button>
+                    <td><button type="button" onclick="findPwd()" class="login-btn b-blue white">Submit</button>
                     </td>
                 </tr>
             </table>
         </form>
     </div>
+    
+    <script>
+    	function findPwd() {
+    		
+    		$.ajax({
+				url : "findPwd.do",
+				type : "POST",
+				data : {
+					id:$("#id").val(),
+					email:$("#email").val()
+				},
+				success : function(result) {
+						
+					if(result == "메일로 임시 비밀번호가 발송되었습니다.") {
+						alert(result);
+						location.href="memberLoginView.do";
+					}else {
+						alert(result);
+					}
+				},
+				error:function(request, status, errorData){
+                    alert("error code: " + request.status + "\n"
+                            +"message: " + request.responseText
+                            +"error: " + errorData);
+           		} 
+			})
+    	}
+    	
+    	
+    </script>
     <jsp:include page="../common/footer.jsp"/>
 </body>
 </html>

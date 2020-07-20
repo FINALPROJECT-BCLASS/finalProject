@@ -46,5 +46,12 @@
 			ORIGINAL_FILE=#{original_file}, RENAME_FILE=#{rename_file}
 		WHERE ID=#{id}
 	</update>
+	
+	<update id="updatePwd" parameterType="Member">
+		UPDATE MEMBER
+		SET PWD=#{pwd}
+		WHERE ID=#{id}
+	</update>
+	
 
 </mapper>

@@ -8,9 +8,12 @@
 	
 	<typeAliases>
 		<typeAlias type="com.kh.finalProject.member.model.vo.Member" alias="Member"/>
-		<typeAlias type="com.kh.finalProject.plan.model.vo.Menstrual" alias="Menstrual"/><!-- 예지 -->
-		<typeAlias type="com.kh.finalProject.plan.model.vo.McRecord" alias="McRecord"/>	<!-- 예지 -->
+		
+		<typeAlias type="com.kh.finalProject.plan.model.vo.Menstrual" alias="Menstrual"/>		<!-- 예지 -->
+		<typeAlias type="com.kh.finalProject.plan.model.vo.McRecord" alias="McRecord"/>			<!-- 예지 -->
 		<typeAlias type="com.kh.finalProject.plan.model.vo.McOvulation" alias="McOvulation"/>	<!-- 예지 -->
+		<typeAlias type="com.kh.finalProject.plan.model.vo.Timetable" alias="Timetable"/>		<!-- 예지 -->
+		<typeAlias type="com.kh.finalProject.plan.model.vo.DTodolist" alias="DTodolist"/>		<!-- 예지 -->
 		
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupTable" alias="GroupTable"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupSearchName" alias="GroupSearchName"/>
@@ -18,14 +21,20 @@
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupInfo" alias="GroupInfo"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupNotice" alias="GroupNotice"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupBoard" alias="GroupBoard"/>
+
+
+		<typeAlias type="com.kh.finalProject.daily.model.vo.HabitTracker" alias="HabitTracker"/>
+
 		
 		<typeAlias type="com.kh.finalProject.member.model.vo.Member" alias="Member"/>
+
 	</typeAliases>
 
 	<mappers>
 		<mapper resource="/mappers/member-mapper.xml"/>
 		<mapper resource="/mappers/plan-mapper.xml"/>	<!-- 예지 -->
 		<mapper resource="/mappers/group-mapper.xml"/>
+		<mapper resource="/mappers/daily-mapper.xml"/>
 	</mappers>
 	
 </configuration>

@@ -1,3 +1,7 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+<<<<<<< HEAD
+#Mon Jul 20 12:10:07 KST 2020
+=======
 #Mon Jul 20 13:45:36 KST 2020
+>>>>>>> refs/remotes/origin/dev30
 plexus-utils-1.4.5.pom>central=

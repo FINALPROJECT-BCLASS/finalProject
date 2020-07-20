@@ -216,10 +216,10 @@ public class GroupController {
 		
 		int memberNo = gService.memberNoSelect(gInfo);
 		gInfo.setGmNo(memberNo);
-		
+
 		
 		session.setAttribute("gInfo", gInfo);
-		
+		System.out.println("gInfo : " +gInfo);
 		return "group/GCalendarMain";
 		
 	}
@@ -232,10 +232,7 @@ public class GroupController {
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		GroupInfo gInfo = (GroupInfo)session.getAttribute("gInfo");
-		System.out.println("공지 메인 gInfo : " + gInfo);
-		
-	
-		
+
 		int currentPage = 1;
 		if(page != null) {
 			int Cpage = Integer.parseInt(page);
@@ -243,7 +240,6 @@ public class GroupController {
 		}
 		
 		int listCount = gService.getListCount();
-		System.out.println("공지 listCount : " + listCount);
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 		
@@ -349,8 +345,10 @@ public class GroupController {
 			GroupInfo gInfo = (GroupInfo)session.getAttribute("gInfo");
 			
 			gn.setgNo(gInfo.getGroupNo());
-			gn.setGmNo(gInfo.getGroupNo());
+			gn.setGmNo(gInfo.getGmNo());
 			
+			System.out.println("공지작성 gInfo : " + gInfo);
+			System.out.println("공지작성 gn : " + gn);
 			int result = gService.noticeInsert(gn); 
 			
 			return "redirect:noticeMain.do";

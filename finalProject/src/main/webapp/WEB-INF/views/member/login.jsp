@@ -103,8 +103,9 @@
                 </tr>
             </table>
         </form>
+        <c:url var="resetView" value="resetPwd.do"/>
         <c:url var="joinview" value="join.do"/>
-        <a href="#">Forgot Password? Click here</a>
+        <a href="${resetView }">Forgot Password? Click here</a>
         <button class="join-btn" onclick="location.href='${joinview}'">Join us</button>
     </div>
     <jsp:include page="../common/footer.jsp"/>

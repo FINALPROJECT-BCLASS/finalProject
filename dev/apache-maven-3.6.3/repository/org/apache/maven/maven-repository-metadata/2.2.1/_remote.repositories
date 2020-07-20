@@ -1,3 +1,7 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+<<<<<<< HEAD
+#Mon Jul 20 12:09:57 KST 2020
+=======
 #Mon Jul 20 13:45:24 KST 2020
+>>>>>>> refs/remotes/origin/dev30
 maven-repository-metadata-2.2.1.pom>central=
