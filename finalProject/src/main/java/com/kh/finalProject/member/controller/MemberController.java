@@ -183,9 +183,9 @@ public class MemberController {
 	@RequestMapping("mupdate.do")
 	public String memberUpdate(Member m, Model model,
 								HttpServletRequest request,
-								@RequestParam("postcode") String postcode,
-								@RequestParam("mainAddress") String mainAddress,
-								@RequestParam("subAddress") String subAddress,
+								@RequestParam(value="postcode", required=false) String postcode,
+								@RequestParam(value="mainAddress", required=false) String mainAddress,
+								@RequestParam(value="subAddress", required=false) String subAddress,
 								@RequestParam(value="file", required=false) MultipartFile file) {
 		
 
