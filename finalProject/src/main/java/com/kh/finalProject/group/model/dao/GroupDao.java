@@ -65,6 +65,10 @@ public class GroupDao {
 	public int noticeInsert(GroupNotice gn) {
 		return sqlSessionTemplate.insert("groupMapper.noticeInsert", gn);
 	}
+
+	public int noticeUpdate(GroupNotice gn) {
+		return sqlSessionTemplate.update("groupMapper.noticeUpdate", gn);
+	}
 	
 	
 	

@@ -264,7 +264,7 @@ public class GroupController {
 		return mv;
 	}
 
-	// 공지 메인2
+	// 공지 메인 ajax
 		@RequestMapping(value="noticeMain2.do", method=RequestMethod.GET)
 		public ModelAndView noticeMain2(HttpServletResponse response, ModelAndView mv, HttpSession session, @RequestParam(value="page", required=false) String page) throws JsonIOException, IOException {
 			
@@ -342,8 +342,23 @@ public class GroupController {
 			gn.setgNo(gInfo.getGroupNo());
 			gn.setGmNo(gInfo.getGroupNo());
 			
-			System.out.println("gn : " + gn);
 			int result = gService.noticeInsert(gn); 
+			
+			return "redirect:noticeMain.do";
+		}
+		
+		// 공지 수정
+		@RequestMapping(value="gNoticeUpdate.do", method=RequestMethod.POST)
+		public String gNoticeUpdate(Model model, HttpSession session, GroupNotice gn, @RequestParam("gnNoName") String gnNo) {
+			Member loginUser = (Member)session.getAttribute("loginUser");
+			GroupInfo gInfo = (GroupInfo)session.getAttribute("gInfo");
+			System.out.println("gnNo" + gnNo);
+			gn.setGnNo(gnNo);
+			gn.setgNo(gInfo.getGroupNo());
+			gn.setGmNo(gInfo.getGroupNo());
+			
+			System.out.println("gn : " + gn);
+			int result = gService.noticeUpdate(gn); 
 			
 			System.out.println("공지 작성 result : " + result);
 			return "redirect:noticeMain.do";

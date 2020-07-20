@@ -32,4 +32,6 @@ public interface GroupService {
 
 	int noticeInsert(GroupNotice gn);
 
+	int noticeUpdate(GroupNotice gn);
+
 }

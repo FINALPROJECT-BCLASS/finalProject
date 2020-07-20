@@ -77,7 +77,7 @@
     .groupTbTd {text-align:end;}
     input{width:100%;height:40px; background:#F3F3F3;  padding-left: 10px; border:none; border-radius: 6px;}
     
-     #groupCon{width:100%; border:none; background:#F3F3F3; border-radius: 6px;}
+     #groupCon, .groupCon{width:100%; border:none; background:#F3F3F3; border-radius: 6px;}
     
     
     tr > td:nth-child(1) {
@@ -218,37 +218,50 @@
 	                    	var $td5 = $("<td>").attr("class","td5");
 	                    	
 	                    	var $noticeBoardTitle = $("<div>").text(data.noticeList[i].gnTitle).attr("class","noticeBoardTitle");
+	                    	var $titleInput = $("<input type='hidden' id='noticeTitle' value='"+ data.noticeList[i].gnTitle+"'>");
+	                    	
 	                    	var $noticeBoardWriter = $("<div>").text(data.noticeList[i].name).attr("class","noticeBoardWriter");
 	                    	var $noticeBoardDate = $("<div>").text(data.noticeList[i].gnDate).attr("class","noticeBoardDate");
-	                    	var $noticeBoardContent = $("<div>").text(data.noticeList[i].gnCon).attr("class","noticeBoardContent");
+	                    	
+	                    	var $noticeBoardContent = $("<div>").text(data.noticeList[i].gnCon).attr("class","noticeBoardContent td4");
+	                    	var $conInput = $("<input type='hidden' id='noticeCon' value='"+ data.noticeList[i].gnCon +"'>")  
+	                    		
 	                    	var $aditBtn = $("<div>").text("Edit").attr("class","aditBtn");
+	                    	var $gnNo = $("<input type='hidden' id='gnNo' value='"+data.noticeList[i].gnNo+"'>");
 	                    	
 	                    	if(gInfo != data.noticeList[i].gmNo){
-	                    		console.log("gInfo " + gInfo);
-	                    		console.log("gmNo : " + data.noticeList[i].gmNo);
 	                    		$td1.append($noticeBoardTitle);
+	                    		$td1.append($titleInput);
 		                    	$tr1.append($td1);
+		                    	
 		                    	$td2.append($noticeBoardWriter);
 		                    	$tr2.append($td2);
+		                    	
 		                    	$td3.append($noticeBoardDate);
 		                    	$tr3.append($td3);
+		                    	
 		                    	$td4.append($noticeBoardContent);
+		                    	$td4.append($conInput);
 		                    	$tr4.append($td4);
 		                    	
 		                    	
 	                    	
 	                    	} else{
-	                    		console.log("else gInfo " + gInfo);
-	                    		console.log("else gmNo : " + data.noticeList[i].gmNo);
 	                    		$td1.append($noticeBoardTitle);
+	                    		$td1.append($titleInput);
 		                    	$tr1.append($td1);
 		                    	$td5.append($aditBtn);
+		                    	$td5.append($gnNo);
 		                    	$tr1.append($td5);	
+		                    	
 		                    	$td2.append($noticeBoardWriter);
 		                    	$tr2.append($td2);
+		                    	
 		                    	$td3.append($noticeBoardDate);
 		                    	$tr3.append($td3);
+		                    	
 		                    	$td4.append($noticeBoardContent);
+		                    	$td4.append($conInput);
 		                    	$tr4.append($td4);
 		                    		
 	                    	}
@@ -327,6 +340,65 @@
 		 </script>
 		 <!-- 공지사항 글쓰기 modal end -->
 	 
+	 	<!-- 공지사항 수정하기 modal  -->
+	 	<div class="modal fade" id="modalModi">
+		  				<div class="modal-dialog">
+		  					  <div class="modal-content">
+		  					  		<span class="ModalTitle">Group Diary</span>
+		  					  		<br>
+		  					  		<span>Notice Modify</span>
+		  					  		<br>
+
+		  					  		 <form id="noticeModiForm" action="gNoticeUpdate.do" method="post">
+					                    <table class="groupTb">
+					                        <tr>
+					                            <td class="groupTbTd">Title&nbsp;</td>
+					                            <td><input type="text" name="gnTitle" id="titleModi" placeholder="  제목 작성" required></td>
+					                        </tr>
+					                        <tr>
+					                            <td class="groupTbTd">Content&nbsp;</td>
+					                            <td>
+					                                <textarea id="conModi" class="groupCon" name="gnCon" required></textarea>
+					                            </td> 
+					                        </tr>
+					                    </table>
+					                </form>
+		  					  		<button id="detailbtn" class="updateBtn default-btn b-yell" type="button">Update</button>
+		       					 <!-- remote ajax call이 되는영역 -->
+		   					 </div>
+		  				</div>
+					</div>
+
+		 <script>
+		 var gnNo;
+		 
+		 $(document).on("click",".aditBtn",function(){
+			 $("#modalModi").modal();
+			 
+			 var title = $(this).closest(".td5").prev().children("#noticeTitle").val();
+			 var con = $(this).parent().parent().next().next().next().children().children("#noticeCon").val();
+			 gnNo = $(this).next().val();
+			 
+			 $("#titleModi").val(title);
+			 $("#conModi").val(con);
+			 $("#gnNo").val(gnNo);
+			 
+    	})
+   
+		 
+		 
+		 $(".updateBtn").click(function(){
+			 if($("#titleModi").val() == "" && $("#conModi").val() == ""){
+				 alert("공지 제목 혹은 공지 내용을 입력해주세요.");
+			 }else{
+			var $gnNoInput = $("<input type='hidden' name='gnNoName' value='"+ gnNo +"'>")
+			
+			$("#noticeModiForm").append($gnNoInput);	 
+			 $("#noticeModiForm").submit();
+			 }
+		 })
+		 </script>
+		 <!-- 공지사항 수정하기  modal end -->
 	 
  
  

@@ -9,7 +9,7 @@ public class GroupNotice implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private int gnNo;
+	private String gnNo;
 	private int gmNo;
 	private int gNo;
 	private String gnTitle;
@@ -28,7 +28,7 @@ public class GroupNotice implements Serializable{
 		super();
 	}
 
-	public GroupNotice(int gnNo, int gmNo, int gNo, String gnTitle, String gnCon, String gnDate, String gnDelete,
+	public GroupNotice(String gnNo, int gmNo, int gNo, String gnTitle, String gnCon, String gnDate, String gnDelete,
 			int gnCount, String name, int page) {
 		super();
 		this.gnNo = gnNo;
@@ -43,11 +43,11 @@ public class GroupNotice implements Serializable{
 		this.page = page;
 	}
 
-	public int getGnNo() {
+	public String getGnNo() {
 		return gnNo;
 	}
 
-	public void setGnNo(int gnNo) {
+	public void setGnNo(String gnNo) {
 		this.gnNo = gnNo;
 	}
 
@@ -133,7 +133,10 @@ public class GroupNotice implements Serializable{
 				+ gnCon + ", gnDate=" + gnDate + ", gnDelete=" + gnDelete + ", gnCount=" + gnCount + ", name=" + name
 				+ ", page=" + page + "]\n";
 	}
+	
+	
 
+	
 	
 	
 	
