@@ -34,9 +34,10 @@
                 </li>
                 <li>Daily
                     <ul class="sub-navi">
-                            <li><a href="#">Daily Record</a></li>
-                            <li><a href="#">Habit Tracker</a></li>
-                            <li class="b-radius"><a href="#">Bookmark</a></li>
+                    	<c:url var="htlist" value="htlist.do"/>
+	                    <li><a href="#">Daily Record</a></li>
+	                    <li><a href="${htlist }">Habit Tracker</a></li>
+	                    <li class="b-radius"><a href="#">Bookmark</a></li>
                     </ul>
                 </li>
                 <li>Diet

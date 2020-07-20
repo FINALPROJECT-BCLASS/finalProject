@@ -15,5 +15,9 @@ public interface MemberService {
 	int insertMember(Member m);
 
 	int updateMember(Member m);
-	
+
+	Member selectOne(Member m);
+
+	int updatePwd(Member m);
+
 }

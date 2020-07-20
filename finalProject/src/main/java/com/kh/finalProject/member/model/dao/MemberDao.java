@@ -30,5 +30,11 @@ public class MemberDao {
 
 		return sqlSessionTemplate.insert("memberMapper.updateMember", m);
 	}
+
+	public int updatePwd(Member m) {
+		
+		return sqlSessionTemplate.update("memberMapper.updatePwd", m);
+	}
+
 	
 }
