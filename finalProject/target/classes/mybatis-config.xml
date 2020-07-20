@@ -19,12 +19,15 @@
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupMember" alias="GroupMember"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupInfo" alias="GroupInfo"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupNotice" alias="GroupNotice"/>
+
+		<typeAlias type="com.kh.finalProject.daily.model.vo.HabitTracker" alias="HabitTracker"/>
 	</typeAliases>
 
 	<mappers>
 		<mapper resource="/mappers/member-mapper.xml"/>
 		<mapper resource="/mappers/plan-mapper.xml"/>	<!-- 예지 -->
 		<mapper resource="/mappers/group-mapper.xml"/>
+		<mapper resource="/mappers/daily-mapper.xml"/>
 	</mappers>
 	
 </configuration>
