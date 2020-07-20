@@ -138,7 +138,7 @@
     	   					var $time = $("<b>").html(data.ttList[i].start + " - " + data.ttList[i].end + " " + data.ttList[i].title
     	   											+ "(" + data.ttList[i].memo + ")");
     	   					
-    	   					var $no = $("<input type='text' class='timeNo'>").val(data.ttList[i].no);
+    	   					var no = data.ttList[i].no;
     	   					
     	   					var startHour = data.ttList[i].startHour;
     	   					var startMinute = data.ttList[i].startMinute;
@@ -150,33 +150,43 @@
     	   					var endOnTime = endHour - 1;
     	   					
     	   					if(startMinute >= 30 && gap <= 0) {
-    	   						$("#"+startHour+"half").append($no).append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
+    	   						$("#"+startHour+"half").append("<input type='hidden' class='timeNo'>").append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
+    	   						$("#"+startHour+"half").find(".timeNo").val(no);
     	   					} else if(startMinute < 30 && gap > 0) {
-    	   						$("#"+startHour).append($no).append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
-    	   						$("#"+startHour+"half").append($no).css("background-color", "pink").css("border-bottom", "1px solid pink");
+    	   						$("#"+startHour).append("<input type='hidden' class='timeNo'>").append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
+    	   						$("#"+startHour+"half").append("<input type='hidden' class='timeNo'>").css("background-color", "pink").css("border-bottom", "1px solid pink");
+    	   						$("#"+startHour).find(".timeNo").val(no);
+    	   						$("#"+startHour+"half").find(".timeNo").val(no);
     	   					} else if(startMinute >= 30 && gap > 0) {
-    	   						$("#"+startHour+"half").append($no).append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
+    	   						$("#"+startHour+"half").append("<input type='hidden' class='timeNo'>").append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
+    	   						$("#"+startHour+"half").find(".timeNo").val(no);
     	   					} else {
-    	   						$("#"+startHour).append($no).append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
+    	   						$("#"+startHour).append("<input type='hidden' class='timeNo'>").append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
+    	   						$("#"+startHour).find(".timeNo").val(no);
     	   					}
     	   					
     	   						
    	   						for(j = startHour+1; j < endHour; j++) {
    	   							var gapHour = startHour+j;
-   	   							$("#"+j+"half").append($no).css("background-color", "pink").css("border-bottom", "1px solid pink");
-   	   							$("#"+j).append($no).css("background-color", "pink").css("border-top", "1px solid pink")
+   	   							$("#"+j).append("<input type='hidden' class='timeNo'>").css("background-color", "pink").css("border-top", "1px solid pink")
    	   										.css("border-bottom", "1px solid pink");
-   	   							$("#"+j+"half").append($no).css("background-color", "pink").css("border-top", "1px solid pink")
+   	   							$("#"+j+"half").append("<input type='hidden' class='timeNo'>").css("background-color", "pink").css("border-top", "1px solid pink")
    	   												.css("border-bottom", "1px solid pink");
+   	   							$("#"+j).find(".timeNo").val(no);
+   	   							$("#"+j+"half").find(".timeNo").val(no);
     	   					}
    	   						
     	   					if(endMinute >= 30) {
-    	   						$("#"+endHour).append($no).css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid pink");
-    	   						$("#"+endHour+"half").append($no).css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid #484848");
+    	   						$("#"+endHour).append("<input type='hidden' class='timeNo'>").css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid pink");
+    	   						$("#"+endHour+"half").append("<input type='hidden' class='timeNo'>").css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid #484848");
+    	   						$("#"+endHour).find(".timeNo").val(no);
+    	   						$("#"+endHour+"half").find(".timeNo").val(no);
     	   					} else if(endMinute >= 1) {
-    	   						$("#"+endHour).append($no).css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid #484848");
+    	   						$("#"+endHour).append("<input type='hidden' class='timeNo'>").css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid #484848");
+    	   						$("#"+endHour+"half").find(".timeNo").val(no);
     	   					} else if(endMinute == 0 ) {
-    	   						$("#"+endOnTime+"half").append($no).css("background-color", "pink").css("border-bottom", "1px solid #484848");
+    	   						$("#"+endOnTime+"half").append("<input type='hidden' class='timeNo'>").css("background-color", "pink").css("border-bottom", "1px solid #484848");
+    	   						$("#"+endOnTime+"half").find(".timeNo").val(no);
     	   					}
     	   					
     	   				};
@@ -195,8 +205,6 @@
         			success: function(data) {
         				for(var i in data.dtList){
     	   					var content = data.dtList[i].content;
-    	   					
-    	   					console.log(data.dtList[i].content);
     	   					
     	   					$("#listContent"+i).val(content);
 
@@ -232,6 +240,8 @@
         	   					var $time = $("<b>").html(data.ttList[i].start + " - " + data.ttList[i].end + " " + data.ttList[i].title
         	   											+ "(" + data.ttList[i].memo + ")");
         	   					
+        	   					var no = data.ttList[i].no;
+        	   					
         	   					var startHour = data.ttList[i].startHour;
         	   					var startMinute = data.ttList[i].startMinute;
         	   					
@@ -242,38 +252,43 @@
         	   					var endOnTime = endHour - 1;
         	   					
         	   					if(startMinute >= 30 && gap <= 0) {
-        	   						$("#"+startHour+"half").append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
+        	   						$("#"+startHour+"half").append("<input type='hidden' class='timeNo'>").append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
+        	   						$("#"+startHour+"half").find(".timeNo").val(no);
         	   					} else if(startMinute < 30 && gap > 0) {
-        	   						$("#"+startHour).append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
-        	   						$("#"+startHour+"half").css("background-color", "pink").css("border-bottom", "1px solid pink");
+        	   						$("#"+startHour).append("<input type='hidden' class='timeNo'>").append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
+        	   						$("#"+startHour+"half").append("<input type='hidden' class='timeNo'>").css("background-color", "pink").css("border-bottom", "1px solid pink");
+        	   						$("#"+startHour).find(".timeNo").val(no);
+        	   						$("#"+startHour+"half").find(".timeNo").val(no);
         	   					} else if(startMinute >= 30 && gap > 0) {
-        	   						$("#"+startHour+"half").append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
+        	   						$("#"+startHour+"half").append("<input type='hidden' class='timeNo'>").append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
+        	   						$("#"+startHour+"half").find(".timeNo").val(no);
         	   					} else {
-        	   						$("#"+startHour).append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
+        	   						$("#"+startHour).append("<input type='hidden' class='timeNo'>").append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
+        	   						$("#"+startHour).find(".timeNo").val(no);
         	   					}
         	   					
         	   						
        	   						for(j = startHour+1; j < endHour; j++) {
        	   							var gapHour = startHour+j;
-       	   							$("#"+j+"half").css("background-color", "pink").css("border-bottom", "1px solid pink");
-       	   							$("#"+j).css("background-color", "pink").css("border-top", "1px solid pink")
+       	   							$("#"+j).append("<input type='hidden' class='timeNo'>").css("background-color", "pink").css("border-top", "1px solid pink")
        	   										.css("border-bottom", "1px solid pink");
-       	   							$("#"+j+"half").css("background-color", "pink").css("border-top", "1px solid pink")
+       	   							$("#"+j+"half").append("<input type='hidden' class='timeNo'>").css("background-color", "pink").css("border-top", "1px solid pink")
        	   												.css("border-bottom", "1px solid pink");
+       	   							$("#"+j).find(".timeNo").val(no);
+       	   							$("#"+j+"half").find(".timeNo").val(no);
         	   					}
        	   						
         	   					if(endMinute >= 30) {
-        	   						$("#"+endHour).css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid pink");
-        	   						$("#"+endHour+"half").css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid #484848");
+        	   						$("#"+endHour).append("<input type='hidden' class='timeNo'>").css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid pink");
+        	   						$("#"+endHour+"half").append("<input type='hidden' class='timeNo'>").css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid #484848");
+        	   						$("#"+endHour).find(".timeNo").val(no);
+        	   						$("#"+endHour+"half").find(".timeNo").val(no);
         	   					} else if(endMinute >= 1) {
-        	   						$("#"+endHour).css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid #484848");
+        	   						$("#"+endHour).append("<input type='hidden' class='timeNo'>").css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid #484848");
+        	   						$("#"+endHour+"half").find(".timeNo").val(no);
         	   					} else if(endMinute == 0 ) {
-        	   						if(endHour == 24) {
-        	   							$("#24").css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid pink");
-        	   							$("#24half").css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid #484848");
-        	   						} else {
-    	    	   						$("#"+endOnTime+"half").css("background-color", "pink").css("border-bottom", "1px solid #484848");    	   							
-        	   						}
+        	   						$("#"+endOnTime+"half").append("<input type='hidden' class='timeNo'>").css("background-color", "pink").css("border-bottom", "1px solid #484848");
+        	   						$("#"+endOnTime+"half").find(".timeNo").val(no);
         	   					}
         	   					
         	   				};
