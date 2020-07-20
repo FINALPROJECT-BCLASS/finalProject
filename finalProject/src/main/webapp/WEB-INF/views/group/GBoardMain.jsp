@@ -75,6 +75,13 @@
     .noticeDate{padding-left:5px; font-size:12px; font-weight: 600;  text-shadow: 1.5px 1.5px 1.5px gray; }
     .noticeContent{padding-top:5px; padding-left:15px; padding-bottom: 20px; font-size:14px;  text-shadow: 1.5px 1.5px 1.5px gray; }
 
+	/* 글쓰기 버튼 */
+	#groupWrite { text-align:right; width:100%; height: 50px; margin-right:40px; margin-bottom:10px; border:none;}
+    img {width:50px; height:40px; cursor: pointer; border-radius: 5px;}
+	
+	.groupListCount{width:95%; margin-bottom:10px; text-align:right;}
+
+
     /* 공지게시판 */
     .groupNotice{width:100%; height:400px;overflow:scroll; overflow-x:hidden;}
     .noticeBoardTb{width:100%; margin-bottom:5px; background:white;border:0.5px solid lightgray; border-radius:10px;}
@@ -94,6 +101,14 @@
   	
   	
   	.swiper-wrapper{width:1700px !important; }
+  	
+  	tr > td:nth-child(1) {
+        color: #484848;
+        text-align: left;
+        font-weight: 600;
+        font-size: 16px;
+        width:40px;
+    }
   </style>
   
   <link rel="stylesheet" href="resources/css/swiper-bundle.css">
@@ -112,25 +127,43 @@
 	<!-- 공지사항 -->
 
 	<div class="noticeText">
+	   	<c:if test="${!empty noticeList }">
         <table class="noticeTb">
-          <tr><td><span class="material-icons">campaign</span></td><td><div class="noticeTitle">깡삽이네조 파이널 프로젝트</div></td></tr>
-          <tr><td></td><td><div class="noticeWriter">김혜린</div></td></tr>
-          <tr><td></td><td><div class="noticeDate">2020-06-12 오후 06:00</div></td></tr>
-          <tr><td></td><td><div class="noticeContent">파이널 프로젝트는 8월 27일에 종료됩니다.</div></td></tr>
+          <tr>
+	          <td><span class="material-icons">campaign</span></td>
+	          <td><div class="noticeTitle">${noticeList.gnTitle }</div></td>
+          </tr>
+          <tr><td></td><td><div class="noticeWriter">${noticeList.name }</div></td></tr>
+          <tr><td></td><td><div class="noticeDate">${noticeList.gnDate }</div></td></tr>
+          <tr><td></td><td><div class="noticeContent">${noticeList.gnCon }</div></td></tr>
         </table>
+        </c:if>
       </div>
       
       <div class="join-form-area">
   
         <h1>Group Diary</h1>
         <div class="btnList">
-            <button class="groupBtn noticeBtn">Notice</button>
-            <button class="groupBtn BoardBtn">Board</button>
+            <button class="groupBtn noticeBtn" onclick="location.href='noticeMain.do'">Notice</button>
+            <button class="groupBtn BoardBtn" onclick="location.href='boardMain.do'">Board</button>
             <button class="groupBtn PhotoBtn">Photo</button>
             <button class="groupBtn VideoBtn">Video</button>
     	</div>
+     	
+     	<br>
+      	<div id="groupWrite" ><img src="resources/images/write.png" id="writeBtn"></div>
         <br>
+        
+        <div class="groupListCount">총 게시판 : ${pi.listCount }</div>
+		<div style="clear:both"></div>
+     	
 		 <div class="groupNotice">
+		 
+		 	<br>
+           	<c:if test="${empty noticeList }">
+           		<div class="emptyNoticeList"> 작성한 게시판이 없습니다.</div>
+           	</c:if>
+
               <table class="noticeBoardTb">
                 <tr><td><span class="material-icons">perm_identity</span></td><td><div class="noticeBoardTitle">깡삽이네조 파이널 프로젝트</div></td></tr>
                 <tr><td></td><td><div class="noticeBoardWriter">김혜린</div></td></tr>

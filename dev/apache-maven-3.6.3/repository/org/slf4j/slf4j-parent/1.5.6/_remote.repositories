@@ -1,3 +1,7 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+<<<<<<< HEAD
 #Mon Jul 20 12:09:55 KST 2020
+=======
+#Mon Jul 20 13:45:22 KST 2020
+>>>>>>> refs/remotes/origin/dev30
 slf4j-parent-1.5.6.pom>central=

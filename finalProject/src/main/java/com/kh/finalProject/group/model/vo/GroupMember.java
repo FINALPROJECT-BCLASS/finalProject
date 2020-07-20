@@ -17,18 +17,21 @@ public class GroupMember implements Serializable{
 	private String gNo;
 	private String gmDelete;
 	
+	private String name;
+	
 	
 	public GroupMember() {
 		super();
 	}
 
 
-	public GroupMember(int gmNO, String gmId, String gNo, String gmDelete) {
+	public GroupMember(int gmNO, String gmId, String gNo, String gmDelete, String name) {
 		super();
 		this.gmNO = gmNO;
 		this.gmId = gmId;
 		this.gNo = gNo;
 		this.gmDelete = gmDelete;
+		this.name = name;
 	}
 
 
@@ -72,6 +75,16 @@ public class GroupMember implements Serializable{
 	}
 
 
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -79,10 +92,11 @@ public class GroupMember implements Serializable{
 
 	@Override
 	public String toString() {
-		return "GroupMember [gmNO=" + gmNO + ", gmId=" + gmId + ", gNo=" + gNo + ", gmDelete=" + gmDelete + "]\n";
+		return "GroupMember [gmNO=" + gmNO + ", gmId=" + gmId + ", gNo=" + gNo + ", gmDelete=" + gmDelete + ", name="
+				+ name + "]\n";
 	}
 
-	
+
 	
 
 }
