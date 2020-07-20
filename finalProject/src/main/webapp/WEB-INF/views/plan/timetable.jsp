@@ -209,7 +209,13 @@
     	   					$("#listContent"+i).val(content);
 
     	   					if(data.dtList[i].complete == 'Y') {
+    	   						console.log(data.dtList[i].complete);
     	   						$("#listCheck"+i).attr("checked", true);
+    	   						$("#checkResult"+i).val("Y");
+    	   					} else {
+    	   						console.log(data.dtList[i].complete);
+    	   						$("#listCheck"+i).attr("checked", false);
+    	   						$("#checkResult"+i).val("N");
     	   					}
     	   				}
         			},
@@ -567,7 +573,7 @@
 	                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent0"></td>
 	                            <td class="listCheck">
 	                            	<input type="checkbox" class="listCheck" id="listCheck0">
-	                            	<input type="hidden" class="checkResult" name="checkResult" value="N">
+	                            	<input type="hidden" class="checkResult" id="checkResult0" name="checkResult">
 	                            </td>
 	                        </tr>
 	                        <tr>
@@ -575,7 +581,7 @@
 	                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent1"></td>
 	                            <td class="listCheck">
 	                            	<input type="checkbox" class="listCheck" id="listCheck1">
-	                            	<input type="hidden" class="checkResult" name="checkResult" value="N">
+	                            	<input type="hidden" class="checkResult" id="checkResult1" name="checkResult">
 	                            </td>
 	                        </tr>
 	                        <tr>
@@ -583,7 +589,7 @@
 	                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent2"></td>
 	                            <td class="listCheck">
 	                            	<input type="checkbox" class="listCheck" id="listCheck2">
-	                            	<input type="hidden" class="checkResult" name="checkResult" value="N">
+	                            	<input type="hidden" class="checkResult" id="checkResult2" name="checkResult">
 	                            </td>
 	                        </tr>
 	                        <tr>
@@ -591,7 +597,7 @@
 	                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent3"></td>
 	                            <td class="listCheck">
 	                            	<input type="checkbox" class="listCheck" id="listCheck3">
-	                            	<input type="hidden" class="checkResult" name="checkResult" value="N">
+	                            	<input type="hidden" class="checkResult" id="checkResult3" name="checkResult">
 	                            </td>
 	                        </tr>
 	                        <tr>
@@ -599,7 +605,7 @@
 	                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent4"></td>
 	                            <td class="listCheck">
 	                            	<input type="checkbox" class="listCheck" id="listCheck4">
-	                            	<input type="hidden" class="checkResult" name="checkResult" value="N">
+	                            	<input type="hidden" class="checkResult" id="checkResult4" name="checkResult">
 	                            </td>
 	                        </tr>
 	                        <tr>
@@ -607,7 +613,7 @@
 	                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent5"></td>
 	                            <td class="listCheck">
 	                            	<input type="checkbox" class="listCheck" id="listCheck5">
-	                            	<input type="hidden" class="checkResult" name="checkResult" value="N">
+	                            	<input type="hidden" class="checkResult" id="checkResult5" name="checkResult">
 	                            </td>
 	                        </tr>
 	                        <tr>
@@ -615,7 +621,7 @@
 	                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent6"></td>
 	                            <td class="listCheck">
 	                            	<input type="checkbox" class="listCheck" id="listCheck6">
-	                            	<input type="hidden" class="checkResult" name="checkResult" value="N">
+	                            	<input type="hidden" class="checkResult" id="checkResult6" name="checkResult">
 	                            </td>
 	                        </tr>
 	                        <tr>
@@ -623,7 +629,7 @@
 	                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent7"></td>
 	                            <td class="listCheck">
 	                            	<input type="checkbox" class="listCheck" id="listCheck7">
-	                            	<input type="hidden" class="checkResult" name="checkResult" value="N">
+	                            	<input type="hidden" class="checkResult" id="checkResult7" name="checkResult">
 	                            </td>
 	                        </tr>
 	                        <tr>
@@ -631,7 +637,7 @@
 	                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent8"></td>
 	                            <td class="listCheck">
 	                            	<input type="checkbox" class="listCheck" id="listCheck8">
-	                            	<input type="hidden" class="checkResult" name="checkResult" value="N">
+	                            	<input type="hidden" class="checkResult" id="checkResult8" name="checkResult">
 	                            </td>
 	                        </tr>
 	                        <tr>
@@ -639,7 +645,7 @@
 	                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent9"></td>
 	                            <td class="listCheck">
 	                            	<input type="checkbox" class="listCheck" id="listCheck9">
-	                            	<input type="hidden" class="checkResult" name="checkResult" value="N">
+	                            	<input type="hidden" class="checkResult" id="checkResult9" name="checkResult">
 	                            </td>
 	                        </tr>
 	                    </table>
@@ -676,9 +682,6 @@
     			} else {
     				$(this).next().val("N");
     			}
-    			
-    			var result = $(this).next().val();
-			    console.log(result);
     		})
     	})
     	
