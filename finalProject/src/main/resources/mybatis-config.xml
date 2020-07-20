@@ -16,6 +16,7 @@
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupMember" alias="GroupMember"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupInfo" alias="GroupInfo"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupNotice" alias="GroupNotice"/>
+		<typeAlias type="com.kh.finalProject.group.model.vo.GroupBoard" alias="GroupBoard"/>
 		
 		<typeAlias type="com.kh.finalProject.member.model.vo.Member" alias="Member"/>
 	</typeAliases>

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.finalProject.group.common.PageInfo;
 import com.kh.finalProject.group.model.dao.GroupDao;
+import com.kh.finalProject.group.model.vo.GroupBoard;
 import com.kh.finalProject.group.model.vo.GroupInfo;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupNotice;
@@ -73,6 +74,21 @@ public class GroupServiceImpl implements GroupService{
 	@Override
 	public int noticeUpdate(GroupNotice gn) {
 		return gDao.noticeUpdate(gn);
+	}
+
+	@Override
+	public GroupNotice selectNoticeOne() {
+		return gDao.selectNoticeOne();
+	}
+
+	@Override
+	public int boardGetListCount() {
+		return gDao.boardGetListCount();
+	}
+
+	@Override
+	public ArrayList<GroupBoard> selectBoardList(PageInfo pi) {
+		return gDao.selectBoardList(pi);
 	}
 
 	

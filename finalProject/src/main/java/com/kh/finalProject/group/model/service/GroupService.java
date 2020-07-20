@@ -3,6 +3,7 @@ package com.kh.finalProject.group.model.service;
 import java.util.ArrayList;
 
 import com.kh.finalProject.group.common.PageInfo;
+import com.kh.finalProject.group.model.vo.GroupBoard;
 import com.kh.finalProject.group.model.vo.GroupInfo;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupNotice;
@@ -33,5 +34,13 @@ public interface GroupService {
 	int noticeInsert(GroupNotice gn);
 
 	int noticeUpdate(GroupNotice gn);
+
+	GroupNotice selectNoticeOne();
+
+	int boardGetListCount();
+
+	ArrayList<GroupBoard> selectBoardList(PageInfo pi);
+
+
 
 }

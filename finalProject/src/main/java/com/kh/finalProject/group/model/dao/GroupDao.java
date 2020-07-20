@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.finalProject.group.common.PageInfo;
+import com.kh.finalProject.group.model.vo.GroupBoard;
 import com.kh.finalProject.group.model.vo.GroupInfo;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupNotice;
@@ -68,6 +69,18 @@ public class GroupDao {
 
 	public int noticeUpdate(GroupNotice gn) {
 		return sqlSessionTemplate.update("groupMapper.noticeUpdate", gn);
+	}
+
+	public GroupNotice selectNoticeOne() {
+		return sqlSessionTemplate.selectOne("groupMapper.selectNoticeOne");
+	}
+
+	public int boardGetListCount() {
+		return sqlSessionTemplate.selectOne("groupMapper.boardGetListCount");
+	}
+
+	public ArrayList<GroupBoard> selectBoardList(PageInfo pi) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectBoardList", pi);
 	}
 	
 	

@@ -42,12 +42,23 @@
 		<result property="gnCount" column="GN_COUNT"/>
 		<result property="name" column="NAME"/>
 	</resultMap>
-
+	
+	<resultMap id="groupBoardResultSet" type="GroupBoard">
+		<id property="gbNo" column="GB_NO"/>
+		<result property="gmNo" column="GM_NO"/>
+		<result property="gNo" column="G_NO"/>
+		<result property="gbTitle" column="GB_TITLE"/>
+		<result property="gbCon" column="GB_CON"/>
+		<result property="gbDate" column="GB_DATE"/>
+		<result property="gbDelete" column="GB_DELETE"/>
+		<result property="gbCount" column="GB_COUNT"/>
+		<result property="name" column="NAME"/>
+	</resultMap>
 	<!-- resultMap end -->
 	
 	<!-- 그룹 메인 및 생성 -->	
 	<select id="selectGroup" resultMap="groupTableResultSet">
-		select GT.G_NO AS G_NO, G_TITLE, G_CON, G_NAME, G_ORIGIN, G_DELETE, ID, G_DATE, GM_NO, GM_ID, GM_DELETE
+		SELECT GT.G_NO AS G_NO, G_TITLE, G_CON, G_NAME, G_ORIGIN, G_DELETE, ID, G_DATE, GM_NO, GM_ID, GM_DELETE
 		FROM GROUP_TABLE GT
 		JOIN GROUP_MEMBER GM ON(GT.G_NO = GM.G_NO)
 		WHERE GM_ID = #{loginUserId}
@@ -153,4 +164,33 @@
 		WHERE GN_NO = #{gnNo}
 	</update>
 	<!-- 그룹 공지  end -->
+	
+	<!-- 그룹 게시판 -->
+	<select id="selectNoticeOne" resultMap="groupNoticeResultSet">
+		SELECT *
+		FROM (
+			SELECT GN_NO, GN.GM_NO AS GM_NO, GN.G_NO AS G_NO, GN_TITLE, GN_CON, GN_DATE, GN_DELETE, GN_COUNT, NAME
+			FROM GROUP_NOTICE GN
+			JOIN GROUP_MEMBER GM ON(GN.GM_NO = GM.GM_NO)
+	        JOIN MEMBER M ON (GM.GM_ID = M.ID)
+	        ORDER BY GN_NO DESC
+		)
+		WHERE ROWNUM =1
+	</select>
+
+	<select id="boardGetListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM GROUP_BOARD
+		WHERE GB_DELETE = 'N'
+	</select>
+	
+	<select id="selectBoardList" parameterType="GroupInfo" resultMap="groupBoardResultSet">
+		SELECT GB_NO, GB.GM_NO AS GM_NO, GB.G_NO AS G_NO, GB_TITLE, GB_CON, GB_DATE, GB_DELETE, GB_COUNT, NAME
+		FROM GROUP_BOARD GB
+		JOIN GROUP_MEMBER GM ON(GB.GM_NO = GM.GM_NO)
+        JOIN MEMBER M ON (GM.GM_ID = M.ID)
+        WHERE GM.G_NO = #{groupNo}
+		ORDER BY GB_NO DESC
+	</select>
+	
 </mapper>
