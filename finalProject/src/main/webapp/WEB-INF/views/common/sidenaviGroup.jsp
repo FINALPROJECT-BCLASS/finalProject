@@ -28,6 +28,23 @@
             </ul>
         </nav>
     </div>
+    <script>
+    	$(function(){
+    		$(window).scroll(function(){
+                let $window = $(this);
+                let scrollTop = $window.scrollTop();
+                let windowHeight = $window.height();
+                let documentHeight = $(document).height();
+                
+                console.log("documentHeight:" + documentHeight + " | scrollTop:" + scrollTop + " | windowHeight: " + windowHeight );
+                
+                if( scrollTop + windowHeight + 200 > documentHeight ){
+                	
+                    $(".left-sub-navi").css("position","absolute");
+                }
+            })
+    	})
     
+    </script>
 </body>
 </html>

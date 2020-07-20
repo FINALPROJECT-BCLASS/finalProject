@@ -18,6 +18,7 @@
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupTable" alias="GroupTable"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupMember" alias="GroupMember"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupInfo" alias="GroupInfo"/>
+		<typeAlias type="com.kh.finalProject.group.model.vo.GroupNotice" alias="GroupNotice"/>
 	</typeAliases>
 
 	<mappers>
