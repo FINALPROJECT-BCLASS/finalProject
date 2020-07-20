@@ -130,9 +130,13 @@
 					email:$("#email").val()
 				},
 				success : function(result) {
-					
+						
+					if(result == "메일로 임시 비밀번호가 발송되었습니다.") {
 						alert(result);
-					
+						location.href="memberLoginView.do";
+					}else {
+						alert(result);
+					}
 				},
 				error:function(request, status, errorData){
                     alert("error code: " + request.status + "\n"
