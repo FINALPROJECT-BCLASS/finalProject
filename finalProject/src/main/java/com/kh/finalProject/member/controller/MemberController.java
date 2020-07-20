@@ -183,9 +183,9 @@ public class MemberController {
 	@RequestMapping("mupdate.do")
 	public String memberUpdate(Member m, Model model,
 								HttpServletRequest request,
-								@RequestParam("postcode") String postcode,
-								@RequestParam("mainAddress") String mainAddress,
-								@RequestParam("subAddress") String subAddress,
+								@RequestParam(value="postcode", required=false) String postcode,
+								@RequestParam(value="mainAddress", required=false) String mainAddress,
+								@RequestParam(value="subAddress", required=false) String subAddress,
 								@RequestParam(value="file", required=false) MultipartFile file) {
 		
 
@@ -193,6 +193,8 @@ public class MemberController {
 		
 		m.setPwd(encPwd);
 		m.setAddress(postcode+"_"+mainAddress+"_"+subAddress);
+		
+		System.out.println(postcode+"_"+mainAddress+"_"+subAddress);
 		
 		// 세션값 가져오기 (저장된 파일 이름을 불러 오기 위함)
 		HttpSession session = request.getSession();

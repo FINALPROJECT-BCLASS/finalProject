@@ -60,32 +60,54 @@
             margin-top: 30px;
             padding: 15px;
         }
-
-        .content-area {
-            float: left;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .content-item {
-            display: flex;
-            vertical-align: center;
-            padding:10px;
-            height: 40px;
-            margin-bottom: 10px;
-            width: 260px;
-            background-color: #f3f3f3;
-            border-radius: 5px;
-        }
-
-        .time {
-            height: 60px;
-        }
-
-        .comment {
-            height: 130px;
-            margin-bottom: 0;
-        }
+		
+		.content-section1 {
+			width: 50%;
+		    height: 262px;
+		    float: right;
+		    background: #f3f3f3;
+		    border-radius: 10px;
+		    display: flex;
+		    justify-content: center;
+		    align-items: center;
+	        flex-direction: column;
+		}
+		
+		.section1-item-area {
+			width: 85%;
+		    display: flex;
+    		justify-content: center;
+		}
+		
+		.section1-item {
+			width: 46%;
+		    background: white;
+		    border-radius: 10px;
+		    padding: 10px;
+		    display: flex;
+		    justify-content: center;
+		    align-items: center;
+		    flex-direction: column;
+		    margin-top: 10px;
+		}
+		
+		.section1-item > span:nth-child(1) {
+			font-weight: 600;
+			font-size: 20px;
+		}
+		
+		.section1-item > span:nth-child(2) {
+			font-size: 29px;
+		    font-weight: 700;
+		    color: #6b98ff;
+		    margin-top: -5px;
+		}
+		
+		.section1-item > span:nth-child(3) {
+		    font-weight: 600;
+		    color: gray;
+	        margin-top: -8px;
+		}
 
         textarea {
             border: 0px;
@@ -131,6 +153,14 @@
             font-size: 23px;
             font-weight: 700;
             color: #484848;
+        }
+        
+        .item-subject {
+        	font-size: 23px;
+		    font-weight: 600;
+		    width: 81%;
+		    height: 42px;
+		    text-align: left;
         }
         
         /* external css: flickity.css */
@@ -186,7 +216,13 @@
 		    font-weight: 700;
 		    margin: 25px 20px;
 		}
-	       
+	    
+	    .progress-d {
+	    	height: 35px !important;
+		    width: 82%;
+		    border-radius: 50px !important;
+	        margin: 0;
+	    }   
 
 
     </style>
@@ -238,9 +274,24 @@
 
     
             <div class="content">
-                <div class="content-area">
-                    
-                </div>
+            	<div class="content-section1">
+            		<div class="item-subject">Progress</div>
+            		<div class="progress carousel-cell progress-d">
+			  			<div class="progress-bar sky" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:70%;"></div>
+            		</div>
+            		<div class="section1-item-area">
+	            		<div class="section1-item" style="margin-right: 10px;">
+	            			<span>Today</span>
+	            			<span>1050</span>
+	            			<span>/ 1500 ml</span>
+	            		</div>
+	            		<div class="section1-item">
+	            			<span>Achieve Rate</span>
+	            			<span style="font-size: 39px">70%</span>
+	            			
+	            		</div>
+            		</div>
+            	</div>
             </div>
             <!-- Button Start-->
             <div class="button-area">
