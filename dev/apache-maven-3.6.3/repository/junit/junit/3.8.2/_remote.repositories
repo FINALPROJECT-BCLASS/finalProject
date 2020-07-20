@@ -1,0 +1,9 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+<<<<<<< HEAD
+#Mon Jul 20 12:58:02 KST 2020
+junit-3.8.2.pom>central=
+junit-3.8.2.jar>central=
+=======
+#Mon Jul 20 13:45:40 KST 2020
+junit-3.8.2.pom>central=
+>>>>>>> refs/remotes/origin/dev30

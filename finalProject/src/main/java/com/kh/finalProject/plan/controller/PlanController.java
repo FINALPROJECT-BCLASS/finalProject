@@ -13,14 +13,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.finalProject.member.model.vo.Member;
 import com.kh.finalProject.plan.model.exception.PlanException;
 import com.kh.finalProject.plan.model.service.PlanService;
+import com.kh.finalProject.plan.model.vo.DTodolist;
 import com.kh.finalProject.plan.model.vo.McOvulation;
 import com.kh.finalProject.plan.model.vo.McRecord;
 import com.kh.finalProject.plan.model.vo.Menstrual;
+import com.kh.finalProject.plan.model.vo.Timetable;
 
 @Controller
 public class PlanController {
@@ -32,12 +35,6 @@ public class PlanController {
 	public String monthlyView() {
 		
 		return "plan/monthlyPlanner";
-	}
-	
-	@RequestMapping("ttlist.do")
-	public String timetableView() {
-		
-		return "plan/timetable";
 	}
 	
 	@RequestMapping("mcview.do")
@@ -118,8 +115,6 @@ public class PlanController {
 		for(McRecord m : mcrList) {
 			JSONObject jObj = new JSONObject();
 			jObj.put("eventTitle", "생리예정일");
-			jObj.put("no", m.getMcrNo());
-			jObj.put("id", m.getId());
 			jObj.put("start", m.getMcrStart());
 			jObj.put("end", m.getMcrEnd());
 			jObj.put("color", "#F781BE");
@@ -130,8 +125,6 @@ public class PlanController {
 		for(McOvulation m : mcoList) {
 			JSONObject jObj = new JSONObject();
 			jObj.put("eventTitle", "가임기");
-			jObj.put("no", m.getMcoNo());
-			jObj.put("id", m.getId());
 			jObj.put("start", m.getMcoStart());
 			jObj.put("end", m.getMcoEnd());
 			jObj.put("color", "#00CC66");
@@ -187,6 +180,159 @@ public class PlanController {
 			throw new PlanException("생리달력 수정 실패");
 		}
 		
+	}
+	
+	@RequestMapping("ttview.do")
+	public String timetableView() {
+		
+		return "plan/timetable";
+	}
+	
+	@RequestMapping("ttlist.do")
+	public void timetableList(HttpSession session, HttpServletResponse response, Timetable tt) throws IOException {
+		response.setContentType("application/json;charset=utf-8");
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String id = loginUser.getId();
+		tt.setId(id);
+		
+		ArrayList<Timetable> ttList = pService.selectTtList(tt);
+		
+		JSONArray jArr = new JSONArray();
+		
+		for(Timetable t : ttList) {
+			int startHour = Integer.parseInt(t.getTtStart().substring(0, 2));
+			int startMinute = Integer.parseInt(t.getTtStart().substring(3));
+			int endHour = Integer.parseInt(t.getTtEnd().substring(0,2));
+			int endMinute = Integer.parseInt(t.getTtEnd().substring(3));
+			
+			if(endHour == 0) {
+				endHour = 24;
+				t.setTtEnd("24:"+t.getTtStart().substring(3));
+			}
+			
+			int gap = endHour - startHour;
+			
+			JSONObject jObj = new JSONObject();
+			jObj.put("title", t.getTtTitle());
+			jObj.put("start", t.getTtStart());
+			jObj.put("end", t.getTtEnd());
+			jObj.put("startHour", startHour);
+			jObj.put("startMinute", startMinute);
+			jObj.put("endHour", endHour);
+			jObj.put("endMinute", endMinute);
+			jObj.put("gap", gap);
+			jObj.put("color", "#F781BE");
+			jObj.put("memo", t.getTtMemo());
+			jObj.put("no", t.getTtNo());
+			
+			jArr.add(jObj);
+		}
+		
+		JSONObject sendJson = new JSONObject();
+		sendJson.put("ttList", jArr);
+		
+		PrintWriter out = response.getWriter();
+		out.print(sendJson);
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("ttinsert.do")
+	public String timetableInsert(Model model, Timetable t) throws PlanException {
+		
+		int result = pService.insertTimetable(t);
+		
+		if(result > 0) {
+			return "redirect:ttview.do";
+		} else {
+			throw new PlanException("시간표 등록 실패");
+		}
+		
+	}
+	
+	@RequestMapping("ttdelete.do")
+	public String timetableDelete(Model model, @RequestParam(value="ttNo") String no) throws PlanException {
+		System.out.println(no);
+		
+		int ttNo = 0;
+		
+		try {
+			ttNo = Integer.parseInt(no);
+		} catch(NumberFormatException e) {
+			e.getStackTrace();
+		}
+		
+		int result = pService.deleteTimetable(ttNo);
+		
+		if(result > 0) {
+			return "redirect:ttview.do";
+		} else {
+			throw new PlanException("시간표 삭제 실패");
+		}
+		
+	}
+	
+	@RequestMapping("dtinsert.do")
+	public String dTodolistInsert(Model model, HttpSession session, DTodolist dt
+								, @RequestParam(value="listContent") String[] dtConArr
+								, @RequestParam(value="checkResult") String[] dtComArr
+								, @RequestParam(value="dtDate") String dtDate) throws PlanException {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String id = loginUser.getId();
+		dt.setId(id);
+		
+		pService.deleteDTodolist(dt);
+		int result = 0;
+		
+		for(int i = 0; i < dtConArr.length; i++) {
+			if(!dtConArr[i].equals("")) {
+				DTodolist insertDt = new DTodolist();
+				
+				insertDt.setId(id);
+				insertDt.setDtCon(dtConArr[i]);
+				insertDt.setDtComplete(dtComArr[i]);
+				insertDt.setDtDate(dtDate);
+				
+				result += pService.insertDTodolist(insertDt);				
+			}
+		}				
+		
+		if(result > 0) {
+			return "redirect:ttview.do";
+		} else {
+			throw new PlanException("todolist 등록 실패");
+		}
+	}
+	
+	@RequestMapping("dtlist.do")
+	public void dTodolistList(HttpSession session, HttpServletResponse response, DTodolist dt) throws IOException {
+		response.setContentType("application/json;charset=utf-8");
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String id = loginUser.getId();
+		dt.setId(id);
+		
+		ArrayList<DTodolist> dtList = pService.selectDtList(dt);
+		
+		JSONArray jArr = new JSONArray();
+		
+		for(DTodolist d : dtList) {
+			JSONObject jObj = new JSONObject();
+			jObj.put("content", d.getDtCon());
+			jObj.put("complete", d.getDtComplete());
+			
+			jArr.add(jObj);
+		}
+		
+		JSONObject sendJson = new JSONObject();
+		sendJson.put("dtList", jArr);
+		
+		PrintWriter out = response.getWriter();
+		out.print(sendJson);
+		out.flush();
+		out.close();
 	}
 
 }

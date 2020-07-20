@@ -7,12 +7,12 @@
 <title>Insert title here</title>
 <style>
 	#listTable{
-            margin-top: 5px;
+    	margin-top: 5px;
     }
 
     #listTable td{
         border: 1px solid;
-        border-color: rgba(72, 72, 72, 1);
+        border-color: #484848;
         text-align: center;
     }
 
@@ -91,7 +91,7 @@
 
     #addBtnArea{
         display: inline-block;
-        width: 580px;
+        width: 500px;
         text-align: right;
     }
     
@@ -106,15 +106,216 @@
     <section>
 
 		<jsp:include page="../common/sidenavi.jsp"/>
-        
+		
+		<script>			
+			var today = new Date();
+			var year = today.getFullYear();
+			var month = today.getMonth()+1;
+			var date = today.getDate();
+			
+			if(month < 10){
+		        month = "0"+month;
+		    }
+		    if(date < 10){
+		        date = "0"+date;
+		    }
+			
+			$(function(){
+
+				$("#date").html(year.toString()+"-"+month.toString()+"-"+date.toString());
+				
+				var dtDate = $('#date').html();
+				$("#listDate").val(dtDate);
+				
+				var ttDate = $("#date").html();
+				
+				$.ajax({
+        			url: 'ttlist.do',
+        			data: {ttDate:ttDate},
+        			dataType: 'json',
+        			success: function(data) {
+        				for(var i in data.ttList){
+    	   					var $time = $("<b>").html(data.ttList[i].start + " - " + data.ttList[i].end + " " + data.ttList[i].title
+    	   											+ "(" + data.ttList[i].memo + ")");
+    	   					
+    	   					var no = data.ttList[i].no;
+    	   					
+    	   					var startHour = data.ttList[i].startHour;
+    	   					var startMinute = data.ttList[i].startMinute;
+    	   					
+    	   					var gap = data.ttList[i].gap;
+    	   					
+    	   					var endHour = data.ttList[i].endHour;
+    	   					var endMinute = data.ttList[i].endMinute;
+    	   					var endOnTime = endHour - 1;
+    	   					
+    	   					if(startMinute >= 30 && gap <= 0) {
+    	   						$("#"+startHour+"half").append("<input type='hidden' class='timeNo'>").append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
+    	   						$("#"+startHour+"half").find(".timeNo").val(no);
+    	   					} else if(startMinute < 30 && gap > 0) {
+    	   						$("#"+startHour).append("<input type='hidden' class='timeNo'>").append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
+    	   						$("#"+startHour+"half").append("<input type='hidden' class='timeNo'>").css("background-color", "pink").css("border-bottom", "1px solid pink");
+    	   						$("#"+startHour).find(".timeNo").val(no);
+    	   						$("#"+startHour+"half").find(".timeNo").val(no);
+    	   					} else if(startMinute >= 30 && gap > 0) {
+    	   						$("#"+startHour+"half").append("<input type='hidden' class='timeNo'>").append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
+    	   						$("#"+startHour+"half").find(".timeNo").val(no);
+    	   					} else {
+    	   						$("#"+startHour).append("<input type='hidden' class='timeNo'>").append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
+    	   						$("#"+startHour).find(".timeNo").val(no);
+    	   					}
+    	   					
+    	   						
+   	   						for(j = startHour+1; j < endHour; j++) {
+   	   							var gapHour = startHour+j;
+   	   							$("#"+j).append("<input type='hidden' class='timeNo'>").css("background-color", "pink").css("border-top", "1px solid pink")
+   	   										.css("border-bottom", "1px solid pink");
+   	   							$("#"+j+"half").append("<input type='hidden' class='timeNo'>").css("background-color", "pink").css("border-top", "1px solid pink")
+   	   												.css("border-bottom", "1px solid pink");
+   	   							$("#"+j).find(".timeNo").val(no);
+   	   							$("#"+j+"half").find(".timeNo").val(no);
+    	   					}
+   	   						
+    	   					if(endMinute >= 30) {
+    	   						$("#"+endHour).append("<input type='hidden' class='timeNo'>").css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid pink");
+    	   						$("#"+endHour+"half").append("<input type='hidden' class='timeNo'>").css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid #484848");
+    	   						$("#"+endHour).find(".timeNo").val(no);
+    	   						$("#"+endHour+"half").find(".timeNo").val(no);
+    	   					} else if(endMinute >= 1) {
+    	   						$("#"+endHour).append("<input type='hidden' class='timeNo'>").css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid #484848");
+    	   						$("#"+endHour+"half").find(".timeNo").val(no);
+    	   					} else if(endMinute == 0 ) {
+    	   						$("#"+endOnTime+"half").append("<input type='hidden' class='timeNo'>").css("background-color", "pink").css("border-bottom", "1px solid #484848");
+    	   						$("#"+endOnTime+"half").find(".timeNo").val(no);
+    	   					}
+    	   					
+    	   				};
+        			},
+        			error:function(request, status, errorData){
+                        alert("error code: " + request.status + "\n"
+                              +"message: " + request.responseText
+                              +"error: " + errorData);
+                    }   
+        		})
+        		
+        		$.ajax({
+        			url: 'dtlist.do',
+        			data: {dtDate:dtDate},
+        			dataType: 'json',
+        			success: function(data) {
+        				for(var i in data.dtList){
+    	   					var content = data.dtList[i].content;
+    	   					
+    	   					$("#listContent"+i).val(content);
+
+    	   					if(data.dtList[i].complete == 'Y') {
+    	   						console.log(data.dtList[i].complete);
+    	   						$("#listCheck"+i).attr("checked", true);
+    	   						$("#checkResult"+i).val("Y");
+    	   					} else {
+    	   						console.log(data.dtList[i].complete);
+    	   						$("#listCheck"+i).attr("checked", false);
+    	   						$("#checkResult"+i).val("N");
+    	   					}
+    	   				}
+        			},
+        			error:function(request, status, errorData){
+                        alert("error code: " + request.status + "\n"
+                              +"message: " + request.responseText
+                              +"error: " + errorData);
+                    }   
+        		})
+        		
+        		$("#selectDate").change(function(){
+        			var ttDate = $("#selectDate").val();
+        			
+        			$("#date").text(ttDate);
+        			$("#listDate").val(ttDate);
+        			
+        			$(".timeContent").empty();
+        			$(".timeContent").css("background-color", "transparent")
+        							.css("border-top", "1px solid #484848")
+        							.css("border-bottom", "1px solid #484848");
+        			
+        			$.ajax({
+            			url: 'ttlist.do',
+            			data: {ttDate:ttDate},
+            			dataType: 'json',
+            			success: function(data) {
+            				for(var i in data.ttList){
+        	   					var $time = $("<b>").html(data.ttList[i].start + " - " + data.ttList[i].end + " " + data.ttList[i].title
+        	   											+ "(" + data.ttList[i].memo + ")");
+        	   					
+        	   					var no = data.ttList[i].no;
+        	   					
+        	   					var startHour = data.ttList[i].startHour;
+        	   					var startMinute = data.ttList[i].startMinute;
+        	   					
+        	   					var gap = data.ttList[i].gap;
+        	   					
+        	   					var endHour = data.ttList[i].endHour;
+        	   					var endMinute = data.ttList[i].endMinute;
+        	   					var endOnTime = endHour - 1;
+        	   					
+        	   					if(startMinute >= 30 && gap <= 0) {
+        	   						$("#"+startHour+"half").append("<input type='hidden' class='timeNo'>").append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
+        	   						$("#"+startHour+"half").find(".timeNo").val(no);
+        	   					} else if(startMinute < 30 && gap > 0) {
+        	   						$("#"+startHour).append("<input type='hidden' class='timeNo'>").append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
+        	   						$("#"+startHour+"half").append("<input type='hidden' class='timeNo'>").css("background-color", "pink").css("border-bottom", "1px solid pink");
+        	   						$("#"+startHour).find(".timeNo").val(no);
+        	   						$("#"+startHour+"half").find(".timeNo").val(no);
+        	   					} else if(startMinute >= 30 && gap > 0) {
+        	   						$("#"+startHour+"half").append("<input type='hidden' class='timeNo'>").append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
+        	   						$("#"+startHour+"half").find(".timeNo").val(no);
+        	   					} else {
+        	   						$("#"+startHour).append("<input type='hidden' class='timeNo'>").append($time).css("background-color", "pink").css("border-bottom", "1px solid pink");
+        	   						$("#"+startHour).find(".timeNo").val(no);
+        	   					}
+        	   					
+        	   						
+       	   						for(j = startHour+1; j < endHour; j++) {
+       	   							var gapHour = startHour+j;
+       	   							$("#"+j).append("<input type='hidden' class='timeNo'>").css("background-color", "pink").css("border-top", "1px solid pink")
+       	   										.css("border-bottom", "1px solid pink");
+       	   							$("#"+j+"half").append("<input type='hidden' class='timeNo'>").css("background-color", "pink").css("border-top", "1px solid pink")
+       	   												.css("border-bottom", "1px solid pink");
+       	   							$("#"+j).find(".timeNo").val(no);
+       	   							$("#"+j+"half").find(".timeNo").val(no);
+        	   					}
+       	   						
+        	   					if(endMinute >= 30) {
+        	   						$("#"+endHour).append("<input type='hidden' class='timeNo'>").css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid pink");
+        	   						$("#"+endHour+"half").append("<input type='hidden' class='timeNo'>").css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid #484848");
+        	   						$("#"+endHour).find(".timeNo").val(no);
+        	   						$("#"+endHour+"half").find(".timeNo").val(no);
+        	   					} else if(endMinute >= 1) {
+        	   						$("#"+endHour).append("<input type='hidden' class='timeNo'>").css("background-color", "pink").css("border-top", "1px solid pink").css("border-bottom", "1px solid #484848");
+        	   						$("#"+endHour+"half").find(".timeNo").val(no);
+        	   					} else if(endMinute == 0 ) {
+        	   						$("#"+endOnTime+"half").append("<input type='hidden' class='timeNo'>").css("background-color", "pink").css("border-bottom", "1px solid #484848");
+        	   						$("#"+endOnTime+"half").find(".timeNo").val(no);
+        	   					}
+        	   					
+        	   				};
+            			},
+            			error:function(request, status, errorData){
+                            alert("error code: " + request.status + "\n"
+                                  +"message: " + request.responseText
+                                  +"error: " + errorData);
+                        }   
+            		})
+        			
+        		})
+			})
+		</script>
+         
         <br><br>
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8">
-                <a href="#" style="font-size: 30px; text-decoration: none; color: #2860E1"><</a>&nbsp;
-                <span style="font-size: 30px;">2020.07.05</span>&nbsp;
-                <a href="#" style="font-size: 30px; text-decoration: none; color: #2860E1">></a>
-                &nbsp;<button type="button" class="default-btn">Select</button>
+                <span style="font-size: 30px; color: #2860E1; font-weight: bold" id="date"></span>&nbsp;
+                &nbsp;<input type="date" id="selectDate">
                 <div id="addBtnArea">
                     <button type="button" class="default-btn" data-toggle="modal" data-target="#addModal">Add</button>
                 </div>
@@ -125,25 +326,26 @@
                                 <button type="button" class="close" data-dismiss="modal">×</button>
                             </div>
                             <div class="modal-body" align="center">
-                                <form>
+                                <form action="ttinsert.do" method="post">
+                                	<input type="hidden" value="${loginUser.id }" name="id">
                                     <table id="addTable">
                                         <tr>
                                             <td><b>Title</b></td>
                                             <td>
-                                            	<input type="text" name="planTitle" size="30">
+                                            	<input type="text" name="ttTitle" size="30">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td><b>Date</b></td>
                                             <td>
-                                            	<input type="date" name="planDate" style="width: 250px;">
+                                            	<input type="date" name="ttDate" style="width: 250px;">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td><b>Time</b></td>
                                             <td>
-                                                <input type="time" name="planStart"> - 
-                                                <input type="time" name="planEnd">
+                                                <input type="time" name="ttStart"> - 
+                                                <input type="time" name="ttEnd">
                                             </td>
                                         </tr>
                                         <tr>
@@ -151,7 +353,7 @@
                                         </tr>
                                         <tr>
                                             <td colspan="2">
-                                                <textarea cols="40" rows="5"></textarea>
+                                                <textarea name="ttMemo" cols="40" rows="5"></textarea>
                                             </td>
                                         </tr>
                                     </table>
@@ -164,274 +366,325 @@
                 <table id="timeTable">
                     <tr>
                         <td class="time">&nbsp;0:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="0"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="0half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;1:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="1"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="1half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;2:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="2"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="2half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;3:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="3"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="3half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;4:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="4"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="4half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;5:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="5"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="5half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;6:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="6"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="6half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;7:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="7"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="7half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;8:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="8"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="8half"></td>
                     </tr>
                     <tr>
-                        <td class="time">&nbsp;8:00</td>
-                        <td class="timeContent"></td>
+                        <td class="time">&nbsp;9:00</td>
+                        <td class="timeContent" id="9"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="9half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;10:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="10"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="10half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;11:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="11"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="11half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;12:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="12"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="12half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;13:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="13"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="13half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;14:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="14"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="14half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;15:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="15"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="15half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;16:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="16"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="16half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;17:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="17"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="17half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;18:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="18"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="18half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;19:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="19"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="19half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;20:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="20"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="20half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;21:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="21"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="21half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;22:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="22"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="22half"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;23:00</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="23"></td>
                     </tr>
                     <tr>
                         <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
-                    </tr>
-                    <tr>
-                        <td class="time">&nbsp;24:00</td>
-                        <td class="timeContent"></td>
-                    </tr>
-                    <tr>
-                        <td class="time">&nbsp;</td>
-                        <td class="timeContent"></td>
+                        <td class="timeContent" id="23half"></td>
                     </tr>
                 </table>
             </div>
             <!-- <div id="listArea"> -->
                 <div class="col-md-2 fixed-bottom">
-                    <div id="circleArea">
-                        <div id="circle"></div>
-                        <b id="listLogo">To do List</b>&nbsp;&nbsp;&nbsp;
-                        <button type="button" class="default-btn">Save</button>
-                    </div>
-                    <table id="listTable">
-                        <tr>
-                            <td class="listNo">1</td>
-                            <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
-                            <td class="listCheck"><input type="checkbox"></td>
-                        </tr>
-                        <tr>
-                            <td class="listNo">2</td>
-                            <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
-                            <td class="listCheck"><input type="checkbox"></td>
-                        </tr>
-                        <tr>
-                            <td class="listNo">3</td>
-                            <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
-                            <td class="listCheck"><input type="checkbox"></td>
-                        </tr>
-                        <tr>
-                            <td class="listNo">4</td>
-                            <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
-                            <td class="listCheck"><input type="checkbox"></td>
-                        </tr>
-                        <tr>
-                            <td class="listNo">5</td>
-                            <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
-                            <td class="listCheck"><input type="checkbox"></td>
-                        </tr>
-                        <tr>
-                            <td class="listNo">6</td>
-                            <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
-                            <td class="listCheck"><input type="checkbox"></td>
-                        </tr>
-                        <tr>
-                            <td class="listNo">7</td>
-                            <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
-                            <td class="listCheck"><input type="checkbox"></td>
-                        </tr>
-                        <tr>
-                            <td class="listNo">8</td>
-                            <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
-                            <td class="listCheck"><input type="checkbox"></td>
-                        </tr>
-                        <tr>
-                            <td class="listNo">9</td>
-                            <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
-                            <td class="listCheck"><input type="checkbox"></td>
-                        </tr>
-                        <tr>
-                            <td class="listNo">10</td>
-                            <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
-                            <td class="listCheck"><input type="checkbox"></td>
-                        </tr>
-                    </table>
+                	<form action="dtinsert.do" method="post">
+	                    <div id="circleArea">
+	                        <div id="circle"></div>
+	                        <b id="listLogo">To do List</b>&nbsp;&nbsp;&nbsp;
+	                        <button type="submit" class="default-btn" id="todolistBtn">Save</button>
+	                    </div>
+                    	<input type="hidden" id="listDate" name="dtDate">
+	                    <table id="listTable">
+	                        <tr>
+	                            <td class="listNo">1</td>
+	                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent0"></td>
+	                            <td class="listCheck">
+	                            	<input type="checkbox" class="listCheck" id="listCheck0">
+	                            	<input type="hidden" class="checkResult" id="checkResult0" name="checkResult">
+	                            </td>
+	                        </tr>
+	                        <tr>
+	                            <td class="listNo">2</td>
+	                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent1"></td>
+	                            <td class="listCheck">
+	                            	<input type="checkbox" class="listCheck" id="listCheck1">
+	                            	<input type="hidden" class="checkResult" id="checkResult1" name="checkResult">
+	                            </td>
+	                        </tr>
+	                        <tr>
+	                            <td class="listNo">3</td>
+	                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent2"></td>
+	                            <td class="listCheck">
+	                            	<input type="checkbox" class="listCheck" id="listCheck2">
+	                            	<input type="hidden" class="checkResult" id="checkResult2" name="checkResult">
+	                            </td>
+	                        </tr>
+	                        <tr>
+	                            <td class="listNo">4</td>
+	                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent3"></td>
+	                            <td class="listCheck">
+	                            	<input type="checkbox" class="listCheck" id="listCheck3">
+	                            	<input type="hidden" class="checkResult" id="checkResult3" name="checkResult">
+	                            </td>
+	                        </tr>
+	                        <tr>
+	                            <td class="listNo">5</td>
+	                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent4"></td>
+	                            <td class="listCheck">
+	                            	<input type="checkbox" class="listCheck" id="listCheck4">
+	                            	<input type="hidden" class="checkResult" id="checkResult4" name="checkResult">
+	                            </td>
+	                        </tr>
+	                        <tr>
+	                            <td class="listNo">6</td>
+	                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent5"></td>
+	                            <td class="listCheck">
+	                            	<input type="checkbox" class="listCheck" id="listCheck5">
+	                            	<input type="hidden" class="checkResult" id="checkResult5" name="checkResult">
+	                            </td>
+	                        </tr>
+	                        <tr>
+	                            <td class="listNo">7</td>
+	                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent6"></td>
+	                            <td class="listCheck">
+	                            	<input type="checkbox" class="listCheck" id="listCheck6">
+	                            	<input type="hidden" class="checkResult" id="checkResult6" name="checkResult">
+	                            </td>
+	                        </tr>
+	                        <tr>
+	                            <td class="listNo">8</td>
+	                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent7"></td>
+	                            <td class="listCheck">
+	                            	<input type="checkbox" class="listCheck" id="listCheck7">
+	                            	<input type="hidden" class="checkResult" id="checkResult7" name="checkResult">
+	                            </td>
+	                        </tr>
+	                        <tr>
+	                            <td class="listNo">9</td>
+	                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent8"></td>
+	                            <td class="listCheck">
+	                            	<input type="checkbox" class="listCheck" id="listCheck8">
+	                            	<input type="hidden" class="checkResult" id="checkResult8" name="checkResult">
+	                            </td>
+	                        </tr>
+	                        <tr>
+	                            <td class="listNo">10</td>
+	                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent9"></td>
+	                            <td class="listCheck">
+	                            	<input type="checkbox" class="listCheck" id="listCheck9">
+	                            	<input type="hidden" class="checkResult" id="checkResult9" name="checkResult">
+	                            </td>
+	                        </tr>
+	                    </table>
+                    </form>
                 </div>
             <!-- </div> -->
         </div>
+                
        <br><br><br><br><br>
     </section>
 
-    <jsp:include page="../common/footer.jsp"/>	
+    <jsp:include page="../common/footer.jsp"/>
 
     <script>
+    	$(function(){
+    		$(".timeContent").click(function(){
+    			var ttNo = $(this).find(".timeNo").val();
+    			
+    			console.log(ttNo);
+    			
+    			var deleteCheck = confirm("일정을 삭제하시겠습니까?");
+    			if(deleteCheck == true){
+    				location.href="ttdelete.do?ttNo="+ttNo;
+    			}
+    			else if(deleteCheck == false){
+    				console.log("일정 삭제를 취소합니다.");
+    			}
+    		})
+    		
+    		
+    		$(".listCheck").change(function(){
+    			if($(this).is(":checked") == true){
+    			    $(this).next().val("Y");
+    			} else {
+    				$(this).next().val("N");
+    			}
+    		})
+    	})
+    	
         // 로그인 서브 메뉴
         $(document).ready(function(){
         $(".l-login-area>div").click(function(){

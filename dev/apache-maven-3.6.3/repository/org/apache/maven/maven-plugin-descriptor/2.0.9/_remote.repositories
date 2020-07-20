@@ -1,0 +1,8 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+<<<<<<< HEAD
+#Mon Jul 20 12:58:01 KST 2020
+maven-plugin-descriptor-2.0.9.jar>central=
+=======
+#Mon Jul 20 13:45:12 KST 2020
+>>>>>>> refs/remotes/origin/dev30
+maven-plugin-descriptor-2.0.9.pom>central=

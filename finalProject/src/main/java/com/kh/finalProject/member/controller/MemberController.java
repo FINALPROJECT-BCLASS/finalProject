@@ -2,13 +2,17 @@ package com.kh.finalProject.member.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,12 +30,9 @@ import com.kh.finalProject.member.model.vo.Member;
 @SessionAttributes("loginUser")
 @Controller
 public class MemberController {
-
 	
-//	@RequestMapping("memberJoin.do")
-//	public String memberJoin(Model model) {
-//		return "member/join";
-//	}
+	@Autowired
+	private JavaMailSender mailSender; // for 메일 전송
 	
 	@Autowired
 	private MemberService mService;
@@ -39,12 +40,13 @@ public class MemberController {
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	
+	// 로그인 화면으로 이동
 	@RequestMapping("memberLoginView.do")
 	public String memberLoginView(Model model) {
 		return "member/login";
 	}
 	
-	// 회원가입 폼으로 이동
+	// 회원가입 화면으로 이동
 	@RequestMapping("join.do")
 	public String joinView() {
 		return "member/join";
@@ -76,8 +78,6 @@ public class MemberController {
 			
 			String renameFile = saveFile(file, m, request);
 			
-//			System.out.println("오리진 파일 :" + file.getOriginalFilename());
-			
 			m.setOriginal_file(file.getOriginalFilename());
 			m.setRename_file(renameFile);
 			
@@ -106,12 +106,10 @@ public class MemberController {
 		String savePath = root + "/muploadFiles/";
 		
 		File folder = new File(savePath);
-//		System.out.println(folder);
 		
 		if(!folder.exists()) {
 			folder.mkdirs();
 		}
-		
 		
 		// 업로드 시간을 기준으로 파일명 변경
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm");
@@ -157,7 +155,7 @@ public class MemberController {
 		
 		}catch (NullPointerException e) {
 
-            //로그인 실패
+            // 아이디가 없을 경우 (db에 데이터가 없는 경우)
             model.addAttribute("msg","입력하신 아이디가 존재하지 않습니다.");
             model.addAttribute("url","/memberLoginView.do");
             
@@ -185,9 +183,9 @@ public class MemberController {
 	@RequestMapping("mupdate.do")
 	public String memberUpdate(Member m, Model model,
 								HttpServletRequest request,
-								@RequestParam("postcode") String postcode,
-								@RequestParam("mainAddress") String mainAddress,
-								@RequestParam("subAddress") String subAddress,
+								@RequestParam(value="postcode", required=false) String postcode,
+								@RequestParam(value="mainAddress", required=false) String mainAddress,
+								@RequestParam(value="subAddress", required=false) String subAddress,
 								@RequestParam(value="file", required=false) MultipartFile file) {
 		
 
@@ -196,47 +194,51 @@ public class MemberController {
 		m.setPwd(encPwd);
 		m.setAddress(postcode+"_"+mainAddress+"_"+subAddress);
 		
-		// 세션값 가져오기
-		HttpSession session = request.getSession();
+		System.out.println(postcode+"_"+mainAddress+"_"+subAddress);
 		
+		// 세션값 가져오기 (저장된 파일 이름을 불러 오기 위함)
+		HttpSession session = request.getSession();
 		Member member = (Member) session.getAttribute("loginUser");
 		String rFile = member.getRename_file();
-//		System.out.println(rFile);
 		
 		// 파일 경로 저장
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "/muploadFiles/";
 		
-		
-		
+		// 프로필 사진 저장
 		if(!file.getOriginalFilename().equals("")) {
 			
 			String renameFile = saveFile(file, m, request);
 			
-			System.out.println("오리진 파일 :" + file.getOriginalFilename());
-			
 			m.setOriginal_file(file.getOriginalFilename());
 			m.setRename_file(renameFile);
 			
+			if(rFile != null) { 
+				
+				File reFile = new File(savePath + rFile);
+				reFile.delete();// 기존에 있던 사진파일 삭제
+			}
+			
+		}else {
+			// 기존 사진 파일 유지
+			m.setOriginal_file(member.getOriginal_file());
+			m.setRename_file(member.getRename_file());
 		}
+
 		
 		int result = mService.updateMember(m);
 		
-		
 		if(result > 0) {
 			
-			model.addAttribute("loginUser", m);
+			// 회원 정보 수정 성공
+			model.addAttribute("loginUser", m); // 홈으로 프로필 사진 보내기
 			model.addAttribute("msg","개인정보가 수정되었습니다.");
             model.addAttribute("url","/home.do");
             
-            if(rFile != null) {
-	            // 기존에 있던 사진파일 삭제
-	            File reFile = new File(savePath + rFile);
-	            reFile.delete();
-            }
-            
 			return "common/redirect";
+			
 		}else {
+			
 			//회원가입 실패
             model.addAttribute("msg","개인정보 수정에 실패하셨습니다. 다시 시도해 주세요.");
             model.addAttribute("url","/myInfoView.do");
@@ -244,6 +246,92 @@ public class MemberController {
 			return "common/redirect";
 		}	
 		
+	}
+	
+	// 비밀번호 재설정 폼
+	@RequestMapping("resetPwd.do")
+	public String resetPwd() {
+		
+		return "member/resetPwd";
+	}
+	
+	// 비밀번호 재설정
+	@RequestMapping("findPwd.do")
+	public void findPwd(Member m,
+						Model model,
+						HttpServletRequest request,
+						HttpServletResponse response) throws IOException {
+		
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		Member member = mService.selectOne(m);
+		
+		if(member == null) {
+			out.print("아이디가 없습니다.");
+			out.close();
+			
+		}else if(!m.getEmail().equals(member.getEmail())) {
+			out.print("입력하신 이메일과 아이디가 일치하지 않습니다.");
+			out.close();
+			
+		}else {
+			
+			// 임시 비밀번호 생성
+			String pw = "";
+			for (int i = 0; i < 12; i++) {
+				pw += (char)((Math.random() * 26) + 97);
+			}
+			
+			// 생성한 임시 비밀번호 암호화 처리
+			String encPwd = bcryptPasswordEncoder.encode(pw);
+			m.setPwd(encPwd);
+			
+			int check = mService.updatePwd(m);
+			
+			if(check > 0) {
+				String message = sendMail(m, pw); // 이메일 전송 메서드 실행
+				out.print(message);
+				out.close();
+			}else {
+				out.print("임시 비밀번호 발급 실패, 다시 시도해 주세요.");
+				out.close();
+			}	
+		}	
+	}
+	
+	public String sendMail(Member m, String pw) {
+			
+		String setfrom = "toadl21@naver.com";         
+	    String tomail  = m.getEmail();     // 받는 사람 이메일
+	    String title   = "LIFENOTE에서 임시 비밀번호를 보내드립니다.";     // 제목
+	    String content = m.getId() + "님의 임시 비밀번호는 <h1>" + pw + "</h1>입니다. \n 로그인하여 비밀번호를 재설정해 주세요.";    // 내용
+	    String alert = "";
+	   
+	    MimeMessage message = mailSender.createMimeMessage();
+
+	    try {
+	      MimeMessageHelper messageHelper 
+	                        = new MimeMessageHelper(message, false, "UTF-8");
+	 
+	      messageHelper.setFrom(setfrom);  // 보내는 사람
+	      messageHelper.setTo(tomail);     // 받는 사람 이메일
+	      messageHelper.setSubject(title); // 메일 제목 (생략 가능)
+	      messageHelper.setText(content, true);  // 메일 내용
+	     
+	      mailSender.send(message);
+	      
+	    } catch(Exception e){
+	    	
+	    	alert = "메일 발송 실패";
+	    	return alert;
+	    	
+	    }
+		
+		alert = "메일로 임시 비밀번호가 발송되었습니다.";	
+		return alert;
+				
 	}
 	
 	

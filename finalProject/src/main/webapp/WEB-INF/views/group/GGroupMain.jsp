@@ -20,7 +20,7 @@
     
     a{background: #F3F3F3;}
     p{text-align:center; margin-top:5px;}
-    img {width:300px; height:250px; cursor: pointer; border-radius: 5px;}
+    .groupImg {width:300px; height:250px; cursor: pointer; border-radius: 6px;}
 
     /* tooltip 색상 변경 css */
     .tooltip.bs-tooltip-bottom .tooltip-inner { background:#2860E1 !important;}
@@ -63,6 +63,7 @@
 	<div class="groupMain">
 	    <br>
 	    <h1>Group Diary</h1>
+	    
 	    <h4>What we have created</h4>
 	
 	    <button id="groupWrite" onclick="location.href='groupInsertView.do'" ><img src="resources/images/write.png" id="writeBtn"></button>
@@ -83,10 +84,16 @@
 								<c:param name="groupNo" value="${g.gNo}"/>
 						</c:url>
 		                <a href="${groupCalendar }" data-toggle="tooltip" data-placement="bottom" title="${g.gName }">
-		                     <img src="resources/groupMainFiles/${g.gOrigin}">
+		                	<c:if test="${empty g.gOrigin }">
+		                		<img class="groupImg" src="resources/groupMainFiles/empty_groupMain.png">
+		                	</c:if>
+		                	<c:if test="${!empty g.gOrigin  }">
+		                    	 <img class="groupImg" src="resources/groupMainFiles/${g.gOrigin}">
+		                    </c:if>
 		                </a>
 		                <p><b>${g.gTitle }</b></p>
 		                <p>${g.gCon }</p>
+		                <p>${g.gName }</p>
 		            </td>
 		            </c:forEach>
 		        </tr>

@@ -5,9 +5,13 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.finalProject.group.common.PageInfo;
 import com.kh.finalProject.group.model.dao.GroupDao;
+import com.kh.finalProject.group.model.vo.GroupBoard;
 import com.kh.finalProject.group.model.vo.GroupInfo;
 import com.kh.finalProject.group.model.vo.GroupMember;
+import com.kh.finalProject.group.model.vo.GroupNotice;
+import com.kh.finalProject.group.model.vo.GroupSearchName;
 import com.kh.finalProject.group.model.vo.GroupTable;
 import com.kh.finalProject.member.model.vo.Member;
 
@@ -29,8 +33,8 @@ public class GroupServiceImpl implements GroupService{
 	}
 
 	@Override
-	public ArrayList<Member> searchNameList(String searchName) {
-		return gDao.searchNameList(searchName);
+	public ArrayList<Member> searchNameList(GroupSearchName gSearch) {
+		return gDao.searchNameList(gSearch);
 	}
 
 	@Override
@@ -52,6 +56,43 @@ public class GroupServiceImpl implements GroupService{
 	public int memberNoSelect(GroupInfo gInfo) {
 		return gDao.memberNoSelect(gInfo);
 	}
+
+	@Override
+	public ArrayList<GroupNotice> selectNoticeList(PageInfo pi) {
+		return gDao.selectNoticeList(pi);
+	}
+
+	@Override
+	public int getListCount() {
+		return gDao.getListCount();
+	}
+
+	@Override
+	public int noticeInsert(GroupNotice gn) {
+		return gDao.noticeInsert(gn);
+	}
+
+	@Override
+	public int noticeUpdate(GroupNotice gn) {
+		return gDao.noticeUpdate(gn);
+	}
+
+	@Override
+	public GroupNotice selectNoticeOne() {
+		return gDao.selectNoticeOne();
+	}
+
+	@Override
+	public int boardGetListCount() {
+		return gDao.boardGetListCount();
+	}
+
+	@Override
+	public ArrayList<GroupBoard> selectBoardList(PageInfo pi) {
+		return gDao.selectBoardList(pi);
+	}
+
+	
 
 
 }
