@@ -28,6 +28,7 @@ import com.kh.finalProject.group.common.PageInfo;
 import com.kh.finalProject.group.common.Pagination;
 import com.kh.finalProject.group.model.service.GroupService;
 import com.kh.finalProject.group.model.vo.GroupBoard;
+import com.kh.finalProject.group.model.vo.GroupBoardPhoto;
 import com.kh.finalProject.group.model.vo.GroupInfo;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupMemberList;
@@ -404,77 +405,151 @@ public class GroupController {
 	}
 	
 	// 게시판 메인 ajax
-		@RequestMapping(value="boardMainAjax.do", method=RequestMethod.GET)
-		public void boardMainAjax(HttpServletResponse response, HttpSession session, @RequestParam(value="page", required=false) String page) throws IOException {
-			GroupInfo gInfo = (GroupInfo)session.getAttribute("gInfo");
-			System.out.println("게시판 메인 gInfo : "+ gInfo);
-			System.out.println("개사펀 ajax page : " + page);
-			
-			int currentPage = 1;
-			if(page != null) {
-				int Cpage = Integer.parseInt(page);
-				currentPage = Cpage;
-			}
-			
-			int listCount = gService.boardGetListCount();
-			System.out.println("게시판 listCount : " + listCount);
-			
-			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
-			
-			pi.setLoginUserId(gInfo.getLoginUserId());
-			pi.setGroupNo(gInfo.getGroupNo());
-			pi.setGmNo(gInfo.getGmNo());
-			
-			ArrayList<GroupBoard> boardList = gService.selectBoardList(pi);
-			System.out.println("게시판 메인 boardList :" + boardList);
-			
-			response.setContentType("application/json;charset=utf-8");
-			
-			JSONArray jArr = new JSONArray();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			
-			if(boardList != null) {
-				for(GroupBoard b : boardList) {
-					JSONObject jObj = new JSONObject();
-					b.setPage(currentPage);
-					
-					
-					
-					jObj.put("page", b.getPage());
-					
-					jObj.put("gbNo", b.getGbNo());
-					jObj.put("gmNo", b.getGmNo());
-					jObj.put("gNo", b.getgNo());
-					jObj.put("gbTitle", b.getGbTitle());	
-					jObj.put("gbCon", b.getGbCon());
-					jObj.put("gbDate",  b.getGbDate());
-					jObj.put("gbDelete", b.getGbDelete());
-					jObj.put("gbCount", b.getGbCount());
-					jObj.put("name", b.getName());
-					
-					
-					jArr.add(jObj);
-				}
-				
-				JSONObject sendJson = new JSONObject();
-				sendJson.put("boardList", jArr);
-				
-				PrintWriter out = response.getWriter();
-				out.print(sendJson);
-				out.flush();
-				out.close();
-
-			}else {
-				/* mv.setViewName("group/GBoardMain"); */
-//				mv.setViewName("<script> alert('공지사항 등록이 실패하였습니다.'); history.back(); </script>");
-			}
-
-			
-			
-			
-			
+//		@RequestMapping(value="boardMainAjax.do", method=RequestMethod.GET)
+//		public void boardMainAjax(HttpServletResponse response, HttpSession session, @RequestParam(value="page", required=false) String page) throws IOException {
+//			GroupInfo gInfo = (GroupInfo)session.getAttribute("gInfo");
+//			System.out.println("게시판 메인 gInfo : "+ gInfo);
+//			System.out.println("개사펀 ajax page : " + page);
+//			
+//			int currentPage = 1;
+//			if(page != null) {
+//				int Cpage = Integer.parseInt(page);
+//				currentPage = Cpage;
+//			}
+//			
+//			int listCount = gService.boardGetListCount();
+//			System.out.println("게시판 listCount : " + listCount);
+//			
+//			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+//			
+//			pi.setLoginUserId(gInfo.getLoginUserId());
+//			pi.setGroupNo(gInfo.getGroupNo());
+//			pi.setGmNo(gInfo.getGmNo());
+//			
+//			ArrayList<GroupBoard> boardList = gService.selectBoardList(pi);
+//			System.out.println("게시판 메인 boardList :" + boardList);
+//			
+//			response.setContentType("application/json;charset=utf-8");
+//			
+//			JSONArray jArr = new JSONArray();
+//			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//			
+//			if(boardList != null) {
+//				for(GroupBoard b : boardList) {
+//					JSONObject jObj = new JSONObject();
+//					b.setPage(currentPage);
+//					
+//					
+//					
+//					jObj.put("page", b.getPage());
+//					
+//					jObj.put("gbNo", b.getGbNo());
+//					jObj.put("gmNo", b.getGmNo());
+//					jObj.put("gNo", b.getgNo());
+//					jObj.put("gbTitle", b.getGbTitle());	
+//					jObj.put("gbCon", b.getGbCon());
+//					jObj.put("gbDate",  b.getGbDate());
+//					jObj.put("gbDelete", b.getGbDelete());
+//					jObj.put("gbCount", b.getGbCount());
+//					jObj.put("name", b.getName());
+//					
+//					
+//					jArr.add(jObj);
+//				}
+//				
+//				JSONObject sendJson = new JSONObject();
+//				sendJson.put("boardList", jArr);
+//				
+//				PrintWriter out = response.getWriter();
+//				out.print(sendJson);
+//				out.flush();
+//				out.close();
+//
+//			}else {
+//				/* mv.setViewName("group/GBoardMain"); */
+////				mv.setViewName("<script> alert('공지사항 등록이 실패하였습니다.'); history.back(); </script>");
+//			}
+//
+//			
+//			
+//			
+//			
+//		
+//		}
+	@RequestMapping(value="boardMainAjax.do", method=RequestMethod.GET)
+	public void boardMainAjax(HttpServletResponse response, HttpSession session, @RequestParam(value="page", required=false) String page) throws IOException {
+		GroupInfo gInfo = (GroupInfo)session.getAttribute("gInfo");
+		System.out.println("게시판 메인 gInfo : "+ gInfo);
+		System.out.println("개사펀 ajax page : " + page);
 		
+		int currentPage = 1;
+		if(page != null) {
+			int Cpage = Integer.parseInt(page);
+			currentPage = Cpage;
 		}
+		
+		int listCount = gService.boardGetListCount();
+		System.out.println("게시판 listCount : " + listCount);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		
+		pi.setLoginUserId(gInfo.getLoginUserId());
+		pi.setGroupNo(gInfo.getGroupNo());
+		pi.setGmNo(gInfo.getGmNo());
+		
+		ArrayList<GroupBoard> boardList = gService.selectBoardList(pi);
+		System.out.println("게시판 메인 boardList :" + boardList);
+		
+		ArrayList<GroupBoardPhoto> photoList = gService.selectPhotoList();
+		
+		
+		response.setContentType("application/json;charset=utf-8");
+		
+		JSONArray jArr = new JSONArray();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		if(boardList != null) {
+			for(GroupBoard b : boardList) {
+				JSONObject jObj = new JSONObject();
+				b.setPage(currentPage);
+				
+				
+				
+				jObj.put("page", b.getPage());
+				
+				jObj.put("gbNo", b.getGbNo());
+				jObj.put("gmNo", b.getGmNo());
+				jObj.put("gNo", b.getgNo());
+				jObj.put("gbTitle", b.getGbTitle());	
+				jObj.put("gbCon", b.getGbCon());
+				jObj.put("gbDate",  b.getGbDate());
+				jObj.put("gbDelete", b.getGbDelete());
+				jObj.put("gbCount", b.getGbCount());
+				jObj.put("name", b.getName());
+				
+				
+				jArr.add(jObj);
+			}
+			
+			JSONObject sendJson = new JSONObject();
+			sendJson.put("boardList", jArr);
+			
+			PrintWriter out = response.getWriter();
+			out.print(sendJson);
+			out.flush();
+			out.close();
+
+		}else {
+			/* mv.setViewName("group/GBoardMain"); */
+//			mv.setViewName("<script> alert('공지사항 등록이 실패하였습니다.'); history.back(); </script>");
+		}
+
+		
+		
+		
+		
+	
+	}
 
 
 	

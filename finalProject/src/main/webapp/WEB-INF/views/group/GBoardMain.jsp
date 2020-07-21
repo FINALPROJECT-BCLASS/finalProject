@@ -207,6 +207,7 @@
 	
 	  <!-- 스크롤 게시판 -->
 	  <script>
+	  
  		/* var gInfo = ${gInfo.gmNo}; */
  		
        let isEnd = false;
@@ -294,10 +295,8 @@
                   	$boardTb.append($tr4);
                   	$groupBoard.append($boardTb); 
                   	
-                  	/* carousel 추가 */
-                  	var $td5 = $("<td>").attr("class","swiperTd");
-                  	
-                   }
+                
+                    }
                 
                },
                error:function(request, status, errorData){
@@ -309,6 +308,9 @@
        }
    
 	    </script>
+	    <!-- swioer  -->
+	    
+	    
 		    <!-- 스크롤 게시판 end -->
     
 	  <!-- 하트 누르기 -->
