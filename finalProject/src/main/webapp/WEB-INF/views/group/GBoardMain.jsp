@@ -78,10 +78,10 @@
     /* 공지게시판 */
     .groupNotice{width:100%; height:400px;overflow:scroll; overflow-x:hidden;}
     .noticeBoardTb{width:100%; margin-bottom:5px; background:white;border:0.5px solid lightgray; border-radius:10px;}
-    .noticeBoardTitle{padding-top:20px; padding-left:5px;font-weight: 600; font-size: 20px;}
-    .noticeBoardWriter{padding-left:5px; font-size:12px; font-weight: 600;}
-    .noticeBoardDate{padding-left:5px; font-size:12px; font-weight: 600;}
-    .noticeBoardContent{margin-top:10px; padding-top:5px;padding-left:15px; width:1000px; height:70px; overflow:scroll; overflow-x:hidden; font-size:13px; background: #F3F3F3; border-radius: 5px; margin-bottom: 7px;}
+    .noticeBoardTitle{display:inline-block; padding-top:20px; padding-left:5px;font-weight: 600; font-size: 20px;}
+    .noticeBoardWriter{padding-left:37px; font-size:12px; font-weight: 600;}
+    .noticeBoardDate{padding-left:37px; font-size:12px; font-weight: 600;}
+    .noticeBoardContent{margin-left:37px; margin-top:10px; padding-top:5px;padding-left:15px; width:1000px; height:70px; overflow:scroll; overflow-x:hidden; font-size:13px; background: #F3F3F3; border-radius: 5px; margin-bottom: 7px;}
   	
   	.swiperTd{width:1000px; height:100px;}
   	.swiper-container{margin: 0 150px !important; width:30%; height:100px;}
@@ -238,93 +238,67 @@
                dataType: "json",
                data:{page:pagePlus},
                success: function(data){
-              	 page = data.noticeList[0].page;
+            	 console.log("ajax data : " + data.boardList[0].gbNo);
+              	 page = data.boardList[0].page;
               	 pagePlus = page + 1;
               	 
                    // 컨트롤러에서 가져온 방명록 리스트는 result.data에 담겨오도록 했다.
                    // 남은 데이터가 5개 이하일 경우 무한 스크롤 종료
-              	 let length =  data.noticeList.length;
+              	 let length =  data.boardList.length;
               	 console.log("length : " + length);
               	 
                    if( length < 5 ){
                        isEnd = true;
                    }
 
-                   
-                   for(i in data.noticeList){
+                    for(i in data.boardList){
 
-                  	var $groupNotice = $(".groupNotice");
-                  	var $noticeBoardTb = $("<table>").attr("class","noticeBoardTb");
+                  	var $groupBoard = $(".groupNotice");
+                  	var $boardTb = $("<table>").attr("class","noticeBoardTb");
+                  	
                   	var $tr1 = $("<tr>");
-                  	var $tr2 = $("<tr>");
-                  	var $tr3 = $("<tr>");
-                  	var $tr4 = $("<tr>");
+                	var $tr2 = $("<tr>");
+                	var $tr3 = $("<tr>");
+                	var $tr4 = $("<tr>");
+               
+                	var $td1 = $("<td>");
+                	var $td2 = $("<td>");
+                	var $td3 = $("<td>");
+                	var $td4 = $("<td>");
+                	
+                	
+                	var $emoticon = $("<span>").text("perm_identity").attr("class","material-icons");
+                	var $boardTitle = $("<div>").text(data.boardList[i].gbTitle).attr("class","noticeBoardTitle");
+                  	var $boardWriter = $("<div>").text(data.boardList[i].name).attr("class","noticeBoardWriter");
+                  	var $boardDate = $("<div>").text(data.boardList[i].gbDate).attr("class","noticeBoardDate");
+                  	var $boardContent = $("<div>").text(data.boardList[i].gbCon).attr("class","noticeBoardContent");
+                  	  
                  
-                  	var $td1 = $("<td>");
-                  	var $td2 = $("<td>");
-                  	var $td3 = $("<td>");
-                  	var $td4 = $("<td>");
-                  	var $td5 = $("<td>").attr("class","td5");
-                  	
-                  	var $noticeBoardTitle = $("<div>").text(data.noticeList[i].gnTitle).attr("class","noticeBoardTitle");
-                  	var $titleInput = $("<input type='hidden' id='noticeTitle' value='"+ data.noticeList[i].gnTitle+"'>");
-                  	
-                  	var $noticeBoardWriter = $("<div>").text(data.noticeList[i].name).attr("class","noticeBoardWriter");
-                  	var $noticeBoardDate = $("<div>").text(data.noticeList[i].gnDate).attr("class","noticeBoardDate");
-                  	
-                  	var $noticeBoardContent = $("<div>").text(data.noticeList[i].gnCon).attr("class","noticeBoardContent td4");
-                  	var $conInput = $("<input type='hidden' id='noticeCon' value='"+ data.noticeList[i].gnCon +"'>")  
-                  		
-                  	var $aditBtn = $("<div>").text("Edit").attr("class","aditBtn");
-                  	var $gnNo = $("<input type='hidden' id='gnNo' value='"+data.noticeList[i].gnNo+"'>");
-                  	
-                  	if(gInfo != data.noticeList[i].gmNo){
-                  		$td1.append($noticeBoardTitle);
-                  		$td1.append($titleInput);
-	                    	$tr1.append($td1);
-	                    	
-	                    	$td2.append($noticeBoardWriter);
-	                    	$tr2.append($td2);
-	                    	
-	                    	$td3.append($noticeBoardDate);
-	                    	$tr3.append($td3);
-	                    	
-	                    	$td4.append($noticeBoardContent);
-	                    	$td4.append($conInput);
-	                    	$tr4.append($td4);
-	                    	
-	                    	
-                  	
-                  	} else{
-                  		$td1.append($noticeBoardTitle);
-                  		$td1.append($titleInput);
-	                    	$tr1.append($td1);
-	                    	$td5.append($aditBtn);
-	                    	$td5.append($gnNo);
-	                    	$tr1.append($td5);	
-	                    	
-	                    	$td2.append($noticeBoardWriter);
-	                    	$tr2.append($td2);
-	                    	
-	                    	$td3.append($noticeBoardDate);
-	                    	$tr3.append($td3);
-	                    	
-	                    	$td4.append($noticeBoardContent);
-	                    	$td4.append($conInput);
-	                    	$tr4.append($td4);
-	                    		
-                  	}
-                  		
-                  	
-                  	
-                  	$noticeBoardTb.append($tr1);
-                  	$noticeBoardTb.append($tr2);
-                  	$noticeBoardTb.append($tr3);
-                  	$noticeBoardTb.append($tr4);
-                  	$groupNotice.append($noticeBoardTb); 
+               		$td1.append($emoticon);
+               		$td1.append($boardTitle);
+                   	
+                   	$tr1.append($td1);
+                   	
+                   	$td2.append($boardWriter);
+                   	$tr2.append($td2);
+                   	
+                   	$td3.append($boardDate);
+                   	$tr3.append($td3);
+                   	
+                   	$td4.append($boardContent);
+                   	$tr4.append($td4);
 
+                  	$boardTb.append($tr1);
+                  	$boardTb.append($tr2);
+                  	$boardTb.append($tr3);
+                  	$boardTb.append($tr4);
+                  	$groupBoard.append($boardTb); 
+                  	
+                  	/* carousel 추가 */
+                  	var $td5 = $("<td>").attr("class","swiperTd");
+                  	
                    }
-
+                
                },
                error:function(request, status, errorData){
 						alert("error code: " + request.status + "\n"

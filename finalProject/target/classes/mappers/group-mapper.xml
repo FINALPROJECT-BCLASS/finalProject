@@ -192,7 +192,7 @@
 		FROM GROUP_BOARD GB
 		JOIN GROUP_MEMBER GM ON(GB.GM_NO = GM.GM_NO)
         JOIN MEMBER M ON (GM.GM_ID = M.ID)
-        WHERE GM.G_NO = #{groupNo}
+        WHERE GB.G_NO = #{groupNo}
 		ORDER BY GB_NO DESC
 	</select>
 	

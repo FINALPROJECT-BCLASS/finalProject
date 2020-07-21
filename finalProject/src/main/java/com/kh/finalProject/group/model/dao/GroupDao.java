@@ -81,7 +81,12 @@ public class GroupDao {
 	}
 
 	public ArrayList<GroupBoard> selectBoardList(PageInfo pi) {
-		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectBoardList", pi);
+	int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectBoardList",pi, rowBounds);
+		
 	}
 	
 	

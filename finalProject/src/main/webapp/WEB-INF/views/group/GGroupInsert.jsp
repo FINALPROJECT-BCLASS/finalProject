@@ -156,7 +156,7 @@
                                <div class=profile-image-area>
                         			<img class="profile-image" src="resources/images/icons/profile_default.png">
                        			</div>
-                               <div class="filebox">
+                              	<div class="filebox">
 								  <input type="file" id="file" class="ex_file" name="uploadFile" onchange="uploadPhoto(this);">
 								  <input class="upload-name" value="Select file">
 								  <label for="file">Upload</label>

@@ -271,7 +271,7 @@ public class GroupController {
 
 	// 공지 메인 ajax
 		@RequestMapping(value="noticeMain2.do", method=RequestMethod.GET)
-		public ModelAndView noticeMain2(HttpServletResponse response, ModelAndView mv, HttpSession session, @RequestParam(value="page", required=false) String page) throws JsonIOException, IOException {
+		public void noticeMain2(HttpServletResponse response, HttpSession session, @RequestParam(value="page", required=false) String page) throws JsonIOException, IOException {
 			
 			
 			Member loginUser = (Member)session.getAttribute("loginUser");
@@ -330,12 +330,14 @@ public class GroupController {
 				out.close();
 
 			}else {
-				mv.setViewName("group/GNoticeMain");
+				System.out.println("공지 ajax 로드 실패");
+				
+				/* mv.setViewName("group/GNoticeMain"); */
 //				mv.setViewName("<script> alert('공지사항 등록이 실패하였습니다.'); history.back(); </script>");
 			}
 
 
-			return mv;
+			/* return mv; */
 		}
 		
 		// 공지 작성
@@ -403,7 +405,7 @@ public class GroupController {
 	
 	// 게시판 메인 ajax
 		@RequestMapping(value="boardMainAjax.do", method=RequestMethod.GET)
-		public ModelAndView boardMainAjax(HttpSession session, ModelAndView mv, @RequestParam(value="page", required=false) String page) {
+		public void boardMainAjax(HttpServletResponse response, HttpSession session, @RequestParam(value="page", required=false) String page) throws IOException {
 			GroupInfo gInfo = (GroupInfo)session.getAttribute("gInfo");
 			System.out.println("게시판 메인 gInfo : "+ gInfo);
 			System.out.println("개사펀 ajax page : " + page);
@@ -426,8 +428,52 @@ public class GroupController {
 			ArrayList<GroupBoard> boardList = gService.selectBoardList(pi);
 			System.out.println("게시판 메인 boardList :" + boardList);
 			
+			response.setContentType("application/json;charset=utf-8");
 			
-			return mv;
+			JSONArray jArr = new JSONArray();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			
+			if(boardList != null) {
+				for(GroupBoard b : boardList) {
+					JSONObject jObj = new JSONObject();
+					b.setPage(currentPage);
+					
+					
+					
+					jObj.put("page", b.getPage());
+					
+					jObj.put("gbNo", b.getGbNo());
+					jObj.put("gmNo", b.getGmNo());
+					jObj.put("gNo", b.getgNo());
+					jObj.put("gbTitle", b.getGbTitle());	
+					jObj.put("gbCon", b.getGbCon());
+					jObj.put("gbDate",  b.getGbDate());
+					jObj.put("gbDelete", b.getGbDelete());
+					jObj.put("gbCount", b.getGbCount());
+					jObj.put("name", b.getName());
+					
+					
+					jArr.add(jObj);
+				}
+				
+				JSONObject sendJson = new JSONObject();
+				sendJson.put("boardList", jArr);
+				
+				PrintWriter out = response.getWriter();
+				out.print(sendJson);
+				out.flush();
+				out.close();
+
+			}else {
+				/* mv.setViewName("group/GBoardMain"); */
+//				mv.setViewName("<script> alert('공지사항 등록이 실패하였습니다.'); history.back(); </script>");
+			}
+
+			
+			
+			
+			
+		
 		}
 
 
