@@ -63,6 +63,10 @@ public interface PlanService {
 
 	int insertMPlan(MPlan m);
 
+	MPlan selectLastMPlan(MPlan m);
+	
+	int updateMpEnd(MPlan m);
+	
 	ArrayList<MPlan> selectMpList(String id);
 
 }

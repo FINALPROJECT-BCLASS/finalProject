@@ -149,11 +149,19 @@ public class PlanDao {
 		return sqlSessionTemplate.insert("planMapper.insertMPlan", m);
 	}
 
+	public MPlan selectLastMPlan(MPlan m) {
+		
+		return sqlSessionTemplate.selectOne("planMapper.selectLastMPlan", m);
+	}
+
+	public int updateMpEnd(MPlan m) {
+		
+		return sqlSessionTemplate.update("planMapper.updateMpEnd", m);
+	}
+	
 	public ArrayList<MPlan> selectMpList(String id) {
 		
 		return (ArrayList)sqlSessionTemplate.selectList("planMapper.selectMpList", id);
 	}
-
-
 
 }

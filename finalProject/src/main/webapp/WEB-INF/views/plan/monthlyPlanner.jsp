@@ -11,40 +11,41 @@
     <link href='resources/css/main.css' rel='stylesheet' />
     <script src='resources/lib/main.js'></script>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            eventSources: [{
-            	events: function(info,successCallback,failureCallback) {
-            		var events = [];
-            		
-            		$.ajax({
-            			url: 'mplist.do',
-            			dataType: 'json',
-            			success: function(data) {
-            				for(var i in data.mpList){
-	    	   					events.push({title:data.mpList[i].eventTitle
-	    	   								,start:data.mpList[i].start
-	    	   								,end:data.mpList[i].end
-	    	   								,color:data.mpList[i].color})
-	    	   				};
-            				
-            				successCallback(events);
-            			},
-            			error:function(request, status, errorData){
-                            alert("error code: " + request.status + "\n"
-                                  +"message: " + request.responseText
-                                  +"error: " + errorData);
-                        }   
-            		})
-            	}
-            }]
-        });
-
-        calendar.render();
-    });
+	    document.addEventListener('DOMContentLoaded', function() {
+	        var calendarEl = document.getElementById('calendar');
+	
+	        var calendar = new FullCalendar.Calendar(calendarEl, {
+	            initialView: 'dayGridMonth',
+	            eventSources: [{
+	            	events: function(info,successCallback,failureCallback) {
+	            		var events = [];
+	            		
+	            		$.ajax({
+	            			url: 'mplist.do',
+	            			dataType: 'json',
+	            			success: function(data) {
+	            				for(var i in data.mpList){
+	            					console.log(data.mpList[i].end);
+		    	   					events.push({title:data.mpList[i].eventTitle
+		    	   								,start:data.mpList[i].start
+		    	   								,end:data.mpList[i].end
+		    	   								,color:data.mpList[i].color})
+		    	   				};
+	            				
+	            				successCallback(events);
+	            			},
+	            			error:function(request, status, errorData){
+	                            alert("error code: " + request.status + "\n"
+	                                  +"message: " + request.responseText
+	                                  +"error: " + errorData);
+	                        }   
+	            		})
+	            	}
+	            }]
+	        });
+	
+	        calendar.render();
+	    });
     </script>
     
     <style>
@@ -117,6 +118,60 @@
         .fc-today-button{
             display: none !important;
         }
+        
+        input[type="radio"] {
+            display: none;
+        }
+
+        input[type="radio"]:checked + .b-icons>div{
+            border: 3px solid #484848;
+        }
+
+        input[type="radio"]:checked + .b-check>div{
+            border: 3px solid white;
+            background-color: #2860E1;
+        }
+        
+        label{
+            margin:0 !important;
+        }
+        
+        .b-icons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            margin-bottom: 0;
+            margin-right: 10px !important;
+            cursor: pointer;
+        }
+
+        .b-icons > div {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            vertical-align: middle;
+            text-align: center;
+        }
+        
+        /* color */
+        .sky {
+            background-color: #6B98FF;
+        }
+
+        .pink {
+            background-color: #FFA3E5;
+        }
+
+        .light-purple {
+            background-color: #C9A8FF;
+        }
+
+        .green {
+            background-color: #50c6b0;
+        }
     </style>
 </head>
 
@@ -158,6 +213,24 @@
                                             <td>
                                             	<input type="time" name="mpTime" style="width: 335px;">
                                             </td>
+                                        </tr>
+                                        <tr>
+                                        	<td><b>Color</b></td>
+                                        	<td>
+                                        		<div style="display: flex;">
+	                                        		<input type="radio" name="color" id="yellow" value="#FBD14B" checked>
+						                            <label class="b-icons" for="yellow"><div class="b-yell"></div></label>
+						                            <input type="radio" name="color" id="pink" value="#FFA3E5" >
+						                            <label class="b-icons" for="pink" ><div class="pink"></div></label>
+						                            <input type="radio" name="color" id="purple" value="#C9A8FF">
+						                            <label class="b-icons" for="purple"><div class="light-purple"></div></label>
+						                            <input type="radio" name="color" id="blue" value="#2860E1">
+						                            <label class="b-icons" for="blue" ><div class="sky"></div></label>
+						                            <input type="radio" name="color" id="green" value="#50c6b0">
+						                            <label class="b-icons" for="green"><div class="green"></div></label>                                        		
+                                        		</div>
+                                        		<input type="hidden" id="mpColor" name="mpColor">
+                                        	</td>
                                         </tr>
                                         <tr>
                                             <td colspan="2">
@@ -329,6 +402,13 @@
     
         // 로그인 서브 메뉴
         $(document).ready(function(){
+        	$("#mpColor").val("#FBD14B");
+        	
+        	$(".b-icons").click(function(){
+        		var color = $(this).prev().val();
+        		$("#mpColor").val(color);
+        	})
+        	
         $(".l-login-area>div").click(function(){
 
             var submenu = $(this).children(".l-login-sub");

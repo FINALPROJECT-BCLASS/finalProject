@@ -15,6 +15,7 @@ public class MPlan implements Serializable {
 	private String mpStart;
 	private String mpEnd;
 	private String mpTime;
+	private String mpColor;
 	private String mpLocation;
 	private String mpMemo;
 	private String mpDelete;
@@ -24,14 +25,15 @@ public class MPlan implements Serializable {
 	public MPlan() {
 	}
 
-	public MPlan(int mpNo, String id, String mpTitle, String mpStart, String mpEnd, String mpTime, String mpLocation,
-			String mpMemo, String mpDelete, int memoNo, String mpView) {
+	public MPlan(int mpNo, String id, String mpTitle, String mpStart, String mpEnd, String mpTime, String mpColor,
+			String mpLocation, String mpMemo, String mpDelete, int memoNo, String mpView) {
 		this.mpNo = mpNo;
 		this.id = id;
 		this.mpTitle = mpTitle;
 		this.mpStart = mpStart;
 		this.mpEnd = mpEnd;
 		this.mpTime = mpTime;
+		this.mpColor = mpColor;
 		this.mpLocation = mpLocation;
 		this.mpMemo = mpMemo;
 		this.mpDelete = mpDelete;
@@ -87,6 +89,14 @@ public class MPlan implements Serializable {
 		this.mpTime = mpTime;
 	}
 
+	public String getMpColor() {
+		return mpColor;
+	}
+
+	public void setMpColor(String mpColor) {
+		this.mpColor = mpColor;
+	}
+
 	public String getMpLocation() {
 		return mpLocation;
 	}
@@ -130,8 +140,8 @@ public class MPlan implements Serializable {
 	@Override
 	public String toString() {
 		return "MPlan [mpNo=" + mpNo + ", id=" + id + ", mpTitle=" + mpTitle + ", mpStart=" + mpStart + ", mpEnd="
-				+ mpEnd + ", mpTime=" + mpTime + ", mpLocation=" + mpLocation + ", mpMemo=" + mpMemo + ", mpDelete="
-				+ mpDelete + ", memoNo=" + memoNo + ", mpView=" + mpView + "]";
+				+ mpEnd + ", mpTime=" + mpTime + ", mpColor=" + mpColor + ", mpLocation=" + mpLocation + ", mpMemo="
+				+ mpMemo + ", mpDelete=" + mpDelete + ", memoNo=" + memoNo + ", mpView=" + mpView + "]";
 	}
 
 }

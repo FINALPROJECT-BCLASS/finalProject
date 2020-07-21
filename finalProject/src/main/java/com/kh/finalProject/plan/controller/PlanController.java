@@ -370,9 +370,16 @@ public class PlanController {
 		
 		m.setMpLocation(address1 + ";" + address2);
 		
-		int result = pService.insertMPlan(m);
+		int result1 = pService.insertMPlan(m);
 		
-		if(result > 0) {
+		MPlan insertM = pService.selectLastMPlan(m);
+		
+		int result2 = 0;
+		if(result1 > 0) {
+			result2 = pService.updateMpEnd(insertM);
+		}
+		
+		if(result1 > 0 && result2 > 0)	{
 			return "redirect:mpview.do";
 		} else {
 			throw new PlanException("일정 추가 실패");
@@ -400,7 +407,7 @@ public class PlanController {
 			jObj.put("time", m.getMpTime());
 			jObj.put("location", m.getMpLocation());
 			jObj.put("memo", m.getMpMemo());
-			jObj.put("color", "#F781BE");
+			jObj.put("color", m.getMpColor());
 			
 			jArr.add(jObj);
 		}

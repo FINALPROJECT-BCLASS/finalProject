@@ -176,6 +176,18 @@ public class PlanServiceImpl implements PlanService {
 	}
 
 	@Override
+	public MPlan selectLastMPlan(MPlan m) {
+		
+		return pDao.selectLastMPlan(m);
+	}
+
+	@Override
+	public int updateMpEnd(MPlan m) {
+		
+		return pDao.updateMpEnd(m);
+	}
+	
+	@Override
 	public ArrayList<MPlan> selectMpList(String id) {
 		
 		return pDao.selectMpList(id);
