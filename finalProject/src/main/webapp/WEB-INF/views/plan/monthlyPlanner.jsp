@@ -229,7 +229,7 @@
 						                            <input type="radio" name="color" id="green" value="#50c6b0">
 						                            <label class="b-icons" for="green"><div class="green"></div></label>                                        		
                                         		</div>
-                                        		<input type="hidden" id="mpColor" name="mpColor">
+                                        		<input type="hidden" id="mpColor" name="mpColor" value="#FBD14B">
                                         	</td>
                                         </tr>
                                         <tr>
@@ -402,8 +402,6 @@
     
         // 로그인 서브 메뉴
         $(document).ready(function(){
-        	$("#mpColor").val("#FBD14B");
-        	
         	$(".b-icons").click(function(){
         		var color = $(this).prev().val();
         		$("#mpColor").val(color);

@@ -242,7 +242,7 @@ public class PlanController {
 			jObj.put("endHour", endHour);
 			jObj.put("endMinute", endMinute);
 			jObj.put("gap", gap);
-			jObj.put("color", "#F781BE");
+			jObj.put("color", t.getTtColor());
 			jObj.put("memo", t.getTtMemo());
 			jObj.put("no", t.getTtNo());
 			
