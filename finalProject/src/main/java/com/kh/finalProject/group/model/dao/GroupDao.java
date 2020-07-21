@@ -11,6 +11,7 @@ import com.kh.finalProject.group.common.PageInfo;
 import com.kh.finalProject.group.model.vo.GroupBoard;
 import com.kh.finalProject.group.model.vo.GroupBoardPhoto;
 import com.kh.finalProject.group.model.vo.GroupInfo;
+import com.kh.finalProject.group.model.vo.GroupLike;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupNotice;
 import com.kh.finalProject.group.model.vo.GroupSearchName;
@@ -92,6 +93,10 @@ public class GroupDao {
 
 	public ArrayList<GroupBoardPhoto> selectPhotoList(PageInfo pi) {
 		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectPhotoList",pi);
+	}
+
+	public ArrayList<GroupLike> totalLike() {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.totlaLike");
 	}
 	
 	

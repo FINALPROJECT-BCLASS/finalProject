@@ -63,6 +63,12 @@
 		<result property="gbpOrigin" column="GBP_ORIGIN"/>
 		<result property="gbpRename" column="GBP_RENAME"/>
 	</resultMap>
+	
+	<resultMap id="groupLikeResultSet" type="groupLike">
+		<id property="gbNo" column="GB_NO"/>
+		<result property="gmNo" column="GM_NO"/>
+		<result property="totalLike" column="TOTAL_LIKE"/>
+	</resultMap>
 	<!-- resultMap end -->
 	
 	<!-- 그룹 메인 및 생성 -->	
@@ -209,5 +215,11 @@
 		SELECT *
         FROM GROUP_BOARD_PHOTO
         WHERE G_NO = #{groupNo}
+	</select>
+	
+	<select id="totlaLike" resultMap="groupLikeResultSet">
+		SELECT GB_NO, COUNT(GB_NO) AS TOTAL_LIKE
+        FROM GROUP_LIKE 
+        GROUP BY GB_NO
 	</select>
 </mapper>

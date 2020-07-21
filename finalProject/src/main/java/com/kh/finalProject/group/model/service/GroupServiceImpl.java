@@ -10,6 +10,7 @@ import com.kh.finalProject.group.model.dao.GroupDao;
 import com.kh.finalProject.group.model.vo.GroupBoard;
 import com.kh.finalProject.group.model.vo.GroupBoardPhoto;
 import com.kh.finalProject.group.model.vo.GroupInfo;
+import com.kh.finalProject.group.model.vo.GroupLike;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupNotice;
 import com.kh.finalProject.group.model.vo.GroupSearchName;
@@ -96,6 +97,11 @@ public class GroupServiceImpl implements GroupService{
 	@Override
 	public ArrayList<GroupBoardPhoto> selectPhotoList(PageInfo pi) {
 		return gDao.selectPhotoList(pi);
+	}
+
+	@Override
+	public ArrayList<GroupLike> totalLike() {
+		return gDao.totalLike();
 	}
 
 	

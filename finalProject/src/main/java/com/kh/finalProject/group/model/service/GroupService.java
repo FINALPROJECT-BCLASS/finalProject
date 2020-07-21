@@ -6,6 +6,7 @@ import com.kh.finalProject.group.common.PageInfo;
 import com.kh.finalProject.group.model.vo.GroupBoard;
 import com.kh.finalProject.group.model.vo.GroupBoardPhoto;
 import com.kh.finalProject.group.model.vo.GroupInfo;
+import com.kh.finalProject.group.model.vo.GroupLike;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupNotice;
 import com.kh.finalProject.group.model.vo.GroupSearchName;
@@ -44,6 +45,8 @@ public interface GroupService {
 	ArrayList<GroupBoard> selectBoardList(PageInfo pi);
 
 	ArrayList<GroupBoardPhoto> selectPhotoList(PageInfo pi);
+
+	ArrayList<GroupLike> totalLike();
 
 
 

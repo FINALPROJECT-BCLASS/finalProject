@@ -84,19 +84,12 @@
     .noticeBoardContent{margin-left:37px; margin-top:10px; padding-top:5px;padding-left:15px; width:1000px; height:70px; overflow:scroll; overflow-x:hidden; font-size:13px; background: #F3F3F3; border-radius: 5px; margin-bottom: 7px;}
   	.boardPhotoList{width:200px; height:100px; display:inline-block; border-radius:6px;}
   	.imgBox{display:inline-block; margin-left:20px; margin-bottom:40px;}
-  	/* 
-  	.swiperTd{width:1000px; height:100px;}
-  	.swiper-container{margin: 0 150px !important; width:30%; height:100px;}
-  	.swiperImg{width:100px; height:100px;}
-  	 */
-  	
+  
   	.reply{ padding-bottom:10px; padding-left:10px; display:inline-block; }
   	.emptyHeart{cursor:pointer;}
   	.heart{cursor:pointer;}
   	
-  	
-  	.swiper-wrapper{width:1700px !important; }
-  	
+  
   	tr > td:nth-child(1) {
         color: #484848;
         text-align: left;
@@ -106,10 +99,7 @@
     }
   </style>
   
-  <link rel="stylesheet" href="resources/css/swiper-bundle.css">
-    <link rel="stylesheet" href="resources/css/swiper-bundle.min.css">
-    <script src="resources/js/swiper-bundle.js"></script>
-    <script src="resources/js/swiper-bundle.min.js"></script>
+
       
 </head>
 
@@ -218,7 +208,7 @@
        $(function(){
       	 
       	    $(".groupNotice").scroll(function(){
-             	 console.log("ajax 전 page : " + ${pi.currentPage});
+             	 /* console.log("ajax 전 page : " + ${pi.currentPage}); */
                  	 if ($(this)[0].scrollHeight - Math.round($(this).scrollTop()) == $(this).outerHeight()){
                  		 
                           fetchList();
@@ -241,15 +231,16 @@
                dataType: "json",
                data:{page:pagePlus},
                success: function(data){
-            	 console.log("ajax photo : " + data.photoList[0].gbNo );
-            	 console.log("ajax data : " + data.boardList[0].gbNo);
+            	 /* console.log("ajax photo : " + data.photoList[0].gbNo );
+            	 console.log("ajax data : " + data.boardList[0].gbNo); */
               	 page = data.boardList[0].page;
               	 pagePlus = page + 1;
               	 
                    // 컨트롤러에서 가져온 방명록 리스트는 result.data에 담겨오도록 했다.
                    // 남은 데이터가 5개 이하일 경우 무한 스크롤 종료
               	 let length =  data.boardList.length;
-              	 console.log("length : " + length);
+              	 /* console.log("length : " + length); */
+              	 
               	 
                    if( length < 5 ){
                        isEnd = true;
@@ -265,12 +256,14 @@
                 	var $tr3 = $("<tr>");
                 	var $tr4 = $("<tr>");
                		var $tr5 = $("<tr>");
+                	var $tr6 = $("<tr>");
                 	
                 	var $td1 = $("<td>");
                 	var $td2 = $("<td>");
                 	var $td3 = $("<td>");
                 	var $td4 = $("<td>");
                 	var $td5 = $("<td>");
+                	var $td6 = $("<td>");
                 	
                 	
                 	var $emoticon = $("<span>").text("perm_identity").attr("class","material-icons");
@@ -278,10 +271,11 @@
                   	var $boardWriter = $("<div>").text(data.boardList[i].name).attr("class","noticeBoardWriter");
                   	var $boardDate = $("<div>").text(data.boardList[i].gbDate).attr("class","noticeBoardDate");
                   	var $boardContent = $("<div>").text(data.boardList[i].gbCon).attr("class","noticeBoardContent");
-                 
+                 	var $like = $("<span>").text("favorite_border").attr("class","material-icons");
+                 	var $reply = $("<span>").text("sms").attr("class","material-icons");
+                 	
                		$td1.append($emoticon);
                		$td1.append($boardTitle);
-                   	
                    	$tr1.append($td1);
                    	
                    	$td2.append($boardWriter);
@@ -292,17 +286,49 @@
                    	
                    	$td4.append($boardContent);
                    	$tr4.append($td4);
- 
+ 					
+                   	$td6.append($like);
+                   	
+                    var $totalLike;
+                   	
+                    if(data.likeList.length > 0){
+                   		for(l in data.likeList){
+                   			console.log("totalLike :" + data.likeList[l].totalLike);
+                     		if(data.boardList[i].gbNo == data.likeList[l].gbNo){
+                     			
+                     			if(data.likeList[l].totalLike > 0){
+                     				
+	                     			$totalLike = $("<span>").text(data.likeList[l].totalLike);
+	                     			/* $td6.append($totalLike); */
+                     			}
+                     					
+                     			
+                     			
+                     			/// 하트 옆에 숫자 위치 찾기
+                     		}else if(data.boardList[i].gbNo != data.likeList[l].gbNo){
+                     			$totalLike = $("<span>").text(0);
+                     		}
+                     		
+                    	}
+                         	 
+                   	}
+                   	
+     				$td6.append($totalLike);
+                   	$td6.append($reply);
+                   	$tr6.append($td6);
+                   	
                		$boardTb.append($tr1);
                   	$boardTb.append($tr2);
                   	$boardTb.append($tr3);
                   	$boardTb.append($tr4);
+                  	
+                  	$boardTb.append($tr6);
                   	$groupBoard.append($boardTb); 
+                    
                   	
-                  	
-                	console.log(data.photoList)
+                	
                    	if(data.photoList.length > 0){
-                   		console.log("사진 legnth : " + data.photoList.length);
+                   		/* console.log("사진 legnth : " + data.photoList.length); */
                    		for(j in  data.photoList){
                    			if(data.boardList[i].gbNo == data.photoList[j].gbNo){
                    				var $img = $("<img src='resources/groupMainFiles/"+data.photoList[j].gbpOrigin+"' class='boardPhotoList'>");
@@ -317,7 +343,7 @@
                    		}
                    	}
                    	
-                    }
+                   	}
                 
                },
                error:function(request, status, errorData){
