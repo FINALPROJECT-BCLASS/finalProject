@@ -2,12 +2,12 @@ package com.kh.finalProject.plan.model.vo;
 
 import java.io.Serializable;
 
-public class Monthly implements Serializable {
+public class MPlan implements Serializable {
 	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -5354285263246260218L;
+	private static final long serialVersionUID = 1212681267861643920L;
 	
 	private int mpNo;
 	private String id;
@@ -21,10 +21,10 @@ public class Monthly implements Serializable {
 	private int memoNo;
 	private String mpView;
 	
-	public Monthly() {
+	public MPlan() {
 	}
-	
-	public Monthly(int mpNo, String id, String mpTitle, String mpStart, String mpEnd, String mpTime, String mpLocation,
+
+	public MPlan(int mpNo, String id, String mpTitle, String mpStart, String mpEnd, String mpTime, String mpLocation,
 			String mpMemo, String mpDelete, int memoNo, String mpView) {
 		this.mpNo = mpNo;
 		this.id = id;
@@ -129,7 +129,7 @@ public class Monthly implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Monthly [mpNo=" + mpNo + ", id=" + id + ", mpTitle=" + mpTitle + ", mpStart=" + mpStart + ", mpEnd="
+		return "MPlan [mpNo=" + mpNo + ", id=" + id + ", mpTitle=" + mpTitle + ", mpStart=" + mpStart + ", mpEnd="
 				+ mpEnd + ", mpTime=" + mpTime + ", mpLocation=" + mpLocation + ", mpMemo=" + mpMemo + ", mpDelete="
 				+ mpDelete + ", memoNo=" + memoNo + ", mpView=" + mpView + "]";
 	}

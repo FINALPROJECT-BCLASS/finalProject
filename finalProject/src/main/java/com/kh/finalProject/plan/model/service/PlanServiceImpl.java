@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.finalProject.plan.model.dao.PlanDao;
 import com.kh.finalProject.plan.model.vo.DTodolist;
+import com.kh.finalProject.plan.model.vo.MPlan;
 import com.kh.finalProject.plan.model.vo.McOvulation;
 import com.kh.finalProject.plan.model.vo.McRecord;
 import com.kh.finalProject.plan.model.vo.Menstrual;
@@ -168,6 +169,16 @@ public class PlanServiceImpl implements PlanService {
 		return pDao.selectDtList(dt);
 	}
 
+	@Override
+	public int insertMPlan(MPlan m) {
+	
+		return pDao.insertMPlan(m);
+	}
 
+	@Override
+	public ArrayList<MPlan> selectMpList(String id) {
+		
+		return pDao.selectMpList(id);
+	}
 
 }

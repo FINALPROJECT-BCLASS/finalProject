@@ -50,6 +50,20 @@
 		<result property="dtDelete" column="DT_DELETE"/>
 	</resultMap>
 	
+	<resultMap type="MPlan" id="mpResultSet">
+		<id property="mpNo" column="MP_NO"/>
+		<result property="id" column="ID"/>
+		<result property="mpTitle" column="MP_TITLE"/>
+		<result property="mpStart" column="MP_START"/>
+		<result property="mpEnd" column="MP_END"/>
+		<result property="mpTime" column="MP_TIME"/>
+		<result property="mpLocation" column="MP_LOCATION"/>
+		<result property="mpMemo" column="MP_MEMO"/>
+		<result property="mpDelete" column="MP_DELETE"/>
+		<result property="mpNo" column="MP_NO"/>
+		<result property="mpView" column="MP_VIEW"/>
+	</resultMap>
+	
 	<select id="checkInfo" parameterType="string" resultType="_int">
 		SELECT COUNT(*)
 		FROM MENSTRUAL_CALENDAR
@@ -248,6 +262,30 @@
 		    	AND DT_DATE=#{dtDate}
 		    	AND DT_DELETE='N')
 		ORDER BY DT_NO ASC
+	</select>
+	
+	<insert id="insertMPlan" parameterType="MPlan">
+		INSERT INTO MONTHLY_PLAN
+		VALUES(SEQ_MP.NEXTVAL
+			, #{id}
+			, #{mpTitle}
+			, #{mpStart}
+			, #{mpEnd}
+			, #{mpTime}
+			, #{mpLocation}
+			, #{mpMemo}
+			, DEFAULT
+			, 0
+			, 'Y')
+	</insert>
+	
+	<select id="selectMpList" parameterType="string" resultMap="mpResultSet">
+		SELECT MP_NO, MP_TITLE, TO_CHAR(MP_START,'YYYY/MM/DD') "MP_START", TO_CHAR(MP_END,'YYYY/MM/DD') "MP_END",
+			MP_TIME, MP_COLOR, MP_LOCATION, MP_MEMO
+		FROM MONTHLY_PLAN
+		WHERE ID=#{id}
+			AND MP_DELETE='N'
+			AND MP_VIEW='Y'
 	</select>
 	
 </mapper>

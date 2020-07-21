@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.finalProject.plan.model.vo.DTodolist;
+import com.kh.finalProject.plan.model.vo.MPlan;
 import com.kh.finalProject.plan.model.vo.McOvulation;
 import com.kh.finalProject.plan.model.vo.McRecord;
 import com.kh.finalProject.plan.model.vo.Menstrual;
@@ -141,6 +142,16 @@ public class PlanDao {
 	public ArrayList<DTodolist> selectDtList(DTodolist dt) {
 		
 		return (ArrayList)sqlSessionTemplate.selectList("planMapper.selectDtList", dt);
+	}
+
+	public int insertMPlan(MPlan m) {
+		
+		return sqlSessionTemplate.insert("planMapper.insertMPlan", m);
+	}
+
+	public ArrayList<MPlan> selectMpList(String id) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("planMapper.selectMpList", id);
 	}
 
 
