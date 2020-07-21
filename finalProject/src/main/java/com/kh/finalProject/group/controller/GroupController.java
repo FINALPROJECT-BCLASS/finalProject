@@ -500,12 +500,13 @@ public class GroupController {
 		ArrayList<GroupBoard> boardList = gService.selectBoardList(pi);
 		System.out.println("게시판 메인 boardList :" + boardList);
 		
-		ArrayList<GroupBoardPhoto> photoList = gService.selectPhotoList();
-		
+		ArrayList<GroupBoardPhoto> photoList = gService.selectPhotoList(pi);
+		System.out.println("게시판 메인 photoList : " + photoList);
 		
 		response.setContentType("application/json;charset=utf-8");
 		
 		JSONArray jArr = new JSONArray();
+		JSONArray pArr = new JSONArray();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
 		if(boardList != null) {
@@ -531,9 +532,23 @@ public class GroupController {
 				jArr.add(jObj);
 			}
 			
+			if(photoList != null) {
+				for(GroupBoardPhoto b : photoList) {
+					JSONObject jObj = new JSONObject();
+	
+					jObj.put("gbpNo", b.getGbpNo());
+					jObj.put("gbNo", b.getGbNo());
+					jObj.put("gmNo", b.getGmNo());
+					jObj.put("gNo", b.getgNo());	
+					jObj.put("gbpOrigin", b.getGbpOrigin());
+					jObj.put("gbpRename",  b.getGbpRename());
+					
+					
+					pArr.add(jObj);
+				}
 			JSONObject sendJson = new JSONObject();
 			sendJson.put("boardList", jArr);
-			
+			sendJson.put("photoList", pArr);
 			PrintWriter out = response.getWriter();
 			out.print(sendJson);
 			out.flush();
@@ -553,4 +568,5 @@ public class GroupController {
 
 
 	
+}
 }

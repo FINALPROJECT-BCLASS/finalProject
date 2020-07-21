@@ -54,6 +54,15 @@
 		<result property="gbCount" column="GB_COUNT"/>
 		<result property="name" column="NAME"/>
 	</resultMap>
+	
+	<resultMap id="groupBoardPhotoResultSet" type="groupBoardPhoto">
+		<id property="gbpNo" column="GBP_NO"/>
+		<result property="gbNo" column="GB_NO"/>
+		<result property="gmNo" column="GM_NO"/>
+		<result property="gNo" column="G_NO"/>
+		<result property="gbpOrigin" column="GBP_ORIGIN"/>
+		<result property="gbpRename" column="GBP_RENAME"/>
+	</resultMap>
 	<!-- resultMap end -->
 	
 	<!-- 그룹 메인 및 생성 -->	
@@ -196,4 +205,9 @@
 		ORDER BY GB_NO DESC
 	</select>
 	
+	<select id="selectPhotoList" resultMap="groupBoardPhotoResultSet">
+		SELECT *
+        FROM GROUP_BOARD_PHOTO
+        WHERE G_NO = #{groupNo}
+	</select>
 </mapper>

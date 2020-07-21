@@ -21,7 +21,7 @@
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupInfo" alias="GroupInfo"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupNotice" alias="GroupNotice"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupBoard" alias="GroupBoard"/>
-
+		<typeAlias type="com.kh.finalProject.group.model.vo.GroupBoardPhoto" alias="GroupBoardPhoto"/>
 
 		<typeAlias type="com.kh.finalProject.daily.model.vo.HabitTracker" alias="HabitTracker"/>
 

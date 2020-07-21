@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.kh.finalProject.group.common.PageInfo;
 import com.kh.finalProject.group.model.dao.GroupDao;
 import com.kh.finalProject.group.model.vo.GroupBoard;
+import com.kh.finalProject.group.model.vo.GroupBoardPhoto;
 import com.kh.finalProject.group.model.vo.GroupInfo;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupNotice;
@@ -90,6 +91,11 @@ public class GroupServiceImpl implements GroupService{
 	@Override
 	public ArrayList<GroupBoard> selectBoardList(PageInfo pi) {
 		return gDao.selectBoardList(pi);
+	}
+
+	@Override
+	public ArrayList<GroupBoardPhoto> selectPhotoList(PageInfo pi) {
+		return gDao.selectPhotoList(pi);
 	}
 
 	

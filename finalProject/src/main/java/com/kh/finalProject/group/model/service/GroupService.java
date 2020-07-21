@@ -43,7 +43,7 @@ public interface GroupService {
 
 	ArrayList<GroupBoard> selectBoardList(PageInfo pi);
 
-	ArrayList<GroupBoardPhoto> selectPhotoList();
+	ArrayList<GroupBoardPhoto> selectPhotoList(PageInfo pi);
 
 
 

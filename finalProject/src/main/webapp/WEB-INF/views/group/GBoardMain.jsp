@@ -82,11 +82,13 @@
     .noticeBoardWriter{padding-left:37px; font-size:12px; font-weight: 600;}
     .noticeBoardDate{padding-left:37px; font-size:12px; font-weight: 600;}
     .noticeBoardContent{margin-left:37px; margin-top:10px; padding-top:5px;padding-left:15px; width:1000px; height:70px; overflow:scroll; overflow-x:hidden; font-size:13px; background: #F3F3F3; border-radius: 5px; margin-bottom: 7px;}
-  	
+  	.boardPhotoList{width:200px; height:100px; display:inline-block; border-radius:6px;}
+  	.imgBox{display:inline-block; margin-left:20px; margin-bottom:40px;}
+  	/* 
   	.swiperTd{width:1000px; height:100px;}
   	.swiper-container{margin: 0 150px !important; width:30%; height:100px;}
   	.swiperImg{width:100px; height:100px;}
-  	
+  	 */
   	
   	.reply{ padding-bottom:10px; padding-left:10px; display:inline-block; }
   	.emptyHeart{cursor:pointer;}
@@ -239,6 +241,7 @@
                dataType: "json",
                data:{page:pagePlus},
                success: function(data){
+            	 console.log("ajax photo : " + data.photoList[0].gbNo );
             	 console.log("ajax data : " + data.boardList[0].gbNo);
               	 page = data.boardList[0].page;
               	 pagePlus = page + 1;
@@ -261,11 +264,13 @@
                 	var $tr2 = $("<tr>");
                 	var $tr3 = $("<tr>");
                 	var $tr4 = $("<tr>");
-               
+               		var $tr5 = $("<tr>");
+                	
                 	var $td1 = $("<td>");
                 	var $td2 = $("<td>");
                 	var $td3 = $("<td>");
                 	var $td4 = $("<td>");
+                	var $td5 = $("<td>");
                 	
                 	
                 	var $emoticon = $("<span>").text("perm_identity").attr("class","material-icons");
@@ -273,7 +278,6 @@
                   	var $boardWriter = $("<div>").text(data.boardList[i].name).attr("class","noticeBoardWriter");
                   	var $boardDate = $("<div>").text(data.boardList[i].gbDate).attr("class","noticeBoardDate");
                   	var $boardContent = $("<div>").text(data.boardList[i].gbCon).attr("class","noticeBoardContent");
-                  	  
                  
                		$td1.append($emoticon);
                		$td1.append($boardTitle);
@@ -288,14 +292,31 @@
                    	
                    	$td4.append($boardContent);
                    	$tr4.append($td4);
-
-                  	$boardTb.append($tr1);
+ 
+               		$boardTb.append($tr1);
                   	$boardTb.append($tr2);
                   	$boardTb.append($tr3);
                   	$boardTb.append($tr4);
                   	$groupBoard.append($boardTb); 
                   	
-                
+                  	
+                	console.log(data.photoList)
+                   	if(data.photoList.length > 0){
+                   		console.log("사진 legnth : " + data.photoList.length);
+                   		for(j in  data.photoList){
+                   			if(data.boardList[i].gbNo == data.photoList[j].gbNo){
+                   				var $img = $("<img src='resources/groupMainFiles/"+data.photoList[j].gbpOrigin+"' class='boardPhotoList'>");
+                   				var $imgBox = $("<div>").attr("class","imgBox");
+
+                   				$imgBox.append($img);
+                   				$td5.append($imgBox);
+                   				$tr5.append($td5);                             	 
+                   				$boardTb.append($tr5);
+                   				$groupBoard.append($boardTb); 
+                   			}
+                   		}
+                   	}
+                   	
                     }
                 
                },

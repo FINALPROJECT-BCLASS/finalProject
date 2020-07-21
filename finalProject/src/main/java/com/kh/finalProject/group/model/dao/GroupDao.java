@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.finalProject.group.common.PageInfo;
 import com.kh.finalProject.group.model.vo.GroupBoard;
+import com.kh.finalProject.group.model.vo.GroupBoardPhoto;
 import com.kh.finalProject.group.model.vo.GroupInfo;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupNotice;
@@ -81,12 +82,16 @@ public class GroupDao {
 	}
 
 	public ArrayList<GroupBoard> selectBoardList(PageInfo pi) {
-	int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
 		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectBoardList",pi, rowBounds);
 		
+	}
+
+	public ArrayList<GroupBoardPhoto> selectPhotoList(PageInfo pi) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectPhotoList",pi);
 	}
 	
 	
