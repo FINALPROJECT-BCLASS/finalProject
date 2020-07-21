@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,7 +46,7 @@
         }
         
         .clicked {
-            border : 3px solid #c4c4c4;
+        	box-shadow: 0 0 0 3px #c4c4c4;
         }
 
 
@@ -252,7 +253,7 @@
         	display: flex;
         	width: 100%;
 		    margin-top: 30px;
-		    margin-bottom: -5px;
+		    margin-bottom: -10px;
         }
         
         /* external css: flickity.css */
@@ -261,17 +262,23 @@
 		
 		
 		.carousel-cell {
-		  width: 230px;
-		  height: 100px !important;
-		  margin-right: 10px;
-		  background: #e9ecef;
-		  border-radius: 8px !important;
-		  counter-increment: carousel-cell;
-		  cursor: pointer;
+		  	
+			width: 280px;
+			margin-top: 5px;
+			height: 100px !important;
+			margin-right: 10px;
+			background: #e9ecef;
+			border-radius: 8px !important;
+			counter-increment: carousel-cell;
+			cursor: pointer;
 		}
 		
 		.flickity-page-dots {
 			display: none;
+		}
+		
+		.flickity-viewport {
+			height: 110px !important;
 		}
 
 
@@ -479,12 +486,9 @@
 		    font-weight: 700;
 		    color: #484848;
         }
-      
-        
-	    
-
-
-
+		
+		
+		
     </style>
     </head>
 
@@ -493,34 +497,22 @@
 		<jsp:include page="../common/sidenaviDaily.jsp"/>
         <div class="right-area">
             <span class="pSubject">Habit Tracker</span>
+            
+            <!-- 슬라이드 -->
             <div class="carousel" data-flickity='{ "draggable": false }'>
-	            <div class="progress carousel-cell clicked">
-			  		<div class="progress-bar sky" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:70%;"></div>
-		    		<div class="bar-info">
-						<div>Drink Water</div>
-						<div>1050 / 1500 ml</div>
+				<c:forEach var="h" items="${hlist }">
+					<!-- 퍼센트 연산처리 -->
+					<fmt:parseNumber var="percent" value="${(h.ht_now/h.ht_goal)*100+(1-(((h.ht_now/h.ht_goal)*100)%1))%1}" integerOnly="true" />
+					<!-- 슬라이드 아이 -->
+					<div class="progress carousel-cell">
+				  		<div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:${percent }%; background-color:${h.ht_color};"></div>
+			    		<div class="bar-info">
+							<div class="ht_title">${h.ht_title }</div>
+							<div>${h.ht_now } / ${h.ht_goal } ${h.ht_unit }</div>
+						</div>
+						<div>${percent } %</div>
 					</div>
-					<div>70%</div>
-				</div>
-				<div class="progress carousel-cell">
-			  		<div class="progress-bar pink" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:70%;"></div>
-		    		<div class="bar-info">
-						<div>Drink Water</div>
-						<div>1050 / 1500 ml</div>
-					</div>
-					<div>70%</div>
-				</div>
-				<div class="progress carousel-cell">
-			  		<div class="progress-bar b-yell" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:70%;"></div>
-		    		<div class="bar-info">
-						<div>Drink Water</div>
-						<div>1050 / 1500 ml</div>
-					</div>
-					<div>70%</div>
-				</div>
-				<!-- <div class="carousel-cell"></div>
-				<div class="carousel-cell"></div>
-				<div class="carousel-cell"></div> -->
+				</c:forEach>
 			</div>
        
             
@@ -528,11 +520,10 @@
             <div class="button-area">
                 <button>Edit</button>
                 <button>Delete</button>
-                <button>Add</button>
+                <button onclick="location.href='addHabitView.do'">Add</button>
             </div>
-            <!-- Button End-->
 
-    
+    		<!-- 내용 -->
             <div class="content">
             	<div class="cSubject">Drink Water</div>
             	<div class="content-section1">
@@ -544,17 +535,17 @@
 	            	<div class="content-section1-right">
 	            		<div class="item-subject">Progress</div>
 	            		<div class="progress carousel-cell progress-d">
-				  			<div class="progress-bar sky" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:70%;"></div>
+				  			<div class="progress-bar" id="progress1" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
 	            		</div>
 	            		<div class="section1-item-area">
 		            		<div class="section1-item add" data-toggle="modal" data-target="#add-count" style="margin-right: 10px;">
-		            			<span>Today</span>
-		            			<span>1050</span>
-		            			<span>/ 1500 ml</span>
+		            			<span id="periode"></span>
+		            			<span id="now"></span>
+		            			<span id="goal"></span>
 		            		</div>
 		            		<div class="section1-item">
 		            			<span>Achieve Rate</span>
-		            			<span style="font-size: 39px">70%</span>
+		            			<span id="achieve" style="font-size: 39px"></span>
 		            		</div>
 	            		</div>
 	            	</div>
@@ -564,8 +555,8 @@
 
 	            		<div class="item-subject sub">Comment
 	            		</div>
-	            		<div class="section2-item">
-	            			내용내용내용내용
+	            		<div class="section2-item" id="comment">
+	            			
 	            		</div>
 	            		<div class="small-button-area">
 			                <button>Edit</button>
@@ -647,7 +638,68 @@
         </div>
 		
 		<script>
-
+		
+			$(function(){
+				
+		        var responseMessage = "<c:out value="${message}" />";
+		        if (responseMessage != ""){
+		            alert(responseMessage)
+		        }
+		  
+		    })
+		    
+		    var target=$('.carousel-cell');
+		    
+		    target.click(function(){
+		    	$(this).addClass("clicked");
+		    	var habitTitle = $(this).find(".ht_title").html();
+		    	
+		    	$.ajax({
+   					url: "habitContent.do",
+   					type: "post",
+   					data: {title:habitTitle},
+   					dataType:"json",
+   					success:function(data){
+   						console.log(data);
+   						
+   						// 기간
+   						if(data.ht_cycle == "Daily") {
+   							$("#periode").html("Today");
+   						}else if(data.ht_cycle == "Weekly") {
+   							$("#periode").html("This Week");
+   						}else {
+   							$("#periode").html("This Month");
+   						}
+   						
+   						//현재 값
+   						$("#now").html(data.ht_now);
+   						$("#now").css("color", data.ht_color);
+   						
+   						//목표 값
+   						$("#goal").html("/" + data.ht_goal + data.ht_unit);
+   						
+   						//현재 퍼센트
+   						$("#achieve").html(Math.ceil(data.ht_now/data.ht_goal*100)+"%");
+   						$("#achieve").css("color", data.ht_color);
+   						
+   						//progress bar
+   						$("#progress1").css("width", Math.ceil(data.ht_now/data.ht_goal*100) + "%");
+   						$("#progress1").css("background-color", data.ht_color);		
+   						
+   						//내용
+   						$("#comment").html(data.ht_con);
+   						
+   					},
+   					error:function(request, status, errorData){
+                         alert("error code: " + request.status + "\n"
+                               +"message: " + request.responseText
+                               +"error: " + errorData);
+              		} 
+   				})
+		    	
+		    	target.not($(this)).removeClass("clicked");
+		    });
+		    
 
 
         </script>

@@ -2,7 +2,7 @@ package com.kh.finalProject.daily.model.vo;
 
 import java.io.Serializable;
 
-public class HabitTracker implements Serializable {
+public class Habit implements Serializable {
 
 	/**
 	 * 
@@ -20,12 +20,14 @@ public class HabitTracker implements Serializable {
 	private String ht_color;
 	private String ht_con;
 	private String ht_delete;
+	private String ht_now;
+	private String ht_per;
 	
-	public HabitTracker() {
+	public Habit() {
 	}
 
-	public HabitTracker(int ht_no, String id, String ht_title, String ht_type, String ht_goal, String ht_unit,
-			String ht_cycle, String ht_start, int ht_amount, String ht_color, String ht_con, String ht_delete) {
+	public Habit(int ht_no, String id, String ht_title, String ht_type, String ht_goal, String ht_unit,
+			String ht_cycle, String ht_start, int ht_amount, String ht_color, String ht_con, String ht_delete, String ht_now, String ht_per) {
 		super();
 		this.ht_no = ht_no;
 		this.id = id;
@@ -39,6 +41,8 @@ public class HabitTracker implements Serializable {
 		this.ht_color = ht_color;
 		this.ht_con = ht_con;
 		this.ht_delete = ht_delete;
+		this.ht_now = ht_now;
+		this.ht_per = ht_per;
 	}
 
 	public int getHt_no() {
@@ -136,6 +140,22 @@ public class HabitTracker implements Serializable {
 	public void setHt_delete(String ht_delete) {
 		this.ht_delete = ht_delete;
 	}
+	
+	public String getHt_now() {
+		return ht_now;
+	}
+
+	public void setHt_now(String ht_now) {
+		this.ht_now = ht_now;
+	}
+	
+	public String getHt_per() {
+		return ht_per;
+	}
+
+	public void setHt_per(String ht_per) {
+		this.ht_per = ht_per;
+	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -143,11 +163,14 @@ public class HabitTracker implements Serializable {
 
 	@Override
 	public String toString() {
-		return "HabitTracker [ht_no=" + ht_no + ", id=" + id + ", ht_title=" + ht_title + ", ht_type=" + ht_type
-				+ ", ht_goal=" + ht_goal + ", ht_unit=" + ht_unit + ", ht_cycle=" + ht_cycle + ", ht_start=" + ht_start
+		return "Habit [ht_no=" + ht_no + ", id=" + id + ", ht_title=" + ht_title + ", ht_type=" + ht_type + ", ht_goal="
+				+ ht_goal + ", ht_unit=" + ht_unit + ", ht_cycle=" + ht_cycle + ", ht_start=" + ht_start
 				+ ", ht_amount=" + ht_amount + ", ht_color=" + ht_color + ", ht_con=" + ht_con + ", ht_delete="
-				+ ht_delete + "]";
+				+ ht_delete + ", ht_now=" + ht_now + ", ht_per=" + ht_per + "]";
 	}
+
+	
+	
 	
 
 }

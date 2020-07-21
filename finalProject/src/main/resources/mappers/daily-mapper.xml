@@ -1,4 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="dailyMapper">
+
+	<resultMap type="Habit" id="habitResultSet">
+		<id property="ht_no" column="HT_NO"/>
+		<result property="id" column="ID"/>
+		<result property="ht_title" column="HT_TITLE"/>
+		<result property="ht_type" column="HT_TYPE"/>
+		<result property="ht_goal" column="HT_GOAL"/>
+		<result property="ht_unit" column="HT_UNIT"/>
+		<result property="ht_cycle" column="HT_CYCLE"/>
+		<result property="ht_start" column="HT_START"/>
+		<result property="ht_amount" column="HT_AMOUNT"/>
+		<result property="ht_color" column="HT_COLOR"/>
+		<result property="ht_con" column="HT_CON"/>
+		<result property="ht_delete" column="HT_DELETE"/>
+		<result property="ht_now" column="HT_NOW"/>
+		<result property="ht_per" column="HT_PER"/>
+	</resultMap>
+	
+	<insert id="insertHabit" parameterType="Habit">
+		INSERT INTO HABIT_TRACKER
+		VALUES(SEQ_HT.NEXTVAL, #{id}, #{ht_title}, #{ht_type}, #{ht_goal}, #{ht_unit}, #{ht_cycle}, SYSDATE,
+				#{ht_amount}, #{ht_color}, #{ht_con}, DEFAULT, 0, 0)
+	</insert>
+	
+	<select id="selectHabit" parameterType="Habit" resultMap="habitResultSet">
+		SELECT *
+		FROM HABIT_TRACKER
+		WHERE ID=#{id}
+		AND HT_DELETE='N'
+	</select>
+	
+	<select id="selectHabitList" resultMap="habitResultSet">
+		SELECT *
+		FROM HABIT_TRACKER
+		WHERE ID=#{id}
+		AND HT_DELETE='N'
+		ORDER BY HT_NO DESC
+	</select>
+	
+	<select id="selectHabitContent" parameterType="Habit" resultMap="habitResultSet">
+		SELECT *
+		FROM HABIT_TRACKER
+		WHERE ID=#{id}
+		AND HT_TITLE=#{ht_title}
+		AND HT_DELETE='N'
+	</select>
+
 </mapper>

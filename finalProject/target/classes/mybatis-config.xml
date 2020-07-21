@@ -23,7 +23,7 @@
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupBoard" alias="GroupBoard"/>
 
 
-		<typeAlias type="com.kh.finalProject.daily.model.vo.HabitTracker" alias="HabitTracker"/>
+		<typeAlias type="com.kh.finalProject.daily.model.vo.Habit" alias="Habit"/>
 
 		
 		<typeAlias type="com.kh.finalProject.member.model.vo.Member" alias="Member"/>
