@@ -20,6 +20,7 @@ import com.kh.finalProject.member.model.vo.Member;
 import com.kh.finalProject.plan.model.exception.PlanException;
 import com.kh.finalProject.plan.model.service.PlanService;
 import com.kh.finalProject.plan.model.vo.DTodolist;
+import com.kh.finalProject.plan.model.vo.MPlan;
 import com.kh.finalProject.plan.model.vo.McOvulation;
 import com.kh.finalProject.plan.model.vo.McRecord;
 import com.kh.finalProject.plan.model.vo.Menstrual;
@@ -31,12 +32,7 @@ public class PlanController {
 	@Autowired
 	PlanService pService;
 	
-	@RequestMapping("mplist.do")
-	public String monthlyView() {
-		
-		return "plan/monthlyPlanner";
-	}
-	
+	// MenstrualCalendar 시작
 	@RequestMapping("mcview.do")
 	public ModelAndView menstrualView(HttpSession session, ModelAndView mv) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
@@ -182,6 +178,30 @@ public class PlanController {
 		
 	}
 	
+	@RequestMapping("mcdelete.do")
+	public String menstrualDelete(Model model, HttpSession session) throws PlanException {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String id = loginUser.getId();
+		
+		int result1 = pService.deleteMcRecord(id);
+		
+		int result2 = pService.deleteMcOvulation(id);
+		
+		int result3 = 0;
+		if(result1 > 0 && result2 > 0) {			
+			result3 = pService.deleteMenstrual(id);
+		}
+		
+		if(result3 > 0) {
+			return "redirect:mcview.do";
+		} else {
+			throw new PlanException("생리달력 삭제 실패");
+		}
+		
+	}
+	
+	
+	// Timetable 시작
 	@RequestMapping("ttview.do")
 	public String timetableView() {
 		
@@ -328,6 +348,65 @@ public class PlanController {
 		
 		JSONObject sendJson = new JSONObject();
 		sendJson.put("dtList", jArr);
+		
+		PrintWriter out = response.getWriter();
+		out.print(sendJson);
+		out.flush();
+		out.close();
+	}
+	
+	
+	// MonthlyPlan 시작
+	@RequestMapping("mpview.do")
+	public String monthlyView() {
+		
+		return "plan/monthlyPlanner";
+	}
+	
+	@RequestMapping("mpinsert.do")
+	public String mPlanInsert(MPlan m,
+							@RequestParam(value="mainAddress", required=false) String address1,
+							@RequestParam(value="subAddress", required=false) String address2) throws PlanException {
+		
+		m.setMpLocation(address1 + ";" + address2);
+		
+		int result = pService.insertMPlan(m);
+		
+		if(result > 0) {
+			return "redirect:mpview.do";
+		} else {
+			throw new PlanException("일정 추가 실패");
+		}
+		
+	}
+	
+	@RequestMapping("mplist.do")
+	public void mPlanList(HttpSession session, HttpServletResponse response) throws IOException {
+		response.setContentType("application/json;charset=utf-8");
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String id = loginUser.getId();
+		
+		ArrayList<MPlan> mpList = pService.selectMpList(id);
+		
+		JSONArray jArr = new JSONArray();
+		
+		for(MPlan m : mpList) {
+			JSONObject jObj = new JSONObject();
+			jObj.put("no", m.getMpNo());
+			jObj.put("eventTitle", m.getMpTitle());
+			jObj.put("start", m.getMpStart());
+			jObj.put("end", m.getMpEnd());
+			jObj.put("time", m.getMpTime());
+			jObj.put("location", m.getMpLocation());
+			jObj.put("memo", m.getMpMemo());
+			jObj.put("color", "#F781BE");
+			
+			jArr.add(jObj);
+		}
+		
+		JSONObject sendJson = new JSONObject();
+		sendJson.put("mpList", jArr);
 		
 		PrintWriter out = response.getWriter();
 		out.print(sendJson);

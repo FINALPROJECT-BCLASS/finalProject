@@ -14,6 +14,7 @@
 		<typeAlias type="com.kh.finalProject.plan.model.vo.McOvulation" alias="McOvulation"/>	<!-- 예지 -->
 		<typeAlias type="com.kh.finalProject.plan.model.vo.Timetable" alias="Timetable"/>		<!-- 예지 -->
 		<typeAlias type="com.kh.finalProject.plan.model.vo.DTodolist" alias="DTodolist"/>		<!-- 예지 -->
+		<typeAlias type="com.kh.finalProject.plan.model.vo.MPlan" alias="MPlan"/>		<!-- 예지 -->
 		
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupTable" alias="GroupTable"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupSearchName" alias="GroupSearchName"/>
