@@ -46,7 +46,16 @@
 	            }],
 	            eventClick: function(info) {
 	            	mpDetailView(info.event.id);
-	            }
+	            },
+	            dateClick: function(info){
+
+		    	 	/* calendar.getEvents(); */
+		    	 	 
+		    	 	$("#mpStart").val(info.dateStr);
+		    	 	$("#mpEnd").val(info.dateStr);
+		    	 	
+		    	 	$("#addModal").modal();
+		      	},
 	        });
 	
 	        calendar.render();
@@ -209,8 +218,8 @@
                                         <tr>
                                             <td><b>Date</b></td>
                                             <td>
-                                                <input type="date" name="mpStart"> - 
-                                                <input type="date" name="mpEnd">
+                                                <input type="date" id="mpStart" name="mpStart"> - 
+                                                <input type="date" id="mpEnd" name="mpEnd">
                                             </td>
                                         </tr>
                                         <tr>
