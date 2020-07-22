@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.finalProject.plan.model.vo.DTodolist;
+import com.kh.finalProject.plan.model.vo.MPlan;
 import com.kh.finalProject.plan.model.vo.McOvulation;
 import com.kh.finalProject.plan.model.vo.McRecord;
 import com.kh.finalProject.plan.model.vo.Menstrual;
@@ -97,6 +98,21 @@ public class PlanDao {
 		
 		return sqlSessionTemplate.update("planMapper.updateMcOvulation", m);
 	}
+	
+	public int deleteMcRecord(String id) {
+		
+		return sqlSessionTemplate.delete("planMapper.deleteMcRecord", id);
+	}
+	
+	public int deleteMcOvulation(String id) {
+		
+		return sqlSessionTemplate.delete("planMapper.deleteMcOvulation", id);
+	}
+	
+	public int deleteMenstrual(String id) {
+		
+		return sqlSessionTemplate.delete("planMapper.deleteMenstrual", id);
+	}
 
 	public int insertTimetable(Timetable t) {
 		
@@ -127,5 +143,17 @@ public class PlanDao {
 		
 		return (ArrayList)sqlSessionTemplate.selectList("planMapper.selectDtList", dt);
 	}
+
+	public int insertMPlan(MPlan m) {
+		
+		return sqlSessionTemplate.insert("planMapper.insertMPlan", m);
+	}
+
+	public ArrayList<MPlan> selectMpList(String id) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("planMapper.selectMpList", id);
+	}
+
+
 
 }
