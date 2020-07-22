@@ -244,10 +244,10 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2"><input type="text" name="mpMain" id="mainAddress" size="49"></td>
+                                            <td colspan="2"><input type="text" name="mpMain" class="mainAddress" size="49"></td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2"><input type="text" name="mpSub" id="subAddress" size="49"></td>
+                                            <td colspan="2"><input type="text" name="mpSub" class="subAddress" size="49"></td>
                                         </tr>
                                         <tr>
                                             <td colspan="2"><b>Memo</b></td>
@@ -405,9 +405,9 @@
                        <button type="button" class="close" data-dismiss="modal">×</button>
                    </div>
                    <div class="modal-body" align="center">
-                       <form action="mpinsert.do" method="post">
-                       	<input type="hidden" name="id" value="${loginUser.id }">
-                           <table id="addTable">
+                       <form action="mpupdate.do" method="post">
+                           <input type="hidden" name="mpNo" id="updateNo">
+                           <table id="updateTable">
                                <tr>
                                    <td><b>Title</b></td>
                                    <td><input type="text" name="mpTitle" id="updateTitle" size="42"></td>
@@ -450,17 +450,17 @@
                                    </td>
                                </tr>
                                <tr>
-                                   <td colspan="2"><input type="text" name="mpMain" id="mainAddress" size="49"></td>
+                                   <td colspan="2"><input type="text" name="mpMain" id="updateMain" class="mainAddress" size="49"></td>
                                </tr>
                                <tr>
-                                   <td colspan="2"><input type="text" name="mpSub" id="subAddress" size="49"></td>
+                                   <td colspan="2"><input type="text" name="mpSub" id="updateSub" class="subAddress" size="49"></td>
                                </tr>
                                <tr>
                                    <td colspan="2"><b>Memo</b></td>
                                </tr>
                                <tr>
                                    <td colspan="2">
-                                       <textarea name="mpMemo" cols="52" rows="5"></textarea>
+                                       <textarea name="mpMemo" id="updateMemo" cols="52" rows="5"></textarea>
                                    </td>
                                </tr>
                            </table>
@@ -516,17 +516,21 @@
 	                        extraAddr = '(' + extraAddr + ')';
 	                    }
 	                    // 조합된 참고항목을 해당 필드에 넣는다.
-	                    document.getElementById("subAddress").value = extraAddr;
+	                    /* document.getElementByClassName("subAddress").value = extraAddr; */
+	                    $(".subAddress").val(extraAddr);
 	                
 	                } else {
-	                    document.getElementById("subAddress").value = '';
+	                    /* document.getElementByClassName("subAddress").value = ''; */
+	                	$(".subAddress").val('');
 	                }
 	
 	                // 우편번호와 주소 정보를 해당 필드에 넣는다.
 	                //document.getElementById('postcode').value = data.zonecode;
-	                document.getElementById("mainAddress").value = addr;
+	                /* document.getElementByClassName("mainAddress").value = addr; */
+	                $(".mainAddress").val(addr);
 	                // 커서를 상세주소 필드로 이동한다.
-	                document.getElementById("subAddress").focus();
+	                /* document.getElementByClassName("subAddress").focus(); */
+	                $(".subAddress").focus();
 	            }
 	        }).open();
 	    }
@@ -547,7 +551,9 @@
     			success: function(data) {
     				var mpNo = data.no;
     				var mpTitle = data.eventTitle;
-    				var mpDate = data.start + " - " + data.end;
+    				var mpStart = data.start;
+    				var mpEnd = data.end;
+    				var mpDate = mpStart + " - " + mpEnd;
     				var mpTime = data.time;
     				var mpLocation = data.location;
     				var mpMemo = data.memo;
@@ -559,6 +565,15 @@
     				$("#mpTime").html(mpTime);
     				$("#mpLocation").html(mpLocation);
     				$("#mppMemo").html(mpMemo);
+    				
+    				$("#updateNo").val(mpNo);
+    				$("#updateTitle").val(mpTitle);
+    				$("#updateStart").val(mpStart);
+    				$("#updateEnd").val(mpEnd);
+    				$("#updateTime").val(mpTime);
+    				$("#updateMain").val(data.main);
+    				$("#updateSub").val(data.sub);
+    				$("#updateMemo").val(mpMemo);
     				
     				$("#detailModal").modal();
     				
@@ -617,6 +632,11 @@
       			 
       			$('#updateModal').modal("show"); //열기
       		})
+      		
+      		$('#addModal').on('shown.bs.modal', function (e) {
+				$(".mainAddress").val("");
+				$(".subAddress").val("");
+			});
         });
     </script>
     
