@@ -33,8 +33,8 @@
 	
 	.groupListCount{width:95%; margin-bottom:10px; text-align:right;}
 	
-    /* 공지게시판 */
     .emptyNoticeList{margin-top:100px; text-align:center; font-size:20px; font-weight:600;}
+    /* 공지게시판 */
     
     .groupNotice{width:100%; height:400px;overflow:scroll; overflow-x:hidden;}
     .noticeBoardTb{margin-bottom:10px; margin-right:5px; border-radius:6px; width:100%; background:white;border:0.5px solid lightgray;}
@@ -146,7 +146,7 @@
 	   		var gInfo = ${gInfo.gmNo};
 	   		
 	         let isEnd = false;
-	        /*  var page = ${pi.currentPage + 1}; */
+
 	         var pagePlus = 1;
 	         $(function(){
 	        	 

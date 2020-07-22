@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import com.kh.finalProject.group.common.PageInfo;
 import com.kh.finalProject.group.model.vo.GroupBoard;
+import com.kh.finalProject.group.model.vo.GroupBoardPhoto;
 import com.kh.finalProject.group.model.vo.GroupInfo;
+import com.kh.finalProject.group.model.vo.GroupLike;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupNotice;
 import com.kh.finalProject.group.model.vo.GroupSearchName;
@@ -30,17 +32,21 @@ public interface GroupService {
 
 	ArrayList<GroupNotice> selectNoticeList(PageInfo pi);
 
-	int getListCount();
+	int getListCount(GroupInfo gInfo);
 
 	int noticeInsert(GroupNotice gn);
 
 	int noticeUpdate(GroupNotice gn);
 
-	GroupNotice selectNoticeOne();
+	GroupNotice selectNoticeOne(GroupInfo gInfo);
 
 	int boardGetListCount();
 
 	ArrayList<GroupBoard> selectBoardList(PageInfo pi);
+
+	ArrayList<GroupBoardPhoto> selectPhotoList(PageInfo pi);
+
+	ArrayList<GroupLike> totalLike();
 
 
 

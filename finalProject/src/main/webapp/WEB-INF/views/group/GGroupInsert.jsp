@@ -46,8 +46,27 @@
             font-weight: 600;
             font-size: 16px;
         }
-        
-       /* 업로드 버튼 */
+      
+     /* 샘이언니 파일업로드 */ 
+     .filebox .upload-name {
+	display: inline-block;
+    vertical-align: middle;
+    width: 164px;
+    height: 40px;
+    font-size: 13px;
+    padding: 0 10px;
+    border: 0;
+    border-radius: 8px;
+    margin-right: 5px;
+    background-color: white;
+	}
+	
+	.profile-image {
+		border-radius:6px;
+		width:35%;
+	    height: 35%;
+	}
+     /* 업로드 버튼 */
     .filebox label {
        width:100px;
        height: 40px;
@@ -70,7 +89,7 @@
 	}
 	
 	.filebox label:active {
-	  background-color: #367c36;
+	  background-color: #f1bc0e;
 	}
 	
 	.filebox input[type="file"] {
@@ -134,10 +153,13 @@
                         <tr>
                             <td class="groupTbTd">Profile Image&nbsp;</td>
                             <td>
-                                <div><img src="resources/groupMain/히지.png" class="groupPhoto"></div>
-                               <div class="filebox">
-								  <label for="ex_file">Upload</label>
-								  <input type="file" id="ex_file" name="uploadFile">
+                               <div class=profile-image-area>
+                        			<img class="profile-image" src="resources/images/icons/profile_default.png">
+                       			</div>
+                              	<div class="filebox">
+								  <input type="file" id="file" class="ex_file" name="uploadFile" onchange="uploadPhoto(this);">
+								  <input class="upload-name" value="Select file">
+								  <label for="file">Upload</label>
 								</div>
                             </td>
                         </tr>
@@ -150,6 +172,34 @@
                 </div>
             </div>
          </div>
+         
+         
+         <script>
+         /* 파일 업로드 */
+		 	    
+		 	    function uploadPhoto(value) {
+		 	    	
+		 			if(value.files && value.files[0]) {
+		 				
+		 				var reader = new FileReader();
+		 			
+		 				reader.onload = function(e) {
+		 					
+		 					$(".profile-image").attr("src", e.target.result);
+		 					
+		 					var filename = $("#file").val().split('/').pop().split('\\').pop();
+		 					
+		 					$(".upload-name").val("");
+		 					$(".upload-name").val(filename);
+		 				}
+		 				
+		 				reader.readAsDataURL(value.files[0]);
+		 			}
+		 	    }
+ 	   
+         </script>
+         
+         
          <script>
          	
 			// submit

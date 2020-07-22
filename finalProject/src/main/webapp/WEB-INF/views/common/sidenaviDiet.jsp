@@ -14,10 +14,10 @@
 <body>
     <div class="left-navi-area">
         <nav class="left-sub-navi">
-            <span>Plan</span>
+            <span>Diet</span>
             <ul>
-                <li><a href="#">Calendar</a></li>
-                <li><a href="#">Graph</a></li>
+                <li><a href="DietCalendarView.do">Calendar</a></li>
+                <li><a href="DietGraphView.do">Graph</a></li>
             </ul>
         </nav>
     </div>
