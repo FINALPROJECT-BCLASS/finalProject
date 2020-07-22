@@ -436,7 +436,7 @@
                                </tr>
                                <tr>
                                	<td><b>Color</b></td>
-                               	<td>
+                               	<td><!-- 샘이언니한테 물어보기 -->
                                		<div style="display: flex;">
                                 		<input type="radio" name="color" id="yellow" value="#FBD14B" checked>
 			                         	<label class="b-icons" for="yellow"><div class="b-yell"></div></label>
