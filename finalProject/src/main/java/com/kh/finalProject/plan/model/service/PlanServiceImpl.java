@@ -205,4 +205,10 @@ public class PlanServiceImpl implements PlanService {
 		return pDao.deleteMPlan(no);
 	}
 
+	@Override
+	public int updateMPlan(MPlan m) {
+		
+		return pDao.updateMPlan(m);
+	}
+
 }

@@ -320,4 +320,16 @@
 		WHERE MP_NO=#{no}
 	</update>
 	
+	<update id="updateMPlan" parameterType="MPlan">
+		UPDATE MONTHLY_PLAN
+		SET MP_TITLE=#{mpTitle}
+			, MP_START=#{mpStart}
+			, MP_END=#{mpEnd}
+			, MP_TIME=#{mpTime}
+			, MP_MAIN=#{mpMain}
+			, MP_SUB=#{mpSub}
+			, MP_MEMO=#{mpMemo}
+		WHERE MP_NO=#{mpNo}
+	</update>
+	
 </mapper>

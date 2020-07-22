@@ -174,4 +174,9 @@ public class PlanDao {
 		return sqlSessionTemplate.update("planMapper.deleteMPlan", no);
 	}
 
+	public int updateMPlan(MPlan m) {
+		
+		return sqlSessionTemplate.update("planMapper.updateMPlan", m);
+	}
+
 }

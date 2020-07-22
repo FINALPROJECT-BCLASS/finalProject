@@ -440,7 +440,7 @@
 			                         	<input type="radio" name="color" id="green" value="#50c6b0">
 			                         	<label class="b-icons" for="green"><div class="green"></div></label>                                        		
                                		</div>
-                               		<input type="hidden" id="mpColor" name="mpColor" value="#FBD14B">
+                               		<input type="hidden" id="updateColor" name="mpColor" value="#FBD14B">
                                	</td>
                                </tr>
                                <tr>
@@ -564,7 +564,7 @@
     				$("#mpDate").html(mpDate);
     				$("#mpTime").html(mpTime);
     				$("#mpLocation").html(mpLocation);
-    				$("#mppMemo").html(mpMemo);
+    				$("#mpMemo").html(mpMemo);
     				
     				$("#updateNo").val(mpNo);
     				$("#updateTitle").val(mpTitle);

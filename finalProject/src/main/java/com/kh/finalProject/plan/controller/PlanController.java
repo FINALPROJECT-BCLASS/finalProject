@@ -464,5 +464,17 @@ public class PlanController {
 		}
 		
 	}
+	
+	@RequestMapping("mpupdate.do")
+	public String mPlanUpdate(MPlan m) throws PlanException {
+		
+		int result = pService.updateMPlan(m);
+		
+		if(result > 0) {
+			return "redirect:mpview.do";
+		} else {
+			throw new PlanException("일정 수정 실패");
+		}
+	}
 
 }

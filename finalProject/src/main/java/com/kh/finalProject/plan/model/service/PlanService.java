@@ -73,4 +73,6 @@ public interface PlanService {
 
 	int deleteMPlan(int no);
 
+	int updateMPlan(MPlan m);
+
 }
