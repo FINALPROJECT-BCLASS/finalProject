@@ -8,13 +8,14 @@
 	
 	<typeAliases>
 		<typeAlias type="com.kh.finalProject.member.model.vo.Member" alias="Member"/>
-		
-		<typeAlias type="com.kh.finalProject.plan.model.vo.Menstrual" alias="Menstrual"/>		<!-- 예지 -->
-		<typeAlias type="com.kh.finalProject.plan.model.vo.McRecord" alias="McRecord"/>			<!-- 예지 -->
+		<typeAlias type="com.kh.finalProject.Diet.model.vo.Inbody" alias="Inbody"/> 
+		<typeAlias type="com.kh.finalProject.Diet.model.vo.diet" alias="Diet"/>
+		<typeAlias type="com.kh.finalProject.plan.model.vo.Menstrual" alias="Menstrual"/><!-- 예지 -->
+		<typeAlias type="com.kh.finalProject.plan.model.vo.McRecord" alias="McRecord"/>	<!-- 예지 -->
 		<typeAlias type="com.kh.finalProject.plan.model.vo.McOvulation" alias="McOvulation"/>	<!-- 예지 -->
 		<typeAlias type="com.kh.finalProject.plan.model.vo.Timetable" alias="Timetable"/>		<!-- 예지 -->
 		<typeAlias type="com.kh.finalProject.plan.model.vo.DTodolist" alias="DTodolist"/>		<!-- 예지 -->
-		
+		<typeAlias type="com.kh.finalProject.plan.model.vo.MPlan" alias="MPlan"/>		<!-- 예지 -->
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupTable" alias="GroupTable"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupSearchName" alias="GroupSearchName"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupMember" alias="GroupMember"/>
@@ -24,15 +25,15 @@
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupBoardPhoto" alias="GroupBoardPhoto"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupLike" alias="GroupLike"/>
 
-		<typeAlias type="com.kh.finalProject.daily.model.vo.HabitTracker" alias="HabitTracker"/>
-
-		
 		<typeAlias type="com.kh.finalProject.member.model.vo.Member" alias="Member"/>
+
+		<typeAlias type="com.kh.finalProject.daily.model.vo.HabitTracker" alias="HabitTracker"/>
 
 	</typeAliases>
 
 	<mappers>
 		<mapper resource="/mappers/member-mapper.xml"/>
+		<mapper resource="/mappers/diet-mapper.xml"/>
 		<mapper resource="/mappers/plan-mapper.xml"/>	<!-- 예지 -->
 		<mapper resource="/mappers/group-mapper.xml"/>
 		<mapper resource="/mappers/daily-mapper.xml"/>

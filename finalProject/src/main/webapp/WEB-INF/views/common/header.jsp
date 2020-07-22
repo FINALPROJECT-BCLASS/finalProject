@@ -26,10 +26,12 @@
             <ul class = "navi-area">
                 <li>Plan
                         <ul class="sub-navi">
-                        	<c:url var="mplist" value="mplist.do"/>
-                            <li><a href="${mplist }">Monthly Planner</a></li>
-                            <li><a href="#">Timetable</a></li>
-                            <li class="b-radius"><a href="#">Menstrual Calendar</a></li>
+                        	<c:url var="mpview" value="mpview.do"/>
+                            <li><a href="${mpview }">Monthly Planner</a></li>
+                            <c:url var="ttview" value="ttview.do"/>
+                            <li><a href="${ttview }">Timetable</a></li>
+                            <c:url var="mcview" value="mcview.do"/>
+                            <li class="b-radius"><a href="${mcview }">Menstrual Calendar</a></li>
                         </ul>
                 </li>
                 <li>Daily
@@ -43,7 +45,7 @@
                 <li>Diet
                     <ul class="sub-navi">
                             <li><a href="DietCalendarView.do">Calendar</a></li>
-                            <li class="b-radius"><a href="#">Graph</a></li>
+                            <li class="b-radius"><a href="DietGraphView.do">Graph</a></li>
                     </ul>
                 </li>
                 <li>Account

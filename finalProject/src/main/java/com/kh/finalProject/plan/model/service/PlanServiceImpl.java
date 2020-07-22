@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.finalProject.plan.model.dao.PlanDao;
 import com.kh.finalProject.plan.model.vo.DTodolist;
+import com.kh.finalProject.plan.model.vo.MPlan;
 import com.kh.finalProject.plan.model.vo.McOvulation;
 import com.kh.finalProject.plan.model.vo.McRecord;
 import com.kh.finalProject.plan.model.vo.Menstrual;
@@ -113,6 +114,24 @@ public class PlanServiceImpl implements PlanService {
 		
 		return pDao.updateMcOvulation(m);
 	}
+	
+	@Override
+	public int deleteMcRecord(String id) {
+		
+		return pDao.deleteMcRecord(id);
+	}
+	
+	@Override
+	public int deleteMcOvulation(String id) {
+		
+		return pDao.deleteMcOvulation(id);
+	}
+	
+	@Override
+	public int deleteMenstrual(String id) {
+	
+		return pDao.deleteMenstrual(id);
+	}
 
 	@Override
 	public int insertTimetable(Timetable t) {
@@ -148,6 +167,18 @@ public class PlanServiceImpl implements PlanService {
 	public ArrayList<DTodolist> selectDtList(DTodolist dt) {
 		
 		return pDao.selectDtList(dt);
+	}
+
+	@Override
+	public int insertMPlan(MPlan m) {
+	
+		return pDao.insertMPlan(m);
+	}
+
+	@Override
+	public ArrayList<MPlan> selectMpList(String id) {
+		
+		return pDao.selectMpList(id);
 	}
 
 }
