@@ -272,9 +272,8 @@ public class PlanController {
 	}
 	
 	@RequestMapping("ttdelete.do")
-	public String timetableDelete(Model model, @RequestParam(value="ttNo") String no) throws PlanException {
-		System.out.println(no);
-		
+	public String timetableDelete(@RequestParam(value="ttNo") String no) throws PlanException {
+
 		int ttNo = 0;
 		
 		try {
@@ -364,11 +363,7 @@ public class PlanController {
 	}
 	
 	@RequestMapping("mpinsert.do")
-	public String mPlanInsert(MPlan m,
-							@RequestParam(value="mainAddress", required=false) String address1,
-							@RequestParam(value="subAddress", required=false) String address2) throws PlanException {
-		
-		m.setMpLocation(address1 + ";" + address2);
+	public String mPlanInsert(MPlan m) throws PlanException {
 		
 		int result1 = pService.insertMPlan(m);
 		
@@ -405,7 +400,8 @@ public class PlanController {
 			jObj.put("start", m.getMpStart());
 			jObj.put("end", m.getMpEnd());
 			jObj.put("time", m.getMpTime());
-			jObj.put("location", m.getMpLocation());
+			jObj.put("main", m.getMpMain());
+			jObj.put("sub", m.getMpSub());
 			jObj.put("memo", m.getMpMemo());
 			jObj.put("color", m.getMpColor());
 			
@@ -428,18 +424,8 @@ public class PlanController {
 		MPlan mp = pService.selectMPlan(m);
 		
 		String address = "";
-		String[] addArr= mp.getMpLocation().split(";");
-		for(int i = 0; i < addArr.length; i++) {
-			if(i != addArr.length-1) {
-				address += addArr[i] + " ";
-			} else {
-				address += addArr[i];
-			}
-		}
-		
-		String map = "";
-		if(addArr.length > 0) {
-			map = addArr[0];
+		if(mp.getMpMain() != null) {
+			address = mp.getMpMain() + " " + mp.getMpSub();
 		}
 		
 		if(address.length() > 0) {
@@ -454,12 +440,27 @@ public class PlanController {
 		jObj.put("time", mp.getMpTime());
 		jObj.put("location", address);
 		jObj.put("memo", mp.getMpMemo());
-		jObj.put("map", map);
+		jObj.put("map", mp.getMpMain());
 		
 		PrintWriter out = response.getWriter();
 		out.print(jObj);
 		out.flush();
 		out.close();
+	}
+	
+	@RequestMapping("mpdelete.do")
+	public String mPlanDelete(@RequestParam(value="mpNo") String no) throws PlanException {
+		
+		int mpNo = Integer.parseInt(no);
+		
+		int result = pService.deleteMPlan(mpNo);
+		
+		if(result > 0) {
+			return "redirect:mpview.do";
+		} else {
+			throw new PlanException("일정 삭제 실패");
+		}
+		
 	}
 
 }

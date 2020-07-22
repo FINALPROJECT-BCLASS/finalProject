@@ -71,4 +71,6 @@ public interface PlanService {
 
 	MPlan selectMPlan(MPlan m);
 
+	int deleteMPlan(int no);
+
 }

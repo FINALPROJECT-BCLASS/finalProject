@@ -244,10 +244,10 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2"><input type="text" name="mainAddress" id="mainAddress" size="49"></td>
+                                            <td colspan="2"><input type="text" name="mpMain" id="mainAddress" size="49"></td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2"><input type="text" name="subAddress" id="subAddress" size="49"></td>
+                                            <td colspan="2"><input type="text" name="mpSub" id="subAddress" size="49"></td>
                                         </tr>
                                         <tr>
                                             <td colspan="2"><b>Memo</b></td>
@@ -390,13 +390,86 @@
 	                       </table>
 	                       <div id="map" style="width:300px;height:200px;"></div>
 	                       <br><br>
-	                       <button type="button" class="default-btn">Edit</button>
-	                       &nbsp;<button type="button" class="default-btn">Delete</button>
+	                       <button type="button" class="default-btn" id="updateBtn">Edit</button>
+	                       &nbsp;<button type="button" class="default-btn" id="deleteBtn">Delete</button>
 	                   </form>
 	               </div>
 	           </div>
 	       </div>
 	   </div>
+	   
+	   <div class="modal fade" id="updateModal" role="dialog">
+           <div class="modal-dialog">
+               <div class="modal-content">
+                   <div class="modal-header">
+                       <button type="button" class="close" data-dismiss="modal">×</button>
+                   </div>
+                   <div class="modal-body" align="center">
+                       <form action="mpinsert.do" method="post">
+                       	<input type="hidden" name="id" value="${loginUser.id }">
+                           <table id="addTable">
+                               <tr>
+                                   <td><b>Title</b></td>
+                                   <td><input type="text" name="mpTitle" id="updateTitle" size="42"></td>
+                               </tr>
+                               <tr>
+                                   <td><b>Date</b></td>
+                                   <td>
+                                       <input type="date" name="mpStart" id="updateStart"> - 
+                                       <input type="date" name="mpEnd" id="updateEnd">
+                                   </td>
+                               </tr>
+                               <tr>
+                                   <td><b>Time</b></td>
+                                   <td>
+                                   	<input type="time" name="mpTime" id="updateTime" style="width: 335px;">
+                                   </td>
+                               </tr>
+                               <tr>
+                               	<td><b>Color</b></td>
+                               	<td>
+                               		<div style="display: flex;">
+                                		<input type="radio" name="color" id="yellow" value="#FBD14B" checked>
+			                         	<label class="b-icons" for="yellow"><div class="b-yell"></div></label>
+			                         	<input type="radio" name="color" id="pink" value="#FFA3E5" >
+			                         	<label class="b-icons" for="pink" ><div class="pink"></div></label>
+			                         	<input type="radio" name="color" id="purple" value="#C9A8FF">
+			                         	<label class="b-icons" for="purple"><div class="light-purple"></div></label>
+			                         	<input type="radio" name="color" id="blue" value="#2860E1">
+			                         	<label class="b-icons" for="blue" ><div class="sky"></div></label>
+			                         	<input type="radio" name="color" id="green" value="#50c6b0">
+			                         	<label class="b-icons" for="green"><div class="green"></div></label>                                        		
+                               		</div>
+                               		<input type="hidden" id="mpColor" name="mpColor" value="#FBD14B">
+                               	</td>
+                               </tr>
+                               <tr>
+                                   <td colspan="2">
+                                   	<b>Location</b>&nbsp;
+                                   	<button type="button" class="default-btn b-lightgray" onclick="searchAddress()">Search</button>
+                                   </td>
+                               </tr>
+                               <tr>
+                                   <td colspan="2"><input type="text" name="mpMain" id="mainAddress" size="49"></td>
+                               </tr>
+                               <tr>
+                                   <td colspan="2"><input type="text" name="mpSub" id="subAddress" size="49"></td>
+                               </tr>
+                               <tr>
+                                   <td colspan="2"><b>Memo</b></td>
+                               </tr>
+                               <tr>
+                                   <td colspan="2">
+                                       <textarea name="mpMemo" cols="52" rows="5"></textarea>
+                                   </td>
+                               </tr>
+                           </table>
+                           <button type="submit" class="default-btn">Save</button>
+                       </form>
+                   </div>
+               </div>
+           </div>
+       </div>
     </section>
 
     <jsp:include page="../common/footer.jsp"/>	
@@ -489,7 +562,7 @@
     				
     				$("#detailModal").modal();
     				
-    				if(mapAddress != "") {
+    				if(mapAddress != null) {
     					$("#map").css("display", "block");
     					
 	    	    		var geocoder = new kakao.maps.services.Geocoder();
@@ -532,6 +605,18 @@
         		var color = $(this).prev().val();
         		$("#mpColor").val(color);
         	})
+        	
+        	$("#deleteBtn").click(function(){
+        		var deleteNo = $("#mpNo").val();
+        		
+      			location.href="mpdelete.do?mpNo="+deleteNo;
+      		})
+      		
+      		$("#updateBtn").click(function(){
+      			$('#detailModal').modal("hide"); //닫기 
+      			 
+      			$('#updateModal').modal("show"); //열기
+      		})
         });
     </script>
     

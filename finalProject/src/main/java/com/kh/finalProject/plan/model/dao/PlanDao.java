@@ -169,4 +169,9 @@ public class PlanDao {
 		return sqlSessionTemplate.selectOne("planMapper.selectMPlan", m);
 	}
 
+	public int deleteMPlan(int no) {
+		
+		return sqlSessionTemplate.update("planMapper.deleteMPlan", no);
+	}
+
 }

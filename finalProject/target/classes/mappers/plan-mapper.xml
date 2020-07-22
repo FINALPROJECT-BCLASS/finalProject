@@ -58,7 +58,8 @@
 		<result property="mpEnd" column="MP_END"/>
 		<result property="mpTime" column="MP_TIME"/>
 		<result property="mpColor" column="MP_COLOR"/>
-		<result property="mpLocation" column="MP_LOCATION"/>
+		<result property="mpMain" column="MP_MAIN"/>
+		<result property="mpSub" column="MP_SUB"/>
 		<result property="mpMemo" column="MP_MEMO"/>
 		<result property="mpDelete" column="MP_DELETE"/>
 		<result property="mpNo" column="MP_NO"/>
@@ -274,7 +275,8 @@
 			, #{mpEnd}
 			, #{mpTime}
 			, #{mpColor}
-			, #{mpLocation}
+			, #{mpMain}
+			, #{mpSub}
 			, #{mpMemo}
 			, DEFAULT
 			, 0
@@ -298,7 +300,7 @@
 	
 	<select id="selectMpList" parameterType="string" resultMap="mpResultSet">
 		SELECT MP_NO, MP_TITLE, TO_CHAR(MP_START,'YYYY-MM-DD') "MP_START", TO_CHAR(MP_END,'YYYY-MM-DD') "MP_END",
-			MP_TIME, MP_COLOR, MP_LOCATION, MP_MEMO
+			MP_TIME, MP_COLOR, MP_MAIN, MP_SUB, MP_MEMO
 		FROM MONTHLY_PLAN
 		WHERE ID=#{id}
 			AND MP_DELETE='N'
@@ -307,9 +309,15 @@
 	
 	<select id="selectMPlan" parameterType="MPlan" resultMap="mpResultSet">
 		SELECT MP_NO, MP_TITLE, TO_CHAR(MP_START,'YYYY-MM-DD') "MP_START", TO_CHAR(MP_END,'YYYY-MM-DD') "MP_END",
-			MP_TIME, MP_LOCATION, MP_MEMO
+			MP_TIME, MP_MAIN, MP_SUB, MP_MEMO
 		FROM MONTHLY_PLAN
 		WHERE MP_NO=#{mpNo}
 	</select>
+	
+	<update id="deleteMPlan" parameterType="_int">
+		UPDATE MONTHLY_PLAN
+		SET MP_DELETE='Y'
+		WHERE MP_NO=#{no}
+	</update>
 	
 </mapper>

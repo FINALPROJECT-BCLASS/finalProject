@@ -825,21 +825,6 @@
         		var color = $(this).prev().val();
         		$("#ttColor").val(color);
         	})
-        	
-        $(".l-login-area>div").click(function(){
-
-            var submenu = $(this).children(".l-login-sub");
-            var subdeco = $(this).children(".l-login-square");
-            
-             if(submenu.is(":visible")){
-                submenu.slideUp();
-                subdeco.toggleClass("l-hide");
-            }else{
-                submenu.slideDown();
-                subdeco.toggleClass("l-hide");
-            }
-
-            });
         });
     </script>
     

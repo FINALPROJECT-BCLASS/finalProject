@@ -199,4 +199,10 @@ public class PlanServiceImpl implements PlanService {
 		return pDao.selectMPlan(m);
 	}
 
+	@Override
+	public int deleteMPlan(int no) {
+		
+		return pDao.deleteMPlan(no);
+	}
+
 }
