@@ -58,6 +58,7 @@
 		    display: flex;
 		    justify-content: center;
 		    align-items: center;
+		    cursor:pointer;
 		}
 		
 		#dietDetail{
@@ -169,6 +170,9 @@
 		<div class="DietWhen">
 		<!--  form 추가부분 -->
 		<table cellpadding="8px" id="dietDetail">
+			<tr>
+            	<td colspan="3"><div class="comment" style="color:gray;">Please click and check.</div>
+         	</tr>
   			<tr>
   				<td><div class="round" id="Breakfast">${breakfast }Kcal</div></td>
   				<td><div class="round" id="Morningsanck">${morningSnack }Kcal</div></td>
