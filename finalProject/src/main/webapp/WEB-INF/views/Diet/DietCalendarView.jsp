@@ -10,8 +10,8 @@
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script>
 
 	<!-- Calendar -->
-	<link href='resources/css/main.css' rel='stylesheet' />
-	<script src='resources/js/main.js'></script>
+	<link href='resources/css/main2.css' rel='stylesheet' />
+	<script src='resources/js/main2.js'></script>
 	
 	<style>
 	 body {
@@ -45,6 +45,8 @@
     margin: 40px auto;
     padding: 0 10px;
   }
+
+
 	
    .modal-content{ 
 	position: auto;
@@ -66,6 +68,10 @@
 	    height: 70px;
 	    background: #f3f3f3;
 	    border-radius: 50%;
+	    margin: 0 auto;
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
 	}
 	#dietDetail{
 		display: flex;
@@ -80,6 +86,9 @@
 	    font-weight: 700;
 	    text-align: center;
 	}
+	
+	
+
 
 
 	</style>
@@ -108,9 +117,9 @@
   					  		<span class="ModalTitle">Today's Diet</span>
   					  		<table cellpadding="8px" id="dietDetail">
   					  			<tr>
-  					  				<td><div class="round"></div></td>
-  					  				<td><div class="round"></div></td>
-  					  				<td><div class="round"></div></td>
+  					  				<td><div class="round" id="breakfast"></div></td>
+  					  				<td><div class="round" id="morningSnack"></div></td>
+  					  				<td><div class="round" id="Lunch"></div></td>
   					  			</tr>
   					  			<tr>
   					  				<td>아침</td>
@@ -118,9 +127,9 @@
   					  				<td>점심</td>
   					  			</tr>
   					  			<tr>
-  					  				<td><div class="round"></div></td>
-  					  				<td><div class="round"></div></td>
-  					  				<td><div class="round"></div></td>
+  					  				<td><div class="round" id="Lunchsnack"></div></td>
+  					  				<td><div class="round" id="Dinner"></div></td>
+  					  				<td><div class="round" id="Dinnersnack"></div></td>
   					  			</tr>
   					  			<tr>
   					  				<td>점심간식</td>
@@ -141,10 +150,16 @@
 		function currentdate(date){
 			var currentdate = date;
 			console.log("에욱 " +currentdate);
+			
+			modalAjax(currentdate);
+			
 			$("#detailbtn").click(function(){
 				location.href="DietDetail.do?currentdate="+currentdate;
 			})
+			
+			
 		}
+		
 		
 	 $(document).ready(function() {		
 		 				//addEventListener ->지정한 이벤트가 대상에 전달될 때마다 호출할 함수 지정
@@ -160,25 +175,45 @@
 		      editable: false,		//편집 가능여부(드래그했을떄 옮겨가는것)
 		      navLinks: false, // can click day/week names to navigate views
 		      dayMaxEvents: true, // allow "more" link when too many events
-		      events: {
+		      events: function(info,successCallback,failureCallback){
+		    	  				var events=[];
+		    	  				console.log("나오니?");
+		    	  	$.ajax({
+		    	  		url:"eventDiet.do",
+		    	  		dataType:"json",
+		    	  		success: function(data){
+		    	  			console.log("data" + data);
+		    	  				for(var i in data.DietList){	//포문?
+		    	  					events.push({
+		    	  						title:data.DietList[i].eventTitle,
+		    	  						date:data.DietList[i].date,
+		    	  						
+		    	  						
+		    	  					})
+		    	  			};
+		    	  			
+		    	  			successCallback(events);
+		    	  			
+		    	  			},
+		    	            error:function(request, status, errorData){
+		    	                alert("error code: " + request.status + "\n"
+		    	                      +"message: " + request.responseText
+		    	                      +"error: " + errorData);
+		    	           } 
+		    	  		})
 		        
-		        failure: function() {
-		          			alert.log("에욱");
-		        }
 		      },
+		       //그날을 클릭했을시
 		      dateClick: function(info){
-		    	 	$("#modal").modal();
+		    	 	currentdate(info.dateStr);
+		    	 	
+		    	 	$("#modal").modal();		//모달을 띄운다.
+		    	 	
 		    	 	calendar.getEvents();
 		    	 	
-		    	 	 alert('Clicked on: ' + info.dateStr);
+		    	 	/*  alert('Clicked on: ' + info.dateStr); */
 		    	 	 
-		    	 	currentdate(info.dateStr);
-		    	 	 
-		    	  /*    alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-		    	     alert('Current view: ' + info.view.type); */
-		    	     // change the day's background color just for fun
-		    	 /*     info.dayEl.style.backgroundColor = 'red'; */
-		    	 	
+		    	 	   	 	
 		      },
 		      loading: function(bool) {
 		        document.getElementById('loading').style.display =
@@ -189,9 +224,50 @@
 		    calendar.render();
 		  });
 	 
-	 $(function(){
-		 $()
-	 })
+		
+		
+	 //modal ajax
+	 	function modalAjax(date){
+	 		var currentdate = date;
+		console.log("currentdate: "  + currentdate);
+		 $.ajax({
+			url:"todayDietAjax.do",
+			data:{currentdate:currentdate},
+			dataType:"json",
+			success:function(data){
+				/* $dietDetail = $("#dietDetail");
+				$dietDetail.html(""); */
+				
+				//콘솔확인
+				console.log("성공 했니?" + data.list.breakfast);
+				console.log("성공 했니?" + data.list.morningSnack);
+				console.log("성공 했니?" + data.list.Lunch);
+				console.log("성공 했니?" + data.list.Lunchsnack);
+				console.log("성공 했니?" + data.list.Dinner);
+				console.log("성공 했니?" + data.list.Dinnersnack);
+				
+				//갑 넣어주기
+				$("#breakfast").html(data.list.breakfast +"Kcal");
+				$("#morningSnack").html(data.list.morningSnack +"Kcal");
+				$("#Lunch").html(data.list.Lunch + "Kcal");
+				$("#Lunchsnack").html(data.list.Lunchsnack +"Kcal");
+				$("#Dinner").html(data.list.Dinner+"Kcal");
+				$("#Dinnersnack").html(data.list.Dinnersnack+"Kcal");
+
+				
+				
+
+			},
+            error:function(request, status, errorData){
+                alert("error code: " + request.status + "\n"
+                      +"message: " + request.responseText
+                      +"error: " + errorData);
+           } 
+		}) 
+		
+	}
+	 
+	 
 	</script>
 
 

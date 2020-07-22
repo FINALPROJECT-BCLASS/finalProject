@@ -22,4 +22,8 @@ public interface DietService {
 
 	int DietEdit(diet diet);
 
+	ArrayList<diet> selectAllDiet(String id);
+
+	ArrayList<Inbody> selectAllInbody(String id);
+
 }

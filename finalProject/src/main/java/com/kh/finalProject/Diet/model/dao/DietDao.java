@@ -52,4 +52,14 @@ public class DietDao {
 		return sqlSessionTemplate.update("DietMapper.editDiet", diet);
 	}
 
+	public ArrayList<diet> selectAllDiet(String id) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("DietMapper.selectAllDiet", id);
+	}
+
+	public ArrayList<Inbody> seletAllInbody(String id) {
+	
+		return (ArrayList)sqlSessionTemplate.selectList("DietMapper.selectAllInbody", id);
+	}
+
 }

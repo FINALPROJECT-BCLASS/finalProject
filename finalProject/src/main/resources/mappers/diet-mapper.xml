@@ -101,4 +101,17 @@
 		,DI_KCAL=#{diKcal}
 	WHERE DI_NO= #{diNo}
 </update>
+
+<select id="selectAllDiet" parameterType="string" resultMap="DietResultSet">
+	SELECT ID ,DT_DATE, SUM(DI_KCAL) "DI_KCAL"
+	FROM DIET
+	WHERE ID = #{id}
+	GROUP BY ID, DT_DATE
+</select>
+
+<select id="selectAllInbody" parameterType="string" resultMap="InbodyResultSet">
+	SELECT *
+	FROM INBODY
+	WHERE ID=#{id}
+</select>
 </mapper>

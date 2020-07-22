@@ -21,10 +21,13 @@ import com.kh.finalProject.Diet.model.service.DietService;
 import com.kh.finalProject.Diet.model.vo.Inbody;
 import com.kh.finalProject.Diet.model.vo.diet;
 import com.kh.finalProject.member.model.vo.Member;
+import com.kh.finalProject.plan.model.vo.McOvulation;
+import com.kh.finalProject.plan.model.vo.McRecord;
 
 @Controller
 public class DietController {
 
+	
 	@Autowired
 	DietService dService;
 
@@ -47,7 +50,7 @@ public class DietController {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("Id", loginUser.getId());
 		map.put("date", today);
-
+		//check1
 		Inbody inbody = dService.selectInbody(map);
 
 		System.out.println(inbody);
@@ -281,6 +284,133 @@ public class DietController {
 
 	}
 	
+	@RequestMapping("eventDiet.do")
+	public void eventDiet(HttpSession session, HttpServletResponse response) throws IOException {
+		response.setContentType("application/json;charset=utf-8");
+		System.out.println("들어왔니?");
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String id = loginUser.getId();
+		
+		ArrayList<diet> Diet= dService.selectAllDiet(id);
+		System.out.println("Diet : " +Diet);
+		
+		ArrayList<Inbody> Inbody = dService.selectAllInbody(id);
+		System.out.println("inbody" + Inbody);
+		JSONArray jArr = new JSONArray();
+		
+		for(diet m : Diet) {
+			JSONObject jObj = new JSONObject();
+			jObj.put("eventTitle", m.getDiKcal());
+			jObj.put("date", m.getDtDate());
+			
+			jArr.add(jObj);
+		}
+		
+		for(Inbody i : Inbody) {
+			JSONObject jObj = new JSONObject();
+			jObj.put("eventTitle", i.getInWeight());
+			jObj.put("date", i.getInDate());
+			
+			jArr.add(jObj);
+		}
+		
+		JSONObject sendJson = new JSONObject();
+		sendJson.put("DietList", jArr);
+		
+		PrintWriter out = response.getWriter();
+		out.print(sendJson);
+		out.flush();
+		out.close();
+	}
 	
+	
+	@RequestMapping("DietGraphView.do")
+	public ModelAndView DietGraphView(ModelAndView mv,HttpSession session) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String id = loginUser.getId();
+		
+		ArrayList<Inbody> Inbody = dService.selectAllInbody(id);
+		
+
+		System.out.println("inbody" + Inbody);
+		
+		mv.addObject("dataPointsList", Inbody).setViewName("Diet/DietGraphView");
+		
+		
+		
+		return mv;
+	}
+	
+	@RequestMapping("todayDietAjax.do")
+	public void todayDietAjax(HttpSession session, HttpServletResponse response,
+									String currentdate) throws IOException {
+		response.setContentType("application/json;charset=utf-8");
+		System.out.println("들어왔니?");
+		System.out.println("currentdate" + currentdate);
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String id = loginUser.getId();
+		
+		HashMap<String, String> map = new HashMap<>();
+		map.put("Id", loginUser.getId());
+		map.put("date", currentdate);
+
+		ArrayList<diet> Diet= dService.selectDiet(map);
+		System.out.println("Diet : " +Diet);
+		
+		// 뿌려줄것 리스트 만들기
+				int breakfast = 0; // 아침
+				int morningSnack = 0; // 아침간식
+				int Lunch = 0; // 점심
+				int Lunchsnack = 0; // 점심간식
+				int Dinner = 0; // 저녁
+				int Dinnersnack = 0; // 저녁간식
+
+
+
+				for (int i = 0; i < Diet.size(); i++) {
+					diet samplediet = Diet.get(i);
+
+
+					if (samplediet.getDtWhen().equals("아침")) {
+						breakfast += samplediet.getDiKcal();
+					} else if (samplediet.getDtWhen().equals("아침간식")) {
+						morningSnack += samplediet.getDiKcal();
+					} else if (samplediet.getDtWhen().equals("점심")) {
+						Lunch += samplediet.getDiKcal();
+					} else if (samplediet.getDtWhen().equals("점심간식")) {
+						Lunchsnack += samplediet.getDiKcal();
+					} else if (samplediet.getDtWhen().equals("저녁")) {
+						Dinner += samplediet.getDiKcal();
+					} else if (samplediet.getDtWhen().equals("저녁간식")) {
+						Dinnersnack += samplediet.getDiKcal();
+					}
+
+				}
+				
+			
+					JSONObject jDiet = new JSONObject();
+//					이름, 칼로리  ( 더 넣어주고 싶은 내용있으면 여기서 추가해주자.)
+					jDiet.put("breakfast",breakfast);
+					jDiet.put("morningSnack",morningSnack);
+					jDiet.put("Lunch", Lunch);
+					jDiet.put("Lunchsnack", Lunchsnack);
+					jDiet.put("Dinner", Dinner);
+					jDiet.put("Dinnersnack", Dinnersnack);
+					
+				
+				JSONObject sendJson = new JSONObject();
+				
+				sendJson.put("list",jDiet);
+				
+				PrintWriter out = response.getWriter();
+				
+				out.print(sendJson);
+				out.flush();
+				out.close();				
+				
+		
+	}
 
 }

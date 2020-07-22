@@ -58,6 +58,18 @@ public class DietServiceImpl implements DietService {
 		return dDao.dietEdit(diet);
 	}
 
+	@Override
+	public ArrayList<diet> selectAllDiet(String id) {
+		
+		return dDao.selectAllDiet(id);
+	}
+
+	@Override
+	public ArrayList<Inbody> selectAllInbody(String id) {
+		
+		return dDao.seletAllInbody(id);
+	}
+
 	
 
 
