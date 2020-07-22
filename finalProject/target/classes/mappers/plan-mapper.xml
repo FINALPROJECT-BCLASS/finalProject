@@ -305,4 +305,11 @@
 			AND MP_VIEW='Y'
 	</select>
 	
+	<select id="selectMPlan" parameterType="MPlan" resultMap="mpResultSet">
+		SELECT MP_NO, MP_TITLE, TO_CHAR(MP_START,'YYYY-MM-DD') "MP_START", TO_CHAR(MP_END,'YYYY-MM-DD') "MP_END",
+			MP_TIME, MP_LOCATION, MP_MEMO
+		FROM MONTHLY_PLAN
+		WHERE MP_NO=#{mpNo}
+	</select>
+	
 </mapper>

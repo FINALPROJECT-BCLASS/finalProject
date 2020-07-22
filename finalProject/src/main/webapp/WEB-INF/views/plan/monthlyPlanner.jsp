@@ -1,12 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
     <title>Document</title>
     <script type="text/javascript"></script>
-    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>	<!-- 주소 api -->
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b636d978e4a9f9da9633851dddc7bb99&libraries=services"></script> <!-- 지도 api -->
     
     <link href='resources/css/main.css' rel='stylesheet' />
     <script src='resources/lib/main.js'></script>
@@ -25,11 +27,11 @@
 	            			dataType: 'json',
 	            			success: function(data) {
 	            				for(var i in data.mpList){
-	            					console.log(data.mpList[i].end);
 		    	   					events.push({title:data.mpList[i].eventTitle
 		    	   								,start:data.mpList[i].start
 		    	   								,end:data.mpList[i].end
-		    	   								,color:data.mpList[i].color})
+		    	   								,color:data.mpList[i].color
+		    	   								,id:data.mpList[i].no})
 		    	   				};
 	            				
 	            				successCallback(events);
@@ -41,7 +43,10 @@
 	                        }   
 	            		})
 	            	}
-	            }]
+	            }],
+	            eventClick: function(info) {
+	            	mpDetailView(info.event.id);
+	            }
 	        });
 	
 	        calendar.render();
@@ -347,11 +352,64 @@
             </div>
         </div>
        <br><br><br><br><br>
+       
+       <div class="modal fade" id="detailModal" role="dialog">
+	       <div class="modal-dialog">
+	           <div class="modal-content">
+	               <div class="modal-header">
+	                   <button type="button" class="close" data-dismiss="modal">×</button>
+	               </div>
+	               <div class="modal-body" align="center">
+	                   <form action="mpinsert.do" method="post">
+	                   	<input type="hidden" name="mpNo" id="mpNo">
+	                       <table id="detailTable">
+	                           <tr>
+	                               <td><b>Title</b></td>
+	                               <td><span id="mpTitle"></span></td>
+	                           </tr>
+	                           <tr>
+	                               <td><b>Date</b></td>
+	                               <td><span id="mpDate"></span></td>
+	                           </tr>
+	                           <tr>
+	                               <td><b>Time</b></td>
+	                               <td><span id="mpTime"></span></td>
+	                           </tr>
+	                           <tr>
+	                               <td colspan="2"><b>Memo</b></td>
+	                           </tr>
+	                           <tr>
+	                               <td colspan="2"><span id="mpMemo">&nbsp;</span></td>
+	                           </tr>
+	                           <tr>
+	                               <td colspan="2"><b>Location</b></td>
+	                           </tr>
+	                           <tr>
+	                               <td colspan="2"><span id="mpLocation">&nbsp;</span></td>
+	                           </tr>
+	                       </table>
+	                       <div id="map" style="width:300px;height:200px;"></div>
+	                       <br><br>
+	                       <button type="button" class="default-btn">Edit</button>
+	                       &nbsp;<button type="button" class="default-btn">Delete</button>
+	                   </form>
+	               </div>
+	           </div>
+	       </div>
+	   </div>
     </section>
 
     <jsp:include page="../common/footer.jsp"/>	
 
     <script>
+	    var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+	    var options = { //지도를 생성할 때 필요한 기본 옵션
+	    	center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+	    	level: 3 //지도의 레벨(확대, 축소 정도)
+	    };
+	
+	    var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+    
 	    function searchAddress() {
 	        new daum.Postcode({
 	            oncomplete: function(data) {
@@ -399,28 +457,81 @@
 	            }
 	        }).open();
 	    }
+	    
+	    function resizeMap(coords) {
+    		$("#detailModal").on('shown.bs.modal', function () {
+        	    map.relayout();
+        	    map.setCenter(coords);
+        	});
+    	}
+	    	    
+	    function mpDetailView(id) {
+	    	
+	    	$.ajax({
+    			url: 'mpdetail.do',
+    			data:{mpNo:id},
+    			dataType: 'json',
+    			success: function(data) {
+    				var mpNo = data.no;
+    				var mpTitle = data.eventTitle;
+    				var mpDate = data.start + " - " + data.end;
+    				var mpTime = data.time;
+    				var mpLocation = data.location;
+    				var mpMemo = data.memo;
+    				var mapAddress = data.map;
+    				
+    				$("#mpNo").val(mpNo);
+    				$("#mpTitle").html(mpTitle);
+    				$("#mpDate").html(mpDate);
+    				$("#mpTime").html(mpTime);
+    				$("#mpLocation").html(mpLocation);
+    				$("#mppMemo").html(mpMemo);
+    				
+    				$("#detailModal").modal();
+    				
+    				if(mapAddress != "") {
+    					$("#map").css("display", "block");
+    					
+	    	    		var geocoder = new kakao.maps.services.Geocoder();
+	    				// 주소로 좌표를 검색합니다
+	    				geocoder.addressSearch(mapAddress, function(result, status) {
+	    				
+	    				    // 정상적으로 검색이 완료됐으면 
+	    				     if (status === kakao.maps.services.Status.OK) {
+	    				
+	    				        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+	    				
+	    				        // 결과값으로 받은 위치를 마커로 표시합니다
+	    				        var marker = new kakao.maps.Marker({
+	    				            map: map,
+	    				            position: coords
+	    				        });
+	    				
+	    				        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+	    				        /* map.setCenter(coords); */
+	    				        
+	    				        resizeMap(coords);
+	    				    } 
+	    				});
+    				} else {
+    					$("#map").css("display", "none");
+    				}
+    		    	
+    			},
+    			error:function(request, status, errorData){
+                    alert("error code: " + request.status + "\n"
+                          +"message: " + request.responseText
+                          +"error: " + errorData);
+                }   
+    		})
+	    	
+	    }
     
-        // 로그인 서브 메뉴
         $(document).ready(function(){
         	$(".b-icons").click(function(){
         		var color = $(this).prev().val();
         		$("#mpColor").val(color);
         	})
-        	
-        $(".l-login-area>div").click(function(){
-
-            var submenu = $(this).children(".l-login-sub");
-            var subdeco = $(this).children(".l-login-square");
-            
-             if(submenu.is(":visible")){
-                submenu.slideUp();
-                subdeco.toggleClass("l-hide");
-            }else{
-                submenu.slideDown();
-                subdeco.toggleClass("l-hide");
-            }
-
-            });
         });
     </script>
     

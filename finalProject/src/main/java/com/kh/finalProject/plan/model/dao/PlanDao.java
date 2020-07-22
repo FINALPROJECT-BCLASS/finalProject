@@ -164,4 +164,9 @@ public class PlanDao {
 		return (ArrayList)sqlSessionTemplate.selectList("planMapper.selectMpList", id);
 	}
 
+	public MPlan selectMPlan(MPlan m) {
+		
+		return sqlSessionTemplate.selectOne("planMapper.selectMPlan", m);
+	}
+
 }

@@ -69,4 +69,6 @@ public interface PlanService {
 	
 	ArrayList<MPlan> selectMpList(String id);
 
+	MPlan selectMPlan(MPlan m);
+
 }

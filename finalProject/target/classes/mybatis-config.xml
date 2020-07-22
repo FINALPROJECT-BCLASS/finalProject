@@ -26,9 +26,6 @@
 
 		<typeAlias type="com.kh.finalProject.daily.model.vo.HabitTracker" alias="HabitTracker"/>
 
-		
-		<typeAlias type="com.kh.finalProject.member.model.vo.Member" alias="Member"/>
-
 	</typeAliases>
 
 	<mappers>

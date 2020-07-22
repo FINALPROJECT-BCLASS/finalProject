@@ -420,5 +420,46 @@ public class PlanController {
 		out.flush();
 		out.close();
 	}
+	
+	@RequestMapping("mpdetail.do")
+	public void mPlanDetail(HttpSession session, HttpServletResponse response, Model model, MPlan m) throws IOException {
+		response.setContentType("application/json;charset=utf-8");
+		
+		MPlan mp = pService.selectMPlan(m);
+		
+		String address = "";
+		String[] addArr= mp.getMpLocation().split(";");
+		for(int i = 0; i < addArr.length; i++) {
+			if(i != addArr.length-1) {
+				address += addArr[i] + " ";
+			} else {
+				address += addArr[i];
+			}
+		}
+		
+		String map = "";
+		if(addArr.length > 0) {
+			map = addArr[0];
+		}
+		
+		if(address.length() > 0) {
+			model.addAttribute("locationCheck");
+		}
+		
+		JSONObject jObj = new JSONObject();
+		jObj.put("no", mp.getMpNo());
+		jObj.put("eventTitle", mp.getMpTitle());
+		jObj.put("start", mp.getMpStart());
+		jObj.put("end", mp.getMpEnd());
+		jObj.put("time", mp.getMpTime());
+		jObj.put("location", address);
+		jObj.put("memo", mp.getMpMemo());
+		jObj.put("map", map);
+		
+		PrintWriter out = response.getWriter();
+		out.print(jObj);
+		out.flush();
+		out.close();
+	}
 
 }

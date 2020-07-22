@@ -193,4 +193,10 @@ public class PlanServiceImpl implements PlanService {
 		return pDao.selectMpList(id);
 	}
 
+	@Override
+	public MPlan selectMPlan(MPlan m) {
+		
+		return pDao.selectMPlan(m);
+	}
+
 }
