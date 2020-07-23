@@ -54,6 +54,21 @@
 		<result property="gbCount" column="GB_COUNT"/>
 		<result property="name" column="NAME"/>
 	</resultMap>
+	
+	<resultMap id="groupBoardPhotoResultSet" type="groupBoardPhoto">
+		<id property="gbpNo" column="GBP_NO"/>
+		<result property="gbNo" column="GB_NO"/>
+		<result property="gmNo" column="GM_NO"/>
+		<result property="gNo" column="G_NO"/>
+		<result property="gbpOrigin" column="GBP_ORIGIN"/>
+		<result property="gbpRename" column="GBP_RENAME"/>
+	</resultMap>
+	
+	<resultMap id="groupLikeResultSet" type="groupLike">
+		<id property="gbNo" column="GB_NO"/>
+		<result property="gmNo" column="GM_NO"/>
+		<result property="totalLike" column="TOTAL_LIKE"/>
+	</resultMap>
 	<!-- resultMap end -->
 	
 	<!-- 그룹 메인 및 생성 -->	
@@ -137,7 +152,7 @@
 		FROM GROUP_NOTICE GN
 		JOIN GROUP_MEMBER GM ON(GN.GM_NO = GM.GM_NO)
         JOIN MEMBER M ON (GM.GM_ID = M.ID)
-        WHERE GM.G_NO = #{groupNo}
+        WHERE GN.G_NO = #{groupNo}
 <!--         AND GN.GM_NO = #{gmNo} -->
 		ORDER BY GN_NO DESC
 	</select>
@@ -146,6 +161,7 @@
 		SELECT COUNT(*)
 		FROM GROUP_NOTICE
 		WHERE GN_DELETE = 'N'
+		AND G_NO = #{groupNo}
 	</select>
 	
 	<insert id="noticeInsert" parameterType="GroupNotice">
@@ -174,6 +190,7 @@
 			FROM GROUP_NOTICE GN
 			JOIN GROUP_MEMBER GM ON(GN.GM_NO = GM.GM_NO)
 	        JOIN MEMBER M ON (GM.GM_ID = M.ID)
+	        WHERE GN.G_NO = #{groupNo}
 	        ORDER BY GN_NO DESC
 		)
 		WHERE ROWNUM =1
@@ -190,8 +207,19 @@
 		FROM GROUP_BOARD GB
 		JOIN GROUP_MEMBER GM ON(GB.GM_NO = GM.GM_NO)
         JOIN MEMBER M ON (GM.GM_ID = M.ID)
-        WHERE GM.G_NO = #{groupNo}
+        WHERE GB.G_NO = #{groupNo}
 		ORDER BY GB_NO DESC
 	</select>
 	
+	<select id="selectPhotoList" resultMap="groupBoardPhotoResultSet">
+		SELECT *
+        FROM GROUP_BOARD_PHOTO
+        WHERE G_NO = #{groupNo}
+	</select>
+	
+	<select id="totlaLike" resultMap="groupLikeResultSet">
+		SELECT GB_NO, COUNT(GB_NO) AS TOTAL_LIKE
+        FROM GROUP_LIKE 
+        GROUP BY GB_NO
+	</select>
 </mapper>

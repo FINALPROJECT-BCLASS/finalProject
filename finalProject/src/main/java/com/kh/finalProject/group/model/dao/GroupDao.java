@@ -9,7 +9,9 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.finalProject.group.common.PageInfo;
 import com.kh.finalProject.group.model.vo.GroupBoard;
+import com.kh.finalProject.group.model.vo.GroupBoardPhoto;
 import com.kh.finalProject.group.model.vo.GroupInfo;
+import com.kh.finalProject.group.model.vo.GroupLike;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupNotice;
 import com.kh.finalProject.group.model.vo.GroupSearchName;
@@ -60,8 +62,8 @@ public class GroupDao {
 		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectNoticeList",pi, rowBounds);
 	}
 
-	public int getListCount() {
-		return sqlSessionTemplate.selectOne("groupMapper.getListCount");
+	public int getListCount(GroupInfo gInfo) {
+		return sqlSessionTemplate.selectOne("groupMapper.getListCount", gInfo);
 	}
 
 	public int noticeInsert(GroupNotice gn) {
@@ -72,8 +74,8 @@ public class GroupDao {
 		return sqlSessionTemplate.update("groupMapper.noticeUpdate", gn);
 	}
 
-	public GroupNotice selectNoticeOne() {
-		return sqlSessionTemplate.selectOne("groupMapper.selectNoticeOne");
+	public GroupNotice selectNoticeOne(GroupInfo gInfo) {
+		return sqlSessionTemplate.selectOne("groupMapper.selectNoticeOne", gInfo);
 	}
 
 	public int boardGetListCount() {
@@ -81,7 +83,20 @@ public class GroupDao {
 	}
 
 	public ArrayList<GroupBoard> selectBoardList(PageInfo pi) {
-		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectBoardList", pi);
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectBoardList",pi, rowBounds);
+		
+	}
+
+	public ArrayList<GroupBoardPhoto> selectPhotoList(PageInfo pi) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectPhotoList",pi);
+	}
+
+	public ArrayList<GroupLike> totalLike() {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.totlaLike");
 	}
 	
 	

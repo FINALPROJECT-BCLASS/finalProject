@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.kh.finalProject.plan.model.dao.PlanDao;
 import com.kh.finalProject.plan.model.vo.DTodolist;
 import com.kh.finalProject.plan.model.vo.MPlan;
+import com.kh.finalProject.plan.model.vo.MTodolist;
 import com.kh.finalProject.plan.model.vo.McOvulation;
 import com.kh.finalProject.plan.model.vo.McRecord;
 import com.kh.finalProject.plan.model.vo.Menstrual;
@@ -176,9 +177,57 @@ public class PlanServiceImpl implements PlanService {
 	}
 
 	@Override
+	public MPlan selectLastMPlan(MPlan m) {
+		
+		return pDao.selectLastMPlan(m);
+	}
+
+	@Override
+	public int updateMpEnd(MPlan m) {
+		
+		return pDao.updateMpEnd(m);
+	}
+	
+	@Override
 	public ArrayList<MPlan> selectMpList(String id) {
 		
 		return pDao.selectMpList(id);
+	}
+
+	@Override
+	public MPlan selectMPlan(MPlan m) {
+		
+		return pDao.selectMPlan(m);
+	}
+
+	@Override
+	public int deleteMPlan(int no) {
+		
+		return pDao.deleteMPlan(no);
+	}
+
+	@Override
+	public int updateMPlan(MPlan m) {
+		
+		return pDao.updateMPlan(m);
+	}
+
+	@Override
+	public int deleteMTodolist(MTodolist mt) {
+		
+		return pDao.deleteMTodolist(mt);
+	}
+
+	@Override
+	public int insertMTodolist(MTodolist mt) {
+	
+		return pDao.insertMTodolist(mt);
+	}
+
+	@Override
+	public ArrayList<MTodolist> selectMtList(MTodolist mt) {
+		
+		return pDao.selectMtList(mt);
 	}
 
 }
