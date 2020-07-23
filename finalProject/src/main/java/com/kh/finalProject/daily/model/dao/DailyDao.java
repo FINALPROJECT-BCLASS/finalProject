@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.finalProject.daily.model.vo.Habit;
+import com.kh.finalProject.daily.model.vo.HabitRecord;
+import com.kh.finalProject.daily.model.vo.HabitSum;
 
 @Repository("dailyDao")
 public class DailyDao {
@@ -19,9 +21,9 @@ public class DailyDao {
 		return sqlSessionTemplate.insert("dailyMapper.insertHabit", habit);
 	}
 
-	public Habit selectHabit(String id) {
+	public Habit selectHabit(Habit habit) {
 		
-		return sqlSessionTemplate.selectOne("dailyMapper.selectHabit", id);
+		return sqlSessionTemplate.selectOne("dailyMapper.selectHabit", habit);
 	}
 
 	public ArrayList<Habit> selectHabitList(String id) {
@@ -32,6 +34,42 @@ public class DailyDao {
 	public Habit selectHabitContent(Habit habit) {
 
 		return sqlSessionTemplate.selectOne("dailyMapper.selectHabitContent", habit);
+	}
+
+	public int insertHabitRecord(Habit h) {
+
+		return sqlSessionTemplate.insert("dailyMapper.insertHabitRecord", h);
+	}
+
+	public Habit selectHabitNum(Habit habit) {
+
+		return sqlSessionTemplate.selectOne("dailyMapper.selectHabitNum", habit);
+	}
+
+	public ArrayList<HabitRecord> selectHabitRecordList(HabitRecord hrd) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectHabitRecordList", hrd);
+	}
+
+	public ArrayList<HabitRecord> selectHabitRecordListM(HabitRecord hrm) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectHabitRecordListM", hrm);
+	}
+
+	
+	public ArrayList<HabitRecord> selectHabitRecordListDaily(HabitRecord habit) {
+
+		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectHabitRecordListDaily", habit);
+	}
+
+	public ArrayList<HabitSum> selectHabitSumList(Habit hs) {
+		
+		return  (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectHabitSumList", hs);
+	}
+
+	public ArrayList<HabitSum> selectHabitMSumList(Habit hsm) {
+
+		return  (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectHabitMSumList", hsm);
 	}
 
 }

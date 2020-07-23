@@ -256,7 +256,7 @@
                             <label class="b-icons" for="pink" ><div class="pink"></div></label>
                             <input type="radio" name="color" id="purple" value="#C9A8FF">
                             <label class="b-icons" for="purple"><div class="light-purple"></div></label>
-                            <input type="radio" name="color" id="blue" value="#2860E1">
+                            <input type="radio" name="color" id="blue" value="#6B98FF">
                             <label class="b-icons" for="blue" ><div class="sky"></div></label>
                             <input type="radio" name="color" id="green" value="#50c6b0">
                             <label class="b-icons" for="green"><div class="green"></div></label>

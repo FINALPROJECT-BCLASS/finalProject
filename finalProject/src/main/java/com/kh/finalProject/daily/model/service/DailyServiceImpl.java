@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.kh.finalProject.daily.model.dao.DailyDao;
 import com.kh.finalProject.daily.model.vo.Habit;
+import com.kh.finalProject.daily.model.vo.HabitRecord;
+import com.kh.finalProject.daily.model.vo.HabitSum;
 
 @Service("dailyService")
 public class DailyServiceImpl implements DailyService {
@@ -21,23 +23,72 @@ public class DailyServiceImpl implements DailyService {
 	}
 
 	@Override
-	public Habit selectHabit(String id) {
+	public Habit selectHabit(Habit habit) {
 		
-		return dailyDao.selectHabit(id);
+		return dailyDao.selectHabit(habit);
 	}
-
+	
+	// 아이디로 습관 목록 조회
 	@Override
 	public ArrayList<Habit> selectHabitList(String id) {
 		
 		return dailyDao.selectHabitList(id);
 	}
-
+	
+	// 제목으로 습관 기록 조회
 	@Override
 	public Habit selectHabitContent(Habit habit) {
 		
 		return dailyDao.selectHabitContent(habit);
 	}
 	
+	// 습관 생성
+	@Override
+	public int insertHabitRecord(Habit h) {
+		return dailyDao.insertHabitRecord(h);
+	}
+	
+	// 습관 번호로 습관 조회
+	@Override
+	public Habit selectHabitNum(Habit habit) {
+
+		return dailyDao.selectHabitNum(habit);
+	}
+	
+	// 오늘 날짜로 습관 기록 조회(세부)
+	@Override
+	public ArrayList<HabitRecord> selectHabitRecordList(HabitRecord hrd) {
+
+		return dailyDao.selectHabitRecordList(hrd);
+	}
+	
+	// 해당 월로 습관 조회(세부)
+	@Override
+	public ArrayList<HabitRecord> selectHabitRecordListM(HabitRecord hrm) {
+
+		return dailyDao.selectHabitRecordListM(hrm);
+	}
+	
+
+	@Override
+	public ArrayList<HabitRecord> selectHabitRecordListA(HabitRecord habit) {
+
+		return dailyDao.selectHabitRecordListDaily(habit);
+	}
+
+	@Override
+	public ArrayList<HabitSum> selectHabitSumList(Habit hs) {
+		
+		return dailyDao.selectHabitSumList(hs);
+	}
+
+	@Override
+	public ArrayList<HabitSum> selectHabitMSumList(Habit hsm) {
+		
+		return dailyDao.selectHabitMSumList(hsm);
+	}
+
+
 	
 
 }

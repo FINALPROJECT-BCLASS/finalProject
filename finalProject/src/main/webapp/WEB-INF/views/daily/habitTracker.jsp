@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Bookmark List</title>
+<title>Habit Tracker</title>
 <!-- CSS -->
 <link rel="stylesheet" href="resources/css/flickity/flickity.css">
 <!-- JavaScript -->
@@ -144,9 +144,15 @@
 			background: #F3F3F3;
 		    width: 100%;
 		    height: 100%;
-		    /* overflow-y: scroll; */
+		    overflow: hidden;
+		    overflow-y: scroll;
 		    align-items: baseline;
 		    justify-content:start;
+		    
+		}
+		
+		.section2-item::-webkit-scrollbar {
+  		  	display: none; 
 		}
 		
 		.add {
@@ -341,13 +347,14 @@
 	    
 	    .habit-record tr td:nth-child(2) {
     	    height: 30px;
-    	    width: 70px;
+    	    width: 100px;
 	    }
 	    
 	    .habit-record tr td:nth-child(3) {
     	    color: #2860E1;
     	    font-weight: 600;
    	        height: 30px;
+   	        width:100px;
 	    }
 	    
 	    .habit-record tr td:nth-child(4) {
@@ -485,9 +492,14 @@
 		    font-size: 18px;
 		    font-weight: 700;
 		    color: #484848;
+		    
         }
-		
-		
+        
+        input[type="hidden"] {
+            display: none;
+        }
+        
+
 		
     </style>
     </head>
@@ -498,19 +510,25 @@
         <div class="right-area">
             <span class="pSubject">Habit Tracker</span>
             
+            <div class="small-button-area">
+       			<button>Daily</button>
+       			<button>Weekly</button>
+                <button>Monthly</button>
+			</div>
             <!-- 슬라이드 -->
             <div class="carousel" data-flickity='{ "draggable": false }'>
 				<c:forEach var="h" items="${hlist }">
 					<!-- 퍼센트 연산처리 -->
 					<fmt:parseNumber var="percent" value="${(h.ht_now/h.ht_goal)*100+(1-(((h.ht_now/h.ht_goal)*100)%1))%1}" integerOnly="true" />
-					<!-- 슬라이드 아이 -->
+					<!-- 슬라이드 아이템 -->
+		        	<input id="htNum" type="hidden" value="${h.ht_no }"> <!-- 습관 번호 -->
 					<div class="progress carousel-cell">
 				  		<div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:${percent }%; background-color:${h.ht_color};"></div>
 			    		<div class="bar-info">
 							<div class="ht_title">${h.ht_title }</div>
-							<div>${h.ht_now } / ${h.ht_goal } ${h.ht_unit }</div>
+							<div><a class="ht_now">${h.ht_now }</a> / ${h.ht_goal } ${h.ht_unit }</div> <!-- now는 기록 메모 테이블의 현재값 컬럼을 더한 값 -->
 						</div>
-						<div>${percent } %</div>
+						<div>${percent }%</div>
 					</div>
 				</c:forEach>
 			</div>
@@ -567,25 +585,8 @@
 	            		</div>
 	            		<div class="section2-item">
 	            			<!-- <div class="t-sub blue" colspan="3">Today</div> -->
-	            			<table class="habit-record" cellpadding="3px">
-	            				<tr>
-	            					<td><input type="checkbox" id="check1" ><label for="check1"></label> </td>
-	            					<td>13:00</td>
-	            					<td>+ 500ml</td>
-	            					<td>보리차 한잔~</td>
-	            				</tr>
-	            				<tr>
-	            					<td><input type="checkbox" id="check2"><label for="check2"></label></td>
-	            					<td>13:00</td>
-	            					<td>+ 500ml</td>
-	            					<td>보리차 한잔~</td>
-	            				</tr>
-	            				<tr>
-	            					<td><input type="checkbox" id="check3"><label for="check3"></label></td>
-	            					<td>13:00</td>
-	            					<td>+ 500ml</td>
-	            					<td>보리차 한잔~</td>
-	            				</tr>
+	            			<table id="habit-record" class="habit-record" cellpadding="3px">
+	       
 	            			</table>
 	            		</div>
 	            			<div class="small-button-area">
@@ -638,13 +639,13 @@
         </div>
 		
 		<script>
+	
 		
 			$(function(){
 				
 		        var responseMessage = "<c:out value="${message}" />";
-		        if (responseMessage != ""){
-		            alert(responseMessage)
-		        }
+		        if (responseMessage != ""){alert(responseMessage)}
+		   
 		  
 		    })
 		    
@@ -652,43 +653,124 @@
 		    
 		    target.click(function(){
 		    	$(this).addClass("clicked");
-		    	var habitTitle = $(this).find(".ht_title").html();
+		    	var htNum = $(this).prev("#htNum").val();
+		    	console.log(htNum);
 		    	
 		    	$.ajax({
    					url: "habitContent.do",
    					type: "post",
-   					data: {title:habitTitle},
+   					data: {htNum:htNum},
    					dataType:"json",
    					success:function(data){
    						console.log(data);
    						
-   						// 기간
-   						if(data.ht_cycle == "Daily") {
-   							$("#periode").html("Today");
-   						}else if(data.ht_cycle == "Weekly") {
-   							$("#periode").html("This Week");
-   						}else {
-   							$("#periode").html("This Month");
-   						}
+					//목표 값
+					$("#goal").html("/" + data.list.ht_goal + data.list.ht_unit);
+					
+					//내용
+					$("#comment").html(data.list.ht_con);
+ 						
    						
-   						//현재 값
-   						$("#now").html(data.ht_now);
-   						$("#now").css("color", data.ht_color);
+   					if(data.list.ht_cycle == "Daily") { //기준이 하루일 때
    						
-   						//목표 값
-   						$("#goal").html("/" + data.ht_goal + data.ht_unit);
+   						$tableBody = $("#habit-record");
+						$tableBody.html("");
+   						
+   						var $tr;
+   						var $tdCheckbox;
+   						var $tdTime;
+   						var $tdNow;
+   						var $tdCon;
+   						var sum = 0;
+   						
+						for(var i in data.recordDailyList){
+	   						var checkbox = "<input type='checkbox' id='check"+ i +"' name='check" + i +"'>" + "<label for='check"+i+"'>" + "</label>";
+	   						
+	   						sum += + data.recordDailyList[i].htr_now;
+	   						
+							$tr = $("<tr>");
+							$tdCheckbox = $("<td>").append(checkbox);
+							$tdTime = $("<td>").text(data.recordDailyList[i].htr_time);
+							$tdNow = $("<td>").text("+" + data.recordDailyList[i].htr_now + data.list.ht_unit);
+							$tdCon=$("<td>").text(data.recordDailyList[i].htr_con);
+							
+							$tr.append($tdCheckbox);
+							$tr.append($tdTime);
+							$tr.append($tdNow);
+							$tr.append($tdCon);
+							$tableBody.append($tr);
+							
+						}
+						
+						console.log(sum);
+						
+						$("#periode").html("Today");
+						
+						//현재 값
+   						$("#now").html(sum);
+   						$("#now").css("color", data.list.ht_color);
    						
    						//현재 퍼센트
-   						$("#achieve").html(Math.ceil(data.ht_now/data.ht_goal*100)+"%");
-   						$("#achieve").css("color", data.ht_color);
+   						$("#achieve").html(Math.ceil(sum/data.list.ht_goal*100)+"%");
+   						$("#achieve").css("color", data.list.ht_color);
    						
    						//progress bar
-   						$("#progress1").css("width", Math.ceil(data.ht_now/data.ht_goal*100) + "%");
-   						$("#progress1").css("background-color", data.ht_color);		
+   						$("#progress1").css("width", Math.ceil(sum/data.list.ht_goal*100) + "%");
+   						$("#progress1").css("background-color", data.list.ht_color);
+						
+   					} else if(data.list.ht_cycle == "Weekly") { //기준이 일주일일 때
    						
-   						//내용
-   						$("#comment").html(data.ht_con);
+   						$("#periode").html("This Week");
    						
+   					} else if(data.list.ht_cycle == "Monthly"){ //기준이 한 달일 때
+   						
+   						
+   						$tableBody = $("#habit-record");
+						$tableBody.html("");
+   						
+   						var $tr;
+   						var $tdCheckbox;
+   						var $tdTime;
+   						var $tdNow;
+   						var $tdCon;
+						var sum = 0;
+   						
+						for(var i in data.recordMonthlyList){
+	   						var checkbox = "<input type='checkbox' id='check"+ i +"' name='check" + i +"'>" + "<label for='check"+i+"'>" + "</label>";
+	   						var date = "<b>" + data.recordMonthlyList[i].htr_month + "일 </b>" + data.recordMonthlyList[i].htr_time;  
+							
+							sum += + data.recordMonthlyList[i].htr_now;
+	   						
+							$tr = $("<tr>");
+							$tdCheckbox = $("<td>").append(checkbox);
+							$tdTime = $("<td>").append(date);
+							$tdNow = $("<td>").text("+" + data.recordMonthlyList[i].htr_now + data.list.ht_unit);
+							$tdCon=$("<td>").text(data.recordMonthlyList[i].htr_con);
+							
+							$tr.append($tdCheckbox);
+							$tr.append($tdTime);
+							$tr.append($tdNow);
+							$tr.append($tdCon);
+							$tableBody.append($tr);
+						}
+						
+						//프로그레스 소제목
+   						$("#periode").html("This Month");
+						
+						//현재 값
+   						$("#now").html(sum);
+   						$("#now").css("color", data.list.ht_color);
+   						
+   						//현재 퍼센트
+   						$("#achieve").html(Math.ceil(sum/data.list.ht_goal*100)+"%");
+   						$("#achieve").css("color", data.list.ht_color);
+   						
+   						//progress bar
+   						$("#progress1").css("width", Math.ceil(sum/data.list.ht_goal*100) + "%");
+   						$("#progress1").css("background-color", data.list.ht_color);		
+   						
+   					}
+ 		
    					},
    					error:function(request, status, errorData){
                          alert("error code: " + request.status + "\n"

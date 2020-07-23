@@ -23,11 +23,9 @@
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupNotice" alias="GroupNotice"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupBoard" alias="GroupBoard"/>
 
-
 		<typeAlias type="com.kh.finalProject.daily.model.vo.Habit" alias="Habit"/>
-
-		
-		<typeAlias type="com.kh.finalProject.member.model.vo.Member" alias="Member"/>
+		<typeAlias type="com.kh.finalProject.daily.model.vo.HabitRecord" alias="HabitRecord"/>
+		<typeAlias type="com.kh.finalProject.daily.model.vo.HabitSum" alias="HabitSum"/>
 
 	</typeAliases>
 
