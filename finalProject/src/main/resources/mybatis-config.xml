@@ -30,6 +30,8 @@
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupLike" alias="GroupLike"/>
 
 		<typeAlias type="com.kh.finalProject.daily.model.vo.HabitTracker" alias="HabitTracker"/>
+		
+		<typeAlias type="com.kh.finalProject.account.model.vo.AccountBook" alias="AccountBook"/>		<!-- 예지 -->
 
 	</typeAliases>
 
@@ -39,6 +41,7 @@
 		<mapper resource="/mappers/plan-mapper.xml"/>	<!-- 예지 -->
 		<mapper resource="/mappers/group-mapper.xml"/>
 		<mapper resource="/mappers/daily-mapper.xml"/>
+		<mapper resource="/mappers/account-mapper.xml"/>	<!-- 예지 -->
 	</mappers>
 	
 </configuration>

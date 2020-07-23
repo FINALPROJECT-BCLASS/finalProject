@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="accountMapper">
+
+	<insert id="insertAccountBook" parameterType="AccountBook">
+		INSERT INTO ACCOUNT_BOOK
+		VALUES(SEQ_AB.NEXTVAL
+			, #{id}
+			, #{abPro}
+			, #{apcNo}
+			, #{abExp}
+			, #{aecNo}
+			, #{abDate}
+			, #{abAmount}
+			, #{abMemo}
+			, DEFAULT
+			, 0
+			, 'Y')
+	</insert>
+
+</mapper>
