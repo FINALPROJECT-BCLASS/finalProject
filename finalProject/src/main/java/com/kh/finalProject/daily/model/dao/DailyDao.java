@@ -51,6 +51,11 @@ public class DailyDao {
 		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectHabitRecordList", hrd);
 	}
 
+	public ArrayList<HabitRecord> selectHabitRecordListW(HabitRecord hrw) {
+
+		return  (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectHabitRecordListW", hrw);
+	}
+
 	public ArrayList<HabitRecord> selectHabitRecordListM(HabitRecord hrm) {
 		
 		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectHabitRecordListM", hrm);
@@ -71,5 +76,11 @@ public class DailyDao {
 
 		return  (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectHabitMSumList", hsm);
 	}
+
+	public ArrayList<HabitSum> selectHabitWSumList(String id) {
+
+		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectHabitWSumList", id);
+	}
+
 
 }

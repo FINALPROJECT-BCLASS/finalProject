@@ -626,21 +626,14 @@
 			    </div>
 			  </div>
 			</div>           
-            
-            
             <!-- Button Start-->
             <div class="button-area">
                 <button class="blue">Graph >></button>
             </div>
             <!-- Button End-->
-            
-            
-
         </div>
 		
 		<script>
-	
-		
 			$(function(){
 				
 		        var responseMessage = "<c:out value="${message}" />";
@@ -720,7 +713,49 @@
 						
    					} else if(data.list.ht_cycle == "Weekly") { //기준이 일주일일 때
    						
+   						$tableBody = $("#habit-record");
+						$tableBody.html("");
+   						
+   						var $tr;
+   						var $tdCheckbox;
+   						var $tdTime;
+   						var $tdNow;
+   						var $tdCon;
+						var sum = 0;
+   						
+						for(var i in data.recordMonthlyList){
+	   						var checkbox = "<input type='checkbox' id='check"+ i +"' name='check" + i +"'>" + "<label for='check"+i+"'>" + "</label>";
+	   						var date = "<b>" + data.recordWeeklyList[i].htr_month + "일 </b>" + data.recordWeeklyList[i].htr_time;  
+							
+							sum += + data.recordWeeklyList[i].htr_now;
+	   						
+							$tr = $("<tr>");
+							$tdCheckbox = $("<td>").append(checkbox);
+							$tdTime = $("<td>").append(date);
+							$tdNow = $("<td>").text("+" + data.recordWeeklyList[i].htr_now + data.list.ht_unit);
+							$tdCon=$("<td>").text(data.recordWeeklyList[i].htr_con);
+							
+							$tr.append($tdCheckbox);
+							$tr.append($tdTime);
+							$tr.append($tdNow);
+							$tr.append($tdCon);
+							$tableBody.append($tr);
+						}
+						
+						//프로그레스 구역 내의 소제목
    						$("#periode").html("This Week");
+						
+						//현재 값
+   						$("#now").html(sum);
+   						$("#now").css("color", data.list.ht_color);
+   						
+   						//현재 퍼센트
+   						$("#achieve").html(Math.ceil(sum/data.list.ht_goal*100)+"%");
+   						$("#achieve").css("color", data.list.ht_color);
+   						
+   						//progress bar
+   						$("#progress1").css("width", Math.ceil(sum/data.list.ht_goal*100) + "%");
+   						$("#progress1").css("background-color", data.list.ht_color);
    						
    					} else if(data.list.ht_cycle == "Monthly"){ //기준이 한 달일 때
    						

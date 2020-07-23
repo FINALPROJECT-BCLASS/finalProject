@@ -62,6 +62,7 @@
 		FROM HABIT_TRACKER 
 		WHERE ID=#{id}
 		AND HT_DELETE='N'
+		ORDER BY HT_NO DESC
 	</select>
 	
 	
@@ -96,6 +97,17 @@
 		ORDER BY HTR_DATE DESC
 	</select>
 	
+	<select id="selectHabitRecordListW" parameterType="HabitRecord" resultMap="habitRecordResultSet">
+		SELECT HTR_NO, ID, HT_NO, TO_CHAR(HTR_DATE, 'DD') AS "HTR_MONTH", TO_CHAR(HTR_DATE, 'HH:MI') AS "HTR_TIME", HTR_NOW, HTR_CON, HTR_DELETE
+		FROM HABIT_TRACKER_RECORD
+		WHERE ID=#{id}
+		AND HT_NO=#{ht_no}
+		AND HTR_DELETE='N'
+		AND HTR_DATE BETWEEN TO_DATE(TRUNC(SYSDATE,'IW'), 'YY/MM/DD') 
+                   		 AND TO_DATE(TRUNC(SYSDATE,'IW') + 6, 'YY/MM/DD')
+		ORDER BY HTR_DATE DESC
+	</select>
+	
 	<select id="selectHabitRecordListM" parameterType="HabitRecord" resultMap="habitRecordResultSet_2">
 		SELECT HTR_NO, ID, HT_NO, TO_CHAR(HTR_DATE, 'DD') AS "HTR_MONTH", TO_CHAR(HTR_DATE, 'HH:MI') AS "HTR_TIME", HTR_NOW, HTR_CON, HTR_DELETE
 		FROM HABIT_TRACKER_RECORD
@@ -111,6 +123,7 @@
 		FROM HABIT_TRACKER_RECORD
 		WHERE ID=#{id}
         AND TO_CHAR(HTR_DATE, 'YY/MM')=#{htr_date}
+        AND HTR_DELETE = 'N'
 		ORDER BY HT_NO DESC
 	</select>
 	
@@ -121,6 +134,7 @@
 		WHERE HT.HT_CYCLE = 'Daily'
 		AND HT.ID = #{id}
 		AND TO_CHAR(HTR.HTR_DATE, 'YY/MM/DD') = #{ht_start}
+		AND HT.HT_DELETE = 'N'
 		GROUP BY HT.HT_NO
 	</select>
 	
@@ -131,6 +145,19 @@
 		WHERE HT.HT_CYCLE = 'Monthly'
 		AND HT.ID = #{id}
 		AND TO_CHAR(HTR.HTR_DATE, 'YY/MM') = #{ht_start}
+		AND HT.HT_DELETE = 'N'
+		GROUP BY HT.HT_NO
+	</select>
+	
+	<select id="selectHabitWSumList" parameterType="Habit" resultMap="habitSumResultSet">
+		SELECT HT.HT_NO, SUM(HTR_NOW) AS HT_NOW
+		FROM HABIT_TRACKER_RECORD HTR
+		JOIN HABIT_TRACKER HT ON (HT.HT_NO = HTR.HT_NO)
+		WHERE HT.HT_CYCLE = 'Weekly'
+		AND HT.ID = #{id}
+		AND HT.HT_DELETE = 'N'
+		AND HTR_DATE BETWEEN TO_DATE(TRUNC(SYSDATE,'IW'), 'YY/MM/DD') 
+                   		 AND TO_DATE(TRUNC(SYSDATE,'IW') + 6, 'YY/MM/DD')
 		GROUP BY HT.HT_NO
 	</select>
 

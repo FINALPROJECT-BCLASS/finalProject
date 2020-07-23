@@ -22,13 +22,16 @@ public interface DailyService {
 
 	ArrayList<HabitRecord> selectHabitRecordList(HabitRecord hrd);
 
-	ArrayList<HabitRecord> selectHabitRecordListM(HabitRecord hrm);
+	ArrayList<HabitRecord> selectHabitRecordListW(HabitRecord hrw);
 
-	ArrayList<HabitRecord> selectHabitRecordListA(HabitRecord habit);
+	ArrayList<HabitRecord> selectHabitRecordListM(HabitRecord hrm);
 
 	ArrayList<HabitSum> selectHabitSumList(Habit hs);
 
 	ArrayList<HabitSum> selectHabitMSumList(Habit hsm);
+
+	ArrayList<HabitSum> selectHabitWSumList(String id);
+
 
 
 }

@@ -61,6 +61,12 @@ public class DailyServiceImpl implements DailyService {
 
 		return dailyDao.selectHabitRecordList(hrd);
 	}
+
+	@Override
+	public ArrayList<HabitRecord> selectHabitRecordListW(HabitRecord hrw) {
+		
+		return dailyDao.selectHabitRecordListW(hrw);
+	}
 	
 	// 해당 월로 습관 조회(세부)
 	@Override
@@ -69,12 +75,6 @@ public class DailyServiceImpl implements DailyService {
 		return dailyDao.selectHabitRecordListM(hrm);
 	}
 	
-
-	@Override
-	public ArrayList<HabitRecord> selectHabitRecordListA(HabitRecord habit) {
-
-		return dailyDao.selectHabitRecordListDaily(habit);
-	}
 
 	@Override
 	public ArrayList<HabitSum> selectHabitSumList(Habit hs) {
@@ -87,6 +87,13 @@ public class DailyServiceImpl implements DailyService {
 		
 		return dailyDao.selectHabitMSumList(hsm);
 	}
+
+	@Override
+	public ArrayList<HabitSum> selectHabitWSumList(String id) {
+
+		return dailyDao.selectHabitWSumList(id);
+	}
+
 
 
 	

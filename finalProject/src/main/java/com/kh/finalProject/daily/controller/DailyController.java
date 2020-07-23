@@ -63,14 +63,15 @@ public class DailyController {
 			System.out.println("daily habit : " + hs);
 			System.out.println("monthly habit : " + hsm);
 			
-			ArrayList<Habit> list = dailyService.selectHabitList(id);		
-			ArrayList<HabitSum> sum = dailyService.selectHabitSumList(hs);
-			ArrayList<HabitSum> Msum = dailyService.selectHabitMSumList(hsm);
+			ArrayList<Habit> list = dailyService.selectHabitList(id);			// 전체 목록 조회
+			ArrayList<HabitSum> sum = dailyService.selectHabitSumList(hs);		// daily 합계
+			ArrayList<HabitSum> Wsum = dailyService.selectHabitWSumList(id);	// weekly 합계
+			ArrayList<HabitSum> Msum = dailyService.selectHabitMSumList(hsm);	// monthly 합계
 			
 			
 			System.out.println("daily sum : " + sum);
+			System.out.println("weekly sum : " + Wsum);
 			System.out.println("monthly sum : " + Msum);
-			
 			
 			ArrayList<Habit> hlist = new ArrayList<Habit>();
 			
@@ -83,6 +84,13 @@ public class DailyController {
 						}
 
 					}
+				}else if(h.getHt_cycle().equals("Weekly")) {
+					for(HabitSum whS : Wsum) {
+						if(whS.getHt_no() == h.getHt_no()) {
+							h.setHt_now(whS.getHt_now());
+						}
+					}
+					
 				}else if(h.getHt_cycle().equals("Monthly")) {	
 					
 					for(HabitSum mhS : Msum) {
@@ -122,6 +130,7 @@ public class DailyController {
 		return "daily/habitAdd";
 	}
 	
+
 	@RequestMapping("insertHabit.do")
 	public String insertHabit(Habit habit, Model model,
 								HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -172,11 +181,8 @@ public class DailyController {
 		habit.setId(id);
 		habit.setHt_no(htNum);
 		
-//		System.out.println("확인용 : " + habit);
-		
 		// 번호로 습관 조회하기
 		Habit h = dailyService.selectHabitNum(habit);
-//		System.out.println(h);
 		
 		SimpleDateFormat dailySet = new SimpleDateFormat ("yy/MM/dd"); // 오늘 날짜 저장
 		SimpleDateFormat monthlySet = new SimpleDateFormat ("yy/MM"); // 이번 달 저장
@@ -192,19 +198,22 @@ public class DailyController {
 		hrd.setHt_no(h.getHt_no());
 		hrd.setHtr_date(today);
 		
+		HabitRecord hrw = new HabitRecord();
+		hrw.setId(id);
+		hrw.setHt_no(h.getHt_no());
+		
 		// 아이디, 습관 번호, 오늘 날짜 담기
 		HabitRecord hrm = new HabitRecord();
 		hrm.setId(id);
 		hrm.setHt_no(h.getHt_no());
 		hrm.setHtr_date(month);
 		
-//		System.out.println("오늘 날짜 세팅 : " + hrd);
-//		System.out.println("이번 달 세팅 : " + hrm);
-		
 		ArrayList<HabitRecord> hrDailyResult = dailyService.selectHabitRecordList(hrd);
+		ArrayList<HabitRecord> hrWeeklyResult = dailyService.selectHabitRecordListW(hrw);
 		ArrayList<HabitRecord> hrMonthlyResult = dailyService.selectHabitRecordListM(hrm);
 		
 		JSONArray daily = new JSONArray();
+		JSONArray weekly = new JSONArray();
 		JSONArray monthly = new JSONArray();
 		
 		// 오늘 날짜로 조회한 습관 기록 목록 배열에 담기
@@ -233,6 +242,20 @@ public class DailyController {
 			
 		}
 		
+		// 이번 주로 조회한 습관 기록 목록 배열에 담기
+		for(HabitRecord HRW : hrWeeklyResult) {
+			
+			JSONObject jObjectW = new JSONObject();
+			jObjectW.put("htr_no", HRW.getHt_no());
+			jObjectW.put("htr_month", HRW.getHtr_month());
+			jObjectW.put("htr_time", HRW.getHtr_time());
+			jObjectW.put("htr_now", HRW.getHtr_now());
+			jObjectW.put("htr_con", HRW.getHtr_con());
+			
+			weekly.add(jObjectW);
+			
+		}
+		
 		// 습관
 		JSONObject jObj = new JSONObject();
 		jObj.put("ht_title", h.getHt_title());
@@ -245,6 +268,7 @@ public class DailyController {
 		
 		JSONObject sendJson = new JSONObject();
 		sendJson.put("recordDailyList", daily);
+		sendJson.put("recordWeeklyList", weekly);
 		sendJson.put("recordMonthlyList", monthly);
 		sendJson.put("list", jObj);
 		
