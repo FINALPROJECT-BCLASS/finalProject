@@ -21,6 +21,7 @@ import com.kh.finalProject.plan.model.exception.PlanException;
 import com.kh.finalProject.plan.model.service.PlanService;
 import com.kh.finalProject.plan.model.vo.DTodolist;
 import com.kh.finalProject.plan.model.vo.MPlan;
+import com.kh.finalProject.plan.model.vo.MTodolist;
 import com.kh.finalProject.plan.model.vo.McOvulation;
 import com.kh.finalProject.plan.model.vo.McRecord;
 import com.kh.finalProject.plan.model.vo.Menstrual;
@@ -303,6 +304,7 @@ public class PlanController {
 		dt.setId(id);
 		
 		pService.deleteDTodolist(dt);
+		
 		int result = 0;
 		
 		for(int i = 0; i < dtConArr.length; i++) {
@@ -475,6 +477,70 @@ public class PlanController {
 		} else {
 			throw new PlanException("일정 수정 실패");
 		}
+	}
+	
+	@RequestMapping("mtinsert.do")
+	public String mTodolistInsert(Model model, HttpSession session, MTodolist mt
+								, @RequestParam(value="listContent") String[] mtConArr
+								, @RequestParam(value="checkResult") String[] mtComArr
+								, @RequestParam(value="mtDate") String mtDate) throws PlanException {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String id = loginUser.getId();
+		mt.setId(id);
+		
+		pService.deleteMTodolist(mt);
+		
+		int result = 0;
+		
+		for(int i = 0; i < mtConArr.length; i++) {
+			if(!mtConArr[i].equals("")) {
+				MTodolist insertMt = new MTodolist();
+				
+				insertMt.setMtNo(i+1);
+				insertMt.setMtDate(mtDate);
+				insertMt.setId(id);
+				insertMt.setMtCon(mtConArr[i]);
+				insertMt.setMtComplete(mtComArr[i]);
+				
+				result += pService.insertMTodolist(insertMt);
+			}
+		}				
+		
+		if(result > 0) {
+			return "redirect:mpview.do";
+		} else {
+			throw new PlanException("todolist 등록 실패");
+		}
+	}
+	
+	@RequestMapping("mtlist.do")
+	public void mTodolistList(HttpSession session, HttpServletResponse response, MTodolist mt) throws IOException {
+		response.setContentType("application/json;charset=utf-8");
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String id = loginUser.getId();
+		mt.setId(id);
+		
+		ArrayList<MTodolist> mtList = pService.selectMtList(mt);
+		
+		JSONArray jArr = new JSONArray();
+		
+		for(MTodolist m : mtList) {
+			JSONObject jObj = new JSONObject();
+			jObj.put("content", m.getMtCon());
+			jObj.put("complete", m.getMtComplete());
+			
+			jArr.add(jObj);
+		}
+		
+		JSONObject sendJson = new JSONObject();
+		sendJson.put("mtList", jArr);
+		
+		PrintWriter out = response.getWriter();
+		out.print(sendJson);
+		out.flush();
+		out.close();
 	}
 
 }

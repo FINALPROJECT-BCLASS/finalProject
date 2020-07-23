@@ -818,14 +818,6 @@
     			}
     		})
     	})
-    	
-        // 로그인 서브 메뉴
-        $(document).ready(function(){
-        	$(".b-icons").click(function(){
-        		var color = $(this).prev().val();
-        		$("#ttColor").val(color);
-        	})
-        });
     </script>
     
 </body>

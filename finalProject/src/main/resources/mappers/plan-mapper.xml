@@ -66,6 +66,15 @@
 		<result property="mpView" column="MP_VIEW"/>
 	</resultMap>
 	
+	<resultMap type="MTodolist" id="mtResultSet">
+		<id property="mtDate" column="MT_DATE"/>
+		<result property="mtNo" column="MT_NO"/>
+		<result property="id" column="ID"/>
+		<result property="mtCon" column="MT_CON"/>
+		<result property="mtComplete" column="MT_COMPLETE"/>
+		<result property="mtDelete" column="MT_DELETE"/>
+	</resultMap>
+	
 	<select id="checkInfo" parameterType="string" resultType="_int">
 		SELECT COUNT(*)
 		FROM MENSTRUAL_CALENDAR
@@ -326,10 +335,38 @@
 			, MP_START=#{mpStart}
 			, MP_END=#{mpEnd}
 			, MP_TIME=#{mpTime}
+			, MP_COLOR=#{mpColor}
 			, MP_MAIN=#{mpMain}
 			, MP_SUB=#{mpSub}
 			, MP_MEMO=#{mpMemo}
 		WHERE MP_NO=#{mpNo}
 	</update>
+	
+	<delete id="deleteMTodolist" parameterType="MTodolist">
+		DELETE
+		FROM MONTHLY_TODOLIST
+		WHERE MT_DATE=#{mtDate}
+			AND ID=#{id}
+	</delete>
+	
+	<insert id="insertMTodolist" parameterType="MTodolist">
+		INSERT INTO MONTHLY_TODOLIST
+		VALUES(#{mtDate}
+			, #{mtNo}
+			, #{id}
+			, #{mtCon}
+			, #{mtComplete}
+			, DEFAULT)
+	</insert>
+	
+	<select id="selectMtList" parameterType="MTodolist" resultMap="mtResultSet">
+		SELECT MT_NO, MT_CON, MT_COMPLETE
+		FROM (SELECT *
+		    FROM MONTHLY_TODOLIST
+		    WHERE ID=#{id}
+		    	AND MT_DATE=#{mtDate}
+		    	AND MT_DELETE='N')
+		ORDER BY MT_NO ASC
+	</select>
 	
 </mapper>

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.kh.finalProject.plan.model.dao.PlanDao;
 import com.kh.finalProject.plan.model.vo.DTodolist;
 import com.kh.finalProject.plan.model.vo.MPlan;
+import com.kh.finalProject.plan.model.vo.MTodolist;
 import com.kh.finalProject.plan.model.vo.McOvulation;
 import com.kh.finalProject.plan.model.vo.McRecord;
 import com.kh.finalProject.plan.model.vo.Menstrual;
@@ -209,6 +210,24 @@ public class PlanServiceImpl implements PlanService {
 	public int updateMPlan(MPlan m) {
 		
 		return pDao.updateMPlan(m);
+	}
+
+	@Override
+	public int deleteMTodolist(MTodolist mt) {
+		
+		return pDao.deleteMTodolist(mt);
+	}
+
+	@Override
+	public int insertMTodolist(MTodolist mt) {
+	
+		return pDao.insertMTodolist(mt);
+	}
+
+	@Override
+	public ArrayList<MTodolist> selectMtList(MTodolist mt) {
+		
+		return pDao.selectMtList(mt);
 	}
 
 }

@@ -59,7 +59,63 @@
 	        });
 	
 	        calendar.render();
+
+	        var year = calendar.getDate().getFullYear();
+	        var month = calendar.getDate().getMonth()+1;
+			var formatMonth = "";
+	        
+			if(month < 10){
+		        formatMonth = "0"+month;
+		    } else {
+		    	formatMonth = month;
+		    }
+			
+			var calendarDate = year + "-" + formatMonth;
+			$("#listDate").val(calendarDate);
+			
+			mtListView(calendarDate);
+	        
+	        $(".fc-prev-button").click(function(){
+	        	month = month - 1;
+	        	
+	        	if(month < 1) {
+	        		month = 12;
+	        		year = year - 1;
+	        	}
+	        	
+	        	if(month < 10) {
+	        		formatMonth = "0"+month;
+	        	} else {
+	        		formatMonth = month;
+	        	}
+	        	
+	        	calendarDate = year + "-" + formatMonth;
+	        	$("#listDate").val(calendarDate);
+	        	
+	        	mtListView(calendarDate);
+	        })
+	        
+	        $(".fc-next-button").click(function(){
+	        	month = month + 1;
+	        	
+	        	if(month > 12) {
+	        		month = 1;
+	        		year = year + 1;
+	        	}
+	        	
+	        	if(month < 10) {
+	        		formatMonth = "0"+month;
+	        	} else {
+	        		formatMonth = month;
+	        	}
+	        	
+	        	calendarDate = year + "-" + formatMonth;
+	        	$("#listDate").val(calendarDate);
+	        	
+	        	mtListView(calendarDate);
+	        })
 	    });
+	    
     </script>
     
     <style>
@@ -140,11 +196,6 @@
         input[type="radio"]:checked + .b-icons>div{
             border: 3px solid #484848;
         }
-
-        input[type="radio"]:checked + .b-check>div{
-            border: 3px solid white;
-            background-color: #2860E1;
-        }
         
         label{
             margin:0 !important;
@@ -186,6 +237,31 @@
         .green {
             background-color: #50c6b0;
         }
+        
+        input[type="radio"]:checked + .u-icons>div{
+            border: 3px solid #484848;
+        }
+        
+        .u-icons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            margin-bottom: 0;
+            margin-right: 10px !important;
+            cursor: pointer;
+        }
+
+        .u-icons > div {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            vertical-align: middle;
+            text-align: center;
+        }
+        
     </style>
 </head>
 
@@ -213,7 +289,7 @@
                                     <table id="addTable">
                                         <tr>
                                             <td><b>Title</b></td>
-                                            <td><input type="text" name="mpTitle" size="42"></td>
+                                            <td><input type="text" id="addTitle" name="mpTitle" size="42"></td>
                                         </tr>
                                         <tr>
                                             <td><b>Date</b></td>
@@ -225,7 +301,7 @@
                                         <tr>
                                             <td><b>Time</b></td>
                                             <td>
-                                            	<input type="time" name="mpTime" style="width: 335px;">
+                                            	<input type="time" id="addTime" name="mpTime" style="width: 335px;">
                                             </td>
                                         </tr>
                                         <tr>
@@ -263,7 +339,7 @@
                                         </tr>
                                         <tr>
                                             <td colspan="2">
-                                                <textarea name="mpMemo" cols="52" rows="5"></textarea>
+                                                <textarea id="addMemo" name="mpMemo" cols="52" rows="5"></textarea>
                                             </td>
                                         </tr>
                                     </table>
@@ -276,88 +352,136 @@
                 <div id='calendar'></div>
             </div>
             <div class="col-md-2">
-                <div id="circleArea">
-                    <div id="circle"></div>
-                    <b id="listLogo">To do List</b>&nbsp;&nbsp;&nbsp;
-                    <button type="button" class="default-btn">Save</button>
-                </div>
-                <table id="listTable">
-                    <tr>
-                        <td class="listNo">1</td>
-                        <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
-                        <td class="listCheck"><input type="checkbox"></td>
-                    </tr>
-                    <tr>
-                        <td class="listNo">2</td>
-                        <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
-                        <td class="listCheck"><input type="checkbox"></td>
-                    </tr>
-                    <tr>
-                        <td class="listNo">3</td>
-                        <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
-                        <td class="listCheck"><input type="checkbox"></td>
-                    </tr>
-                    <tr>
-                        <td class="listNo">4</td>
-                        <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
-                        <td class="listCheck"><input type="checkbox"></td>
-                    </tr>
-                    <tr>
-                        <td class="listNo">5</td>
-                        <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
-                        <td class="listCheck"><input type="checkbox"></td>
-                    </tr>
-                    <tr>
-                        <td class="listNo">6</td>
-                        <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
-                        <td class="listCheck"><input type="checkbox"></td>
-                    </tr>
-                    <tr>
-                        <td class="listNo">7</td>
-                        <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
-                        <td class="listCheck"><input type="checkbox"></td>
-                    </tr>
-                    <tr>
-                        <td class="listNo">8</td>
-                        <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
-                        <td class="listCheck"><input type="checkbox"></td>
-                    </tr>
-                    <tr>
-                        <td class="listNo">9</td>
-                        <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
-                        <td class="listCheck"><input type="checkbox"></td>
-                    </tr>
-                    <tr>
-                        <td class="listNo">10</td>
-                        <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
-                        <td class="listCheck"><input type="checkbox"></td>
-                    </tr>
-                    <tr>
-                        <td class="listNo">11</td>
-                        <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
-                        <td class="listCheck"><input type="checkbox"></td>
-                    </tr>
-                    <tr>
-                        <td class="listNo">12</td>
-                        <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
-                        <td class="listCheck"><input type="checkbox"></td>
-                    </tr>
-                    <tr>
-                        <td class="listNo">13</td>
-                        <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
-                        <td class="listCheck"><input type="checkbox"></td>
-                    </tr>
-                    <tr>
-                        <td class="listNo">14</td>
-                        <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
-                        <td class="listCheck"><input type="checkbox"></td>
-                    </tr>
-                    <tr>
-                        <td class="listNo">15</td>
-                        <td class="listContent"><input type="text" class="listInput" name="listContent"></td>
-                        <td class="listCheck"><input type="checkbox"></td>
-                    </tr>
-                </table>
+            	<form action="mtinsert.do" method="post">
+                    <div id="circleArea">
+                        <div id="circle"></div>
+                        <b id="listLogo">To do List</b>&nbsp;&nbsp;&nbsp;
+                        <button type="submit" class="default-btn" id="todolistBtn">Save</button>
+                    </div>
+                   	<input type="hidden" id="listDate" name="mtDate">
+                    <table id="listTable">
+                        <tr>
+                            <td class="listNo">1</td>
+                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent0"></td>
+                            <td class="listCheck">
+                            	<input type="checkbox" class="listCheck" id="listCheck0">
+                            	<input type="hidden" class="checkResult" id="checkResult0" name="checkResult" value="N">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="listNo">2</td>
+                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent1"></td>
+                            <td class="listCheck">
+                            	<input type="checkbox" class="listCheck" id="listCheck1">
+                            	<input type="hidden" class="checkResult" id="checkResult1" name="checkResult" value="N">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="listNo">3</td>
+                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent2"></td>
+                            <td class="listCheck">
+                            	<input type="checkbox" class="listCheck" id="listCheck2">
+                            	<input type="hidden" class="checkResult" id="checkResult2" name="checkResult" value="N">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="listNo">4</td>
+                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent3"></td>
+                            <td class="listCheck">
+                            	<input type="checkbox" class="listCheck" id="listCheck3">
+                            	<input type="hidden" class="checkResult" id="checkResult3" name="checkResult" value="N">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="listNo">5</td>
+                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent4"></td>
+                            <td class="listCheck">
+                            	<input type="checkbox" class="listCheck" id="listCheck4">
+                            	<input type="hidden" class="checkResult" id="checkResult4" name="checkResult" value="N">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="listNo">6</td>
+                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent5"></td>
+                            <td class="listCheck">
+                            	<input type="checkbox" class="listCheck" id="listCheck5">
+                            	<input type="hidden" class="checkResult" id="checkResult5" name="checkResult" value="N">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="listNo">7</td>
+                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent6"></td>
+                            <td class="listCheck">
+                            	<input type="checkbox" class="listCheck" id="listCheck6">
+                            	<input type="hidden" class="checkResult" id="checkResult6" name="checkResult" value="N">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="listNo">8</td>
+                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent7"></td>
+                            <td class="listCheck">
+                            	<input type="checkbox" class="listCheck" id="listCheck7">
+                            	<input type="hidden" class="checkResult" id="checkResult7" name="checkResult" value="N">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="listNo">9</td>
+                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent8"></td>
+                            <td class="listCheck">
+                            	<input type="checkbox" class="listCheck" id="listCheck8">
+                            	<input type="hidden" class="checkResult" id="checkResult8" name="checkResult" value="N">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="listNo">10</td>
+                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent9"></td>
+                            <td class="listCheck">
+                            	<input type="checkbox" class="listCheck" id="listCheck9">
+                            	<input type="hidden" class="checkResult" id="checkResult9" name="checkResult" value="N">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="listNo">11</td>
+                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent10"></td>
+                            <td class="listCheck">
+                            	<input type="checkbox" class="listCheck" id="listCheck9">
+                            	<input type="hidden" class="checkResult" id="checkResult9" name="checkResult" value="N">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="listNo">12</td>
+                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent11"></td>
+                            <td class="listCheck">
+                            	<input type="checkbox" class="listCheck" id="listCheck9">
+                            	<input type="hidden" class="checkResult" id="checkResult9" name="checkResult" value="N">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="listNo">13</td>
+                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent12"></td>
+                            <td class="listCheck">
+                            	<input type="checkbox" class="listCheck" id="listCheck9">
+                            	<input type="hidden" class="checkResult" id="checkResult9" name="checkResult" value="N">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="listNo">14</td>
+                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent13"></td>
+                            <td class="listCheck">
+                            	<input type="checkbox" class="listCheck" id="listCheck9">
+                            	<input type="hidden" class="checkResult" id="checkResult9" name="checkResult" value="N">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="listNo">15</td>
+                            <td class="listContent"><input type="text" class="listInput" name="listContent" id="listContent14"></td>
+                            <td class="listCheck">
+                            	<input type="checkbox" class="listCheck" id="listCheck9">
+                            	<input type="hidden" class="checkResult" id="checkResult9" name="checkResult" value="N">
+                            </td>
+                        </tr>
+                    </table>
+                   </form>
             </div>
         </div>
        <br><br><br><br><br>
@@ -439,15 +563,15 @@
                                	<td><!-- 샘이언니한테 물어보기 -->
                                		<div style="display: flex;">
                                 		<input type="radio" name="color" id="yellow" value="#FBD14B" checked>
-			                         	<label class="b-icons" for="yellow"><div class="b-yell"></div></label>
+			                         	<label class="u-icons" for="yellow"><div class="b-yell"></div></label>
 			                         	<input type="radio" name="color" id="pink" value="#FFA3E5" >
-			                         	<label class="b-icons" for="pink" ><div class="pink"></div></label>
+			                         	<label class="u-icons" for="pink" ><div class="pink"></div></label>
 			                         	<input type="radio" name="color" id="purple" value="#C9A8FF">
-			                         	<label class="b-icons" for="purple"><div class="light-purple"></div></label>
+			                         	<label class="u-icons" for="purple"><div class="light-purple"></div></label>
 			                         	<input type="radio" name="color" id="blue" value="#2860E1">
-			                         	<label class="b-icons" for="blue" ><div class="sky"></div></label>
+			                         	<label class="u-icons" for="blue" ><div class="sky"></div></label>
 			                         	<input type="radio" name="color" id="green" value="#50c6b0">
-			                         	<label class="b-icons" for="green"><div class="green"></div></label>                                        		
+			                         	<label class="u-icons" for="green"><div class="green"></div></label>                                        		
                                		</div>
                                		<input type="hidden" id="updateColor" name="mpColor" value="#FBD14B">
                                	</td>
@@ -623,11 +747,48 @@
     		})
 	    	
 	    }
+	    
+	    function mtListView(calendarDate) {
+	    	$(".listCheck").prop("checked",false);
+        	$(".listInput").val("");
+        	
+	        $.ajax({
+       			url: 'mtlist.do',
+       			data: {mtDate:calendarDate},
+       			dataType: 'json',
+       			success: function(data) {
+       				for(var i in data.mtList){
+   	   					var content = data.mtList[i].content;
+   	   					
+   	   					$("#listContent"+i).val(content);
+
+   	   					if(data.mtList[i].complete == 'Y') {
+   	   						$("#listCheck"+i).prop("checked", true);
+   	   						$("#checkResult"+i).val("Y");
+   	   					} else {
+   	   						$("#listCheck"+i).prop("checked", false);
+   	   						$("#checkResult"+i).val("N");
+   	   					}
+   	   				}
+       			},
+       			error:function(request, status, errorData){
+                       alert("error code: " + request.status + "\n"
+                             +"message: " + request.responseText
+                             +"error: " + errorData);
+                   }   
+       		})
+	    }
     
         $(document).ready(function(){
         	$(".b-icons").click(function(){
         		var color = $(this).prev().val();
         		$("#mpColor").val(color);
+        	})
+        	
+        	$(".u-icons").click(function(){
+        		var color = $(this).prev().val();
+        		console.log(color);
+        		$("#updateColor").val(color);
         	})
         	
         	$("#deleteBtn").click(function(){
@@ -643,9 +804,20 @@
       		})
       		
       		$('#addModal').on('shown.bs.modal', function (e) {
+      			$("#addTitle").val("");
+      			$("#addTime").val("");
 				$(".mainAddress").val("");
 				$(".subAddress").val("");
+				$("#addMemo").val("");
 			});
+        	
+        	$(".listCheck").change(function(){
+    			if($(this).is(":checked") == true){
+    			    $(this).next().val("Y");
+    			} else {
+    				$(this).next().val("N");
+    			}
+    		})
         });
     </script>
     

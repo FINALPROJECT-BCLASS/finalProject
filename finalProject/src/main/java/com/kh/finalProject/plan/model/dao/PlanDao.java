@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.finalProject.plan.model.vo.DTodolist;
 import com.kh.finalProject.plan.model.vo.MPlan;
+import com.kh.finalProject.plan.model.vo.MTodolist;
 import com.kh.finalProject.plan.model.vo.McOvulation;
 import com.kh.finalProject.plan.model.vo.McRecord;
 import com.kh.finalProject.plan.model.vo.Menstrual;
@@ -177,6 +178,21 @@ public class PlanDao {
 	public int updateMPlan(MPlan m) {
 		
 		return sqlSessionTemplate.update("planMapper.updateMPlan", m);
+	}
+
+	public int deleteMTodolist(MTodolist mt) {
+		
+		return sqlSessionTemplate.delete("planMapper.deleteMTodolist", mt);
+	}
+
+	public int insertMTodolist(MTodolist mt) {
+		
+		return sqlSessionTemplate.insert("planMapper.insertMTodolist", mt);
+	}
+
+	public ArrayList<MTodolist> selectMtList(MTodolist mt) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("planMapper.selectMtList", mt);
 	}
 
 }

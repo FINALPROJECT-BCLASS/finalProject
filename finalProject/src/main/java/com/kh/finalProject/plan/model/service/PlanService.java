@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.kh.finalProject.plan.model.vo.DTodolist;
 import com.kh.finalProject.plan.model.vo.MPlan;
+import com.kh.finalProject.plan.model.vo.MTodolist;
 import com.kh.finalProject.plan.model.vo.McOvulation;
 import com.kh.finalProject.plan.model.vo.McRecord;
 import com.kh.finalProject.plan.model.vo.Menstrual;
@@ -74,5 +75,11 @@ public interface PlanService {
 	int deleteMPlan(int no);
 
 	int updateMPlan(MPlan m);
+
+	int deleteMTodolist(MTodolist mt);
+
+	int insertMTodolist(MTodolist mt);
+
+	ArrayList<MTodolist> selectMtList(MTodolist mt);
 
 }
