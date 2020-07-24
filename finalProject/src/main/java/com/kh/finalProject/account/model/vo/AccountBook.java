@@ -11,11 +11,9 @@ public class AccountBook implements Serializable {
 	
 	private int abNo;
 	private String id;
-	private int abPro;
-	private int apcNo;
-	private int abExp;
-	private int aecNo;
 	private String abDate;
+	private int apcNo;
+	private int aecNo;
 	private int abAmount;
 	private String abMemo;
 	private String abDelete;
@@ -24,16 +22,14 @@ public class AccountBook implements Serializable {
 	
 	public AccountBook() {
 	}
-	
-	public AccountBook(int abNo, String id, int abPro, int apcNo, int abExp, int aecNo, String abDate, int abAmount,
-			String abMemo, String abDelete, int memoNo, String abView) {
+
+	public AccountBook(int abNo, String id, String abDate, int apcNo, int aecNo, int abAmount, String abMemo,
+			String abDelete, int memoNo, String abView) {
 		this.abNo = abNo;
 		this.id = id;
-		this.abPro = abPro;
-		this.apcNo = apcNo;
-		this.abExp = abExp;
-		this.aecNo = aecNo;
 		this.abDate = abDate;
+		this.apcNo = apcNo;
+		this.aecNo = aecNo;
 		this.abAmount = abAmount;
 		this.abMemo = abMemo;
 		this.abDelete = abDelete;
@@ -57,12 +53,12 @@ public class AccountBook implements Serializable {
 		this.id = id;
 	}
 
-	public int getAbPro() {
-		return abPro;
+	public String getAbDate() {
+		return abDate;
 	}
 
-	public void setAbPro(int abPro) {
-		this.abPro = abPro;
+	public void setAbDate(String abDate) {
+		this.abDate = abDate;
 	}
 
 	public int getApcNo() {
@@ -73,28 +69,12 @@ public class AccountBook implements Serializable {
 		this.apcNo = apcNo;
 	}
 
-	public int getAbExp() {
-		return abExp;
-	}
-
-	public void setAbExp(int abExp) {
-		this.abExp = abExp;
-	}
-
 	public int getAecNo() {
 		return aecNo;
 	}
 
 	public void setAecNo(int aecNo) {
 		this.aecNo = aecNo;
-	}
-
-	public String getAbDate() {
-		return abDate;
-	}
-
-	public void setAbDate(String abDate) {
-		this.abDate = abDate;
 	}
 
 	public int getAbAmount() {
@@ -139,9 +119,9 @@ public class AccountBook implements Serializable {
 
 	@Override
 	public String toString() {
-		return "AccountBook [abNo=" + abNo + ", id=" + id + ", abPro=" + abPro + ", apcNo=" + apcNo + ", abExp=" + abExp
-				+ ", aecNo=" + aecNo + ", abDate=" + abDate + ", abAmount=" + abAmount + ", abMemo=" + abMemo
-				+ ", abDelete=" + abDelete + ", memoNo=" + memoNo + ", abView=" + abView + "]";
+		return "AccountBook [abNo=" + abNo + ", id=" + id + ", abDate=" + abDate + ", apcNo=" + apcNo + ", aecNo="
+				+ aecNo + ", abAmount=" + abAmount + ", abMemo=" + abMemo + ", abDelete=" + abDelete + ", memoNo="
+				+ memoNo + ", abView=" + abView + "]";
 	}
 	
 }

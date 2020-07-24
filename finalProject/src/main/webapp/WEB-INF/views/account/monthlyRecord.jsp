@@ -20,7 +20,27 @@
 	            	events: function(info,successCallback,failureCallback) {
 	            		var events = [];
 	            		
+	            		var month = info.dateStr.month();
 	            		
+	            		$.ajax({
+	            			url: 'sumlist.do',
+	            			dataType: 'json',
+	            			success: function(data) {
+	            				for(var i in data.sumList){
+		    	   					events.push({title:data.sumList[i].eventTitle
+		    	   								,date:data.sumList[i].date
+		    	   								,color:data.sumList[i].color
+		    	   								,id:data.sumList[i].date})
+		    	   				};
+	            				
+	            				successCallback(events);
+	            			},
+	            			error:function(request, status, errorData){
+	                            alert("error code: " + request.status + "\n"
+	                                  +"message: " + request.responseText
+	                                  +"error: " + errorData);
+	                        }   
+	            		})
 	            	}
 	            }],
 	            dateClick: function(info){
@@ -28,9 +48,66 @@
 		    	 	
 		    	 	$("#addModal").modal();
 		      	},
+		      	eventClick: function(info) {
+	            	abDetailView(info.event.id);
+	            }
 	        });
 	
 	        calendar.render();
+	        
+	        var year = calendar.getDate().getFullYear();
+	        var month = calendar.getDate().getMonth()+1;
+			var formatMonth = "";
+	        
+			if(month < 10){
+		        formatMonth = "0"+month;
+		    } else {
+		    	formatMonth = month;
+		    }
+			
+			var calendarDate = year + "-" + formatMonth;
+			
+			sumView(calendarDate);
+	        
+	        $(".fc-prev-button").click(function(){
+	        	month = month - 1;
+	        	
+	        	if(month < 1) {
+	        		month = 12;
+	        		year = year - 1;
+	        	}
+	        	
+	        	if(month < 10) {
+	        		formatMonth = "0"+month;
+	        	} else {
+	        		formatMonth = month;
+	        	}
+	        	
+	        	calendarDate = year + "-" + formatMonth;
+	        	$("#listDate").val(calendarDate);
+	        	
+	        	sumView(calendarDate);
+	        })
+	        
+	        $(".fc-next-button").click(function(){
+	        	month = month + 1;
+	        	
+	        	if(month > 12) {
+	        		month = 1;
+	        		year = year + 1;
+	        	}
+	        	
+	        	if(month < 10) {
+	        		formatMonth = "0"+month;
+	        	} else {
+	        		formatMonth = month;
+	        	}
+	        	
+	        	calendarDate = year + "-" + formatMonth;
+	        	$("#listDate").val(calendarDate);
+	        	
+	        	sumView(calendarDate);
+	        })
 	    });
     </script>
     
@@ -57,6 +134,10 @@
         .default-btn{
         	margin-left: 15px;
         }
+        
+        .fc-event-time{
+        	display: none !important;
+        }
     </style>
 </head>
 
@@ -75,11 +156,11 @@
                 <table id="total">
                     <tr>
                         <td style="color: blue; text-align: right;"><b>Profit :&nbsp;</b></td>
-                        <td><b></b></td>
+                        <td><b id="proSum"></b></td>
                     </tr>
                    	<tr>
                         <td style="color: red;text-align: right;"><b>Expenditure :&nbsp;</b></td>
-                        <td><b></b></td>
+                        <td><b id="expSum"></b></td>
                     </tr>
                 </table>
             </div>
@@ -168,6 +249,36 @@
 
         <div id='calendar'></div>
         
+        <div class="modal fade" id="detailModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                    </div>
+                    <div class="modal-body" align="center">
+                    	<table id="detailTable">
+                    		<tr>
+                    			<td><b>Date</b></td>
+                    			<td><span id="detailDate"></span></td>
+                    		</tr>
+                    		<tr id="pContent">
+                    			<td colspan="2"><b style="color: blue;">Profit</b></td>
+                    		</tr>
+                    		<tr id="eContent">
+                    			<td colspan="2"><b style="color: red;">Expenditure</b></td>
+                    		</tr>
+                    		<tr>
+                    			<td colspan="2"><b>Memo</b></td>
+                    		</tr>
+                    		<tr>
+                    			<td colspan="2"><span id="abMemo">&nbsp;</span></td>
+                    		</tr>
+                    	</table>
+                    </div>
+                </div>
+            </div>
+          </div>   
+        
        <br><br><br><br><br>
     </section>
 
@@ -186,9 +297,93 @@
     		})
     	})
     	
+    	$(document).on("click",".tdAb",function(){
+			var abNo = $(this).parent().find(".abNo").val();
+			
+			var deleteCheck = confirm("내역을 삭제하시겠습니까?");
+			if(deleteCheck == true){
+				location.href="abdelete.do?abNo="+abNo;
+			}
+			else if(deleteCheck == false){
+				console.log("일정 삭제를 취소합니다.");
+			}    				
+		}); 
+    	
         function viewModal() {
         	$("#setModal").modal();
         }
+    	
+		function abDetailView(selectDate) {
+			
+			$("#detailModal").modal(true);
+	    	
+	    	$.ajax({
+    			url: 'abdetail.do',
+    			data:{abDate:selectDate},
+    			dataType: 'json',
+    			success: function(data) {
+    				$(".trAb").empty();
+    				
+    				$("#detailDate").html(data.abList[0].date);
+    				
+    				var memoContext = "";
+    				for(var i in data.abList) {
+    					if(data.abList[i].memo != null) {
+		    				memoContext += data.abList[i].memo + "<br>";    						
+    					}
+	    				
+	    				if(data.abList[i].type == "profit") {
+	    					$trPro = $("<tr class='trAb'>");
+	    					$pNo = $("<input type='hidden' class='abNo'>").val(data.abList[i].no);
+	    					$pCategory = $("<td class='tdAb'>").text(data.abList[i].category).css("width", "150px");
+	    					$pAmount = $("<td class='tdAb'>").text(data.abList[i].amount).css("width", "150px");
+	    					
+	    					$trPro.append($pNo);
+	    					$trPro.append($pCategory);
+	    					$trPro.append($pAmount);
+	    					
+	    					$("#pContent").after($trPro);
+	    				} else {
+	    					$trExp = $("<tr class='trAb'>");
+	    					$eNo = $("<input type='hidden' class='abNo'>").val(data.abList[i].no);
+	    					$eCategory = $("<td class='tdAb'>").text(data.abList[i].category).css("width", "150px");
+	    					$eAmount = $("<td class='tdAb'>").text(data.abList[i].amount).css("width", "150px");
+	    					
+	    					$trExp.append($eNo);
+	    					$trExp.append($eCategory);
+	    					$trExp.append($eAmount);
+	    					
+	    					$("#eContent").after($trExp);
+	    				}					
+    				}
+    				
+    				$("#abMemo").html(memoContext);
+    			},
+    			error:function(request, status, errorData){
+                    alert("error code: " + request.status + "\n"
+                          +"message: " + request.responseText
+                          +"error: " + errorData);
+                }   
+    		})
+	    	
+	    }
+		
+		function sumView(calendarDate) {
+        	
+	        $.ajax({
+       			url: 'sumview.do',
+       			data: {mtDate:calendarDate},
+       			dataType: 'json',
+       			success: function(data) {
+       				
+       			},
+       			error:function(request, status, errorData){
+                       alert("error code: " + request.status + "\n"
+                             +"message: " + request.responseText
+                             +"error: " + errorData);
+                   }   
+       		})
+	    }
     </script>
     
 </body>

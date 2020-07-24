@@ -2,20 +2,83 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="accountMapper">
 
+	<resultMap type="ProfitSum" id="pSumResultSet">
+		<result property="date" column="AB_DATE"/>
+		<result property="sum" column="AB_PRO_SUM"/>
+	</resultMap>
+	
+	<resultMap type="ExpenditureSum" id="eSumResultSet">
+		<result property="date" column="AB_DATE"/>
+		<result property="sum" column="AB_EXP_SUM"/>
+	</resultMap>
+	
+	<resultMap type="AccountBook" id="abResultSet">
+		<id property="abNo" column="AB_NO"/>
+		<result property="id" column="ID"/>
+		<result property="abDate" column="AB_DATE"/>
+		<result property="apcNo" column="APC_NO"/>
+		<result property="aecNo" column="AEC_NO"/>
+		<result property="abAmount" column="AB_AMOUNT"/>
+		<result property="abMemo" column="AB_MEMO"/>
+		<result property="abDelete" column="AB_DELETE"/>
+		<result property="memoNo" column="MEMO_NO"/>
+		<result property="abView" column="AB_VIEW"/>
+	</resultMap>
+
 	<insert id="insertAccountBook" parameterType="AccountBook">
 		INSERT INTO ACCOUNT_BOOK
 		VALUES(SEQ_AB.NEXTVAL
 			, #{id}
-			, #{abPro}
-			, #{apcNo}
-			, #{abExp}
-			, #{aecNo}
 			, #{abDate}
+			, #{apcNo}
+			, #{aecNo}
 			, #{abAmount}
 			, #{abMemo}
 			, DEFAULT
 			, 0
 			, 'Y')
 	</insert>
+	
+	<select id="selectPSumList" parameterType="string" resultMap="pSumResultSet">
+		SELECT AB_DATE, SUM(AB_AMOUNT) "AB_PRO_SUM"
+		FROM ACCOUNT_BOOK
+		WHERE ID=#{id}
+		    AND APC_NO!=0
+		    AND AB_DELETE='N'
+		GROUP BY AB_DATE
+	</select>
+	
+	<select id="selectESumList" parameterType="string" resultMap="eSumResultSet">
+		SELECT AB_DATE, SUM(AB_AMOUNT) "AB_EXP_SUM"
+		FROM ACCOUNT_BOOK
+		WHERE ID=#{id}
+		    AND AEC_NO!=0
+		    AND AB_DELETE='N'
+		GROUP BY AB_DATE
+	</select>
+	
+	<select id="selectPList" parameterType="AccountBook" resultMap="abResultSet">
+		SELECT AB_NO, TO_CHAR(AB_DATE, 'YYYY-MM-DD') "AB_DATE", APC_NO, AB_AMOUNT, AB_MEMO
+		FROM ACCOUNT_BOOK
+		WHERE ID=#{id}
+			AND APC_NO!=0
+			AND AB_DATE=#{abDate}
+			AND AB_DELETE='N'
+	</select>
+	
+	<select id="selectEList" parameterType="AccountBook" resultMap="abResultSet">
+		SELECT AB_NO, TO_CHAR(AB_DATE, 'YYYY-MM-DD') "AB_DATE", AEC_NO, AB_AMOUNT, AB_MEMO
+		FROM ACCOUNT_BOOK
+		WHERE ID=#{id}
+			AND AEC_NO!=0
+			AND AB_DATE=#{abDate}
+			AND AB_DELETE='N'
+	</select>
+	
+	<update id="deleteAccountBook" parameterType="AccountBook">
+		UPDATE ACCOUNT_BOOK
+		SET AB_DELETE='Y'
+		WHERE AB_NO=#{abNo}
+	</update>
 
 </mapper>
