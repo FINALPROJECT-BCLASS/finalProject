@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.finalProject.plan.model.vo.DTodolist;
 import com.kh.finalProject.plan.model.vo.MPlan;
+import com.kh.finalProject.plan.model.vo.MTodolist;
 import com.kh.finalProject.plan.model.vo.McOvulation;
 import com.kh.finalProject.plan.model.vo.McRecord;
 import com.kh.finalProject.plan.model.vo.Menstrual;
@@ -149,11 +150,49 @@ public class PlanDao {
 		return sqlSessionTemplate.insert("planMapper.insertMPlan", m);
 	}
 
+	public MPlan selectLastMPlan(MPlan m) {
+		
+		return sqlSessionTemplate.selectOne("planMapper.selectLastMPlan", m);
+	}
+
+	public int updateMpEnd(MPlan m) {
+		
+		return sqlSessionTemplate.update("planMapper.updateMpEnd", m);
+	}
+	
 	public ArrayList<MPlan> selectMpList(String id) {
 		
 		return (ArrayList)sqlSessionTemplate.selectList("planMapper.selectMpList", id);
 	}
 
+	public MPlan selectMPlan(MPlan m) {
+		
+		return sqlSessionTemplate.selectOne("planMapper.selectMPlan", m);
+	}
 
+	public int deleteMPlan(int no) {
+		
+		return sqlSessionTemplate.update("planMapper.deleteMPlan", no);
+	}
+
+	public int updateMPlan(MPlan m) {
+		
+		return sqlSessionTemplate.update("planMapper.updateMPlan", m);
+	}
+
+	public int deleteMTodolist(MTodolist mt) {
+		
+		return sqlSessionTemplate.delete("planMapper.deleteMTodolist", mt);
+	}
+
+	public int insertMTodolist(MTodolist mt) {
+		
+		return sqlSessionTemplate.insert("planMapper.insertMTodolist", mt);
+	}
+
+	public ArrayList<MTodolist> selectMtList(MTodolist mt) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("planMapper.selectMtList", mt);
+	}
 
 }

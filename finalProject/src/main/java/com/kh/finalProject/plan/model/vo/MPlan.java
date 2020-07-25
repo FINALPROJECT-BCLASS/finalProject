@@ -15,7 +15,9 @@ public class MPlan implements Serializable {
 	private String mpStart;
 	private String mpEnd;
 	private String mpTime;
-	private String mpLocation;
+	private String mpColor;
+	private String mpMain;
+	private String mpSub;
 	private String mpMemo;
 	private String mpDelete;
 	private int memoNo;
@@ -24,15 +26,17 @@ public class MPlan implements Serializable {
 	public MPlan() {
 	}
 
-	public MPlan(int mpNo, String id, String mpTitle, String mpStart, String mpEnd, String mpTime, String mpLocation,
-			String mpMemo, String mpDelete, int memoNo, String mpView) {
+	public MPlan(int mpNo, String id, String mpTitle, String mpStart, String mpEnd, String mpTime, String mpColor,
+			String mpMain, String mpSub, String mpMemo, String mpDelete, int memoNo, String mpView) {
 		this.mpNo = mpNo;
 		this.id = id;
 		this.mpTitle = mpTitle;
 		this.mpStart = mpStart;
 		this.mpEnd = mpEnd;
 		this.mpTime = mpTime;
-		this.mpLocation = mpLocation;
+		this.mpColor = mpColor;
+		this.mpMain = mpMain;
+		this.mpSub = mpSub;
 		this.mpMemo = mpMemo;
 		this.mpDelete = mpDelete;
 		this.memoNo = memoNo;
@@ -87,12 +91,28 @@ public class MPlan implements Serializable {
 		this.mpTime = mpTime;
 	}
 
-	public String getMpLocation() {
-		return mpLocation;
+	public String getMpColor() {
+		return mpColor;
 	}
 
-	public void setMpLocation(String mpLocation) {
-		this.mpLocation = mpLocation;
+	public void setMpColor(String mpColor) {
+		this.mpColor = mpColor;
+	}
+
+	public String getMpMain() {
+		return mpMain;
+	}
+
+	public void setMpMain(String mpMain) {
+		this.mpMain = mpMain;
+	}
+
+	public String getMpSub() {
+		return mpSub;
+	}
+
+	public void setMpSub(String mpSub) {
+		this.mpSub = mpSub;
 	}
 
 	public String getMpMemo() {
@@ -130,8 +150,8 @@ public class MPlan implements Serializable {
 	@Override
 	public String toString() {
 		return "MPlan [mpNo=" + mpNo + ", id=" + id + ", mpTitle=" + mpTitle + ", mpStart=" + mpStart + ", mpEnd="
-				+ mpEnd + ", mpTime=" + mpTime + ", mpLocation=" + mpLocation + ", mpMemo=" + mpMemo + ", mpDelete="
-				+ mpDelete + ", memoNo=" + memoNo + ", mpView=" + mpView + "]";
+				+ mpEnd + ", mpTime=" + mpTime + ", mpColor=" + mpColor + ", mpMain=" + mpMain + ", mpSub=" + mpSub
+				+ ", mpMemo=" + mpMemo + ", mpDelete=" + mpDelete + ", memoNo=" + memoNo + ", mpView=" + mpView + "]";
 	}
 
 }
