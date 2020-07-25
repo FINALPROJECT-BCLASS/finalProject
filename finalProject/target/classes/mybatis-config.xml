@@ -37,6 +37,7 @@
 		<mapper resource="/mappers/plan-mapper.xml"/>	<!-- 예지 -->
 		<mapper resource="/mappers/group-mapper.xml"/>
 		<mapper resource="/mappers/daily-mapper.xml"/>
+		<mapper resource="/mappers/chat-mapper.xml"/>
 	</mappers>
 	
 </configuration>
