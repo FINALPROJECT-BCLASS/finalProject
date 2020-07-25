@@ -9,6 +9,7 @@ import com.kh.finalProject.account.model.dao.AccountDao;
 import com.kh.finalProject.account.model.vo.AccountBook;
 import com.kh.finalProject.account.model.vo.ExpenditureSum;
 import com.kh.finalProject.account.model.vo.ProfitSum;
+import com.kh.finalProject.account.model.vo.SumCondition;
 
 @Service("aService")
 public class AccountServiceImpl implements AccountService {
@@ -53,9 +54,21 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public int selectPSum(AccountBook a) {
+	public ArrayList<AccountBook> selectAbPNoList(SumCondition sc) {
 		
-		return aDao.selectPSum(a);
+		return aDao.selectAbPNoList(sc);
+	}
+
+	@Override
+	public ArrayList<AccountBook> selectAbENoList(SumCondition sc) {
+		
+		return aDao.selectAbENoList(sc);
+	}
+
+	@Override
+	public int selectAbAmount(int abNo) {
+		
+		return aDao.selectAbAmount(abNo);
 	}
 	
 }

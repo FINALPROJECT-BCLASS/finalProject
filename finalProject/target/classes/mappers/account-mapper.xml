@@ -80,5 +80,31 @@
 		SET AB_DELETE='Y'
 		WHERE AB_NO=#{abNo}
 	</update>
+	
+	<select id="selectAbPNoList" parameterType="SumCondition" resultMap="abResultSet">
+		SELECT AB_NO
+		FROM ACCOUNT_BOOK
+		WHERE ID=#{id}
+			AND EXTRACT(YEAR FROM AB_DATE)=#{year}
+		    AND EXTRACT(MONTH FROM AB_DATE)=#{month}
+		    AND APC_NO!=0
+		    AND AB_DELETE='N'
+	</select>
+	
+	<select id="selectAbENoList" parameterType="SumCondition" resultMap="abResultSet">
+		SELECT AB_NO
+		FROM ACCOUNT_BOOK
+		WHERE ID=#{id}
+			AND EXTRACT(YEAR FROM AB_DATE)=#{year}
+		    AND EXTRACT(MONTH FROM AB_DATE)=#{month}
+		    AND AEC_NO!=0
+		    AND AB_DELETE='N'
+	</select>
+	
+	<select id="selectAbAmount" parameterType="_int" resultType="_int">
+		SELECT AB_AMOUNT
+		FROM ACCOUNT_BOOK
+		WHERE AB_NO=#{abNo}
+	</select>
 
 </mapper>

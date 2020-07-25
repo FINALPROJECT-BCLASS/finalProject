@@ -20,8 +20,6 @@
 	            	events: function(info,successCallback,failureCallback) {
 	            		var events = [];
 	            		
-	            		var month = info.dateStr.month();
-	            		
 	            		$.ajax({
 	            			url: 'sumlist.do',
 	            			dataType: 'json',
@@ -372,10 +370,14 @@
         	
 	        $.ajax({
        			url: 'sumview.do',
-       			data: {mtDate:calendarDate},
+       			data: {abDate:calendarDate},
        			dataType: 'json',
        			success: function(data) {
+       				$("#proSum").html("");
+       				$("#expSum").html("");
        				
+       				$("#proSum").html(data.pSum);
+       				$("#expSum").html(data.eSum);
        			},
        			error:function(request, status, errorData){
                        alert("error code: " + request.status + "\n"

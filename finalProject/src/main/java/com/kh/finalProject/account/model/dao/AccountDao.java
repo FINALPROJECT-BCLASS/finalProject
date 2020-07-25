@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.finalProject.account.model.vo.AccountBook;
 import com.kh.finalProject.account.model.vo.ExpenditureSum;
 import com.kh.finalProject.account.model.vo.ProfitSum;
+import com.kh.finalProject.account.model.vo.SumCondition;
 
 @Repository("aDao")
 public class AccountDao {
@@ -46,9 +47,19 @@ public class AccountDao {
 		return sqlSessionTemplate.update("accountMapper.deleteAccountBook", a);
 	}
 
-	public int selectPSum(AccountBook a) {
+	public ArrayList<AccountBook> selectAbPNoList(SumCondition sc) {
+	
+		return (ArrayList)sqlSessionTemplate.selectList("accountMapper.selectAbPNoList", sc);
+	}
+
+	public ArrayList<AccountBook> selectAbENoList(SumCondition sc) {
 		
-		return sqlSessionTemplate.selectOne("accoutMapper.selectPSum", a);
+		return (ArrayList)sqlSessionTemplate.selectList("accountMapper.selectAbENoList", sc);
+	}
+
+	public int selectAbAmount(int abNo) {
+		
+		return sqlSessionTemplate.selectOne("accountMapper.selectAbAmount", abNo);
 	}
 
 }

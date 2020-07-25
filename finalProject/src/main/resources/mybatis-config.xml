@@ -34,6 +34,7 @@
 		<typeAlias type="com.kh.finalProject.account.model.vo.AccountBook" alias="AccountBook"/>			<!-- 예지 -->
 		<typeAlias type="com.kh.finalProject.account.model.vo.ProfitSum" alias="ProfitSum"/>				<!-- 예지 -->
 		<typeAlias type="com.kh.finalProject.account.model.vo.ExpenditureSum" alias="ExpenditureSum"/>		<!-- 예지 -->
+		<typeAlias type="com.kh.finalProject.account.model.vo.SumCondition" alias="SumCondition"/>		<!-- 예지 -->
 
 	</typeAliases>
 
