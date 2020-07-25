@@ -225,7 +225,7 @@
                                         </tr>
                                         <tr>
                                             <td><b>Amount</b></td>
-                                            <td><input type="number" name="abAmount" step="1000" style="width: 230px;"></td>
+                                            <td><input type="number" name="abAmount" style="width: 230px;"></td>
                                         </tr>
                                         <tr>
                                             <td colspan="2"><b>Memo</b></td>

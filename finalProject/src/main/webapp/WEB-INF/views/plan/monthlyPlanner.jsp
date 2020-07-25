@@ -568,7 +568,7 @@
 			                         	<label class="u-icons" for="uPink" ><div class="pink"></div></label>
 			                         	<input type="radio" name="color" id="uPurple" value="#C9A8FF">
 			                         	<label class="u-icons" for="uPurple"><div class="light-purple"></div></label>
-			                         	<input type="radio" name="color" id="yBlue" value="#2860E1">
+			                         	<input type="radio" name="color" id="uBlue" value="#2860E1">
 			                         	<label class="u-icons" for="uBlue" ><div class="sky"></div></label>
 			                         	<input type="radio" name="color" id="uGreen" value="#50c6b0">
 			                         	<label class="u-icons" for="uGreen"><div class="green"></div></label>                                        		
