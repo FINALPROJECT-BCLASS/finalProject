@@ -82,5 +82,10 @@ public class DailyDao {
 		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectHabitWSumList", id);
 	}
 
+	public int updateHabitComment(Habit habit) {
+
+		return sqlSessionTemplate.update("dailyMapper.updateHabitComment", habit);
+	}
+
 
 }

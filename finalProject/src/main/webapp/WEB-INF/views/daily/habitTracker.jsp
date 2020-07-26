@@ -451,7 +451,7 @@
 		    padding: 10px;
         }
         
-        .memo-area {
+        .memo-area, .comment-area {
         	margin: 15px;
    			text-align: left;		
         }
@@ -474,6 +474,23 @@
 		    border: 0;
 		    padding: 15px;
         }
+        
+        .comment-area > textarea {
+        	background: #f3f3f3;
+		    font-size: 17px;
+		    color: #484848;
+		    height: 190px;
+		    width: 100%;
+		    border-radius: 10px;
+		    display: flex;
+		    align-items: flex-start;
+		    border: 15px solid #f3f3f3;
+		    
+        }
+        
+        .comment-area > textarea::-webkit-scrollbar {
+  		  	display: none; 
+		}
         
         /* 작은 버튼 */
         
@@ -600,7 +617,7 @@
 	            			
 	            		</div>
 	            		<div class="small-button-area">
-			                <button>Edit</button>
+			                <button data-toggle="modal" data-target="#edit-comment">Edit</button>
 			            </div>
 	            	</div>
 	            	<div class="content-section2-right b-white">
@@ -621,30 +638,55 @@
 			  <div class="modal-dialog" role="document">
 			    <div class="modal-content">
 			      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			      <!-- <form action="insertHtr.do" method="post"> --> <!-- Count form -->
-				      <div class="modal-body">
-					      <div class="modal-t">
+			      	<div class="modal-body">
+					    <div class="modal-t">
 				      		<div>Count</div>
 				      		<div>Drink water</div>
-					      </div>
-					      <div class="count-area b-lightgray">
+					    </div>
+					    <div class="count-area b-lightgray">
 					      	<span>+</span>
 					      	<input id="htr_now" name="htr_now" class="count blue" type="text">
 					      	<span name="htr_unit">ml</span>
-					      </div>
-					      <div class="memo-area">
+					    </div>
+					    <div class="memo-area">
 					      	<div>Memo</div>
 					      	<input id="htr_con" name="htr_con" type="text">
-					      </div>
-					      <div class="small-button-area">
+					    </div>
+					    <div class="small-button-area">
 	           				<button type="button" onclick="countModal();">Save</button>
 			                <button data-dismiss="modal" aria-label="Close">Cancel</button>
-					      </div>
-				      </div>
-<!-- 			      </form> -->
+					    </div>
+			      	</div>
 			    </div>
 			  </div>
-			</div>           
+			</div>
+			
+			<!-- Content Edit Modal -->
+			<div class="modal fade" id="edit-comment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			      	<div class="modal-body">
+					    <div class="modal-t">
+				      		<div>Comment</div>
+				      		<div>Drink water</div>
+					    </div>
+					    <div class="comment-area">
+					      	<textarea id="ht_comment"></textarea>
+					    </div>
+					    <div class="small-button-area">
+	           				<button type="button" onclick="editCommentModal();">Save</button>
+			                <button data-dismiss="modal" aria-label="Close">Cancel</button>
+					    </div>
+			      	</div>
+			    </div>
+			  </div>
+			</div>  
+			
+			
+			
+			
+			      
             <!-- Button Start-->
             <div class="button-area">
                 <button class="blue">Graph >></button>
@@ -743,6 +785,7 @@
    				    	$(".modal-t > div:nth-child(2)").html(data.list.ht_title);
    				    	$(".count-area > input").val(data.list.ht_amount);
    				    	$(".count-area > span:nth-child(3)").html(data.list.ht_unit);
+   				    	$("#ht_comment").html(data.list.ht_con);
    				    	
    						// for 클릭 트리거 (내용 변경 후 재클릭시 슬라이드 내부의 내용도 동시에 수정하기 위함)
    						$(".clicked").find("a.ht_now").html(sum);
@@ -807,6 +850,7 @@
    				    	$(".modal-t > div:nth-child(2)").html(data.list.ht_title);
    				    	$(".count-area > input").val(data.list.ht_amount);
    				    	$(".count-area > span:nth-child(3)").html(data.list.ht_unit);
+   				    	$("#ht_comment").html(data.list.ht_con);
    				    	
    				 		// for 클릭 트리거 (내용 변경 후 재클릭시 슬라이드 내부의 내용도 동시에 수정하기 위함)
    				    	$(".clicked").find("a.ht_now").html(sum);
@@ -869,12 +913,14 @@
    				    	$(".modal-t > div:nth-child(2)").html(data.list.ht_title);
    				    	$(".count-area > input").val(data.list.ht_amount);
    				    	$(".count-area > span:nth-child(3)").html(data.list.ht_unit);
+   				    	$("#ht_comment").html(data.list.ht_con);
    				    	
    				  		// for 클릭 트리거 (내용 변경 후 재클릭시 슬라이드 내부의 내용도 동시에 수정하기 위함)
    				    	$(".clicked").find("a.ht_now").html(sum);
    						$(".clicked").find("div.progress-bar").css("width", Math.ceil(sum/data.list.ht_goal*100) + "%");
    						$(".clicked").find("div.progress-bar").css("background-color", data.list.ht_color);
    						$(".clicked").find("div.percent").html(Math.ceil(sum/data.list.ht_goal*100) + "%");
+   						
    						
    						}
  		
@@ -890,7 +936,7 @@
 		    });
 		    
 		    
-		    
+		    // 습관 카운트 하기
 		    function countModal() {
 		    	
 		    	var ht_no = $("#ht_no").val();
@@ -903,24 +949,52 @@
 		    	    method: 'POST',
 		    	    url: 'insertHtr.do',
 		    	    traditional: true,
-		    	    data: {'htr' : htr},
+		    	    data: {'htr':htr},
 		    	    success : function(data) {
 						if(data == "success") {
-							
 							
 							$(".clicked").trigger("click");
 							$("#add-count").modal("hide");
 							$("#htr_con").val("");
 							
+						}else {
+							alert("기록 실패, 다시 시도해 주세요.");
+							
 						}
 		    	    },
-		    	    error : function(request, status, error) {
-		    	        alert(error);
-		    	    }
+		    	    error:function(request, status, errorData){
+                        alert("error code: " + request.status + "\n"
+                              +"message: " + request.responseText
+                              +"error: " + errorData);
+             		} 
 		    	 
-		    	});
+		    	});	
+		    }
+		    
+		    // 습관 내용 수정하기
+		    function editCommentModal() {
 		    	
-				
+		    	var ht_con = $("#ht_comment").val();
+		    	var ht_no = $("#ht_no").val();
+		    	
+		    	$.ajax({
+		    		method: 'POST',
+		    		url: 'updateHabitComment.do',
+		    		data: {'ht_con':ht_con, 'ht_no':ht_no},
+		    		success: function(data) {
+		    			
+		    			if(data == "success") {
+		    				$(".clicked").trigger("click");
+							$("#edit-comment").modal("hide");
+		    			}
+		    			
+		    		},
+		    		error:function(request, status, errorData){
+                        alert("error code: " + request.status + "\n"
+                              +"message: " + request.responseText
+                              +"error: " + errorData);
+             		} 
+		    	})
 		    }
 
         </script>

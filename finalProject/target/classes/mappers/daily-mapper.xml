@@ -160,5 +160,12 @@
                    		 AND TO_DATE(TRUNC(SYSDATE,'IW') + 7, 'YY/MM/DD')
 		GROUP BY HT.HT_NO
 	</select>
+	
+	<update id="updateHabitComment" parameterType="Habit">
+		UPDATE HABIT_TRACKER
+		SET HT_CON = #{ht_con}
+		WHERE HT_NO = #{ht_no}
+		AND HT_DELETE = 'N'
+	</update>
 
 </mapper>

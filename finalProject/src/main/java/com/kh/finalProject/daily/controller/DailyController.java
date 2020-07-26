@@ -289,7 +289,7 @@ public class DailyController {
 	}
 	
 	@RequestMapping(value="insertHtr.do", method = RequestMethod.POST)
-	public void test(HttpServletRequest request, HttpServletResponse response, String[] htr) throws IOException {
+	public void insertHabitRecord(HttpServletRequest request, HttpServletResponse response, String[] htr) throws IOException {
 		
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
@@ -325,5 +325,28 @@ public class DailyController {
 	    }
 	        
 	        
+	}
+	
+	@RequestMapping(value="updateHabitComment.do", method=RequestMethod.POST)
+	public void updateHabitComment(HttpServletRequest request, HttpServletResponse response, Habit habit) throws IOException {
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+//		System.out.println("나는 확인을 할 거야 : " +habit);
+		int result = dailyService.updateHabitComment(habit);
+		
+		
+		if(result > 0) {
+			out.print("success");
+			out.flush();
+			out.close();
+		} else {
+			out.print("failed");
+			out.flush();
+			out.close();
+		}
+		
+		
 	}
 }

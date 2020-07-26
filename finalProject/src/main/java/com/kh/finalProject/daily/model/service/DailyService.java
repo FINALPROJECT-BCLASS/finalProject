@@ -32,6 +32,8 @@ public interface DailyService {
 
 	ArrayList<HabitSum> selectHabitWSumList(String id);
 
+	int updateHabitComment(Habit habit);
+
 
 
 }

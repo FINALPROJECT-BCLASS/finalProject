@@ -94,6 +94,12 @@ public class DailyServiceImpl implements DailyService {
 		return dailyDao.selectHabitWSumList(id);
 	}
 
+	@Override
+	public int updateHabitComment(Habit habit) {
+
+		return dailyDao.updateHabitComment(habit);
+	}
+
 
 
 	
