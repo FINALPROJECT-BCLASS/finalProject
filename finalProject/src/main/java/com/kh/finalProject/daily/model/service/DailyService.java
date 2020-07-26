@@ -16,7 +16,7 @@ public interface DailyService {
 
 	Habit selectHabitContent(Habit habit);
 
-	int insertHabitRecord(Habit h);
+	int insertHabitRecord(HabitRecord hr);
 
 	Habit selectHabitNum(Habit habit);
 

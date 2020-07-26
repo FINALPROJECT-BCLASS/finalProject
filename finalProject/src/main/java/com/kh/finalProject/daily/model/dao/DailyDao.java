@@ -36,9 +36,9 @@ public class DailyDao {
 		return sqlSessionTemplate.selectOne("dailyMapper.selectHabitContent", habit);
 	}
 
-	public int insertHabitRecord(Habit h) {
+	public int insertHabitRecord(HabitRecord hr) {
 
-		return sqlSessionTemplate.insert("dailyMapper.insertHabitRecord", h);
+		return sqlSessionTemplate.insert("dailyMapper.insertHabitRecord", hr);
 	}
 
 	public Habit selectHabitNum(Habit habit) {

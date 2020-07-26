@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.finalProject.daily.model.service.DailyService;
@@ -103,7 +104,7 @@ public class DailyController {
 				hlist.add(h);
 			}
 			
-			System.out.println(hlist);
+			System.out.println("목록 확인 :" + hlist);
 
 			if(list != null) {
 				mv.addObject("hlist", hlist);
@@ -143,12 +144,6 @@ public class DailyController {
 		habit.setId(member.getId()); // 세션에서 받아온 아이디 저장
 		
 		int result = dailyService.insertHabit(habit);
-		
-		// 습관 이름으로 저장된 값 불러오기 (** 이름 중복 확인 해야함)
-		Habit h = dailyService.selectHabitContent(habit);
-		
-		// 불러온 값을 이용해서 기록사항 기본값 저장
-		int recordResult = dailyService.insertHabitRecord(h);
 		
 		if(result > 0) {
 			
@@ -192,31 +187,21 @@ public class DailyController {
 		String today = dailySet.format(date); // 오늘 날짜
 		String month = monthlySet.format(date); // 이번 달
 		
+		JSONArray daily = new JSONArray();
+		JSONArray weekly = new JSONArray();
+		JSONArray monthly = new JSONArray();
+		JSONObject sendJson = new JSONObject();
+		
+		if(h.getHt_cycle().equals("Daily")) {
+		
 		// 아이디, 습관 번호, 오늘 날짜 담기
 		HabitRecord hrd = new HabitRecord();
 		hrd.setId(id);
 		hrd.setHt_no(h.getHt_no());
 		hrd.setHtr_date(today);
-		
-		HabitRecord hrw = new HabitRecord();
-		hrw.setId(id);
-		hrw.setHt_no(h.getHt_no());
-		
-		// 아이디, 습관 번호, 오늘 날짜 담기
-		HabitRecord hrm = new HabitRecord();
-		hrm.setId(id);
-		hrm.setHt_no(h.getHt_no());
-		hrm.setHtr_date(month);
-		
 		ArrayList<HabitRecord> hrDailyResult = dailyService.selectHabitRecordList(hrd);
-		ArrayList<HabitRecord> hrWeeklyResult = dailyService.selectHabitRecordListW(hrw);
-		ArrayList<HabitRecord> hrMonthlyResult = dailyService.selectHabitRecordListM(hrm);
 		
-		JSONArray daily = new JSONArray();
-		JSONArray weekly = new JSONArray();
-		JSONArray monthly = new JSONArray();
-		
-		// 오늘 날짜로 조회한 습관 기록 목록 배열에 담기
+		// 오늘 날짜로 조회한 습관 기록 배열에 담기
 		for(HabitRecord HR : hrDailyResult) {
 			
 			JSONObject jObject = new JSONObject();
@@ -226,50 +211,75 @@ public class DailyController {
 			jObject.put("htr_con", HR.getHtr_con());
 			
 			daily.add(jObject);
-		}
-		
-		// 이번 달로 조회한 습관 기록 목록 배열에 담기
-		for(HabitRecord HRM : hrMonthlyResult) {
-			
-			JSONObject jObjectM = new JSONObject();
-			jObjectM.put("htr_no", HRM.getHt_no());
-			jObjectM.put("htr_month", HRM.getHtr_month());
-			jObjectM.put("htr_time", HRM.getHtr_time());
-			jObjectM.put("htr_now", HRM.getHtr_now());
-			jObjectM.put("htr_con", HRM.getHtr_con());
-			
-			monthly.add(jObjectM);
 			
 		}
 		
-		// 이번 주로 조회한 습관 기록 목록 배열에 담기
-		for(HabitRecord HRW : hrWeeklyResult) {
+		sendJson.put("recordDailyList", daily);
+		
+		}else if(h.getHt_cycle().equals("Weekly")) {
+		
+			HabitRecord hrw = new HabitRecord();
+			hrw.setId(id);
+			hrw.setHt_no(h.getHt_no());
+			ArrayList<HabitRecord> hrWeeklyResult = dailyService.selectHabitRecordListW(hrw);
 			
-			JSONObject jObjectW = new JSONObject();
-			jObjectW.put("htr_no", HRW.getHt_no());
-			jObjectW.put("htr_month", HRW.getHtr_month());
-			jObjectW.put("htr_time", HRW.getHtr_time());
-			jObjectW.put("htr_now", HRW.getHtr_now());
-			jObjectW.put("htr_con", HRW.getHtr_con());
+			// 이번 주로 조회한 습관 기록 배열에 담기
+			for(HabitRecord HRW : hrWeeklyResult) {
+				
+				JSONObject jObjectW = new JSONObject();
+				jObjectW.put("htr_no", HRW.getHt_no());
+				jObjectW.put("htr_month", HRW.getHtr_month());
+				jObjectW.put("htr_time", HRW.getHtr_time());
+				jObjectW.put("htr_now", HRW.getHtr_now());
+				jObjectW.put("htr_con", HRW.getHtr_con());
+				
+				weekly.add(jObjectW);
+				
+			}
 			
-			weekly.add(jObjectW);
+			sendJson.put("recordWeeklyList", weekly);
+			System.out.println("주 리스트 확인 : "+ hrWeeklyResult);
 			
+		}else {
+		
+			// 아이디, 습관 번호, 오늘 날짜 담기
+			HabitRecord hrm = new HabitRecord();
+			hrm.setId(id);
+			hrm.setHt_no(h.getHt_no());
+			hrm.setHtr_date(month);
+			ArrayList<HabitRecord> hrMonthlyResult = dailyService.selectHabitRecordListM(hrm);
+			
+			// 이번 달로 조회한 습관 기록 배열에 담기
+			for(HabitRecord HRM : hrMonthlyResult) {
+				
+				JSONObject jObjectM = new JSONObject();
+				jObjectM.put("htr_no", HRM.getHt_no());
+				jObjectM.put("htr_month", HRM.getHtr_month());
+				jObjectM.put("htr_time", HRM.getHtr_time());
+				jObjectM.put("htr_now", HRM.getHtr_now());
+				jObjectM.put("htr_con", HRM.getHtr_con());
+				
+				monthly.add(jObjectM);
+				
+			}
+			
+			sendJson.put("recordMonthlyList", monthly);
+			System.out.println("월 확인 : " + hrMonthlyResult);
+		
 		}
 		
-		// 습관
+		// 전체 습관
 		JSONObject jObj = new JSONObject();
 		jObj.put("ht_title", h.getHt_title());
 		jObj.put("ht_goal", h.getHt_goal());
 		jObj.put("ht_unit", h.getHt_unit());
+		jObj.put("ht_amount", h.getHt_amount());
 		jObj.put("ht_cycle", h.getHt_cycle());
 		jObj.put("ht_now", h.getHt_now());
 		jObj.put("ht_con", h.getHt_con());
 		jObj.put("ht_color", h.getHt_color());
 		
-		JSONObject sendJson = new JSONObject();
-		sendJson.put("recordDailyList", daily);
-		sendJson.put("recordWeeklyList", weekly);
-		sendJson.put("recordMonthlyList", monthly);
+		
 		sendJson.put("list", jObj);
 		
 		out.print(sendJson);
@@ -278,4 +288,42 @@ public class DailyController {
 			
 	}
 	
+	@RequestMapping(value="insertHtr.do", method = RequestMethod.POST)
+	public void test(HttpServletRequest request, HttpServletResponse response, String[] htr) throws IOException {
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		
+		String id = member.getId();
+		
+		int ht_no = Integer.parseInt(htr[0]);
+		String htr_now = htr[1];
+		String htr_con = htr[2];
+		
+		HabitRecord hr = new HabitRecord();
+		hr.setHt_no(ht_no);
+		hr.setId(id);
+		hr.setHtr_now(htr_now);
+		hr.setHtr_con(htr_con);
+	        
+		System.out.println(hr);
+		
+		
+	    int result = dailyService.insertHabitRecord(hr);
+	    
+	    if(result > 0) {
+	    	out.print("success");
+	    	out.flush();
+	    	out.close();
+	    } else {
+	    	out.print("failed");
+	    	out.flush();
+	    	out.close();
+	    }
+	        
+	        
+	}
 }

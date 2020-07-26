@@ -74,9 +74,9 @@
 		AND HT_DELETE='N'
 	</select>
 	
-	<insert id="insertHabitRecord" parameterType="Habit">
+	<insert id="insertHabitRecord" parameterType="HabitRecord">
 		INSERT INTO HABIT_TRACKER_RECORD
-		VALUES (SEQ_HTR.NEXTVAL, #{id}, #{ht_no}, SYSDATE, 0, '', DEFAULT)
+		VALUES (SEQ_HTR.NEXTVAL, #{id}, #{ht_no}, SYSDATE, #{htr_now}, #{htr_con}, DEFAULT)
 	</insert>
 	
 	<select id="selectHabitNum" parameterType="Habit" resultMap="habitResultSet">
@@ -97,14 +97,14 @@
 		ORDER BY HTR_DATE DESC
 	</select>
 	
-	<select id="selectHabitRecordListW" parameterType="HabitRecord" resultMap="habitRecordResultSet">
+	<select id="selectHabitRecordListW" parameterType="HabitRecord" resultMap="habitRecordResultSet_2">
 		SELECT HTR_NO, ID, HT_NO, TO_CHAR(HTR_DATE, 'DD') AS "HTR_MONTH", TO_CHAR(HTR_DATE, 'HH:MI') AS "HTR_TIME", HTR_NOW, HTR_CON, HTR_DELETE
 		FROM HABIT_TRACKER_RECORD
 		WHERE ID=#{id}
 		AND HT_NO=#{ht_no}
 		AND HTR_DELETE='N'
 		AND HTR_DATE BETWEEN TO_DATE(TRUNC(SYSDATE,'IW'), 'YY/MM/DD') 
-                   		 AND TO_DATE(TRUNC(SYSDATE,'IW') + 6, 'YY/MM/DD')
+                   		 AND TO_DATE(TRUNC(SYSDATE,'IW') + 7, 'YY/MM/DD')
 		ORDER BY HTR_DATE DESC
 	</select>
 	
@@ -157,7 +157,7 @@
 		AND HT.ID = #{id}
 		AND HT.HT_DELETE = 'N'
 		AND HTR_DATE BETWEEN TO_DATE(TRUNC(SYSDATE,'IW'), 'YY/MM/DD') 
-                   		 AND TO_DATE(TRUNC(SYSDATE,'IW') + 6, 'YY/MM/DD')
+                   		 AND TO_DATE(TRUNC(SYSDATE,'IW') + 7, 'YY/MM/DD')
 		GROUP BY HT.HT_NO
 	</select>
 

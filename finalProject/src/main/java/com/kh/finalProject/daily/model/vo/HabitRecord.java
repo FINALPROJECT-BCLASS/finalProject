@@ -15,14 +15,14 @@ public class HabitRecord implements Serializable{
 	private String htr_month;
 	private String htr_time;
 	private String htr_date;
-	private int htr_now;
+	private String htr_now;
 	private String htr_con;
 	private String htr_delete;
 	
 	public HabitRecord() {
 	}
 
-	public HabitRecord(int htr_no, String id, int ht_no, String htr_date, int htr_now, String htr_con,
+	public HabitRecord(int htr_no, String id, int ht_no, String htr_date, String htr_now, String htr_con,
 			String htr_delete) {
 		super();
 		this.htr_no = htr_no;
@@ -36,7 +36,7 @@ public class HabitRecord implements Serializable{
 	
 
 	public HabitRecord(int htr_no, String id, int ht_no, String htr_month, String htr_time, String htr_date,
-			int htr_now, String htr_con, String htr_delete) {
+			String htr_now, String htr_con, String htr_delete) {
 		super();
 		this.htr_no = htr_no;
 		this.id = id;
@@ -81,11 +81,11 @@ public class HabitRecord implements Serializable{
 		this.htr_date = htr_date;
 	}
 
-	public int getHtr_now() {
+	public String getHtr_now() {
 		return htr_now;
 	}
 
-	public void setHtr_now(int htr_now) {
+	public void setHtr_now(String htr_now) {
 		this.htr_now = htr_now;
 	}
 
@@ -127,9 +127,12 @@ public class HabitRecord implements Serializable{
 
 	@Override
 	public String toString() {
-		return "HabitRecord [htr_no=" + htr_no + ", id=" + id + ", ht_no=" + ht_no + ", htr_date=" + htr_date
-				+ ", htr_now=" + htr_now + ", htr_con=" + htr_con + ", htr_delete=" + htr_delete + "]";
+		return "HabitRecord [htr_no=" + htr_no + ", id=" + id + ", ht_no=" + ht_no + ", htr_month=" + htr_month
+				+ ", htr_time=" + htr_time + ", htr_date=" + htr_date + ", htr_now=" + htr_now + ", htr_con=" + htr_con
+				+ ", htr_delete=" + htr_delete + "]";
 	}
+
+
 	
 	
 	

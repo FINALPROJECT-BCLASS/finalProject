@@ -44,8 +44,8 @@ public class DailyServiceImpl implements DailyService {
 	
 	// 습관 생성
 	@Override
-	public int insertHabitRecord(Habit h) {
-		return dailyDao.insertHabitRecord(h);
+	public int insertHabitRecord(HabitRecord hr) {
+		return dailyDao.insertHabitRecord(hr);
 	}
 	
 	// 습관 번호로 습관 조회

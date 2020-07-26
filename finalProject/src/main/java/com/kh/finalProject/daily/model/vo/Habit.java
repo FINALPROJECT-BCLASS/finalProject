@@ -20,13 +20,13 @@ public class Habit implements Serializable {
 	private String ht_color;
 	private String ht_con;
 	private String ht_delete;
-	private int ht_now;
+	private String ht_now;
 	
 	public Habit() {
 	}
 
 	public Habit(int ht_no, String id, String ht_title, String ht_type, String ht_goal, String ht_unit,
-			String ht_cycle, String ht_start, String ht_amount, String ht_color, String ht_con, String ht_delete, int ht_now) {
+			String ht_cycle, String ht_start, String ht_amount, String ht_color, String ht_con, String ht_delete, String ht_now) {
 		super();
 		this.ht_no = ht_no;
 		this.id = id;
@@ -139,11 +139,11 @@ public class Habit implements Serializable {
 		this.ht_delete = ht_delete;
 	}
 	
-	public int getHt_now() {
+	public String getHt_now() {
 		return ht_now;
 	}
 
-	public void setHt_now(int ht_now) {
+	public void setHt_now(String ht_now) {
 		this.ht_now = ht_now;
 	}
 	

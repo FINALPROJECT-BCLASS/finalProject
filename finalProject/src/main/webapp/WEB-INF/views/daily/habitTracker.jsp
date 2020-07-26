@@ -57,9 +57,9 @@
             width: 100%;
             border-radius: 10px;
             background: white;
-            display: block;
             margin-top: 30px;
             padding: 15px;
+            display: block;
         }
         
        	.cSubject {
@@ -499,6 +499,28 @@
             display: none;
         }
         
+        .slide-btn {
+        	margin-bottom : 10px;
+        }
+        
+        .slide-btn > button {
+       	    border: none;
+		    height: 40px;
+		    width: 40px;
+		    background: white;
+		    border-radius: 50%;
+		    margin-left: 9px;
+        }
+        
+        .show {
+        	display: flex;
+        }
+        
+        .hide {
+        	display: none;
+        }
+        
+        
 
 		
     </style>
@@ -510,28 +532,29 @@
         <div class="right-area">
             <span class="pSubject">Habit Tracker</span>
             
-            <div class="small-button-area">
-       			<button>Daily</button>
-       			<button>Weekly</button>
-                <button>Monthly</button>
+            <div class="small-button-area slide-btn">
+       			<button type="button" onclick="cycleBtn();">D</button>
+       			<button type="button" onclick="cycleBtn();">W</button>
+                <button type="button" onclick="cycleBtn();">M</button>
 			</div>
             <!-- 슬라이드 -->
-            <div class="carousel" data-flickity='{ "draggable": false }'>
+            <div class="carousel" data-flickity='{ "draggable": true }'>
 				<c:forEach var="h" items="${hlist }">
 					<!-- 퍼센트 연산처리 -->
 					<fmt:parseNumber var="percent" value="${(h.ht_now/h.ht_goal)*100+(1-(((h.ht_now/h.ht_goal)*100)%1))%1}" integerOnly="true" />
 					<!-- 슬라이드 아이템 -->
 		        	<input id="htNum" type="hidden" value="${h.ht_no }"> <!-- 습관 번호 -->
-					<div class="progress carousel-cell">
+					<div class="progress carousel-cell habitItem ${h.ht_cycle }">
 				  		<div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:${percent }%; background-color:${h.ht_color};"></div>
 			    		<div class="bar-info">
 							<div class="ht_title">${h.ht_title }</div>
-							<div><a class="ht_now">${h.ht_now }</a> / ${h.ht_goal } ${h.ht_unit }</div> <!-- now는 기록 메모 테이블의 현재값 컬럼을 더한 값 -->
+							<div><a class="ht_now">${h.ht_now }</a> / <a class="ht_goal">${h.ht_goal }</a> <a class="ht_unit">${h.ht_unit }</a></div> <!-- now는 기록 메모 테이블의 현재값 컬럼을 더한 값 -->
 						</div>
-						<div>${percent }%</div>
+						<div class="percent">${percent }%</div>
 					</div>
 				</c:forEach>
 			</div>
+		
        
             
             <!-- Button Start-->
@@ -542,8 +565,9 @@
             </div>
 
     		<!-- 내용 -->
-            <div class="content">
-            	<div class="cSubject">Drink Water</div>
+            <div id="content" class="content">
+            	<input type="hidden" id="ht_no">
+            	<div class="cSubject" id="habitTitle">Drink Water</div>
             	<div class="content-section1">
             		<div class="content-section1-left">
 	            		<div>
@@ -557,7 +581,7 @@
 	            		</div>
 	            		<div class="section1-item-area">
 		            		<div class="section1-item add" data-toggle="modal" data-target="#add-count" style="margin-right: 10px;">
-		            			<span id="periode"></span>
+		            			<span id="period"></span>
 		            			<span id="now"></span>
 		            			<span id="goal"></span>
 		            		</div>
@@ -571,8 +595,7 @@
 	            <div class="content-section2 b-white">
 		            <div class="content-section2-left b-white">
 
-	            		<div class="item-subject sub">Comment
-	            		</div>
+	            		<div class="item-subject sub">Comment</div>
 	            		<div class="section2-item" id="comment">
 	            			
 	            		</div>
@@ -581,13 +604,9 @@
 			            </div>
 	            	</div>
 	            	<div class="content-section2-right b-white">
-	            		<div class="item-subject sub">Record
-	            		</div>
+	            		<div class="item-subject sub">Record</div>
 	            		<div class="section2-item">
-	            			<!-- <div class="t-sub blue" colspan="3">Today</div> -->
-	            			<table id="habit-record" class="habit-record" cellpadding="3px">
-	       
-	            			</table>
+	            			<table id="habit-record" class="habit-record" cellpadding="3px"></table>
 	            		</div>
 	            			<div class="small-button-area">
 	            				<button>Delete</button>
@@ -602,7 +621,7 @@
 			  <div class="modal-dialog" role="document">
 			    <div class="modal-content">
 			      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			      <form action="#"> <!-- Count form -->
+			      <!-- <form action="insertHtr.do" method="post"> --> <!-- Count form -->
 				      <div class="modal-body">
 					      <div class="modal-t">
 				      		<div>Count</div>
@@ -610,19 +629,19 @@
 					      </div>
 					      <div class="count-area b-lightgray">
 					      	<span>+</span>
-					      	<input class="count blue" type="text" value="300">
-					      	<span>ml</span>
+					      	<input id="htr_now" name="htr_now" class="count blue" type="text">
+					      	<span name="htr_unit">ml</span>
 					      </div>
 					      <div class="memo-area">
 					      	<div>Memo</div>
-					      	<input type="text" value="memo">
+					      	<input id="htr_con" name="htr_con" type="text">
 					      </div>
 					      <div class="small-button-area">
-	           				<button>Save</button>
+	           				<button type="button" onclick="countModal();">Save</button>
 			                <button data-dismiss="modal" aria-label="Close">Cancel</button>
 					      </div>
 				      </div>
-			      </form>
+<!-- 			      </form> -->
 			    </div>
 			  </div>
 			</div>           
@@ -634,6 +653,9 @@
         </div>
 		
 		<script>
+			
+			$(".content").hide();
+		
 			$(function(){
 				
 		        var responseMessage = "<c:out value="${message}" />";
@@ -642,10 +664,13 @@
 		  
 		    })
 		    
-		    var target=$('.carousel-cell');
+		    var target=$('.habitItem');
 		    
-		    target.click(function(){
+		    target.on("click", function(){
 		    	$(this).addClass("clicked");
+		    	$(".content").show();
+		    	
+		    	// ht_no를 기준으로 content 내용을 뿌려주기 위함
 		    	var htNum = $(this).prev("#htNum").val();
 		    	console.log(htNum);
 		    	
@@ -695,9 +720,12 @@
 							
 						}
 						
-						console.log(sum);
+						$("#ht_no").val(htNum);
 						
-						$("#periode").html("Today");
+						$("#habitTitle").html(data.list.ht_title);
+						
+						//프로그레스 구역 내의 소제목
+						$("#period").html("Today");
 						
 						//현재 값
    						$("#now").html(sum);
@@ -710,6 +738,18 @@
    						//progress bar
    						$("#progress1").css("width", Math.ceil(sum/data.list.ht_goal*100) + "%");
    						$("#progress1").css("background-color", data.list.ht_color);
+   						
+   						// 모달에 세팅 
+   				    	$(".modal-t > div:nth-child(2)").html(data.list.ht_title);
+   				    	$(".count-area > input").val(data.list.ht_amount);
+   				    	$(".count-area > span:nth-child(3)").html(data.list.ht_unit);
+   				    	
+   						// for 클릭 트리거 (내용 변경 후 재클릭시 슬라이드 내부의 내용도 동시에 수정하기 위함)
+   						$(".clicked").find("a.ht_now").html(sum);
+   						$(".clicked").find("div.progress-bar").css("width", Math.ceil(sum/data.list.ht_goal*100) + "%");
+   						$(".clicked").find("div.progress-bar").css("background-color", data.list.ht_color);
+   						$(".clicked").find("div.percent").html(Math.ceil(sum/data.list.ht_goal*100) + "%");
+   				    	
 						
    					} else if(data.list.ht_cycle == "Weekly") { //기준이 일주일일 때
    						
@@ -723,7 +763,7 @@
    						var $tdCon;
 						var sum = 0;
    						
-						for(var i in data.recordMonthlyList){
+						for(var i in data.recordWeeklyList){
 	   						var checkbox = "<input type='checkbox' id='check"+ i +"' name='check" + i +"'>" + "<label for='check"+i+"'>" + "</label>";
 	   						var date = "<b>" + data.recordWeeklyList[i].htr_month + "일 </b>" + data.recordWeeklyList[i].htr_time;  
 							
@@ -742,8 +782,14 @@
 							$tableBody.append($tr);
 						}
 						
+						console.log(sum);
+						
+						$("#ht_no").val(htNum);
+						
+						$("#habitTitle").html(data.list.ht_title);
+						
 						//프로그레스 구역 내의 소제목
-   						$("#periode").html("This Week");
+   						$("#period").html("This Week");
 						
 						//현재 값
    						$("#now").html(sum);
@@ -756,6 +802,17 @@
    						//progress bar
    						$("#progress1").css("width", Math.ceil(sum/data.list.ht_goal*100) + "%");
    						$("#progress1").css("background-color", data.list.ht_color);
+   						
+   						// 모달에 세팅 
+   				    	$(".modal-t > div:nth-child(2)").html(data.list.ht_title);
+   				    	$(".count-area > input").val(data.list.ht_amount);
+   				    	$(".count-area > span:nth-child(3)").html(data.list.ht_unit);
+   				    	
+   				 		// for 클릭 트리거 (내용 변경 후 재클릭시 슬라이드 내부의 내용도 동시에 수정하기 위함)
+   				    	$(".clicked").find("a.ht_now").html(sum);
+   						$(".clicked").find("div.progress-bar").css("width", Math.ceil(sum/data.list.ht_goal*100) + "%");
+   						$(".clicked").find("div.progress-bar").css("background-color", data.list.ht_color);
+   						$(".clicked").find("div.percent").html(Math.ceil(sum/data.list.ht_goal*100) + "%");
    						
    					} else if(data.list.ht_cycle == "Monthly"){ //기준이 한 달일 때
    						
@@ -789,8 +846,12 @@
 							$tableBody.append($tr);
 						}
 						
+						$("#ht_no").val(htNum);
+						
+						$("#habitTitle").html(data.list.ht_title);
+						
 						//프로그레스 소제목
-   						$("#periode").html("This Month");
+   						$("#period").html("This Month");
 						
 						//현재 값
    						$("#now").html(sum);
@@ -802,9 +863,20 @@
    						
    						//progress bar
    						$("#progress1").css("width", Math.ceil(sum/data.list.ht_goal*100) + "%");
-   						$("#progress1").css("background-color", data.list.ht_color);		
+   						$("#progress1").css("background-color", data.list.ht_color);
    						
-   					}
+   						// 모달에 세팅 
+   				    	$(".modal-t > div:nth-child(2)").html(data.list.ht_title);
+   				    	$(".count-area > input").val(data.list.ht_amount);
+   				    	$(".count-area > span:nth-child(3)").html(data.list.ht_unit);
+   				    	
+   				  		// for 클릭 트리거 (내용 변경 후 재클릭시 슬라이드 내부의 내용도 동시에 수정하기 위함)
+   				    	$(".clicked").find("a.ht_now").html(sum);
+   						$(".clicked").find("div.progress-bar").css("width", Math.ceil(sum/data.list.ht_goal*100) + "%");
+   						$(".clicked").find("div.progress-bar").css("background-color", data.list.ht_color);
+   						$(".clicked").find("div.percent").html(Math.ceil(sum/data.list.ht_goal*100) + "%");
+   						
+   						}
  		
    					},
    					error:function(request, status, errorData){
@@ -817,7 +889,39 @@
 		    	target.not($(this)).removeClass("clicked");
 		    });
 		    
-
+		    
+		    
+		    function countModal() {
+		    	
+		    	var ht_no = $("#ht_no").val();
+		    	var htr_now = $("#htr_now").val();
+		    	var htr_con = $("#htr_con").val();
+		    	
+		    	var htr = [ht_no, htr_now, htr_con];
+		    	 
+		    	$.ajax({
+		    	    method: 'POST',
+		    	    url: 'insertHtr.do',
+		    	    traditional: true,
+		    	    data: {'htr' : htr},
+		    	    success : function(data) {
+						if(data == "success") {
+							
+							
+							$(".clicked").trigger("click");
+							$("#add-count").modal("hide");
+							$("#htr_con").val("");
+							
+						}
+		    	    },
+		    	    error : function(request, status, error) {
+		    	        alert(error);
+		    	    }
+		    	 
+		    	});
+		    	
+				
+		    }
 
         </script>
         <jsp:include page="../common/footer.jsp"/>

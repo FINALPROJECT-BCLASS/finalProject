@@ -284,6 +284,7 @@
     		// 타입 선택시 타이핑 막기
     		$("#check").click(function(){
     	    	$("#d-count").attr("readonly", true);
+    	    	$("#d-count").val(1);
     		})
     		// 타입 선택시 타이핑 풀기
     		$("#count").click(function(){
