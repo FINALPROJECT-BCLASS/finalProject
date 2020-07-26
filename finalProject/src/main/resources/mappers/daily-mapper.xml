@@ -167,5 +167,11 @@
 		WHERE HT_NO = #{ht_no}
 		AND HT_DELETE = 'N'
 	</update>
+	
+	<update id="updateHabitRecord" parameterType="HabitRecord">
+		UPDATE HABIT_TRACKER_RECORD
+		SET HTR_DELETE = 'Y'
+		WHERE HTR_NO = ${htr_no}
+	</update>
 
 </mapper>

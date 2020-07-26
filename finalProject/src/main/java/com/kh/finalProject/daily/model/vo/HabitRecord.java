@@ -9,7 +9,7 @@ public class HabitRecord implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -7944083292181141057L;
-	private int htr_no;
+	private String htr_no;
 	private String id;
 	private int ht_no;
 	private String htr_month;
@@ -22,7 +22,7 @@ public class HabitRecord implements Serializable{
 	public HabitRecord() {
 	}
 
-	public HabitRecord(int htr_no, String id, int ht_no, String htr_date, String htr_now, String htr_con,
+	public HabitRecord(String htr_no, String id, int ht_no, String htr_date, String htr_now, String htr_con,
 			String htr_delete) {
 		super();
 		this.htr_no = htr_no;
@@ -35,7 +35,7 @@ public class HabitRecord implements Serializable{
 	}
 	
 
-	public HabitRecord(int htr_no, String id, int ht_no, String htr_month, String htr_time, String htr_date,
+	public HabitRecord(String htr_no, String id, int ht_no, String htr_month, String htr_time, String htr_date,
 			String htr_now, String htr_con, String htr_delete) {
 		super();
 		this.htr_no = htr_no;
@@ -49,11 +49,11 @@ public class HabitRecord implements Serializable{
 		this.htr_delete = htr_delete;
 	}
 
-	public int getHtr_no() {
+	public String getHtr_no() {
 		return htr_no;
 	}
 
-	public void setHtr_no(int htr_no) {
+	public void setHtr_no(String htr_no) {
 		this.htr_no = htr_no;
 	}
 

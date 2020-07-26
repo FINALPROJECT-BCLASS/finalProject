@@ -100,6 +100,12 @@ public class DailyServiceImpl implements DailyService {
 		return dailyDao.updateHabitComment(habit);
 	}
 
+	@Override
+	public int updateHabitRecord(HabitRecord hr) {
+		
+		return dailyDao.updateHabitRecord(hr);
+	}
+
 
 
 	

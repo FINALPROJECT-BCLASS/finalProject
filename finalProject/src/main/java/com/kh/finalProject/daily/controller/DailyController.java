@@ -205,7 +205,7 @@ public class DailyController {
 		for(HabitRecord HR : hrDailyResult) {
 			
 			JSONObject jObject = new JSONObject();
-			jObject.put("htr_no", HR.getHt_no());
+			jObject.put("htr_no", HR.getHtr_no());
 			jObject.put("htr_time", HR.getHtr_date());
 			jObject.put("htr_now", HR.getHtr_now());
 			jObject.put("htr_con", HR.getHtr_con());
@@ -227,7 +227,7 @@ public class DailyController {
 			for(HabitRecord HRW : hrWeeklyResult) {
 				
 				JSONObject jObjectW = new JSONObject();
-				jObjectW.put("htr_no", HRW.getHt_no());
+				jObjectW.put("htr_no", HRW.getHtr_no());
 				jObjectW.put("htr_month", HRW.getHtr_month());
 				jObjectW.put("htr_time", HRW.getHtr_time());
 				jObjectW.put("htr_now", HRW.getHtr_now());
@@ -253,7 +253,7 @@ public class DailyController {
 			for(HabitRecord HRM : hrMonthlyResult) {
 				
 				JSONObject jObjectM = new JSONObject();
-				jObjectM.put("htr_no", HRM.getHt_no());
+				jObjectM.put("htr_no", HRM.getHtr_no());
 				jObjectM.put("htr_month", HRM.getHtr_month());
 				jObjectM.put("htr_time", HRM.getHtr_time());
 				jObjectM.put("htr_now", HRM.getHtr_now());
@@ -327,6 +327,7 @@ public class DailyController {
 	        
 	}
 	
+	// 습관 코멘트 삭제
 	@RequestMapping(value="updateHabitComment.do", method=RequestMethod.POST)
 	public void updateHabitComment(HttpServletRequest request, HttpServletResponse response, Habit habit) throws IOException {
 		
@@ -346,7 +347,37 @@ public class DailyController {
 			out.flush();
 			out.close();
 		}
-		
-		
 	}
+	
+	// 습관 코멘트 삭제
+	@RequestMapping(value="deleteHabitRecord.do", method=RequestMethod.POST)
+	public void deleteHabitRecord(HttpServletRequest request, HttpServletResponse response, String htr_no) throws IOException {
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		String[] htr_no_item = htr_no.split(",");
+		
+		HabitRecord hr = new HabitRecord();
+		
+		int result = 0;
+		
+		for(int i = 0 ; i < htr_no_item.length ; i++) {
+			hr.setHtr_no(htr_no_item[i]);
+			result = dailyService.updateHabitRecord(hr);
+		}
+		
+		if(result > 0) {
+			out.print("success");
+			out.flush();
+			out.close();
+		} else {
+			out.print("failed");
+			out.flush();
+			out.close();
+		}
+	}
+	
+	
+	
 }

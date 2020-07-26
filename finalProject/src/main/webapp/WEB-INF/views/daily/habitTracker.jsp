@@ -565,7 +565,17 @@
 				  		<div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:${percent }%; background-color:${h.ht_color};"></div>
 			    		<div class="bar-info">
 							<div class="ht_title">${h.ht_title }</div>
-							<div><a class="ht_now">${h.ht_now }</a> / <a class="ht_goal">${h.ht_goal }</a> <a class="ht_unit">${h.ht_unit }</a></div> <!-- now는 기록 메모 테이블의 현재값 컬럼을 더한 값 -->
+							<div>
+								<c:set var="now" value="${h.ht_now }"/>
+								<c:if test="${empty now}">
+									<a class="ht_now">0</a>
+								</c:if>
+								<c:if test="${!empty now}">
+									<a class="ht_now">${h.ht_now }</a>
+								</c:if>
+								/ <a class="ht_goal">${h.ht_goal }</a>
+								<a class="ht_unit">${h.ht_unit }</a>
+							</div> <!-- now는 기록 메모 테이블의 현재값 컬럼을 더한 값 -->
 						</div>
 						<div class="percent">${percent }%</div>
 					</div>
@@ -626,7 +636,7 @@
 	            			<table id="habit-record" class="habit-record" cellpadding="3px"></table>
 	            		</div>
 	            			<div class="small-button-area">
-	            				<button>Delete</button>
+	            				<button onclick="deleteHabitRecord();">Delete</button>
 				                <button>Edit</button>
 				            </div>
 	            	</div>
@@ -695,7 +705,7 @@
         </div>
 		
 		<script>
-			
+		
 			$(".content").hide();
 		
 			$(function(){
@@ -711,6 +721,8 @@
 		    target.on("click", function(){
 		    	$(this).addClass("clicked");
 		    	$(".content").show();
+		    	
+		    	console.log("확인" + $("input[type='checkbox']:checked").next().val());
 		    	
 		    	// ht_no를 기준으로 content 내용을 뿌려주기 위함
 		    	var htNum = $(this).prev("#htNum").val();
@@ -744,7 +756,7 @@
    						var sum = 0;
    						
 						for(var i in data.recordDailyList){
-	   						var checkbox = "<input type='checkbox' id='check"+ i +"' name='check" + i +"'>" + "<label for='check"+i+"'>" + "</label>";
+	   						var checkbox = "<input type='checkbox' value='"+ data.recordDailyList[i].htr_no + "' id='check"+ i +"' name='check" + i +"'>" + "<label for='check"+i+"'>" + "</label>";
 	   						
 	   						sum += + data.recordDailyList[i].htr_now;
 	   						
@@ -807,7 +819,7 @@
 						var sum = 0;
    						
 						for(var i in data.recordWeeklyList){
-	   						var checkbox = "<input type='checkbox' id='check"+ i +"' name='check" + i +"'>" + "<label for='check"+i+"'>" + "</label>";
+	   						var checkbox = "<input type='checkbox' value='"+ data.recordWeeklyList[i].htr_no + "' id='check"+ i +"' name='check" + i +"'>" + "<label for='check"+i+"'>" + "</label>";
 	   						var date = "<b>" + data.recordWeeklyList[i].htr_month + "일 </b>" + data.recordWeeklyList[i].htr_time;  
 							
 							sum += + data.recordWeeklyList[i].htr_now;
@@ -872,7 +884,7 @@
 						var sum = 0;
    						
 						for(var i in data.recordMonthlyList){
-	   						var checkbox = "<input type='checkbox' id='check"+ i +"' name='check" + i +"'>" + "<label for='check"+i+"'>" + "</label>";
+	   						var checkbox = "<input type='checkbox' value='"+ data.recordMonthlyList[i].htr_no + "'id='check"+ i +"' name='check" + i +"'>" + "<label for='check"+i+"'>" + "</label>";
 	   						var date = "<b>" + data.recordMonthlyList[i].htr_month + "일 </b>" + data.recordMonthlyList[i].htr_time;  
 							
 							sum += + data.recordMonthlyList[i].htr_now;
@@ -986,6 +998,8 @@
 		    			if(data == "success") {
 		    				$(".clicked").trigger("click");
 							$("#edit-comment").modal("hide");
+		    			}else{
+		    				alert("내용 수정 실패, 다시 시도해 주세요.");
 		    			}
 		    			
 		    		},
@@ -996,6 +1010,57 @@
              		} 
 		    	})
 		    }
+		    
+		    // 선택한 습관기록 내용 삭제하기
+		    function deleteHabitRecord(){
+	
+				var checkboxList = $("input[type='checkbox']:checked");
+				
+				arrayList = '';
+				
+				for(var i=0; i<checkboxList.length; i++){
+			
+					// checkbox가 체크 되어있을 때만 실행
+					if($(checkboxList[i]).is(":checked")){
+						
+						if(i != checkboxList.length-1){
+							arrayList += $(checkboxList[i]).val() + ",";
+						} else{
+							arrayList += $(checkboxList[i]).val();
+						}
+						
+					}
+				}	
+				
+				
+				// 하나도 체크 안했을 시 
+				if(arrayList == ''){
+					alert("하나 이상을 선택해주세요.");
+				}else{
+					if(!confirm('삭제하시겠습니까?')){
+					return false;}
+	
+					$.ajax({
+						type: "POST",
+						url: "deleteHabitRecord.do",
+						data: {htr_no : arrayList},
+						success: function(data){
+							
+							if(data == "success"){
+								$(".clicked").trigger("click");
+							}else{
+			    				alert("삭제 실패, 다시 시도해 주세요.");
+			    			}
+							
+						},
+						error:function(request, status, errorData){
+	                        alert("error code: " + request.status + "\n"
+	                              +"message: " + request.responseText
+	                              +"error: " + errorData);
+	             		} 
+					});
+				}
+			}
 
         </script>
         <jsp:include page="../common/footer.jsp"/>
