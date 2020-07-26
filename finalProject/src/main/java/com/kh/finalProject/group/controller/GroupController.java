@@ -368,11 +368,9 @@ public class GroupController {
 		return "redirect:noticeMain.do";
 	}
 
-	// ---------------------------------- 공지 end
-	// ------------------------------------------------------
+	// ---------------------------------- 공지 end ------------------------------------------------------
 
-	// ---------------------------------- 게시판
-	// ------------------------------------------------------
+	// ---------------------------------- 게시판 ------------------------------------------------------
 
 	// 게시판 메인
 	@RequestMapping(value = "boardMain.do", method = RequestMethod.GET)
@@ -525,6 +523,8 @@ public class GroupController {
 		GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 		String gmNo = Integer.toString(gInfo.getGmNo());
 
+		GroupNotice noticeList = gService.selectNoticeOne(gInfo);
+		
 		// 조회수 증가
 		int result = gService.plusgbCount(gbNo);
 
@@ -537,11 +537,11 @@ public class GroupController {
 		gl.setGbNo(gbNo);
 		gl.setGmNo(gmNo);
 		GroupLike likeList = gService.selectLikeList(gl);
-		System.out.println("like : " + likeList);
 
 		int totalReply = gService.totalReplyList(gbNo);
 
 		mv.addObject("gInfoGmNo", gmNo);
+		mv.addObject("noticeList", noticeList);
 		mv.addObject("photoList", photoList);
 		mv.addObject("boardList", boardList);
 		mv.addObject("totalLike", totalLike);
@@ -557,23 +557,21 @@ public class GroupController {
 	@RequestMapping(value = "likeAjax.do", method = RequestMethod.GET)
 	public void likeUpdate(HttpServletResponse response, HttpSession session, @RequestParam(value = "gmNo") String gmNo,
 			@RequestParam(value = "gbNo") String gbNo, @RequestParam(value = "heart") String heart) throws IOException {
-		System.out.println("gbNo : " + gbNo);
-		System.out.println("gmNo : " + gmNo);
-		System.out.println("heart : " + heart);
+	
 		
 		gl.setGbNo(gbNo);
 		gl.setGmNo(gmNo);
 		
 		if(heart.equals("favorite")) {
 			int insertResult = gService.insertHeart(gl); 
-			System.out.println("insertResult : " + insertResult );
+		
 		} else if(heart.equals("favorite_border")) {
 			int deleteResult = gService.deletetHeart(gl); 
-			System.out.println("deleteResult : " + deleteResult );
+		
 		}
 		
 		int totalLike = gService.totalLikeList(gbNo);
-		System.out.println("좋아요 totalLike : " + totalLike);
+		
 		response.setContentType("application/json;charset=utf-8");
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
