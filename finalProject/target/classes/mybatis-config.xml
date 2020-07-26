@@ -34,6 +34,10 @@
 		<typeAlias type="com.kh.finalProject.daily.model.vo.HabitRecord" alias="HabitRecord"/>
 		<typeAlias type="com.kh.finalProject.daily.model.vo.HabitSum" alias="HabitSum"/>
 
+		<typeAlias type="com.kh.finalProject.account.model.vo.AccountBook" alias="AccountBook"/>			<!-- 예지 -->
+		<typeAlias type="com.kh.finalProject.account.model.vo.ProfitSum" alias="ProfitSum"/>				<!-- 예지 -->
+		<typeAlias type="com.kh.finalProject.account.model.vo.ExpenditureSum" alias="ExpenditureSum"/>		<!-- 예지 -->
+		<typeAlias type="com.kh.finalProject.account.model.vo.SumCondition" alias="SumCondition"/>		<!-- 예지 -->
 
 	</typeAliases>
 
@@ -43,6 +47,7 @@
 		<mapper resource="/mappers/plan-mapper.xml"/>	<!-- 예지 -->
 		<mapper resource="/mappers/group-mapper.xml"/>
 		<mapper resource="/mappers/daily-mapper.xml"/>
+		<mapper resource="/mappers/account-mapper.xml"/>	<!-- 예지 -->
 	</mappers>
 	
 </configuration>

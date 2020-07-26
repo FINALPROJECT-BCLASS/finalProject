@@ -25,14 +25,14 @@
             </div>
             <ul class = "navi-area">
                 <li>Plan
-                        <ul class="sub-navi">
-                        	<c:url var="mpview" value="mpview.do"/>
-                            <li><a href="${mpview }">Monthly Planner</a></li>
-                            <c:url var="ttview" value="ttview.do"/>
-                            <li><a href="${ttview }">Timetable</a></li>
-                            <c:url var="mcview" value="mcview.do"/>
-                            <li class="b-radius"><a href="${mcview }">Menstrual Calendar</a></li>
-                        </ul>
+                	<ul class="sub-navi">
+                    	<c:url var="mpview" value="mpview.do"/>
+                        <li><a href="${mpview }">Monthly Planner</a></li>
+                        <c:url var="ttview" value="ttview.do"/>
+                        <li><a href="${ttview }">Timetable</a></li>
+                        <c:url var="mcview" value="mcview.do"/>
+                        <li class="b-radius"><a href="${mcview }">Menstrual Calendar</a></li>
+                	</ul>
                 </li>
                 <li>Daily
                     <ul class="sub-navi">
@@ -49,10 +49,11 @@
                     </ul>
                 </li>
                 <li>Account
-                    <ul class="sub-navi">
-                            <li><a href="#">Monthly Record</a></li>
-                            <li><a href="#">Monthly Statistics</a></li>
-                            <li class="b-radius"><a href="#">Yealy Statistics</a></li>
+                	<ul class="sub-navi">
+                    	<c:url var="mrview" value="mrview.do"/>		
+                        <li><a href="${mrview }">Monthly Record</a></li>
+                        <li><a href="#">Monthly Statistics</a></li>
+                        <li class="b-radius"><a href="#">Yealy Statistics</a></li>
                     </ul>
                 </li>
                <c:url var="groupMain" value="groupMain.do">
