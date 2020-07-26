@@ -64,10 +64,20 @@
 		<result property="gbpRename" column="GBP_RENAME"/>
 	</resultMap>
 	
-	<resultMap id="groupLikeResultSet" type="groupLike">
+	<resultMap id="groupLikeResultSet" type="GroupLike">
 		<id property="gbNo" column="GB_NO"/>
 		<result property="gmNo" column="GM_NO"/>
 		<result property="totalLike" column="TOTAL_LIKE"/>
+	</resultMap>
+	
+	<resultMap id="groupReplyResultSet" type="GroupReply">
+		<id property="grNo" column="GR_NO"/>
+		<result property="gbNo" column="GB_NO"/>
+		<result property="gmNo" column="GM_NO"/>
+		<result property="grCon" column="GR_CON"/>
+		<result property="grDate" column="GR_DATE"/>
+		<result property="grDelete" column="GR_DELETE"/>
+		<result property="totalReply" column="TOTAL_REPLY"/>
 	</resultMap>
 	<!-- resultMap end -->
 	
@@ -211,7 +221,7 @@
 		ORDER BY GB_NO DESC
 	</select>
 	
-	<select id="selectPhotoList" resultMap="groupBoardPhotoResultSet">
+	<select id="selectPhotoList" parameterType="GroupInfo" resultMap="groupBoardPhotoResultSet">
 		SELECT *
         FROM GROUP_BOARD_PHOTO
         WHERE G_NO = #{groupNo}
@@ -219,7 +229,14 @@
 	
 	<select id="totlaLike" resultMap="groupLikeResultSet">
 		SELECT GB_NO, COUNT(GB_NO) AS TOTAL_LIKE
-        FROM GROUP_LIKE 
+        FROM GROUP_LIKE
         GROUP BY GB_NO
+        
+	</select>
+	
+	<select id="totalReply" resultMap="groupReplyResultSet">
+		SELECT GB_NO, COUNT(GB_NO) AS TOTAL_REPLY
+		FROM GROUP_REPLY
+		GROUP BY GB_NO
 	</select>
 </mapper>

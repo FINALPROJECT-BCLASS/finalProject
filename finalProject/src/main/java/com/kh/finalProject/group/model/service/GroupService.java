@@ -9,6 +9,7 @@ import com.kh.finalProject.group.model.vo.GroupInfo;
 import com.kh.finalProject.group.model.vo.GroupLike;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupNotice;
+import com.kh.finalProject.group.model.vo.GroupReply;
 import com.kh.finalProject.group.model.vo.GroupSearchName;
 import com.kh.finalProject.group.model.vo.GroupTable;
 import com.kh.finalProject.member.model.vo.Member;
@@ -47,6 +48,8 @@ public interface GroupService {
 	ArrayList<GroupBoardPhoto> selectPhotoList(PageInfo pi);
 
 	ArrayList<GroupLike> totalLike();
+
+	ArrayList<GroupReply> totalReply();
 
 
 
