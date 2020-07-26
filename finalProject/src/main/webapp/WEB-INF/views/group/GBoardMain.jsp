@@ -22,19 +22,7 @@
       padding: 0;
     }
    
-    /* swiper css */
-    .carousel{width:90%;}
-    .carousel-cell {
-		  width: 200px;
-		  height: 100px !important;
-		  margin-right: 10px;
-		  background: #e9ecef;
-		  border-radius: 8px !important;
-		  counter-increment: carousel-cell;
-		  cursor: pointer;
-		  overflow: hidden;
-		}
-	.carImg {width:100%;}	
+    
     
     /* 게시판 css */
     html, body { height:100%;}

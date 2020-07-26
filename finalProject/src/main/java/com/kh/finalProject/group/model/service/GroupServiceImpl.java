@@ -125,6 +125,31 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.selectDetailPhotoList(gbNo);
 	}
 
+	@Override
+	public int totalLikeList(String gbNo) {
+		return gDao.totalLikeList(gbNo);
+	}
+
+	@Override
+	public int totalReplyList(String gbNo) {
+		return gDao.totalReplyList(gbNo);
+	}
+
+	@Override
+	public GroupLike selectLikeList(GroupLike gl) {
+		return gDao.selectLikeList(gl);
+	}
+
+	@Override
+	public int insertHeart(GroupLike gl) {
+		return gDao.insertHeart(gl);
+	}
+
+	@Override
+	public int deletetHeart(GroupLike gl) {
+		return gDao.deletetHeart(gl);
+	}
+
 	
 
 	

@@ -257,4 +257,37 @@
         FROM GROUP_BOARD_PHOTO
         WHERE GB_NO = #{gbNo}
 	</select>
+	
+	<select id="totalLikeList" parameterType="string" resultType="_int">
+		SELECT COUNT(GB_NO)
+		FROM GROUP_LIKE
+		WHERE GB_NO =  #{gbNo}
+	</select>
+	
+	<select id="totalReplyList" parameterType="string" resultType="_int">
+		SELECT COUNT(GB_NO)
+		FROM GROUP_REPLY
+		WHERE GB_NO = #{gbNo}
+	</select>
+	
+	<select id="selectLikeList" parameterType="string" resultMap="groupLikeResultSet">
+		SELECT GM_NO
+		FROM GROUP_LIKE
+		WHERE GB_NO = #{gbNo}
+		AND GM_NO = #{gmNo}
+	</select>
+	
+	<insert id="insertHeart" parameterType="GroupLike">
+		INSERT INTO GROUP_LIKE 
+		VALUES(
+		#{gbNo},
+		#{gmNo}
+		)
+	</insert>
+	
+	<delete id="deletetHeart" parameterType="GroupLike">
+		DELETE FROM GROUP_LIKE
+		WHERE GB_NO = #{gbNo}
+		AND GM_NO = #{gmNo}
+	</delete>
 </mapper>

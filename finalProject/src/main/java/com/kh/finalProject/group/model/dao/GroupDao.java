@@ -115,6 +115,26 @@ public class GroupDao {
 	public ArrayList<GroupBoardPhoto> selectDetailPhotoList(String gbNo) {
 		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectDetailPhotoList", gbNo);
 	}
+
+	public int totalLikeList(String gbNo) {
+		return sqlSessionTemplate.selectOne("groupMapper.totalLikeList", gbNo);
+	}
+
+	public int totalReplyList(String gbNo) {
+		return sqlSessionTemplate.selectOne("groupMapper.totalReplyList", gbNo);
+	}
+
+	public GroupLike selectLikeList(GroupLike gl) {
+		return sqlSessionTemplate.selectOne("groupMapper.selectLikeList", gl);
+	}
+
+	public int insertHeart(GroupLike gl) {
+		return sqlSessionTemplate.insert("groupMapper.insertHeart", gl);
+	}
+
+	public int deletetHeart(GroupLike gl) {
+		return sqlSessionTemplate.delete("groupMapper.deletetHeart", gl);
+	}
 	
 	
 	

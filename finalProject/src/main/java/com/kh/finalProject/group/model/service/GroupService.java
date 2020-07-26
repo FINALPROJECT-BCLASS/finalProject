@@ -57,6 +57,16 @@ public interface GroupService {
 
 	ArrayList<GroupBoardPhoto> selectDetailPhotoList(String gbNo);
 
+	int totalLikeList(String gbNo);
+
+	int totalReplyList(String gbNo);
+
+	GroupLike selectLikeList(GroupLike gl);
+
+	int insertHeart(GroupLike gl);
+
+	int deletetHeart(GroupLike gl);
+
 
 
 }
