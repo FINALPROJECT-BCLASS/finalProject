@@ -67,6 +67,8 @@ public interface GroupService {
 
 	int deletetHeart(GroupLike gl);
 
+	ArrayList<GroupReply> selectReplyList(String gbNo);
+
 
 
 }

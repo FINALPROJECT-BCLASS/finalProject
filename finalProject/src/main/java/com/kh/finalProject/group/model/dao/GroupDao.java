@@ -135,6 +135,10 @@ public class GroupDao {
 	public int deletetHeart(GroupLike gl) {
 		return sqlSessionTemplate.delete("groupMapper.deletetHeart", gl);
 	}
+
+	public ArrayList<GroupReply> selectReplyList(String gbNo) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectReplyList", gbNo);
+	}
 	
 	
 	

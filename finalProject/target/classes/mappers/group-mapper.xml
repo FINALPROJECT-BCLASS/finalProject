@@ -87,19 +87,22 @@
 		FROM GROUP_TABLE GT
 		JOIN GROUP_MEMBER GM ON(GT.G_NO = GM.G_NO)
 		WHERE GM_ID = #{loginUserId}
+		AND G_DELETE = 'N'
 	</select>
 
 	<select id="selectGroupMember" resultMap="groupMemberResultSet">
 		SELECT GM_NO, GM_ID, G_NO, GM_DELETE, NAME
 		FROM GROUP_MEMBER TM
 		JOIN MEMBER M ON(TM.GM_ID  = M.ID)
+		WHERE GM_DELETE = 'N'
 	</select> 
 
 	<select id="searchNameList" parameterType="GroupSearchName" resultMap="memberResultSet">
 		SELECT ID, NAME
 		FROM MEMBER
 		WHERE NAME LIKE '%' || #{searchName} || '%' 
-		 AND ID NOT IN  #{loginUserId}
+		AND ID NOT IN  #{loginUserId}
+		AND OUT_YN = 'N'
 	</select>
 	
 	<insert id="groupInsert" parameterType="GroupTable">
@@ -153,6 +156,7 @@
 		FROM GROUP_MEMBER
 		WHERE G_NO = #{groupNo} 
 		AND GM_ID = #{loginUserId}
+		AND GM_DELETE = 'N'
 	</select>
 	<!-- 그룹 캘린더 end-->
 	
@@ -163,7 +167,7 @@
 		JOIN GROUP_MEMBER GM ON(GN.GM_NO = GM.GM_NO)
         JOIN MEMBER M ON (GM.GM_ID = M.ID)
         WHERE GN.G_NO = #{groupNo}
-<!--         AND GN.GM_NO = #{gmNo} -->
+		AND GN_DELETE = 'N'
 		ORDER BY GN_NO DESC
 	</select>
 	
@@ -201,6 +205,7 @@
 			JOIN GROUP_MEMBER GM ON(GN.GM_NO = GM.GM_NO)
 	        JOIN MEMBER M ON (GM.GM_ID = M.ID)
 	        WHERE GN.G_NO = #{groupNo}
+	        AND GN_DELETE = 'N'
 	        ORDER BY GN_NO DESC
 		)
 		WHERE ROWNUM =1
@@ -218,6 +223,7 @@
 		JOIN GROUP_MEMBER GM ON(GB.GM_NO = GM.GM_NO)
         JOIN MEMBER M ON (GM.GM_ID = M.ID)
         WHERE GB.G_NO = #{groupNo}
+        AND GB_DELETE = 'N'
 		ORDER BY GB_NO DESC
 	</select>
 	
@@ -231,7 +237,6 @@
 		SELECT GB_NO, COUNT(GB_NO) AS TOTAL_LIKE
         FROM GROUP_LIKE
         GROUP BY GB_NO
-        
 	</select>
 	
 	<select id="totalReply" resultMap="groupReplyResultSet">
@@ -250,6 +255,7 @@
 		JOIN GROUP_MEMBER GM ON(GB.GM_NO = GM.GM_NO)
         JOIN MEMBER M ON (GM.GM_ID = M.ID)
         WHERE GB_NO = #{gbNo}
+        AND GB_DELETE = 'N'
 	</select>
 	
 	<select id="selectDetailPhotoList" parameterType="string" resultMap="groupBoardPhotoResultSet">
@@ -268,6 +274,7 @@
 		SELECT COUNT(GB_NO)
 		FROM GROUP_REPLY
 		WHERE GB_NO = #{gbNo}
+		AND GR_DELETE = 'N'
 	</select>
 	
 	<select id="selectLikeList" parameterType="string" resultMap="groupLikeResultSet">
@@ -290,4 +297,12 @@
 		WHERE GB_NO = #{gbNo}
 		AND GM_NO = #{gmNo}
 	</delete>
+	
+	<select id="selectReplyList" parameterType="string" resultMap="groupReplyResultSet">
+		SELECT *
+		FROM GROUP_REPLY
+		WHERE GB_NO = #{gbNo}
+		AND GR_DELETE = 'N'
+		ORDER BY GR_NO DESC
+	</select>
 </mapper>

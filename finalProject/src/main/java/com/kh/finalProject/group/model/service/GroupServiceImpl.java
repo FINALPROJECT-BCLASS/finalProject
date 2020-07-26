@@ -150,6 +150,11 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.deletetHeart(gl);
 	}
 
+	@Override
+	public ArrayList<GroupReply> selectReplyList(String gbNo) {
+		return gDao.selectReplyList(gbNo);
+	}
+
 	
 
 	

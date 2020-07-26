@@ -539,7 +539,8 @@ public class GroupController {
 		GroupLike likeList = gService.selectLikeList(gl);
 
 		int totalReply = gService.totalReplyList(gbNo);
-
+		ArrayList<GroupReply> replyList = gService.selectReplyList(gbNo);
+		
 		mv.addObject("gInfoGmNo", gmNo);
 		mv.addObject("noticeList", noticeList);
 		mv.addObject("photoList", photoList);
@@ -549,6 +550,7 @@ public class GroupController {
 		if (likeList != null) {
 			mv.addObject("likeList", likeList);
 		}
+		mv.addObject("replyList", replyList);
 		mv.setViewName("group/GBoardDetail");
 		return mv;
 	}
