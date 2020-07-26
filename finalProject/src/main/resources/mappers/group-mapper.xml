@@ -239,4 +239,22 @@
 		FROM GROUP_REPLY
 		GROUP BY GB_NO
 	</select>
+	
+	<update id="plusgbCount" parameterType="string">
+		UPDATE GROUP_BOARD SET GB_COUNT = GB_COUNT + 1 WHERE GB_NO = #{gbNo}
+	</update>
+	
+	<select id="selectBoardDetail" parameterType="string" resultMap="groupBoardResultSet">
+		SELECT GB_NO, GB.GM_NO AS GM_NO, GB.G_NO AS G_NO, GB_TITLE, GB_CON, GB_DATE, GB_DELETE, GB_COUNT, NAME
+		FROM GROUP_BOARD GB
+		JOIN GROUP_MEMBER GM ON(GB.GM_NO = GM.GM_NO)
+        JOIN MEMBER M ON (GM.GM_ID = M.ID)
+        WHERE GB_NO = #{gbNo}
+	</select>
+	
+	<select id="selectDetailPhotoList" parameterType="string" resultMap="groupBoardPhotoResultSet">
+		SELECT *
+        FROM GROUP_BOARD_PHOTO
+        WHERE GB_NO = #{gbNo}
+	</select>
 </mapper>

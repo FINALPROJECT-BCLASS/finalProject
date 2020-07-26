@@ -110,6 +110,23 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.totalReply();
 	}
 
+	@Override
+	public GroupBoard selectBoardDetail(String gbNo) {
+		return gDao.selectBoardDetail(gbNo);
+	}
+
+	@Override
+	public int plusgbCount(String gbNo) {
+		return gDao.plusgbCount(gbNo);
+	}
+
+	@Override
+	public ArrayList<GroupBoardPhoto> selectDetailPhotoList(String gbNo) {
+		return gDao.selectDetailPhotoList(gbNo);
+	}
+
+	
+
 	
 
 

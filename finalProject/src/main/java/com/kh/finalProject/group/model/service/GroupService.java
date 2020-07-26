@@ -51,6 +51,12 @@ public interface GroupService {
 
 	ArrayList<GroupReply> totalReply();
 
+	GroupBoard selectBoardDetail(String gbNo);
+
+	int plusgbCount(String gbNo);
+
+	ArrayList<GroupBoardPhoto> selectDetailPhotoList(String gbNo);
+
 
 
 }

@@ -103,6 +103,18 @@ public class GroupDao {
 	public ArrayList<GroupReply> totalReply() {
 		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.totalReply");
 	}
+
+	public GroupBoard selectBoardDetail(String gbNo) {
+		return sqlSessionTemplate.selectOne("groupMapper.selectBoardDetail", gbNo);
+	}
+
+	public int plusgbCount(String gbNo) {
+		return sqlSessionTemplate.update("groupMapper.plusgbCount", gbNo);
+	}
+
+	public ArrayList<GroupBoardPhoto> selectDetailPhotoList(String gbNo) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectDetailPhotoList", gbNo);
+	}
 	
 	
 	

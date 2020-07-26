@@ -56,6 +56,9 @@ public class GroupController {
 
 	@Autowired
 	GroupSearchName gSearch;
+	
+	@Autowired
+	PageInfo pi;
 
 	// 그룹 번호 세션 삭제
 	@RequestMapping(value = "groupSessionDelete.do", method = RequestMethod.GET)
@@ -339,8 +342,6 @@ public class GroupController {
 		gn.setgNo(gInfo.getGroupNo());
 		gn.setGmNo(gInfo.getGmNo());
 
-		System.out.println("공지작성 gInfo : " + gInfo);
-		System.out.println("공지작성 gn : " + gn);
 		int result = gService.noticeInsert(gn);
 
 		return "redirect:noticeMain.do";
@@ -385,7 +386,6 @@ public class GroupController {
 		}
 
 		int listCount = gService.boardGetListCount();
-		System.out.println("게시판 listCount : " + listCount);
 
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 
@@ -427,7 +427,6 @@ public class GroupController {
 
 		// 댓글 total
 		ArrayList<GroupReply> replyList = gService.totalReply();
-		System.out.println("게시판 메인 replyList : " + replyList);
 
 		response.setContentType("application/json;charset=utf-8");
 
@@ -518,12 +517,19 @@ public class GroupController {
 		}
 	}
 	
-		// 공지 상세
+		// 게시판 상세
 		@RequestMapping(value = "detailBoard.do", method = RequestMethod.GET)
 		public ModelAndView boardDetail(ModelAndView mv, HttpSession session, @RequestParam("gbNo") String gbNo) {
-			Member loginUser = (Member) session.getAttribute("loginUser");
-			System.out.println("상세 게시판 gbNo : " + gbNo);
-			System.out.println("왔니?");
+			// 조회수 증가
+			int result = gService.plusgbCount(gbNo);
+			
+			GroupBoard boardList = gService.selectBoardDetail(gbNo);
+			
+			ArrayList<GroupBoardPhoto> photoList = gService.selectDetailPhotoList(gbNo);
+			
+			System.out.println("게시판 상세 photoList : " + photoList );
+			mv.addObject("boardList", boardList);
+			mv.setViewName("group/GBoardDetail");
 			return mv;
 		}
 

@@ -5,14 +5,7 @@
 <html>
 <head>
 	<title>Home</title>
-	<!-- CSS -->
-	<link rel="stylesheet" href="resources/css/flickity/flickity.css">
-	<!-- JavaScript -->
-	<script src="resources/js/flickity/flickity.pkgd.min.js"></script>
-	
-	
 
-	
 	 <!-- Demo styles -->
   <style>
     html,

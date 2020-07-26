@@ -2,6 +2,9 @@ package com.kh.finalProject.group.common;
 
 import java.io.Serializable;
 
+import org.springframework.stereotype.Component;
+
+@Component("pi")
 public class PageInfo implements Serializable{	
 
 	/**
