@@ -148,6 +148,14 @@ public class GroupDao {
 	public int reReplyInsert(GroupReReply grr) {
 		return sqlSessionTemplate.insert("groupMapper.reReplyInsert", grr);
 	}
+
+	public ArrayList<GroupReReply> selectReReplyList(String gbNo) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectReReplyList", gbNo);
+	}
+
+	public ArrayList<GroupReReply> selectReReplyList(GroupReReply grr) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectReReplyList2", grr);
+	}
 	
 	
 	

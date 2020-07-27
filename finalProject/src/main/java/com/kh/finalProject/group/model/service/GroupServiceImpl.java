@@ -166,6 +166,16 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.reReplyInsert(grr);
 	}
 
+	@Override
+	public ArrayList<GroupReReply> selectReReplyList(String gbNo) {
+		return gDao.selectReReplyList(gbNo);
+	}
+
+	@Override
+	public ArrayList<GroupReReply> selectReReplyList(GroupReReply grr) {
+		return gDao.selectReReplyList(grr);
+	}
+
 	
 
 	

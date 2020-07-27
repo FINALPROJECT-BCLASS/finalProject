@@ -74,6 +74,10 @@ public interface GroupService {
 
 	int reReplyInsert(GroupReReply grr);
 
+	ArrayList<GroupReReply> selectReReplyList(String gbNo);
+
+	ArrayList<GroupReReply> selectReReplyList(GroupReReply grr);
+
 
 
 }

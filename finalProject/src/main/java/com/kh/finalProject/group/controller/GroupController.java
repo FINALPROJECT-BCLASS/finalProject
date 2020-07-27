@@ -533,7 +533,8 @@ public class GroupController {
 		GroupBoard boardList = gService.selectBoardDetail(gbNo);
 
 		ArrayList<GroupBoardPhoto> photoList = gService.selectDetailPhotoList(gbNo);
-
+		ArrayList<GroupReReply> reReplyList = gService.selectReReplyList(gbNo);
+		System.out.println("게시판 상세 : " + reReplyList);
 		int totalLike = gService.totalLikeList(gbNo);
 
 		gl.setGbNo(gbNo);
@@ -549,6 +550,7 @@ public class GroupController {
 		mv.addObject("boardList", boardList);
 		mv.addObject("totalLike", totalLike);
 		mv.addObject("totalReply", totalReply);
+		mv.addObject("reReplyList", reReplyList);
 		if (likeList != null) {
 			mv.addObject("likeList", likeList);
 		}
@@ -654,7 +656,8 @@ public class GroupController {
 		
 		// 댓글 select
 		ArrayList<GroupReply> replyList = gService.selectReplyList(gbNo);
-//		ArrayList<GroupReReply> reReplyList = gService.selectReReplyList(grr);
+		ArrayList<GroupReReply> reReplyList = gService.selectReReplyList(grr);
+		System.out.println("대댓글 : " + reReplyList);
 		int totalReply = gService.totalReplyList(gbNo);
 
 		response.setContentType("application/json;charset=utf-8");
@@ -662,8 +665,12 @@ public class GroupController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
 		JSONArray rArr = new JSONArray();
+		
 		JSONArray tArr = new JSONArray();
 		tArr.add(totalReply);
+		
+		JSONArray rrArr = new JSONArray();
+		
 		
 		if (replyList != null) {
 			for (GroupReply r : replyList) {
@@ -681,16 +688,34 @@ public class GroupController {
 				rArr.add(jObj);
 			}
 
-			JSONObject sendJson = new JSONObject();
+			if (reReplyList != null) {
+				for (GroupReReply r : reReplyList) {
+					JSONObject jObj = new JSONObject();
 
-			sendJson.put("replyList", rArr);
-			sendJson.put("totalReply", tArr);
-			
-			PrintWriter out = response.getWriter();
-			out.print(sendJson);
-			out.flush();
-			out.close();
+					jObj.put("grrNo", r.getGrrNo());
+					jObj.put("gmNo", r.getGmNo());
+					jObj.put("gbNo", r.getGbNo());
+					jObj.put("grNo", r.getGrNo());
+					jObj.put("grrCon", r.getGrrCon());
+					jObj.put("grrDate", r.getGrrDate());
+					jObj.put("grrDelete", r.getGrrDelete());
+					jObj.put("name", r.getName());
 
+					rrArr.add(jObj);
+				}
+
+				JSONObject sendJson = new JSONObject();
+
+				sendJson.put("replyList", rArr);
+				sendJson.put("totalReply", tArr);
+				sendJson.put("reReplyList", rrArr);
+				
+				PrintWriter out = response.getWriter();
+				out.print(sendJson);
+				out.flush();
+				out.close();
+
+			}
 		}else {
 			System.out.println("댓글 ajax 실패하였습니다.");
 		}
