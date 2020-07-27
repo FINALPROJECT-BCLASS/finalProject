@@ -120,7 +120,8 @@ public class GroupController {
 		System.out.println("그룹 생성 groupId : " + groupId);
 		System.out.println("그룹 생성 file: " + file);
 
-		gt.setgName(groupName);
+//		gt.setgName(groupName);
+
 		gt.setgDelete("N");
 		gt.setId(m.getId());
 
