@@ -36,7 +36,7 @@
                 </li>
                 <li>Daily
                     <ul class="sub-navi">
-                    	<c:url var="htlist" value="htlist.do"/>
+                    	<c:url var="htlist" value="htList.do"/>
 	                    <li><a href="#">Daily Record</a></li>
 	                    <li><a href="${htlist }">Habit Tracker</a></li>
 	                    <li class="b-radius"><a href="#">Bookmark</a></li>
