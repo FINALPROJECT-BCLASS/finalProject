@@ -299,10 +299,24 @@
 	</delete>
 	
 	<select id="selectReplyList" parameterType="string" resultMap="groupReplyResultSet">
-		SELECT *
-		FROM GROUP_REPLY
+		SELECT GR_NO, GB_NO, GR.GM_NO, GR_CON, GR_DATE, GR_DELETE, NAME
+		FROM GROUP_REPLY GR
+        JOIN GROUP_MEMBER GM ON(GR.GM_NO = GM.GM_NO)
+        JOIN MEMBER M ON(M.ID = GM.GM_ID)
 		WHERE GB_NO = #{gbNo}
 		AND GR_DELETE = 'N'
 		ORDER BY GR_NO DESC
 	</select>
+	
+	<insert id="replyInsert" parameterType="GroupReply">
+		INSERT INTO GROUP_REPLY 
+		VALUES (
+			SEQ_GR.NEXTVAL,
+			#{gbNo},
+			#{gmNo},
+			#{grCon},
+			SYSDATE,
+			'N'
+		)
+	</insert>
 </mapper>

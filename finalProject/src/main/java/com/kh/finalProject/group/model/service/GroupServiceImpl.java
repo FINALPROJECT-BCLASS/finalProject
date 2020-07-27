@@ -155,6 +155,11 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.selectReplyList(gbNo);
 	}
 
+	@Override
+	public int replyInsert(GroupReply gr) {
+		return gDao.replyInsert(gr);
+	}
+
 	
 
 	

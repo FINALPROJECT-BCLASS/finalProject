@@ -587,5 +587,52 @@ public class GroupController {
 		out.close();
 
 	}
+	
+	// 댓글 ajax
+	@RequestMapping(value = "replyAjax.do", method = RequestMethod.GET)
+	public void replyinsert(HttpServletResponse response, HttpSession session, GroupReply gr )throws IOException {
+		String gbNo = Integer.toString(gr.getGbNo()); 
+		
+		// 댓글 insert
+		int result = gService.replyInsert(gr);
+		
+		// 댓글 select
+		ArrayList<GroupReply> replyList = gService.selectReplyList(gbNo);
+		System.out.println("댓글 replyList :" + replyList);
+
+		response.setContentType("application/json;charset=utf-8");
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		JSONArray rArr = new JSONArray();
+		if (replyList != null) {
+			for (GroupReply r : replyList) {
+				JSONObject jObj = new JSONObject();
+
+				jObj.put("grNo", r.getGrNo());
+				jObj.put("gbNo", r.getGbNo());
+				jObj.put("gmNo", r.getGmNo());
+				jObj.put("grCon", r.getGrCon());
+				jObj.put("grDate", r.getGrDate());
+				jObj.put("grDelete", r.getGrDelete());
+				jObj.put("totalReply", r.getTotalReply());
+				jObj.put("name", r.getName());
+
+				rArr.add(jObj);
+			}
+
+			JSONObject sendJson = new JSONObject();
+
+			sendJson.put("replyList", rArr);
+			
+			PrintWriter out = response.getWriter();
+			out.print(sendJson);
+			out.flush();
+			out.close();
+
+		}else {
+			System.out.println("댓글 ajax 실패하였습니다.");
+		}
+	}
 
 }
