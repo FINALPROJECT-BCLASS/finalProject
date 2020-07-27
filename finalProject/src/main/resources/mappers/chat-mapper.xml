@@ -16,6 +16,16 @@
 		<result property="out_yn" column="OUT_YN"/>
 		
 	</resultMap>
+	
+	<resultMap type="Chat" id="chatResultSet">
+		<id property="id" column="ID"/>
+		<result property="id2" column="ID2"/>
+		<result property="co_no" column="CO_NO"/>
+		<result property="ol_no" column="OL_NO"/>
+		<result property="ol_cont" column="OL_CONT"/>
+		<result property="ol_date" column="OL_DATE"/>
+		
+	</resultMap>
 
 <select id="selectMember" parameterType="string" resultMap="memberResultSet">
 
@@ -41,4 +51,18 @@
 	JOIN MEMBER M ON (FL.FL_ID = M.ID)
 	WHERE FL.ID= #{Id}
 </select>
+
+<select id="selectChatOnetoOne" resultType="hashmap" resultMap="chatResultSet">
+	SELECT *
+	FROM CHAT_ONETOONE
+	WHERE ID IN(#{id},#{friendId})
+	AND ID2  IN(#{id},#{friendId})
+</select>
+<insert id="insertChatOneToOne" parameterType="hashmap">
+INSERT INTO CHAT_ONETOONE
+		VALUES(SEQ_CO.NEXTVAL
+			   ,#{id}
+			   ,#{friendId})
+        
+</insert>
 </mapper>

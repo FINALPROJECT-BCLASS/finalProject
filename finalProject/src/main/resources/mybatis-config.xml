@@ -36,6 +36,7 @@
 		<typeAlias type="com.kh.finalProject.account.model.vo.ExpenditureSum" alias="ExpenditureSum"/>		<!-- 예지 -->
 		<typeAlias type="com.kh.finalProject.account.model.vo.SumCondition" alias="SumCondition"/>		<!-- 예지 -->
 
+		<typeAlias type="com.kh.finalProject.chat.model.vo.Chat" alias="Chat"/>
 	</typeAliases>
 
 	<mappers>

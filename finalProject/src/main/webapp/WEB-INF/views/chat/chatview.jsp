@@ -106,9 +106,44 @@
  	   height: 100%;
 	}
     <!-- 친구목록 -->
+    
+    .SearchMemberList {
+    	display: flex;
+   		align-items: center;
+    }
+    
+    .SearchMemberList > div:nth-child(1) {
+   	    width: 50px;
+	    height: 50px;
+	    overflow: hidden;
+	    border-radius: 50%;
+	    border: 2px solid;
+    }
+    
+     .SearchMemberList > div:nth-child(2) {
+   	    font-size: 18px;
+	    display: flex;
+	    padding-left: 15px;
+	    font-weight: 600;
+    }
+    
+    .plus-btn {
+ 		width: 40px;
+ 		height: 40px;
+ 		display:flex;
+ 		justify-content: center;
+ 		align-items: center;
+ 		font-size: 60px;
+ 		border-radius: 50%;
+ 		border: 3px solid blue;
+ 		color: blue; */
+ 
+ 		/* 위치지정 */
+ 		position:absolute;
+ 		right: 5%;
+ 	}
      
-    .SearchList{
-    	display:none;
+    /* .SearchList{
     	width: 100%;
 	    height: 69%;
 	    overflow: hidden;
@@ -148,10 +183,10 @@
  		font-size: 60px;
  		border-radius: 50%;
  		border: 3px solid blue;
- 		color: blue;
+ 		color: blue; */
  
  		/* 위치지정 */
- 		position:absolute;
+ 		/* position:absolute;
  		right: 5%;
  	}
  	
@@ -159,14 +194,11 @@
  		margin-top: -15px;
  	}
     .SearchList > div:nth-child(2) {
-		width: 100%;
-	    height: 100%;
 	    display: flex;
 	    align-items: center;
-	    padding-left: 5%;
 	    font-size: 20px;
 	    font-weight: 500;
- 	}
+ 	} */
     
 </style>
 
@@ -187,7 +219,8 @@
 		    <div>
 		    	${fl.name}
 		    	<div class="Fl_btn">
-			    	<button type="button" class="default-btn">대화하기</button>
+			    	<button type="button" class="chatgobtn default-btn">대화하기</button>
+			    	<input type="hidden" name="userid" value="${fl.id}" class="userid">
 			    	<button type="button" class="default-btn">다이어리</button>
 		    	</div>
 		    	<div class="minus-btn hide">
@@ -210,6 +243,14 @@
 </body>
 
 <script>
+	$(function(){
+		$(".chatgobtn").click(function(){
+			var id = $(this).next().val();
+			console.log("id : " +id);
+			location.href="ChatOneToOneView.do?id="+id;
+		})
+		
+	})
 
 
 	$(function(){
@@ -233,7 +274,7 @@
 					for(var i in data.list){
 						
 					
-					SearchListStr +="<div class='SearchMemberList'>" +
+					SearchListStr +="<div class='SearchMemberList' style='display:flex; align-items:center;'>" +
 				                    "<div>" +
 				                    	"<img src=resources/muploadFiles/"+data.list[i].Rename_file+" width='50px;' height='50px;'>"+
 				                    "</div>"
@@ -247,8 +288,7 @@
 				                    "</div>";
 
 					}
-					$SearchList.append(SearchListStr);
-					
+					$SearchList.append(SearchListStr).attr("style","width: 100%; height: 69%; overflow: hidden; overflow-y: scroll; display:block;");			
 					
 				},
 	            error:function(request, status, errorData){
@@ -288,4 +328,5 @@
 	})
 	
 </script>
+
 </html>

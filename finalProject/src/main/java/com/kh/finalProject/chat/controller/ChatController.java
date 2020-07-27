@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.finalProject.chat.model.service.ChatService;
+import com.kh.finalProject.chat.model.vo.Chat;
 import com.kh.finalProject.member.model.vo.Member;
 
 @Controller
@@ -97,6 +98,44 @@ public class ChatController {
 		}else {
 			return "<script> alert('친구 추가에 실패했습니다.'); history.back(); </script>";
 		}
+		
+	}
+	
+	@RequestMapping("ChatOneToOneView.do")
+	public ModelAndView ChatOneToOneView(HttpSession session, ModelAndView mv,
+											@RequestParam(value="id") String id) {
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		
+		HashMap<String, String> map = new HashMap<>();
+		map.put("id",loginUser.getId());
+		map.put("friendId", id);
+		
+		Chat ch1 = new Chat();
+			ch1 = cService.selectChatOnetoOne(map);
+		//여기까지함 인서트작업이 계속 이루워짐 쿼리문제로 예상됨
+		if( ch1 == null) {
+			int result = cService.insertChatOnetoTOne(map);
+			
+			ch1 = cService.selectChatOnetoOne(map);
+				if(result >0) {
+					session.setAttribute("co_no", ch1.getCo_no());
+					mv.addObject("ch", ch1).setViewName("chat/chatOneToOne");
+				}//else문 추가해주기?
+				
+		}else {
+			session.setAttribute("co_no", ch1.getCo_no());
+			mv.addObject("ch", ch1).setViewName("chat/chatOneToOne");
+		}
+		
+		
+		
+		/*
+		 * System.out.println("받아온 아이디" +id); System.out.println("본인 아이디" +
+		 * loginUser.getId());
+		 */
+		
+		return mv;
 		
 	}
 	
