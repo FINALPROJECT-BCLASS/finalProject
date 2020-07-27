@@ -142,6 +142,7 @@
 		
 		.section2-item {
 			background: #F3F3F3;
+		    text-align: left;
 		    width: 100%;
 		    height: 100%;
 		    overflow: hidden;
@@ -567,6 +568,12 @@
 		    padding: 10px;
         }
         
+        #htr_unit_m {
+        	display: inline-block;
+    		font-weight: 700;
+    		font-size: 17px;
+        }
+        
         
 
 		
@@ -616,9 +623,9 @@
             
             <!-- Button Start-->
             <div class="button-area">
-                <button>Edit</button>
-                <button>Delete</button>
                 <button onclick="location.href='addHabitView.do'">Add</button>
+                <button>Delete</button>
+                <button>Edit</button>
             </div>
 
     		<!-- 내용 -->
@@ -657,7 +664,7 @@
 	            			
 	            		</div>
 	            		<div class="small-button-area">
-			                <button data-toggle="modal" data-target="#edit-comment">Edit</button>
+			                <button data-toggle="modal" data-target="#edit-comment" onclick="editCommentCheck();">Edit</button>
 			            </div>
 	            	</div>
 	            	<div class="content-section2-right b-white">
@@ -735,7 +742,7 @@
 					    </div>
 					    <div class="record-area">
 					    	<div id="record-time"></div>&nbsp;
-					    	<input type="text" id="htr_now_m" name="htr_now_m">&nbsp;<div id="htr_unit_m"></div>
+					    	<input type="text" id="htr_now_m" name="htr_now_m">&nbsp;&nbsp;<div id="htr_unit_m"></div>
 					    	<input type="text" id="htr_con_m" name="htr_con_m">
 					    </div>
 					    <div class="small-button-area">
@@ -758,6 +765,14 @@
 		
 			$(".content").hide();
 		
+			// 모달에 comment 내용 넣어주기
+			function editCommentCheck() {
+				
+				$("#ht_comment").val($("#comment").html());
+				
+			}
+			
+			
 			$(function(){
 				
 		        var responseMessage = "<c:out value="${message}" />";
@@ -847,7 +862,6 @@
    				    	$(".modal-t > div:nth-child(2)").html(data.list.ht_title);
    				    	$(".count-area > input").val(data.list.ht_amount);
    				    	$(".count-area > span:nth-child(3)").html(data.list.ht_unit);
-   				    	$("#ht_comment").html(data.list.ht_con);
    				    	
    						// for 클릭 트리거 (내용 변경 후 재클릭시 슬라이드 내부의 내용도 동시에 수정하기 위함)
    						$(".clicked").find("a.ht_now").html(sum);
@@ -914,10 +928,6 @@
    				    	$(".modal-t > div:nth-child(2)").html(data.list.ht_title);
    				    	$(".count-area > input").val(data.list.ht_amount);
    				    	$(".count-area > span:nth-child(3)").html(data.list.ht_unit);
-   				    	// commentModal
-   				    	$("#ht_comment").html(data.list.ht_con);
-   				    	// recordModal
-   				    	
    				    	
    				 		// for 클릭 트리거 (내용 변경 후 재클릭시 슬라이드 내부의 내용도 동시에 수정하기 위함)
    				    	$(".clicked").find("a.ht_now").html(sum);
@@ -982,7 +992,6 @@
    				    	$(".modal-t > div:nth-child(2)").html(data.list.ht_title);
    				    	$(".count-area > input").val(data.list.ht_amount);
    				    	$(".count-area > span:nth-child(3)").html(data.list.ht_unit);
-   				    	$("#ht_comment").html(data.list.ht_con);
    				    	
    				  		// for 클릭 트리거 (내용 변경 후 재클릭시 슬라이드 내부의 내용도 동시에 수정하기 위함)
    				    	$(".clicked").find("a.ht_now").html(sum);
@@ -1046,6 +1055,7 @@
 		    	var ht_con = $("#ht_comment").val();
 		    	var ht_no = $("#ht_no").val();
 		    	
+		    	
 		    	$.ajax({
 		    		method: 'POST',
 		    		url: 'updateHabitComment.do',
@@ -1053,8 +1063,9 @@
 		    		success: function(data) {
 		    			
 		    			if(data == "success") {
-		    				$(".clicked").trigger("click");
 							$("#edit-comment").modal("hide");
+							$("#ht_comment").val("");
+		    				$(".clicked").trigger("click");
 		    			}else{
 		    				alert("내용 수정 실패, 다시 시도해 주세요.");
 		    			}
@@ -1126,7 +1137,10 @@
 				var checkbox = $("input[type='checkbox']:checked");
 				var htr_time = $(checkbox).parent().next().html();
 				var htr_now = $(checkbox).parent().next().next().children().val();
+				var ht_unit = $(".clicked > div:nth-child(2) > div:nth-child(2) > a:nth-child(3)").html();
 				var htr_con = $(checkbox).parent().next().next().next().html();
+				
+				console.log(ht_unit);
 				
 				
 				if(checkbox.length > 1){
@@ -1138,6 +1152,7 @@
 					$("#record-time").html(htr_time);
 					$("#htr_now_m").val(htr_now);
 					$("#htr_con_m").val(htr_con);
+					$("#htr_unit_m").html(ht_unit);
 					$("#edit-record").modal("show");
 					
 	
