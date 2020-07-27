@@ -1,6 +1,7 @@
 package com.kh.finalProject.chat.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,18 @@ public class ChatServiceImpl implements ChatService{
 	public ArrayList<Member> selectMember(String name) {
 		
 		return cDao.selectMember(name);
+	}
+
+	@Override
+	public int insertFriendList(HashMap<String, String> map) {
+		
+		return cDao.insertFriendList(map);
+	}
+
+	@Override
+	public ArrayList<Member> selectFriendList(String id) {
+	
+		return cDao.selectFriendList(id);
 	}
 	
 }

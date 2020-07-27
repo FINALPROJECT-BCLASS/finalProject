@@ -6,12 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-<!-- 해더 css -->
-<link rel="stylesheet" href="resources/css/ChatHeader.css">
+
 <style>
 	.FriendList {
 		height: 20%;
@@ -50,6 +45,7 @@
    		right: 5%;	
    		opacity: 0;
  	}
+ 	
  	
  	.minus-btn {
  		width: 40px;
@@ -104,6 +100,9 @@
     	display:none;
     
     }
+    
+    <!-- 친구목록 -->
+     
     .SearchList{
     	display:none;
     	width: 100%;
@@ -113,7 +112,57 @@
     }
     .SearchList::-webkit-scrollbar {
     	display:none;
+    }
     
+    .SearchMemberList {
+		height: 20%;
+		display:flex;
+		position: relative;
+	}
+	
+	.SearchMemberList:hover > div:nth-child(2) > div {
+		opacity: 1;
+		transition-duration: 0.3s;
+	}
+	
+ 	.SearchMemberList > div:nth-child(1) {
+ 		
+	    width: 10%;
+	    height: 100%;
+	    background-color: yellow;
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+
+ 	}
+ 	.plus-btn {
+ 		width: 40px;
+ 		height: 40px;
+ 		display:flex;
+ 		justify-content: center;
+ 		align-items: center;
+ 		font-size: 60px;
+ 		border-radius: 50%;
+ 		border: 3px solid blue;
+ 		color: blue;
+ 
+ 		/* 위치지정 */
+ 		position:absolute;
+ 		right: 5%;
+ 	}
+ 	
+ 	.plus-btn > div {
+ 		margin-top: -15px;
+ 	}
+    .SearchList > div:nth-child(2) {
+		width: 100%;
+	    height: 100%;
+	    display: flex;
+	    align-items: center;
+	    padding-left: 5%;
+	    font-size: 20px;
+	    font-weight: 500;
+ 	}
     
 </style>
 
@@ -121,19 +170,12 @@
 
     
 <body>
-<!-- header -->
-<header class="header">
-        <nav class="chatNav">
-            <ul class = "navi-area">
-                <li><a href="#">친구목록</a></li>
-                <li><a href="#">채팅창</a></li>
-                <li><a href="#">오픈채팅</a></li>
-                <li><a href="#">관리자문의</a></li>
-        </nav>
-    </header>
+
+	<jsp:include page="../common/chatheader.jsp"/>
     
    <!-- 친구목록 --> 
    <div class="List">
+   	
 	    <div class="FriendList">
 		    <div>
 		   		<img src="#">
@@ -152,39 +194,8 @@
 	    </div>
 	</div>
 	
-	<div class="SearchList">
-	    <div class="FriendList">
-		    <div>
-		   		<img src="#">
-		    </div>
-		    <div>
-		    	홍샘이
-		    	<div class="Fl_btn">
-			    	<button type="button" class="default-btn">대화하기</button>
-			    	<button type="button" class="default-btn">다이어리</button>
-		    	</div>
-		    	<div class="minus-btn hide">
-		    		<div>-</div>
-		    	</div>
-		    </div>
-		    
-	    </div>
-	    <div class="FriendList">
-		    <div>
-		   		<img src="#">
-		    </div>
-		    <div>
-		    	홍샘이
-		    	<div class="Fl_btn">
-			    	<button type="button" class="default-btn">대화하기</button>
-			    	<button type="button" class="default-btn">다이어리</button>
-		    	</div>
-		    	<div class="minus-btn hide">
-		    		<div>-</div>
-		    	</div>
-		    </div>
-		    
-	    </div>
+	<!-- 친구 검색 목록 -->
+	<div class="SearchList hide">
 	</div>
 	  
 	
@@ -193,7 +204,10 @@
 	</div>
 	
 </body>
+
 <script>
+
+
 	$(function(){
 		$("#memberListSearch").click(function(){
 			var name = $("#membername").val();
@@ -201,14 +215,36 @@
 			$(".List").hide();	//친구목록 숨김..List	
 			$(".SearchList").show();	//친구 리스트 보여줌.
 			
-			
-			
 			//ajax			
 			$.ajax({
 				url:"selectMember.do",
 				data:{name:name},
 				dataType:"json",
 				success:function(data){
+					$SearchList = $(".SearchList");
+					$SearchList.html("");
+					
+					var SearchListStr = '';
+
+					for(var i in data.list){
+						
+					
+					SearchListStr +="<div class='SearchMemberList'>" +
+				                    "<div>" +
+				                    	"<img src=resources/muploadFiles/"+data.list[i].Rename_file+" width='50px;' height='50px;'>"+
+				                    "</div>"
+				                    +"<div>"
+				                    		+ data.list[i].name
+				                    		+"<div class='plus-btn'>"+
+				                    			"<div>"+ "+" + "</div>"+
+				                    		  "</div>"+
+				                    		"<input type='hidden' value=" + data.list[i].id + " name=id>"+
+				                    "</div>"+
+				                    "</div>";
+
+					}
+					$SearchList.append(SearchListStr);
+					
 					
 				},
 	            error:function(request, status, errorData){
@@ -218,10 +254,12 @@
 	           } 
 			})
 			
-		})
+		});
 		
 	})
+		
 
+		
 	$(function(){
 		$(".FriendList").click(function(){
 			if($(".minus-btn").is(":visible")){
@@ -232,11 +270,18 @@
 				$(".Fl_btn").toggleClass("hide");
 			}
 
-			})
+			});
 		
+		
+	});
+	
+	//친구 추가
+	$(document).on("click",".plus-btn",function(){
+		var id = $(this).next().val();
+		console.log("id : " + id);
+		location.href="insertFriendList.do?id=" + id;
 		
 	})
-	
 	
 </script>
 </html>
