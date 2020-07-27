@@ -35,6 +35,7 @@ public class ChatController {
 		
 		member = cService.selectFriendList(loginUser.getId());
 		
+		System.out.println("member(친구정보) : " + member);
 		mv.addObject("freindList", member).setViewName("chat/chatview");
 		
 		return mv;

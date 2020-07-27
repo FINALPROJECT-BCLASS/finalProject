@@ -8,6 +8,7 @@
 <title>Insert title here</title>
 
 <style>
+
 	.FriendList {
 		height: 20%;
 		display:flex;
@@ -19,8 +20,7 @@
 		transition-duration: 0.3s;
 	}
 	
- 	.FriendList > div:nth-child(1) {
- 		
+ 	.FriendList > div:nth-child(1) {	
 	    width: 10%;
 	    height: 100%;
 	    background-color: yellow;
@@ -101,6 +101,10 @@
     
     }
     
+    img{
+	    width: 100%;
+ 	   height: 100%;
+	}
     <!-- 친구목록 -->
      
     .SearchList{
@@ -175,13 +179,13 @@
     
    <!-- 친구목록 --> 
    <div class="List">
-   	
+   	<c:forEach var="fl" items="${freindList }">
 	    <div class="FriendList">
 		    <div>
-		   		<img src="#">
+		   		<img src="resources/muploadFiles/${fl.rename_file}">
 		    </div>
 		    <div>
-		    	홍샘이
+		    	${fl.name}
 		    	<div class="Fl_btn">
 			    	<button type="button" class="default-btn">대화하기</button>
 			    	<button type="button" class="default-btn">다이어리</button>
@@ -190,8 +194,8 @@
 		    		<div>-</div>
 		    	</div>
 		    </div>
-		    
 	    </div>
+	</c:forEach>
 	</div>
 	
 	<!-- 친구 검색 목록 -->
