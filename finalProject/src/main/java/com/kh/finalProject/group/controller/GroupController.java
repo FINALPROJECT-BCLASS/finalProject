@@ -598,13 +598,16 @@ public class GroupController {
 		
 		// 댓글 select
 		ArrayList<GroupReply> replyList = gService.selectReplyList(gbNo);
-		System.out.println("댓글 replyList :" + replyList);
+		int totalReply = gService.totalReplyList(gbNo);
 
 		response.setContentType("application/json;charset=utf-8");
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
 		JSONArray rArr = new JSONArray();
+		JSONArray tArr = new JSONArray();
+		tArr.add(totalReply);
+		
 		if (replyList != null) {
 			for (GroupReply r : replyList) {
 				JSONObject jObj = new JSONObject();
@@ -624,6 +627,7 @@ public class GroupController {
 			JSONObject sendJson = new JSONObject();
 
 			sendJson.put("replyList", rArr);
+			sendJson.put("totalReply", tArr);
 			
 			PrintWriter out = response.getWriter();
 			out.print(sendJson);
