@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.finalProject.account.model.vo.AccountBook;
-import com.kh.finalProject.account.model.vo.ExpenditureSum;
-import com.kh.finalProject.account.model.vo.ProfitSum;
+import com.kh.finalProject.account.model.vo.MSumCondition;
+import com.kh.finalProject.account.model.vo.MonthlySum;
+import com.kh.finalProject.account.model.vo.Sum;
 import com.kh.finalProject.account.model.vo.SumCondition;
 
 @Repository("aDao")
@@ -22,12 +23,12 @@ public class AccountDao {
 		return sqlSessionTemplate.insert("accountMapper.insertAccountBook", a);
 	}
 
-	public ArrayList<ProfitSum> selectPSumList(String id) {
+	public ArrayList<Sum> selectPSumList(String id) {
 		
 		return (ArrayList)sqlSessionTemplate.selectList("accountMapper.selectPSumList", id);
 	}
 
-	public ArrayList<ExpenditureSum> selectESumList(String id) {
+	public ArrayList<Sum> selectESumList(String id) {
 		
 		return (ArrayList)sqlSessionTemplate.selectList("accountMapper.selectESumList", id);
 	}
@@ -60,6 +61,16 @@ public class AccountDao {
 	public int selectAbAmount(int abNo) {
 		
 		return sqlSessionTemplate.selectOne("accountMapper.selectAbAmount", abNo);
+	}
+
+	public ArrayList<MonthlySum> selectMPSumList(MSumCondition mc) {
+	
+		return (ArrayList)sqlSessionTemplate.selectList("accountMapper.selectMPSumList", mc);
+	}
+
+	public ArrayList<MonthlySum> selectMESumList(MSumCondition mc) {
+	
+		return (ArrayList)sqlSessionTemplate.selectList("accountMapper.selectMESumList", mc);
 	}
 
 }

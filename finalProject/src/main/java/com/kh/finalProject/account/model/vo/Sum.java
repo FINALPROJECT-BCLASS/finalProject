@@ -2,20 +2,20 @@ package com.kh.finalProject.account.model.vo;
 
 import java.io.Serializable;
 
-public class ExpenditureSum implements Serializable {
+public class Sum implements Serializable {
 	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6974214354226617783L;
+	private static final long serialVersionUID = -5035108774249487640L;
 	
 	private String date;
 	private int sum;
 	
-	public ExpenditureSum() {
+	public Sum() {
 	}
 	
-	public ExpenditureSum(String date, int sum) {
+	public Sum(String date, int sum) {
 		this.date = date;
 		this.sum = sum;
 	}
@@ -35,7 +35,7 @@ public class ExpenditureSum implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "ExpenditureSum [date=" + date + ", sum=" + sum + "]";
+		return "Sum [date=" + date + ", sum=" + sum + "]";
 	}
 
 }
