@@ -451,7 +451,7 @@
 		    padding: 10px;
         }
         
-        .memo-area, .comment-area {
+        .memo-area, .comment-area, .record-area {
         	margin: 15px;
    			text-align: left;		
         }
@@ -491,6 +491,8 @@
         .comment-area > textarea::-webkit-scrollbar {
   		  	display: none; 
 		}
+		
+		
         
         /* 작은 버튼 */
         
@@ -535,6 +537,34 @@
         
         .hide {
         	display: none;
+        }
+        
+        #record-time {
+       	    display: inline-block;
+		    width: 120px;
+		    height: 40px;
+		    font-size: 17px;
+		    padding: 10px;
+		    font-weight: 600;
+        }
+        
+        #htr_now_m {
+        	border: none;
+		    border-radius: 10px;
+		    background: #f3f3f3;
+		    height: 50px;
+		    width: 80px;
+		    padding: 10px;
+        }
+        
+        #htr_con_m {
+        	border: none;
+		    border-radius: 10px;
+		    background: #f3f3f3;
+		    height: 50px;
+		    width: 100%;
+		    margin-top: 10px;
+		    padding: 10px;
         }
         
         
@@ -637,7 +667,7 @@
 	            		</div>
 	            			<div class="small-button-area">
 	            				<button onclick="deleteHabitRecord();">Delete</button>
-				                <button>Edit</button>
+				                <button onclick="updateHabitRecordCheck();">Edit</button>
 				            </div>
 	            	</div>
 	            </div>
@@ -679,7 +709,7 @@
 			      	<div class="modal-body">
 					    <div class="modal-t">
 				      		<div>Comment</div>
-				      		<div>Drink water</div>
+				      		<div></div>
 					    </div>
 					    <div class="comment-area">
 					      	<textarea id="ht_comment"></textarea>
@@ -691,11 +721,31 @@
 			      	</div>
 			    </div>
 			  </div>
-			</div>  
+			</div>
 			
-			
-			
-			
+			<!-- Content Edit Modal -->
+			<div class="modal fade" id="edit-record" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&nbsp;</span></button>
+			      	<div class="modal-body">
+					    <div class="modal-t">
+				      		<div>Record</div>
+				      		<div></div>
+					    </div>
+					    <div class="record-area">
+					    	<div id="record-time"></div>&nbsp;
+					    	<input type="text" id="htr_now_m" name="htr_now_m">&nbsp;<div id="htr_unit_m"></div>
+					    	<input type="text" id="htr_con_m" name="htr_con_m">
+					    </div>
+					    <div class="small-button-area">
+	           				<button type="button" onclick="editHabitRecordModal();">Save</button>
+			                <button data-dismiss="modal" aria-label="Close">Cancel</button>
+					    </div>
+			      	</div>
+			    </div>
+			  </div>
+			</div>    
 			      
             <!-- Button Start-->
             <div class="button-area">
@@ -721,8 +771,6 @@
 		    target.on("click", function(){
 		    	$(this).addClass("clicked");
 		    	$(".content").show();
-		    	
-		    	console.log("확인" + $("input[type='checkbox']:checked").next().val());
 		    	
 		    	// ht_no를 기준으로 content 내용을 뿌려주기 위함
 		    	var htNum = $(this).prev("#htNum").val();
@@ -757,13 +805,15 @@
    						
 						for(var i in data.recordDailyList){
 	   						var checkbox = "<input type='checkbox' value='"+ data.recordDailyList[i].htr_no + "' id='check"+ i +"' name='check" + i +"'>" + "<label for='check"+i+"'>" + "</label>";
+	   						var htNow = "+" + data.recordDailyList[i].htr_now + data.list.ht_unit + "<input type='hidden' id='htr_now_hidden' value='"+ data.recordDailyList[i].htr_now +"'>";
+	   						
 	   						
 	   						sum += + data.recordDailyList[i].htr_now;
 	   						
 							$tr = $("<tr>");
 							$tdCheckbox = $("<td>").append(checkbox);
 							$tdTime = $("<td>").text(data.recordDailyList[i].htr_time);
-							$tdNow = $("<td>").text("+" + data.recordDailyList[i].htr_now + data.list.ht_unit);
+							$tdNow = $("<td>").append(htNow);
 							$tdCon=$("<td>").text(data.recordDailyList[i].htr_con);
 							
 							$tr.append($tdCheckbox);
@@ -821,13 +871,14 @@
 						for(var i in data.recordWeeklyList){
 	   						var checkbox = "<input type='checkbox' value='"+ data.recordWeeklyList[i].htr_no + "' id='check"+ i +"' name='check" + i +"'>" + "<label for='check"+i+"'>" + "</label>";
 	   						var date = "<b>" + data.recordWeeklyList[i].htr_month + "일 </b>" + data.recordWeeklyList[i].htr_time;  
-							
+	   						var htNow = "+" + data.recordWeeklyList[i].htr_now + data.list.ht_unit + "<input type='hidden' id='htr_now_hidden' value='"+ data.recordWeeklyList[i].htr_now +"'>";
+	   						
 							sum += + data.recordWeeklyList[i].htr_now;
 	   						
 							$tr = $("<tr>");
 							$tdCheckbox = $("<td>").append(checkbox);
 							$tdTime = $("<td>").append(date);
-							$tdNow = $("<td>").text("+" + data.recordWeeklyList[i].htr_now + data.list.ht_unit);
+							$tdNow = $("<td>").append(htNow);
 							$tdCon=$("<td>").text(data.recordWeeklyList[i].htr_con);
 							
 							$tr.append($tdCheckbox);
@@ -859,10 +910,14 @@
    						$("#progress1").css("background-color", data.list.ht_color);
    						
    						// 모달에 세팅 
+   						// countModal
    				    	$(".modal-t > div:nth-child(2)").html(data.list.ht_title);
    				    	$(".count-area > input").val(data.list.ht_amount);
    				    	$(".count-area > span:nth-child(3)").html(data.list.ht_unit);
+   				    	// commentModal
    				    	$("#ht_comment").html(data.list.ht_con);
+   				    	// recordModal
+   				    	
    				    	
    				 		// for 클릭 트리거 (내용 변경 후 재클릭시 슬라이드 내부의 내용도 동시에 수정하기 위함)
    				    	$(".clicked").find("a.ht_now").html(sum);
@@ -885,14 +940,16 @@
    						
 						for(var i in data.recordMonthlyList){
 	   						var checkbox = "<input type='checkbox' value='"+ data.recordMonthlyList[i].htr_no + "'id='check"+ i +"' name='check" + i +"'>" + "<label for='check"+i+"'>" + "</label>";
-	   						var date = "<b>" + data.recordMonthlyList[i].htr_month + "일 </b>" + data.recordMonthlyList[i].htr_time;  
-							
+	   						var date = "<b>" + data.recordMonthlyList[i].htr_month + "일 </b> &nbsp;" + data.recordMonthlyList[i].htr_time;  
+							var htNow = "+" + data.recordMonthlyList[i].htr_now + data.list.ht_unit + "<input type='hidden' id='htr_now_hidden' value='"+ data.recordMonthlyList[i].htr_now +"'>";
+								
+	   						
 							sum += + data.recordMonthlyList[i].htr_now;
 	   						
 							$tr = $("<tr>");
 							$tdCheckbox = $("<td>").append(checkbox);
 							$tdTime = $("<td>").append(date);
-							$tdNow = $("<td>").text("+" + data.recordMonthlyList[i].htr_now + data.list.ht_unit);
+							$tdNow = $("<td>").append(htNow);
 							$tdCon=$("<td>").text(data.recordMonthlyList[i].htr_con);
 							
 							$tr.append($tdCheckbox);
@@ -1060,7 +1117,66 @@
 	             		} 
 					});
 				}
+				
 			}
+		    
+		 	// 선택한 습관기록 내용 수정하기
+		    function updateHabitRecordCheck(){
+	
+				var checkbox = $("input[type='checkbox']:checked");
+				var htr_time = $(checkbox).parent().next().html();
+				var htr_now = $(checkbox).parent().next().next().children().val();
+				var htr_con = $(checkbox).parent().next().next().next().html();
+				
+				
+				if(checkbox.length > 1){
+					alert("하나만 선택해 주세요.");
+				}else if(checkbox.length < 1){
+					alert("수정하실 내용을 선택해 주세요.");
+				}else{
+					
+					$("#record-time").html(htr_time);
+					$("#htr_now_m").val(htr_now);
+					$("#htr_con_m").val(htr_con);
+					$("#edit-record").modal("show");
+					
+	
+				}	
+				
+		 	}
+		 	
+		 	function editHabitRecordModal(){
+		 		
+		 		var checkbox = $("input[type='checkbox']:checked");
+		 		
+		 		var htr_no = $(checkbox).val();
+				var htr_now = $("#htr_now_m").val();
+				var htr_con = $("#htr_con_m").val();
+		 		
+		 		$.ajax({
+					type: "POST",
+					url: "updateHabitRecord.do",
+					data: {htr_no:htr_no, htr_now:htr_now, htr_con:htr_con},
+					success: function(data){
+						
+						if(data == "success"){
+							$(".clicked").trigger("click");
+							$("#edit-record").modal("hide");
+						}else{
+		    				alert("수정 실패, 다시 시도해 주세요.");
+		    			}
+						
+					},
+					error:function(request, status, errorData){
+                        alert("error code: " + request.status + "\n"
+                              +"message: " + request.responseText
+                              +"error: " + errorData);
+             		} 
+				});
+		 		
+		 	}
+		    
+		    
 
         </script>
         <jsp:include page="../common/footer.jsp"/>

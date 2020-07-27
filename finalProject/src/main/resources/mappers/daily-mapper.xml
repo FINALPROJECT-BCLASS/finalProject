@@ -134,6 +134,7 @@
 		WHERE HT.HT_CYCLE = 'Daily'
 		AND HT.ID = #{id}
 		AND TO_CHAR(HTR.HTR_DATE, 'YY/MM/DD') = #{ht_start}
+		AND HTR.HTR_DELETE = 'N'
 		AND HT.HT_DELETE = 'N'
 		GROUP BY HT.HT_NO
 	</select>
@@ -145,6 +146,7 @@
 		WHERE HT.HT_CYCLE = 'Monthly'
 		AND HT.ID = #{id}
 		AND TO_CHAR(HTR.HTR_DATE, 'YY/MM') = #{ht_start}
+		AND HTR.HTR_DELETE = 'N'
 		AND HT.HT_DELETE = 'N'
 		GROUP BY HT.HT_NO
 	</select>
@@ -156,6 +158,7 @@
 		WHERE HT.HT_CYCLE = 'Weekly'
 		AND HT.ID = #{id}
 		AND HT.HT_DELETE = 'N'
+		AND HTR.HTR_DELETE = 'N'
 		AND HTR_DATE BETWEEN TO_DATE(TRUNC(SYSDATE,'IW'), 'YY/MM/DD') 
                    		 AND TO_DATE(TRUNC(SYSDATE,'IW') + 7, 'YY/MM/DD')
 		GROUP BY HT.HT_NO
@@ -168,10 +171,16 @@
 		AND HT_DELETE = 'N'
 	</update>
 	
-	<update id="updateHabitRecord" parameterType="HabitRecord">
+	<update id="deleteHabitRecord" parameterType="HabitRecord">
 		UPDATE HABIT_TRACKER_RECORD
 		SET HTR_DELETE = 'Y'
-		WHERE HTR_NO = ${htr_no}
+		WHERE HTR_NO = #{htr_no}
 	</update>
-
+	
+	<update id="updateHabitRecord" parameterType="HabitRecord">
+		UPDATE HABIT_TRACKER_RECORD
+		SET HTR_NOW = #{htr_now}, HTR_CON = #{htr_con}
+		WHERE HTR_NO = #{htr_no}
+	</update>
+	
 </mapper>

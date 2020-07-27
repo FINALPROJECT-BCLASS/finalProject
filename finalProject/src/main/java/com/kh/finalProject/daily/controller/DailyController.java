@@ -192,6 +192,8 @@ public class DailyController {
 		JSONArray monthly = new JSONArray();
 		JSONObject sendJson = new JSONObject();
 		
+		System.out.println("오늘 날짜는?" + today);
+		
 		if(h.getHt_cycle().equals("Daily")) {
 		
 		// 아이디, 습관 번호, 오늘 날짜 담기
@@ -199,6 +201,7 @@ public class DailyController {
 		hrd.setId(id);
 		hrd.setHt_no(h.getHt_no());
 		hrd.setHtr_date(today);
+		
 		ArrayList<HabitRecord> hrDailyResult = dailyService.selectHabitRecordList(hrd);
 		
 		// 오늘 날짜로 조회한 습관 기록 배열에 담기
@@ -364,7 +367,7 @@ public class DailyController {
 		
 		for(int i = 0 ; i < htr_no_item.length ; i++) {
 			hr.setHtr_no(htr_no_item[i]);
-			result = dailyService.updateHabitRecord(hr);
+			result = dailyService.deleteHabitRecord(hr);
 		}
 		
 		if(result > 0) {
@@ -377,6 +380,26 @@ public class DailyController {
 			out.close();
 		}
 	}
+	
+	// 습관 코멘트 업데이트
+		@RequestMapping(value="updateHabitRecord.do", method=RequestMethod.POST)
+		public void updateHabitRecord(HttpServletRequest request, HttpServletResponse response, HabitRecord hr) throws IOException {
+			
+			response.setContentType("text/html;charset=utf-8");
+			PrintWriter out = response.getWriter();
+			
+			int result = dailyService.updateHabitRecord(hr);
+			
+			if(result > 0) {
+				out.print("success");
+				out.flush();
+				out.close();
+			} else {
+				out.print("failed");
+				out.flush();
+				out.close();
+			}
+		}
 	
 	
 	

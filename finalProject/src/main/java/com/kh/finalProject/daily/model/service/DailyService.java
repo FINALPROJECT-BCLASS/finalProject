@@ -34,6 +34,8 @@ public interface DailyService {
 
 	int updateHabitComment(Habit habit);
 
+	int deleteHabitRecord(HabitRecord hr);
+
 	int updateHabitRecord(HabitRecord hr);
 
 

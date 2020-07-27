@@ -87,6 +87,11 @@ public class DailyDao {
 		return sqlSessionTemplate.update("dailyMapper.updateHabitComment", habit);
 	}
 
+	public int deleteHabitRecord(HabitRecord hr) {
+
+		return sqlSessionTemplate.update("dailyMapper.deleteHabitRecord", hr);
+	}
+
 	public int updateHabitRecord(HabitRecord hr) {
 
 		return sqlSessionTemplate.update("dailyMapper.updateHabitRecord", hr);
