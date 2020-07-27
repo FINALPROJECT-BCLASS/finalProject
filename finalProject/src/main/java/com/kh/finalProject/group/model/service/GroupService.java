@@ -9,6 +9,7 @@ import com.kh.finalProject.group.model.vo.GroupInfo;
 import com.kh.finalProject.group.model.vo.GroupLike;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupNotice;
+import com.kh.finalProject.group.model.vo.GroupReReply;
 import com.kh.finalProject.group.model.vo.GroupReply;
 import com.kh.finalProject.group.model.vo.GroupSearchName;
 import com.kh.finalProject.group.model.vo.GroupTable;
@@ -70,6 +71,8 @@ public interface GroupService {
 	ArrayList<GroupReply> selectReplyList(String gbNo);
 
 	int replyInsert(GroupReply gr);
+
+	int reReplyInsert(GroupReReply grr);
 
 
 

@@ -79,6 +79,16 @@
 		<result property="grDelete" column="GR_DELETE"/>
 		<result property="totalReply" column="TOTAL_REPLY"/>
 	</resultMap>
+	
+	<resultMap id="groupReReplyResultSet" type="GroupReReply">
+		<id property="grrNo" column="GRR_NO"/>
+		<result property="gmNo" column="GM_NO"/>
+		<result property="grNo" column="GR_NO"/>
+		<result property="grrCon" column="GRR_CON"/>
+		<result property="grrDate" column="GRR_DATE"/>
+		<result property="grrDelete" column="GRR_DELETE"/>
+		<result property="name" column="NAME"/>
+	</resultMap>
 	<!-- resultMap end -->
 	
 	<!-- 그룹 메인 및 생성 -->	
@@ -315,6 +325,19 @@
 			#{gbNo},
 			#{gmNo},
 			#{grCon},
+			SYSDATE,
+			'N'
+		)
+	</insert>
+	
+	<insert id="reReplyInsert" parameterType="GroupReReply">
+		INSERT INTO GROUP_REREPLY 
+		VALUES (
+			SEQ_GRR.NEXTVAL,
+			#{gmNo},
+			#{gbNo},
+			#{grNo},
+			#{grrCon},
 			SYSDATE,
 			'N'
 		)

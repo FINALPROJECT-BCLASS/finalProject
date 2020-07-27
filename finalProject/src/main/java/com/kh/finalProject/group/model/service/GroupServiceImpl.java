@@ -13,6 +13,7 @@ import com.kh.finalProject.group.model.vo.GroupInfo;
 import com.kh.finalProject.group.model.vo.GroupLike;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupNotice;
+import com.kh.finalProject.group.model.vo.GroupReReply;
 import com.kh.finalProject.group.model.vo.GroupReply;
 import com.kh.finalProject.group.model.vo.GroupSearchName;
 import com.kh.finalProject.group.model.vo.GroupTable;
@@ -158,6 +159,11 @@ public class GroupServiceImpl implements GroupService{
 	@Override
 	public int replyInsert(GroupReply gr) {
 		return gDao.replyInsert(gr);
+	}
+
+	@Override
+	public int reReplyInsert(GroupReReply grr) {
+		return gDao.reReplyInsert(grr);
 	}
 
 	
