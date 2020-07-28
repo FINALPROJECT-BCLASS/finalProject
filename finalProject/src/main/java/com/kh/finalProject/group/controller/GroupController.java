@@ -608,8 +608,11 @@ public class GroupController {
 		// 댓글 insert
 		int result = gService.replyInsert(gr);
 		
+		int replyCurrval = gService.replyCurrval();
+		
 		// 댓글 select
-		ArrayList<GroupReply> replyList = gService.selectReplyList(gbNo);
+		ArrayList<GroupReply> replyList = gService.selectOneReplyList(replyCurrval);
+//		ArrayList<GroupReply> replyList = gService.selectReplyList(gbNo);
 		int totalReply = gService.totalReplyList(gbNo);
 		
 		response.setContentType("application/json;charset=utf-8");
@@ -662,12 +665,12 @@ public class GroupController {
 		
 		// 댓글 select
 		ArrayList<GroupReply> replyList = gService.selectReplyList(gbNo);
-		ArrayList<GroupReReply> reReplyList = gService.selectReReplyList(grr);
+//		ArrayList<GroupReReply> reReplyList = gService.selectReReplyList(grr);
 		
 		int reReplyCurrval = gService.reReplyCurrval();
 		System.out.println("대댓글 ajax reReplyCurrval : " + reReplyCurrval);
 		
-//		GroupReReply reReplyList = gService.selectOneReReplyList(reReplyCurrval);
+		ArrayList<GroupReReply> reReplyList = gService.selectOneReReplyList(reReplyCurrval);
 		System.out.println("대댓글 ajax reReplyList : " + reReplyList);
 		
 		int totalReply = gService.totalReplyList(gbNo);
@@ -681,8 +684,6 @@ public class GroupController {
 		JSONArray rrArr = new JSONArray();
 		
 		tArr.add(totalReply);
-//		rrArr.add(reReplyList);
-		
 		
 		if (replyList != null) {
 			for (GroupReply r : replyList) {

@@ -167,7 +167,7 @@
                success: function(data){
             	 /* console.log("ajax photo : " + data.photoList[0].gbNo );
             	 console.log("ajax data : " + data.boardList[0].gbNo); */
-            	 console.log("ajax reply : " + data.replyList[0].totalReply );
+            	 /* console.log("ajax reply : " + data.replyList[0].totalReply ); */
               	 page = data.boardList[0].page;
               	 pagePlus = page + 1;
               	 

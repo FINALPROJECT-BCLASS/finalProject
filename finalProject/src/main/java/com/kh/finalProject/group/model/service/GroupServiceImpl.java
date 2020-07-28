@@ -187,9 +187,20 @@ public class GroupServiceImpl implements GroupService{
 	}
 
 	@Override
-	public GroupReReply selectOneReReplyList(int reReplyCurrval) {
+	public ArrayList<GroupReReply> selectOneReReplyList(int reReplyCurrval) {
 		return gDao.selectOneReReplyList(reReplyCurrval);
+	}
+
+	@Override
+	public int replyCurrval() {
+		return gDao.replyCurrval();
 		}
+
+	@Override
+	public ArrayList<GroupReply> selectOneReplyList(int replyCurrval) {
+		return gDao.selectOneReplyList(replyCurrval);
+	}
+
 
 	
 

@@ -82,7 +82,11 @@ public interface GroupService {
 
 	int reReplyCurrval();
 
-	GroupReReply selectOneReReplyList(int reReplyCurrval);
+	ArrayList<GroupReReply> selectOneReReplyList(int reReplyCurrval);
+
+	int replyCurrval();
+
+	ArrayList<GroupReply> selectOneReplyList(int replyCurrval);
 
 
 
