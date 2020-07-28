@@ -176,6 +176,24 @@ public class DailyController {
 		habit.setId(id);
 		habit.setHt_no(htNum);
 		
+		HabitRecord hrc = new HabitRecord();
+		hrc.setId(id);
+		hrc.setHt_no(htNum);
+		
+		ArrayList<HabitRecord> hrcResult = dailyService.selectHabitRecordListC(hrc);
+		
+		JSONArray hrlist = new JSONArray();
+		
+		for(HabitRecord HRC : hrcResult) {
+			
+			JSONObject hrcl = new JSONObject();
+			hrcl.put("htr_date", HRC.getHtr_date());
+			
+			hrlist.add(hrcl);
+			
+		}
+		
+		
 		// 번호로 습관 조회하기
 		Habit h = dailyService.selectHabitNum(habit);
 		
@@ -191,8 +209,6 @@ public class DailyController {
 		JSONArray weekly = new JSONArray();
 		JSONArray monthly = new JSONArray();
 		JSONObject sendJson = new JSONObject();
-		
-		System.out.println("오늘 날짜는?" + today);
 		
 		if(h.getHt_cycle().equals("Daily")) {
 		
@@ -241,7 +257,6 @@ public class DailyController {
 			}
 			
 			sendJson.put("recordWeeklyList", weekly);
-			System.out.println("주 리스트 확인 : "+ hrWeeklyResult);
 			
 		}else {
 		
@@ -267,7 +282,6 @@ public class DailyController {
 			}
 			
 			sendJson.put("recordMonthlyList", monthly);
-			System.out.println("월 확인 : " + hrMonthlyResult);
 		
 		}
 		
@@ -283,6 +297,7 @@ public class DailyController {
 		jObj.put("ht_color", h.getHt_color());
 		
 		
+		sendJson.put("hrclist", hrlist);
 		sendJson.put("list", jObj);
 		
 		out.print(sendJson);
@@ -382,24 +397,65 @@ public class DailyController {
 	}
 	
 	// 습관 코멘트 업데이트
-		@RequestMapping(value="updateHabitRecord.do", method=RequestMethod.POST)
-		public void updateHabitRecord(HttpServletRequest request, HttpServletResponse response, HabitRecord hr) throws IOException {
-			
-			response.setContentType("text/html;charset=utf-8");
-			PrintWriter out = response.getWriter();
-			
-			int result = dailyService.updateHabitRecord(hr);
-			
-			if(result > 0) {
-				out.print("success");
-				out.flush();
-				out.close();
-			} else {
-				out.print("failed");
-				out.flush();
-				out.close();
-			}
+	@RequestMapping(value="updateHabitRecord.do", method=RequestMethod.POST)
+	public void updateHabitRecord(HttpServletRequest request, HttpServletResponse response, HabitRecord hr) throws IOException {
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		int result = dailyService.updateHabitRecord(hr);
+		
+		if(result > 0) {
+			out.print("success");
+			out.flush();
+			out.close();
+		} else {
+			out.print("failed");
+			out.flush();
+			out.close();
 		}
+	}
+	
+	@RequestMapping(value="htCalendarList.do", method=RequestMethod.POST)
+	public void updateHabitRecord(HttpServletRequest request, HttpServletResponse response, String htNum) throws IOException {
+		
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		String id = member.getId();
+		
+		int ht_no = Integer.parseInt(htNum);
+		
+		HabitRecord hrc = new HabitRecord();
+		hrc.setId(id);
+		hrc.setHt_no(ht_no);
+		
+		ArrayList<HabitRecord> hrcResult = dailyService.selectHabitRecordListC(hrc);
+		
+		JSONArray hrlist = new JSONArray();
+		JSONObject sendJson = new JSONObject();
+		
+		for(HabitRecord HRC : hrcResult) {
+			
+			JSONObject jObj = new JSONObject();
+			jObj.put("htr_date", HRC.getHtr_date());
+			
+			hrlist.add(jObj);
+			
+		}
+		
+		sendJson.put("list", hrlist);
+		
+		out.print(sendJson);
+		out.flush();
+		out.close();
+		
+		
+		
+	}
 	
 	
 	

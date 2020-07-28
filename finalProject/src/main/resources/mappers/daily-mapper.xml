@@ -183,4 +183,14 @@
 		WHERE HTR_NO = #{htr_no}
 	</update>
 	
+	<select id="selectHabitRecordListC" parameterType="HabitRecord" resultMap="habitRecordResultSet">
+		SELECT TO_CHAR(HTR_DATE, 'YYYY-MM-DD') HTR_DATE
+		FROM HABIT_TRACKER HT
+		JOIN HABIT_TRACKER_RECORD HTR ON (HT.HT_NO = HTR.HT_NO)
+		WHERE HTR.ID=#{id}
+		AND HTR.HT_NO =#{ht_no}
+		AND HTR.HTR_DELETE = 'N'
+		AND HT.HT_DELETE= 'N'
+	</select>
+	
 </mapper>

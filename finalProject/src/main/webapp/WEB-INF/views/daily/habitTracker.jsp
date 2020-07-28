@@ -10,6 +10,9 @@
 <link rel="stylesheet" href="resources/css/flickity/flickity.css">
 <!-- JavaScript -->
 <script src="resources/js/flickity/flickity.pkgd.min.js"></script>
+
+<link href='resources/css/simpleCalendar/simple-calendar.css' rel='stylesheet' />
+
 <style>
 
         body {
@@ -58,7 +61,7 @@
             border-radius: 10px;
             background: white;
             margin-top: 30px;
-            padding: 15px;
+            padding: 30px;
             display: block;
         }
         
@@ -67,6 +70,7 @@
 	    	font-weight: 600;
 	    	padding: 20px;
 	    }
+	    
         
         .content-section1,
         .content-section2 {
@@ -80,6 +84,9 @@
 	        flex-direction: row;
         }
         
+	    .content-section1 {
+	    	height: 430px;
+	    }
         .content-section2 {
         	justify-content: start;
         }
@@ -97,7 +104,7 @@
 		}
 		
 		.content-section2-left {
-			padding:15px;
+			padding-right: 20px;
 			width: 46%;
 		}
 		
@@ -107,7 +114,6 @@
 			width: 50%;
 		    height: 262px;
 		    float: right;
-		    background: #f3f3f3;
 		    border-radius: 10px;
 		    display: flex;
 		    justify-content: center;
@@ -116,7 +122,6 @@
 		}
 		
 		.content-section2-right {
-			padding:15px;
 			width: 56%;
 		}
 		
@@ -635,7 +640,7 @@
             	<div class="content-section1">
             		<div class="content-section1-left">
 	            		<div>
-	            			Calendar
+	            			<div id="event-cal-container" class="calendar-container"></div>
 	            		</div>
 	            	</div>
 	            	<div class="content-section1-right">
@@ -761,24 +766,26 @@
             <!-- Button End-->
         </div>
 		
+		<!-- Calendar -->
+		<script type="text/javascript"  src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+        crossorigin="anonymous"></script>
+		<script type="text/javascript"  src='resources/js/simpleCalendar/jquery.simple-calendar.js'></script>
 		<script>
-		
+			
 			$(".content").hide();
+			
 		
 			// 모달에 comment 내용 넣어주기
 			function editCommentCheck() {
-				
 				$("#ht_comment").val($("#comment").html());
-				
 			}
-			
 			
 			$(function(){
 				
 		        var responseMessage = "<c:out value="${message}" />";
 		        if (responseMessage != ""){alert(responseMessage)}
 		   
-		  
 		    })
 		    
 		    var target=$('.habitItem');
@@ -790,14 +797,30 @@
 		    	// ht_no를 기준으로 content 내용을 뿌려주기 위함
 		    	var htNum = $(this).prev("#htNum").val();
 		    	console.log(htNum);
-		    	
+
 		    	$.ajax({
    					url: "habitContent.do",
    					type: "post",
    					data: {htNum:htNum},
    					dataType:"json",
    					success:function(data){
-   						console.log(data);
+   					
+   					var eventDates = [];	
+   						
+   					for(var i in data.hrclist) {
+    	   					eventDates.push(data.hrclist[i].htr_date);
+   					}
+   					
+
+      	            console.log("잘 저장 되나?" + eventDates);
+
+      	         
+      	            $("#event-cal-container").simpleCalendar({
+      	                fixedStartDay: false,
+      	                events: eventDates
+      	              	
+      	            });
+   					
    						
 					//목표 값
 					$("#goal").html("/" + data.list.ht_goal + data.list.ht_unit);
@@ -1009,9 +1032,41 @@
                                +"error: " + errorData);
               		} 
    				})
+		    	 
 		    	
 		    	target.not($(this)).removeClass("clicked");
 		    });
+		    /* 
+		    function calendarList(htNum) {
+		    	
+		    	var events = [];
+		    	
+		    	$.ajax({
+        			url: 'htCalendarList.do',
+        			type: "post",
+        			dataType: 'json',
+        			data: {htNum:htNum},
+        			success: function(data) {
+        				
+        				for(var i in data.list){
+    	   					events.push({startDate:data.list[i].htr_date,
+    	   								endDate:data.list[i].htr_date
+    	   					})
+    	   					
+    	   				};
+    	   				
+    	   				console.log(events);
+    	   				
+    	   				return events;
+        			},
+        			error:function(request, status, errorData){
+                        alert("error code: " + request.status + "\n"
+                              +"message: " + request.responseText
+                              +"error: " + errorData);
+                    }   
+        		})
+		    	
+		    } */
 		    
 		    
 		    // 습관 카운트 하기

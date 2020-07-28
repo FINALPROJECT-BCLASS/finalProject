@@ -112,6 +112,12 @@ public class DailyServiceImpl implements DailyService {
 		return dailyDao.updateHabitRecord(hr);
 	}
 
+	@Override
+	public ArrayList<HabitRecord> selectHabitRecordListC(HabitRecord hr) {
+
+		return dailyDao.selectHabitRecordListC(hr);
+	}
+
 
 
 	

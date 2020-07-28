@@ -38,6 +38,8 @@ public interface DailyService {
 
 	int updateHabitRecord(HabitRecord hr);
 
+	ArrayList<HabitRecord> selectHabitRecordListC(HabitRecord hr);
+
 
 
 }
