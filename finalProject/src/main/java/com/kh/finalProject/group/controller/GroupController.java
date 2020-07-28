@@ -533,23 +533,31 @@ public class GroupController {
 		GroupBoard boardList = gService.selectBoardDetail(gbNo);
 
 		ArrayList<GroupBoardPhoto> photoList = gService.selectDetailPhotoList(gbNo);
-		ArrayList<GroupReReply> reReplyList = gService.selectReReplyList(gbNo);
-		System.out.println("게시판 상세 : " + reReplyList);
+		
+		
 		int totalLike = gService.totalLikeList(gbNo);
 
 		gl.setGbNo(gbNo);
 		gl.setGmNo(gmNo);
 		GroupLike likeList = gService.selectLikeList(gl);
 
-		int totalReply = gService.totalReplyList(gbNo);
 		ArrayList<GroupReply> replyList = gService.selectReplyList(gbNo);
+		System.out.println("게시판 상세  댓글:  " + replyList);
+		ArrayList<GroupReReply> reReplyList = gService.selectReReplyList(gbNo);
+		System.out.println("게시판 상세  대댓글:  " + reReplyList);
+		int totalReply = gService.totalReplyList(gbNo);
+		System.out.println("게시판 상세  총 댓글:  " + totalReply);
+		int totalReReply = gService.totalReReplyList(gbNo);
+		System.out.println("게시판 상세  총 대댓글:  " + totalReReply);
+		
+		int totalRe = totalReply + totalReReply;
 		
 		mv.addObject("gInfoGmNo", gmNo);
 		mv.addObject("noticeList", noticeList);
 		mv.addObject("photoList", photoList);
 		mv.addObject("boardList", boardList);
 		mv.addObject("totalLike", totalLike);
-		mv.addObject("totalReply", totalReply);
+		mv.addObject("totalReply", totalRe);
 		mv.addObject("reReplyList", reReplyList);
 		if (likeList != null) {
 			mv.addObject("likeList", likeList);
@@ -603,7 +611,7 @@ public class GroupController {
 		// 댓글 select
 		ArrayList<GroupReply> replyList = gService.selectReplyList(gbNo);
 		int totalReply = gService.totalReplyList(gbNo);
-
+		
 		response.setContentType("application/json;charset=utf-8");
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -645,19 +653,23 @@ public class GroupController {
 
 	// 대댓글 ajax
 	@RequestMapping(value = "reReplyAjax.do", method = RequestMethod.GET)
-	public void reReplyinsert(HttpServletResponse response, HttpSession session, GroupReReply grr)throws IOException {
-		System.out.println("왔냐");
-		System.out.println("grr : " + grr);
+	public void reReplyinsert(HttpServletResponse response, HttpSession session, GroupReReply grr
+							)throws IOException {
 		String gbNo = Integer.toString(grr.getGbNo()); 
-		
+
 		// 댓글 insert
 		int result = gService.reReplyInsert(grr);
-		System.out.println("리댓글 result : " + result);
 		
 		// 댓글 select
 		ArrayList<GroupReply> replyList = gService.selectReplyList(gbNo);
 		ArrayList<GroupReReply> reReplyList = gService.selectReReplyList(grr);
-		System.out.println("대댓글 : " + reReplyList);
+		
+		int reReplyCurrval = gService.reReplyCurrval();
+		System.out.println("대댓글 ajax reReplyCurrval : " + reReplyCurrval);
+		
+//		GroupReReply reReplyList = gService.selectOneReReplyList(reReplyCurrval);
+		System.out.println("대댓글 ajax reReplyList : " + reReplyList);
+		
 		int totalReply = gService.totalReplyList(gbNo);
 
 		response.setContentType("application/json;charset=utf-8");
@@ -665,11 +677,11 @@ public class GroupController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
 		JSONArray rArr = new JSONArray();
-		
 		JSONArray tArr = new JSONArray();
-		tArr.add(totalReply);
-		
 		JSONArray rrArr = new JSONArray();
+		
+		tArr.add(totalReply);
+//		rrArr.add(reReplyList);
 		
 		
 		if (replyList != null) {

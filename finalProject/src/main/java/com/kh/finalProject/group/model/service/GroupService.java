@@ -78,6 +78,12 @@ public interface GroupService {
 
 	ArrayList<GroupReReply> selectReReplyList(GroupReReply grr);
 
+	int totalReReplyList(String gbNo);
+
+	int reReplyCurrval();
+
+	GroupReReply selectOneReReplyList(int reReplyCurrval);
+
 
 
 }
