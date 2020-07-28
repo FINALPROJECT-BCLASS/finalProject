@@ -332,8 +332,8 @@
                                         <tr>
                                             <td><b>Time</b></td>
                                             <td>
-                                                <input type="time" name="ttStart"> - 
-                                                <input type="time" name="ttEnd">
+                                                <input type="time" name="ttStart" required> - 
+                                                <input type="time" name="ttEnd" required>
                                             </td>
                                         </tr>
                                         <tr>

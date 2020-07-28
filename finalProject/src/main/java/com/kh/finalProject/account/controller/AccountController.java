@@ -238,7 +238,7 @@ public class AccountController {
 		return "account/yearlyStatistics";
 	}
 	
-	@RequestMapping("mpslist.do")
+	@RequestMapping("mslist.do")
 	public void monthlyPSumList(HttpSession session, HttpServletResponse response, MSumCondition mc) throws IOException {
 		response.setContentType("application/json;charset=utf-8");
 		
@@ -249,11 +249,14 @@ public class AccountController {
 		
 		ArrayList<MonthlySum> mpsList = aService.selectMPSumList(mc);
 		
+		ArrayList<MonthlySum> mesList = aService.selectMESumList(mc);
+		
 		JSONArray jArr = new JSONArray();
 		
 		for(MonthlySum p : mpsList) {
 			JSONObject jObj = new JSONObject();
 
+			jObj.put("type", "profit");
 			jObj.put("year", mc.getYear());
 			jObj.put("month", p.getMonth());
 			jObj.put("amount", p.getSum());
@@ -261,8 +264,19 @@ public class AccountController {
 			jArr.add(jObj);
 		}
 		
+		for(MonthlySum e : mesList) {
+			JSONObject jObj = new JSONObject();
+
+			jObj.put("type", "expenditure");
+			jObj.put("year", mc.getYear());
+			jObj.put("month", e.getMonth());
+			jObj.put("amount", e.getSum());
+			
+			jArr.add(jObj);
+		}
+		
 		JSONObject sendJson = new JSONObject();
-		sendJson.put("mpsList", jArr);
+		sendJson.put("msList", jArr);
 		
 		PrintWriter out = response.getWriter();
 		out.print(sendJson);
