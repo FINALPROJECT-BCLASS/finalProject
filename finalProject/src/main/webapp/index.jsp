@@ -2,9 +2,6 @@
     pageEncoding="UTF-8"%>
     
     
-    
-    
-    
 <!DOCTYPE html>
 
 
@@ -33,7 +30,8 @@
 
 
 	<% response.sendRedirect(request.getContextPath() + "/home.do"); %>   
-</body>
+</body> 
+
 
 
 </html>

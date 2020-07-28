@@ -26,13 +26,15 @@
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupInfo" alias="GroupInfo"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupNotice" alias="GroupNotice"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupBoard" alias="GroupBoard"/>
-
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupBoardPhoto" alias="GroupBoardPhoto"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupLike" alias="GroupLike"/>
+		<typeAlias type="com.kh.finalProject.group.model.vo.GroupReply" alias="GroupReply"/>
+		<typeAlias type="com.kh.finalProject.group.model.vo.GroupReReply" alias="GroupReReply"/>
 
 		<typeAlias type="com.kh.finalProject.daily.model.vo.Habit" alias="Habit"/>
 		<typeAlias type="com.kh.finalProject.daily.model.vo.HabitRecord" alias="HabitRecord"/>
 		<typeAlias type="com.kh.finalProject.daily.model.vo.HabitSum" alias="HabitSum"/>
+
 
 		<typeAlias type="com.kh.finalProject.account.model.vo.AccountBook" alias="AccountBook"/>			<!-- 예지 -->
 		<typeAlias type="com.kh.finalProject.account.model.vo.ProfitSum" alias="ProfitSum"/>				<!-- 예지 -->
