@@ -35,11 +35,13 @@
 		<typeAlias type="com.kh.finalProject.daily.model.vo.HabitRecord" alias="HabitRecord"/>
 		<typeAlias type="com.kh.finalProject.daily.model.vo.HabitSum" alias="HabitSum"/>
 		
-		<typeAlias type="com.kh.finalProject.account.model.vo.AccountBook" alias="AccountBook"/>		<!-- 예지 -->
-		<typeAlias type="com.kh.finalProject.account.model.vo.Sum" alias="Sum"/>						<!-- 예지 -->
-		<typeAlias type="com.kh.finalProject.account.model.vo.SumCondition" alias="SumCondition"/>		<!-- 예지 -->
-		<typeAlias type="com.kh.finalProject.account.model.vo.MonthlySum" alias="MonthlySum"/>			<!-- 예지 -->
-		<typeAlias type="com.kh.finalProject.account.model.vo.MSumCondition" alias="MSumCondition"/>	<!-- 예지 -->
+		<typeAlias type="com.kh.finalProject.account.model.vo.AccountBook" alias="AccountBook"/>				<!-- 예지 -->
+		<typeAlias type="com.kh.finalProject.account.model.vo.Sum" alias="Sum"/>								<!-- 예지 -->
+		<typeAlias type="com.kh.finalProject.account.model.vo.SumCondition" alias="SumCondition"/>				<!-- 예지 -->
+		<typeAlias type="com.kh.finalProject.account.model.vo.MonthlySum" alias="MonthlySum"/>					<!-- 예지 -->
+		<typeAlias type="com.kh.finalProject.account.model.vo.MSumCondition" alias="MSumCondition"/>			<!-- 예지 -->
+		<typeAlias type="com.kh.finalProject.account.model.vo.ExpCategory" alias="ExpCategory"/>				<!-- 예지 -->
+		<typeAlias type="com.kh.finalProject.account.model.vo.CategoryCondition" alias="CategoryCondition"/>	<!-- 예지 -->
 
 	</typeAliases>
 

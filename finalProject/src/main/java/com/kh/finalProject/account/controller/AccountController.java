@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kh.finalProject.account.model.exception.AccountException;
 import com.kh.finalProject.account.model.service.AccountService;
 import com.kh.finalProject.account.model.vo.AccountBook;
+import com.kh.finalProject.account.model.vo.CategoryCondition;
+import com.kh.finalProject.account.model.vo.ExpCategory;
 import com.kh.finalProject.account.model.vo.MSumCondition;
 import com.kh.finalProject.account.model.vo.MonthlySum;
 import com.kh.finalProject.account.model.vo.Sum;
@@ -31,6 +33,9 @@ public class AccountController {
 	
 	@Autowired
 	SumCondition sc;
+	
+	@Autowired
+	CategoryCondition cc;
 	
 	@RequestMapping("mrview.do")
 	public String monthlyRecordView() {
@@ -239,7 +244,7 @@ public class AccountController {
 	}
 	
 	@RequestMapping("mslist.do")
-	public void monthlyPSumList(HttpSession session, HttpServletResponse response, MSumCondition mc) throws IOException {
+	public void monthlySumList(HttpSession session, HttpServletResponse response, MSumCondition mc) throws IOException {
 		response.setContentType("application/json;charset=utf-8");
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");
@@ -276,6 +281,71 @@ public class AccountController {
 		}
 		
 		JSONObject sendJson = new JSONObject();
+		sendJson.put("msList", jArr);
+		
+		PrintWriter out = response.getWriter();
+		out.print(sendJson);
+		out.flush();
+		out.close();
+		
+	}
+	
+	@RequestMapping("msview.do")
+	public String MonthlyStatisticsView() {
+		
+		return "account/monthlyStatistics";
+	}
+	
+	@RequestMapping("eclist.do")
+	public void expCategoryList(HttpSession session, HttpServletResponse response, String date) throws IOException {
+		response.setContentType("application/json;charset=utf-8");
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String id = loginUser.getId();
+		
+		String year = date.substring(0, 4);
+		String month = date.substring(5);
+		
+		sc.setId(id);
+		sc.setYear(year);
+		sc.setMonth(month);
+		
+		ArrayList<AccountBook> abPNoList = aService.selectAbPNoList(sc);
+		
+		ArrayList<AccountBook> abENoList = aService.selectAbENoList(sc);
+		
+		int pSum = 0;
+		for(int i = 0; i < abPNoList.size(); i++) {
+			pSum += aService.selectAbAmount(abPNoList.get(i).getAbNo());
+		}
+		
+		int eSum = 0;
+		for(int i = 0; i < abENoList.size(); i++) {
+			eSum += aService.selectAbAmount(abENoList.get(i).getAbNo());
+		}
+		
+		cc.setId(id);
+		cc.setYear(year);
+		cc.setMonth(month);
+		
+		ArrayList<ExpCategory> ecList = aService.selectECList(cc);
+		
+		JSONArray jArr = new JSONArray();
+		
+		for(ExpCategory e : ecList) {
+			JSONObject jObj = new JSONObject();
+
+			jObj.put("year", cc.getYear());
+			jObj.put("month", cc.getMonth());
+			jObj.put("category", e.getTitle());
+			jObj.put("amount", e.getSum());
+			
+			jArr.add(jObj);
+		}
+		
+		JSONObject sendJson = new JSONObject();
+		sendJson.put("pSum", pSum);
+		sendJson.put("eSum", eSum);
 		sendJson.put("msList", jArr);
 		
 		PrintWriter out = response.getWriter();

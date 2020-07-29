@@ -24,6 +24,11 @@
 		<result property="month" column="AB_MONTH"/>
 		<result property="sum" column="ABM_SUM"/>
 	</resultMap>
+	
+	<resultMap type="ExpCategory" id="ecResultSet">
+		<result property="title" column="AEC_TITLE"/>
+		<result property="sum" column="AB_SUM"/>
+	</resultMap>
 
 	<insert id="insertAccountBook" parameterType="AccountBook">
 		INSERT INTO ACCOUNT_BOOK
@@ -45,6 +50,7 @@
 		WHERE ID=#{id}
 		    AND APC_NO!=0
 		    AND AB_DELETE='N'
+		    AND AB_VIEW='Y'
 		GROUP BY AB_DATE
 	</select>
 	
@@ -54,6 +60,7 @@
 		WHERE ID=#{id}
 		    AND AEC_NO!=0
 		    AND AB_DELETE='N'
+		    AND AB_VIEW='Y'
 		GROUP BY AB_DATE
 	</select>
 	
@@ -64,6 +71,7 @@
 			AND APC_NO!=0
 			AND AB_DATE=#{abDate}
 			AND AB_DELETE='N'
+			AND AB_VIEW='Y'
 	</select>
 	
 	<select id="selectEList" parameterType="AccountBook" resultMap="abResultSet">
@@ -73,6 +81,7 @@
 			AND AEC_NO!=0
 			AND AB_DATE=#{abDate}
 			AND AB_DELETE='N'
+			AND AB_VIEW='Y'
 	</select>
 	
 	<update id="deleteAccountBook" parameterType="AccountBook">
@@ -88,6 +97,7 @@
 			AND EXTRACT(YEAR FROM AB_DATE)=#{year}
 		    AND EXTRACT(MONTH FROM AB_DATE)=#{month}
 		    AND APC_NO!=0
+		    AND AB_VIEW='Y'
 		    AND AB_DELETE='N'
 	</select>
 	
@@ -98,6 +108,7 @@
 			AND EXTRACT(YEAR FROM AB_DATE)=#{year}
 		    AND EXTRACT(MONTH FROM AB_DATE)=#{month}
 		    AND AEC_NO!=0
+		    AND AB_VIEW='Y'
 		    AND AB_DELETE='N'
 	</select>
 	
@@ -114,6 +125,7 @@
 		    AND EXTRACT(YEAR FROM AB_DATE)=#{year}
 		    AND APC_NO!=0
 		    AND AB_DELETE='N'
+		    AND AB_VIEW='Y'
 		GROUP BY EXTRACT(MONTH FROM AB_DATE)
 	</select>
 	
@@ -124,7 +136,21 @@
 		    AND EXTRACT(YEAR FROM AB_DATE)=#{year}
 		    AND AEC_NO!=0
 		    AND AB_DELETE='N'
+		    AND AB_VIEW='Y'
 		GROUP BY EXTRACT(MONTH FROM AB_DATE)
+	</select>
+	
+	<select id="selectECList" parameterType="CategoryCondition" resultMap="ecResultSet">
+		SELECT AEC_TITLE, SUM(AB_AMOUNT) "AB_SUM"
+		FROM ACCOUNT_BOOK B
+		JOIN A_EXPENDITURE_CATEGORY E ON(B.AEC_NO=E.AEC_NO)
+		WHERE ID=#{id}
+		    AND B.AEC_NO!=0
+		    AND EXTRACT(YEAR FROM AB_DATE)=#{year}
+		    AND EXTRACT(MONTH FROM AB_DATE)=#{month}
+		    AND AB_DELETE='N'
+		    AND AB_VIEW = 'Y'
+		GROUP BY AEC_TITLE
 	</select>
 
 </mapper>

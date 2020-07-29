@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.finalProject.account.model.vo.AccountBook;
+import com.kh.finalProject.account.model.vo.CategoryCondition;
+import com.kh.finalProject.account.model.vo.ExpCategory;
 import com.kh.finalProject.account.model.vo.MSumCondition;
 import com.kh.finalProject.account.model.vo.MonthlySum;
 import com.kh.finalProject.account.model.vo.Sum;
@@ -71,6 +73,11 @@ public class AccountDao {
 	public ArrayList<MonthlySum> selectMESumList(MSumCondition mc) {
 	
 		return (ArrayList)sqlSessionTemplate.selectList("accountMapper.selectMESumList", mc);
+	}
+
+	public ArrayList<ExpCategory> selectECList(CategoryCondition cc) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("accountMapper.selectECList", cc);
 	}
 
 }

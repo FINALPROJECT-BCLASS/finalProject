@@ -3,6 +3,8 @@ package com.kh.finalProject.account.model.service;
 import java.util.ArrayList;
 
 import com.kh.finalProject.account.model.vo.AccountBook;
+import com.kh.finalProject.account.model.vo.CategoryCondition;
+import com.kh.finalProject.account.model.vo.ExpCategory;
 import com.kh.finalProject.account.model.vo.MSumCondition;
 import com.kh.finalProject.account.model.vo.MonthlySum;
 import com.kh.finalProject.account.model.vo.Sum;
@@ -31,5 +33,7 @@ public interface AccountService {
 	ArrayList<MonthlySum> selectMPSumList(MSumCondition mc);
 
 	ArrayList<MonthlySum> selectMESumList(MSumCondition mc);
+
+	ArrayList<ExpCategory> selectECList(CategoryCondition cc);
 
 }
