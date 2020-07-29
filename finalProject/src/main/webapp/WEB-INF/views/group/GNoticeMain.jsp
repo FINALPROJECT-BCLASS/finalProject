@@ -94,7 +94,7 @@
 	<jsp:include page="../common/header.jsp"/>
 
 	<jsp:include page="../common/sidenaviGroup.jsp"/>
-
+	
 	  <div class="noticeText">
 	   	<c:if test="${!empty noticeList }">
         <table class="noticeTb">
