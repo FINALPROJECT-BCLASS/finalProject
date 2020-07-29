@@ -436,18 +436,10 @@ public class GroupController {
 			for(GroupReply r : replyList) {
 				if(!reReplyList.isEmpty()) {
 					for(GroupReReply rr : reReplyList) {
-						if(r.getGbNo() == rr.getGbNo()) {
-							System.out.println("for replyList grNo: " + r+"번쪠"+ r.getGrNo());
-							System.out.println("for replyList total: " +r+"번쪠"+ r.getTotalReply());
-			
-							System.out.println("for 대댓글 grNo: " +rr+"번쪠"+ rr.getGrrNo());
-							System.out.println("for 대댓글 total: " +rr+"번쪠"+ rr.getTotalReReply());
-							
-							
+						if(r.getGbNo() == rr.getGbNo()) {			
 							int replyTotal = Integer.parseInt(r.getTotalReply());
-							int reReplyTotal = Integer.parseInt(r.getTotalReply());
+							int reReplyTotal = Integer.parseInt(rr.getTotalReReply());
 							String totalReply = Integer.toString(replyTotal + reReplyTotal);
-							System.out.println("게시판 메인 totalReply : " + totalReply);
 							
 							r.setTotalReply(totalReply);
 						}						
