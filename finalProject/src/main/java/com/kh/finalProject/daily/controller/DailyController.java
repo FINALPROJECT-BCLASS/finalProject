@@ -162,7 +162,7 @@ public class DailyController {
 	
 	// 습관 내용 불러오기
 	@RequestMapping("habitContent.do")
-	public void habitContent(Model model, Habit habit, int htNum,
+	public void habitContent(Model model, Habit habit, int htNum, String htDate,
 							HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		response.setContentType("text/html;charset=utf-8");
@@ -172,7 +172,6 @@ public class DailyController {
 		Member member = (Member)session.getAttribute("loginUser");
 		
 		String id = member.getId();
-		
 		habit.setId(id);
 		habit.setHt_no(htNum);
 		
@@ -190,7 +189,6 @@ public class DailyController {
 			hrcl.put("htr_date", HRC.getHtr_date());
 			
 			hrlist.add(hrcl);
-			
 		}
 		
 		
@@ -210,15 +208,17 @@ public class DailyController {
 		JSONArray monthly = new JSONArray();
 		JSONObject sendJson = new JSONObject();
 		
+		HabitRecord hr = new HabitRecord();
+		
+		hr.setId(id);
+		hr.setHt_no(h.getHt_no());
+		hr.setHtr_date(today);
+		
+		
 		if(h.getHt_cycle().equals("Daily")) {
 		
 		// 아이디, 습관 번호, 오늘 날짜 담기
-		HabitRecord hrd = new HabitRecord();
-		hrd.setId(id);
-		hrd.setHt_no(h.getHt_no());
-		hrd.setHtr_date(today);
-		
-		ArrayList<HabitRecord> hrDailyResult = dailyService.selectHabitRecordList(hrd);
+		ArrayList<HabitRecord> hrDailyResult = dailyService.selectHabitRecordList(hr);
 		
 		// 오늘 날짜로 조회한 습관 기록 배열에 담기
 		for(HabitRecord HR : hrDailyResult) {
@@ -237,10 +237,8 @@ public class DailyController {
 		
 		}else if(h.getHt_cycle().equals("Weekly")) {
 		
-			HabitRecord hrw = new HabitRecord();
-			hrw.setId(id);
-			hrw.setHt_no(h.getHt_no());
-			ArrayList<HabitRecord> hrWeeklyResult = dailyService.selectHabitRecordListW(hrw);
+		
+			ArrayList<HabitRecord> hrWeeklyResult = dailyService.selectHabitRecordListW(hr);
 			
 			// 이번 주로 조회한 습관 기록 배열에 담기
 			for(HabitRecord HRW : hrWeeklyResult) {
@@ -259,13 +257,10 @@ public class DailyController {
 			sendJson.put("recordWeeklyList", weekly);
 			
 		}else {
-		
-			// 아이디, 습관 번호, 오늘 날짜 담기
-			HabitRecord hrm = new HabitRecord();
-			hrm.setId(id);
-			hrm.setHt_no(h.getHt_no());
-			hrm.setHtr_date(month);
-			ArrayList<HabitRecord> hrMonthlyResult = dailyService.selectHabitRecordListM(hrm);
+			
+				hr.setHtr_date(month);
+			
+			ArrayList<HabitRecord> hrMonthlyResult = dailyService.selectHabitRecordListM(hr);
 			
 			// 이번 달로 조회한 습관 기록 배열에 담기
 			for(HabitRecord HRM : hrMonthlyResult) {
@@ -415,9 +410,12 @@ public class DailyController {
 			out.close();
 		}
 	}
+
 	
-	@RequestMapping(value="htCalendarList.do", method=RequestMethod.POST)
-	public void updateHabitRecord(HttpServletRequest request, HttpServletResponse response, String htNum) throws IOException {
+	@RequestMapping(value="habitDateSelectList.do", method=RequestMethod.POST)
+	public void selectHabitDateList(HttpServletRequest request,
+									HttpServletResponse response,
+									String htNum, String htDate, String htCycle) throws IOException {
 		
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
@@ -429,30 +427,17 @@ public class DailyController {
 		
 		int ht_no = Integer.parseInt(htNum);
 		
-		HabitRecord hrc = new HabitRecord();
-		hrc.setId(id);
-		hrc.setHt_no(ht_no);
+		HabitRecord hr = new HabitRecord();
+		hr.setId(id);
+		hr.setHt_no(ht_no);
+		hr.setHtr_time(htCycle);
+		hr.setHtr_date(htDate);
 		
-		ArrayList<HabitRecord> hrcResult = dailyService.selectHabitRecordListC(hrc);
+		System.out.println("나오는지?" + hr);
 		
-		JSONArray hrlist = new JSONArray();
-		JSONObject sendJson = new JSONObject();
+		ArrayList<HabitRecord> hArr = dailyService.selectHabitRecordListD(hr);
 		
-		for(HabitRecord HRC : hrcResult) {
-			
-			JSONObject jObj = new JSONObject();
-			jObj.put("htr_date", HRC.getHtr_date());
-			
-			hrlist.add(jObj);
-			
-		}
-		
-		sendJson.put("list", hrlist);
-		
-		out.print(sendJson);
-		out.flush();
-		out.close();
-		
+		System.out.println("제대로 나옵니까?" + hArr);
 		
 		
 	}

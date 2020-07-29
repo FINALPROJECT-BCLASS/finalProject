@@ -193,4 +193,22 @@
 		AND HT.HT_DELETE= 'N'
 	</select>
 	
+	<select id="selectHabitRecordListD" parameterType="HabitRecord" resultMap="habitRecordResultSet">
+		SELECT HTR_NO, ID, HT_NO, TO_CHAR(HTR_DATE, 'HH:MI') AS "HTR_DATE", HTR_NOW, HTR_CON, HTR_DELETE
+		FROM HABIT_TRACKER_RECORD
+		WHERE ID=#{id}
+		AND HT_NO=#{ht_no}
+		<if test='htr_time != null and htr_time == "Today"'>
+		AND TO_CHAR(HTR_DATE, 'YY/MM/DD')=#{htr_date}
+		</if>
+		<if test='htr_time != null and htr_time == "This Week"'>
+		AND TO_CHAR(HTR_DATE, 'YY/MM/DD')=#{htr_date}
+		</if>
+		<if test='htr_time != null and htr_time == "This Month"'>
+		AND TO_CHAR(HTR_DATE, 'YY/MM')=#{htr_date}
+		</if>
+		AND HTR_DELETE='N'
+		ORDER BY HTR_DATE DESC
+	</select>
+	
 </mapper>

@@ -102,5 +102,10 @@ public class DailyDao {
 		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectHabitRecordListC", hr);
 	}
 
+	public ArrayList<HabitRecord> selectHabitRecordListD(HabitRecord hr) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectHabitRecordListD", hr);
+	}
+
 
 }

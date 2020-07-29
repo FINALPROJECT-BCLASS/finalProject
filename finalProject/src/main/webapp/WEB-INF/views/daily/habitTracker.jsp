@@ -108,6 +108,17 @@
 			width: 46%;
 		}
 		
+		.conetent-section1-left {
+			width: 50%;
+		    padding-left: 70px;
+		    /* height: 262px; */
+		    background: #f3f3f3;
+		    border-radius: 10px;
+		    display: flex;
+		    justify-content: center;
+		    /* align-items: center; */
+		    flex-direction: column;
+		}
 		
 		.content-section1-right,
 		.content-section2-right {
@@ -772,10 +783,12 @@
         crossorigin="anonymous"></script>
 		<script type="text/javascript"  src='resources/js/simpleCalendar/jquery.simple-calendar.js'></script>
 		<script>
-			
+		
+			var paramdate;
+	
 			$(".content").hide();
 			
-		
+	
 			// 모달에 comment 내용 넣어주기
 			function editCommentCheck() {
 				$("#ht_comment").val($("#comment").html());
@@ -805,20 +818,54 @@
    					dataType:"json",
    					success:function(data){
    					
+   					$(".event").removeClass("event");
    					var eventDates = [];	
    						
-   					for(var i in data.hrclist) {
-    	   					eventDates.push(data.hrclist[i].htr_date);
-   					}
-   					
+                	for(var i in data.hrclist) {
+ 	   					eventDates.push(data.hrclist[i].htr_date);
+ 	   					$("." + data.hrclist[i].htr_date).addClass("event");
+					}
+                	
+                	$(".today").css("background", data.list.ht_color);
 
       	            console.log("잘 저장 되나?" + eventDates);
-
       	         
       	            $("#event-cal-container").simpleCalendar({
-      	                fixedStartDay: false,
-      	                events: eventDates
-      	              	
+      	            	insertEvent: true,
+      	                fixedStartDay: true,
+      	              	displayEvent: true,
+      	               	events: eventDates,
+      	              	selectCallback: function(date){
+      	              		
+      	              		var check = date.replace(/-/g, "/");
+      	              		var day = check.substr(2);
+      	              		var month = check.substr(2,5);
+      	              		var htCycle = $("#period").html();
+      	              		var htNum =$(".clicked").prev("#htNum").val();
+      	  				
+      	  					if(htCycle == "Today" || htCycle == "This Week") {
+      	  						paramdate = day;
+      	  					}else if(htCycle == "This Month"){
+      	  						paramdate = month;
+      	  					}
+      	  					
+	      	  					$.ajax({url: "habitDateSelectList.do",
+	      	  	   					type: "post",
+	      	     					data: {htNum:htNum, htDate:paramdate, htCycle:htCycle},
+	      	     					dataType:"json",
+	      	     					success:function(data){
+	      	     						
+	      	     						console.log(data);
+	      	     						
+	      	     					},
+	      	     					error:function(request, status, errorData){
+	      	                          alert("error code: " + request.status + "\n"
+	      	                                +"message: " + request.responseText
+	      	                                +"error: " + errorData);
+	      	               			} 
+	      	  				
+	      	  					});
+      	              		}
       	            });
    					
    						
@@ -1035,38 +1082,12 @@
 		    	 
 		    	
 		    	target.not($(this)).removeClass("clicked");
+		    	
+		    	
 		    });
-		    /* 
-		    function calendarList(htNum) {
-		    	
-		    	var events = [];
-		    	
-		    	$.ajax({
-        			url: 'htCalendarList.do',
-        			type: "post",
-        			dataType: 'json',
-        			data: {htNum:htNum},
-        			success: function(data) {
-        				
-        				for(var i in data.list){
-    	   					events.push({startDate:data.list[i].htr_date,
-    	   								endDate:data.list[i].htr_date
-    	   					})
-    	   					
-    	   				};
-    	   				
-    	   				console.log(events);
-    	   				
-    	   				return events;
-        			},
-        			error:function(request, status, errorData){
-                        alert("error code: " + request.status + "\n"
-                              +"message: " + request.responseText
-                              +"error: " + errorData);
-                    }   
-        		})
-		    	
-		    } */
+		    
+		    
+		    
 		    
 		    
 		    // 습관 카운트 하기

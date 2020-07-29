@@ -1741,6 +1741,7 @@ var FullCalendar = (function (exports) {
         eventDragMinDistance: 5,
         expandRows: false,
         navLinks: false,
+        
         selectable: false
     };
     // calendar listeners

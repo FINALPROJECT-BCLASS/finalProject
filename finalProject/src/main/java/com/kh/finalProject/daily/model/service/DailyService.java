@@ -40,6 +40,8 @@ public interface DailyService {
 
 	ArrayList<HabitRecord> selectHabitRecordListC(HabitRecord hr);
 
+	ArrayList<HabitRecord> selectHabitRecordListD(HabitRecord hr);
+
 
 
 }
