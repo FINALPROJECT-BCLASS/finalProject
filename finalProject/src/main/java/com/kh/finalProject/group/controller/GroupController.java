@@ -431,7 +431,7 @@ public class GroupController {
 		// 댓글 total
 		ArrayList<GroupReply> replyList = gService.totalReply();
 		ArrayList<GroupReReply> reReplyList = gService.totalReReply();
-		
+		 
 		if(!replyList.isEmpty()) {
 			for(GroupReply r : replyList) {
 				if(!reReplyList.isEmpty()) {
