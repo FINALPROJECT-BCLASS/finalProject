@@ -89,6 +89,7 @@
 		<result property="grrDate" column="GRR_DATE"/>
 		<result property="grrDelete" column="GRR_DELETE"/>
 		<result property="name" column="NAME"/>
+		<result property="totalReReply" column="TOTAL_REREPLY"/>
 	</resultMap>
 	<!-- resultMap end -->
 	
@@ -399,5 +400,11 @@
 		WHERE GR_NO = #{replyCurrval}
 		AND GR_DELETE = 'N'
 		ORDER BY GR_NO DESC
+	</select>
+	
+	<select id="totalReReply" resultMap="groupReReplyResultSet">
+		SELECT GB_NO, COUNT(GB_NO) AS TOTAL_REREPLY
+		FROM GROUP_REREPLY
+		GROUP BY GB_NO
 	</select>
 </mapper>

@@ -201,6 +201,11 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.selectOneReplyList(replyCurrval);
 	}
 
+	@Override
+	public ArrayList<GroupReReply> totalReReply() {
+		return gDao.totalReReply();
+	}
+
 
 	
 

@@ -430,13 +430,39 @@ public class GroupController {
 
 		// 댓글 total
 		ArrayList<GroupReply> replyList = gService.totalReply();
-
+		ArrayList<GroupReReply> reReplyList = gService.totalReReply();
+		
+		if(!replyList.isEmpty()) {
+			for(GroupReply r : replyList) {
+				if(!reReplyList.isEmpty()) {
+					for(GroupReReply rr : reReplyList) {
+						if(r.getGbNo() == rr.getGbNo()) {
+							System.out.println("for replyList grNo: " + r+"번쪠"+ r.getGrNo());
+							System.out.println("for replyList total: " +r+"번쪠"+ r.getTotalReply());
+			
+							System.out.println("for 대댓글 grNo: " +rr+"번쪠"+ rr.getGrrNo());
+							System.out.println("for 대댓글 total: " +rr+"번쪠"+ rr.getTotalReReply());
+							
+							
+							int replyTotal = Integer.parseInt(r.getTotalReply());
+							int reReplyTotal = Integer.parseInt(r.getTotalReply());
+							String totalReply = Integer.toString(replyTotal + reReplyTotal);
+							System.out.println("게시판 메인 totalReply : " + totalReply);
+							
+							r.setTotalReply(totalReply);
+						}						
+					}
+				}
+			}
+		}
+		
 		response.setContentType("application/json;charset=utf-8");
 
 		JSONArray jArr = new JSONArray();
 		JSONArray pArr = new JSONArray();
 		JSONArray lArr = new JSONArray();
 		JSONArray rArr = new JSONArray();
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 		if (boardList != null) {
@@ -473,7 +499,7 @@ public class GroupController {
 					pArr.add(jObj);
 				}
 
-				if (replyList != null) {
+				if(replyList != null) {
 					for (GroupReply r : replyList) {
 						JSONObject jObj = new JSONObject();
 
@@ -487,6 +513,7 @@ public class GroupController {
 
 						rArr.add(jObj);
 					}
+					
 
 					if (likeList != null) {
 						for (GroupLike l : likeList) {
@@ -504,6 +531,7 @@ public class GroupController {
 						sendJson.put("photoList", pArr);
 						sendJson.put("likeList", lArr);
 						sendJson.put("replyList", rArr);
+						
 						PrintWriter out = response.getWriter();
 						out.print(sendJson);
 						out.flush();
@@ -517,6 +545,7 @@ public class GroupController {
 				}
 			}
 		}
+		
 	}
 
 	// 게시판 상세
@@ -546,10 +575,7 @@ public class GroupController {
 		ArrayList<GroupReReply> reReplyList = gService.selectReReplyList(gbNo);
 
 		int totalReply = gService.totalReplyList(gbNo);
-
 		int totalReReply = gService.totalReReplyList(gbNo);
-
-		
 		int totalRe = totalReply + totalReReply;
 		
 		mv.addObject("gInfoGmNo", gmNo);

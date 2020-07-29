@@ -176,6 +176,10 @@ public class GroupDao {
 	public ArrayList<GroupReply> selectOneReplyList(int replyCurrval) {
 		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectOneReplyList",replyCurrval);
 	}
+
+	public ArrayList<GroupReReply> totalReReply() {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.totalReReply");
+	}
 	
 	
 	

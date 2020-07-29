@@ -88,6 +88,8 @@ public interface GroupService {
 
 	ArrayList<GroupReply> selectOneReplyList(int replyCurrval);
 
+	ArrayList<GroupReReply> totalReReply();
+
 
 
 }

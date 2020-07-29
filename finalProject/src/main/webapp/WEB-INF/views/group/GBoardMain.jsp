@@ -122,10 +122,7 @@
 		 <div class="groupNotice">
 		 
 		 	<br>
-           	<c:if test="${empty noticeList }">
-           		<div class="emptyNoticeList"> 작성한 게시판이 없습니다.</div>
-           	</c:if>
-
+ 
           </div>
 	
 	  </div>
@@ -165,9 +162,7 @@
                dataType: "json",
                data:{page:pagePlus},
                success: function(data){
-            	 /* console.log("ajax photo : " + data.photoList[0].gbNo );
-            	 console.log("ajax data : " + data.boardList[0].gbNo); */
-            	 /* console.log("ajax reply : " + data.replyList[0].totalReply ); */
+
               	 page = data.boardList[0].page;
               	 pagePlus = page + 1;
               	 

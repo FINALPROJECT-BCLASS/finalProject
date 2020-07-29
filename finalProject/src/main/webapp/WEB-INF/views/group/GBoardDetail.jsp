@@ -162,8 +162,8 @@
                 <table class="replyBox">
                 	<tbody>
                 	<c:if test="${empty replyList }"><!-- 댓글이 없을 경우 -->
-                		<tr>
-                			<td colspan="3" align="center">등록된 댓글이 없습니다.</td>
+                		<tr class="noReplyTr">
+                			<td colspan="3" align="center" class="noReplyTd"><div class="noReply">등록된 댓글이 없습니다.</div></td>
                 		</tr>	
                 	</c:if>
                 	<c:if test="${!empty replyList }"><!-- 댓글이 있을 경우 -->
@@ -312,6 +312,11 @@
                             dataType: "json",
                         	data:{gmNo:gmNo, gbNo:gbNo,grCon:grCon},
                         	success:function(data){
+                        	// 처음 댓글을 작성했을 떄 "등록된 댓글이 없습니다" 없애주기.	
+                        	$(".noReply").remove();
+                        	$(".noReplyTd").remove();
+                        	$(".noReplyTr").remove();
+                        		
        						var $replyWirte = $("#replyWirte");
                        		var $replyBox = $(".replyBox tbody");
                        		var $totalReply = $(".totalReply");
@@ -341,8 +346,8 @@
                        		$tr.append($td2);
                        		$tr.append($td3);
                        		
-                       		$replyBox.prepend($grNo);
                        		$replyBox.prepend($tr);
+                       		$replyBox.prepend($grNo);
 
                       		  }
                        		
