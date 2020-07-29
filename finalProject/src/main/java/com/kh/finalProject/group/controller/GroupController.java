@@ -542,13 +542,13 @@ public class GroupController {
 		GroupLike likeList = gService.selectLikeList(gl);
 
 		ArrayList<GroupReply> replyList = gService.selectReplyList(gbNo);
-		System.out.println("게시판 상세  댓글:  " + replyList);
+
 		ArrayList<GroupReReply> reReplyList = gService.selectReReplyList(gbNo);
-		System.out.println("게시판 상세  대댓글:  " + reReplyList);
+
 		int totalReply = gService.totalReplyList(gbNo);
-		System.out.println("게시판 상세  총 댓글:  " + totalReply);
+
 		int totalReReply = gService.totalReReplyList(gbNo);
-		System.out.println("게시판 상세  총 대댓글:  " + totalReReply);
+
 		
 		int totalRe = totalReply + totalReReply;
 		

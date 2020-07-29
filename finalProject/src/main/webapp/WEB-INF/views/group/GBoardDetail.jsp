@@ -382,9 +382,7 @@
                         dataType: "json",
                      	data:{gmNo:gmNo, grNo:grNo, gbNo:gbNo, grrCon:grrCon},
                      	success:function(data){
-                     		
-                     		alert(data.reReplyList);
-                     		console.log(data);
+
                      		$("#replyWirte").val("");	
                      		$replyName.remove();
              				$reset.remove();
