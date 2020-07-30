@@ -430,13 +430,31 @@ public class GroupController {
 
 		// 댓글 total
 		ArrayList<GroupReply> replyList = gService.totalReply();
-
+		ArrayList<GroupReReply> reReplyList = gService.totalReReply();
+		
+		if(!replyList.isEmpty()) {
+			for(GroupReply r : replyList) {
+				if(!reReplyList.isEmpty()) {
+					for(GroupReReply rr : reReplyList) {
+						if(r.getGbNo() == rr.getGbNo()) {			
+							int replyTotal = Integer.parseInt(r.getTotalReply());
+							int reReplyTotal = Integer.parseInt(rr.getTotalReReply());
+							String totalReply = Integer.toString(replyTotal + reReplyTotal);
+							
+							r.setTotalReply(totalReply);
+						}						
+					}
+				}
+			}
+		}
+		
 		response.setContentType("application/json;charset=utf-8");
 
 		JSONArray jArr = new JSONArray();
 		JSONArray pArr = new JSONArray();
 		JSONArray lArr = new JSONArray();
 		JSONArray rArr = new JSONArray();
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 		if (boardList != null) {
@@ -473,7 +491,7 @@ public class GroupController {
 					pArr.add(jObj);
 				}
 
-				if (replyList != null) {
+				if(replyList != null) {
 					for (GroupReply r : replyList) {
 						JSONObject jObj = new JSONObject();
 
@@ -487,6 +505,7 @@ public class GroupController {
 
 						rArr.add(jObj);
 					}
+					
 
 					if (likeList != null) {
 						for (GroupLike l : likeList) {
@@ -504,6 +523,7 @@ public class GroupController {
 						sendJson.put("photoList", pArr);
 						sendJson.put("likeList", lArr);
 						sendJson.put("replyList", rArr);
+						
 						PrintWriter out = response.getWriter();
 						out.print(sendJson);
 						out.flush();
@@ -517,6 +537,7 @@ public class GroupController {
 				}
 			}
 		}
+		
 	}
 
 	// 게시판 상세
@@ -542,14 +563,11 @@ public class GroupController {
 		GroupLike likeList = gService.selectLikeList(gl);
 
 		ArrayList<GroupReply> replyList = gService.selectReplyList(gbNo);
-		System.out.println("게시판 상세  댓글:  " + replyList);
+
 		ArrayList<GroupReReply> reReplyList = gService.selectReReplyList(gbNo);
-		System.out.println("게시판 상세  대댓글:  " + reReplyList);
+
 		int totalReply = gService.totalReplyList(gbNo);
-		System.out.println("게시판 상세  총 댓글:  " + totalReply);
 		int totalReReply = gService.totalReReplyList(gbNo);
-		System.out.println("게시판 상세  총 대댓글:  " + totalReReply);
-		
 		int totalRe = totalReply + totalReReply;
 		
 		mv.addObject("gInfoGmNo", gmNo);
@@ -608,8 +626,11 @@ public class GroupController {
 		// 댓글 insert
 		int result = gService.replyInsert(gr);
 		
+		int replyCurrval = gService.replyCurrval();
+		
 		// 댓글 select
-		ArrayList<GroupReply> replyList = gService.selectReplyList(gbNo);
+		ArrayList<GroupReply> replyList = gService.selectOneReplyList(replyCurrval);
+//		ArrayList<GroupReply> replyList = gService.selectReplyList(gbNo);
 		int totalReply = gService.totalReplyList(gbNo);
 		
 		response.setContentType("application/json;charset=utf-8");
@@ -662,12 +683,12 @@ public class GroupController {
 		
 		// 댓글 select
 		ArrayList<GroupReply> replyList = gService.selectReplyList(gbNo);
-		ArrayList<GroupReReply> reReplyList = gService.selectReReplyList(grr);
+//		ArrayList<GroupReReply> reReplyList = gService.selectReReplyList(grr);
 		
 		int reReplyCurrval = gService.reReplyCurrval();
 		System.out.println("대댓글 ajax reReplyCurrval : " + reReplyCurrval);
 		
-//		GroupReReply reReplyList = gService.selectOneReReplyList(reReplyCurrval);
+		ArrayList<GroupReReply> reReplyList = gService.selectOneReReplyList(reReplyCurrval);
 		System.out.println("대댓글 ajax reReplyList : " + reReplyList);
 		
 		int totalReply = gService.totalReplyList(gbNo);
@@ -681,8 +702,6 @@ public class GroupController {
 		JSONArray rrArr = new JSONArray();
 		
 		tArr.add(totalReply);
-//		rrArr.add(reReplyList);
-		
 		
 		if (replyList != null) {
 			for (GroupReply r : replyList) {
