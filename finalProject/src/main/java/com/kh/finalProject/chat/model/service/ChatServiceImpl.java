@@ -45,5 +45,11 @@ public class ChatServiceImpl implements ChatService{
 		
 		return cDao.selectChatOnetoOne(map);
 	}
+
+	@Override
+	public int insertChatmsg(HashMap<String, Object> dbmap) {
+		
+		return cDao.insertChatmsg(dbmap);
+	}
 	
 }

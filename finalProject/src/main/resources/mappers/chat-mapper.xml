@@ -56,7 +56,7 @@
 	SELECT *
 	FROM CHAT_ONETOONE
 	WHERE ID IN(#{id},#{friendId})
-	AND ID2  IN(#{id},#{friendId})
+	AND   ID2 IN(#{id},#{friendId})
 </select>
 <insert id="insertChatOneToOne" parameterType="hashmap">
 INSERT INTO CHAT_ONETOONE
@@ -64,5 +64,14 @@ INSERT INTO CHAT_ONETOONE
 			   ,#{id}
 			   ,#{friendId})
         
+</insert>
+
+<insert id="insertChatmsg" parameterType="hashmap">
+	INSERT INTO ONETOONE_LIST
+		VALUES(SEQ_OL.NEXTVAR
+				,#{co_no}
+				,#{id}
+				,#{msg}
+				,SYSDATE)
 </insert>
 </mapper>

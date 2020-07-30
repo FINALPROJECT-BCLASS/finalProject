@@ -18,4 +18,6 @@ public interface ChatService {
 
 	Chat selectChatOnetoOne(HashMap<String, String> map);
 
+	int insertChatmsg(HashMap<String, Object> dbmap);
+
 }

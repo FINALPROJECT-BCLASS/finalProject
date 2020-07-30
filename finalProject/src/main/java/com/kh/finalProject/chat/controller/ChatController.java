@@ -113,7 +113,8 @@ public class ChatController {
 		
 		Chat ch1 = new Chat();
 			ch1 = cService.selectChatOnetoOne(map);
-		//여기까지함 인서트작업이 계속 이루워짐 쿼리문제로 예상됨
+			System.out.println("검색결과 " + ch1);
+			
 		if( ch1 == null) {
 			int result = cService.insertChatOnetoTOne(map);
 			

@@ -41,4 +41,9 @@ public class ChatDao {
 		return sqlSessionTemplate.selectOne("chatMapper.selectChatOnetoOne", map);
 		
 	}
+
+	public int insertChatmsg(HashMap<String, Object> dbmap) {
+		
+		return sqlSessionTemplate.insert("chatMapper.insertChatmsg", dbmap);
+	}
 }
