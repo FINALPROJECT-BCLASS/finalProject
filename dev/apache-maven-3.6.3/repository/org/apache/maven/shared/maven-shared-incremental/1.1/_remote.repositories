@@ -1,4 +1,8 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+<<<<<<< HEAD
 #Thu Jul 30 14:39:55 KST 2020
 maven-shared-incremental-1.1.jar>central=
+=======
+#Thu Jul 30 14:09:24 KST 2020
+>>>>>>> refs/remotes/origin/master
 maven-shared-incremental-1.1.pom>central=

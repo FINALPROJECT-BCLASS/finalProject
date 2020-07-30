@@ -1,4 +1,8 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+<<<<<<< HEAD
 #Thu Jul 30 14:39:55 KST 2020
 plexus-compiler-api-2.2.jar>central=
+=======
+#Thu Jul 30 14:09:37 KST 2020
+>>>>>>> refs/remotes/origin/master
 plexus-compiler-api-2.2.pom>central=

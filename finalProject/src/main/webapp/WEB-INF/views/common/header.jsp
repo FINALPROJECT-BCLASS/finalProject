@@ -87,7 +87,7 @@
 	                    <div class="hide login-square"></div>
 	                    <ul class="hide login-sub">
 	                        <li class="t-radius"><a href="${myInfoView }">Info</a></li>
-	                        <li><a href="#">Chat</a></li>
+	                        <li><a onclick="chatview()">Chat</a></li>
 	                        <li><a href="#">Alarm</a></li>
 	                        <li class="b-radius"><a href="logout.do">Logout</a></li>
 	                    </ul>
@@ -115,6 +115,10 @@
 	
 	        });
 	    });
+	 	
+	 	function chatview(){
+	 		window.open("chatview.do","_blank","top=50,left=500,width=500, height=600,menubar=no,status=no");
+	 	}
     </script>
 </body>
 </html>

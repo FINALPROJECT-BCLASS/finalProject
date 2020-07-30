@@ -1,5 +1,9 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+<<<<<<< HEAD
 #Thu Jul 30 14:42:08 KST 2020
 javax.servlet-api-3.1.0-sources.jar>central=
+=======
+#Thu Jul 30 12:50:28 KST 2020
+>>>>>>> refs/remotes/origin/master
 javax.servlet-api-3.1.0.jar>central=
 javax.servlet-api-3.1.0.pom>central=
