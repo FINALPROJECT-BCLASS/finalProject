@@ -36,7 +36,7 @@ public class oneToOneChatHandler extends TextWebSocketHandler {
 			Map<String,Object> sessionmap = session.getAttributes();
 			
 			//co_no가져오기
-			String co_no = (String)sessionmap.get("co_no");
+			String co_no = String.valueOf(sessionmap.get("co_no"));
 			System.out.println("co_no 에욱 :" + co_no);
 			//list<map<string,object>>에 들어갈 map저장
 			  Map<String, Object> map = new HashMap<String, Object>();
@@ -65,7 +65,7 @@ public class oneToOneChatHandler extends TextWebSocketHandler {
 					Map<String, Object> mapSessionList = sessionList.get(i);
 					
 					//sessionList에 담긴 Map에 값 가져옴 
-					String co_no = (String)mapSessionList.get("co_no");
+					String co_no = String.valueOf(mapSessionList.get("co_no"));
 					WebSocketSession sess = (WebSocketSession)mapSessionList.get("session");
 					System.out.println("co_no" + co_no);
 					//만약 Map값을 불러왔는데 방번호가 같다면?
