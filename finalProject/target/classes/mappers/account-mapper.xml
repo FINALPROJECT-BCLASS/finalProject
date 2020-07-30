@@ -2,14 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="accountMapper">
 
-	<resultMap type="ProfitSum" id="pSumResultSet">
+	<resultMap type="Sum" id="sumResultSet">
 		<result property="date" column="AB_DATE"/>
-		<result property="sum" column="AB_PRO_SUM"/>
-	</resultMap>
-	
-	<resultMap type="ExpenditureSum" id="eSumResultSet">
-		<result property="date" column="AB_DATE"/>
-		<result property="sum" column="AB_EXP_SUM"/>
+		<result property="sum" column="AB_SUM"/>
 	</resultMap>
 	
 	<resultMap type="AccountBook" id="abResultSet">
@@ -23,6 +18,16 @@
 		<result property="abDelete" column="AB_DELETE"/>
 		<result property="memoNo" column="MEMO_NO"/>
 		<result property="abView" column="AB_VIEW"/>
+	</resultMap>
+	
+	<resultMap type="MonthlySum" id="msResultSet">
+		<result property="month" column="AB_MONTH"/>
+		<result property="sum" column="ABM_SUM"/>
+	</resultMap>
+	
+	<resultMap type="ExpCategory" id="ecResultSet">
+		<result property="title" column="AEC_TITLE"/>
+		<result property="sum" column="AB_SUM"/>
 	</resultMap>
 
 	<insert id="insertAccountBook" parameterType="AccountBook">
@@ -39,21 +44,23 @@
 			, 'Y')
 	</insert>
 	
-	<select id="selectPSumList" parameterType="string" resultMap="pSumResultSet">
-		SELECT AB_DATE, SUM(AB_AMOUNT) "AB_PRO_SUM"
+	<select id="selectPSumList" parameterType="string" resultMap="sumResultSet">
+		SELECT AB_DATE, SUM(AB_AMOUNT) "AB_SUM"
 		FROM ACCOUNT_BOOK
 		WHERE ID=#{id}
 		    AND APC_NO!=0
 		    AND AB_DELETE='N'
+		    AND AB_VIEW='Y'
 		GROUP BY AB_DATE
 	</select>
 	
-	<select id="selectESumList" parameterType="string" resultMap="eSumResultSet">
-		SELECT AB_DATE, SUM(AB_AMOUNT) "AB_EXP_SUM"
+	<select id="selectESumList" parameterType="string" resultMap="sumResultSet">
+		SELECT AB_DATE, SUM(AB_AMOUNT) "AB_SUM"
 		FROM ACCOUNT_BOOK
 		WHERE ID=#{id}
 		    AND AEC_NO!=0
 		    AND AB_DELETE='N'
+		    AND AB_VIEW='Y'
 		GROUP BY AB_DATE
 	</select>
 	
@@ -64,6 +71,7 @@
 			AND APC_NO!=0
 			AND AB_DATE=#{abDate}
 			AND AB_DELETE='N'
+			AND AB_VIEW='Y'
 	</select>
 	
 	<select id="selectEList" parameterType="AccountBook" resultMap="abResultSet">
@@ -73,6 +81,7 @@
 			AND AEC_NO!=0
 			AND AB_DATE=#{abDate}
 			AND AB_DELETE='N'
+			AND AB_VIEW='Y'
 	</select>
 	
 	<update id="deleteAccountBook" parameterType="AccountBook">
@@ -88,6 +97,7 @@
 			AND EXTRACT(YEAR FROM AB_DATE)=#{year}
 		    AND EXTRACT(MONTH FROM AB_DATE)=#{month}
 		    AND APC_NO!=0
+		    AND AB_VIEW='Y'
 		    AND AB_DELETE='N'
 	</select>
 	
@@ -98,6 +108,7 @@
 			AND EXTRACT(YEAR FROM AB_DATE)=#{year}
 		    AND EXTRACT(MONTH FROM AB_DATE)=#{month}
 		    AND AEC_NO!=0
+		    AND AB_VIEW='Y'
 		    AND AB_DELETE='N'
 	</select>
 	
@@ -105,6 +116,41 @@
 		SELECT AB_AMOUNT
 		FROM ACCOUNT_BOOK
 		WHERE AB_NO=#{abNo}
+	</select>
+	
+	<select id="selectMPSumList" parameterType="MSumCondition" resultMap="msResultSet">
+		SELECT EXTRACT(MONTH FROM AB_DATE) "AB_MONTH", SUM(AB_AMOUNT) "ABM_SUM"
+		FROM ACCOUNT_BOOK
+		WHERE ID=#{id}
+		    AND EXTRACT(YEAR FROM AB_DATE)=#{year}
+		    AND APC_NO!=0
+		    AND AB_DELETE='N'
+		    AND AB_VIEW='Y'
+		GROUP BY EXTRACT(MONTH FROM AB_DATE)
+	</select>
+	
+	<select id="selectMESumList" parameterType="MSumCondition" resultMap="msResultSet">
+		SELECT EXTRACT(MONTH FROM AB_DATE) "AB_MONTH", SUM(AB_AMOUNT) "ABM_SUM"
+		FROM ACCOUNT_BOOK
+		WHERE ID=#{id}
+		    AND EXTRACT(YEAR FROM AB_DATE)=#{year}
+		    AND AEC_NO!=0
+		    AND AB_DELETE='N'
+		    AND AB_VIEW='Y'
+		GROUP BY EXTRACT(MONTH FROM AB_DATE)
+	</select>
+	
+	<select id="selectECList" parameterType="CategoryCondition" resultMap="ecResultSet">
+		SELECT AEC_TITLE, SUM(AB_AMOUNT) "AB_SUM"
+		FROM ACCOUNT_BOOK B
+		JOIN A_EXPENDITURE_CATEGORY E ON(B.AEC_NO=E.AEC_NO)
+		WHERE ID=#{id}
+		    AND B.AEC_NO!=0
+		    AND EXTRACT(YEAR FROM AB_DATE)=#{year}
+		    AND EXTRACT(MONTH FROM AB_DATE)=#{month}
+		    AND AB_DELETE='N'
+		    AND AB_VIEW = 'Y'
+		GROUP BY AEC_TITLE
 	</select>
 
 </mapper>

@@ -162,8 +162,8 @@
                 <table class="replyBox">
                 	<tbody>
                 	<c:if test="${empty replyList }"><!-- 댓글이 없을 경우 -->
-                		<tr>
-                			<td colspan="3" align="center">등록된 댓글이 없습니다.</td>
+                		<tr class="noReplyTr">
+                			<td colspan="3" align="center" class="noReplyTd"><div class="noReply">등록된 댓글이 없습니다.</div></td>
                 		</tr>	
                 	</c:if>
                 	<c:if test="${!empty replyList }"><!-- 댓글이 있을 경우 -->
@@ -245,70 +245,61 @@
 
          </script>
          
-         <!-- 댓글 입력 -->
-         <script>
-         	
-         	/* $(".replyBtn").click(function(){
-         		 var gmNo = ${gInfoGmNo};
-            	 var gbNo = ${boardList.gbNo};
-            	 var grCon = $(this).parent().prev().children().children().val();
-            	
-            	 if(grCon == ""){
-            		 alert("댓글을 입력해주세요.");
-            	 } else {
-            			$.ajax({
-                 			url:"replyAjax.do",
-               				type: "GET",
-                            dataType: "json",
-                         	data:{gmNo:gmNo, gbNo:gbNo,grCon:grCon},
-                         	success:function(data){
-        						var $replyWirte = $("#replyWirte");
-                        		var $replyBox = $(".replyBox tbody");
-                        		var $totalReply = $(".totalReply");
-                        		$replyWirte.val("");
-                       			$replyBox.html("");
-                       			$totalReply.html("");
-                       			$totalReply.html(data.totalReply);
-                       			
-                       		  for(i in data.replyList){
-        						var $grNo = $("<input type='hidden' value='"+ data.replyList[i].grNo+"'>");
-                       			var $tr = $("<tr>");
-                        		var $td1 = $("<td>");
-                        		var $td2 = $("<td>");
-                        		var $td3 = $("<td>");
-                        		
-                        		var $name = $("<div>").text(data.replyList[i].name).attr("class","replyName");
-                        		var $content = $("<div>").text(data.replyList[i].grCon).attr("class","replyCon");
-                        		var $date = $("<div>").text(data.replyList[i].grDate).attr("class","replyDate");
-                        		
-                        		
-                        		
-                        		$td1.append($name);
-                        		$td2.append($content);
-                        		$td3.append($date);
-                        		
-                        		$tr.append($td1);
-                        		$tr.append($td2);
-                        		$tr.append($td3);
-                        		
-                        		$replyBox.append($grNo);
-                        		$replyBox.append($tr);
-
-                       		  }
-                        		
-                        		
-                        	},
-                       	  	error:function(request, status, errorData){
-          						alert("error code: " + request.status + "\n"
-          								+"message: " + request.responseText
-          								+"error: " + errorData);
-          					}
-                 			
-                 		})
-            	 }
+         <!-- ------------------------------댓글----------------------------------- -->
          
-         	}) */
-         	
+
+       		
+      		<!-- 댓글 이름 클릭했을 때  -->	
+         <script>	
+      		   var $replyNameLocation;	// 댓글 이름을 클릭했을 때 위치 저장할 변수
+      		   var grNo;
+      		   var $replyName;
+      		   var $reset;
+         	 $(document).on("click",".replyName",function(){
+				
+				 $replyNameLocation  = $(this);
+         		
+              	grNo = $(this).closest(".replyTr").prev().val();
+         		
+         		var $replyWrite = $("#replyWirte");
+         		var $replyBox = $(".replyConBox");
+         		$replyName = $("<div>").text("@" + $(this).html()).attr("class","reName");
+
+         		if($(".reName").length == 0){	// @이름이 존재하지 않을 때
+         			$reset = $("<div>").text("x").attr("class","replyReset");
+         			$replyBox.prepend($replyName);
+         			$replyBox.append($reset);
+
+         			$(".replyReset").click(function(){	// @이름 삭제
+         				$replyName.remove();
+         				$reset.remove();
+         			})
+         		} // if($(".reName").length == 0)
+			})
+         </script>
+         
+          <!-- 함수 실행 -->
+         <script>
+         	// re댓글이 아닐경우 (그냥 댓글일 경우)
+          	$(".replyBtn").click(function(){
+         		if($(".reName").length == 0){	// @이름이 없는 경우
+         			if($("#replyWirte").val() == ""){
+						alert("댓글을 입력해주세요.");         				
+         			}else{						
+         				
+         			replySubmit();
+         			}
+         		} else {						// @이름이 있는 경우
+         			reReplySubmit();
+         		}
+         	})
+         </script>
+         
+         
+         
+         <!-- 댓글 함수 -->
+         <script>
+         
          	// 댓글 입력 ajax
          	let replySubmit = function(){
        		 var gmNo = ${gInfoGmNo};
@@ -321,11 +312,16 @@
                             dataType: "json",
                         	data:{gmNo:gmNo, gbNo:gbNo,grCon:grCon},
                         	success:function(data){
+                        	// 처음 댓글을 작성했을 떄 "등록된 댓글이 없습니다" 없애주기.	
+                        	$(".noReply").remove();
+                        	$(".noReplyTd").remove();
+                        	$(".noReplyTr").remove();
+                        		
        						var $replyWirte = $("#replyWirte");
                        		var $replyBox = $(".replyBox tbody");
                        		var $totalReply = $(".totalReply");
                        		$replyWirte.val("");
-                      			$replyBox.html("");
+                      			/* $replyBox.html(""); */
                       			$totalReply.html("");
                       			$totalReply.html(data.totalReply);
                       			
@@ -350,8 +346,8 @@
                        		$tr.append($td2);
                        		$tr.append($td3);
                        		
-                       		$replyBox.append($grNo);
-                       		$replyBox.append($tr);
+                       		$replyBox.prepend($tr);
+                       		$replyBox.prepend($grNo);
 
                       		  }
                        		
@@ -368,192 +364,84 @@
          	
          </script>
          
-         <!-- 대댓글 ajax -->
+         <!-- 대댓글 함수 -->
          <script>
-         	// re댓글이 아닐경우 (그냥 댓글일 경우)
-         	$(".replyBtn").click(function(){
-         		if($(".reName").length == 0){
-         			if($("#replyWirte").val() == ""){
-						alert("댓글을 입력해주세요.");         				
-         			}else{
-         				
-         			replySubmit();
-         			}
-         		}
-         	})
-         
-       		// re댓글일 경우 (그냥 댓글일 경우)
-         	$(".replyName").click(function(){
-         		var $replyNameLocation = $(this);
-         		
-         		
-              	var grNo = $(this).closest(".replyTr").prev().val();
-         		
-         		var $replyWrite = $("#replyWirte");
-         		var $replyBox = $(".replyConBox");
-         		var $replyName = $("<div>").text("@" + $(this).html()).attr("class","reName");
+         let reReplySubmit = function(){
+	        	var gmNo = ${gInfoGmNo};
+	           	var gbNo = ${boardList.gbNo};
+     			var grrCon = $("#replyWirte").val();
+				 
+   				if(grrCon == ""){
+             		 alert("댓글을 입력해주세요.");
+               	 } else {
+/*                		var gmNo = ${gInfoGmNo};
+                   	var gbNo = ${boardList.gbNo};
+             
+                   	console.log("grNO :  " + grNo); */
+                   	
+                   	// re댓글
+        			$.ajax({
+             			url:"reReplyAjax.do",
+           				type: "GET",
+           			 /* async:false, */
+                        dataType: "json",
+                     	data:{gmNo:gmNo, grNo:grNo, gbNo:gbNo, grrCon:grrCon},
+                     	success:function(data){
 
-         		if($(".reName").length == 0){	// @이름이 존재하지 않을 때
-         			var $reset = $("<div>").text("x").attr("class","replyReset");
-         			$replyBox.prepend($replyName);
-         			$replyBox.append($reset);
-         			
-         			$(".replyBtn").click(function(){	// submit버튼을 눌렀을 때
-         				
-         			var grrCon = $("#replyWirte").val();
-    				 
-       				if(grrCon == ""){
-                 		 alert("댓글을 입력해주세요.");
-                   	 } else {
-                   		var gmNo = ${gInfoGmNo};
-                       	var gbNo = ${boardList.gbNo};
-                 
-                     			// re댓글인 경우
-                     			$.ajax({
-                         			url:"reReplyAjax.do",
-                       				type: "GET",
-                                    dataType: "json",
-                                 	data:{gmNo:gmNo, grNo:grNo, gbNo:gbNo, grrCon:grrCon},
-                                 	success:function(data){
-                                 		$("#replyWirte").val("");	
-                                 		$replyName.remove();
-                         				$reset.remove();
-                         		   
-                                 	  for(i in data.reReplyList){
-                                 		 
-                                 		 var $replyTr = $replyNameLocation.closest(".replyTr");
-                                 		   
-                                 		 var $tr = $("<tr>");
-                                 		 var $td1 = $("<td>");
-                                 		 var $td2 = $("<td>");
-                                 		 var $td3 = $("<td>");
-                                 		     
-                                 		 var $re = $("<span>").text("subdirectory_arrow_right").attr("class","material-icons re");
-                            			 var $rereName = $("<div>").text(data.reReplyList[i].name).attr("class","rereName");
-                            			 var $rereCon = $("<div>").text(data.reReplyList[i].grrCon);
-                            			 var $rereDate = $("<div>").text(data.reReplyList[i].grrDate);
-                            			 
-                            			 $td1.append($re);
-                            			 $td1.append($rereName);
-                            			 $td2.append($rereCon);
-                            			 $td3.append($rereDate);
-                            			 
-                            			 $tr.append($td1);
-                            			 $tr.append($td2);
-                            			 $tr.append($td3);
-                            			 
-                            			 $replyTr.after($tr);
-                            		 } 
-                                 		
-                                 		
-                                 		$replyNameLocation.append();
-                                		
-                                	},
-                               	  	error:function(request, status, errorData){
-                  						alert("error code: " + request.status + "\n"
-                  								+"message: " + request.responseText
-                  								+"error: " + errorData);
-                  					}
-                     		})
-                   	 }  // if(grCon == "") end
-         				
-         			 })
-                	
-
-         			$(".replyReset").click(function(){
-         				$replyName.remove();
-         				$reset.remove();
-         			})
-         		} // if($(".reName").length == 0)
-         	})
-         	
-         	 $(document).on("click",".replyName",function(){
-				var $replyNameLocation = $(this);
-         		
-         		
-              	var grNo = $(this).closest(".replyTr").prev().val();
-         		
-         		var $replyWrite = $("#replyWirte");
-         		var $replyBox = $(".replyConBox");
-         		var $replyName = $("<div>").text("@" + $(this).html()).attr("class","reName");
-
-         		if($(".reName").length == 0){	// @이름이 존재하지 않을 때
-         			var $reset = $("<div>").text("x").attr("class","replyReset");
-         			$replyBox.prepend($replyName);
-         			$replyBox.append($reset);
-         			
-         			$(".replyBtn").click(function(){	// submit버튼을 눌렀을 때
-         				
-         			var grrCon = $("#replyWirte").val();
-    				 
-       				if(grrCon == ""){
-                 		 alert("댓글을 입력해주세요.");
-                   	 } else {
-                   		var gmNo = ${gInfoGmNo};
-                       	var gbNo = ${boardList.gbNo};
-                 
-                       	console.log("grNO :  " + grNo);
-                       	
-                   		 // re댓글일 경우 
-                			$.ajax({
-                     			url:"reReplyAjax.do",
-                   				type: "GET",
-                                dataType: "json",
-                             	data:{gmNo:gmNo, grNo:grNo, gbNo:gbNo, grrCon:grrCon},
-                             	success:function(data){
-                             		$("#replyWirte").val("");	
-                             		$replyName.remove();
-                     				$reset.remove();
-                     				
-                             	  for(i in data.reReplyList){
-                             		 
-                             		 var $replyTr = $replyNameLocation.closest(".replyTr");
-                             		 
-                             		 var $tr = $("<tr>");
-                             		 var $td1 = $("<td>");
-                             		 var $td2 = $("<td>");
-                             		 var $td3 = $("<td>");
-                             		
-                             		 var $re = $("<span>").text("subdirectory_arrow_right").attr("class","material-icons re");
-                        			 var $rereName = $("<div>").text(data.reReplyList[i].name).attr("class","rereName");
-                        			 var $rereCon = $("<div>").text(data.reReplyList[i].grrCon);
-                        			 var $rereDate = $("<div>").text(data.reReplyList[i].grrDate);
-                        			 
-                        			 $td1.append($re);
-                        			 $td1.append($rereName);
-                        			 $td2.append($rereCon);
-                        			 $td3.append($rereDate);
-                        			 
-                        			 $tr.append($td1);
-                        			 $tr.append($td2);
-                        			 $tr.append($td3);
-                        			 
-                        			 $replyTr.after($tr);
-                        		 } 
-                             		
-                             		
-                             		$replyNameLocation.append();
-                            		
-                            	},
-                           	  	error:function(request, status, errorData){
-              						alert("error code: " + request.status + "\n"
-              								+"message: " + request.responseText
-              								+"error: " + errorData);
-              					}
-                     			
-                     		})
-                   	 }  // if(grCon == "") end
-         				
-         			 })
-                	
-
-         			$(".replyReset").click(function(){
-         				$replyName.remove();
-         				$reset.remove();
-         			})
-         		} // if($(".reName").length == 0)
-			})
+                     		$("#replyWirte").val("");	
+                     		$replyName.remove();
+             				$reset.remove();
+             		   
+                     	   for(i in data.reReplyList){ 
+                     		 
+                     		 var $replyTr = $replyNameLocation.closest(".replyTr");
+                     		   
+                     		 var $tr = $("<tr>");
+                     		 var $td1 = $("<td>");
+                     		 var $td2 = $("<td>");
+                     		 var $td3 = $("<td>");
+                     		     
+                     		 var $re = $("<span>").text("subdirectory_arrow_right").attr("class","material-icons re");
+                			 var $rereName = $("<div>").text(data.reReplyList[i].name).attr("class","rereName");
+                			 var $rereCon = $("<div>").text(data.reReplyList[i].grrCon);
+                			 var $rereDate = $("<div>").text(data.reReplyList[i].grrDate);
+                			
+                			 $td1.append($re);
+                			 $td1.append($rereName);
+                			 $td2.append($rereCon);
+                			 $td3.append($rereDate);
+                			 
+                			 $tr.append($td1);
+                			 $tr.append($td2);
+                			 $tr.append($td3);
+                			 
+                			 $replyTr.after($tr);
+                		  }  
+                     		
+                     		
+                     		 $replyNameLocation.append(); 
+                    		
+                    	},
+                   	  	error:function(request, status, errorData){
+      						alert("error code: " + request.status + "\n"
+      								+"message: " + request.responseText
+      								+"error: " + errorData);
+      					}
+         		})
+               	 }  // if(grCon == "") end
+         }
+     			 
          </script>
+         
+         
+         
+         
+         
+         
+         
+         
+         
+        
           <jsp:include page="../common/footer.jsp"/>	 
 </body>
 </html>

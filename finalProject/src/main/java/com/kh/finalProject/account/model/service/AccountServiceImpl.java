@@ -7,8 +7,11 @@ import org.springframework.stereotype.Service;
 
 import com.kh.finalProject.account.model.dao.AccountDao;
 import com.kh.finalProject.account.model.vo.AccountBook;
-import com.kh.finalProject.account.model.vo.ExpenditureSum;
-import com.kh.finalProject.account.model.vo.ProfitSum;
+import com.kh.finalProject.account.model.vo.CategoryCondition;
+import com.kh.finalProject.account.model.vo.ExpCategory;
+import com.kh.finalProject.account.model.vo.MSumCondition;
+import com.kh.finalProject.account.model.vo.MonthlySum;
+import com.kh.finalProject.account.model.vo.Sum;
 import com.kh.finalProject.account.model.vo.SumCondition;
 
 @Service("aService")
@@ -24,13 +27,13 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public ArrayList<ProfitSum> selectPSumList(String id) {
+	public ArrayList<Sum> selectPSumList(String id) {
 		
 		return aDao.selectPSumList(id);
 	}
 
 	@Override
-	public ArrayList<ExpenditureSum> selectESumList(String id) {
+	public ArrayList<Sum> selectESumList(String id) {
 		
 		return aDao.selectESumList(id);
 	}
@@ -69,6 +72,24 @@ public class AccountServiceImpl implements AccountService {
 	public int selectAbAmount(int abNo) {
 		
 		return aDao.selectAbAmount(abNo);
+	}
+
+	@Override
+	public ArrayList<MonthlySum> selectMPSumList(MSumCondition mc) {
+		
+		return aDao.selectMPSumList(mc);
+	}
+
+	@Override
+	public ArrayList<MonthlySum> selectMESumList(MSumCondition mc) {
+		
+		return aDao.selectMESumList(mc);
+	}
+
+	@Override
+	public ArrayList<ExpCategory> selectECList(CategoryCondition cc) {
+		
+		return aDao.selectECList(cc);
 	}
 	
 }

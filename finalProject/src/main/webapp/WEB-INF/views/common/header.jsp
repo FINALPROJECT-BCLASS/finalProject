@@ -52,8 +52,10 @@
                 	<ul class="sub-navi">
                     	<c:url var="mrview" value="mrview.do"/>		
                         <li><a href="${mrview }">Monthly Record</a></li>
-                        <li><a href="#">Monthly Statistics</a></li>
-                        <li class="b-radius"><a href="#">Yealy Statistics</a></li>
+                        <c:url var="msview" value="msview.do"/>
+                        <li><a href="${msview }">Monthly Statistics</a></li>
+                        <c:url var="ysview" value="ysview.do"/>
+                        <li class="b-radius"><a href="${ysview }">Yealy Statistics</a></li>
                     </ul>
                 </li>
                <c:url var="groupMain" value="groupMain.do">
@@ -85,7 +87,7 @@
 	                    <div class="hide login-square"></div>
 	                    <ul class="hide login-sub">
 	                        <li class="t-radius"><a href="${myInfoView }">Info</a></li>
-	                        <li><a href="#">Chat</a></li>
+	                        <li><a onclick="chatview()">Chat</a></li>
 	                        <li><a href="#">Alarm</a></li>
 	                        <li class="b-radius"><a href="logout.do">Logout</a></li>
 	                    </ul>
@@ -113,6 +115,10 @@
 	
 	        });
 	    });
+	 	
+	 	function chatview(){
+	 		window.open("chatview.do","_blank","top=50,left=500,width=500, height=600,menubar=no,status=no");
+	 	}
     </script>
 </body>
 </html>

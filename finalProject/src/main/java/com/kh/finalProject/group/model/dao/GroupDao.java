@@ -165,8 +165,20 @@ public class GroupDao {
 		return sqlSessionTemplate.selectOne("groupMapper.reReplyCurrval");
 	}
 
-	public GroupReReply selectOneReReplyList(int reReplyCurrval) {
-		return sqlSessionTemplate.selectOne("groupMapper.selectOneReReplyList",reReplyCurrval);
+	public ArrayList<GroupReReply> selectOneReReplyList(int reReplyCurrval) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectOneReReplyList",reReplyCurrval);
+	}
+
+	public int replyCurrval() {
+		return sqlSessionTemplate.selectOne("groupMapper.replyCurrval");
+	}
+
+	public ArrayList<GroupReply> selectOneReplyList(int replyCurrval) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectOneReplyList",replyCurrval);
+	}
+
+	public ArrayList<GroupReReply> totalReReply() {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.totalReReply");
 	}
 	
 	

@@ -140,7 +140,7 @@ var yValue;
 		var res = xValue.split("-");
 		yValue =  parseInt("${dataPoints.inFat}");
 		dps.push({
-			x :  parseInt(res[0]+res[1]+res[2]),
+			x : parseInt(res[0]+res[1]+res[2]),
 			y : yValue
 		});			
 			console.log(xValue);
