@@ -193,7 +193,6 @@
     			dataType: 'json',
     			success: function(data) {
     				for(var i in data.msList) {
-    					console.log(data.msList[i]);
     					
     					if(data.msList[i].type == "profit") {
 		    				xValue = parseInt(data.msList[i].month);

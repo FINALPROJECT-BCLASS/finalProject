@@ -17,12 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kh.finalProject.account.model.exception.AccountException;
 import com.kh.finalProject.account.model.service.AccountService;
 import com.kh.finalProject.account.model.vo.AccountBook;
-import com.kh.finalProject.account.model.vo.CategoryCondition;
+import com.kh.finalProject.account.model.vo.Condition;
 import com.kh.finalProject.account.model.vo.ExpCategory;
 import com.kh.finalProject.account.model.vo.MSumCondition;
 import com.kh.finalProject.account.model.vo.MonthlySum;
 import com.kh.finalProject.account.model.vo.Sum;
-import com.kh.finalProject.account.model.vo.SumCondition;
 import com.kh.finalProject.member.model.vo.Member;
 
 @Controller
@@ -32,10 +31,7 @@ public class AccountController {
 	AccountService aService;
 	
 	@Autowired
-	SumCondition sc;
-	
-	@Autowired
-	CategoryCondition cc;
+	Condition condition;
 	
 	@RequestMapping("mrview.do")
 	public String monthlyRecordView() {
@@ -208,13 +204,13 @@ public class AccountController {
 		String year = a.getAbDate().substring(0, 4);
 		String month = a.getAbDate().substring(5);
 		
-		sc.setId(id);
-		sc.setYear(year);
-		sc.setMonth(month);
+		condition.setId(id);
+		condition.setYear(year);
+		condition.setMonth(month);
 		
-		ArrayList<AccountBook> abPNoList = aService.selectAbPNoList(sc);
+		ArrayList<AccountBook> abPNoList = aService.selectAbPNoList(condition);
 		
-		ArrayList<AccountBook> abENoList = aService.selectAbENoList(sc);
+		ArrayList<AccountBook> abENoList = aService.selectAbENoList(condition);
 		
 		int pSum = 0;
 		for(int i = 0; i < abPNoList.size(); i++) {
@@ -306,13 +302,13 @@ public class AccountController {
 		String year = date.substring(0, 4);
 		String month = date.substring(5);
 		
-		sc.setId(id);
-		sc.setYear(year);
-		sc.setMonth(month);
+		condition.setId(id);
+		condition.setYear(year);
+		condition.setMonth(month);
 		
-		ArrayList<AccountBook> abPNoList = aService.selectAbPNoList(sc);
+		ArrayList<AccountBook> abPNoList = aService.selectAbPNoList(condition);
 		
-		ArrayList<AccountBook> abENoList = aService.selectAbENoList(sc);
+		ArrayList<AccountBook> abENoList = aService.selectAbENoList(condition);
 		
 		int pSum = 0;
 		for(int i = 0; i < abPNoList.size(); i++) {
@@ -324,20 +320,42 @@ public class AccountController {
 			eSum += aService.selectAbAmount(abENoList.get(i).getAbNo());
 		}
 		
-		cc.setId(id);
-		cc.setYear(year);
-		cc.setMonth(month);
+		int overrun = 0;
+		if(eSum > pSum) {
+			overrun = aService.getOverrun(condition);
+		}
 		
-		ArrayList<ExpCategory> ecList = aService.selectECList(cc);
+		ArrayList<ExpCategory> ecList = aService.selectECList(condition);
 		
 		JSONArray jArr = new JSONArray();
 		
 		for(ExpCategory e : ecList) {
 			JSONObject jObj = new JSONObject();
 
-			jObj.put("year", cc.getYear());
-			jObj.put("month", cc.getMonth());
-			jObj.put("category", e.getTitle());
+			jObj.put("year", condition.getYear());
+			jObj.put("month", condition.getMonth());
+			
+			switch(e.getNo()) {
+				case 1: jObj.put("category", "meal"); break;
+				case 2: jObj.put("category", "transition"); break;
+				case 3: jObj.put("category", "culture"); break;
+				case 4: jObj.put("category", "life"); break;
+				case 5: jObj.put("category", "clothes"); break;
+				case 6: jObj.put("category", "beauty"); break;
+				case 7: jObj.put("category", "health"); break;
+				case 8: jObj.put("category", "education"); break;
+				case 9: jObj.put("category", "phone"); break;
+				case 10: jObj.put("category", "membership"); break;
+				case 11: jObj.put("category", "occasion"); break;
+				case 12: jObj.put("category", "saving"); break;
+				case 13: jObj.put("category", "machine"); break;
+				case 14: jObj.put("category", "utility"); break;
+				case 15: jObj.put("category", "card"); break;
+				case 16: jObj.put("category", "etc"); break;
+				default: System.out.println("해당 사항 없음"); break;
+			}
+			
+			jObj.put("title", e.getTitle());
 			jObj.put("amount", e.getSum());
 			
 			jArr.add(jObj);

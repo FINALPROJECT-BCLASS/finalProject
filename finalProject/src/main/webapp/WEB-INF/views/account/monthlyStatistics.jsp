@@ -31,22 +31,98 @@
 	    	var dps = [];
 	    	
 	    	var chart = new CanvasJS.Chart("chartContainer", {
-	    		exportEnabled: true,
 	    		animationEnabled: true,
-	    		theme: "light2", // "light1", "dark1", "dark2"
-	    		title: {
+	    		exportEnabled: true,	
+	    		title:{
+	    		
 	    		},
-	    		subtitles: [{
-	    		}],
 	    		data: [{
-	    			type: "pie",
-	    			yValueFormatString: "#,##0\"%\"",
-	    			indexLabel: "{label} - {y}",
-	    			dataPoints: dps[0]
+	    			type: "pie",    
+	    		    yValueFormatString: "#%",
+	    		    showInLegend: true,
+	    		    indexLabel: "{name}", 
+	    		    indexLabelPlacement: "inside",
+	    			dataPoints: dps
 	    		}]
 	    	});
 	    	
 	    	insertData(date, dps, chart);
+	    	
+	    	$("#prevMonth").click(function(){
+	    		month = month-1;
+	    		
+	    		if(month < 1) {
+	    			year = year-1;
+	    			month = 12;
+	    		}
+	    		
+	    		if(month > 9) {
+	           		date = year + "-" + month;       		
+	           	} else {
+	           		date = year + "-0" + month;
+	           	}
+	    		
+	    		$("#date").html(date);
+	    		
+	    		var newDps = [];
+	    		
+	    		var chart = new CanvasJS.Chart("chartContainer", {
+		    		animationEnabled: true,
+		    		exportEnabled: true,	
+		    		title:{
+		    		
+		    		},
+		    		data: [{
+		    			type: "pie",    
+		    		    yValueFormatString: "#%",
+		    		    showInLegend: true,
+		    		    indexLabel: "{name}", 
+		    		    indexLabelPlacement: "inside",
+		    			dataPoints: newDps
+		    		}]
+		    	});
+		    	
+		    	insertData(date, newDps, chart);
+	    		
+	    	})
+	    	
+	    	$("#nextMonth").click(function(){
+	    		month = month+1;
+	    		
+	    		if(month > 12) {
+	    			year = year+1;
+	    			month = 1;
+	    		}
+	    		
+	    		if(month > 9) {
+	           		date = year + "-" + month;       		
+	           	} else {
+	           		date = year + "-0" + month;
+	           	}
+	    		
+	    		$("#date").html(date);
+	    		
+	    		var newDps = [];
+	    		
+	    		var chart = new CanvasJS.Chart("chartContainer", {
+		    		animationEnabled: true,
+		    		exportEnabled: true,	
+		    		title:{
+		    		
+		    		},
+		    		data: [{
+		    			type: "pie",    
+		    		    yValueFormatString: "#%",
+		    		    showInLegend: true,
+		    		    indexLabel: "{name}", 
+		    		    indexLabelPlacement: "inside",
+		    			dataPoints: newDps
+		    		}]
+		    	});
+		    	
+		    	insertData(date, newDps, chart);
+	    		
+	    	})
 	    	 
     	})
     	
@@ -64,6 +140,31 @@
         	display: flex;
         	justify-content: center;
         	align-items: center;
+        }
+        
+        #result {
+        	margin-left: 50px;
+        }
+        
+        #result tr {
+        	border-bottom: solid 3px #F3F3F3;
+        }
+        
+        #result td {
+        	padding: 5px;
+        }
+        
+        #content {
+        	display: flex;
+		    align-items: center;
+		    float: right;
+		    width: 75%;
+		    margin-top: 30px;
+		    margin-bottom: 100px;
+        }
+        
+        .tdAmount {
+        	width: 150px;
         }
     </style>
 </head>
@@ -91,20 +192,84 @@
         	<div class="col-md-4">
         		<b style="color: blue; font-size: 20px;">Profit :&nbsp;</b><span><b id="profit" style="font-size: 20px;"></b></span>
         	</div>
-        	<!-- <div class="col-md-4"></div> -->
         	<div class="col-md-5">
         		<b style="color: red; font-size: 20px;">Expenditure :&nbsp;</b><span><b id="expenditure" style="font-size: 20px;"></b></span>
         	</div>
         </div>
         
-        <br><br>
-        
-        <div class="row">
-        	<div class="col-md-2"></div>
-        	<div class="col-md-10">
-        		<div id="chartContainer" style="height: 600px; width: 600px;"></div>
-        	</div>
-        </div>
+        <div id="content">
+	       	<div>
+	       		<div id="chartContainer" style="height: 500px; width: 500px;"></div>
+	       	</div>
+	       	<div>
+	       		<table id="result">
+	       			<tr id="meal">
+	       				<td class="category"><b>식비</b></td>
+	       				<td class="tdAmount"><span class="amount"></span></td>
+	       			</tr>
+	       			<tr id="transition">
+	       				<td class="category"><b>교통비</b></td>
+	       				<td class="tdAmount"><span class="amount"></span></td>
+	       			</tr>
+	       			<tr id="culture">
+	       				<td class="category"><b>문화생활</b></td>
+	       				<td class="tdAmount"><span class="amount"></span></td>
+	       			</tr>
+	       			<tr id="life">
+	       				<td class="category"><b>생필품</b></td>
+	       				<td class="tdAmount"><span class="amount"></span></td>
+	       			</tr>
+	       			<tr id="clothes">
+	       				<td class="category"><b>의류</b></td>
+	       				<td class="tdAmount"><span class="amount"></span></td>
+	       			</tr>
+	       			<tr id="beauty">
+	       				<td class="category"><b>미용</b></td>
+	       				<td class="tdAmount"><span class="amount"></span></td>
+	       			</tr>
+	       			<tr id="health">
+	       				<td class="category"><b>의료</b></td>
+	       				<td class="tdAmount"><span class="amount"></span></td>
+	       			</tr>
+	       			<tr id="education">
+	       				<td class="category"><b>교육</b></td>
+	       				<td class="tdAmount"><span class="amount"></span></td>
+	       			</tr>
+	       			<tr id="phone">
+	       				<td class="category"><b>통신비</b></td>
+	       				<td class="tdAmount"><span class="amount"></span></td>
+	       			</tr>
+	       			<tr id="membership">
+	       				<td class="category"><b>회비</b></td>
+	       				<td class="tdAmount"><span class="amount"></span></td>
+	       			</tr>
+	       			<tr id="occasion">
+	       				<td class="category"><b>경조사</b></td>
+	       				<td class="tdAmount"><span class="amount"></span></td>
+	       			</tr>
+	       			<tr id="saving">
+	       				<td class="category"><b>저축</b></td>
+	       				<td class="tdAmount"><span class="amount"></span></td>
+	       			</tr>
+	       			<tr id="machine">
+	       				<td class="category"><b>가전</b></td>
+	       				<td class="tdAmount"><span class="amount"></span></td>
+	       			</tr>
+	       			<tr id="utility">
+	       				<td class="category"><b>공과금</b></td>
+	       				<td class="tdAmount"><span class="amount"></span></td>
+	       			</tr>
+	       			<tr id="card">
+	       				<td class="category"><b>카드대금</b></td>
+	       				<td class="tdAmount"><span class="amount"></span></td>
+	       			</tr>
+	       			<tr id="etc">
+	       				<td class="category"><b>기타</b></td>
+	       				<td class="tdAmount"><span class="amount"></span></td>
+	       			</tr>
+	       		</table>
+	       	</div>
+       	</div>
         
     </section>
 
@@ -121,14 +286,20 @@
     			data: {date:date},
     			dataType: 'json',
     			success: function(data) {
+    				var eSum = parseInt(data.eSum);
+    				
+    				$("#result").find(".amount").html("");
+    				
     				for(var i in data.ecList) {
-    					console.log(data.ecList[i]);
+    					var category = data.ecList[i].category;
+    					$("#" + category).find(".amount").html(data.ecList[i].amount);
     					
-   						label = data.ecList[i].category;
-	    				yValue = parseInt(data.ecList[i].amount);
+   						name = data.ecList[i].title;
+	    				amount = parseInt(data.ecList[i].amount);
+	    				yValue = amount/eSum;
 	    				
 	    				dps.push({
-	    					label : label,
+	    					name : name,
 	    					y : yValue
 	    				})    					    						
 	   

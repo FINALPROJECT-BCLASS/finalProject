@@ -7,12 +7,11 @@ import org.springframework.stereotype.Service;
 
 import com.kh.finalProject.account.model.dao.AccountDao;
 import com.kh.finalProject.account.model.vo.AccountBook;
-import com.kh.finalProject.account.model.vo.CategoryCondition;
+import com.kh.finalProject.account.model.vo.Condition;
 import com.kh.finalProject.account.model.vo.ExpCategory;
 import com.kh.finalProject.account.model.vo.MSumCondition;
 import com.kh.finalProject.account.model.vo.MonthlySum;
 import com.kh.finalProject.account.model.vo.Sum;
-import com.kh.finalProject.account.model.vo.SumCondition;
 
 @Service("aService")
 public class AccountServiceImpl implements AccountService {
@@ -57,15 +56,15 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public ArrayList<AccountBook> selectAbPNoList(SumCondition sc) {
+	public ArrayList<AccountBook> selectAbPNoList(Condition condition) {
 		
-		return aDao.selectAbPNoList(sc);
+		return aDao.selectAbPNoList(condition);
 	}
 
 	@Override
-	public ArrayList<AccountBook> selectAbENoList(SumCondition sc) {
+	public ArrayList<AccountBook> selectAbENoList(Condition condition) {
 		
-		return aDao.selectAbENoList(sc);
+		return aDao.selectAbENoList(condition);
 	}
 
 	@Override
@@ -87,9 +86,15 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public ArrayList<ExpCategory> selectECList(CategoryCondition cc) {
+	public ArrayList<ExpCategory> selectECList(Condition condition) {
 		
-		return aDao.selectECList(cc);
+		return aDao.selectECList(condition);
+	}
+
+	@Override
+	public int getOverrun(Condition condition) {
+		
+		return aDao.getOverrun(condition);
 	}
 	
 }
