@@ -68,10 +68,10 @@ INSERT INTO CHAT_ONETOONE
 
 <insert id="insertChatmsg" parameterType="hashmap">
 	INSERT INTO ONETOONE_LIST
-		VALUES(SEQ_OL.NEXTVAR
+		VALUES(SEQ_OL.NEXTVAL
 				,#{co_no}
 				,#{id}
-				,#{msg}
+				,#{message}
 				,SYSDATE)
 </insert>
 

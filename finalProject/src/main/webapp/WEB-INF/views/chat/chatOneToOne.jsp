@@ -6,10 +6,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
 </head>
 <style>
 	#message{
-	    height: 100px;
+	    height: 70%;
 	    width: 71%;
 	    border-radius: 5px;
 	    border: none;
@@ -22,14 +24,15 @@
 	    align-items: center;
 	    justify-content: center;
 	    width: 100%;
-	    height: 150px;
+	    height: 22%;
 	    background: #f3f3f3;
+	        border-top: 1px solid #e1e1e1;
 			
 	}
 	
 	.default-btn {
 		margin-left: 20px;
-    	height: 100px !important;
+    	height: 70% !important;
 	}
 	
 	.tri-left {
@@ -54,6 +57,16 @@
 	    background: yellow;
 	    border-radius: 10px;
 	}
+	
+	.chat-area {
+		height: 70%;
+		background: #f3f3f3;
+		overflow-y:scroll;
+	}
+	
+	.chat-area::-webkit-scrollbar {
+    	display:none;
+    }
 	
 	#chatdata {
 		display: flex;
@@ -101,7 +114,7 @@
 
 <script type="text/javascript">
 
-	let sock = new SockJS("<c:url value="/echoroom"/>"); 	//웹소켓 연결 - sevlet-context에서 웹소켓 핸들러
+	let sock = new SockJS("<c:url value="/echo"/>"); 	//웹소켓 연결 - sevlet-context에서 웹소켓 핸들러
 	
 	//websocket 에서 메세지를 받을떄 실행되는 메소드
 	sock.onmessage = onMessage;
@@ -149,28 +162,28 @@
 		var currentuser_session = $("#loginuser").val();
 		console.log('loginuser id: ' + currentuser_session);
 		var current_co_no = $("#co_no").val();
-		consoel.log("current_co_no : " + current_co_no);
+		console.log("current_co_no : " + current_co_no);
 		
 		//String jsonStr2 = co_no + "|" +loginid+ "|" + mapReceive.get("msg");	
 		co_no = strArray[0];
 		sessionid = strArray[1]; //현재 메세지를 보낸 사람의 세션 등록//
 		message = strArray[2]; //현재 메세지를 저장//
-		
+		var $printHTML;
 		//나와 상대방이 보낸 메세지를 구분하여 영역을 나눈다.//
 		if(sessionid == currentuser_session){
-			var printHTML =  "<div id='chatdata'>"
+			printHTML =  "<div id='chatdata'>"
 							 + "<div class='text-con'>"+message+"</div>"
 							 + "<div class='tri-left'></div>"
-							 + "<div class='profile-img'><img src='resources/muploadFiles/${loginUser.rename_file}"+"</div>"
+							 + "<div class='profile-img'><img src='resources/muploadFiles/${loginUser.rename_file}'>"+"</div>"
 							 + "</div>";
-			$("#chat-area").append(printHTML);
+			$(".chat-area").append(printHTML);
 		} else{
-			var printHTML = "<div id='chatdata' class='left'>"
+			printHTML = "<div id='chatdata' class='left'>"
 							+"<div class='profile-img'></div>"
 							+"<div class='tri-right'></div>"
 							+"<div class='text-con'>"+message+"</div>";
 							+"</div>"		
-			$("#chat-area").append(printHTML);
+			$(".chat-area").append(printHTML);
 		}
 		
 		console.log('chatting data: ' + data);

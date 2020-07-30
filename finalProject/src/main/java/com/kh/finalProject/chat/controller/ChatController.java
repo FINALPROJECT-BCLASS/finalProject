@@ -158,6 +158,7 @@ public class ChatController {
 		
 		Chat ch = cService.selectchatroomdetail(co_no); //임시
 		System.out.println("ch : " + ch);
+		session.setAttribute("co_no", co_no);
 		mv.addObject("ch", ch).setViewName("chat/chatOneToOne");
 		
 		return mv;

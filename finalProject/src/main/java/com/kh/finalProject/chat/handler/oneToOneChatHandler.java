@@ -37,7 +37,7 @@ public class oneToOneChatHandler extends TextWebSocketHandler {
 			
 			//co_no가져오기
 			String co_no = (String)sessionmap.get("co_no");
-			
+			System.out.println("co_no 에욱 :" + co_no);
 			//list<map<string,object>>에 들어갈 map저장
 			  Map<String, Object> map = new HashMap<String, Object>();
 			  map.put("co_no",co_no);
@@ -67,27 +67,29 @@ public class oneToOneChatHandler extends TextWebSocketHandler {
 					//sessionList에 담긴 Map에 값 가져옴 
 					String co_no = (String)mapSessionList.get("co_no");
 					WebSocketSession sess = (WebSocketSession)mapSessionList.get("session");
-
+					System.out.println("co_no" + co_no);
 					//만약 Map값을 불러왔는데 방번호가 같다면?
-					if(co_no.equals(mapReceive.get("chatroom_no"))) {
+					if(co_no.equals(mapReceive.get("co_no"))) {
 						
 						Map<String,Object> userIdmap = session.getAttributes();
 						Member m = (Member)userIdmap.get("loginUser"); //세션 교체
 						
 						String loginid = m.getId();
+						System.out.println("msg : " + mapReceive.get("msg"));
 						HashMap<String,Object> dbmap = new HashMap<String,Object>();
 						dbmap.put("co_no", co_no);
 						dbmap.put("id", loginid);
-						dbmap.put("msg",mapReceive.get("msg"));
+						dbmap.put("message",String.valueOf(mapReceive.get("msg")));
 						
 						int result = cService.insertChatmsg(dbmap);//db저장
-						
+		
 						if( result >0) {
 						
 						String jsonStr2 = co_no + "|" +loginid+ "|" + mapReceive.get("msg");						
 
 						System.out.println("확인 에욱" + jsonStr2);
 						sess.sendMessage(new TextMessage(jsonStr2));
+						
 						}else {
 							String jsonStr2 = co_no + "|" +loginid+ "|" + mapReceive.get("msg");						
 
