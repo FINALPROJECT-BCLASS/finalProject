@@ -30,31 +30,35 @@
     .btnList{width:100%; text-align:right;}
     .groupBtn{border:none; font-weight: 600; background:none;}
     .BoardBtn{color:#2860E1; font-size: 21px;}
-    .join-form-area{float: right;display: flex;justify-content: center; flex-direction: column; align-items: center; padding: 40px; width: 81%; background: #F3F3F3; }
+    .join-form-area{position:relative; float: right;display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 40px; width: 81%; background: #F3F3F3; }
     .groupJoin{width:900px;}
+    
     /* 구글 아이콘 */
-    .material-icons{padding-top:12px; padding-left: 10px; text-shadow: 1.5px 1.5px 1.5px gray; }
-   
+    .material-icons{padding-top:12px; padding-left: 10px; }
+    .noticeIcon{color:#F3F3F3;}
+    .like{color:#f3487b;}
+    .reply{color:#2860E1;}
+    
     /* 공지 */
-    .noticeText{float: right;margin:auto; width: 81%; background:#c2c2c2; border-radius: 0 0 5px 5px;  }
+    .noticeText{    background: linear-gradient(#285fe1b3, #2860E1 ) fixed; box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.048); position:absolute; top:0; float: right; margin:auto; width: 100%; }
     .noticeTb{margin-left:20px;}
-    .noticeTitle{padding-top:20px; padding-left:5px;font-weight: 600; font-size: 20px;  text-shadow: 1.5px 1.5px 1.5px gray; }
-    .noticeWriter{padding-left:5px; font-size:12px; font-weight: 600;  text-shadow: 1.5px 1.5px 1.5px gray; }
-    .noticeDate{padding-left:5px; font-size:12px; font-weight: 600;  text-shadow: 1.5px 1.5px 1.5px gray; }
-    .noticeContent{padding-top:5px; padding-left:15px; padding-bottom: 20px; font-size:14px;  text-shadow: 1.5px 1.5px 1.5px gray; }
+    .noticeTitle{padding-top:20px; padding-left:5px; font-size: 20px; color:#F3F3F3; }
+    .noticeWriter, .noticeDate {padding-left:5px; font-size:12px; font-weight: 600;  color:#F3F3F3; }
+    .noticeContent{padding-top:5px; padding-left:15px; padding-bottom: 20px; font-size:14px; color:#F3F3F3; }
+	
 	/* 글쓰기 버튼 */
 	#groupWrite {text-align:right; width:100%; height: 50px; margin-right:40px; margin-bottom:10px; border:none;}
     .groupWrite {width:50px; height:40px; cursor: pointer; border-radius: 5px;}
 	
-	.groupListCount{width:95%; margin-bottom:10px; text-align:right;}
+	.groupListCount{width:99%; margin-bottom:10px; text-align:right;}
 	.emptyNoticeList{margin-top:100px; text-align:center; font-size:20px; font-weight:600;}
 	    
-    /* 공지게시판 */
+    /* 게시판 */
     .groupNotice{width:100%; height:400px;overflow:scroll; overflow-x:hidden;}
     .noticeBoardTb{width:100%; margin-bottom:5px; background:white;border:0.5px solid lightgray; border-radius:10px;}
     .noticeBoardTitle{display:inline-block; padding-top:20px; padding-left:5px;font-weight: 600; font-size: 20px;}
-   	.detailBtn{margin-left:1000px; padding:7.2px; display:inline-block; border:none; border-radius:6px; width:60px; height:35px; background:#FBD14B;}
-   	.detailBtn:hover{margin-left:1000px; padding:7px; display:inline-block; border:none; border-radius:6px; width:60px; height:35px; background:#ffc400; cursor:pointer;}
+   	.detailBtn{display:inline-block; margin:10px 10px 0px 0px; float:right; padding:7.2px; display:inline-block; border:none; border-radius:6px; width:60px; height:35px; background:#FBD14B;}
+   	.detailBtn:hover{display:inline-block; margin:10px 10px 0px 0px; float:right; padding:7.2px; display:inline-block; border:none; border-radius:6px; width:60px; height:35px; background:#ffc400; cursor:pointer;}
     .noticeBoardWriter{padding-left:37px; font-size:12px; font-weight: 600;}
     .noticeBoardDate{padding-left:37px; font-size:12px; font-weight: 600;}
     .noticeBoardContent{margin-left:37px; margin-top:10px; padding-top:5px;padding-left:15px; width:1050px; height:70px; overflow:scroll; overflow-x:hidden; font-size:13px; background: #F3F3F3; border-radius: 5px; margin-bottom: 7px;}
@@ -86,13 +90,15 @@
 	
 	<jsp:include page="../common/sidenaviGroup.jsp"/>
 
+      
+      <div class="join-form-area">
 	<!-- 공지사항 -->
 
 	<div class="noticeText">
 	   	<c:if test="${!empty noticeList }">
         <table class="noticeTb">
           <tr>
-	          <td><span class="material-icons">campaign</span></td>
+	          <td><span class="material-icons noticeIcon">campaign</span></td>
 	          <td><div class="noticeTitle">${noticeList.gnTitle }</div></td>
           </tr>
           <tr><td></td><td><div class="noticeWriter">${noticeList.name }</div></td></tr>
@@ -101,9 +107,8 @@
         </table>
         </c:if>
       </div>
-      
-      <div class="join-form-area">
-  
+  		
+  		<div>
         <h1>Group Diary</h1>
         <div class="btnList">
             <button class="groupBtn noticeBtn" onclick="location.href='noticeMain.do'">Notice</button>
@@ -124,7 +129,7 @@
 		 	<br>
  
           </div>
-	
+		</div>
 	  </div>
 
 	

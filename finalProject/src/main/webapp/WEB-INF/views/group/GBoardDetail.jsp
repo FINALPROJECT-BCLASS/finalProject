@@ -13,8 +13,9 @@
     h1, h4{margin-top:20px; text-align:center;}
 	
 	 /* 구글 아이콘 */
-    .material-icons{font-size:30px !important; padding-top:12px; padding-left: 10px; padding-right: 10px;  text-shadow: 1.5px 1.5px 1.5px gray; }
-
+    .material-icons{font-size:30px !important; padding-top:12px; padding-left: 10px; padding-right: 10px;  }
+	.like{color:#f3487b;}
+    .reply{color:#2860E1;}
 
     .join-form-area{float: right;display: flex;justify-content: center; flex-direction: column; align-items: center; padding: 65px; width: 81%; background: #F3F3F3; }
     .material-icons{font-size:30px;}
@@ -29,8 +30,11 @@
 
     .detailBox{width:1000px; border:0.5px solid lightgray;}
     .detailBox td{border:0.5px solid lightgray; background:white;}
+    .MemberImgBox{text-align:center;}
+    .MemberImg{width:60px; height:60px; border-radius:40%;}
+    .BoardCon{}
     .groubJoinBtn{text-align: center;}
-
+	
     .contentBox{width:1000px; border:0.5px solid lightgray; text-align:center;}
     .contentBox tr{background:white;}
 	.boardImg{width:50%; height: 40%;}
@@ -59,7 +63,7 @@
     #reset{background:none; border:none; color:#484848; font-weight: 600; font-size: 20px; width:100px;}
 
 
-    .detailBox td:nth-child(1) {
+  /*   .detailBox td:nth-child(1) {
             color: #484848;
             text-align: left;
             font-weight: 600;
@@ -79,7 +83,7 @@
         background:lightgray;
     }
 
-	.detailBox td:nth-child(4) { width:400px; padding-left:10px;}
+	.detailBox td:nth-child(4) { width:400px; padding-left:10px;} */
 	
 
 	
@@ -112,13 +116,21 @@
             <div class="groupJoin">
                 <table class="detailBox">
                     <tr>
-                        <td>제목</td>
-                        <td>${boardList.gbTitle }</td>
+                        <td rowspan="2" style="width:20px">
+                        	<div class="MemberImgBox">
+                        		<img src="resources/muploadFiles/user1_202007161115.jpg" class="MemberImg">
+                        	</div>
+                        </td>
+                        <td>
+                        	<div class="BoardCon">
+                        		${boardList.gbTitle }
+                        	</div>
+                        </td>
                         <td>조회수</td>
                         <td>${boardList.gbCount }</td>
                     </tr>
                     <tr>
-                        <td>작성자</td>
+                        
                         <td>${boardList.name }</td>
                         <td>작성시간</td>
                         <td>${boardList.gbDate }</td>
@@ -154,7 +166,7 @@
                         </td>
                         <td style="width:25px"><span class="titalLike">${totalLike }</span></td>
                         <td>
-                      	  <span class="material-icons">sms</span>
+                      	  <span class="material-icons reply">sms</span>
                         </td>
                         <td><div class="totalReply">${totalReply }</div></td>
                     </tr>
@@ -180,11 +192,6 @@
 		                    	<c:forEach var="re" items="${reReplyList }">
 			                    	<c:if test="${ re.grNo eq r.grNo}">
 			               			<input type="hidden" class="crNo" value="${r.grNo }">
-					               		<%-- <tr class="replyTr">
-					                        <td><div class="replyName">${r.name }</div></td>
-					                        <td><div class="replyCon">${r.grCon }</div></td>
-					                        <td><div class="replyDate">${r.grDate }</div></td>
-					                    </tr> --%>
 					               		<tr class="reReplyTr">
 					                        <td><span class="material-icons re">subdirectory_arrow_right</span><div class="rereName">${re.name }</div></td>
 					                        <td><div class="replyCon">${re.grrCon }</div></td>
@@ -201,7 +208,7 @@
                     <tr>
                         <td>
                         	<div class="replyConBox">
-                        		<input type="text" name="grCon" id="replyWirte">
+                        		<input type="text" name="grCon" id="replyWirte" placeholder="댓글을 남겨보세요.">
                         	</div>
                        	</td>
                         <td><button class="replyBtn">submit</button></td>
