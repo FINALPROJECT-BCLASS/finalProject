@@ -27,35 +27,28 @@
        	}
        	
        	
-       	/* $(document).ready(function(){
+       	$(document).ready(function(){
 	    	var dps = [];
 	    	
 	    	var chart = new CanvasJS.Chart("chartContainer", {
-	    		theme: "light2",
+	    		exportEnabled: true,
+	    		animationEnabled: true,
+	    		theme: "light2", // "light1", "dark1", "dark2"
 	    		title: {
-	    			text: "Developer Work Week"    
 	    		},
 	    		subtitles: [{
-	    			text: "Median hours/week"
 	    		}],
-	    		legend: {
-	    			cursor: "pointer",
-	    			itemclick: explodeSlice
-	    		},
 	    		data: [{
-	    			type: "doughnut",
-	    			showInLegend: true,
-	    			indexLabelPlacement: "inside",
-	    			indexLabelFontColor: "#111",
-	    			indexLabel: "{y}\%",
-	    			yValueFormatString: "#,##0.0#\"%\"",
+	    			type: "pie",
+	    			yValueFormatString: "#,##0\"%\"",
+	    			indexLabel: "{label} - {y}",
 	    			dataPoints: dps[0]
 	    		}]
 	    	});
 	    	
 	    	insertData(date, dps, chart);
 	    	 
-    	}) */
+    	})
     	
     	$(function(){
     		$("#date").html(date);
@@ -96,26 +89,31 @@
         <div class="row">
         	<div class="col-md-3"></div>
         	<div class="col-md-4">
-        		<b style="color: blue; font-size: 20px;">Profit : </b><span><b id="profit" style="color: blue;"></b></span>
+        		<b style="color: blue; font-size: 20px;">Profit :&nbsp;</b><span><b id="profit" style="font-size: 20px;"></b></span>
         	</div>
         	<!-- <div class="col-md-4"></div> -->
         	<div class="col-md-5">
-        		<b style="color: red; font-size: 20px;">Expenditure : </b><span><b id="expenditure" style="color: red;"></b></span>
+        		<b style="color: red; font-size: 20px;">Expenditure :&nbsp;</b><span><b id="expenditure" style="font-size: 20px;"></b></span>
         	</div>
         </div>
         
         <br><br>
         
-        <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+        <div class="row">
+        	<div class="col-md-2"></div>
+        	<div class="col-md-10">
+        		<div id="chartContainer" style="height: 600px; width: 600px;"></div>
+        	</div>
+        </div>
         
     </section>
 
     <jsp:include page="../common/footer.jsp"/>
     
     <script>
-    	function insertData(year, chart){
+    	function insertData(date, dps, chart){
     		
-    		var xValue;
+	    	var label;
 	    	var yValue;
 	    	
 	    	$.ajax({
@@ -123,32 +121,23 @@
     			data: {date:date},
     			dataType: 'json',
     			success: function(data) {
-    				for(var i in data.msList) {
-    					console.log(data.msList[i]);
+    				for(var i in data.ecList) {
+    					console.log(data.ecList[i]);
     					
-    					if(data.msList[i].type == "profit") {
-		    				xValue = parseInt(data.msList[i].month);
-		    				
-		    				yValue = parseInt(data.msList[i].amount);
-		    				
-		    				dps1.push({
-		    					x : xValue,
-		    					y : yValue
-		    				})    					    						
-    					} else {
-							xValue = parseInt(data.msList[i].month);
-		    				
-		    				yValue = parseInt(data.msList[i].amount);
-		    				
-		    				dps2.push({
-		    					x : xValue,
-		    					y : yValue
-		    				})    					    			
-    					}
+   						label = data.ecList[i].category;
+	    				yValue = parseInt(data.ecList[i].amount);
+	    				
+	    				dps.push({
+	    					label : label,
+	    					y : yValue
+	    				})    					    						
 	   
     				}
     				
     				chart.render();
+    				
+    				$("#profit").html(data.pSum);
+    				$("#expenditure").html(data.eSum);
     			},
     			error:function(request, status, errorData){
                     alert("error code: " + request.status + "\n"

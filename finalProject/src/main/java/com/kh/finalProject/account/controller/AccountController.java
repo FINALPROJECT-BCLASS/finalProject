@@ -346,7 +346,7 @@ public class AccountController {
 		JSONObject sendJson = new JSONObject();
 		sendJson.put("pSum", pSum);
 		sendJson.put("eSum", eSum);
-		sendJson.put("msList", jArr);
+		sendJson.put("ecList", jArr);
 		
 		PrintWriter out = response.getWriter();
 		out.print(sendJson);
