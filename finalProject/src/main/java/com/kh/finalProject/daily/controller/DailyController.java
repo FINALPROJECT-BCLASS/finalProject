@@ -315,12 +315,27 @@ public class DailyController {
 		int ht_no = Integer.parseInt(htr[0]);
 		String htr_now = htr[1];
 		String htr_con = htr[2];
+		String htr_date = htr[3];
+		
+		System.out.println(htr_date);
+		
+		
+//		SimpleDateFormat dailySet = new SimpleDateFormat ("yy/MM/dd"); // 오늘 날짜 저장
+//		
+//		Date date = new Date();
+//		
+//		String day = dailySet.format(htr_date);
+//		
+//		
+//		System.out.println("오늘 날짜 : " + day);
+//		
 		
 		HabitRecord hr = new HabitRecord();
 		hr.setHt_no(ht_no);
 		hr.setId(id);
 		hr.setHtr_now(htr_now);
 		hr.setHtr_con(htr_con);
+		hr.setHtr_date(htr_date);
 	        
 		System.out.println(hr);
 		

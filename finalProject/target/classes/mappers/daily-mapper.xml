@@ -76,7 +76,12 @@
 	
 	<insert id="insertHabitRecord" parameterType="HabitRecord">
 		INSERT INTO HABIT_TRACKER_RECORD
+		<if test='htr_date == "Today"'>
 		VALUES (SEQ_HTR.NEXTVAL, #{id}, #{ht_no}, SYSDATE, #{htr_now}, #{htr_con}, DEFAULT)
+		</if>
+		<if test='htr_date != "Today"'>
+		VALUES (SEQ_HTR.NEXTVAL, #{id}, #{ht_no}, #{htr_date}, #{htr_now}, #{htr_con}, DEFAULT)
+		</if>
 	</insert>
 	
 	<select id="selectHabitNum" parameterType="Habit" resultMap="habitResultSet">
@@ -94,7 +99,7 @@
 		AND HT_NO=#{ht_no}
 		AND TO_CHAR(HTR_DATE, 'YY/MM/DD')=#{htr_date}
 		AND HTR_DELETE='N'
-		ORDER BY HTR_DATE DESC
+		ORDER BY HTR_NO DESC
 	</select>
 	
 	<select id="selectHabitRecordListW" parameterType="HabitRecord" resultMap="habitRecordResultSet_2">
@@ -105,7 +110,7 @@
 		AND HTR_DELETE='N'
 		AND HTR_DATE BETWEEN TO_DATE(TRUNC(SYSDATE,'IW'), 'YY/MM/DD') 
                    		 AND TO_DATE(TRUNC(SYSDATE,'IW') + 7, 'YY/MM/DD')
-		ORDER BY HTR_DATE DESC
+		ORDER BY HTR_NO DESC
 	</select>
 	
 	<select id="selectHabitRecordListM" parameterType="HabitRecord" resultMap="habitRecordResultSet_2">
@@ -115,7 +120,7 @@
 		AND HT_NO=#{ht_no}
 		AND TO_CHAR(HTR_DATE, 'YY/MM')=#{htr_date}
 		AND HTR_DELETE='N'
-		ORDER BY HTR_DATE DESC
+		ORDER BY HTR_NO DESC
 	</select>
 	
 	<select id="selectHabitRecordListDaily" parameterType="HabitRecord" resultMap="habitRecordResultSet">
@@ -194,7 +199,7 @@
 	</select>
 	
 	<select id="selectHabitRecordListD" parameterType="HabitRecord" resultMap="habitRecordResultSet_2">
-		SELECT HTR_NO, ID, HT_NO, TO_CHAR(HTR_DATE, 'HH:MI') AS "HTR_TIME", TO_CHAR(HTR_DATE, 'YYYY-MM-DD') AS "HTR_MONTH", HTR_NOW, HTR_CON, HTR_DELETE
+		SELECT HTR_NO, ID, HT_NO, TO_CHAR(HTR_DATE, 'HH:MI') AS "HTR_TIME", TO_CHAR(HTR_DATE, 'DD') AS "HTR_MONTH", HTR_NOW, HTR_CON, HTR_DELETE
 		FROM HABIT_TRACKER_RECORD
 		WHERE ID=#{id}
 		AND HT_NO=#{ht_no}
@@ -209,7 +214,7 @@
 		<if test='htr_time == "This Month"'>
 		AND TO_CHAR(HTR_DATE, 'YY/MM')=#{htr_date}
 		</if>
-		ORDER BY HTR_DATE DESC
+		ORDER BY HTR_NO DESC
 	</select>
 	
 </mapper>

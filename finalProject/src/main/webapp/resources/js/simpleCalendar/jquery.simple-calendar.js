@@ -68,6 +68,7 @@
         //Build calendar of a month from date
         buildCalendar: function (fromDate, calendar) {
             var plugin = this;
+            
 
             calendar.find('table').remove();
 
@@ -144,9 +145,6 @@
                 if ($(e.currentTarget).hasClass('event')) {
                     // show event container with effect
 //                    plugin.fillUp($(plugin.element), e.pageX, e.pageY);
-                    const eventIndex = $.inArray(dayDate, plugin.events);
-                    $(plugin.element).find('.event-container>.event-date').text(dayDate);
-                    $(plugin.element).find('.event-container>.title').text(plugin.settings.eventsInfo[eventIndex]);
                 }
                 e.preventDefault();
             });
@@ -154,16 +152,7 @@
             body.append(thead);
             body.append(tbody);
 
-
-            var eventContainer = $('<div class="event-container"><p class="event-date">Mar 01, 2019</p><h2 class="title">Event Name</h2><a href="#" class="close"></div>');
-
-            eventContainer.on('click', '.close', function (e) {
-                plugin.empty($(plugin.element), e.pageX, e.pageY);
-                e.preventDefault();
-            });
-
             calendar.append(body);
-            calendar.append(eventContainer);
         },
         //Init global events listeners
         bindEvents: function () {

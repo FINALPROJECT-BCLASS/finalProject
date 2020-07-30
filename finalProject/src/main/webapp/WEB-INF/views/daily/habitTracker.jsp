@@ -111,12 +111,7 @@
 		.conetent-section1-left {
 			width: 50%;
 		    padding-left: 70px;
-		    /* height: 262px; */
-		    background: #f3f3f3;
-		    border-radius: 10px;
-		    display: flex;
-		    justify-content: center;
-		    /* align-items: center; */
+		    height: 100%;
 		    flex-direction: column;
 		}
 		
@@ -455,14 +450,12 @@
         
         .count-area > span:nth-child(3) {
         	font-size: 30px;
-    		margin-left: -15px;
         }
         
         .count {
         	text-align: right;
 		    background: none;
 		    border: none;
-		    margin: 15px;
 		    font-size: 50px;
 		    width: 200px;
 		    padding: 10px;
@@ -590,6 +583,13 @@
     		font-size: 17px;
         }
         
+        .smallA {
+        	font-size: 14px;
+		    display: inherit;
+		    margin-top: -5px;
+		    color: gray !important;
+        }
+        
         
 
 		
@@ -664,6 +664,7 @@
 		            			<span id="period"></span>
 		            			<span id="now"></span>
 		            			<span id="goal"></span>
+		            			<input type="hidden" id="period-hidden">
 		            		</div>
 		            		<div class="section1-item">
 		            			<span>Achieve Rate</span>
@@ -785,7 +786,6 @@
 		<script>
 		
 			var htDate;
-	
 			$(".content").hide();
 			
 	
@@ -807,9 +807,16 @@
 		    	$(this).addClass("clicked");
 		    	$(".content").show();
 		    	
+		    	
 		    	// ht_no를 기준으로 content 내용을 뿌려주기 위함
 		    	var htNum = $(this).prev("#htNum").val();
-		    	console.log(htNum);
+		 					
+				var t = new Date(); // 오늘 날짜
+		        var y= t.getFullYear(); // 년도
+		        var m = (t.getMonth()+1)>9 ? ''+(t.getMonth()+1) : '0'+(t.getMonth()+1); // 월
+		        var d = t.getDate()>9 ? ''+t.getDate() : '0'+t.getDate(); // 일
+		                
+		        var today = y + '-' + m + '-' + d;
 
 		    	$.ajax({
    					url: "habitContent.do",
@@ -819,15 +826,17 @@
    					success:function(data){
    					
    					$(".event").removeClass("event");
-                	$(".today").css("background", data.list.ht_color);
                 	
    					var eventDates = [];	
-   						
+   					
+   					// 불러온 데이터와 일치하는 날짜 태그에 event 클래스명 추가
                 	for(var i in data.hrclist) {
  	   					eventDates.push(data.hrclist[i].htr_date);
  	   					$("." + data.hrclist[i].htr_date).addClass("event");
 					}
                 	
+			         $(".today").css("background", data.list.ht_color);
+   					
                 	/* Calendar */
       	         
       	            $("#event-cal-container").simpleCalendar({
@@ -835,12 +844,15 @@
       	                fixedStartDay: true,
       	              	displayEvent: true,
       	               	events: eventDates,
-      	              	selectCallback: function(date){
+      	              	selectCallback: function(date){ // 캘린더에서 날짜를 눌렀을 때
       	              		
+      	              		//내용
+      						$("#comment").html(data.list.ht_con);
+      	              	
       	              		var change = date.replace(/-/g, "/");
       	              		var day = change.substr(2);
       	              		var month = change.substr(2,5);
-      	              		var htCycle = $("#period").html();
+      	              		var htCycle = $("#period-hidden").val();
       	              		var htNum =$(".clicked").prev("#htNum").val();
       	  				
       	  					if(htCycle == "Today" || htCycle == "This Week") {
@@ -849,65 +861,154 @@
       	  						htDate = month;
       	  					}
       	  					
-	      	  					$.ajax({url: "habitDateSelectList.do",
-	      	  	   					type: "post",
-	      	     					data: {htNum:htNum, htDate:htDate, htCycle:htCycle},
-	      	     					dataType:"json",
-	      	     					success:function(caldata){
-	      	     						
-	      	     						console.log(caldata);
-	      	     						
-	      	     						
-	      	     							
-	      	     							$tableBody = $("#habit-record");
-	      	     							$tableBody.html("");
-	      	     	   						
-	      	     	   						var $tr;
-	      	     	   						var $tdCheckbox;
-	      	     	   						var $tdTime;
-	      	     	   						var $tdNow;
-	      	     	   						var $tdCon;
-	      	     	   						var sum = 0;
-	      	     						
-	      	     							for(var i in caldata.hrc) {
-	      	     								
-	      	     								var checkbox = "<input type='checkbox' value='"+ caldata.hrc[i].htr_no + "' id='check"+ i +"' name='check" + i +"'>" + "<label for='check"+i+"'>" + "</label>";
-	      	     		   						var htNow = "+" + caldata.hrc[i].htr_now + data.list.ht_unit + "<input type='hidden' id='htr_now_hidden' value='"+ caldata.hrc[i].htr_now +"'>";
-	      	     		   						
-	      	     		   						
-	      	     		   						sum += + caldata.hrc[i].htr_now;
-	      	     		   						
-	      	     								$tr = $("<tr>");
-	      	     								$tdCheckbox = $("<td>").append(checkbox);
-	      	     								$tdTime = $("<td>").text(caldata.hrc[i].htr_time);
-	      	     								$tdNow = $("<td>").append(htNow);
-	      	     								$tdCon=$("<td>").text(caldata.hrc[i].htr_con);
-	      	     								
-	      	     								$tr.append($tdCheckbox);
-	      	     								$tr.append($tdTime);
-	      	     								$tr.append($tdNow);
-	      	     								$tr.append($tdCon);
-	      	     								$tableBody.append($tr);
-	      	     								
-	      	     							}
-	      	     							
-	      	     							//프로그레스 구역 내의 소제목
-	      	     							$("#period").html(date);
-	      	     							
-	      	     							//현재 값
-	      	     	   						$("#now").html(sum);
-	      	     							
-	      	     						
-	      	     						
-	      	     					},
-	      	     					error:function(request, status, errorData){
-	      	                          alert("error code: " + request.status + "\n"
-	      	                                +"message: " + request.responseText
-	      	                                +"error: " + errorData);
-	      	               			} 
-	      	  				
-	      	  					});
-      	              		}
+      	  					$.ajax({url: "habitDateSelectList.do",
+      	  	   					type: "post",
+      	     					data: {htNum:htNum, htDate:htDate, htCycle:htCycle},
+      	     					dataType:"json",
+      	     					success:function(caldata){
+      	     						
+      	     						console.log(caldata);
+      	     							
+     	     							$tableBody = $("#habit-record");
+     	     							$tableBody.html("");
+      	     				
+    	     	   						var $tr;
+    	     	   						var $tdCheckbox;
+    	     	   						var $tdTime;
+    	     	   						var $tdNow;
+    	     	   						var $tdCon;
+    	     	   						var unit = $(".clicked a.ht_unit").html();
+    	     	   						var goal = $(".clicked a.ht_goal").html();
+    	     	   						
+    	     	   						var sum = 0;
+    	     	   						
+    	     	   						if(htCycle == "Today") {
+    	     	   							
+     	     							for(var i in caldata.hrc) {
+     	     								
+     	     								var checkbox = "<input type='checkbox' value='"+ caldata.hrc[i].htr_no + "' id='check"+ i +"' name='check" + i +"'>" + "<label for='check"+i+"'>" + "</label>";
+     	     		   						var htNow = "+" + caldata.hrc[i].htr_now + unit + "<input type='hidden' id='htr_now_hidden' value='"+ caldata.hrc[i].htr_now +"'>";
+     	     		   						
+     	     		   						sum += + caldata.hrc[i].htr_now;
+     	     		   						
+     	     								$tr = $("<tr>");
+     	     								$tdCheckbox = $("<td>").append(checkbox);
+     	     								$tdTime = $("<td>").text(caldata.hrc[i].htr_time);
+     	     								$tdNow = $("<td>").append(htNow);
+     	     								$tdCon=$("<td>").text(caldata.hrc[i].htr_con);
+     	     								
+     	     								$tr.append($tdCheckbox);
+     	     								$tr.append($tdTime);
+     	     								$tr.append($tdNow);
+     	     								$tr.append($tdCon);
+     	     								$tableBody.append($tr);
+     	     								
+     	     							}
+     	     							
+     	     							if(today == date) {
+     	         	              			$("#period").html("Today" +"<br><a class = 'smallA'>" + date + "</a>");
+     	         	              		}else{
+     	     								//날짜 표시
+     	     								$("#period").html(date + "<br><a style = 'display:none'>" + date + "</a>");
+     	         	              		}
+    	     	   						
+      	     						}else if(htCycle == "This Week" || htCycle == "This Month"){
+      	     							
+      	     							for(var i in caldata.hrc) {
+      	     								
+      	     								var checkbox = "<input type='checkbox' value='"+ caldata.hrc[i].htr_no + "' id='check"+ i +"' name='check" + i +"'>" + "<label for='check"+i+"'>" + "</label>";
+      	     		   						var htNow = "+" + caldata.hrc[i].htr_now + unit + "<input type='hidden' id='htr_now_hidden' value='"+ caldata.hrc[i].htr_now +"'>";
+      	     		   						var htrDate = "<b>" + caldata.hrc[i].htr_month + "일 </b> " + caldata.hrc[i].htr_time;
+      	     		   						
+      	     		   						sum += +caldata.hrc[i].htr_now;
+      	     		   						
+      	     								$tr = $("<tr>");
+      	     								$tdCheckbox = $("<td>").append(checkbox);
+      	     								$tdTime = $("<td>").append(htrDate);
+      	     								$tdNow = $("<td>").append(htNow);
+      	     								$tdCon=$("<td>").text(caldata.hrc[i].htr_con);
+      	     								
+      	     								$tr.append($tdCheckbox);
+      	     								$tr.append($tdTime);
+      	     								$tr.append($tdNow);
+      	     								$tr.append($tdCon);
+      	     								$tableBody.append($tr);
+      	     								
+      	     							}
+      	     							
+      	     							// 선택된 날짜의 해당 주를 반환하기 위해 tr태그를 한줄씩 저장
+      	        	              		var selectWeek = $("."+date).closest("tr").html();
+      	        	              		var week_1 = $(".calendar table>tbody>tr:nth-child(1)").html();
+      	        	              		var week_2 = $(".calendar table>tbody>tr:nth-child(2)").html();
+	      	  	      	          	    var week_3 = $(".calendar table>tbody>tr:nth-child(3)").html();
+	      	  	      	       		    var week_4 = $(".calendar table>tbody>tr:nth-child(4)").html();
+	      	  	      	      		    var week_5 = $(".calendar table>tbody>tr:nth-child(5)").html();
+	      	  	      	      		    
+	      	  	      	      			var thisWeek = $(".today").closest("tr").html();
+      	     							
+     	     							var year = $(".year").html();
+     	     							var month = $(".year").next().html();
+     	     							
+     	     							console.log(year + month);
+     	     							
+     	     							if(htCycle == "This Week"){
+     	     								
+     	     								if(selectWeek == thisWeek) {
+     	     									
+     	     									$("#period").html("This Week" + "<br><a class = 'smallA'>" + date + "</a>");
+     	     									
+     	     								}else{
+     	     								
+	     	     								// for 선택된 날짜의 주차 표시
+	     	     								if(selectWeek == week_1){
+	     	     									$("#period").html(year+"/"+month + " " + 1 + "주차<br>" + "<a class = 'smallA'>" + date + "</a>");
+	     	     	      	              		}else if(selectWeek == week_2){
+	     	     	      	              			$("#period").html(year+"/"+month + " " + 2 + "주차<br>" + "<a class = 'smallA'>" + date + "</a>");
+	     	     	      	              		}else if(selectWeek == week_3){
+	     	     	      	              			$("#period").html(year+"/"+month + " " + 3 + "주차<br>" + "<a class = 'smallA'>" + date + "</a>");
+	     	     	      	              		}else if(selectWeek == week_4){
+	     	     	      	              			$("#period").html(year+"/"+month + " " + 4 + "주차<br>" + "<a class = 'smallA'>" + date + "</a>");
+	     	     	      	              		}else if(selectWeek == week_5){
+	     	     	      	              			$("#period").html(year+"/"+month + " " + 5 + "주차<br>" + "<a class = 'smallA'>" + date + "</a>");
+	     	     	      	              		}
+	     	     								
+	     	     							     	     								
+     	     								}
+     	     								
+     	     							}else{
+     	     								
+     	     								var selectM = date.substr(5,2);
+     	     								
+     	     								console.log("month" + month);
+     	     								console.log("tM" + m);
+     	     								
+     	     								if(month == m) {
+         	         	              			$("#period").html("This Month" + "<br><a class = 'smallA'>" + date + "</a>");
+         	         	              		}else{
+	     	     							//날짜 표시
+	     	     								$("#period").html(year+"-"+month + "<br><a class = 'smallA'>" + date + "</a>");
+         	         	              		}
+     	     							}
+     	     						}
+    	     							
+    	     							//현재 값
+    	     	   						$("#now").html(sum);
+    	     	   						//현재 퍼센트
+    	     	   						$("#achieve").html(Math.ceil(sum/goal*100)+"%");
+    	     	   						console.log("goal" + goal);
+    	     	   						console.log("unit" + unit);
+    	     	   						//progress bar
+    	     	   						$("#progress1").css("width", Math.ceil(sum/goal*100) + "%");
+      	     						
+      	     					},
+      	     					error:function(request, status, errorData){
+      	                          alert("error code: " + request.status + "\n"
+      	                                +"message: " + request.responseText
+      	                                +"error: " + errorData);
+      	               			} 
+      	  				
+      	  					});
+   	              		}
       	            });
    					
    						
@@ -956,7 +1057,8 @@
 						$("#habitTitle").html(data.list.ht_title);
 						
 						//프로그레스 구역 내의 소제목
-						$("#period").html("Today");
+						$("#period").html("Today" + "<br><a class = 'smallA'>" + today + "</a>");
+						$("#period-hidden").val("Today");
 						
 						//현재 값
    						$("#now").html(sum);
@@ -996,7 +1098,7 @@
    						
 						for(var i in data.recordWeeklyList){
 	   						var checkbox = "<input type='checkbox' value='"+ data.recordWeeklyList[i].htr_no + "' id='check"+ i +"' name='check" + i +"'>" + "<label for='check"+i+"'>" + "</label>";
-	   						var date = "<b>" + data.recordWeeklyList[i].htr_month + "일 </b>" + data.recordWeeklyList[i].htr_time;  
+	   						var date = "<b>" + data.recordWeeklyList[i].htr_month + "일 </b>&nbsp;" + data.recordWeeklyList[i].htr_time;  
 	   						var htNow = "+" + data.recordWeeklyList[i].htr_now + data.list.ht_unit + "<input type='hidden' id='htr_now_hidden' value='"+ data.recordWeeklyList[i].htr_now +"'>";
 	   						
 							sum += + data.recordWeeklyList[i].htr_now;
@@ -1014,14 +1116,13 @@
 							$tableBody.append($tr);
 						}
 						
-						console.log(sum);
-						
 						$("#ht_no").val(htNum);
 						
 						$("#habitTitle").html(data.list.ht_title);
 						
 						//프로그레스 구역 내의 소제목
-   						$("#period").html("This Week");
+   						$("#period").html("This Week" + "<br><a class = 'smallA'>" + today + "</a>");
+   						$("#period-hidden").val("This Week");
 						
 						//현재 값
    						$("#now").html(sum);
@@ -1086,7 +1187,8 @@
 						$("#habitTitle").html(data.list.ht_title);
 						
 						//프로그레스 소제목
-   						$("#period").html("This Month");
+   						$("#period").html("This Month" + "<br><a class = 'smallA'>" + today + "</a>");
+   						$("#period-hidden").val("This Month");
 						
 						//현재 값
    						$("#now").html(sum);
@@ -1113,6 +1215,9 @@
    						
    						
    						}
+   					
+
+   			    	console.log("잉" +$("#habit-record").html());
  		
    					},
    					error:function(request, status, errorData){
@@ -1138,8 +1243,9 @@
 		    	var ht_no = $("#ht_no").val();
 		    	var htr_now = $("#htr_now").val();
 		    	var htr_con = $("#htr_con").val();
+		    	var htr_date = $("#period > a").html();
 		    	
-		    	var htr = [ht_no, htr_now, htr_con];
+		    	var htr = [ht_no, htr_now, htr_con, htr_date];
 		    	 
 		    	$.ajax({
 		    	    method: 'POST',
@@ -1148,8 +1254,8 @@
 		    	    data: {'htr':htr},
 		    	    success : function(data) {
 						if(data == "success") {
-							
-							$(".clicked").trigger("click");
+							$("."+htr_date).trigger("click");
+							$("."+htr_date).addClass("event");
 							$("#add-count").modal("hide");
 							$("#htr_con").val("");
 							
@@ -1172,6 +1278,7 @@
 		    	
 		    	var ht_con = $("#ht_comment").val();
 		    	var ht_no = $("#ht_no").val();
+		    	var htr_date = $("#period > a").html();
 		    	
 		    	
 		    	$.ajax({
@@ -1181,6 +1288,8 @@
 		    		success: function(data) {
 		    			
 		    			if(data == "success") {
+		    				
+		    				
 							$("#edit-comment").modal("hide");
 							$("#ht_comment").val("");
 		    				$(".clicked").trigger("click");
@@ -1225,6 +1334,8 @@
 				}else{
 					if(!confirm('삭제하시겠습니까?')){
 					return false;}
+					
+					var htr_date = $("#period > a").html();
 	
 					$.ajax({
 						type: "POST",
@@ -1233,7 +1344,8 @@
 						success: function(data){
 							
 							if(data == "success"){
-								$(".clicked").trigger("click");
+								$("."+htr_date).trigger("click");
+								
 							}else{
 			    				alert("삭제 실패, 다시 시도해 주세요.");
 			    			}
@@ -1252,10 +1364,11 @@
 		 	// 선택한 습관기록 내용 수정하기
 		    function updateHabitRecordCheck(){
 	
+		    	
 				var checkbox = $("input[type='checkbox']:checked");
 				var htr_time = $(checkbox).parent().next().html();
 				var htr_now = $(checkbox).parent().next().next().children().val();
-				var ht_unit = $(".clicked > div:nth-child(2) > div:nth-child(2) > a:nth-child(3)").html();
+				var ht_unit = $(".clicked a.ht_unit").html();
 				var htr_con = $(checkbox).parent().next().next().next().html();
 				
 				console.log(ht_unit);
@@ -1281,7 +1394,7 @@
 		 	function editHabitRecordModal(){
 		 		
 		 		var checkbox = $("input[type='checkbox']:checked");
-		 		
+		 		var htr_date = $("#period > a").html();
 		 		var htr_no = $(checkbox).val();
 				var htr_now = $("#htr_now_m").val();
 				var htr_con = $("#htr_con_m").val();
@@ -1293,8 +1406,8 @@
 					success: function(data){
 						
 						if(data == "success"){
-							$(".clicked").trigger("click");
 							$("#edit-record").modal("hide");
+							$("."+htr_date).trigger("click");
 						}else{
 		    				alert("수정 실패, 다시 시도해 주세요.");
 		    			}
