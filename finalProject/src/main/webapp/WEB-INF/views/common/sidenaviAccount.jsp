@@ -17,12 +17,14 @@
         <nav class="left-sub-navi">
         
 	        <c:url var="mrview" value="mrview.do"/>
+	        <c:url var="ysview" value="ysview.do"/>
+	        <c:url var="msview" value="msview.do"/>
 	        
             <span>Plan</span>
             <ul>
                 <li><a href="${mrview }">Monthly Record</a></li>
-                <li><a href="#">Monthly Statistics</a></li>
-                <li class="l-last-line"><a href="#">Yearly Statistics</a></li>
+                <li><a href="${msview }">Monthly Statistics</a></li>
+                <li class="l-last-line"><a href="${ysview }">Yearly Statistics</a></li>
             </ul>
         </nav>
     </div>
