@@ -159,7 +159,7 @@
 		GROUP BY B.AEC_NO, AEC_TITLE
 	</select>
 	
-	<select id="getOverrun" parameterType="Condition" resultType="meResultSet">
+	<select id="getOverrun" parameterType="Condition" resultMap="meResultSet">
 		SELECT AEC_TITLE, AB_SUM
 		FROM (SELECT B.AEC_NO "AEC_NO", AEC_TITLE, SUM(AB_AMOUNT) "AB_SUM"
 				FROM ACCOUNT_BOOK B
