@@ -404,7 +404,7 @@ public class GroupController {
 	public void boardMainAjax(HttpServletResponse response, HttpSession session,
 			@RequestParam(value = "page", required = false) String page) throws IOException {
 		GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
-
+		Member loginUser = (Member) session.getAttribute("loginUser");
 		int currentPage = 1;
 		if (page != null) {
 			int Cpage = Integer.parseInt(page);
@@ -449,14 +449,16 @@ public class GroupController {
 		}
 		
 		response.setContentType("application/json;charset=utf-8");
-
+		
+		JSONArray mArr = new JSONArray();	// GmNo
+		JSONArray IArr = new JSONArray();	// iamge
 		JSONArray jArr = new JSONArray();
 		JSONArray pArr = new JSONArray();
 		JSONArray lArr = new JSONArray();
 		JSONArray rArr = new JSONArray();
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
+		
 		if (boardList != null) {
 			for (GroupBoard b : boardList) {
 				JSONObject jObj = new JSONObject();
@@ -543,9 +545,10 @@ public class GroupController {
 	// 게시판 상세
 	@RequestMapping(value = "detailBoard.do", method = RequestMethod.GET)
 	public ModelAndView boardDetail(ModelAndView mv, HttpSession session, @RequestParam("gbNo") String gbNo) {
+		Member loginUser = (Member) session.getAttribute("loginUser");
 		GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 		String gmNo = Integer.toString(gInfo.getGmNo());
-
+		
 		GroupNotice noticeList = gService.selectNoticeOne(gInfo);
 		
 		// 조회수 증가
@@ -570,6 +573,7 @@ public class GroupController {
 		int totalReReply = gService.totalReReplyList(gbNo);
 		int totalRe = totalReply + totalReReply;
 		
+		mv.addObject("memberPhoto", loginUser.getRename_file());
 		mv.addObject("gInfoGmNo", gmNo);
 		mv.addObject("noticeList", noticeList);
 		mv.addObject("photoList", photoList);

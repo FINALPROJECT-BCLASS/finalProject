@@ -17,75 +17,54 @@
 	.like{color:#f3487b;}
     .reply{color:#2860E1;}
 
-    .join-form-area{float: right;display: flex;justify-content: center; flex-direction: column; align-items: center; padding: 65px; width: 81%; background: #F3F3F3; }
+    .join-form-area{padding-top:150px !important;position:relative; float: right;display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 40px; width: 81%; background: #F3F3F3; }
     .material-icons{font-size:30px;}
 
-	  /* 공지 */
-    .noticeText{float: right;margin:auto; width: 81%; background:#c2c2c2; border-radius: 0 0 5px 5px;  }
-    .noticeTb{margin-left:20px;}
-    .noticeTitle{padding-top:20px; padding-left:5px;font-weight: 600; font-size: 20px;  text-shadow: 1.5px 1.5px 1.5px gray; }
-    .noticeWriter{padding-left:5px; font-size:12px; font-weight: 600;  text-shadow: 1.5px 1.5px 1.5px gray; }
-    .noticeDate{padding-left:5px; font-size:12px; font-weight: 600;  text-shadow: 1.5px 1.5px 1.5px gray; }
-    .noticeContent{padding-top:5px; padding-left:15px; padding-bottom: 20px; font-size:14px;  text-shadow: 1.5px 1.5px 1.5px gray; }
-
-    .detailBox{width:1000px; border:0.5px solid lightgray;}
-    .detailBox td{border:0.5px solid lightgray; background:white;}
-    .MemberImgBox{text-align:center;}
+	
+	/* 게시판 양식 */
+    .detailBox{width:1000px; background:white; border-radius:10px 10px 0px 0px;}
+    .MemberImgBox{text-align:center; padding:10px 0px 0px 10px;}
     .MemberImg{width:60px; height:60px; border-radius:40%;}
-    .BoardCon{}
+    .BoardTitle, .BoardName, .BoardDate, .BoardCount{display:inline-block; color:#484848;margin-right:10px;}
+    .BoardTitle, .BoardName{padding:10px 0px 0px 10px;}
+    .BoardName{font-size:15px; font-weight:600; }
+    .BoardCon{text-align:left; padding:20px 0px 20px 20px;}
+    .done{font-weight:600 !important; font-size:14px !important; padding-right:2px !important;}
+    
     .groubJoinBtn{text-align: center;}
 	
-    .contentBox{width:1000px; border:0.5px solid lightgray; text-align:center;}
+	/* 게시판 내용 칸  */
+    .contentBox{width:1000px; text-align:center;}
     .contentBox tr{background:white;}
 	.boardImg{width:50%; height: 40%;}
 	
-    .commentBox{width:100px;}
+	/* 좋아요, 댓글칸 */
+    .commentBox{width:1000px; background:white;border:1px solid #F3F3F3;}
+    
     .like {cursor:pointer;}
 
-    .replyBox{width:1000px;}
-    .replyBox td{border:0.5px solid lightgray;}
+    .replyBox{height: 40px;border-radius: 0px 0px 10px 10px; width:1000px; border-collapse:collapse; background:white; }
+    .replyBox tr{border:1px #F3F3F3 solid;}
+    .replyBox td:nth-child(1){text-align:center; width:100px;}
     .replyBox td:nth-child(2){width:800px;}
-    .replyBox td:nth-child(3){text-align: right;}
+    .replyBox td:nth-child(3){text-align: center;}
 
-    #replyWirte{border:none; border-radius: 6px; width:800px; height:30px;}
-    .reName{display:inline-block; font-weight:600;}
-    .replyBtn{background:#FBD14B; border:none;  font-weight: 600; font-size: 14px; border-radius:6px; width:60px; height:35px;}
-    .replyBtn:hover{border:#ffc400; border:none; color:#2860E1; font-weight: 600; font-size: 14px; border-radius:6px; width:60px; height:35px;}
-	.replyConBox{margin-right:10px; width:920px;border:none; border-radius: 6px; background:white;}
-	.replyReset{width:30px; display:inline-block; color:gray; font-weight:600; text-align:right; padding-bottom:9px; cursor:pointer;}
+    #replyWirte{padding: 9px 9px 0px 19px;border:none;width:800px; height:30px; border-radius:6px;}
+    .reName{display:inline-block; font-weight:600; padding-top:9px;}
+    .replyTr, .reReplyTr{height:40px;}
+    .replyBtn{background:#FBD14B; border:none;  font-weight: 600; font-size: 14px; border-radius:6px; width:67px; height:35px;}
+    .replyBtn:hover{border:#ffc400; border:none; color:#2860E1; font-weight: 600; font-size: 14px; border-radius:6px; width:67px; height:35px;}
+	.replyConBox{height:40px; margin-right:10px; width:920px;border:none; border-radius: 6px; background:white;}
+	.replyReset{margin-right:10px; padding-top:9px; width:20px; display:inline-block; color:gray; font-weight:600; text-align:right; padding-bottom:9px; cursor:pointer;}
 	.replyName{ cursor:pointer;}
+	
 	/* 대댓글 */
-	.re{display:inline-block; font-size:15px !important; margin: 0 !important; padding:0 !important; text-shodow:0 !important;}
+	.re{font-weight:600 !important; color:gray !important; display:inline-block; font-size:15px !important; margin: 0 !important; padding:0 !important; text-shodow:0 !important;}
 	.rereName{display:inline-block;}
 	
 	
     #submit{background:none; border:none; color:#2860E1; font-weight: 600; font-size: 20px; border-radius:6px; width:60px; height:35px;}
     #reset{background:none; border:none; color:#484848; font-weight: 600; font-size: 20px; width:100px;}
-
-
-  /*   .detailBox td:nth-child(1) {
-            color: #484848;
-            text-align: left;
-            font-weight: 600;
-            font-size: 16px;
-            width:100px;
-            background:lightgray;
-        }
-        
-    .detailBox td:nth-child(2) { width:400px; padding-left:10px;}
-            
-    .detailBox td:nth-child(3) {
-        color: #484848;
-        text-align: left;
-        font-weight: 600;
-        font-size: 16px;
-        width:100px;
-        background:lightgray;
-    }
-
-	.detailBox td:nth-child(4) { width:400px; padding-left:10px;} */
-	
-
 	
 </style>
 </head>
@@ -94,23 +73,11 @@
 	
 	<jsp:include page="../common/sidenaviGroup.jsp"/>
 	
-	<!-- 공지사항 -->
-
-	<div class="noticeText">
-	   	<c:if test="${!empty noticeList }">
-        <table class="noticeTb">
-          <tr>
-	          <td><span class="material-icons">campaign</span></td>
-	          <td><div class="noticeTitle">${noticeList.gnTitle }</div></td>
-          </tr>
-          <tr><td></td><td><div class="noticeWriter">${noticeList.name }</div></td></tr>
-          <tr><td></td><td><div class="noticeDate">${noticeList.gnDate }</div></td></tr>
-          <tr><td></td><td><div class="noticeContent">${noticeList.gnCon }</div></td></tr>
-        </table>
-        </c:if>
-      </div>
 	
     <div class="join-form-area">
+    
+    <jsp:include page="../common/groupNoticeHeader.jsp"/>
+    
         <h1>Group Diary</h1>
         <h4 class="pSubject">Board Detail</h4><br>
             <div class="groupJoin">
@@ -118,27 +85,35 @@
                     <tr>
                         <td rowspan="2" style="width:20px">
                         	<div class="MemberImgBox">
-                        		<img src="resources/muploadFiles/user1_202007161115.jpg" class="MemberImg">
+                        		<c:if test="${empty memberPhoto }">
+                        			 <img src="resources/images/icons/profile_default.png" class="MemberImg">
+                        		</c:if>
+                        		<c:if test="${!empty memberPhoto }">
+                        			<img src="resources/muploadFiles/${memberPhoto }" class="MemberImg">
+                        		</c:if>
                         	</div>
                         </td>
                         <td>
-                        	<div class="BoardCon">
+                        	<div class="BoardTitle">
                         		${boardList.gbTitle }
                         	</div>
                         </td>
-                        <td>조회수</td>
-                        <td>${boardList.gbCount }</td>
+                       
+                      
                     </tr>
                     <tr>
-                        
-                        <td>${boardList.name }</td>
-                        <td>작성시간</td>
-                        <td>${boardList.gbDate }</td>
+                        <td>
+                        	<div class="BoardName">${boardList.name }</div>
+                        	<div class="BoardDate">${boardList.gbDate }</div>
+                        	<div class="BoardCount">
+                        	<span class="material-icons done">done</span>
+                        	${boardList.gbCount }</div>
+                        </td>
                     </tr>
                 </table>
                 <table class="contentBox">
                     <tr>
-                        <td>${boardList.gbCon }</td>
+                        <td><div class="BoardCon">${boardList.gbCon }</div></td>
                     </tr>
                     
 					<c:if test="${empty photoList }">
@@ -154,23 +129,25 @@
 					</c:if>
 						
                 </table>
-                <table class="commentBox">
-                    <tr>
-                        <td>
-                        	<c:if test="${empty likeList }">
-                        		<span class="material-icons like">favorite_border</span>
-                        	</c:if>
-                        	<c:if test="${!empty likeList }">
-                        		<span class="material-icons like">favorite</span>	
-                        	</c:if>
-                        </td>
-                        <td style="width:25px"><span class="titalLike">${totalLike }</span></td>
-                        <td>
-                      	  <span class="material-icons reply">sms</span>
-                        </td>
-                        <td><div class="totalReply">${totalReply }</div></td>
-                    </tr>
-                </table>
+                <div class="commentBox">
+	                <table class="commentBoxTb">
+	                    <tr>
+	                        <td>
+	                        	<c:if test="${empty likeList }">
+	                        		<span class="material-icons like">favorite_border</span>
+	                        	</c:if>
+	                        	<c:if test="${!empty likeList }">
+	                        		<span class="material-icons like">favorite</span>	
+	                        	</c:if>
+	                        </td>
+	                        <td><span class="titalLike">${totalLike }</span></td>
+	                        <td>
+	                      	  <span class="material-icons reply">sms</span>
+	                        </td>
+	                        <td><div class="totalReply">${totalReply }</div></td>
+	                    </tr>
+	                </table>
+                </div>
                 <table class="replyBox">
                 	<tbody>
                 	<c:if test="${empty replyList }"><!-- 댓글이 없을 경우 -->
@@ -186,6 +163,9 @@
 			                        <td><div class="replyName">${r.name }</div></td>
 			                        <td><div class="replyCon">${r.grCon }</div></td>
 			                        <td><div class="replyDate">${r.grDate }</div></td>
+			                        <c:if test="${gInfoGmNo eq  r.gmNo}">
+			                        	<td><div class="replyReset replyDelete">x</div></td>
+			                        </c:if>
 			                    </tr>
 		                    
 		                    
@@ -196,6 +176,9 @@
 					                        <td><span class="material-icons re">subdirectory_arrow_right</span><div class="rereName">${re.name }</div></td>
 					                        <td><div class="replyCon">${re.grrCon }</div></td>
 					                        <td><div class="replyDate">${re.grrDate }</div></td>
+					                        <c:if test="${gInfoGmNo eq  re.gmNo}">
+			                        			<td><div class="replyReset reReplyDelete">x</div></td>
+			                      			</c:if>
 					                    </tr>
 				                    </c:if>
 			                    </c:forEach><!-- reReplyList  -->
@@ -263,7 +246,7 @@
       		   var $replyName;
       		   var $reset;
          	 $(document).on("click",".replyName",function(){
-				
+				$(".replyConBox").css({"justify-content":"center", "align-item":"center","display":"flex"});
 				 $replyNameLocation  = $(this);
          		
               	grNo = $(this).closest(".replyTr").prev().val();

@@ -30,7 +30,7 @@
     .btnList{width:100%; text-align:right;}
     .groupBtn{border:none; font-weight: 600; background:none;}
     .BoardBtn{color:#2860E1; font-size: 21px;}
-    .join-form-area{position:relative; float: right;display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 40px; width: 81%; background: #F3F3F3; }
+    .join-form-area{padding-top:150px !important;position:relative; float: right;display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 40px; width: 81%; background: #F3F3F3; }
     .groupJoin{width:900px;}
     
     /* 구글 아이콘 */
@@ -39,12 +39,7 @@
     .like{color:#f3487b;}
     .reply{color:#2860E1;}
     
-    /* 공지 */
-    .noticeText{    background: linear-gradient(#285fe1b3, #2860E1 ) fixed; box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.048); position:absolute; top:0; float: right; margin:auto; width: 100%; }
-    .noticeTb{margin-left:20px;}
-    .noticeTitle{padding-top:20px; padding-left:5px; font-size: 20px; color:#F3F3F3; }
-    .noticeWriter, .noticeDate {padding-left:5px; font-size:12px; font-weight: 600;  color:#F3F3F3; }
-    .noticeContent{padding-top:5px; padding-left:15px; padding-bottom: 20px; font-size:14px; color:#F3F3F3; }
+   
 	
 	/* 글쓰기 버튼 */
 	#groupWrite {text-align:right; width:100%; height: 50px; margin-right:40px; margin-bottom:10px; border:none;}
@@ -92,23 +87,10 @@
 
       
       <div class="join-form-area">
-	<!-- 공지사항 -->
-
-	<div class="noticeText">
-	   	<c:if test="${!empty noticeList }">
-        <table class="noticeTb">
-          <tr>
-	          <td><span class="material-icons noticeIcon">campaign</span></td>
-	          <td><div class="noticeTitle">${noticeList.gnTitle }</div></td>
-          </tr>
-          <tr><td></td><td><div class="noticeWriter">${noticeList.name }</div></td></tr>
-          <tr><td></td><td><div class="noticeDate">${noticeList.gnDate }</div></td></tr>
-          <tr><td></td><td><div class="noticeContent">${noticeList.gnCon }</div></td></tr>
-        </table>
-        </c:if>
-      </div>
+	
+  		<jsp:include page="../common/groupNoticeHeader.jsp"/>
   		
-  		<div>
+  		
         <h1>Group Diary</h1>
         <div class="btnList">
             <button class="groupBtn noticeBtn" onclick="location.href='noticeMain.do'">Notice</button>
@@ -130,7 +112,7 @@
  
           </div>
 		</div>
-	  </div>
+
 
 	
 	  <!-- 스크롤 게시판 -->
@@ -199,7 +181,8 @@
                 	var $td6 = $("<td>").attr("class","etcBox");
                 	
                 	
-                	var $emoticon = $("<span>").text("perm_identity").attr("class","material-icons");
+                	var $emoticon = $("<div>").attr("class","MemberImgBox");
+                	var $memberImg = $("<img>");
                 	var $detailPage = $("<div>").text("Detail").attr("class","detailBtn");
                 	var $gbNo = $("<input type='hidden' id='gbNo' value='"+ data.boardList[i].gbNo +"'>");
                 	var $boardTitle = $("<div>").text(data.boardList[i].gbTitle).attr("class","noticeBoardTitle");
@@ -210,6 +193,8 @@
                  	var $reply = $("<span>").text("sms").attr("class","material-icons reply");
                  	
                  	$td1.append($gbNo);
+                 	
+                 	$emoticon.append($memberImg);
                		$td1.append($emoticon);
                		$td1.append($boardTitle);
                		$td1.append($detailPage);
