@@ -12,6 +12,8 @@
 
     h1, h4{margin-top:20px; text-align:center;}
 	
+	input:focus {outline:none;}
+	
 	 /* 구글 아이콘 */
     .material-icons{font-size:30px !important; padding-top:12px; padding-left: 10px; padding-right: 10px;  }
 	.like{color:#f3487b;}
@@ -57,6 +59,8 @@
 	.replyConBox{height:40px; margin-right:10px; width:920px;border:none; border-radius: 6px; background:white;}
 	.replyReset{margin-right:10px; padding-top:9px; width:20px; display:inline-block; color:gray; font-weight:600; text-align:right; padding-bottom:9px; cursor:pointer;}
 	.replyName{ cursor:pointer;}
+	
+	.replyDate{display:inline-block;}
 	
 	/* 대댓글 */
 	.re{font-weight:600 !important; color:gray !important; display:inline-block; font-size:15px !important; margin: 0 !important; padding:0 !important; text-shodow:0 !important;}
@@ -321,20 +325,23 @@
                        		var $td1 = $("<td>");
                        		var $td2 = $("<td>");
                        		var $td3 = $("<td>");
+                       		var $td4 = $("<td>");
                        		
                        		var $name = $("<div>").text(data.replyList[i].name).attr("class","replyName");
                        		var $content = $("<div>").text(data.replyList[i].grCon).attr("class","replyCon");
                        		var $date = $("<div>").text(data.replyList[i].grDate).attr("class","replyDate");
-                       		
+                       		var $replyDelete = $("<div>").text("x").attr("class","replyReset replyDelete");
                        		
                        		
                        		$td1.append($name);
                        		$td2.append($content);
                        		$td3.append($date);
+                       		$td4.append($replyDelete);
                        		
                        		$tr.append($td1);
                        		$tr.append($td2);
                        		$tr.append($td3);
+                       		$tr.append($td4);
                        		
                        		$replyBox.prepend($tr);
                        		$replyBox.prepend($grNo);
@@ -364,16 +371,10 @@
    				if(grrCon == ""){
              		 alert("댓글을 입력해주세요.");
                	 } else {
-/*                		var gmNo = ${gInfoGmNo};
-                   	var gbNo = ${boardList.gbNo};
-             
-                   	console.log("grNO :  " + grNo); */
-                   	
                    	// re댓글
         			$.ajax({
              			url:"reReplyAjax.do",
            				type: "GET",
-           			 /* async:false, */
                         dataType: "json",
                      	data:{gmNo:gmNo, grNo:grNo, gbNo:gbNo, grrCon:grrCon},
                      	success:function(data){
@@ -386,24 +387,29 @@
                      		 
                      		 var $replyTr = $replyNameLocation.closest(".replyTr");
                      		   
-                     		 var $tr = $("<tr>");
+                     		 var $tr = $("<tr>").attr("class","reReplyTr");
                      		 var $td1 = $("<td>");
                      		 var $td2 = $("<td>");
                      		 var $td3 = $("<td>");
+                     		 var $td4 = $("<td>");
                      		     
                      		 var $re = $("<span>").text("subdirectory_arrow_right").attr("class","material-icons re");
                 			 var $rereName = $("<div>").text(data.reReplyList[i].name).attr("class","rereName");
                 			 var $rereCon = $("<div>").text(data.reReplyList[i].grrCon);
                 			 var $rereDate = $("<div>").text(data.reReplyList[i].grrDate);
-                			
+                			 var $reReplyDelete = $("<div>").text("x").attr("class","replyReset reReplyDelete");
+                			 
+                			 
                 			 $td1.append($re);
                 			 $td1.append($rereName);
                 			 $td2.append($rereCon);
                 			 $td3.append($rereDate);
+                			 $td4.append($reReplyDelete);
                 			 
                 			 $tr.append($td1);
                 			 $tr.append($td2);
                 			 $tr.append($td3);
+                			 $tr.append($td4);
                 			 
                 			 $replyTr.after($tr);
                 		  }  
@@ -423,8 +429,36 @@
      			 
          </script>
          
-         
-         
+         <!-- 댓글 삭제 -->
+			<script>
+         	 $(document).on("click",".replyDelete",function(){
+         		var deleteConfirm = confirm("댓글을 삭제하시겠습니까?");
+         		if(deleteConfirm){
+					var deleteCon = $(this).parent().prev().prev().children();
+         			var deleteTr = $(this).closest(".replyTr");
+					var deleteInput = deleteTr.prev();
+         			var grNo = deleteInput.val();
+					deleteInput.remove();
+					
+					
+        			$.ajax({
+             			url:"replyDelete.do",
+           				type: "GET",
+                        /* dataType: "json", */
+                     	data:{grNo:grNo},
+                     	success:function(data){                     	
+                     		console.log(data);
+                     		deleteCon.val("삭제한 댓글입니다.");
+                    	},
+                   	  	error:function(request, status, errorData){
+      						alert("error code: " + request.status + "\n"
+      								+"message: " + request.responseText
+      								+"error: " + errorData);
+      					}
+         		})
+         		}
+			})
+ 			</script>        
          
          
          

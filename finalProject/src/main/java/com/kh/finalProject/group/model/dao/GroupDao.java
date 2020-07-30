@@ -180,6 +180,10 @@ public class GroupDao {
 	public ArrayList<GroupReReply> totalReReply() {
 		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.totalReReply");
 	}
+
+	public int deleteReply(String grNo) {
+		return sqlSessionTemplate.update("groupMapper.deleteReply",grNo);
+	}
 	
 	
 	

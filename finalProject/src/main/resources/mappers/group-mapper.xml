@@ -409,4 +409,10 @@
 		FROM GROUP_REREPLY
 		GROUP BY GB_NO
 	</select>
+	
+	<update id="deleteReply" parameterType="string">
+		UPDATE GROUP_REPLY 
+		SET GR_DELETE = 'N'
+		WHERE GR_NO = #{grNo}
+	</update>
 </mapper>

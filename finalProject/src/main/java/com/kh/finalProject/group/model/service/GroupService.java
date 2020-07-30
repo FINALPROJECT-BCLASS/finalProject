@@ -90,6 +90,8 @@ public interface GroupService {
 
 	ArrayList<GroupReReply> totalReReply();
 
+	int deleteReply(String grNo);
+
 
 
 }

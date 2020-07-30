@@ -35,7 +35,7 @@
 	
     .emptyNoticeList{margin-top:100px; text-align:center; font-size:20px; font-weight:600;}
     /* 공지게시판 */
-    .memberImgBox{width:40px; height:40px; display:inline-block;margin:10px;}
+    .memberImgBox{width:50px; height:50px; display:inline-block;margin:10px;}
    	.memberImg{width:100%; height:100%;border-radius:50%; }
     
     .groupNotice{width:100%; height:400px;overflow:scroll; overflow-x:hidden;}

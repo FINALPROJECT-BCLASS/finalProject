@@ -693,10 +693,8 @@ public class GroupController {
 //		ArrayList<GroupReReply> reReplyList = gService.selectReReplyList(grr);
 		
 		int reReplyCurrval = gService.reReplyCurrval();
-		System.out.println("대댓글 ajax reReplyCurrval : " + reReplyCurrval);
 		
 		ArrayList<GroupReReply> reReplyList = gService.selectOneReReplyList(reReplyCurrval);
-		System.out.println("대댓글 ajax reReplyList : " + reReplyList);
 		
 		int totalReply = gService.totalReplyList(gbNo);
 
@@ -758,4 +756,22 @@ public class GroupController {
 			System.out.println("댓글 ajax 실패하였습니다.");
 		}
 	}
+	
+		// 댓글 삭제
+		@RequestMapping(value = "replyDelete.do", method = RequestMethod.GET)
+		public void deleteReply(HttpServletResponse response, @RequestParam(value = "grNo") String grNo) throws IOException {
+			System.out.println("오냐");
+			int result = gService.deleteReply(grNo);
+			System.out.println("댓글삭제 result : " + result);
+			
+			response.setContentType("application/json;charset=utf-8");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+			PrintWriter out = response.getWriter();
+			out.print("삭제 성공");
+			out.flush();
+			out.close();
+
+		}
+
 }
