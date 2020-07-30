@@ -316,6 +316,7 @@ public class GroupController {
 				jObj.put("gnDelete", n.getGnDelete());
 				jObj.put("gnCount", n.getGnCount());
 				jObj.put("name", n.getName());
+				jObj.put("renameFile", n.getRenameFile());
 
 				jArr.add(jObj);
 			}
@@ -450,12 +451,12 @@ public class GroupController {
 		
 		response.setContentType("application/json;charset=utf-8");
 		
-		JSONArray mArr = new JSONArray();	// GmNo
-		JSONArray IArr = new JSONArray();	// iamge
+		
 		JSONArray jArr = new JSONArray();
 		JSONArray pArr = new JSONArray();
 		JSONArray lArr = new JSONArray();
 		JSONArray rArr = new JSONArray();
+		
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
@@ -475,6 +476,7 @@ public class GroupController {
 				jObj.put("gbDelete", b.getGbDelete());
 				jObj.put("gbCount", b.getGbCount());
 				jObj.put("name", b.getName());
+				jObj.put("renameFile", b.getRenameFile());
 
 				jArr.add(jObj);
 			}
@@ -525,6 +527,7 @@ public class GroupController {
 						sendJson.put("photoList", pArr);
 						sendJson.put("likeList", lArr);
 						sendJson.put("replyList", rArr);
+						
 						
 						PrintWriter out = response.getWriter();
 						out.print(sendJson);

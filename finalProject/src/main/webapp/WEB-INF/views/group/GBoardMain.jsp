@@ -52,8 +52,13 @@
     .groupNotice{width:100%; height:400px;overflow:scroll; overflow-x:hidden;}
     .noticeBoardTb{width:100%; margin-bottom:5px; background:white;border:0.5px solid lightgray; border-radius:10px;}
     .noticeBoardTitle{display:inline-block; padding-top:20px; padding-left:5px;font-weight: 600; font-size: 20px;}
+    
    	.detailBtn{display:inline-block; margin:10px 10px 0px 0px; float:right; padding:7.2px; display:inline-block; border:none; border-radius:6px; width:60px; height:35px; background:#FBD14B;}
    	.detailBtn:hover{display:inline-block; margin:10px 10px 0px 0px; float:right; padding:7.2px; display:inline-block; border:none; border-radius:6px; width:60px; height:35px; background:#ffc400; cursor:pointer;}
+   	
+   	.memberImgBox{width:50px; height:50px; display:inline-block;margin:10px;}
+   	.memberImg{width:100%; height:100%;border-radius:50%; }
+    
     .noticeBoardWriter{padding-left:37px; font-size:12px; font-weight: 600;}
     .noticeBoardDate{padding-left:37px; font-size:12px; font-weight: 600;}
     .noticeBoardContent{margin-left:37px; margin-top:10px; padding-top:5px;padding-left:15px; width:1050px; height:70px; overflow:scroll; overflow-x:hidden; font-size:13px; background: #F3F3F3; border-radius: 5px; margin-bottom: 7px;}
@@ -149,7 +154,7 @@
                dataType: "json",
                data:{page:pagePlus},
                success: function(data){
-
+				
               	 page = data.boardList[0].page;
               	 pagePlus = page + 1;
               	 
@@ -163,6 +168,7 @@
                        isEnd = true;
                    }
                     for(i in data.boardList){
+                    
                   	var $groupBoard = $(".groupNotice");
                   	var $boardTb = $("<table>").attr("class","noticeBoardTb");
                   	
@@ -182,19 +188,26 @@
                 	
                 	
                 	var $emoticon = $("<div>").attr("class","MemberImgBox");
-                	var $memberImg = $("<img>");
+                	var $memberNoImg = $("<img>").attr("class","memberImg").attr("src","resources/images/icons/profile_default.png");
+                	var $memberImg = $("<img>").attr("class","memberImg").attr("src","resources/muploadFiles/"+data.boardList[i].renameFile);
+                	
                 	var $detailPage = $("<div>").text("Detail").attr("class","detailBtn");
                 	var $gbNo = $("<input type='hidden' id='gbNo' value='"+ data.boardList[i].gbNo +"'>");
+                	
                 	var $boardTitle = $("<div>").text(data.boardList[i].gbTitle).attr("class","noticeBoardTitle");
                   	var $boardWriter = $("<div>").text(data.boardList[i].name).attr("class","noticeBoardWriter");
                   	var $boardDate = $("<div>").text(data.boardList[i].gbDate).attr("class","noticeBoardDate");
                   	var $boardContent = $("<div>").text(data.boardList[i].gbCon).attr("class","noticeBoardContent");
-                 	var $like = $("<span>").text("favorite_border").attr("class","material-icons like");
+                 	
+                  	var $like = $("<span>").text("favorite_border").attr("class","material-icons like");
                  	var $reply = $("<span>").text("sms").attr("class","material-icons reply");
                  	
                  	$td1.append($gbNo);
-                 	
-                 	$emoticon.append($memberImg);
+                 	if(data.boardList[i].renameFile == null){
+                 		$emoticon.append($memberNoImg);
+                 	}else{
+                 		$emoticon.append($memberImg);
+                 	}
                		$td1.append($emoticon);
                		$td1.append($boardTitle);
                		$td1.append($detailPage);
@@ -257,7 +270,7 @@
                   	
                   	// 사진
                   	if(data.photoList.length > 0){
-                   		/* console.log("사진 legnth : " + data.photoList.length); */
+                  
                    		for(j in  data.photoList){
                    			if(data.boardList[i].gbNo == data.photoList[j].gbNo){
                    				var $img = $("<img src='resources/groupMainFiles/"+data.photoList[j].gbpOrigin+"' class='boardPhotoList'>");
@@ -273,11 +286,7 @@
                   	
                   	$boardTb.append($tr6);
                   	$groupBoard.append($boardTb); 
-                    
-                  	
-                	
-                   	
-                   	
+
                    	}
                 
                },

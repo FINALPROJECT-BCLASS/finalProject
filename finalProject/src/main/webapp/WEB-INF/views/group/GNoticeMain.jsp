@@ -35,13 +35,15 @@
 	
     .emptyNoticeList{margin-top:100px; text-align:center; font-size:20px; font-weight:600;}
     /* 공지게시판 */
+    .memberImgBox{width:40px; height:40px; display:inline-block;margin:10px;}
+   	.memberImg{width:100%; height:100%;border-radius:50%; }
     
     .groupNotice{width:100%; height:400px;overflow:scroll; overflow-x:hidden;}
     .noticeBoardTb{margin-bottom:10px; margin-right:5px; border-radius:6px; width:100%; background:white;border:0.5px solid lightgray;}
-    .noticeBoardTitle{padding-top:20px; padding-left:10px;font-weight: 600; font-size: 20px;}
-    .noticeBoardWriter{padding-left:5px; font-size:12px; font-weight: 600;}
-    .noticeBoardDate{padding-left:10px; font-size:12px; font-weight: 600;}
-    .noticeBoardContent{padding-top:5px; padding-left:10px; height:50px; overflow:scroll; overflow-x:hidden; overflow-y:hidden; font-size:13px;}
+    .noticeBoardTitle{display:inline-block;padding-top:20px;font-weight: 600; font-size: 20px;}
+    .noticeBoardWriter{padding-left:40px; font-size:12px; font-weight: 600;}
+    .noticeBoardDate{padding-left:40px; font-size:12px; font-weight: 600;}
+    .noticeBoardContent{padding-top:5px; padding-left:40px; height:50px; overflow:scroll; overflow-x:hidden; overflow-y:hidden; font-size:13px;}
 	
 	/* 수정버튼  */
 	.aditBtn{border:none; cursor:pointer; padding-top:6px; text-align:center; border-radius:6px; background:#FBD14B; width:60px; height:35px; margin:0 auto;}
@@ -203,6 +205,10 @@
 	                    	var $td4 = $("<td>");
 	                    	var $td5 = $("<td>").attr("class","td5");
 	                    	
+	                    	var $emoticon = $("<div>").attr("class","MemberImgBox");
+	                    	var $memberNoImg = $("<img>").attr("class","memberImg").attr("src","resources/images/icons/profile_default.png");
+	                    	var $memberImg = $("<img>").attr("class","memberImg").attr("src","resources/muploadFiles/"+data.noticeList[i].renameFile);
+	                    	
 	                    	var $noticeBoardTitle = $("<div>").text(data.noticeList[i].gnTitle).attr("class","noticeBoardTitle");
 	                    	var $titleInput = $("<input type='hidden' id='noticeTitle' value='"+ data.noticeList[i].gnTitle+"'>");
 	                    	
@@ -216,6 +222,14 @@
 	                    	var $gnNo = $("<input type='hidden' id='gnNo' value='"+data.noticeList[i].gnNo+"'>");
 	                    	
 	                    	if(gInfo != data.noticeList[i].gmNo){
+	                    		
+	                    		if(data.noticeList[i].renameFile == null){
+	                         		$emoticon.append($memberNoImg);
+	                         	}else{
+	                         		$emoticon.append($memberImg);
+	                         	}
+	                    		
+	                    		$td1.append($emoticon);
 	                    		$td1.append($noticeBoardTitle);
 	                    		$td1.append($titleInput);
 		                    	$tr1.append($td1);
@@ -233,6 +247,13 @@
 		                    	
 	                    	
 	                    	} else{
+	                    		if(data.noticeList[i].renameFile == null){
+	                         		$emoticon.append($memberNoImg);
+	                         	}else{
+	                         		$emoticon.append($memberImg);
+	                         	}
+	                    		
+	                    		$td1.append($emoticon);
 	                    		$td1.append($noticeBoardTitle);
 	                    		$td1.append($titleInput);
 		                    	$tr1.append($td1);
