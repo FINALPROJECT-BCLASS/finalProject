@@ -778,13 +778,13 @@
         </div>
 		
 		<!-- Calendar -->
-		<script type="text/javascript"  src="https://code.jquery.com/jquery-2.2.4.min.js"
+		<!-- <script type="text/javascript"  src="https://code.jquery.com/jquery-2.2.4.min.js"
         integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script> -->
 		<script type="text/javascript"  src='resources/js/simpleCalendar/jquery.simple-calendar.js'></script>
 		<script>
 		
-			var paramdate;
+			var htDate;
 	
 			$(".content").hide();
 			
@@ -819,6 +819,8 @@
    					success:function(data){
    					
    					$(".event").removeClass("event");
+                	$(".today").css("background", data.list.ht_color);
+                	
    					var eventDates = [];	
    						
                 	for(var i in data.hrclist) {
@@ -826,9 +828,7 @@
  	   					$("." + data.hrclist[i].htr_date).addClass("event");
 					}
                 	
-                	$(".today").css("background", data.list.ht_color);
-
-      	            console.log("잘 저장 되나?" + eventDates);
+                	/* Calendar */
       	         
       	            $("#event-cal-container").simpleCalendar({
       	            	insertEvent: true,
@@ -837,25 +837,67 @@
       	               	events: eventDates,
       	              	selectCallback: function(date){
       	              		
-      	              		var check = date.replace(/-/g, "/");
-      	              		var day = check.substr(2);
-      	              		var month = check.substr(2,5);
+      	              		var change = date.replace(/-/g, "/");
+      	              		var day = change.substr(2);
+      	              		var month = change.substr(2,5);
       	              		var htCycle = $("#period").html();
       	              		var htNum =$(".clicked").prev("#htNum").val();
       	  				
       	  					if(htCycle == "Today" || htCycle == "This Week") {
-      	  						paramdate = day;
+      	  						htDate = day;
       	  					}else if(htCycle == "This Month"){
-      	  						paramdate = month;
+      	  						htDate = month;
       	  					}
       	  					
 	      	  					$.ajax({url: "habitDateSelectList.do",
 	      	  	   					type: "post",
-	      	     					data: {htNum:htNum, htDate:paramdate, htCycle:htCycle},
+	      	     					data: {htNum:htNum, htDate:htDate, htCycle:htCycle},
 	      	     					dataType:"json",
-	      	     					success:function(data){
+	      	     					success:function(caldata){
 	      	     						
-	      	     						console.log(data);
+	      	     						console.log(caldata);
+	      	     						
+	      	     						
+	      	     							
+	      	     							$tableBody = $("#habit-record");
+	      	     							$tableBody.html("");
+	      	     	   						
+	      	     	   						var $tr;
+	      	     	   						var $tdCheckbox;
+	      	     	   						var $tdTime;
+	      	     	   						var $tdNow;
+	      	     	   						var $tdCon;
+	      	     	   						var sum = 0;
+	      	     						
+	      	     							for(var i in caldata.hrc) {
+	      	     								
+	      	     								var checkbox = "<input type='checkbox' value='"+ caldata.hrc[i].htr_no + "' id='check"+ i +"' name='check" + i +"'>" + "<label for='check"+i+"'>" + "</label>";
+	      	     		   						var htNow = "+" + caldata.hrc[i].htr_now + data.list.ht_unit + "<input type='hidden' id='htr_now_hidden' value='"+ caldata.hrc[i].htr_now +"'>";
+	      	     		   						
+	      	     		   						
+	      	     		   						sum += + caldata.hrc[i].htr_now;
+	      	     		   						
+	      	     								$tr = $("<tr>");
+	      	     								$tdCheckbox = $("<td>").append(checkbox);
+	      	     								$tdTime = $("<td>").text(caldata.hrc[i].htr_time);
+	      	     								$tdNow = $("<td>").append(htNow);
+	      	     								$tdCon=$("<td>").text(caldata.hrc[i].htr_con);
+	      	     								
+	      	     								$tr.append($tdCheckbox);
+	      	     								$tr.append($tdTime);
+	      	     								$tr.append($tdNow);
+	      	     								$tr.append($tdCon);
+	      	     								$tableBody.append($tr);
+	      	     								
+	      	     							}
+	      	     							
+	      	     							//프로그레스 구역 내의 소제목
+	      	     							$("#period").html(date);
+	      	     							
+	      	     							//현재 값
+	      	     	   						$("#now").html(sum);
+	      	     							
+	      	     						
 	      	     						
 	      	     					},
 	      	     					error:function(request, status, errorData){

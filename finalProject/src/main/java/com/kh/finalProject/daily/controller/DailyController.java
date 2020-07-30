@@ -411,7 +411,7 @@ public class DailyController {
 		}
 	}
 
-	
+	// 캘린더에 이벤트 날짜 표시
 	@RequestMapping(value="habitDateSelectList.do", method=RequestMethod.POST)
 	public void selectHabitDateList(HttpServletRequest request,
 									HttpServletResponse response,
@@ -433,11 +433,31 @@ public class DailyController {
 		hr.setHtr_time(htCycle);
 		hr.setHtr_date(htDate);
 		
-		System.out.println("나오는지?" + hr);
-		
 		ArrayList<HabitRecord> hArr = dailyService.selectHabitRecordListD(hr);
 		
-		System.out.println("제대로 나옵니까?" + hArr);
+		JSONArray HabitRecordC = new JSONArray();
+		
+		// 이번 주로 조회한 습관 기록 배열에 담기
+		for(HabitRecord hrc : hArr) {
+			
+			JSONObject jObj = new JSONObject();
+			jObj.put("htr_no", hrc.getHtr_no());
+			jObj.put("htr_month", hrc.getHtr_month());
+			jObj.put("htr_time", hrc.getHtr_time());
+			jObj.put("htr_now", hrc.getHtr_now());
+			jObj.put("htr_con", hrc.getHtr_con());
+			
+			HabitRecordC.add(jObj);
+			
+		}
+		
+		JSONObject HRC = new JSONObject();
+		
+		HRC.put("hrc", HabitRecordC);
+		
+		out.print(HRC);
+		out.flush();
+		out.close();
 		
 		
 	}

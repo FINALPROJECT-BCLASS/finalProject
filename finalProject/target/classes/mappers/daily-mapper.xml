@@ -160,7 +160,7 @@
 		AND HT.HT_DELETE = 'N'
 		AND HTR.HTR_DELETE = 'N'
 		AND HTR_DATE BETWEEN TO_DATE(TRUNC(SYSDATE,'IW'), 'YY/MM/DD') 
-                   		 AND TO_DATE(TRUNC(SYSDATE,'IW') + 7, 'YY/MM/DD')
+                   		 AND TO_DATE(TRUNC(SYSDATE,'IW') + 6, 'YY/MM/DD')
 		GROUP BY HT.HT_NO
 	</select>
 	
@@ -193,21 +193,22 @@
 		AND HT.HT_DELETE= 'N'
 	</select>
 	
-	<select id="selectHabitRecordListD" parameterType="HabitRecord" resultMap="habitRecordResultSet">
-		SELECT HTR_NO, ID, HT_NO, TO_CHAR(HTR_DATE, 'HH:MI') AS "HTR_DATE", HTR_NOW, HTR_CON, HTR_DELETE
+	<select id="selectHabitRecordListD" parameterType="HabitRecord" resultMap="habitRecordResultSet_2">
+		SELECT HTR_NO, ID, HT_NO, TO_CHAR(HTR_DATE, 'HH:MI') AS "HTR_TIME", TO_CHAR(HTR_DATE, 'YYYY-MM-DD') AS "HTR_MONTH", HTR_NOW, HTR_CON, HTR_DELETE
 		FROM HABIT_TRACKER_RECORD
 		WHERE ID=#{id}
 		AND HT_NO=#{ht_no}
-		<if test='htr_time != null and htr_time == "Today"'>
+		AND HTR_DELETE='N'
+		<if test='htr_time == "Today"'>
 		AND TO_CHAR(HTR_DATE, 'YY/MM/DD')=#{htr_date}
 		</if>
-		<if test='htr_time != null and htr_time == "This Week"'>
-		AND TO_CHAR(HTR_DATE, 'YY/MM/DD')=#{htr_date}
+		<if test='htr_time == "This Week"'>
+		AND HTR_DATE BETWEEN TO_CHAR(TRUNC(TO_DATE(#{htr_date}, 'YY/MM/DD'),'iw')  ,'YY/MM/DD')
+                   		 AND TO_CHAR(TRUNC(TO_DATE(#{htr_date}, 'YY/MM/DD'),'iw') + 6  ,'YY/MM/DD')
 		</if>
-		<if test='htr_time != null and htr_time == "This Month"'>
+		<if test='htr_time == "This Month"'>
 		AND TO_CHAR(HTR_DATE, 'YY/MM')=#{htr_date}
 		</if>
-		AND HTR_DELETE='N'
 		ORDER BY HTR_DATE DESC
 	</select>
 	
