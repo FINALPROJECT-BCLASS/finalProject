@@ -38,7 +38,7 @@
 	<!-- webSocket handlers -->
 	
 	<websocket:handlers>
-		<websocket:mapping handler="oneToOneChatHandler" path="/echo"/>
+		<websocket:mapping handler="oneToOneChatHandler" path="/echoroom"/>
 		<websocket:handshake-interceptors>
 			<beans:bean
 				class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />

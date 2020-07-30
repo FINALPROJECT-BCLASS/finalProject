@@ -20,4 +20,8 @@ public interface ChatService {
 
 	int insertChatmsg(HashMap<String, Object> dbmap);
 
+	ArrayList<Chat> selectchatroom(String id);
+
+	Chat selectchatroomdetail(String co_no);
+
 }

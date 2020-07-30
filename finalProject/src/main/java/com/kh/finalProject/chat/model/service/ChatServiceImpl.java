@@ -51,5 +51,17 @@ public class ChatServiceImpl implements ChatService{
 		
 		return cDao.insertChatmsg(dbmap);
 	}
+
+	@Override
+	public ArrayList<Chat> selectchatroom(String id) {
+
+		return cDao.selectchatroom(id);
+	}
+
+	@Override
+	public Chat selectchatroomdetail(String co_no) {
+		
+		return cDao.selectchatroomdetail(co_no);
+	}
 	
 }

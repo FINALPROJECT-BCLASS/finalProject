@@ -140,4 +140,27 @@ public class ChatController {
 		
 	}
 	
+	@RequestMapping("chatroom.do")
+	public ModelAndView chatroomView(ModelAndView mv,HttpSession session) {
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		
+		
+		ArrayList<Chat> ch = cService.selectchatroom(loginUser.getId());
+		System.out.println("ch : " + ch);
+		mv.addObject("chroomlist", ch).setViewName("chat/chatroomlist");
+		return mv;
+	}
+	
+	@RequestMapping("chatroomdetail.do")
+	public ModelAndView chatroomdetail(ModelAndView mv,HttpSession session,
+										@RequestParam(value="co_no") String co_no) {
+		
+		Chat ch = cService.selectchatroomdetail(co_no); //임시
+		System.out.println("ch : " + ch);
+		mv.addObject("ch", ch).setViewName("chat/chatOneToOne");
+		
+		return mv;
+	}
+	
 }
