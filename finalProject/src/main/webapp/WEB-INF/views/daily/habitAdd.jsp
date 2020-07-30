@@ -205,37 +205,39 @@
 	<jsp:include page="../common/sidenaviDaily.jsp"/>
     <div class="right-area">
         <div>
-            <form action="#">
+            <form action="insertHabit.do" method="post">
                 <span class="pSubject">Add Habit</span>
                 <table cellpadding="6px">
                     <tr>
                         <td>Name</td>
-                        <td><input type="text"></td>
+                        <td><input type="text" name="ht_title"></td>
                     </tr>
                     <tr>
                         <td>Type</td>
-                        <td class="b-flex">
-                            <input type="radio" name="type" id="count" checked>
+                        <td class="type b-flex">
+                            <input type="radio" name="type" id="count" value="count" checked>
                             <label class="b-check" for="count"><div class="b-white"></div>&nbsp;Count</label>
-                            <input type="radio" name="type" id="check">
+                            <input type="radio" name="type" id="check" value="check">
                             <label class="b-check" for="check"><div class="b-white"></div>&nbsp;Check</label>
                         </td>
+                        <input type="hidden" id="h-type" name="ht_type" value="count">
                     </tr>
                     <tr>
                         <td>Goal</td>
-                        <td><input type="text" placeholder="목표치를 숫자로 입력하세요. ex. 10, 20, 1000"></td>
+                        <td><input type="text" name="ht_goal" placeholder="목표치를 숫자로 입력하세요. ex. 10, 20, 1000"></td>
                     </tr>
                     <tr>
                         <td>Unit</td>
-                        <td><input type="text" placeholder="단위를 입력하세요. ex. 권, 번, ml, L"></td>
+                        <td><input type="text" name="ht_unit" placeholder="단위를 입력하세요. ex. 권, 번, ml, L"></td>
                     </tr>
                     <tr>
                         <td>Period</td>
                         <td>
                             <div style="position:relative; width:350px">
-                                <select>
-                                    <option>Daily</option>
-                                    <option>Monthly</option>
+                                <select name="ht_cycle">
+                                    <option value="Daily">Daily</option>
+                                    <option value="Weekly">Weekly</option>
+                                    <option value="Monthly">Monthly</option>
                                 </select>
                                 <div class="select-arrow"></div>
                             </div>
@@ -243,26 +245,27 @@
                     </tr>
                     <tr> 
                         <td>Default Count</td>
-                        <td><input type="text" value="1"></td>
+                        <td><input name="ht_amount" id="d-count" type="text" value="1"></td>
                     </tr>
                     <tr>
                         <td>Color</td>
-                        <td class="b-flex">
-                            <input type="radio" name="color" id="yellow" checked>
+                        <td class="color b-flex">
+                            <input type="radio" name="color" id="yellow" value="#FBD14B" checked>
                             <label class="b-icons" for="yellow"><div class="b-yell"></div></label>
-                            <input type="radio" name="color" id="pink">
-                            <label class="b-icons" for="pink"><div class="pink"></div></label>
-                            <input type="radio" name="color" id="purple">
+                            <input type="radio" name="color" id="pink" value="#FFA3E5" >
+                            <label class="b-icons" for="pink" ><div class="pink"></div></label>
+                            <input type="radio" name="color" id="purple" value="#C9A8FF">
                             <label class="b-icons" for="purple"><div class="light-purple"></div></label>
-                            <input type="radio" name="color" id="blue">
-                            <label class="b-icons" for="blue"><div class="sky"></div></label>
-                            <input type="radio" name="color" id="green">
+                            <input type="radio" name="color" id="blue" value="#6B98FF">
+                            <label class="b-icons" for="blue" ><div class="sky"></div></label>
+                            <input type="radio" name="color" id="green" value="#50c6b0">
                             <label class="b-icons" for="green"><div class="green"></div></label>
                         </td>
+                        <input type="hidden" id="h-color" name="ht_color" value="#FBD14B">
                     </tr>
                     <tr>
                         <td>Comment</td>
-                        <td><textarea class="b-content"></textarea></td>
+                        <td><textarea name="ht_con" class="b-content"></textarea></td>
                     </tr>
 
                 </table>
@@ -276,7 +279,36 @@
     </div>
 
     <script>
-        
+    	$(document).ready(function() {
+    		
+    		// 타입 선택시 타이핑 막기
+    		$("#check").click(function(){
+    	    	$("#d-count").attr("readonly", true);
+    	    	$("#d-count").val(1);
+    		})
+    		// 타입 선택시 타이핑 풀기
+    		$("#count").click(function(){
+    			$("#d-count").removeAttr("readonly", true);
+    		})
+    		
+    		// 라디오 버튼 히든 태그
+    		// 색상
+    		$(".color > input").click(function(){
+    			var value = $(this).val();
+    			$("#h-color").val(value);
+    		});
+    		
+    		// 타입
+    		$(".type > input").click(function(){
+    			var value = $(this).val();
+    			$("#h-type").val(value);
+    		});
+    		
+    		
+    	})
+    	
+    	
+    	
     </script>
     <jsp:include page="../common/footer.jsp"/>
 </body>

@@ -34,6 +34,8 @@ import com.kh.finalProject.group.model.vo.GroupLike;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupMemberList;
 import com.kh.finalProject.group.model.vo.GroupNotice;
+import com.kh.finalProject.group.model.vo.GroupReReply;
+import com.kh.finalProject.group.model.vo.GroupReply;
 import com.kh.finalProject.group.model.vo.GroupSearchName;
 import com.kh.finalProject.group.model.vo.GroupTable;
 import com.kh.finalProject.member.model.vo.Member;
@@ -55,6 +57,12 @@ public class GroupController {
 
 	@Autowired
 	GroupSearchName gSearch;
+
+	@Autowired
+	PageInfo pi;
+
+	@Autowired
+	GroupLike gl;
 
 	// 그룹 번호 세션 삭제
 	@RequestMapping(value = "groupSessionDelete.do", method = RequestMethod.GET)
@@ -120,7 +128,8 @@ public class GroupController {
 		System.out.println("그룹 생성 groupId : " + groupId);
 		System.out.println("그룹 생성 file: " + file);
 
-		gt.setgName(groupName);
+//		gt.setgName(groupName);
+
 		gt.setgDelete("N");
 		gt.setId(m.getId());
 
@@ -338,8 +347,6 @@ public class GroupController {
 		gn.setgNo(gInfo.getGroupNo());
 		gn.setGmNo(gInfo.getGmNo());
 
-		System.out.println("공지작성 gInfo : " + gInfo);
-		System.out.println("공지작성 gn : " + gn);
 		int result = gService.noticeInsert(gn);
 
 		return "redirect:noticeMain.do";
@@ -363,11 +370,9 @@ public class GroupController {
 		return "redirect:noticeMain.do";
 	}
 
-	// ---------------------------------- 공지 end
-	// ------------------------------------------------------
+	// ---------------------------------- 공지 end ------------------------------------------------------
 
-	// ---------------------------------- 게시판
-	// ------------------------------------------------------
+	// ---------------------------------- 게시판 ------------------------------------------------------
 
 	// 게시판 메인
 	@RequestMapping(value = "boardMain.do", method = RequestMethod.GET)
@@ -384,7 +389,6 @@ public class GroupController {
 		}
 
 		int listCount = gService.boardGetListCount();
-		System.out.println("게시판 listCount : " + listCount);
 
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 
@@ -417,23 +421,40 @@ public class GroupController {
 
 		// 게시판 목록
 		ArrayList<GroupBoard> boardList = gService.selectBoardList(pi);
-		System.out.println("게시판 메인 boardList :" + boardList);
 
 		// 사진 목록
 		ArrayList<GroupBoardPhoto> photoList = gService.selectPhotoList(pi);
-		System.out.println("게시판 메인 photoList : " + photoList);
 
 		// 좋아요 total
 		ArrayList<GroupLike> likeList = gService.totalLike();
-		System.out.println("게시판 메인 likeList : " + likeList);
 
 		// 댓글 total
-
+		ArrayList<GroupReply> replyList = gService.totalReply();
+		ArrayList<GroupReReply> reReplyList = gService.totalReReply();
+		
+		if(!replyList.isEmpty()) {
+			for(GroupReply r : replyList) {
+				if(!reReplyList.isEmpty()) {
+					for(GroupReReply rr : reReplyList) {
+						if(r.getGbNo() == rr.getGbNo()) {			
+							int replyTotal = Integer.parseInt(r.getTotalReply());
+							int reReplyTotal = Integer.parseInt(rr.getTotalReReply());
+							String totalReply = Integer.toString(replyTotal + reReplyTotal);
+							
+							r.setTotalReply(totalReply);
+						}						
+					}
+				}
+			}
+		}
+		
 		response.setContentType("application/json;charset=utf-8");
 
 		JSONArray jArr = new JSONArray();
 		JSONArray pArr = new JSONArray();
 		JSONArray lArr = new JSONArray();
+		JSONArray rArr = new JSONArray();
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 		if (boardList != null) {
@@ -470,33 +491,264 @@ public class GroupController {
 					pArr.add(jObj);
 				}
 
-				if (likeList != null) {
-					for (GroupLike l : likeList) {
+				if(replyList != null) {
+					for (GroupReply r : replyList) {
 						JSONObject jObj = new JSONObject();
 
-						jObj.put("gbNo", l.getGbNo());
-						jObj.put("gmNo", l.getGmNo());
-						jObj.put("totalLike", l.getTotalLike());
+						jObj.put("grNo", r.getGrNo());
+						jObj.put("gbNo", r.getGbNo());
+						jObj.put("gmNo", r.getGmNo());
+						jObj.put("grCon", r.getGrCon());
+						jObj.put("grDate", r.getGrDate());
+						jObj.put("grDelete", r.getGrDelete());
+						jObj.put("totalReply", r.getTotalReply());
 
-						lArr.add(jObj);
+						rArr.add(jObj);
+					}
+					
+
+					if (likeList != null) {
+						for (GroupLike l : likeList) {
+							JSONObject jObj = new JSONObject();
+
+							jObj.put("gbNo", l.getGbNo());
+							jObj.put("gmNo", l.getGmNo());
+							jObj.put("totalLike", l.getTotalLike());
+
+							lArr.add(jObj);
+						}
+
+						JSONObject sendJson = new JSONObject();
+						sendJson.put("boardList", jArr);
+						sendJson.put("photoList", pArr);
+						sendJson.put("likeList", lArr);
+						sendJson.put("replyList", rArr);
+						
+						PrintWriter out = response.getWriter();
+						out.print(sendJson);
+						out.flush();
+						out.close();
+
+					} else {
+						/* mv.setViewName("group/GBoardMain"); */
+//			mv.setViewName("<script> alert('공지사항 등록이 실패하였습니다.'); history.back(); </script>");
 					}
 
-					JSONObject sendJson = new JSONObject();
-					sendJson.put("boardList", jArr);
-					sendJson.put("photoList", pArr);
-					sendJson.put("likeList", lArr);
-					PrintWriter out = response.getWriter();
-					out.print(sendJson);
-					out.flush();
-					out.close();
-
-				} else {
-					/* mv.setViewName("group/GBoardMain"); */
-//			mv.setViewName("<script> alert('공지사항 등록이 실패하였습니다.'); history.back(); </script>");
 				}
+			}
+		}
+		
+	}
 
+	// 게시판 상세
+	@RequestMapping(value = "detailBoard.do", method = RequestMethod.GET)
+	public ModelAndView boardDetail(ModelAndView mv, HttpSession session, @RequestParam("gbNo") String gbNo) {
+		GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+		String gmNo = Integer.toString(gInfo.getGmNo());
+
+		GroupNotice noticeList = gService.selectNoticeOne(gInfo);
+		
+		// 조회수 증가
+		int result = gService.plusgbCount(gbNo);
+
+		GroupBoard boardList = gService.selectBoardDetail(gbNo);
+
+		ArrayList<GroupBoardPhoto> photoList = gService.selectDetailPhotoList(gbNo);
+		
+		
+		int totalLike = gService.totalLikeList(gbNo);
+
+		gl.setGbNo(gbNo);
+		gl.setGmNo(gmNo);
+		GroupLike likeList = gService.selectLikeList(gl);
+
+		ArrayList<GroupReply> replyList = gService.selectReplyList(gbNo);
+
+		ArrayList<GroupReReply> reReplyList = gService.selectReReplyList(gbNo);
+
+		int totalReply = gService.totalReplyList(gbNo);
+		int totalReReply = gService.totalReReplyList(gbNo);
+		int totalRe = totalReply + totalReReply;
+		
+		mv.addObject("gInfoGmNo", gmNo);
+		mv.addObject("noticeList", noticeList);
+		mv.addObject("photoList", photoList);
+		mv.addObject("boardList", boardList);
+		mv.addObject("totalLike", totalLike);
+		mv.addObject("totalReply", totalRe);
+		mv.addObject("reReplyList", reReplyList);
+		if (likeList != null) {
+			mv.addObject("likeList", likeList);
+		}
+		mv.addObject("replyList", replyList);
+		mv.setViewName("group/GBoardDetail");
+		return mv;
+	}
+
+	// 좋아요 ajax
+	@RequestMapping(value = "likeAjax.do", method = RequestMethod.GET)
+	public void likeUpdate(HttpServletResponse response, HttpSession session, @RequestParam(value = "gmNo") String gmNo,
+			@RequestParam(value = "gbNo") String gbNo, @RequestParam(value = "heart") String heart) throws IOException {
+	
+		
+		gl.setGbNo(gbNo);
+		gl.setGmNo(gmNo);
+		
+		if(heart.equals("favorite")) {
+			int insertResult = gService.insertHeart(gl); 
+		
+		} else if(heart.equals("favorite_border")) {
+			int deleteResult = gService.deletetHeart(gl); 
+		
+		}
+		
+		int totalLike = gService.totalLikeList(gbNo);
+		
+		response.setContentType("application/json;charset=utf-8");
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+		JSONObject sendJson = new JSONObject();
+		sendJson.put("totalLike", totalLike);
+
+		PrintWriter out = response.getWriter();
+		out.print(sendJson);
+		out.flush();
+		out.close();
+
+	}
+	
+	// 댓글 ajax
+	@RequestMapping(value = "replyAjax.do", method = RequestMethod.GET)
+	public void replyinsert(HttpServletResponse response, HttpSession session, GroupReply gr )throws IOException {
+		String gbNo = Integer.toString(gr.getGbNo()); 
+		
+		// 댓글 insert
+		int result = gService.replyInsert(gr);
+		
+		int replyCurrval = gService.replyCurrval();
+		
+		// 댓글 select
+		ArrayList<GroupReply> replyList = gService.selectOneReplyList(replyCurrval);
+//		ArrayList<GroupReply> replyList = gService.selectReplyList(gbNo);
+		int totalReply = gService.totalReplyList(gbNo);
+		
+		response.setContentType("application/json;charset=utf-8");
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		JSONArray rArr = new JSONArray();
+		JSONArray tArr = new JSONArray();
+		tArr.add(totalReply);
+		
+		if (replyList != null) {
+			for (GroupReply r : replyList) {
+				JSONObject jObj = new JSONObject();
+
+				jObj.put("grNo", r.getGrNo());
+				jObj.put("gbNo", r.getGbNo());
+				jObj.put("gmNo", r.getGmNo());
+				jObj.put("grCon", r.getGrCon());
+				jObj.put("grDate", r.getGrDate());
+				jObj.put("grDelete", r.getGrDelete());
+				jObj.put("totalReply", r.getTotalReply());
+				jObj.put("name", r.getName());
+
+				rArr.add(jObj);
 			}
 
+			JSONObject sendJson = new JSONObject();
+
+			sendJson.put("replyList", rArr);
+			sendJson.put("totalReply", tArr);
+			
+			PrintWriter out = response.getWriter();
+			out.print(sendJson);
+			out.flush();
+			out.close();
+
+		}else {
+			System.out.println("댓글 ajax 실패하였습니다.");
+		}
+	}
+
+	// 대댓글 ajax
+	@RequestMapping(value = "reReplyAjax.do", method = RequestMethod.GET)
+	public void reReplyinsert(HttpServletResponse response, HttpSession session, GroupReReply grr
+							)throws IOException {
+		String gbNo = Integer.toString(grr.getGbNo()); 
+
+		// 댓글 insert
+		int result = gService.reReplyInsert(grr);
+		
+		// 댓글 select
+		ArrayList<GroupReply> replyList = gService.selectReplyList(gbNo);
+//		ArrayList<GroupReReply> reReplyList = gService.selectReReplyList(grr);
+		
+		int reReplyCurrval = gService.reReplyCurrval();
+		System.out.println("대댓글 ajax reReplyCurrval : " + reReplyCurrval);
+		
+		ArrayList<GroupReReply> reReplyList = gService.selectOneReReplyList(reReplyCurrval);
+		System.out.println("대댓글 ajax reReplyList : " + reReplyList);
+		
+		int totalReply = gService.totalReplyList(gbNo);
+
+		response.setContentType("application/json;charset=utf-8");
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		JSONArray rArr = new JSONArray();
+		JSONArray tArr = new JSONArray();
+		JSONArray rrArr = new JSONArray();
+		
+		tArr.add(totalReply);
+		
+		if (replyList != null) {
+			for (GroupReply r : replyList) {
+				JSONObject jObj = new JSONObject();
+
+				jObj.put("grNo", r.getGrNo());
+				jObj.put("gbNo", r.getGbNo());
+				jObj.put("gmNo", r.getGmNo());
+				jObj.put("grCon", r.getGrCon());
+				jObj.put("grDate", r.getGrDate());
+				jObj.put("grDelete", r.getGrDelete());
+				jObj.put("totalReply", r.getTotalReply());
+				jObj.put("name", r.getName());
+
+				rArr.add(jObj);
+			}
+
+			if (reReplyList != null) {
+				for (GroupReReply r : reReplyList) {
+					JSONObject jObj = new JSONObject();
+
+					jObj.put("grrNo", r.getGrrNo());
+					jObj.put("gmNo", r.getGmNo());
+					jObj.put("gbNo", r.getGbNo());
+					jObj.put("grNo", r.getGrNo());
+					jObj.put("grrCon", r.getGrrCon());
+					jObj.put("grrDate", r.getGrrDate());
+					jObj.put("grrDelete", r.getGrrDelete());
+					jObj.put("name", r.getName());
+
+					rrArr.add(jObj);
+				}
+
+				JSONObject sendJson = new JSONObject();
+
+				sendJson.put("replyList", rArr);
+				sendJson.put("totalReply", tArr);
+				sendJson.put("reReplyList", rrArr);
+				
+				PrintWriter out = response.getWriter();
+				out.print(sendJson);
+				out.flush();
+				out.close();
+
+			}
+		}else {
+			System.out.println("댓글 ajax 실패하였습니다.");
 		}
 	}
 }

@@ -9,6 +9,8 @@ import com.kh.finalProject.group.model.vo.GroupInfo;
 import com.kh.finalProject.group.model.vo.GroupLike;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupNotice;
+import com.kh.finalProject.group.model.vo.GroupReReply;
+import com.kh.finalProject.group.model.vo.GroupReply;
 import com.kh.finalProject.group.model.vo.GroupSearchName;
 import com.kh.finalProject.group.model.vo.GroupTable;
 import com.kh.finalProject.member.model.vo.Member;
@@ -47,6 +49,46 @@ public interface GroupService {
 	ArrayList<GroupBoardPhoto> selectPhotoList(PageInfo pi);
 
 	ArrayList<GroupLike> totalLike();
+
+	ArrayList<GroupReply> totalReply();
+
+	GroupBoard selectBoardDetail(String gbNo);
+
+	int plusgbCount(String gbNo);
+
+	ArrayList<GroupBoardPhoto> selectDetailPhotoList(String gbNo);
+
+	int totalLikeList(String gbNo);
+
+	int totalReplyList(String gbNo);
+
+	GroupLike selectLikeList(GroupLike gl);
+
+	int insertHeart(GroupLike gl);
+
+	int deletetHeart(GroupLike gl);
+
+	ArrayList<GroupReply> selectReplyList(String gbNo);
+
+	int replyInsert(GroupReply gr);
+
+	int reReplyInsert(GroupReReply grr);
+
+	ArrayList<GroupReReply> selectReReplyList(String gbNo);
+
+	ArrayList<GroupReReply> selectReReplyList(GroupReReply grr);
+
+	int totalReReplyList(String gbNo);
+
+	int reReplyCurrval();
+
+	ArrayList<GroupReReply> selectOneReReplyList(int reReplyCurrval);
+
+	int replyCurrval();
+
+	ArrayList<GroupReply> selectOneReplyList(int replyCurrval);
+
+	ArrayList<GroupReReply> totalReReply();
 
 
 

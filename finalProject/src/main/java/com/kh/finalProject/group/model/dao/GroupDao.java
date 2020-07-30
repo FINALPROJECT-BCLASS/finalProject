@@ -14,6 +14,8 @@ import com.kh.finalProject.group.model.vo.GroupInfo;
 import com.kh.finalProject.group.model.vo.GroupLike;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupNotice;
+import com.kh.finalProject.group.model.vo.GroupReReply;
+import com.kh.finalProject.group.model.vo.GroupReply;
 import com.kh.finalProject.group.model.vo.GroupSearchName;
 import com.kh.finalProject.group.model.vo.GroupTable;
 import com.kh.finalProject.member.model.vo.Member;
@@ -98,6 +100,87 @@ public class GroupDao {
 	public ArrayList<GroupLike> totalLike() {
 		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.totlaLike");
 	}
+
+	public ArrayList<GroupReply> totalReply() {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.totalReply");
+	}
+
+	public GroupBoard selectBoardDetail(String gbNo) {
+		return sqlSessionTemplate.selectOne("groupMapper.selectBoardDetail", gbNo);
+	}
+
+	public int plusgbCount(String gbNo) {
+		return sqlSessionTemplate.update("groupMapper.plusgbCount", gbNo);
+	}
+
+	public ArrayList<GroupBoardPhoto> selectDetailPhotoList(String gbNo) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectDetailPhotoList", gbNo);
+	}
+
+	public int totalLikeList(String gbNo) {
+		return sqlSessionTemplate.selectOne("groupMapper.totalLikeList", gbNo);
+	}
+
+	public int totalReplyList(String gbNo) {
+		return sqlSessionTemplate.selectOne("groupMapper.totalReplyList", gbNo);
+	}
+
+	public GroupLike selectLikeList(GroupLike gl) {
+		return sqlSessionTemplate.selectOne("groupMapper.selectLikeList", gl);
+	}
+
+	public int insertHeart(GroupLike gl) {
+		return sqlSessionTemplate.insert("groupMapper.insertHeart", gl);
+	}
+
+	public int deletetHeart(GroupLike gl) {
+		return sqlSessionTemplate.delete("groupMapper.deletetHeart", gl);
+	}
+
+	public ArrayList<GroupReply> selectReplyList(String gbNo) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectReplyList", gbNo);
+	}
+
+	public int replyInsert(GroupReply gr) {
+		return sqlSessionTemplate.insert("groupMapper.replyInsert", gr);
+	}
+
+	public int reReplyInsert(GroupReReply grr) {
+		return sqlSessionTemplate.insert("groupMapper.reReplyInsert", grr);
+	}
+
+	public ArrayList<GroupReReply> selectReReplyList(String gbNo) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectReReplyList", gbNo);
+	}
+
+	public ArrayList<GroupReReply> selectReReplyList(GroupReReply grr) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectReReplyList2", grr);
+	}
+
+	public int totalReReplyList(String gbNo) {
+		return sqlSessionTemplate.selectOne("groupMapper.totalReReplyList", gbNo);
+	}
+
+	public int reReplyCurrval() {
+		return sqlSessionTemplate.selectOne("groupMapper.reReplyCurrval");
+	}
+
+	public ArrayList<GroupReReply> selectOneReReplyList(int reReplyCurrval) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectOneReReplyList",reReplyCurrval);
+	}
+
+	public int replyCurrval() {
+		return sqlSessionTemplate.selectOne("groupMapper.replyCurrval");
+	}
+
+	public ArrayList<GroupReply> selectOneReplyList(int replyCurrval) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectOneReplyList",replyCurrval);
+	}
+
+	public ArrayList<GroupReReply> totalReReply() {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.totalReReply");
+	}
+	
 	
 	
 	

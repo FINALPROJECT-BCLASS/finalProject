@@ -5,14 +5,7 @@
 <html>
 <head>
 	<title>Home</title>
-	<!-- CSS -->
-	<link rel="stylesheet" href="resources/css/flickity/flickity.css">
-	<!-- JavaScript -->
-	<script src="resources/js/flickity/flickity.pkgd.min.js"></script>
-	
-	
 
-	
 	 <!-- Demo styles -->
   <style>
     html,
@@ -20,7 +13,6 @@
       position: relative;
       height: 100%;
     }
-
     body {
       background: #eee;
       font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -29,33 +21,17 @@
       margin: 0;
       padding: 0;
     }
-
    
-    /* swiper css */
-    .carousel{width:90%;}
-    .carousel-cell {
-		  width: 200px;
-		  height: 100px !important;
-		  margin-right: 10px;
-		  background: #e9ecef;
-		  border-radius: 8px !important;
-		  counter-increment: carousel-cell;
-		  cursor: pointer;
-		  overflow: hidden;
-		}
-	.carImg {width:100%;}	
+    
     
     /* 게시판 css */
-     html, body { height:100%;}
-
+    html, body { height:100%;}
     h1{text-align:center;}
     .btnList{width:100%; text-align:right;}
     .groupBtn{border:none; font-weight: 600; background:none;}
     .BoardBtn{color:#2860E1; font-size: 21px;}
-
     .join-form-area{float: right;display: flex;justify-content: center; flex-direction: column; align-items: center; padding: 40px; width: 81%; background: #F3F3F3; }
     .groupJoin{width:900px;}
-
     /* 구글 아이콘 */
     .material-icons{padding-top:12px; padding-left: 10px; text-shadow: 1.5px 1.5px 1.5px gray; }
    
@@ -66,27 +42,27 @@
     .noticeWriter{padding-left:5px; font-size:12px; font-weight: 600;  text-shadow: 1.5px 1.5px 1.5px gray; }
     .noticeDate{padding-left:5px; font-size:12px; font-weight: 600;  text-shadow: 1.5px 1.5px 1.5px gray; }
     .noticeContent{padding-top:5px; padding-left:15px; padding-bottom: 20px; font-size:14px;  text-shadow: 1.5px 1.5px 1.5px gray; }
-
 	/* 글쓰기 버튼 */
 	#groupWrite {text-align:right; width:100%; height: 50px; margin-right:40px; margin-bottom:10px; border:none;}
     .groupWrite {width:50px; height:40px; cursor: pointer; border-radius: 5px;}
 	
 	.groupListCount{width:95%; margin-bottom:10px; text-align:right;}
-
 	.emptyNoticeList{margin-top:100px; text-align:center; font-size:20px; font-weight:600;}
 	    
     /* 공지게시판 */
     .groupNotice{width:100%; height:400px;overflow:scroll; overflow-x:hidden;}
     .noticeBoardTb{width:100%; margin-bottom:5px; background:white;border:0.5px solid lightgray; border-radius:10px;}
     .noticeBoardTitle{display:inline-block; padding-top:20px; padding-left:5px;font-weight: 600; font-size: 20px;}
+   	.detailBtn{margin-left:1000px; padding:7.2px; display:inline-block; border:none; border-radius:6px; width:60px; height:35px; background:#FBD14B;}
+   	.detailBtn:hover{margin-left:1000px; padding:7px; display:inline-block; border:none; border-radius:6px; width:60px; height:35px; background:#ffc400; cursor:pointer;}
     .noticeBoardWriter{padding-left:37px; font-size:12px; font-weight: 600;}
     .noticeBoardDate{padding-left:37px; font-size:12px; font-weight: 600;}
-    .noticeBoardContent{margin-left:37px; margin-top:10px; padding-top:5px;padding-left:15px; width:1000px; height:70px; overflow:scroll; overflow-x:hidden; font-size:13px; background: #F3F3F3; border-radius: 5px; margin-bottom: 7px;}
+    .noticeBoardContent{margin-left:37px; margin-top:10px; padding-top:5px;padding-left:15px; width:1050px; height:70px; overflow:scroll; overflow-x:hidden; font-size:13px; background: #F3F3F3; border-radius: 5px; margin-bottom: 7px;}
   	.boardPhotoList{width:200px; height:100px; display:inline-block; border-radius:6px;}
   	.imgBox{display:inline-block; margin-left:20px;}
   	.etcBox{padding-left:20px; padding-top:10px; padding-bottom:20px;}
   	.like, .reply{cursor:pointer; font-size:30px !important;}
-  	.totalLike{margin-left:10px; margin-right:20px; margin-bottom:10px; }
+  	.totalLike, .totalReply{margin-left:10px; margin-right:20px; margin-bottom:10px; }
   	
  
   	
@@ -146,53 +122,7 @@
 		 <div class="groupNotice">
 		 
 		 	<br>
-           	<c:if test="${empty noticeList }">
-           		<div class="emptyNoticeList"> 작성한 게시판이 없습니다.</div>
-           	</c:if>
-
-              <table class="noticeBoardTb">
-                <tr><td><span class="material-icons">perm_identity</span></td><td><div class="noticeBoardTitle">깡삽이네조 파이널 프로젝트</div></td></tr>
-                <tr><td></td><td><div class="noticeBoardWriter">김혜린</div></td></tr>
-                <tr><td></td><td><div class="noticeBoardDate">2020-06-12 오후 06:00</div></td></tr>
-                <tr><td></td><td><div class="noticeBoardContent">파이널 프로젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다젝트는 8월 27일에 종료됩니다.</div></td></tr>
-              	<tr>
-              		<td></td>
-              		<td class="swiperTd">
-              		<!-- carousel -->
-              			<div class="carousel" data-flickity='{"draggable":false}'>
-              				<div class="carousel-cell">
-              					<img class="carImg" src="resources/images/emptyHeart.png">
-              				</div>
-              				<div class="carousel-cell">
-              					<img class="carImg" src="resources/images/emptyHeart.png">
-              				</div>
-              				<div class="carousel-cell">
-              					<img  class="carImg" src="resources/images/emptyHeart.png">
-              				</div>
-              				<div class="carousel-cell">
-              					<img src="resources/images/emptyHeart.png">
-              				</div>
-              				<div class="carousel-cell">
-              					<img src="resources/images/emptyHeart.png">
-              				</div>
-              				<div class="carousel-cell">
-              					<img class="carImg" src="resources/groupMainFiles/히지.png">
-              				</div>
-              			
-              			</div>
-              		<!-- carousel end -->
-              		
-              			
-              		</td>
-              	</tr>
-              	<tr>
-              		<td colspan="2">
-              			<div class="reply likeBox"><span class="material-icons emptyHeart">favorite_border</span><span class="reply">3</span></div>
-              			<div class="reply replyBox"><span class="material-icons">sms</span>&nbsp;<span class="reply">3</span></div>
-           			</td>
-              	</tr>
-              </table>
-              
+ 
           </div>
 	
 	  </div>
@@ -232,8 +162,7 @@
                dataType: "json",
                data:{page:pagePlus},
                success: function(data){
-            	 /* console.log("ajax photo : " + data.photoList[0].gbNo );
-            	 console.log("ajax data : " + data.boardList[0].gbNo); */
+
               	 page = data.boardList[0].page;
               	 pagePlus = page + 1;
               	 
@@ -246,9 +175,7 @@
                    if( length < 5 ){
                        isEnd = true;
                    }
-
                     for(i in data.boardList){
-
                   	var $groupBoard = $(".groupNotice");
                   	var $boardTb = $("<table>").attr("class","noticeBoardTb");
                   	
@@ -268,6 +195,8 @@
                 	
                 	
                 	var $emoticon = $("<span>").text("perm_identity").attr("class","material-icons");
+                	var $detailPage = $("<div>").text("Detail").attr("class","detailBtn");
+                	var $gbNo = $("<input type='hidden' id='gbNo' value='"+ data.boardList[i].gbNo +"'>");
                 	var $boardTitle = $("<div>").text(data.boardList[i].gbTitle).attr("class","noticeBoardTitle");
                   	var $boardWriter = $("<div>").text(data.boardList[i].name).attr("class","noticeBoardWriter");
                   	var $boardDate = $("<div>").text(data.boardList[i].gbDate).attr("class","noticeBoardDate");
@@ -275,8 +204,10 @@
                  	var $like = $("<span>").text("favorite_border").attr("class","material-icons like");
                  	var $reply = $("<span>").text("sms").attr("class","material-icons reply");
                  	
+                 	$td1.append($gbNo);
                		$td1.append($emoticon);
                		$td1.append($boardTitle);
+               		$td1.append($detailPage);
                    	$tr1.append($td1);
                    	
                    	$td2.append($boardWriter);
@@ -305,11 +236,30 @@
                     	}
                          	 
                    	}
-                   	
-     				$td6.append($totalLike);
+                    
+                    $td6.append($totalLike);
                    	$td6.append($reply);
-                   	$tr6.append($td6);
+                  
                    	
+                 // 댓글
+                    var $totalReply;
+                    $totalReply = $("<span>").text(0).attr("class","totalReply");
+                    
+                    if(data.replyList.length > 0){
+                   		for(l in data.replyList){
+                     		if(data.boardList[i].gbNo == data.replyList[l].gbNo){
+                     			if(data.replyList[l].totalReply > 0){
+	                     			$totalReply = $("<span>").text(data.replyList[l].totalReply).attr("class","totalReply");
+	                     			$td6.append($totalReply);
+                     			}	
+                     		}
+                    	}
+                         	 
+                   	}
+                   	
+                    $td6.append($totalReply);
+                 	$tr6.append($td6);
+     				
                		$boardTb.append($tr1);
                   	$boardTb.append($tr2);
                   	$boardTb.append($tr3);
@@ -322,7 +272,6 @@
                    			if(data.boardList[i].gbNo == data.photoList[j].gbNo){
                    				var $img = $("<img src='resources/groupMainFiles/"+data.photoList[j].gbpOrigin+"' class='boardPhotoList'>");
                    				var $imgBox = $("<div>").attr("class","imgBox");
-
                    				$imgBox.append($img);
                    				$td5.append($imgBox);
                    				$tr5.append($td5);                             	 
@@ -361,7 +310,16 @@
  		})
 	  	 
   	</script>
-	  
+	
+	 
+	<!-- detail 버튼 누르기 -->
+	<script>
+	
+		 $(document).on("click",".detailBtn",function(){
+			 $gbNo =  $(this).prev().prev().prev().val();
+			  location.href="detailBoard.do?gbNo="+$gbNo;
+			})
+	</script>  
 	  <jsp:include page="../common/footer.jsp"/>	
 </body>
 

@@ -36,7 +36,7 @@
                 </li>
                 <li>Daily
                     <ul class="sub-navi">
-                    	<c:url var="htlist" value="htlist.do"/>
+                    	<c:url var="htlist" value="htList.do"/>
 	                    <li><a href="#">Daily Record</a></li>
 	                    <li><a href="${htlist }">Habit Tracker</a></li>
 	                    <li class="b-radius"><a href="#">Bookmark</a></li>
@@ -52,8 +52,10 @@
                 	<ul class="sub-navi">
                     	<c:url var="mrview" value="mrview.do"/>		
                         <li><a href="${mrview }">Monthly Record</a></li>
-                        <li><a href="#">Monthly Statistics</a></li>
-                        <li class="b-radius"><a href="#">Yealy Statistics</a></li>
+                        <c:url var="msview" value="msview.do"/>
+                        <li><a href="${msview }">Monthly Statistics</a></li>
+                        <c:url var="ysview" value="ysview.do"/>
+                        <li class="b-radius"><a href="${ysview }">Yealy Statistics</a></li>
                     </ul>
                 </li>
                <c:url var="groupMain" value="groupMain.do">

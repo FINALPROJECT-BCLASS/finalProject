@@ -13,6 +13,8 @@ import com.kh.finalProject.group.model.vo.GroupInfo;
 import com.kh.finalProject.group.model.vo.GroupLike;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupNotice;
+import com.kh.finalProject.group.model.vo.GroupReReply;
+import com.kh.finalProject.group.model.vo.GroupReply;
 import com.kh.finalProject.group.model.vo.GroupSearchName;
 import com.kh.finalProject.group.model.vo.GroupTable;
 import com.kh.finalProject.member.model.vo.Member;
@@ -103,6 +105,109 @@ public class GroupServiceImpl implements GroupService{
 	public ArrayList<GroupLike> totalLike() {
 		return gDao.totalLike();
 	}
+
+	@Override
+	public ArrayList<GroupReply> totalReply() {
+		return gDao.totalReply();
+	}
+
+	@Override
+	public GroupBoard selectBoardDetail(String gbNo) {
+		return gDao.selectBoardDetail(gbNo);
+	}
+
+	@Override
+	public int plusgbCount(String gbNo) {
+		return gDao.plusgbCount(gbNo);
+	}
+
+	@Override
+	public ArrayList<GroupBoardPhoto> selectDetailPhotoList(String gbNo) {
+		return gDao.selectDetailPhotoList(gbNo);
+	}
+
+	@Override
+	public int totalLikeList(String gbNo) {
+		return gDao.totalLikeList(gbNo);
+	}
+
+	@Override
+	public int totalReplyList(String gbNo) {
+		return gDao.totalReplyList(gbNo);
+	}
+
+	@Override
+	public GroupLike selectLikeList(GroupLike gl) {
+		return gDao.selectLikeList(gl);
+	}
+
+	@Override
+	public int insertHeart(GroupLike gl) {
+		return gDao.insertHeart(gl);
+	}
+
+	@Override
+	public int deletetHeart(GroupLike gl) {
+		return gDao.deletetHeart(gl);
+	}
+
+	@Override
+	public ArrayList<GroupReply> selectReplyList(String gbNo) {
+		return gDao.selectReplyList(gbNo);
+	}
+
+	@Override
+	public int replyInsert(GroupReply gr) {
+		return gDao.replyInsert(gr);
+	}
+
+	@Override
+	public int reReplyInsert(GroupReReply grr) {
+		return gDao.reReplyInsert(grr);
+	}
+
+	@Override
+	public ArrayList<GroupReReply> selectReReplyList(String gbNo) {
+		return gDao.selectReReplyList(gbNo);
+	}
+
+	@Override
+	public ArrayList<GroupReReply> selectReReplyList(GroupReReply grr) {
+		return gDao.selectReReplyList(grr);
+	}
+
+	@Override
+	public int totalReReplyList(String gbNo) {
+		return gDao.totalReReplyList(gbNo);
+		}
+
+	@Override
+	public int reReplyCurrval() {
+		return gDao.reReplyCurrval();
+	}
+
+	@Override
+	public ArrayList<GroupReReply> selectOneReReplyList(int reReplyCurrval) {
+		return gDao.selectOneReReplyList(reReplyCurrval);
+	}
+
+	@Override
+	public int replyCurrval() {
+		return gDao.replyCurrval();
+		}
+
+	@Override
+	public ArrayList<GroupReply> selectOneReplyList(int replyCurrval) {
+		return gDao.selectOneReplyList(replyCurrval);
+	}
+
+	@Override
+	public ArrayList<GroupReReply> totalReReply() {
+		return gDao.totalReReply();
+	}
+
+
+	
 
 	
 

@@ -16,6 +16,7 @@ public class GroupInfo implements Serializable{
 	private int groupNo;
 	private int gmNo;
 	
+	
 	public GroupInfo() {
 		super();
 	}
