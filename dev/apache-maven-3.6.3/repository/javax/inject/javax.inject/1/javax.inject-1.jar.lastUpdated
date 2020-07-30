@@ -1,5 +1,5 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-#Mon Jul 20 12:10:25 KST 2020
-https\://repo.maven.apache.org/maven2/.lastUpdated=1595214625130
+#Thu Jul 30 12:50:25 KST 2020
+https\://repo.maven.apache.org/maven2/.lastUpdated=1596081025008
+http\://www.datanucleus.org/downloads/maven2/.lastUpdated=1596081009959
 http\://www.datanucleus.org/downloads/maven2/.error=
-http\://www.datanucleus.org/downloads/maven2/.lastUpdated=1595214614955
