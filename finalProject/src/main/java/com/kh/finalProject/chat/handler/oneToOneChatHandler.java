@@ -21,8 +21,9 @@ import com.kh.finalProject.member.model.vo.Member;
 @Controller//mv2구조 설정중 끝
 public class oneToOneChatHandler extends TextWebSocketHandler {
 		
-	@Autowired
-	ChatService cService;
+	/*
+	 * @Autowired ChatService cService;
+	 */
 	
 	//세션저장 ("co_no",co_no),("session",세션) - ...
 		private List<Map<String,Object>> sessionList = new ArrayList<Map<String, Object>>();
@@ -81,8 +82,8 @@ public class oneToOneChatHandler extends TextWebSocketHandler {
 						dbmap.put("id", loginid);
 						dbmap.put("message",String.valueOf(mapReceive.get("msg")));
 						
-						int result = cService.insertChatmsg(dbmap);//db저장
-		
+//						int result = cService.insertChatmsg(dbmap);//db저장
+						int result =1;
 						if( result >0) {
 						
 						String jsonStr2 = co_no + "|" +loginid+ "|" + mapReceive.get("msg");						
