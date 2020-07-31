@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="accountMapper">
+
+	<resultMap type="Sum" id="sumResultSet">
+		<result property="date" column="AB_DATE"/>
+		<result property="sum" column="AB_SUM"/>
+	</resultMap>
+	
+	<resultMap type="AccountBook" id="abResultSet">
+		<id property="abNo" column="AB_NO"/>
+		<result property="id" column="ID"/>
+		<result property="abDate" column="AB_DATE"/>
+		<result property="apcNo" column="APC_NO"/>
+		<result property="aecNo" column="AEC_NO"/>
+		<result property="abAmount" column="AB_AMOUNT"/>
+		<result property="abMemo" column="AB_MEMO"/>
+		<result property="abDelete" column="AB_DELETE"/>
+		<result property="memoNo" column="MEMO_NO"/>
+		<result property="abView" column="AB_VIEW"/>
+	</resultMap>
+	
+	<resultMap type="MonthlySum" id="msResultSet">
+		<result property="month" column="AB_MONTH"/>
+		<result property="sum" column="ABM_SUM"/>
+	</resultMap>
+	
+	<resultMap type="ExpCategory" id="ecResultSet">
+		<result property="no" column="AEC_NO"/>
+		<result property="title" column="AEC_TITLE"/>
+		<result property="sum" column="AB_SUM"/>
+	</resultMap>
+
+	<insert id="insertAccountBook" parameterType="AccountBook">
+		INSERT INTO ACCOUNT_BOOK
+		VALUES(SEQ_AB.NEXTVAL
+			, #{id}
+			, #{abDate}
+			, #{apcNo}
+			, #{aecNo}
+			, #{abAmount}
+			, #{abMemo}
+			, DEFAULT
+			, 0
+			, 'Y')
+	</insert>
+	
+	<select id="selectPSumList" parameterType="string" resultMap="sumResultSet">
+		SELECT AB_DATE, SUM(AB_AMOUNT) "AB_SUM"
+		FROM ACCOUNT_BOOK
+		WHERE ID=#{id}
+		    AND APC_NO!=0
+		    AND AB_DELETE='N'
+		    AND AB_VIEW='Y'
+		GROUP BY AB_DATE
+	</select>
+	
+	<select id="selectESumList" parameterType="string" resultMap="sumResultSet">
+		SELECT AB_DATE, SUM(AB_AMOUNT) "AB_SUM"
+		FROM ACCOUNT_BOOK
+		WHERE ID=#{id}
+		    AND AEC_NO!=0
+		    AND AB_DELETE='N'
+		    AND AB_VIEW='Y'
+		GROUP BY AB_DATE
+	</select>
+	
+	<select id="selectPList" parameterType="AccountBook" resultMap="abResultSet">
+		SELECT AB_NO, TO_CHAR(AB_DATE, 'YYYY-MM-DD') "AB_DATE", APC_NO, AB_AMOUNT, AB_MEMO
+		FROM ACCOUNT_BOOK
+		WHERE ID=#{id}
+			AND APC_NO!=0
+			AND AB_DATE=#{abDate}
+			AND AB_DELETE='N'
+			AND AB_VIEW='Y'
+	</select>
+	
+	<select id="selectEList" parameterType="AccountBook" resultMap="abResultSet">
+		SELECT AB_NO, TO_CHAR(AB_DATE, 'YYYY-MM-DD') "AB_DATE", AEC_NO, AB_AMOUNT, AB_MEMO
+		FROM ACCOUNT_BOOK
+		WHERE ID=#{id}
+			AND AEC_NO!=0
+			AND AB_DATE=#{abDate}
+			AND AB_DELETE='N'
+			AND AB_VIEW='Y'
+	</select>
+	
+	<update id="deleteAccountBook" parameterType="AccountBook">
+		UPDATE ACCOUNT_BOOK
+		SET AB_DELETE='Y'
+		WHERE AB_NO=#{abNo}
+	</update>
+	
+	<select id="selectAbPNoList" parameterType="Condition" resultMap="abResultSet">
+		SELECT AB_NO
+		FROM ACCOUNT_BOOK
+		WHERE ID=#{id}
+			AND EXTRACT(YEAR FROM AB_DATE)=#{year}
+		    AND EXTRACT(MONTH FROM AB_DATE)=#{month}
+		    AND APC_NO!=0
+		    AND AB_VIEW='Y'
+		    AND AB_DELETE='N'
+	</select>
+	
+	<select id="selectAbENoList" parameterType="Condition" resultMap="abResultSet">
+		SELECT AB_NO
+		FROM ACCOUNT_BOOK
+		WHERE ID=#{id}
+			AND EXTRACT(YEAR FROM AB_DATE)=#{year}
+		    AND EXTRACT(MONTH FROM AB_DATE)=#{month}
+		    AND AEC_NO!=0
+		    AND AB_VIEW='Y'
+		    AND AB_DELETE='N'
+	</select>
+	
+	<select id="selectAbAmount" parameterType="_int" resultType="_int">
+		SELECT AB_AMOUNT
+		FROM ACCOUNT_BOOK
+		WHERE AB_NO=#{abNo}
+	</select>
+	
+	<select id="selectMPSumList" parameterType="MSumCondition" resultMap="msResultSet">
+		SELECT EXTRACT(MONTH FROM AB_DATE) "AB_MONTH", SUM(AB_AMOUNT) "ABM_SUM"
+		FROM ACCOUNT_BOOK
+		WHERE ID=#{id}
+		    AND EXTRACT(YEAR FROM AB_DATE)=#{year}
+		    AND APC_NO!=0
+		    AND AB_DELETE='N'
+		    AND AB_VIEW='Y'
+		GROUP BY EXTRACT(MONTH FROM AB_DATE)
+	</select>
+	
+	<select id="selectMESumList" parameterType="MSumCondition" resultMap="msResultSet">
+		SELECT EXTRACT(MONTH FROM AB_DATE) "AB_MONTH", SUM(AB_AMOUNT) "ABM_SUM"
+		FROM ACCOUNT_BOOK
+		WHERE ID=#{id}
+		    AND EXTRACT(YEAR FROM AB_DATE)=#{year}
+		    AND AEC_NO!=0
+		    AND AB_DELETE='N'
+		    AND AB_VIEW='Y'
+		GROUP BY EXTRACT(MONTH FROM AB_DATE)
+	</select>
+	
+	<select id="selectECList" parameterType="Condition" resultMap="ecResultSet">
+		SELECT B.AEC_NO "AEC_NO", AEC_TITLE, SUM(AB_AMOUNT) "AB_SUM"
+		FROM ACCOUNT_BOOK B
+		JOIN A_EXPENDITURE_CATEGORY E ON(B.AEC_NO=E.AEC_NO)
+		WHERE ID=#{id}
+		    AND B.AEC_NO!=0
+		    AND EXTRACT(YEAR FROM AB_DATE)=#{year}
+		    AND EXTRACT(MONTH FROM AB_DATE)=#{month}
+		    AND AB_DELETE='N'
+		    AND AB_VIEW = 'Y'
+		GROUP BY B.AEC_NO, AEC_TITLE
+	</select>
+	
+	<select id="getOverrun" parameterType="Condition" resultType="string">
+		SELECT AEC_TITLE
+		FROM (SELECT B.AEC_NO "AEC_NO", AEC_TITLE, SUM(AB_AMOUNT) "AB_SUM"
+				FROM ACCOUNT_BOOK B
+				JOIN A_EXPENDITURE_CATEGORY E ON(B.AEC_NO=E.AEC_NO)
+				WHERE ID=#{id}
+				    AND B.AEC_NO!=0
+				    AND EXTRACT(YEAR FROM AB_DATE)=#{year}
+				    AND EXTRACT(MONTH FROM AB_DATE)=#{month}
+				    AND AB_DELETE='N'
+				    AND AB_VIEW = 'Y'
+		            AND B.AEC_NO != 11
+		            AND B.AEC_NO != 12
+		            AND B.AEC_NO != 16
+				GROUP BY B.AEC_NO, AEC_TITLE
+		        ORDER BY AB_SUM DESC)
+		WHERE ROWNUM=1
+	</select>
+
+</mapper>

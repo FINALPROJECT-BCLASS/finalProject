@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="dailyMapper">
+
+	<resultMap type="Habit" id="habitResultSet">
+		<id property="ht_no" column="HT_NO"/>
+		<result property="id" column="ID"/>
+		<result property="ht_title" column="HT_TITLE"/>
+		<result property="ht_type" column="HT_TYPE"/>
+		<result property="ht_goal" column="HT_GOAL"/>
+		<result property="ht_unit" column="HT_UNIT"/>
+		<result property="ht_cycle" column="HT_CYCLE"/>
+		<result property="ht_start" column="HT_START"/>
+		<result property="ht_amount" column="HT_AMOUNT"/>
+		<result property="ht_color" column="HT_COLOR"/>
+		<result property="ht_con" column="HT_CON"/>
+		<result property="ht_delete" column="HT_DELETE"/>
+		<result property="ht_now" column="HT_NOW"/>
+	</resultMap>
+	
+	<resultMap type="HabitRecord" id="habitRecordResultSet">
+		<id property="htr_no" column="HTR_NO"/>
+		<result property="id" column="ID"/>
+		<result property="ht_no" column="HT_NO"/>
+		<result property="htr_date" column="HTR_DATE"/>
+		<result property="htr_now" column="HTR_NOW"/>
+		<result property="htr_con" column="HTR_CON"/>
+		<result property="htr_delete" column="HTR_DELETE"/>
+	</resultMap>
+	
+	<resultMap type="HabitRecord" id="habitRecordResultSet_2">
+		<id property="htr_no" column="HTR_NO"/>
+		<result property="id" column="ID"/>
+		<result property="ht_no" column="HT_NO"/>
+		<result property="htr_month" column="HTR_MONTH"/>
+		<result property="htr_time" column="HTR_TIME"/>
+		<result property="htr_now" column="HTR_NOW"/>
+		<result property="htr_con" column="HTR_CON"/>
+		<result property="htr_delete" column="HTR_DELETE"/>
+	</resultMap>
+	
+		<resultMap type="HabitSum" id="habitSumResultSet">
+		<id property="ht_no" column="HT_NO"/>
+		<result property="ht_now" column="HT_NOW"/>
+	</resultMap>
+	
+	<insert id="insertHabit" parameterType="Habit">
+		INSERT INTO HABIT_TRACKER
+		VALUES(SEQ_HT.NEXTVAL, #{id}, #{ht_title}, #{ht_type}, #{ht_goal}, #{ht_unit}, #{ht_cycle}, SYSDATE,
+				#{ht_amount}, #{ht_color}, #{ht_con}, DEFAULT)
+	</insert>
+	
+	<select id="selectHabit" parameterType="Habit" resultMap="habitResultSet">
+		SELECT *
+		FROM HABIT_TRACKER 
+		WHERE ID=#{id}
+		AND HT_DELETE='N'
+	</select>
+	
+	<select id="selectHabitList" parameterType="String" resultMap="habitResultSet">
+		SELECT *
+		FROM HABIT_TRACKER 
+		WHERE ID=#{id}
+		AND HT_DELETE='N'
+		ORDER BY HT_NO DESC
+	</select>
+	
+	
+	<select id="selectHabitContent" parameterType="Habit" resultMap="habitResultSet">
+		SELECT *
+		FROM HABIT_TRACKER
+		WHERE ID=#{id}
+		AND HT_TITLE=#{ht_title}
+		AND HT_DELETE='N'
+	</select>
+	
+	<insert id="insertHabitRecord" parameterType="HabitRecord">
+		INSERT INTO HABIT_TRACKER_RECORD
+		VALUES (SEQ_HTR.NEXTVAL, #{id}, #{ht_no}, SYSDATE, #{htr_now}, #{htr_con}, DEFAULT)
+	</insert>
+	
+	<select id="selectHabitNum" parameterType="Habit" resultMap="habitResultSet">
+		SELECT *
+		FROM HABIT_TRACKER
+		WHERE ID=#{id}
+		AND HT_NO=#{ht_no}
+		AND HT_DELETE='N'
+	</select>
+	
+	<select id="selectHabitRecordList" parameterType="HabitRecord" resultMap="habitRecordResultSet">
+		SELECT HTR_NO, ID, HT_NO, TO_CHAR(HTR_DATE, 'HH:MI') AS "HTR_DATE", HTR_NOW, HTR_CON, HTR_DELETE
+		FROM HABIT_TRACKER_RECORD
+		WHERE ID=#{id}
+		AND HT_NO=#{ht_no}
+		AND TO_CHAR(HTR_DATE, 'YY/MM/DD')=#{htr_date}
+		AND HTR_DELETE='N'
+		ORDER BY HTR_DATE DESC
+	</select>
+	
+	<select id="selectHabitRecordListW" parameterType="HabitRecord" resultMap="habitRecordResultSet_2">
+		SELECT HTR_NO, ID, HT_NO, TO_CHAR(HTR_DATE, 'DD') AS "HTR_MONTH", TO_CHAR(HTR_DATE, 'HH:MI') AS "HTR_TIME", HTR_NOW, HTR_CON, HTR_DELETE
+		FROM HABIT_TRACKER_RECORD
+		WHERE ID=#{id}
+		AND HT_NO=#{ht_no}
+		AND HTR_DELETE='N'
+		AND HTR_DATE BETWEEN TO_DATE(TRUNC(SYSDATE,'IW'), 'YY/MM/DD') 
+                   		 AND TO_DATE(TRUNC(SYSDATE,'IW') + 7, 'YY/MM/DD')
+		ORDER BY HTR_DATE DESC
+	</select>
+	
+	<select id="selectHabitRecordListM" parameterType="HabitRecord" resultMap="habitRecordResultSet_2">
+		SELECT HTR_NO, ID, HT_NO, TO_CHAR(HTR_DATE, 'DD') AS "HTR_MONTH", TO_CHAR(HTR_DATE, 'HH:MI') AS "HTR_TIME", HTR_NOW, HTR_CON, HTR_DELETE
+		FROM HABIT_TRACKER_RECORD
+		WHERE ID=#{id}
+		AND HT_NO=#{ht_no}
+		AND TO_CHAR(HTR_DATE, 'YY/MM')=#{htr_date}
+		AND HTR_DELETE='N'
+		ORDER BY HTR_DATE DESC
+	</select>
+	
+	<select id="selectHabitRecordListDaily" parameterType="HabitRecord" resultMap="habitRecordResultSet">
+		SELECT *
+		FROM HABIT_TRACKER_RECORD
+		WHERE ID=#{id}
+        AND TO_CHAR(HTR_DATE, 'YY/MM')=#{htr_date}
+        AND HTR_DELETE = 'N'
+		ORDER BY HT_NO DESC
+	</select>
+	
+	<select id="selectHabitSumList" parameterType="Habit" resultMap="habitSumResultSet">
+		SELECT HT.HT_NO, SUM(HTR_NOW) AS HT_NOW
+		FROM HABIT_TRACKER_RECORD HTR
+		JOIN HABIT_TRACKER HT ON (HT.HT_NO = HTR.HT_NO)
+		WHERE HT.HT_CYCLE = 'Daily'
+		AND HT.ID = #{id}
+		AND TO_CHAR(HTR.HTR_DATE, 'YY/MM/DD') = #{ht_start}
+		AND HTR.HTR_DELETE = 'N'
+		AND HT.HT_DELETE = 'N'
+		GROUP BY HT.HT_NO
+	</select>
+	
+	<select id="selectHabitMSumList" parameterType="Habit" resultMap="habitSumResultSet">
+		SELECT HT.HT_NO, SUM(HTR_NOW) AS HT_NOW
+		FROM HABIT_TRACKER_RECORD HTR
+		JOIN HABIT_TRACKER HT ON (HT.HT_NO = HTR.HT_NO)
+		WHERE HT.HT_CYCLE = 'Monthly'
+		AND HT.ID = #{id}
+		AND TO_CHAR(HTR.HTR_DATE, 'YY/MM') = #{ht_start}
+		AND HTR.HTR_DELETE = 'N'
+		AND HT.HT_DELETE = 'N'
+		GROUP BY HT.HT_NO
+	</select>
+	
+	<select id="selectHabitWSumList" parameterType="Habit" resultMap="habitSumResultSet">
+		SELECT HT.HT_NO, SUM(HTR_NOW) AS HT_NOW
+		FROM HABIT_TRACKER_RECORD HTR
+		JOIN HABIT_TRACKER HT ON (HT.HT_NO = HTR.HT_NO)
+		WHERE HT.HT_CYCLE = 'Weekly'
+		AND HT.ID = #{id}
+		AND HT.HT_DELETE = 'N'
+		AND HTR.HTR_DELETE = 'N'
+		AND HTR_DATE BETWEEN TO_DATE(TRUNC(SYSDATE,'IW'), 'YY/MM/DD') 
+                   		 AND TO_DATE(TRUNC(SYSDATE,'IW') + 7, 'YY/MM/DD')
+		GROUP BY HT.HT_NO
+	</select>
+	
+	<update id="updateHabitComment" parameterType="Habit">
+		UPDATE HABIT_TRACKER
+		SET HT_CON = #{ht_con}
+		WHERE HT_NO = #{ht_no}
+		AND HT_DELETE = 'N'
+	</update>
+	
+	<update id="deleteHabitRecord" parameterType="HabitRecord">
+		UPDATE HABIT_TRACKER_RECORD
+		SET HTR_DELETE = 'Y'
+		WHERE HTR_NO = #{htr_no}
+	</update>
+	
+	<update id="updateHabitRecord" parameterType="HabitRecord">
+		UPDATE HABIT_TRACKER_RECORD
+		SET HTR_NOW = #{htr_now}, HTR_CON = #{htr_con}
+		WHERE HTR_NO = #{htr_no}
+	</update>
+	
+</mapper>
