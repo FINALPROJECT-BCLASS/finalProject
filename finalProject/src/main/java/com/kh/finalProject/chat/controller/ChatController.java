@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.ws.RequestWrapper;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -160,6 +161,13 @@ public class ChatController {
 		System.out.println("ch : " + ch);
 		session.setAttribute("co_no", co_no);
 		mv.addObject("ch", ch).setViewName("chat/chatOneToOne");
+		
+		return mv;
+	}
+	@RequestMapping("openchatroom.do")
+	public ModelAndView openchatroomViw(ModelAndView mv, HttpSession session) {
+		
+		mv.setViewName("chat/openchatlist");
 		
 		return mv;
 	}
