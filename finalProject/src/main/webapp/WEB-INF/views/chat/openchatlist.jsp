@@ -10,5 +10,6 @@
 <body>
 	<jsp:include page="../common/chatheader.jsp"/>
 	
+	
 </body>
 </html>
