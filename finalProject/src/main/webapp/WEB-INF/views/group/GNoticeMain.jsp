@@ -28,9 +28,10 @@
     .noticeContent{padding-top:5px; padding-left:15px; padding-bottom: 20px; font-size:14px; color:#F3F3F3; }
 
 	/* 글쓰기 버튼 */
-	#groupWrite { text-align:right; width:100%; height: 50px; margin-right:40px; margin-bottom:10px; border:none;}
-    img {width:50px; height:40px; cursor: pointer; border-radius: 5px;}
-	
+	#groupWrite {text-align:right; width:100%; height: 50px; margin-right:40px; margin-bottom:10px; border:none;}
+    .groupWrite {width:50 px; height:40px; cursor: pointer; border-radius: 5px;} 
+    button {margin-bottom: 10px; margin-right:40px; background:none; border:0;}
+	.writeBtn{color:#2860E1 !important; font-size:60px !important; cursor:pointer;}
 	.groupListCount{width:95%; margin-bottom:10px; text-align:right;}
 	
     .emptyNoticeList{margin-top:100px; text-align:center; font-size:20px; font-weight:600;}
@@ -123,7 +124,8 @@
     	</div>
     	
       	<br>
-      	<div id="groupWrite" ><img src="resources/images/write.png" id="writeBtn"></div>
+      	<div id="groupWrite" ><span class="material-icons writeBtn" id="writeBtn">create</span></div>
+        <br>
         <br>
         
 		<div class="groupListCount">총 공지 : ${pi.listCount }</div>
