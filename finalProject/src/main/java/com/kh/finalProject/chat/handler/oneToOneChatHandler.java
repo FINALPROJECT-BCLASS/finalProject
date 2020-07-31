@@ -30,6 +30,7 @@ public class oneToOneChatHandler extends TextWebSocketHandler {
 		private static Logger logger = LoggerFactory.getLogger(oneToOneChatHandler.class);
 		
 		
+		
 		//클라이언트와 연결 된 후
 		@Override
 		public void afterConnectionEstablished(WebSocketSession session) {
