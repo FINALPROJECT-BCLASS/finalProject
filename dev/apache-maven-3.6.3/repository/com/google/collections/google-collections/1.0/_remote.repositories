@@ -1,3 +1,8 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+<<<<<<< HEAD
 #Fri Jul 31 15:55:12 KST 2020
+=======
+#Fri Jul 31 15:51:13 KST 2020
+google-collections-1.0.jar>central=
+>>>>>>> refs/remotes/origin/yeji
 google-collections-1.0.pom>central=

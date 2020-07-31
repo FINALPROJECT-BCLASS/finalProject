@@ -1,3 +1,8 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+<<<<<<< HEAD
 #Fri Jul 31 15:55:11 KST 2020
+=======
+#Fri Jul 31 15:51:12 KST 2020
+commons-logging-api-1.1.jar>central=
+>>>>>>> refs/remotes/origin/yeji
 commons-logging-api-1.1.pom>central=

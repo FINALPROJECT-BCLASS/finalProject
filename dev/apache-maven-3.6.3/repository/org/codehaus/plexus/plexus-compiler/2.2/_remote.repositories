@@ -1,3 +1,7 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+<<<<<<< HEAD
 #Fri Jul 31 15:55:05 KST 2020
+=======
+#Fri Jul 31 15:50:54 KST 2020
+>>>>>>> refs/remotes/origin/yeji
 plexus-compiler-2.2.pom>central=
