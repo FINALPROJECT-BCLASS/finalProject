@@ -184,6 +184,10 @@ public class GroupDao {
 	public int deleteReply(String grNo) {
 		return sqlSessionTemplate.update("groupMapper.deleteReply",grNo);
 	}
+
+	public int deleteReReply(String grNo) {
+		return sqlSessionTemplate.update("groupMapper.deleteReReply",grNo);
+	}
 	
 	
 	

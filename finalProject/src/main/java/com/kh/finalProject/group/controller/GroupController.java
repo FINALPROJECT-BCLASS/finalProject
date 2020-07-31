@@ -759,10 +759,12 @@ public class GroupController {
 	
 		// 댓글 삭제
 		@RequestMapping(value = "replyDelete.do", method = RequestMethod.GET)
-		public void deleteReply(HttpServletResponse response, @RequestParam(value = "grNo") String grNo) throws IOException {
-			System.out.println("오냐");
-			int result = gService.deleteReply(grNo);
-			System.out.println("댓글삭제 result : " + result);
+		public String deleteReply(Model model, HttpServletResponse response, @RequestParam(value = "grNo") String grNo) throws IOException {
+			System.out.println("댓글삭제  grNo :" + grNo);
+			int replyDelete = gService.deleteReply(grNo);
+			int reReplyDelete = gService.deleteReReply(grNo);
+			System.out.println("댓글삭제 result : " + replyDelete);
+			System.out.println("대댓글삭제 result : " + reReplyDelete);
 			
 			response.setContentType("application/json;charset=utf-8");
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -771,7 +773,9 @@ public class GroupController {
 			out.print("삭제 성공");
 			out.flush();
 			out.close();
+			return "redirect:detailBoard.do";
 
+			
 		}
 
 }

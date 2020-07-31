@@ -56,7 +56,7 @@
     .replyTr, .reReplyTr{height:40px;}
     .replyBtn{background:#FBD14B; border:none;  font-weight: 600; font-size: 14px; border-radius:6px; width:67px; height:35px;}
     .replyBtn:hover{border:#ffc400; border:none; color:#2860E1; font-weight: 600; font-size: 14px; border-radius:6px; width:67px; height:35px;}
-	.replyConBox{height:40px; margin-right:10px; width:920px;border:none; border-radius: 6px; background:white;}
+	.replyConBox{padding-left:20px;align-item:center; display:flex;justify-conten:center;height:40px; margin-right:10px; width:920px;border:none; border-radius: 6px; background:white;}
 	.replyReset{margin-right:10px; padding-top:9px; width:20px; display:inline-block; color:gray; font-weight:600; text-align:right; padding-bottom:9px; cursor:pointer;}
 	.replyName{ cursor:pointer;}
 	
@@ -161,7 +161,7 @@
                 	</c:if>
                 	<c:if test="${!empty replyList }"><!-- 댓글이 있을 경우 -->
                 		<c:forEach var="r" items="${replyList }">
-                			
+                				
 		               			<input type="hidden" class="crNo" value="${r.grNo }">
 			               		<tr class="replyTr">
 			                        <td><div class="replyName">${r.name }</div></td>
@@ -171,7 +171,7 @@
 			                        	<td><div class="replyReset replyDelete">x</div></td>
 			                        </c:if>
 			                    </tr>
-		                    
+		                    	
 		                    
 		                    	<c:forEach var="re" items="${reReplyList }">
 			                    	<c:if test="${ re.grNo eq r.grNo}">
@@ -250,7 +250,6 @@
       		   var $replyName;
       		   var $reset;
          	 $(document).on("click",".replyName",function(){
-				$(".replyConBox").css({"justify-content":"center", "align-item":"center","display":"flex"});
 				 $replyNameLocation  = $(this);
          		
               	grNo = $(this).closest(".replyTr").prev().val();
@@ -265,6 +264,7 @@
          			$replyBox.append($reset);
 
          			$(".replyReset").click(function(){	// @이름 삭제
+         				$(".replyConBox").css("justify-content","none");
          				$replyName.remove();
          				$reset.remove();
          			})
@@ -273,8 +273,7 @@
          </script>
          
           <!-- 함수 실행 -->
-         <script>
-         	// re댓글이 아닐경우 (그냥 댓글일 경우)
+         <script>         	
           	$(".replyBtn").click(function(){
          		if($(".reName").length == 0){	// @이름이 없는 경우
          			if($("#replyWirte").val() == ""){
@@ -285,6 +284,7 @@
          			}
          		} else {						// @이름이 있는 경우
          			reReplySubmit();
+         			$(".replyConBox").css("justify-content","none");
          		}
          	})
          </script>
@@ -432,23 +432,24 @@
          <!-- 댓글 삭제 -->
 			<script>
          	 $(document).on("click",".replyDelete",function(){
-         		var deleteConfirm = confirm("댓글을 삭제하시겠습니까?");
+         		var deleteConfirm = confirm("댓글을 삭제하시겠습니까? (댓글의 답글까지 삭제 됩니다.)");
          		if(deleteConfirm){
 					var deleteCon = $(this).parent().prev().prev().children();
          			var deleteTr = $(this).closest(".replyTr");
+					var reReplyYn = deleteTr.next().next();
 					var deleteInput = deleteTr.prev();
          			var grNo = deleteInput.val();
+         			deleteCon.text("삭제한 댓글입니다.").css("color","gray");	
 					deleteInput.remove();
-					
-					
+
         			$.ajax({
              			url:"replyDelete.do",
            				type: "GET",
-                        /* dataType: "json", */
+                        dataType: "text",
                      	data:{grNo:grNo},
                      	success:function(data){                     	
                      		console.log(data);
-                     		deleteCon.val("삭제한 댓글입니다.");
+                     		
                     	},
                    	  	error:function(request, status, errorData){
       						alert("error code: " + request.status + "\n"
@@ -460,6 +461,37 @@
 			})
  			</script>        
          
+         <!-- 대댓글 삭제@@@@@@@@@@@@@@@@수정중 -->
+			<script>
+         	 $(document).on("click",".reReplyDelete",function(){
+         		var deleteConfirm = confirm("댓글을 삭제하시겠습니까? (댓글의 답글까지 삭제 됩니다.)");
+         		if(deleteConfirm){
+					var deleteCon = $(this).parent().prev().prev().children();
+         			var deleteTr = $(this).closest(".replyTr");
+					var reReplyYn = deleteTr.next().next();
+					var deleteInput = deleteTr.prev();
+         			var grNo = deleteInput.val();
+         			deleteCon.text("삭제한 댓글입니다.").css("color","gray");	
+					deleteInput.remove();
+
+        			$.ajax({
+             			url:"replyDelete.do",
+           				type: "GET",
+                        dataType: "text",
+                     	data:{grNo:grNo},
+                     	success:function(data){                     	
+                     		console.log(data);
+                     		
+                    	},
+                   	  	error:function(request, status, errorData){
+      						alert("error code: " + request.status + "\n"
+      								+"message: " + request.responseText
+      								+"error: " + errorData);
+      					}
+         		})
+         		}
+			})
+ 			</script>        
          
          
          

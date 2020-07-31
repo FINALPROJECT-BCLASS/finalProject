@@ -92,6 +92,8 @@ public interface GroupService {
 
 	int deleteReply(String grNo);
 
+	int deleteReReply(String grNo);
+
 
 
 }

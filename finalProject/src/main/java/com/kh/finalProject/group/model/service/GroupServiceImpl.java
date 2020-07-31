@@ -211,6 +211,11 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.deleteReply(grNo);
 	}
 
+	@Override
+	public int deleteReReply(String grNo) {
+		return gDao.deleteReReply(grNo);
+	}
+
 
 	
 

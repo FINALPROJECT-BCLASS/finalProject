@@ -412,7 +412,13 @@
 	
 	<update id="deleteReply" parameterType="string">
 		UPDATE GROUP_REPLY 
-		SET GR_DELETE = 'N'
+		SET GR_DELETE = 'Y'
+		WHERE GR_NO = #{grNo}
+	</update>
+	
+	<update id="deleteReReply" parameterType="string">
+		UPDATE GROUP_REREPLY 
+		SET GRR_DELETE = 'Y'
 		WHERE GR_NO = #{grNo}
 	</update>
 </mapper>
