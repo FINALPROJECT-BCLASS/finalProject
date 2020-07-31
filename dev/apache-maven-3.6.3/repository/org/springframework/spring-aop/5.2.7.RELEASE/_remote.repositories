@@ -1,4 +1,9 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+<<<<<<< HEAD
+#Thu Jul 30 14:40:12 KST 2020
+spring-aop-5.2.7.RELEASE-sources.jar>central=
+=======
 #Thu Jul 30 12:50:23 KST 2020
+>>>>>>> refs/remotes/origin/master
 spring-aop-5.2.7.RELEASE.jar>central=
 spring-aop-5.2.7.RELEASE.pom>central=

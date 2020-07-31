@@ -42,7 +42,7 @@ public interface GroupService {
 
 	GroupNotice selectNoticeOne(GroupInfo gInfo);
 
-	int boardGetListCount();
+	int boardGetListCount(int groupNo);
 
 	ArrayList<GroupBoard> selectBoardList(PageInfo pi);
 
@@ -89,6 +89,10 @@ public interface GroupService {
 	ArrayList<GroupReply> selectOneReplyList(int replyCurrval);
 
 	ArrayList<GroupReReply> totalReReply();
+
+	int deleteReply(String grNo);
+
+	int deleteReReply(String grrNo);
 
 
 

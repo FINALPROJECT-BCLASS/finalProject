@@ -1,4 +1,9 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+<<<<<<< HEAD
+#Thu Jul 30 14:41:03 KST 2020
+junit-4.7-sources.jar>central=
+=======
 #Thu Jul 30 12:50:25 KST 2020
+>>>>>>> refs/remotes/origin/master
 junit-4.7.jar>central=
 junit-4.7.pom>central=

@@ -1,3 +1,8 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+<<<<<<< HEAD
+#Thu Jul 30 14:40:00 KST 2020
+maven-eclipse-plugin-2.9.jar>central=
+=======
 #Thu Jul 30 14:09:49 KST 2020
+>>>>>>> refs/remotes/origin/master
 maven-eclipse-plugin-2.9.pom>central=

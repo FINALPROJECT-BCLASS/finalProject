@@ -41,6 +41,7 @@
 		<result property="gnDelete" column="GN_DELETE"/>
 		<result property="gnCount" column="GN_COUNT"/>
 		<result property="name" column="NAME"/>
+		<result property="renameFile" column="RENAME_FILE"/>
 	</resultMap>
 	
 	<resultMap id="groupBoardResultSet" type="GroupBoard">
@@ -53,6 +54,7 @@
 		<result property="gbDelete" column="GB_DELETE"/>
 		<result property="gbCount" column="GB_COUNT"/>
 		<result property="name" column="NAME"/>
+		<result property="renameFile" column="RENAME_FILE"/>
 	</resultMap>
 	
 	<resultMap id="groupBoardPhotoResultSet" type="groupBoardPhoto">
@@ -174,7 +176,7 @@
 	
 	<!-- 그룹 공지 -->
 	<select id="selectNoticeList" parameterType="GroupInfo" resultMap="groupNoticeResultSet">
-		SELECT GN_NO, GN.GM_NO AS GM_NO, GN.G_NO AS G_NO, GN_TITLE, GN_CON, GN_DATE, GN_DELETE, GN_COUNT, NAME
+		SELECT GN_NO, GN.GM_NO AS GM_NO, GN.G_NO AS G_NO, GN_TITLE, GN_CON, GN_DATE, GN_DELETE, GN_COUNT, NAME, RENAME_FILE
 		FROM GROUP_NOTICE GN
 		JOIN GROUP_MEMBER GM ON(GN.GM_NO = GM.GM_NO)
         JOIN MEMBER M ON (GM.GM_ID = M.ID)
@@ -226,11 +228,12 @@
 	<select id="boardGetListCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM GROUP_BOARD
-		WHERE GB_DELETE = 'N'
+		WHERE G_NO = #{groupNo}
+		AND GB_DELETE = 'N'
 	</select>
 	
 	<select id="selectBoardList" parameterType="GroupInfo" resultMap="groupBoardResultSet">
-		SELECT GB_NO, GB.GM_NO AS GM_NO, GB.G_NO AS G_NO, GB_TITLE, GB_CON, GB_DATE, GB_DELETE, GB_COUNT, NAME
+		SELECT GB_NO, GB.GM_NO AS GM_NO, GB.G_NO AS G_NO, GB_TITLE, GB_CON, GB_DATE, GB_DELETE, GB_COUNT, NAME, RENAME_FILE
 		FROM GROUP_BOARD GB
 		JOIN GROUP_MEMBER GM ON(GB.GM_NO = GM.GM_NO)
         JOIN MEMBER M ON (GM.GM_ID = M.ID)
@@ -316,7 +319,7 @@
         JOIN GROUP_MEMBER GM ON(GR.GM_NO = GM.GM_NO)
         JOIN MEMBER M ON(M.ID = GM.GM_ID)
 		WHERE GB_NO = #{gbNo}
-		AND GR_DELETE = 'N'
+		<!-- AND GR_DELETE = 'N' -->
 		ORDER BY GR_NO DESC
 	</select>
 	
@@ -407,4 +410,16 @@
 		FROM GROUP_REREPLY
 		GROUP BY GB_NO
 	</select>
+	
+	<update id="deleteReply" parameterType="string">
+		UPDATE GROUP_REPLY 
+		SET GR_DELETE = 'Y'
+		WHERE GR_NO = #{grNo}
+	</update>
+	
+	<update id="deleteReReply" parameterType="string">
+		UPDATE GROUP_REREPLY 
+		SET GRR_DELETE = 'Y'
+		WHERE GRR_NO = #{grrNo}
+	</update>
 </mapper>
