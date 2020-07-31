@@ -927,5 +927,11 @@ public class GroupController {
 			
 			}
 		
+			// 게시판 작성 view
+			@RequestMapping(value = "boardInsertView.do", method = RequestMethod.GET)
+			public String boardUpdate(Model model, HttpSession session, GroupNotice gn) {
+				System.out.println("오냐?");
+				return "group/GBoardInsert";
+			}
 		
 }

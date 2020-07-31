@@ -12,7 +12,7 @@
 
     h1, h4{margin-top:20px; text-align:center;}
 	
-	input:focus {outline:none;}
+	input:focus, button:focus {outline:none;}
 	
 	 /* 구글 아이콘 */
     .material-icons{font-size:30px !important; padding-top:12px; padding-left: 10px; padding-right: 10px;  }
@@ -69,9 +69,9 @@
 	.rereName{display:inline-block;}
 	
 	
-    #submit{background:none; border:none; color:#2860E1; font-weight: 600; font-size: 20px; border-radius:6px; width:60px; height:35px;}
-    #reset{background:none; border:none; color:#484848; font-weight: 600; font-size: 20px; width:100px;}
-	
+    #submit{background:none; border:none; color:#2860E1; font-weight: 700; font-size: 20px; border-radius:6px; width:60px; height:35px;margin-right: 20px;}
+    #reset{background:none; border:none; color:#484848; font-weight: 700; font-size: 20px; width:100px; cursor:pointer;    margin-right: 20px;}
+	#delete{background:none; border:none; color:#ee1212d0; font-weight: 700; font-size: 20px; width:100px; cursor:pointer;    }
 </style>
 </head>
 <body>
@@ -128,7 +128,8 @@
 						<c:forEach var="p" items="${photoList }">
 							<tr>
 								<td>
-									<img class="boardImg" src="resources/groupBoardFiles/${p.gbpOrigin }">
+									<img class="boardImg" src="resources/groupBoardFiles/${p.gbpOrigin }" download>
+									
 								</td>
 							<tr>
 						</c:forEach>
@@ -215,11 +216,23 @@
                 <br><br>
                 <div class="groubJoinBtn">
                     <span id="reset">Back</span>
-                   <span><button id="submit">Update</button>&nbsp;</span>
+                   <span id="submit">Update</span>
+                    <span id="delete">Delete</span>
                 </div>
             </div>
          </div>
-         
+       
+       	<!-- update btn -->
+		<script>
+		
+			var gbNo = ${boardList.gbNo};
+			
+			$("#submit").click(function(){
+				location.href="boardUpdate.do?gbNo"+gbNo;
+			})
+		</script>
+		
+		       
          <!-- 좋아요 클릭 -->
          <script>
              $(".like").click(function(){
@@ -481,24 +494,20 @@
 			})
  			</script>        
          
-         <!-- 대댓글 삭제@@@@@@@@@@@@@@@@수정중 -->
+         <!-- 대댓글 삭제-->
 			<script>
          	 $(document).on("click",".reReplyDelete",function(){
          		var deleteConfirm = confirm("댓글을 삭제하시겠습니까? ");
          		if(deleteConfirm){
-					/* var deleteCon = $(this).parent().prev().prev().children(); */
          			var deleteTr = $(this).closest(".reReplyTr");
 					var deleteTd = $(this).closest(".reReplyTr").children();
          			var removeTd = $("<td>").attr("colspan", 3);
          			var deleteComment = $("<div>").text("삭제한 댓글입니다.").attr("class","removeReply");
-					/* var deleteInput = deleteTr.prev(); */
          			var grrNo =  deleteTr.attr('data-value');
          
          			deleteTd.remove();
          			removeTd.append(deleteComment);
          			deleteTr.append(removeTd);
-
-/* 					deleteInput.remove(); */
 
         			$.ajax({
              			url:"reReplyDelete.do",
