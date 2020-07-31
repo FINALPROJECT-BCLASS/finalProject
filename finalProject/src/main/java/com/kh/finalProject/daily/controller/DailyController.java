@@ -2,8 +2,11 @@ package com.kh.finalProject.daily.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -302,7 +305,7 @@ public class DailyController {
 	}
 	
 	@RequestMapping(value="insertHtr.do", method = RequestMethod.POST)
-	public void insertHabitRecord(HttpServletRequest request, HttpServletResponse response, String[] htr) throws IOException {
+	public void insertHabitRecord(HttpServletRequest request, HttpServletResponse response, String[] htr) throws IOException, ParseException {
 		
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
@@ -320,24 +323,28 @@ public class DailyController {
 		System.out.println(htr_date);
 		
 		
-//		SimpleDateFormat dailySet = new SimpleDateFormat ("yy/MM/dd"); // 오늘 날짜 저장
-//		
-//		Date date = new Date();
-//		
-//		String day = dailySet.format(htr_date);
-//		
-//		
-//		System.out.println("오늘 날짜 : " + day);
-//		
+		SimpleDateFormat dailySet = new SimpleDateFormat ("yyyy-MM-dd"); // 오늘 날짜 저장
+		
+		
+		Date date = new Date();
+		String day = dailySet.format(date);
+		
+		System.out.println("오늘 날짜 : " + day);
+		
 		
 		HabitRecord hr = new HabitRecord();
 		hr.setHt_no(ht_no);
 		hr.setId(id);
 		hr.setHtr_now(htr_now);
 		hr.setHtr_con(htr_con);
-		hr.setHtr_date(htr_date);
+		
+		if(day.equals(htr_date)) {
+			hr.setHtr_date("Today");
+		}else {
+			hr.setHtr_date(htr_date);
+		}
 	        
-		System.out.println(hr);
+		System.out.println("확인" + hr);
 		
 		
 	    int result = dailyService.insertHabitRecord(hr);

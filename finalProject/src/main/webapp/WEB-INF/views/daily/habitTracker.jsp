@@ -787,7 +787,6 @@
 		
 			var htDate;
 			$(".content").hide();
-			
 	
 			// 모달에 comment 내용 넣어주기
 			function editCommentCheck() {
@@ -829,25 +828,40 @@
                 	
    					var eventDates = [];	
    					
+                	
+			        $(".today").css("background", data.list.ht_color);
+   					
+                	/* Calendar */
    					// 불러온 데이터와 일치하는 날짜 태그에 event 클래스명 추가
                 	for(var i in data.hrclist) {
  	   					eventDates.push(data.hrclist[i].htr_date);
  	   					$("." + data.hrclist[i].htr_date).addClass("event");
 					}
                 	
-			         $(".today").css("background", data.list.ht_color);
-   					
-                	/* Calendar */
-      	         
+                	// 이전, 이후 버튼 눌렀을 때 이벤트 클래스 제거하고 새로 추가
+                	$(".btn-next").on("click", function(){
+                		$(".event").removeClass("event");
+                		for(var i in data.hrclist) {
+     	   					eventDates.push(data.hrclist[i].htr_date);
+     	   					$("." + data.hrclist[i].htr_date).addClass("event");
+    					}
+                	})
+                	
+                	$(".btn-prev").on("click", function(){
+                		$(".event").removeClass("event");
+                		for(var i in data.hrclist) {
+     	   					eventDates.push(data.hrclist[i].htr_date);
+     	   					$("." + data.hrclist[i].htr_date).addClass("event");
+    					}
+                	})
+                	
       	            $("#event-cal-container").simpleCalendar({
       	            	insertEvent: true,
       	                fixedStartDay: true,
       	              	displayEvent: true,
+      	              	insertEvent: true,
       	               	events: eventDates,
       	              	selectCallback: function(date){ // 캘린더에서 날짜를 눌렀을 때
-      	              		
-      	              		//내용
-      						$("#comment").html(data.list.ht_con);
       	              	
       	              		var change = date.replace(/-/g, "/");
       	              		var day = change.substr(2);
@@ -918,7 +932,7 @@
       	     								
       	     								var checkbox = "<input type='checkbox' value='"+ caldata.hrc[i].htr_no + "' id='check"+ i +"' name='check" + i +"'>" + "<label for='check"+i+"'>" + "</label>";
       	     		   						var htNow = "+" + caldata.hrc[i].htr_now + unit + "<input type='hidden' id='htr_now_hidden' value='"+ caldata.hrc[i].htr_now +"'>";
-      	     		   						var htrDate = "<b>" + caldata.hrc[i].htr_month + "일 </b> " + caldata.hrc[i].htr_time;
+      	     		   						var htrDate = "<b>" + caldata.hrc[i].htr_month + "일</b>&nbsp; " + caldata.hrc[i].htr_time;
       	     		   						
       	     		   						sum += +caldata.hrc[i].htr_now;
       	     		   						
