@@ -1,0 +1,271 @@
+html, body {
+    height:100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+}
+
+.header {
+    background-color:white;
+    margin: 0;
+    padding: 0;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.048);
+}
+
+.mainNav {
+    display: flex;
+    align-items: center;
+}
+
+.navi-area {
+    position: relative;
+    display: inline-block;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    padding-left: 100px;
+}
+
+
+.navi-area > li {
+    position : relative;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    padding : 20px 0;
+    width: 125px;
+    font-size: 16px;
+    font-weight: 600;
+    color : rgba(72, 72, 72, 1);
+    cursur : pointer;
+}
+
+.navi-area > li > a {
+    text-decoration: none !important;
+    display: block;
+    color: rgba(72, 72, 72, 1) !important;
+}
+
+.navi-area > li > a:hover {
+    text-decoration: none !important;
+    display: block;
+    color: rgba(72, 72, 72, 1) !important;
+}
+
+
+
+
+.logo-area {
+    
+    display: inline-block;
+    padding: 20px 30px;
+    color: rgba(72, 72, 72, 1);
+    font-size: 18px;
+    font-weight: 800;
+    cursor:pointer;
+}
+
+.sub-navi {
+    padding: 0;
+    margin: 0 auto;
+    position: absolute;
+    display: none;
+    width: 172px;
+    top: 65px;
+    right: -18%;
+    background-color: #F3F3F3;
+    border-radius: 0 0 10px 10px;
+    list-style: none;
+    box-shadow: 2px 8px 11px -4px #00000014;
+}
+
+.sub-navi > li {
+    font-size : 14px;
+    font-weight: 500;
+}
+
+.sub-navi > li > a {
+    padding: 15px 20px;
+    text-decoration: none !important;
+    display: block;
+    color: rgba(72, 72, 72, 1) !important;
+}
+
+
+.navi-area > li:hover > ul {
+    border-top: 2px solid #FBD14B;
+    display: inline-block;
+    z-index: 1;
+}
+
+.navi-area > li > ul > li:hover {
+    background-color: #FBD14B;
+}
+
+.login-square {
+    width: 15px;
+    height: 15px;
+    background-color: #F3F3F3;
+    position: absolute;
+    top: 58px;
+    left: 44%;
+    transform: rotate(45deg);
+}
+
+.login-area {
+    
+    display: inline-block;
+    width: 100px;
+    cursor: pointer !important;
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+
+}
+
+.login-area > div > a {
+    display: inline-block;
+    text-decoration: none;
+    color:rgba(72, 72, 72, 1);
+    font-size: 18px;
+    font-weight: 700;
+    padding-left: 10px;
+}
+
+.login-area > div {
+    display: inline-block;
+    width: 25px;
+    height: 26px;
+    background-color: #FBD14B;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+.login-area-item {
+	background: none !important;
+    width: 100px !important;
+    height: 67px !important;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.hide {
+    display:none;
+}
+
+.login-sub {
+    position: absolute;
+    /* display: none; */
+    padding: 0;
+    margin: 0 auto;    
+    left: 0px;
+    top: 63px;
+    text-align: center;
+    color:rgba(72, 72, 72, 1);
+    background-color: #F3F3F3;
+    border-radius: 10px;
+    list-style: none;
+    box-shadow: 2px 8px 11px -4px #00000014;
+}
+
+.login-sub > li > a {
+    
+    padding: 9px 20px;
+    text-decoration: none;
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(72, 72, 72, 1);
+}
+
+.login-area > div > a:hover {
+    color : rgba(72, 72, 72, 1);
+}
+
+.login-sub > li:hover {
+    background: #FBD14B;
+}
+
+/* 헤더 프로필 이미지 */
+.h-profile-image-area {
+	display: flex;
+    width: 35px;
+    height: 35px;
+    overflow: hidden;
+    border-radius: 50% !important;
+    justify-content: center;
+    align-items: center;
+}
+
+.h-profile-image {
+    height: 135% !important;
+}
+
+.after {
+	padding:0 !important;
+	
+}
+
+/* 기본 버튼 */
+
+.default-btn {
+	font-size: 15px;
+    font-weight: 600;
+    color: #484848;
+	border-style: none;
+    border-radius: 8px;
+    height: 40px;
+    width: 80px;
+}
+
+.b-radius {
+    border-radius: 0 0 10px 10px;
+}
+
+.t-radius {
+    border-radius: 10px 10px 0 0;
+}
+
+/* 색상 */
+
+.blue {
+    color:#2860E1 !important;
+}
+
+.yellow {
+    color:#FBD14B !important;
+}
+
+.white {
+    color:white !important;
+}
+
+.gray{
+	color:gray !important;
+}
+
+.lightgray {
+    color:#F3F3F3 !important;
+}
+
+.b-blue {
+    background:#2860E1;
+}
+
+.b-yell {
+    background:#FBD14B;
+}
+
+.b-white {
+    background:white;
+}
+
+.b-lightgray {
+    background:#F3F3F3;
+
+}

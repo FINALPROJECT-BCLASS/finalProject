@@ -223,7 +223,7 @@ public class GroupController {
 
 		int memberNo = gService.memberNoSelect(gInfo);
 		gInfo.setGmNo(memberNo);
-
+		
 		session.setAttribute("gInfo", gInfo);
 		System.out.println("gInfo : " + gInfo);
 		return "group/GCalendarMain";
@@ -316,6 +316,7 @@ public class GroupController {
 				jObj.put("gnDelete", n.getGnDelete());
 				jObj.put("gnCount", n.getGnCount());
 				jObj.put("name", n.getName());
+				jObj.put("renameFile", n.getRenameFile());
 
 				jArr.add(jObj);
 			}
@@ -388,7 +389,7 @@ public class GroupController {
 			currentPage = Cpage;
 		}
 
-		int listCount = gService.boardGetListCount();
+		int listCount = gService.boardGetListCount(gInfo.getGroupNo());
 
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 
@@ -404,14 +405,14 @@ public class GroupController {
 	public void boardMainAjax(HttpServletResponse response, HttpSession session,
 			@RequestParam(value = "page", required = false) String page) throws IOException {
 		GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
-
+		Member loginUser = (Member) session.getAttribute("loginUser");
 		int currentPage = 1;
 		if (page != null) {
 			int Cpage = Integer.parseInt(page);
 			currentPage = Cpage;
 		}
 
-		int listCount = gService.boardGetListCount();
+		int listCount = gService.boardGetListCount(gInfo.getGroupNo());
 
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 
@@ -431,7 +432,7 @@ public class GroupController {
 		// 댓글 total
 		ArrayList<GroupReply> replyList = gService.totalReply();
 		ArrayList<GroupReReply> reReplyList = gService.totalReReply();
-		
+		 
 		if(!replyList.isEmpty()) {
 			for(GroupReply r : replyList) {
 				if(!reReplyList.isEmpty()) {
@@ -449,14 +450,16 @@ public class GroupController {
 		}
 		
 		response.setContentType("application/json;charset=utf-8");
-
+		
+		
 		JSONArray jArr = new JSONArray();
 		JSONArray pArr = new JSONArray();
 		JSONArray lArr = new JSONArray();
 		JSONArray rArr = new JSONArray();
 		
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
+		
 		if (boardList != null) {
 			for (GroupBoard b : boardList) {
 				JSONObject jObj = new JSONObject();
@@ -473,6 +476,7 @@ public class GroupController {
 				jObj.put("gbDelete", b.getGbDelete());
 				jObj.put("gbCount", b.getGbCount());
 				jObj.put("name", b.getName());
+				jObj.put("renameFile", b.getRenameFile());
 
 				jArr.add(jObj);
 			}
@@ -524,6 +528,7 @@ public class GroupController {
 						sendJson.put("likeList", lArr);
 						sendJson.put("replyList", rArr);
 						
+						
 						PrintWriter out = response.getWriter();
 						out.print(sendJson);
 						out.flush();
@@ -543,9 +548,10 @@ public class GroupController {
 	// 게시판 상세
 	@RequestMapping(value = "detailBoard.do", method = RequestMethod.GET)
 	public ModelAndView boardDetail(ModelAndView mv, HttpSession session, @RequestParam("gbNo") String gbNo) {
+		Member loginUser = (Member) session.getAttribute("loginUser");
 		GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 		String gmNo = Integer.toString(gInfo.getGmNo());
-
+		
 		GroupNotice noticeList = gService.selectNoticeOne(gInfo);
 		
 		// 조회수 증가
@@ -563,13 +569,14 @@ public class GroupController {
 		GroupLike likeList = gService.selectLikeList(gl);
 
 		ArrayList<GroupReply> replyList = gService.selectReplyList(gbNo);
-
+		System.out.println("게시판 메인 : " + replyList);
 		ArrayList<GroupReReply> reReplyList = gService.selectReReplyList(gbNo);
 
 		int totalReply = gService.totalReplyList(gbNo);
 		int totalReReply = gService.totalReReplyList(gbNo);
 		int totalRe = totalReply + totalReReply;
 		
+		mv.addObject("memberPhoto", loginUser.getRename_file());
 		mv.addObject("gInfoGmNo", gmNo);
 		mv.addObject("noticeList", noticeList);
 		mv.addObject("photoList", photoList);
@@ -622,7 +629,7 @@ public class GroupController {
 	@RequestMapping(value = "replyAjax.do", method = RequestMethod.GET)
 	public void replyinsert(HttpServletResponse response, HttpSession session, GroupReply gr )throws IOException {
 		String gbNo = Integer.toString(gr.getGbNo()); 
-		
+		System.out.println("댓글 생성 gr : " + gr);
 		// 댓글 insert
 		int result = gService.replyInsert(gr);
 		
@@ -686,10 +693,8 @@ public class GroupController {
 //		ArrayList<GroupReReply> reReplyList = gService.selectReReplyList(grr);
 		
 		int reReplyCurrval = gService.reReplyCurrval();
-		System.out.println("대댓글 ajax reReplyCurrval : " + reReplyCurrval);
 		
 		ArrayList<GroupReReply> reReplyList = gService.selectOneReReplyList(reReplyCurrval);
-		System.out.println("대댓글 ajax reReplyList : " + reReplyList);
 		
 		int totalReply = gService.totalReplyList(gbNo);
 
@@ -751,4 +756,44 @@ public class GroupController {
 			System.out.println("댓글 ajax 실패하였습니다.");
 		}
 	}
+	
+		// 댓글 삭제
+		@RequestMapping(value = "replyDelete.do", method = RequestMethod.GET)
+		public void deleteReply(HttpServletResponse response, @RequestParam(value = "grNo") String grNo) throws IOException {
+			System.out.println("댓글삭제  grNo :" + grNo);
+			int replyDelete = gService.deleteReply(grNo);
+			/* int reReplyDelete = gService.deleteReReply(grNo); */
+			System.out.println("댓글삭제 result : " + replyDelete);
+			
+			response.setContentType("application/json;charset=utf-8");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+			PrintWriter out = response.getWriter();
+			out.print("댓글 삭제 성공");
+			out.flush();
+			out.close();
+			
+
+			
+		}
+		
+		// 대댓글 삭제
+		@RequestMapping(value = "reReplyDelete.do", method = RequestMethod.GET)
+		public void deleteReReply(HttpServletResponse response, @RequestParam(value = "grrNo") String grrNo) throws IOException {
+
+			int reReplyDelete = gService.deleteReReply(grrNo);
+			
+			System.out.println("대댓글삭제 result : " + reReplyDelete);
+			
+			response.setContentType("application/json;charset=utf-8");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+			PrintWriter out = response.getWriter();
+			out.print("대댓글 삭제 성공");
+			out.flush();
+			out.close();
+	
+				}
+		
+		
 }
