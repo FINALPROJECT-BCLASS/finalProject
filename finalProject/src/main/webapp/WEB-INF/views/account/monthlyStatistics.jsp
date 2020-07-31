@@ -166,6 +166,12 @@
         .tdAmount {
         	width: 150px;
         }
+        
+        #notice {
+        	margin-left: 550px;
+        	width: 500px;
+        	text-align: center;
+        }
     </style>
 </head>
 
@@ -188,12 +194,15 @@
         </div>
         
         <div class="row">
-        	<div class="col-md-3"></div>
-        	<div class="col-md-4">
-        		<b style="color: blue; font-size: 20px;">Profit :&nbsp;</b><span><b id="profit" style="font-size: 20px;"></b></span>
-        	</div>
-        	<div class="col-md-5">
-        		<b style="color: red; font-size: 20px;">Expenditure :&nbsp;</b><span><b id="expenditure" style="font-size: 20px;"></b></span>
+        	<div id="notice">
+        		<b style="color: blue; font-size: 20px;">Profit :&nbsp;</b>
+        		<span><b id="profit" style="font-size: 20px;"></b></span>
+        		<b style="color: red; font-size: 20px; margin-left: 50px;">Expenditure :&nbsp;</b>
+        		<span><b id="expenditure" style="font-size: 20px;"></b></span>
+        		<br>
+        		<b id="gapAmount" style="font-size: 40px;"></b>
+        		<br>
+        		<b id="sentence" style="font-size: 20px;"></b>
         	</div>
         </div>
         
@@ -306,6 +315,23 @@
     				}
     				
     				chart.render();
+    				
+    				$("#sentence").html("");
+    				$("#gapAmount").html("");
+    				
+    				if(data.ecList.length > 0) {
+	    				if(data.gap == "plus") {
+	    					$("#gapAmount").html(data.gapAmount).css("color", "blue");
+	    				} else {
+	    					$("#gapAmount").html(data.gapAmount).css("color", "red");
+	    				}
+	    				
+	    				if(data.maxExp != "") {
+	    					$("#sentence").html("'" + data.maxExp + "'을 줄여보시는게 어떨까요?");
+	    				} else {
+	    					$("#sentence").html("계획적인 소비 생활을 하고 계시는군요!")
+	    				}    					
+    				}
     				
     				$("#profit").html(data.pSum);
     				$("#expenditure").html(data.eSum);

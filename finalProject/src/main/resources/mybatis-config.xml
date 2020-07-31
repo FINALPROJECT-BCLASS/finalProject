@@ -41,7 +41,6 @@
 		<typeAlias type="com.kh.finalProject.account.model.vo.MonthlySum" alias="MonthlySum"/>				<!-- 예지 -->
 		<typeAlias type="com.kh.finalProject.account.model.vo.MSumCondition" alias="MSumCondition"/>		<!-- 예지 -->
 		<typeAlias type="com.kh.finalProject.account.model.vo.ExpCategory" alias="ExpCategory"/>			<!-- 예지 -->
-		<typeAlias type="com.kh.finalProject.account.model.vo.MaxExpenditure" alias="MaxExpenditure"/>		<!-- 예지 -->
 
 		<typeAlias type="com.kh.finalProject.chat.model.vo.Chat" alias="Chat"/>
 

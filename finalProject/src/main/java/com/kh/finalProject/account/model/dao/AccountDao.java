@@ -79,7 +79,7 @@ public class AccountDao {
 		return (ArrayList)sqlSessionTemplate.selectList("accountMapper.selectECList", condition);
 	}
 
-	public int getOverrun(Condition condition) {
+	public String getOverrun(Condition condition) {
 		
 		return sqlSessionTemplate.selectOne("accountMapper.getOverrun", condition);
 	}

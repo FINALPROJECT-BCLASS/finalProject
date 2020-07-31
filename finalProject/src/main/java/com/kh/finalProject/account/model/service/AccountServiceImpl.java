@@ -92,7 +92,7 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public int getOverrun(Condition condition) {
+	public String getOverrun(Condition condition) {
 		
 		return aDao.getOverrun(condition);
 	}

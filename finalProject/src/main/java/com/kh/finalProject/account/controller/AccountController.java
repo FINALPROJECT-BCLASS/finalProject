@@ -320,9 +320,17 @@ public class AccountController {
 			eSum += aService.selectAbAmount(abENoList.get(i).getAbNo());
 		}
 		
-		int overrun = 0;
+		String maxExp = "";
 		if(eSum > pSum) {
-			overrun = aService.getOverrun(condition);
+			maxExp = aService.getOverrun(condition);			
+		}
+		
+		int gapAmount = pSum - eSum;
+		String gap = "";
+		if(gapAmount > 0) {
+			gap = "plus";
+		} else {
+			gap = "minus";
 		}
 		
 		ArrayList<ExpCategory> ecList = aService.selectECList(condition);
@@ -365,6 +373,9 @@ public class AccountController {
 		sendJson.put("pSum", pSum);
 		sendJson.put("eSum", eSum);
 		sendJson.put("ecList", jArr);
+		sendJson.put("maxExp", maxExp);
+		sendJson.put("gap", gap);
+		sendJson.put("gapAmount", gapAmount);
 		
 		PrintWriter out = response.getWriter();
 		out.print(sendJson);

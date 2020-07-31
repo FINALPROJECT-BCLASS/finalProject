@@ -35,6 +35,6 @@ public interface AccountService {
 
 	ArrayList<ExpCategory> selectECList(Condition condition);
 
-	int getOverrun(Condition condition);
+	String getOverrun(Condition condition);
 
 }
