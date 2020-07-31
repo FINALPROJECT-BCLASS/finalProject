@@ -73,6 +73,7 @@
 			AND AB_DATE=#{abDate}
 			AND AB_DELETE='N'
 			AND AB_VIEW='Y'
+		ORDER BY AB_NO ASC
 	</select>
 	
 	<select id="selectEList" parameterType="AccountBook" resultMap="abResultSet">
@@ -83,6 +84,7 @@
 			AND AB_DATE=#{abDate}
 			AND AB_DELETE='N'
 			AND AB_VIEW='Y'
+		ORDER BY AB_NO ASC
 	</select>
 	
 	<update id="deleteAccountBook" parameterType="AccountBook">

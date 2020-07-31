@@ -251,6 +251,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
+                    	내역을 클릭하면 삭제됩니다.
                         <button type="button" class="close" data-dismiss="modal">×</button>
                     </div>
                     <div class="modal-body" align="center">
@@ -327,16 +328,19 @@
     				var memoContext = "";
     				for(var i in data.abList) {
     					if(data.abList[i].memo != null) {
-		    				memoContext += data.abList[i].memo + "<br>";    						
+		    				memoContext += data.abList[i].index + "&nbsp;&nbsp;&nbsp;&nbsp;" + data.abList[i].memo + "<br>";    						
     					}
-	    				
+    				}
+    				for(var i = data.abList.length-1; i >= 0; i--) {
 	    				if(data.abList[i].type == "profit") {
 	    					$trPro = $("<tr class='trAb'>");
 	    					$pNo = $("<input type='hidden' class='abNo'>").val(data.abList[i].no);
+	    					$index = $("<td class='tdAb'>").text(data.abList[i].index).css("width", "50px");
 	    					$pCategory = $("<td class='tdAb'>").text(data.abList[i].category).css("width", "150px");
 	    					$pAmount = $("<td class='tdAb'>").text(data.abList[i].amount).css("width", "150px");
 	    					
 	    					$trPro.append($pNo);
+	    					$trPro.append($index);
 	    					$trPro.append($pCategory);
 	    					$trPro.append($pAmount);
 	    					
@@ -344,10 +348,12 @@
 	    				} else {
 	    					$trExp = $("<tr class='trAb'>");
 	    					$eNo = $("<input type='hidden' class='abNo'>").val(data.abList[i].no);
+	    					$index = $("<td class='tdAb'>").text(data.abList[i].index).css("width", "50px");
 	    					$eCategory = $("<td class='tdAb'>").text(data.abList[i].category).css("width", "150px");
 	    					$eAmount = $("<td class='tdAb'>").text(data.abList[i].amount).css("width", "150px");
 	    					
 	    					$trExp.append($eNo);
+	    					$trExp.append($index);
 	    					$trExp.append($eCategory);
 	    					$trExp.append($eAmount);
 	    					
