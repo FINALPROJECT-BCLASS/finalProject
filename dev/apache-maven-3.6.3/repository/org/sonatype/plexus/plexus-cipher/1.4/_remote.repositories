@@ -1,3 +1,7 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-#Fri Jul 31 13:30:01 KST 2020
+<<<<<<< HEAD
+#Fri Jul 31 15:55:03 KST 2020
+=======
+#Fri Jul 31 15:50:52 KST 2020
+>>>>>>> refs/remotes/origin/yeji
 plexus-cipher-1.4.pom>central=

@@ -1,4 +1,9 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-#Fri Jul 31 13:30:22 KST 2020
+<<<<<<< HEAD
+#Fri Jul 31 15:55:08 KST 2020
+plexus-compiler-javac-2.2.pom>central=
+=======
+#Fri Jul 31 15:51:12 KST 2020
 plexus-compiler-javac-2.2.pom>central=
 plexus-compiler-javac-2.2.jar>central=
+>>>>>>> refs/remotes/origin/yeji

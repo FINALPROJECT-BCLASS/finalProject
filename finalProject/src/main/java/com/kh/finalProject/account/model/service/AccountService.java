@@ -3,12 +3,11 @@ package com.kh.finalProject.account.model.service;
 import java.util.ArrayList;
 
 import com.kh.finalProject.account.model.vo.AccountBook;
-import com.kh.finalProject.account.model.vo.CategoryCondition;
+import com.kh.finalProject.account.model.vo.Condition;
 import com.kh.finalProject.account.model.vo.ExpCategory;
 import com.kh.finalProject.account.model.vo.MSumCondition;
 import com.kh.finalProject.account.model.vo.MonthlySum;
 import com.kh.finalProject.account.model.vo.Sum;
-import com.kh.finalProject.account.model.vo.SumCondition;
 
 public interface AccountService {
 
@@ -24,9 +23,9 @@ public interface AccountService {
 
 	int deleteAccountBook(AccountBook a);
 
-	ArrayList<AccountBook> selectAbPNoList(SumCondition sc);
+	ArrayList<AccountBook> selectAbPNoList(Condition condition);
 
-	ArrayList<AccountBook> selectAbENoList(SumCondition sc);
+	ArrayList<AccountBook> selectAbENoList(Condition condition);
 
 	int selectAbAmount(int abNo);
 
@@ -34,6 +33,8 @@ public interface AccountService {
 
 	ArrayList<MonthlySum> selectMESumList(MSumCondition mc);
 
-	ArrayList<ExpCategory> selectECList(CategoryCondition cc);
+	ArrayList<ExpCategory> selectECList(Condition condition);
+
+	String getOverrun(Condition condition);
 
 }

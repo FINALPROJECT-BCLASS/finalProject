@@ -1,0 +1,9 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+<<<<<<< HEAD
+#Fri Jul 31 15:54:45 KST 2020
+maven-artifact-2.0.9.pom>central=
+=======
+#Fri Jul 31 15:51:10 KST 2020
+maven-artifact-2.0.9.pom>central=
+maven-artifact-2.0.9.jar>central=
+>>>>>>> refs/remotes/origin/yeji

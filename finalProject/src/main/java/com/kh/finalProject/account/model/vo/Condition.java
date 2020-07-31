@@ -4,22 +4,22 @@ import java.io.Serializable;
 
 import org.springframework.stereotype.Component;
 
-@Component("cc")
-public class CategoryCondition implements Serializable {
-	
+@Component("condition")
+public class Condition implements Serializable {
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 727418812861198651L;
+	private static final long serialVersionUID = 180450698626191540L;
 	
 	private String id;
 	private String year;
 	private String month;
 	
-	public CategoryCondition() {
+	public Condition() {
 	}
 	
-	public CategoryCondition(String id, String year, String month) {
+	public Condition(String id, String year, String month) {
 		this.id = id;
 		this.year = year;
 		this.month = month;
@@ -46,7 +46,7 @@ public class CategoryCondition implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "CategoryCondition [id=" + id + ", year=" + year + ", month=" + month + "]";
+		return "Condition [id=" + id + ", year=" + year + ", month=" + month + "]";
 	}
-
+	
 }

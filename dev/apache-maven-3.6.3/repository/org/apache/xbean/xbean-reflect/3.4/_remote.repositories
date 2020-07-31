@@ -1,4 +1,8 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-#Fri Jul 31 13:30:23 KST 2020
+<<<<<<< HEAD
+#Fri Jul 31 15:55:10 KST 2020
+=======
+#Fri Jul 31 15:51:12 KST 2020
 xbean-reflect-3.4.jar>central=
+>>>>>>> refs/remotes/origin/yeji
 xbean-reflect-3.4.pom>central=

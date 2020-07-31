@@ -1,0 +1,8 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+<<<<<<< HEAD
+#Fri Jul 31 15:54:50 KST 2020
+=======
+#Fri Jul 31 15:51:11 KST 2020
+maven-shared-utils-0.1.jar>central=
+>>>>>>> refs/remotes/origin/yeji
+maven-shared-utils-0.1.pom>central=

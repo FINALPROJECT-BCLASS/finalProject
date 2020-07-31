@@ -1,4 +1,8 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-#Fri Jul 31 13:30:23 KST 2020
+<<<<<<< HEAD
+#Fri Jul 31 15:55:11 KST 2020
+=======
+#Fri Jul 31 15:51:12 KST 2020
 log4j-1.2.12.jar>central=
+>>>>>>> refs/remotes/origin/yeji
 log4j-1.2.12.pom>central=
