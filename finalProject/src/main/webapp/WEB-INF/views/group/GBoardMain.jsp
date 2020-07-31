@@ -52,7 +52,7 @@
 	    
     /* 게시판 */
     .groupNotice{width:100%; height:400px;overflow:scroll; overflow-x:hidden;}
-    .noticeBoardTb{width:100%; margin-bottom:5px; background:white;border:0.5px solid lightgray; border-radius:10px;}
+    .noticeBoardTb{width:100%; margin-bottom:5px; background:white; border-radius:10px;}
     .noticeBoardTitle{display:inline-block; padding-top:20px; padding-left:5px;font-weight: 600; font-size: 20px;}
     
    	.detailBtn{display:inline-block; margin:10px 10px 0px 0px; float:right; padding:7.2px; display:inline-block; border:none; border-radius:6px; width:60px; height:35px; background:#FBD14B;}

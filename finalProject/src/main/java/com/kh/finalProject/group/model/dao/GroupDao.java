@@ -188,6 +188,18 @@ public class GroupDao {
 	public int deleteReReply(String grrNo) {
 		return sqlSessionTemplate.update("groupMapper.deleteReReply",grrNo);
 	}
+
+	public int insertBoard(GroupBoard gb) {
+		return sqlSessionTemplate.insert("groupMapper.insertBoard",gb);
+	}
+
+	public int selectGbNo() {
+		return sqlSessionTemplate.selectOne("groupMapper.selectGbNo");
+	}
+
+	public int insertBoardPhoto(ArrayList<GroupBoardPhoto> photoList) {
+		return sqlSessionTemplate.insert("groupMapper.insertBoardPhoto",photoList);
+	}
 	
 	
 	

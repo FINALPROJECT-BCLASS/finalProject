@@ -40,7 +40,7 @@
    	.memberImg{width:100%; height:100%;border-radius:50%; }
     
     .groupNotice{width:100%; height:400px;overflow:scroll; overflow-x:hidden;}
-    .noticeBoardTb{margin-bottom:10px; margin-right:5px; border-radius:6px; width:100%; background:white;border:0.5px solid lightgray;}
+    .noticeBoardTb{margin-bottom:10px; margin-right:5px; border-radius:10px; width:100%; background:white;}
     .noticeBoardTitle{display:inline-block;padding-top:20px;font-weight: 600; font-size: 20px;}
     .noticeBoardWriter{padding-left:40px; font-size:12px; font-weight: 600;}
     .noticeBoardDate{padding-left:40px; font-size:12px; font-weight: 600;}

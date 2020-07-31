@@ -94,6 +94,12 @@ public interface GroupService {
 
 	int deleteReReply(String grrNo);
 
+	int insertBoard(GroupBoard gb);
+
+	int selectGbNo();
+
+	int insertBoardPhoto(ArrayList<GroupBoardPhoto> photoList);
+
 
 
 }
