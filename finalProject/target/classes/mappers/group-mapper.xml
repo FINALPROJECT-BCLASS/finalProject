@@ -228,7 +228,8 @@
 	<select id="boardGetListCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM GROUP_BOARD
-		WHERE GB_DELETE = 'N'
+		WHERE G_NO = #{groupNo}
+		AND GB_DELETE = 'N'
 	</select>
 	
 	<select id="selectBoardList" parameterType="GroupInfo" resultMap="groupBoardResultSet">
@@ -318,7 +319,7 @@
         JOIN GROUP_MEMBER GM ON(GR.GM_NO = GM.GM_NO)
         JOIN MEMBER M ON(M.ID = GM.GM_ID)
 		WHERE GB_NO = #{gbNo}
-		AND GR_DELETE = 'N'
+		<!-- AND GR_DELETE = 'N' -->
 		ORDER BY GR_NO DESC
 	</select>
 	
@@ -419,6 +420,6 @@
 	<update id="deleteReReply" parameterType="string">
 		UPDATE GROUP_REREPLY 
 		SET GRR_DELETE = 'Y'
-		WHERE GR_NO = #{grNo}
+		WHERE GRR_NO = #{grrNo}
 	</update>
 </mapper>

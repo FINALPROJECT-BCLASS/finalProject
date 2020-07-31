@@ -44,7 +44,8 @@
     .commentBox{width:1000px; background:white;border:1px solid #F3F3F3;}
     
     .like {cursor:pointer;}
-
+	
+	.noReply{color:gray; }
     .replyBox{height: 40px;border-radius: 0px 0px 10px 10px; width:1000px; border-collapse:collapse; background:white; }
     .replyBox tr{border:1px #F3F3F3 solid;}
     .replyBox td:nth-child(1){text-align:center; width:100px;}
@@ -58,9 +59,10 @@
     .replyBtn:hover{border:#ffc400; border:none; color:#2860E1; font-weight: 600; font-size: 14px; border-radius:6px; width:67px; height:35px;}
 	.replyConBox{padding-left:20px;align-item:center; display:flex;justify-conten:center;height:40px; margin-right:10px; width:920px;border:none; border-radius: 6px; background:white;}
 	.replyReset{margin-right:10px; padding-top:9px; width:20px; display:inline-block; color:gray; font-weight:600; text-align:right; padding-bottom:9px; cursor:pointer;}
-	.replyName{ cursor:pointer;}
-	
+	.replyName{ cursor:pointer; }
 	.replyDate{display:inline-block;}
+	
+	.removeReply{color:gray; text-align:left;padding-left:20px;}
 	
 	/* 대댓글 */
 	.re{font-weight:600 !important; color:gray !important; display:inline-block; font-size:15px !important; margin: 0 !important; padding:0 !important; text-shodow:0 !important;}
@@ -161,7 +163,7 @@
                 	</c:if>
                 	<c:if test="${!empty replyList }"><!-- 댓글이 있을 경우 -->
                 		<c:forEach var="r" items="${replyList }">
-                				
+                				<c:if test="${r.grDelete eq 'N' }">
 		               			<input type="hidden" class="crNo" value="${r.grNo }">
 			               		<tr class="replyTr">
 			                        <td><div class="replyName">${r.name }</div></td>
@@ -171,12 +173,20 @@
 			                        	<td><div class="replyReset replyDelete">x</div></td>
 			                        </c:if>
 			                    </tr>
+		                    	</c:if>
 		                    	
+		                    	<c:if test="${r.grDelete eq 'Y' }">
+	                    			<tr class="replyTr">
+		                    			<td colspan="3">
+		                    				<div class="removeReply">삭제한 댓글입니다.</div>
+		                    			</td>
+		                    		</tr>
+		                    	</c:if>
 		                    
 		                    	<c:forEach var="re" items="${reReplyList }">
 			                    	<c:if test="${ re.grNo eq r.grNo}">
 			               			<input type="hidden" class="crNo" value="${r.grNo }">
-					               		<tr class="reReplyTr">
+					               		<tr class="reReplyTr" data-value="${re.grrNo }">
 					                        <td><span class="material-icons re">subdirectory_arrow_right</span><div class="rereName">${re.name }</div></td>
 					                        <td><div class="replyCon">${re.grrCon }</div></td>
 					                        <td><div class="replyDate">${re.grrDate }</div></td>
@@ -387,7 +397,7 @@
                      		 
                      		 var $replyTr = $replyNameLocation.closest(".replyTr");
                      		   
-                     		 var $tr = $("<tr>").attr("class","reReplyTr");
+                     		 var $tr = $("<tr>").attr("class","reReplyTr").attr("data-value",data.reReplyList[i].grrNo);
                      		 var $td1 = $("<td>");
                      		 var $td2 = $("<td>");
                      		 var $td3 = $("<td>");
@@ -432,14 +442,24 @@
          <!-- 댓글 삭제 -->
 			<script>
          	 $(document).on("click",".replyDelete",function(){
-         		var deleteConfirm = confirm("댓글을 삭제하시겠습니까? (댓글의 답글까지 삭제 됩니다.)");
+         		var deleteConfirm = confirm("댓글을 삭제하시겠습니까? ");
          		if(deleteConfirm){
-					var deleteCon = $(this).parent().prev().prev().children();
+					/* var deleteCon = $(this).parent().prev().prev().children(); */
          			var deleteTr = $(this).closest(".replyTr");
+					var deleteTd = $(this).closest(".replyTr").children();
+         			var removeTd = $("<td>").attr("colspan", 3);
+         			var deleteComment = $("<div>").text("삭제한 댓글입니다.").attr("class","removeReply");
 					var reReplyYn = deleteTr.next().next();
 					var deleteInput = deleteTr.prev();
          			var grNo = deleteInput.val();
-         			deleteCon.text("삭제한 댓글입니다.").css("color","gray");	
+         			
+         			deleteTd.remove();
+         			removeTd.append(deleteComment);
+         			deleteTr.append(removeTd);
+         			
+         			
+         			
+         			/* deleteCon.text("삭제한 댓글입니다.").css("color","gray");	 */
 					deleteInput.remove();
 
         			$.ajax({
@@ -464,21 +484,27 @@
          <!-- 대댓글 삭제@@@@@@@@@@@@@@@@수정중 -->
 			<script>
          	 $(document).on("click",".reReplyDelete",function(){
-         		var deleteConfirm = confirm("댓글을 삭제하시겠습니까? (댓글의 답글까지 삭제 됩니다.)");
+         		var deleteConfirm = confirm("댓글을 삭제하시겠습니까? ");
          		if(deleteConfirm){
-					var deleteCon = $(this).parent().prev().prev().children();
-         			var deleteTr = $(this).closest(".replyTr");
-					var reReplyYn = deleteTr.next().next();
-					var deleteInput = deleteTr.prev();
-         			var grNo = deleteInput.val();
-         			deleteCon.text("삭제한 댓글입니다.").css("color","gray");	
-					deleteInput.remove();
+					/* var deleteCon = $(this).parent().prev().prev().children(); */
+         			var deleteTr = $(this).closest(".reReplyTr");
+					var deleteTd = $(this).closest(".reReplyTr").children();
+         			var removeTd = $("<td>").attr("colspan", 3);
+         			var deleteComment = $("<div>").text("삭제한 댓글입니다.").attr("class","removeReply");
+					/* var deleteInput = deleteTr.prev(); */
+         			var grrNo =  deleteTr.attr('data-value');
+         
+         			deleteTd.remove();
+         			removeTd.append(deleteComment);
+         			deleteTr.append(removeTd);
+
+/* 					deleteInput.remove(); */
 
         			$.ajax({
-             			url:"replyDelete.do",
+             			url:"reReplyDelete.do",
            				type: "GET",
                         dataType: "text",
-                     	data:{grNo:grNo},
+                     	data:{grrNo:grrNo},
                      	success:function(data){                     	
                      		console.log(data);
                      		

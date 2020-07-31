@@ -223,7 +223,7 @@ public class GroupController {
 
 		int memberNo = gService.memberNoSelect(gInfo);
 		gInfo.setGmNo(memberNo);
-
+		
 		session.setAttribute("gInfo", gInfo);
 		System.out.println("gInfo : " + gInfo);
 		return "group/GCalendarMain";
@@ -389,7 +389,7 @@ public class GroupController {
 			currentPage = Cpage;
 		}
 
-		int listCount = gService.boardGetListCount();
+		int listCount = gService.boardGetListCount(gInfo.getGroupNo());
 
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 
@@ -412,7 +412,7 @@ public class GroupController {
 			currentPage = Cpage;
 		}
 
-		int listCount = gService.boardGetListCount();
+		int listCount = gService.boardGetListCount(gInfo.getGroupNo());
 
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 
@@ -569,7 +569,7 @@ public class GroupController {
 		GroupLike likeList = gService.selectLikeList(gl);
 
 		ArrayList<GroupReply> replyList = gService.selectReplyList(gbNo);
-
+		System.out.println("게시판 메인 : " + replyList);
 		ArrayList<GroupReReply> reReplyList = gService.selectReReplyList(gbNo);
 
 		int totalReply = gService.totalReplyList(gbNo);
@@ -629,7 +629,7 @@ public class GroupController {
 	@RequestMapping(value = "replyAjax.do", method = RequestMethod.GET)
 	public void replyinsert(HttpServletResponse response, HttpSession session, GroupReply gr )throws IOException {
 		String gbNo = Integer.toString(gr.getGbNo()); 
-		
+		System.out.println("댓글 생성 gr : " + gr);
 		// 댓글 insert
 		int result = gService.replyInsert(gr);
 		
@@ -759,23 +759,41 @@ public class GroupController {
 	
 		// 댓글 삭제
 		@RequestMapping(value = "replyDelete.do", method = RequestMethod.GET)
-		public String deleteReply(Model model, HttpServletResponse response, @RequestParam(value = "grNo") String grNo) throws IOException {
+		public void deleteReply(HttpServletResponse response, @RequestParam(value = "grNo") String grNo) throws IOException {
 			System.out.println("댓글삭제  grNo :" + grNo);
 			int replyDelete = gService.deleteReply(grNo);
-			int reReplyDelete = gService.deleteReReply(grNo);
+			/* int reReplyDelete = gService.deleteReReply(grNo); */
 			System.out.println("댓글삭제 result : " + replyDelete);
+			
+			response.setContentType("application/json;charset=utf-8");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+			PrintWriter out = response.getWriter();
+			out.print("댓글 삭제 성공");
+			out.flush();
+			out.close();
+			
+
+			
+		}
+		
+		// 대댓글 삭제
+		@RequestMapping(value = "reReplyDelete.do", method = RequestMethod.GET)
+		public void deleteReReply(HttpServletResponse response, @RequestParam(value = "grrNo") String grrNo) throws IOException {
+
+			int reReplyDelete = gService.deleteReReply(grrNo);
+			
 			System.out.println("대댓글삭제 result : " + reReplyDelete);
 			
 			response.setContentType("application/json;charset=utf-8");
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 			PrintWriter out = response.getWriter();
-			out.print("삭제 성공");
+			out.print("대댓글 삭제 성공");
 			out.flush();
 			out.close();
-			return "redirect:detailBoard.do";
-
-			
-		}
-
+	
+				}
+		
+		
 }

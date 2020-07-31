@@ -80,8 +80,8 @@ public class GroupDao {
 		return sqlSessionTemplate.selectOne("groupMapper.selectNoticeOne", gInfo);
 	}
 
-	public int boardGetListCount() {
-		return sqlSessionTemplate.selectOne("groupMapper.boardGetListCount");
+	public int boardGetListCount(int groupNo) {
+		return sqlSessionTemplate.selectOne("groupMapper.boardGetListCount", groupNo);
 	}
 
 	public ArrayList<GroupBoard> selectBoardList(PageInfo pi) {
@@ -185,8 +185,8 @@ public class GroupDao {
 		return sqlSessionTemplate.update("groupMapper.deleteReply",grNo);
 	}
 
-	public int deleteReReply(String grNo) {
-		return sqlSessionTemplate.update("groupMapper.deleteReReply",grNo);
+	public int deleteReReply(String grrNo) {
+		return sqlSessionTemplate.update("groupMapper.deleteReReply",grrNo);
 	}
 	
 	

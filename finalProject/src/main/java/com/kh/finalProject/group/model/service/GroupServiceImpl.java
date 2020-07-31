@@ -87,8 +87,8 @@ public class GroupServiceImpl implements GroupService{
 	}
 
 	@Override
-	public int boardGetListCount() {
-		return gDao.boardGetListCount();
+	public int boardGetListCount(int groupNo) {
+		return gDao.boardGetListCount(groupNo);
 	}
 
 	@Override
@@ -212,8 +212,8 @@ public class GroupServiceImpl implements GroupService{
 	}
 
 	@Override
-	public int deleteReReply(String grNo) {
-		return gDao.deleteReReply(grNo);
+	public int deleteReReply(String grrNo) {
+		return gDao.deleteReReply(grrNo);
 	}
 
 
