@@ -1,10 +1,5 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-<<<<<<< HEAD
-#Thu Jul 30 14:40:08 KST 2020
+#Fri Jul 31 15:51:37 KST 2020
 spring-context-5.2.7.RELEASE-sources.jar>central=
-=======
-#Thu Jul 30 12:50:23 KST 2020
-spring-context-5.2.7.RELEASE.jar>central=
->>>>>>> refs/remotes/origin/master
 spring-context-5.2.7.RELEASE.pom>central=
 spring-context-5.2.7.RELEASE.jar>central=

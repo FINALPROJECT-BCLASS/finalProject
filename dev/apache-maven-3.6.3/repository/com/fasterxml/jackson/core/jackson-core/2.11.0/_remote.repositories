@@ -1,6 +1,5 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-#Thu Jul 30 14:46:27 KST 2020
-jackson-core-2.11.0-javadoc.jar>central=
+#Fri Jul 31 15:55:55 KST 2020
 jackson-core-2.11.0-sources.jar>central=
 jackson-core-2.11.0.jar>central=
 jackson-core-2.11.0.pom>central=

@@ -1,12 +1,5 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-<<<<<<< HEAD
-#Thu Jul 30 14:40:15 KST 2020
-=======
-#Thu Jul 30 12:50:24 KST 2020
->>>>>>> refs/remotes/origin/master
+#Fri Jul 31 15:51:49 KST 2020
 spring-beans-5.2.7.RELEASE.pom>central=
-<<<<<<< HEAD
 spring-beans-5.2.7.RELEASE-sources.jar>central=
-=======
->>>>>>> refs/remotes/origin/master
 spring-beans-5.2.7.RELEASE.jar>central=

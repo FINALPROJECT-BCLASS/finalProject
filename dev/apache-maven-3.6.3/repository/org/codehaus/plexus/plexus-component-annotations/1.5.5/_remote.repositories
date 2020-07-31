@@ -1,8 +1,8 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
 <<<<<<< HEAD
-#Thu Jul 30 14:39:55 KST 2020
-plexus-component-annotations-1.5.5.jar>central=
+#Fri Jul 31 15:55:04 KST 2020
 =======
-#Thu Jul 30 14:09:36 KST 2020
->>>>>>> refs/remotes/origin/master
+#Fri Jul 31 15:51:12 KST 2020
+plexus-component-annotations-1.5.5.jar>central=
+>>>>>>> refs/remotes/origin/yeji
 plexus-component-annotations-1.5.5.pom>central=

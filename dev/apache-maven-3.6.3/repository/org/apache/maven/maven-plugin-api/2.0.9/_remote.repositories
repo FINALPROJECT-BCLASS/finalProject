@@ -1,8 +1,8 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
 <<<<<<< HEAD
-#Thu Jul 30 14:39:52 KST 2020
-maven-plugin-api-2.0.9.jar>central=
+#Fri Jul 31 15:54:43 KST 2020
 =======
-#Thu Jul 30 14:09:15 KST 2020
->>>>>>> refs/remotes/origin/master
+#Fri Jul 31 15:51:10 KST 2020
+maven-plugin-api-2.0.9.jar>central=
+>>>>>>> refs/remotes/origin/yeji
 maven-plugin-api-2.0.9.pom>central=
