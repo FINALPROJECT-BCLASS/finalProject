@@ -1,8 +1,4 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-<<<<<<< HEAD
-#Thu Jul 30 14:30:07 KST 2020
-=======
-#Thu Jul 30 12:50:59 KST 2020
->>>>>>> refs/remotes/origin/master
+#Fri Jul 31 13:27:59 KST 2020
 plexus-build-api-0.0.4.jar>central=
 plexus-build-api-0.0.4.pom>central=

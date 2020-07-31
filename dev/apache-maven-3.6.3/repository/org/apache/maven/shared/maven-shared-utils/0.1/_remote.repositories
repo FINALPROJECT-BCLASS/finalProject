@@ -1,8 +1,4 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-<<<<<<< HEAD
-#Thu Jul 30 14:39:55 KST 2020
+#Fri Jul 31 13:30:21 KST 2020
 maven-shared-utils-0.1.jar>central=
-=======
-#Thu Jul 30 14:09:23 KST 2020
->>>>>>> refs/remotes/origin/master
 maven-shared-utils-0.1.pom>central=

@@ -1,8 +1,4 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-<<<<<<< HEAD
-#Thu Jul 30 14:39:57 KST 2020
+#Fri Jul 31 13:30:23 KST 2020
 google-collections-1.0.jar>central=
-=======
-#Thu Jul 30 14:09:43 KST 2020
->>>>>>> refs/remotes/origin/master
 google-collections-1.0.pom>central=

@@ -1,12 +1,5 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-<<<<<<< HEAD
-#Thu Jul 30 14:41:32 KST 2020
-=======
-#Thu Jul 30 12:50:26 KST 2020
->>>>>>> refs/remotes/origin/master
+#Fri Jul 31 13:31:56 KST 2020
 spring-security-config-5.3.2.RELEASE.jar>central=
 spring-security-config-5.3.2.RELEASE.pom>central=
-<<<<<<< HEAD
 spring-security-config-5.3.2.RELEASE-sources.jar>central=
-=======
->>>>>>> refs/remotes/origin/master
