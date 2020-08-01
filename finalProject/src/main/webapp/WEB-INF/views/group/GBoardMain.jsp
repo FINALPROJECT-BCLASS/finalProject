@@ -276,7 +276,7 @@
                   
                    		for(j in  data.photoList){
                    			if(data.boardList[i].gbNo == data.photoList[j].gbNo){
-                   				var $img = $("<img src='resources/groupMainFiles/"+data.photoList[j].gbpOrigin+"' class='boardPhotoList'>");
+                   				var $img = $("<img src='resources/groupBoardFiles/"+data.photoList[j].gbpOrigin+"' class='boardPhotoList'>");
                    				var $imgBox = $("<div>").attr("class","imgBox");
                    				$imgBox.append($img);
                    				$td5.append($imgBox);

@@ -928,7 +928,6 @@ public class GroupController {
 			return "redirect:boardMain.do";
 			
 			}
-		
 
 		// 게시판 수정  View
 		@RequestMapping(value = "boardUpdateView.do", method = RequestMethod.GET)
@@ -1064,8 +1063,5 @@ public class GroupController {
 			return "redirect:boardMain.do";
 			
 			}
-		
 
-
-		
 }
