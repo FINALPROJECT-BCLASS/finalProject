@@ -218,7 +218,7 @@
 	                <div class="groubJoinBtn">
 	                    <span id="reset">Back</span>
 	                   <span id="submit" onclick="location.href='boardUpdateView.do?gbNo='+${boardList.gbNo}">Update</span>
-	                    <span id="delete">Delete</span>
+	                    <span id="delete"  >Delete</span>
 	                </div>
                 </c:if>
                 <c:if test="${gInfo.gmNo ne boardList.gmNo }">
@@ -228,7 +228,21 @@
                 </c:if>
             </div>
          </div>
-
+	
+		 <!-- 삭제 버튼 -->
+		 <script>
+		 
+		 	$("#delete").click(function(){
+		 		var deleteConfirm = confirm("게시글을 삭제하시겠습니까? ");
+		 		if(deleteConfirm){
+		 			alert("게시글이 삭제되었습니다.");
+		 			location.href="deleteBoard.do?gbNo="+${boardList.gbNo};
+		 		}
+		 		
+		 	})
+		 	
+		 </script>
+         
          <!-- 좋아요 클릭 -->
          <script>
              $(".like").click(function(){

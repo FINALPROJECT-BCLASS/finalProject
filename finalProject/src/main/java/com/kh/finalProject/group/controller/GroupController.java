@@ -1063,5 +1063,16 @@ public class GroupController {
 			return "redirect:boardMain.do";
 			
 			}
+		
+		// 게시판 삭제
+		@RequestMapping(value = "deleteBoard.do", method = RequestMethod.GET)
+		public String deleteBoard( HttpServletResponse response, @RequestParam(value = "gbNo") String gbNo) {
+			
+			int result = gService.deleteBoard(gbNo);
+			System.out.println("게시글 삭제  : " + result);
+			
+			
+			return "redirect:boardMain.do";
+		}
 
 }

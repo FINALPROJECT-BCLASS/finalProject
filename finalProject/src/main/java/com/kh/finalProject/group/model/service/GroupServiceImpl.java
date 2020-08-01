@@ -241,6 +241,11 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.updateBoard(gb);
 	}
 
+	@Override
+	public int deleteBoard(String gbNo) {
+		return gDao.deleteBoard(gbNo);
+	}
+
 
 
 

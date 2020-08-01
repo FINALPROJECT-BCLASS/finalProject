@@ -470,4 +470,10 @@
 		SET GB_TITLE = #{gbTitle} , GB_CON = #{gbCon}
 		WHERE GB_NO = #{gbNo}
 	</update>
+	
+	<update id="deleteBoard" parameterType="string">
+		UPDATE GROUP_BOARD 
+		SET GB_DELETE = 'Y'
+		WHERE GB_NO = #{gbNo}
+	</update>
 </mapper>

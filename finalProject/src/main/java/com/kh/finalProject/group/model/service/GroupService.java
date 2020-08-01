@@ -104,6 +104,8 @@ public interface GroupService {
 
 	int updateBoard(GroupBoard gb);
 
+	int deleteBoard(String gbNo);
+
 	
 
 

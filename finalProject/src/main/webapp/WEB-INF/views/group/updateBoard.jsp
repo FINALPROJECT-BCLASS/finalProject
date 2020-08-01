@@ -199,6 +199,14 @@
             </div>
          </div>
          
+         <!-- submit -->
+         <script>
+         	$("#submit").click(function(){
+         		alert("게시글이 수정되었습니다.");
+         	})
+         </script>
+         
+         
          <!-- file reset -->
         <!--  <script>
          	$(".reset1").click(function(){

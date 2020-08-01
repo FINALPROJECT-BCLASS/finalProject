@@ -208,6 +208,10 @@ public class GroupDao {
 	public int updateBoard(GroupBoard gb) {
 		return sqlSessionTemplate.update("groupMapper.updateBoard",gb);
 	}
+
+	public int deleteBoard(String gbNo) {
+		return sqlSessionTemplate.update("groupMapper.deleteBoard",gbNo);
+	}
 	
 	
 	
