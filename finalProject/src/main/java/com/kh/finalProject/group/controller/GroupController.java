@@ -572,6 +572,7 @@ public class GroupController {
 		int totalReReply = gService.totalReReplyList(gbNo);
 		int totalRe = totalReply + totalReReply;
 		
+		mv.addObject("gInfo", gInfo);
 		mv.addObject("memberPhoto", loginUser.getRename_file());
 		mv.addObject("gInfoGmNo", gmNo);
 		mv.addObject("noticeList", noticeList);
@@ -926,6 +927,17 @@ public class GroupController {
 			return "redirect:boardMain.do";
 			
 			}
+		
+
+		// 게시판 수정
+		@RequestMapping(value = "boardUpdate.do", method = RequestMethod.GET)
+		public void updateBoard(HttpServletResponse response, @RequestParam(value = "gbNo") String gbNo) {
+			System.out.println("ㅎㅇ");
+			System.out.println("수정 gbNo : " + gbNo);
+			
+		
+	
+				}
 		
 		
 }

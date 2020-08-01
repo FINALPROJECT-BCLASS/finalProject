@@ -69,9 +69,9 @@
 	.rereName{display:inline-block;}
 	
 	
-    #submit{background:none; border:none; color:#2860E1; font-weight: 600; font-size: 20px; border-radius:6px; width:60px; height:35px;}
-    #reset{background:none; border:none; color:#484848; font-weight: 600; font-size: 20px; width:100px;}
-	
+    #submit{background:none; border:none; color:#2860E1; font-weight: 700; font-size: 20px; border-radius:6px; width:60px; height:35px;margin-right: 20px; cursor:pointer;}
+    #reset{background:none; border:none; color:#484848; font-weight: 700; font-size: 20px; width:100px; cursor:pointer;    margin-right: 20px;}
+	#delete{background:none; border:none; color:#ee1212d0; font-weight: 700; font-size: 20px; width:100px; cursor:pointer;    
 </style>
 </head>
 <body>
@@ -211,14 +211,24 @@
                         <td><button class="replyBtn">submit</button></td>
                     </tr>
                 </table>
-               
-                <br><br>
-                <div class="groubJoinBtn">
-                    <span id="reset">Back</span>
-                   <span><button id="submit">Update</button>&nbsp;</span>
-                </div>
+
+               <br><br>
+                <c:if test="${gInfo.gmNo eq boardList.gmNo }">
+	                <div class="groubJoinBtn">
+	                    <span id="reset">Back</span>
+	                   <span id="submit" onclick="location.href='boardUpdate.do?gbNo='+${boardList.gbNo}">Update</span>
+	                    <span id="delete">Delete</span>
+	                </div>
+                </c:if>
+                <c:if test="${gInfo.gmNo ne boardList.gmNo }">
+                	<div class="groubJoinBtn">
+	                    <span id="reset">Back</span>	                   
+	                </div>
+                </c:if>
             </div>
          </div>
+    
+         
          
          <!-- 좋아요 클릭 -->
          <script>
