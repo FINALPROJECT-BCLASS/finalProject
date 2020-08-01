@@ -106,6 +106,8 @@ public interface GroupService {
 
 	int deleteBoard(String gbNo);
 
+	int deleteNotice(String gnNo);
+
 	
 
 

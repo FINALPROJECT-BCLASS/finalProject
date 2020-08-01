@@ -212,6 +212,10 @@ public class GroupDao {
 	public int deleteBoard(String gbNo) {
 		return sqlSessionTemplate.update("groupMapper.deleteBoard",gbNo);
 	}
+
+	public int deleteNotice(String gnNo) {
+		return sqlSessionTemplate.update("groupMapper.deleteNotice",gnNo);
+	}
 	
 	
 	

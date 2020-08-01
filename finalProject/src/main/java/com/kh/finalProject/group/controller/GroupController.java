@@ -368,6 +368,15 @@ public class GroupController {
 		return "redirect:noticeMain.do";
 	}
 
+	// 공지 삭제
+	@RequestMapping(value = "deleteNotice.do", method = RequestMethod.GET)
+	public String deleteNotice( HttpServletResponse response, @RequestParam(value = "gnNo") String gnNo) {
+		
+		int result = gService.deleteNotice(gnNo);
+		System.out.println("게시글 삭제  : " + result);
+
+		return "redirect:noticeMain.do";
+	}
 	// ---------------------------------- 공지 end ------------------------------------------------------
 
 	// ---------------------------------- 게시판 ------------------------------------------------------
@@ -1070,8 +1079,7 @@ public class GroupController {
 			
 			int result = gService.deleteBoard(gbNo);
 			System.out.println("게시글 삭제  : " + result);
-			
-			
+
 			return "redirect:boardMain.do";
 		}
 

@@ -216,19 +216,26 @@
                <br><br>
                 <c:if test="${gInfo.gmNo eq boardList.gmNo }">
 	                <div class="groubJoinBtn">
-	                    <span id="reset">Back</span>
+	                    <span id="reset" onclick="goBack();">Back</span>
 	                   <span id="submit" onclick="location.href='boardUpdateView.do?gbNo='+${boardList.gbNo}">Update</span>
 	                    <span id="delete"  >Delete</span>
 	                </div>
                 </c:if>
                 <c:if test="${gInfo.gmNo ne boardList.gmNo }">
                 	<div class="groubJoinBtn">
-	                    <span id="reset">Back</span>	                   
+	                    <span id="reset" onclick="goBack();">Back</span>	                   
 	                </div>
                 </c:if>
             </div>
          </div>
-	
+		
+		 <!-- 뒤로가기 버튼 -->
+		 <script>
+		 	function goBack(){
+		 		window.history.back();	
+		 	}
+		 	
+		 </script>
 		 <!-- 삭제 버튼 -->
 		 <script>
 		 
