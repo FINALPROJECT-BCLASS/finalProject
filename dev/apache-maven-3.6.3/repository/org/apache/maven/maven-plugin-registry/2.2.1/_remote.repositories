@@ -1,7 +1,3 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-<<<<<<< HEAD
-#Fri Jul 31 15:55:01 KST 2020
-=======
-#Fri Jul 31 15:50:48 KST 2020
->>>>>>> refs/remotes/origin/yeji
+#Sat Aug 01 16:34:45 KST 2020
 maven-plugin-registry-2.2.1.pom>central=

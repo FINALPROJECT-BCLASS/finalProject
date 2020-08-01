@@ -754,7 +754,7 @@ public class GroupController {
 	}
 	
 		// 댓글 삭제
-		@RequestMapping(value = "replyDelete.do", method = RequestMethod.POST)
+		@RequestMapping(value = "replyDelete.do", method = RequestMethod.GET)
 		public void deleteReply(HttpServletResponse response, @RequestParam(value = "grNo") String grNo) throws IOException {
 			System.out.println("댓글삭제  grNo :" + grNo);
 			int replyDelete = gService.deleteReply(grNo);
