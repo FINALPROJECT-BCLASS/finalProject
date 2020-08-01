@@ -200,6 +200,14 @@ public class GroupDao {
 	public int insertBoardPhoto(ArrayList<GroupBoardPhoto> photoList) {
 		return sqlSessionTemplate.insert("groupMapper.insertBoardPhoto",photoList);
 	}
+
+	public int deletePhoto(String gbNo) {
+		return sqlSessionTemplate.delete("groupMapper.deletePhoto",gbNo);
+	}
+
+	public int updateBoard(GroupBoard gb) {
+		return sqlSessionTemplate.update("groupMapper.updateBoard",gb);
+	}
 	
 	
 	

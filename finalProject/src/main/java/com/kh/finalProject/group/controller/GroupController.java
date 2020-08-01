@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -929,15 +930,142 @@ public class GroupController {
 			}
 		
 
-		// 게시판 수정
-		@RequestMapping(value = "boardUpdate.do", method = RequestMethod.GET)
-		public void updateBoard(HttpServletResponse response, @RequestParam(value = "gbNo") String gbNo) {
-			System.out.println("ㅎㅇ");
-			System.out.println("수정 gbNo : " + gbNo);
+		// 게시판 수정  View
+		@RequestMapping(value = "boardUpdateView.do", method = RequestMethod.GET)
+		public ModelAndView updateBoardView(ModelAndView mv, HttpServletResponse response, @RequestParam(value = "gbNo") String gbNo) {
+			GroupBoard gbList = gService.selectBoardDetail(gbNo);
+			ArrayList<GroupBoardPhoto> photoList = gService.selectDetailPhotoList(gbNo);
 			
+			mv.addObject("boardList", gbList);
+			mv.addObject("photoList", photoList);
+			mv.setViewName("group/updateBoard");
 		
-	
+			return mv;
+	}
+		// 게시판 사진 삭제
+		public void deleteFile(String fileName, HttpServletRequest request) {
+			String root = request.getSession().getServletContext().getRealPath("resources");
+		
+			String savePath = root + "\\groupBoardFiles";
+		
+			File f = new File(savePath + "\\" + fileName);
+			if(f.exists()) {
+				f.delete();
+			}
+		}
+		
+		
+		
+		// 게시판 수정
+		@RequestMapping(value = "updateBoard.do", method = RequestMethod.POST)
+		public String boardUpdate(HttpSession session, GroupBoard gb, HttpServletRequest request,
+				@RequestParam(name = "uploadFile1", required = false) MultipartFile uploadFile1,
+				@RequestParam(name = "uploadFile2", required = false) MultipartFile uploadFile2,
+				@RequestParam(name = "uploadFile3", required = false) MultipartFile uploadFile3,
+				@RequestParam(name = "uploadFile4", required = false) MultipartFile uploadFile4,
+				@RequestParam(name = "uploadFile5", required = false) MultipartFile uploadFile5
+				) {
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			System.out.println("게시판 수정  gb  :" + gb);
+			GroupBoardPhoto gbp = new GroupBoardPhoto();			
+			String gbNo = gb.getGbNo();
+			ArrayList<GroupBoardPhoto> photoList = gService.selectDetailPhotoList(gbNo);
+			
+			int boardUpdateResult = gService.updateBoard(gb);
+			
+			for(GroupBoardPhoto p : photoList) {
+				if(p.getGbpOrigin() != null) {
+					deleteFile(p.getGbpOrigin() , request);
 				}
+			}
+			
+			
+			int photoResult = gService.deletePhoto(gbNo);
+			
+			photoList.removeAll(photoList);
+			
+			System.out.println("게시판 수정 팡일:" + uploadFile1);
+			// 게시판 사진 파일 저장 
+			
+			if (!uploadFile1.getOriginalFilename().contentEquals("")) { // 빈파일이 아니라면
+				String savePath = boardSaveFile(uploadFile1, request);
+				if (savePath != null) { // 파일이 잘 저장된 경우
+					gbp = new GroupBoardPhoto(); 
+					gbp.setGbNo(Integer.valueOf(gbNo));
+					gbp.setGmNo(gInfo.getGmNo());
+					gbp.setgNo(gInfo.getGroupNo());
+					gbp.setGbpOrigin(uploadFile1.getOriginalFilename());
+					gbp.setGbpRename(uploadFile1.getOriginalFilename());
+					
+					photoList.add(gbp);
+				}
+			}
+			
+			if (!uploadFile2.getOriginalFilename().contentEquals("")) { // 빈파일이 아니라면
+				String savePath = boardSaveFile(uploadFile2, request);
+				if (savePath != null) { // 파일이 잘 저장된 경우
+					gbp = new GroupBoardPhoto();
+					gbp.setGbNo(Integer.valueOf(gbNo));
+					gbp.setGmNo(gInfo.getGmNo());
+					gbp.setgNo(gInfo.getGroupNo());
+					gbp.setGbpOrigin(uploadFile2.getOriginalFilename());
+					gbp.setGbpRename(uploadFile2.getOriginalFilename());
+					
+					photoList.add(gbp);
+				}
+			}
+			
+			if (!uploadFile3.getOriginalFilename().contentEquals("")) { // 빈파일이 아니라면
+				String savePath = boardSaveFile(uploadFile3, request);
+				if (savePath != null) { // 파일이 잘 저장된 경우
+					gbp = new GroupBoardPhoto();
+					gbp.setGbNo(Integer.valueOf(gbNo));
+					gbp.setGmNo(gInfo.getGmNo());
+					gbp.setgNo(gInfo.getGroupNo());
+					gbp.setGbpOrigin(uploadFile3.getOriginalFilename());
+					gbp.setGbpRename(uploadFile3.getOriginalFilename());
+					
+					photoList.add(gbp);
+				}
+			}
+			
+			if (!uploadFile4.getOriginalFilename().contentEquals("")) { // 빈파일이 아니라면
+				String savePath = boardSaveFile(uploadFile4, request);
+				if (savePath != null) { // 파일이 잘 저장된 경우
+					gbp = new GroupBoardPhoto();
+					gbp.setGbNo(Integer.valueOf(gbNo));
+					gbp.setGmNo(gInfo.getGmNo());
+					gbp.setgNo(gInfo.getGroupNo());
+					gbp.setGbpOrigin(uploadFile4.getOriginalFilename());
+					gbp.setGbpRename(uploadFile4.getOriginalFilename());
+					
+					photoList.add(gbp);
+				}
+			}
+			
+			if (!uploadFile5.getOriginalFilename().contentEquals("")) { // 빈파일이 아니라면
+				String savePath = boardSaveFile(uploadFile5, request);
+				if (savePath != null) { // 파일이 잘 저장된 경우
+					gbp = new GroupBoardPhoto();
+					gbp.setGbNo(Integer.valueOf(gbNo));
+					gbp.setGmNo(gInfo.getGmNo());
+					gbp.setgNo(gInfo.getGroupNo());
+					gbp.setGbpOrigin(uploadFile5.getOriginalFilename());
+					gbp.setGbpRename(uploadFile5.getOriginalFilename());
+
+					photoList.add(gbp);
+				}
+			}
+			
+			
+			int boardPhotoInsert = gService.insertBoardPhoto(photoList);
+			
+			
+			return "redirect:boardMain.do";
+			
+			}
 		
+
+
 		
 }

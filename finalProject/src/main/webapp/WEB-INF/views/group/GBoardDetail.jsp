@@ -91,11 +91,11 @@
                     <tr>
                         <td rowspan="2" style="width:20px">
                         	<div class="MemberImgBox">
-                        		<c:if test="${empty memberPhoto }">
+                        		<c:if test="${gInfo.gmNo ne boardList.gmNo}">
                         			 <img src="resources/images/icons/profile_default.png" class="MemberImg">
                         		</c:if>
-                        		<c:if test="${!empty memberPhoto }">
-                        			<img src="resources/muploadFiles/${memberPhoto }" class="MemberImg">
+                        		<c:if test="${gInfo.gmNo eq boardList.gmNo}">
+                        			<img src="resources/muploadFiles/${boardList.renameFile }" class="MemberImg">
                         		</c:if>
                         	</div>
                         </td>
@@ -216,7 +216,7 @@
                 <c:if test="${gInfo.gmNo eq boardList.gmNo }">
 	                <div class="groubJoinBtn">
 	                    <span id="reset">Back</span>
-	                   <span id="submit" onclick="location.href='boardUpdate.do?gbNo='+${boardList.gbNo}">Update</span>
+	                   <span id="submit" onclick="location.href='boardUpdateView.do?gbNo='+${boardList.gbNo}">Update</span>
 	                    <span id="delete">Delete</span>
 	                </div>
                 </c:if>

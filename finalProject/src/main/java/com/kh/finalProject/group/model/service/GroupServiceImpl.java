@@ -231,6 +231,18 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.insertBoardPhoto(photoList);
 	}
 
+	@Override
+	public int deletePhoto(String gbNo) {
+		return gDao.deletePhoto(gbNo);
+	}
+
+	@Override
+	public int updateBoard(GroupBoard gb) {
+		return gDao.updateBoard(gb);
+	}
+
+
+
 
 	
 

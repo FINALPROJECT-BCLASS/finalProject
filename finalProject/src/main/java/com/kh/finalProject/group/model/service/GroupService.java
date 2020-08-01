@@ -100,6 +100,12 @@ public interface GroupService {
 
 	int insertBoardPhoto(ArrayList<GroupBoardPhoto> photoList);
 
+	int deletePhoto(String gbNo);
+
+	int updateBoard(GroupBoard gb);
+
+	
+
 
 
 }
