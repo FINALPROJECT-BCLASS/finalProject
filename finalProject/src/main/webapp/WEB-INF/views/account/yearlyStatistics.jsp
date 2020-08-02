@@ -178,8 +178,8 @@
         <div class="row">
         	<div class="col-md-5"></div>
         	<div class="col-md-7">
-        		<b style="color: blue; font-size: 40px; margin-left: 30px;">Profit</b>
-        		<b style="color: red; font-size: 40px; margin-left: 100px;">Expenditure</b>
+        		<b style="color: blue; font-size: 30px; margin-left: 70px;">Profit</b>
+        		<b style="color: red; font-size: 30px; margin-left: 100px;">Expenditure</b>
         	</div>
         </div>
         
