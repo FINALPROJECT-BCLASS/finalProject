@@ -238,6 +238,18 @@ public class GroupDao {
 	public ArrayList<GroupVote> selectVoteMemberLsit(GroupInfo gInfo) {
 		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectVoteMemberLsit", gInfo);		
 	}
+
+	public GroupVote selectOneVote(String gvNo) {
+		return sqlSessionTemplate.selectOne("groupMapper.selectOneVote", gvNo);
+	}
+
+	public ArrayList<GroupVote> selectOneItem(String gvNo) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectOneItem", gvNo);
+	}
+
+	public ArrayList<GroupVote> selectTotalItem(String gvNo) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectTotalItem", gvNo);		
+	}
 	
 	
 	

@@ -1203,7 +1203,7 @@ public class GroupController {
 						jObj.put("gvNo", v.getGvNo());
 						
 						jObj.put("gNo", v.getgNo());
-						jObj.put("gvmNo", v.getGvmNo());
+						jObj.put("gmNo", v.getGmNo());
 						jObj.put("gviNo", v.getGviNo());
 					
 
@@ -1228,12 +1228,44 @@ public class GroupController {
 			}		
 		}
 		
+		// 투표 상세
+		@RequestMapping(value = "voteDetail.do", method = RequestMethod.GET)
+		public ModelAndView voteDetail(ModelAndView mv,HttpSession session,  @RequestParam(value = "gvNo", required = false) String gvNo) throws IOException {
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			System.out.println("투표 ajax : " + gvNo);
+			
+			GroupVote voteList = gService.selectOneVote(gvNo);
+			ArrayList<GroupVote> itemList = gService.selectOneItem(gvNo);
+			ArrayList<GroupVote> voteTotalList = gService.selectTotalItem(gvNo);
+			
+			System.out.println("상세 voteList : " + voteList);
+			System.out.println("상세 itemList : " + itemList);
+			
+//			수정하기
+			System.out.println("상세 voteTotalList : " + voteTotalList);
+			
+			
+			
+			mv.addObject("gInfo", gInfo);
+			mv.addObject("voteList", voteList);
+			mv.addObject("itemList", itemList);
+			mv.addObject("voteTotalList", voteTotalList);
+			mv.setViewName("group/GGroupVoteDetail");
+			return mv;
+	
+		}
+		
 		// 투표 ajax
 		@RequestMapping(value = "voteAjax.do", method = RequestMethod.GET)
-		public void voteAjax(HttpServletResponse response, @RequestParam(value = "gvNo") String gvNo, @RequestParam(value = "gviNo") String gviNo) throws IOException {
-			System.out.println("오니?");
-			System.out.println("gvNo : " + gvNo);
-			System.out.println("gviNo : " + gviNo);
+		public void voteAjax(HttpSession session, HttpServletResponse response, GroupVote gv) throws IOException {
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			System.out.println("투표 ajax : " + gv);
+			int gmNo = gInfo.getGmNo();
+			int gNo = gInfo.getGroupNo();
+			
+			gv.setGmNo(gmNo);
+			gv.setgNo(gNo);
+			
 			
 			response.setContentType("application/json;charset=utf-8");
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

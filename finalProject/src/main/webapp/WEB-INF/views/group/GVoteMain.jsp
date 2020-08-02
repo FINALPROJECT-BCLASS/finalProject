@@ -54,6 +54,9 @@
     .noticeBoardTb{width:100%; margin-bottom:5px; background:white; border-radius:10px;}
     .noticeBoardTitle{display:inline-block; padding-top:20px; padding-left:5px;font-weight: 600; font-size: 20px;}
     
+   	.detailBtn{display:inline-block; margin:10px 10px 0px 0px; float:right; padding:7.2px; display:inline-block; border:none; border-radius:6px; width:100; height:35px; background:#FBD14B;}
+   	.detailBtn:hover{display:inline-block; margin:10px 10px 0px 0px; float:right; padding:7.2px; display:inline-block; border:none; border-radius:6px; width:100; height:35px; background:#ffc400; cursor:pointer;}
+   	
    	
    	.MemberImgBox{width:50px; height:50px; display:inline-block;margin:10px;}
    	.memberImg{width:100%; height:100%;border-radius:50%; }
@@ -65,7 +68,7 @@
   	
   	  /* 투표 내용 시작 */
     .voteBox{ margin-bottom: 10px; margin-left:17px; width:1100px !important; border-radius:10px; border:1px solid #F3F3F3; display: flex; align-items: center;}
-    .voteTitle{width:85%; height:50px; cursor: pointer; border:0; outline:0 !important; background:none; }
+    .voteTitle{width:85%; height:50px; cursor: unset !important; border:0; outline:0 !important; background:none; }
     .voteSubmit{font-weight: 600;font-size: 17px;color:white; margin-left: 3px; margin-top:20px; margin-bottom:10px; width:45%; height:50px; border:none; background:#2860E1; border-radius: 5px; }
     .voteEnd{background:#FBD14B;}
     .voteUpdate{background:#2860E1 ;}
@@ -188,6 +191,8 @@
                 	var $td5 = $("<td>");
                 	var $td6 = $("<td>").attr("class","etcBox");
                 	
+                	var $detailPage = $("<div>").text("Take Vote").attr("class","detailBtn");
+                	var $gvNo = $("<input type='hidden' id='gvNo' value='"+ data.voteList[i].gvNo +"'>");
                 	
                 	var $emoticon = $("<div>").attr("class","MemberImgBox");
                 	var $memberNoImg = $("<img>").attr("class","memberImg").attr("src","resources/images/icons/profile_default.png");
@@ -209,6 +214,8 @@
                  	
                		$td1.append($emoticon);
                		$td1.append($boardTitle);
+               		$td1.append($detailPage);
+               		$td1.append($gvNo);
                		
                    	$tr1.append($td1);
                    	
@@ -224,43 +231,42 @@
                    	if(data.itemList[i].gviItem != null){
                    		for(var j in data.itemList){
                    		if(data.itemList[j].gvNo == data.voteList[i].gvNo){
-                   			
+                   		
+   	                   			
                    		
                  			
                    			var $td5  = $("<td>");
                    			var $td5  = $("<tr>");
-                 			
+                   			
+                   		
                    			var $voteItem = $("<div>").attr("class","voteBox");
                           	var $check = $("<span>").attr("class","material-icons checkView");
                           	var $itemBtn = $("<button class='voteTitle' value='"+ data.itemList[j].gvNo +"'>").text( data.itemList[j].gviItem);
+                          	var $itemBtnCheck = $("<button class='voteTitle' value='"+ data.itemList[j].gvNo +"'>").text( data.itemList[j].gviItem);
                           	var $hiddenGviNo = $("<input type='hidden' id='hiddenGviNo' value='"+ data.itemList[j].gviNo +"'>");
                           	var $userImoticon = $("<span>").attr("class","material-icons voteUser").text("person");
                           	var $totalItem = $("<span>").text(data.itemList[j].totalGviNo );
 	                   		
-                          	$voteItem.append($check);
+                          	
+   	                   		$voteItem.append($check);
 	                   		$voteItem.append($itemBtn); 
 	                   		$voteItem.append($hiddenGviNo); 
 	                   		$voteItem.append($userImoticon);
-	                   		$voteItem.append($totalItem);
-	                   		
+	                   		$voteItem.append($totalItem);     
+  	                   		
+
+	                     
 	                   		$td5.append($voteItem);
 	                   		$tr5.append($td5);
-							
-	                   	 for(var m in data.voteMemberList ){
-	                   		 if(data.voteMemberList[i].gmNo == data.gInfoGmNo ){
-	                   			if(data.itemList[j].gviNo == data.voteMemberList[m].gviNo){
-	                   			
-	                   			}
-	                   		} 
 	                   		 
-	                   	 }
+	                   
 	                   	 
 	                   	 
                    		
                    		}
-                   		}
+                   		}	// for itemList
                    		
-                   	}
+                   	}	// if gviItem != null
                  	
                    	if(data.gInfoGmNo == data.voteList[i].gmNo){
                    		
@@ -278,7 +284,7 @@
                 
                   	$groupBoard.append($boardTb); 
 
-                   	}
+                   	} // for voteList end
                },
                error:function(request, status, errorData){
 						alert("error code: " + request.status + "\n"
@@ -290,45 +296,14 @@
       
 	    </script>
 	    
-	    <!-- 투표 체크하기 -->
-	     <script>
-           $(function(){
-        	$(document).on("click",".voteTitle", function(){
-        		// 투표항목 색 바꾸기
-                $(".voteTitle").css("background","none");
-                $(".voteBox").css("background","none");
-                $(this).css("background","#FBD14B");
-                $(this).closest(".voteBox").css("background","#FBD14B");
-
-                // 클릭한거 체크 표시
-                $(".voteTitle").prev("span").text("");
-                $(this).prev("span").text("check");
-                
-                
-                // 투표하기
-                var gvNo = $(".voteTitle").val();
-                var gviNo = $(this).next().val();
-                
-                 $.ajax({
-                    url:"voteAjax.do",
-                    type: "GET",
-                    dataType: "json",
-                    data:{gvNo:gvNo, gviNo:gviNo},
-                    success: function(data){
-     			
-                     
-                    },
-                    error:function(request, status, errorData){
-     						alert("error code: " + request.status + "\n"
-     								+"message: " + request.responseText
-     								+"error: " + errorData);
-     					}
-                });
-                 
-               })
-        	})   
-           
-          </script>
+	    <script>
+	    	$(document).on("click",".detailBtn", function(){
+	    	var gvNo = $(this).next().val();
+	    		location.href="voteDetail.do?gvNo="+gvNo;
+	    	})
+	    </script>
+	    
+	  
 		    <!-- 스크롤 게시판 end -->
 		     <jsp:include page="../common/footer.jsp"/>	
 </body>

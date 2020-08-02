@@ -272,6 +272,22 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.selectVoteMemberLsit(gInfo);
 	}
 
+	@Override
+	public GroupVote selectOneVote(String gvNo) {
+		return gDao.selectOneVote(gvNo);
+	}
+
+	@Override
+	public ArrayList<GroupVote> selectOneItem(String gvNo) {
+		return gDao.selectOneItem(gvNo);
+	}
+
+	@Override
+	public ArrayList<GroupVote> selectTotalItem(String gvNo) {
+		return gDao.selectTotalItem(gvNo);
+	}
+
+
 
 
 

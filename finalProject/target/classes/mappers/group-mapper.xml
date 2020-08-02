@@ -545,4 +545,34 @@
 		FROM GROUP_VOTE GV
 		RIGHT JOIN GROUP_VOTE_MEMBER GVM ON(GV.GV_NO = GVM.GVI_NO)
 	</select>
+	
+	<select id="selectOneVote" parameterType="string"  resultMap="groupVoteResultSet" >
+		SELECT GV.GV_NO, GV.G_NO, GV.GM_NO, GV_TITLE, GV_CON, GV_START, GV_END, GV_ANO, NAME , RENAME_FILE
+        FROM GROUP_VOTE GV
+        FULL JOIN GROUP_VOTE_ITEM GVI ON(GV.GV_NO = GVI.GV_NO)
+        FULL JOIN GROUP_VOTE_MEMBER GVM ON(GVI.GVI_NO = GVM.GVI_NO)
+        JOIN GROUP_MEMBER GM ON(GV.GM_NO = GM.GM_NO)
+        JOIN MEMBER M ON (GM.GM_ID = M.ID)
+        WHERE GV.GV_NO = #{gvNo}
+        AND GV_DELETE = 'N'
+        GROUP BY GV.GV_NO, GV.G_NO, GV.GM_NO, GV_TITLE, GV_CON, GV_START, GV_END, GV_ANO, NAME , RENAME_FILE
+        ORDER BY GV.GV_NO DESC
+	</select>
+	
+	<select id="selectOneItem" parameterType="string"  resultMap="groupVoteResultSet" >
+		SELECT GV.GV_NO, GV.G_NO, GVI.GVI_NO, GVM.GM_NO, GVI_ITEM, COUNT(GVM.GVI_NO) AS TOTAL_GVI_NO 
+        FROM GROUP_VOTE GV
+        FULL JOIN GROUP_VOTE_ITEM GVI ON(GV.GV_NO = GVI.GV_NO)
+        FULL JOIN GROUP_VOTE_MEMBER GVM ON(GVI.GVI_NO = GVM.GVI_NO)
+        WHERE GV.GV_NO = #{gvNo}
+        AND GV_DELETE = 'N'
+        GROUP BY GV.GV_NO, GV.G_NO, GVI_ITEM, GVI.GVI_NO, GVM.GM_NO
+	</select>
+	
+	<select id="selectTotalItem" parameterType="string"  resultMap="groupVoteResultSet" >
+		SELECT GVM_NO, GVM.GV_NO, GVM.G_NO, GVM.GM_NO, GVM.GVI_NO AS GVI_NO
+		FROM GROUP_VOTE GV
+		RIGHT JOIN GROUP_VOTE_MEMBER GVM ON(GV.GV_NO = GVM.GVI_NO)
+		WHERE GV.GV_NO = #{gvNo}
+	</select>
 </mapper>
