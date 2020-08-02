@@ -52,7 +52,10 @@
  	.checkView{width:100px;padding: 10px 30px !important;}
   	.etcBox{text-align:center !important;}	
 	
+	.yellowBox{    background:#FBD14B !important;}
+	
 	.howVote{color:#2860E1; cursor:pointer;}
+	
 	
     #submit{background:none; border:none; color:#2860E1; font-weight: 700; font-size: 20px; border-radius:6px; width:60px; height:35px;margin-right: 20px; cursor:pointer;}
     #reset{background:none; border:none; color:#484848; font-weight: 700; font-size: 20px; width:100px; cursor:pointer;    margin-right: 20px;}
@@ -112,19 +115,36 @@
                     	</td>
                     </tr>	
                     
-                    <c:forEach var="i" items="${ itemList}">
-                    	<tr>
-                    		<td colspan="2">
-	                    		<div class="voteBox">
-				                    <span class="material-icons checkView"></span>
-				                    <button class="voteTitle" value="${i.gviNo }">${i.gviItem }</button>
-				                    <input type="hidden" class="voteTitle" value="">
-				                    <span class="material-icons voteUser">perm_identity</span>
-				                    <span>${i.totalGviNo }</span>
-				                </div>
-                    		</td>
-                    	</tr>
-                    </c:forEach>
+	                    <c:forEach var="i" items="${ itemList}">
+	                   	 <c:if test="${i.gviNo  eq voteTotalList.gviNo}">
+	                    	<tr>
+	                    		<td colspan="2">
+		                    		<div class="voteBox first yellowBox">
+					                    <span class="material-icons checkView">check</span>
+					                    <button class="voteTitle " value="${i.gviNo }">${i.gviItem }</button>
+					                    <input type="hidden" class="voteTitle" value="">
+					                    <span class="material-icons voteUser">person</span>
+					                    <span>${i.totalGviNo }</span>
+					                </div>
+	                    		</td>
+	                    	</tr>
+                 	  		</c:if>
+                 	  		
+                    		 <c:if test="${i.gviNo  ne voteTotalList.gviNo}">
+		                    	<tr>
+		                    		<td colspan="2">
+			                    		<div class="voteBox">
+						                    <span class="material-icons checkView"></span>
+						                    <button class="voteTitle" value="${i.gviNo }">${i.gviItem }</button>
+						                    <input type="hidden" class="voteTitle" value="">
+						                    <span class="material-icons voteUser">person</span>
+						                    <span>${i.totalGviNo }</span>
+						                </div>
+		                    		</td>
+		                    	</tr>
+	                    	</c:if>
+	                    </c:forEach>
+                    
                     <tr>
                     	<td colspan="2">
                     		<span class="material-icons howVote">how_to_vote</span><span class="click" style="color:gray">Click!</span>
@@ -151,16 +171,25 @@
 		 	
 		 </script>
 		
-           <!-- 투표 체크하기@@@@@@@@@@@@@@@@ -->
+           <!-- 투표 체크하기 -->
 	     <script>
            $(function(){
         	$(document).on("click",".voteTitle", function(){
         		// 투표항목 색 바꾸기
+				$(".yellowBox").removeClass("yellowBox");
+        		
                 $(".voteTitle").css("background","none");
                 $(".voteBox").css("background","none");
                 $(this).css("background","#FBD14B");
                 $(this).closest(".voteBox").css("background","#FBD14B");
-
+				$(this).parent().attr("class","voteBox yellowBox");
+				
+				var totalPlus = parseInt($(this).next().next().next().text());
+				$(this).next().next().next().text(totalPlus + 1);
+				
+				var totalMinus = parseInt($(".first").children().next().next().next().next().text());
+				$(".first").children().next().next().next().next().text(totalMinus - 1);
+				
                 // 클릭한거 체크 표시
                 $(".voteTitle").prev("span").text("");
                 $(this).prev("span").text("check");
@@ -168,15 +197,21 @@
                 
                 // 투표하기
                 var gvNo = $(".voteTitle").val();
-                var gviNo = $(this).next().val();
-                
+                var gviNo = $(this).val();
+
                  $.ajax({
                     url:"voteAjax.do",
                     type: "GET",
-                    dataType: "json",
+                    dataType: "text",
                     data:{gvNo:gvNo, gviNo:gviNo},
                     success: function(data){
-     			
+                    	
+                    /* 	for(var i in itemList){
+                    	var $totalItem = data.itemList[i].totalGviNo;
+                    	
+                    	
+                    		}
+                    	 */
                      
                     },
                     error:function(request, status, errorData){

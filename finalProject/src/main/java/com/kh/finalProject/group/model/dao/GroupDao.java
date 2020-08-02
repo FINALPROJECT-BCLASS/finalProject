@@ -239,16 +239,28 @@ public class GroupDao {
 		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectVoteMemberLsit", gInfo);		
 	}
 
-	public GroupVote selectOneVote(String gvNo) {
-		return sqlSessionTemplate.selectOne("groupMapper.selectOneVote", gvNo);
+	public GroupVote selectOneVote(GroupVote gv) {
+		return sqlSessionTemplate.selectOne("groupMapper.selectOneVote", gv);
 	}
 
-	public ArrayList<GroupVote> selectOneItem(String gvNo) {
-		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectOneItem", gvNo);
+	public ArrayList<GroupVote> selectOneItem(GroupVote gv) {
+		return  (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectOneItem", gv);
 	}
 
-	public ArrayList<GroupVote> selectTotalItem(String gvNo) {
-		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectTotalItem", gvNo);		
+	public GroupVote selectTotalItem(GroupVote gv) {
+		return sqlSessionTemplate.selectOne("groupMapper.selectTotalItem", gv);		
+	}
+
+	public int deleteVote(GroupVote gv) {
+		return sqlSessionTemplate.delete("groupMapper.deleteVote", gv);		
+	}
+
+	public int insertVote(GroupVote gv) {
+		return sqlSessionTemplate.delete("groupMapper.insertVote", gv);		
+	}
+
+	public int oneTotalItem(GroupVote gv) {
+		return sqlSessionTemplate.selectOne("groupMapper.oneTotalItem", gv);		
 	}
 	
 	

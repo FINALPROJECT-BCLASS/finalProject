@@ -117,11 +117,17 @@ public interface GroupService {
 
 	ArrayList<GroupVote> selectVoteMemberLsit(GroupInfo gInfo);
 
-	GroupVote selectOneVote(String gvNo);
+	GroupVote selectOneVote(GroupVote gv);
 
-	ArrayList<GroupVote> selectOneItem(String gvNo);
+	ArrayList<GroupVote> selectOneItem(GroupVote gv);
 
-	ArrayList<GroupVote> selectTotalItem(String gvNo);
+	GroupVote selectTotalItem(GroupVote gv);
+
+	int deleteVote(GroupVote gv);
+
+	int insertVote(GroupVote gv);
+
+	int oneTotalItem(GroupVote gv);
 
 	
 

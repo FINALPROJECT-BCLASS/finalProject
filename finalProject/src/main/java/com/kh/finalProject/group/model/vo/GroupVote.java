@@ -9,9 +9,9 @@ public class GroupVote implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private int gvNo;
-	private int gNo;
-	private int gmNo;
+	private String gvNo;
+	private String gNo;
+	private String gmNo;
 	private String gvTitle;
 	private String gvCon;
 	private String gvStart;
@@ -41,7 +41,7 @@ public class GroupVote implements Serializable{
 	}
 
 
-	public GroupVote(int gvNo, int gNo, int gmNo, String gvTitle, String gvCon, String gvStart, String gvEnd,
+	public GroupVote(String gvNo, String gNo, String gmNo, String gvTitle, String gvCon, String gvStart, String gvEnd,
 			String gvAno, String gvDelete, int gviNo, String gviItem, String name, String renameFile, int totalGviNo,
 			int gvmNo, int voteY, int voteYName, int voteN, int voteNName) {
 		super();
@@ -67,32 +67,32 @@ public class GroupVote implements Serializable{
 	}
 
 
-	public int getGvNo() {
+	public String getGvNo() {
 		return gvNo;
 	}
 
 
-	public void setGvNo(int gvNo) {
+	public void setGvNo(String gvNo) {
 		this.gvNo = gvNo;
 	}
 
 
-	public int getgNo() {
+	public String getgNo() {
 		return gNo;
 	}
 
 
-	public void setgNo(int gNo) {
+	public void setgNo(String gNo) {
 		this.gNo = gNo;
 	}
 
 
-	public int getGmNo() {
+	public String getGmNo() {
 		return gmNo;
 	}
 
 
-	public void setGmNo(int gmNo) {
+	public void setGmNo(String gmNo) {
 		this.gmNo = gmNo;
 	}
 
@@ -270,6 +270,7 @@ public class GroupVote implements Serializable{
 				+ ", totalGviNo=" + totalGviNo + ", gvmNo=" + gvmNo + ", voteY=" + voteY + ", voteYName=" + voteYName
 				+ ", voteN=" + voteN + ", voteNName=" + voteNName + "]\n";
 	}
+
 
 
 	

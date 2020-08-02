@@ -1230,16 +1230,21 @@ public class GroupController {
 		
 		// 투표 상세
 		@RequestMapping(value = "voteDetail.do", method = RequestMethod.GET)
-		public ModelAndView voteDetail(ModelAndView mv,HttpSession session,  @RequestParam(value = "gvNo", required = false) String gvNo) throws IOException {
+		public ModelAndView voteDetail(ModelAndView mv,HttpSession session,  GroupVote gv) throws IOException {
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
-			System.out.println("투표 ajax : " + gvNo);
 			
-			GroupVote voteList = gService.selectOneVote(gvNo);
-			ArrayList<GroupVote> itemList = gService.selectOneItem(gvNo);
-			ArrayList<GroupVote> voteTotalList = gService.selectTotalItem(gvNo);
+			gv.setGmNo(String.valueOf(gInfo.getGmNo()));
+			gv.setgNo(String.valueOf(gInfo.getGroupNo()));
+//			System.out.println("투표 ajax : " + gv);
+			
+			GroupVote voteList = gService.selectOneVote(gv);
+			ArrayList<GroupVote> itemList = gService.selectOneItem(gv);
+			GroupVote voteTotalList = gService.selectTotalItem(gv);
 			
 			System.out.println("상세 voteList : " + voteList);
 			System.out.println("상세 itemList : " + itemList);
+
+			
 			
 //			수정하기
 			System.out.println("상세 voteTotalList : " + voteTotalList);
@@ -1259,19 +1264,25 @@ public class GroupController {
 		@RequestMapping(value = "voteAjax.do", method = RequestMethod.GET)
 		public void voteAjax(HttpSession session, HttpServletResponse response, GroupVote gv) throws IOException {
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
-			System.out.println("투표 ajax : " + gv);
 			int gmNo = gInfo.getGmNo();
 			int gNo = gInfo.getGroupNo();
+			System.out.println("투표 ajax : " + gv);
 			
-			gv.setGmNo(gmNo);
-			gv.setgNo(gNo);
+			gv.setGmNo(String.valueOf(gInfo.getGmNo()));
+			gv.setgNo(String.valueOf(gInfo.getGroupNo()));
 			
+			int deleteResult = gService.deleteVote(gv);
+			int insertResult = gService.insertVote(gv);
+			ArrayList<GroupVote> itemList = gService.selectOneItem(gv);
+			
+			System.out.println("투표 ajas deleteResult : " + deleteResult);
+			System.out.println("투표 ajas insertResult : " + insertResult);
 			
 			response.setContentType("application/json;charset=utf-8");
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 			PrintWriter out = response.getWriter();
-			out.print("대댓글 삭제 성공");
+			out.print("투표 성공");
 			out.flush();
 			out.close();
 	
