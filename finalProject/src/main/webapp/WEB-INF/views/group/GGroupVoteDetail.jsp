@@ -30,7 +30,7 @@
     .BoardTitle, .BoardName, .BoardDate, .BoardCount{display:inline-block; color:#484848;margin-right:10px;}
     .BoardTitle, .BoardName{padding:10px 0px 0px 10px;}
     .BoardName{font-size:15px; font-weight:600; }
-    .BoardCon{text-align:left; padding:20px 0px 20px 20px;}
+    .BoardCon{background: #F3F3F3;  border-radius: 6px;   margin: 20px; text-align:left; padding:20px 0px 20px 20px;}
     .done{font-weight:600 !important; font-size:14px !important; padding-right:2px !important;}
     
     .groubJoinBtn{text-align: center;}
@@ -42,8 +42,8 @@
 	
 	  /* 투표 내용 시작 */
     .voteBox{ margin-bottom: 10px; margin-left:17px; width:950px !important; border-radius:10px; border:1px solid #F3F3F3; display: flex; align-items: center;}
-    .voteTitle{width:80%; height:50px; cursor: unset !important; border:0; outline:0 !important; background:none; }
-    .voteSubmit{cursor:pointer; font-weight: 600;font-size: 17px;color:white; margin-left: 3px; margin-top:20px; margin-bottom:10px; width:45%; height:50px; border:none; background:#2860E1; border-radius: 5px; }
+    .voteTitle{width:80%; height:50px; cursor: pointer !important; border:0; outline:0 !important; background:none; }
+    .voteSubmit{font-weight: 600;font-size: 17px;color:white; margin-left: 3px; margin-top:20px; margin-bottom:10px; width:45%; height:50px; border:none; background:#2860E1; border-radius: 5px; }
     .voteEnd{background:#FBD14B;}
     .voteUpdate{background:#2860E1 ;}
     .voteDelete{background:#dc3545 ;}
@@ -51,11 +51,17 @@
     .checkClick{display:inline-block; font-size:14px; color:gray; padding-left:5px;}
  	.checkView{width:100px;padding: 10px 30px !important;}
   	.etcBox{text-align:center !important;}	
-
+	
+	.howVote{color:#2860E1; cursor:pointer;}
+	
     #submit{background:none; border:none; color:#2860E1; font-weight: 700; font-size: 20px; border-radius:6px; width:60px; height:35px;margin-right: 20px; cursor:pointer;}
     #reset{background:none; border:none; color:#484848; font-weight: 700; font-size: 20px; width:100px; cursor:pointer;    margin-right: 20px;}
 	#delete{background:none; border:none; color:#ee1212d0; font-weight: 700; font-size: 20px; width:100px; cursor:pointer;    
 
+
+	 /* tooltip 색상 변경 css */
+    .tooltip .bs-tooltip-bottom .tooltip-inner { background:#2860E1 !important;}
+    .tooltip .arrow:before { border-bottom-color:#2860E1 !important; border-top-color:#2860E1 !important; }
 </style>
 </head>
 <body>
@@ -101,7 +107,7 @@
                         </td>
                     </tr>
                     <tr>
-                    	<td>
+                    	<td colspan="2">
                     		<div class="BoardCon">${voteList.gvCon }</div>
                     	</td>
                     </tr>	
@@ -114,11 +120,17 @@
 				                    <button class="voteTitle" value="${i.gviNo }">${i.gviItem }</button>
 				                    <input type="hidden" class="voteTitle" value="">
 				                    <span class="material-icons voteUser">perm_identity</span>
-				                    <span>{i.totalGviNo }</span>
+				                    <span>${i.totalGviNo }</span>
 				                </div>
                     		</td>
                     	</tr>
                     </c:forEach>
+                    <tr>
+                    	<td colspan="2">
+                    		<span class="material-icons howVote">how_to_vote</span><span class="click" style="color:gray">Click!</span>
+                    		
+                    	</td>
+                    </tr>
                 </table>
 
 
