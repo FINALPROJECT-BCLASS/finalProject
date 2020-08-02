@@ -23,6 +23,10 @@ public class GroupVote implements Serializable{
 	private int gviNo;
 	private String gviItem;
 	
+// MEMBER 
+	private String name;
+	private String renameFile;
+	
 // GROUP_VOTE_MEMBER	
 	private int totalGviNo;
 	private int gvmNo;
@@ -38,8 +42,8 @@ public class GroupVote implements Serializable{
 
 
 	public GroupVote(int gvNo, int gNo, int gmNo, String gvTitle, String gvCon, String gvStart, String gvEnd,
-			String gvAno, String gvDelete, int gviNo, String gviItem, int totalGviNo, int gvmNo, int voteY,
-			int voteYName, int voteN, int voteNName) {
+			String gvAno, String gvDelete, int gviNo, String gviItem, String name, String renameFile, int totalGviNo,
+			int gvmNo, int voteY, int voteYName, int voteN, int voteNName) {
 		super();
 		this.gvNo = gvNo;
 		this.gNo = gNo;
@@ -52,6 +56,8 @@ public class GroupVote implements Serializable{
 		this.gvDelete = gvDelete;
 		this.gviNo = gviNo;
 		this.gviItem = gviItem;
+		this.name = name;
+		this.renameFile = renameFile;
 		this.totalGviNo = totalGviNo;
 		this.gvmNo = gvmNo;
 		this.voteY = voteY;
@@ -171,6 +177,26 @@ public class GroupVote implements Serializable{
 	}
 
 
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+	public String getRenameFile() {
+		return renameFile;
+	}
+
+
+	public void setRenameFile(String renameFile) {
+		this.renameFile = renameFile;
+	}
+
+
 	public int getTotalGviNo() {
 		return totalGviNo;
 	}
@@ -240,12 +266,11 @@ public class GroupVote implements Serializable{
 	public String toString() {
 		return "GroupVote [gvNo=" + gvNo + ", gNo=" + gNo + ", gmNo=" + gmNo + ", gvTitle=" + gvTitle + ", gvCon="
 				+ gvCon + ", gvStart=" + gvStart + ", gvEnd=" + gvEnd + ", gvAno=" + gvAno + ", gvDelete=" + gvDelete
-				+ ", gviNo=" + gviNo + ", gviItem=" + gviItem + ", totalGviNo=" + totalGviNo + ", gvmNo=" + gvmNo
-				+ ", voteY=" + voteY + ", voteYName=" + voteYName + ", voteN=" + voteN + ", voteNName=" + voteNName
-				+ "]\n";
+				+ ", gviNo=" + gviNo + ", gviItem=" + gviItem + ", name=" + name + ", renameFile=" + renameFile
+				+ ", totalGviNo=" + totalGviNo + ", gvmNo=" + gvmNo + ", voteY=" + voteY + ", voteYName=" + voteYName
+				+ ", voteN=" + voteN + ", voteNName=" + voteNName + "]\n";
 	}
 
 
-	
 	
 }

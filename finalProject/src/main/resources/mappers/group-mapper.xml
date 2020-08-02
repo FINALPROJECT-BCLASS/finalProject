@@ -108,6 +108,9 @@
 		<result property="gviNo" column="GVI_NO"/>
 		<result property="gviItem" column="GVI_ITEM"/>
 		
+		<result property="name" column="NAME"/>
+		<result property="renameFile" column="RENAME_FILE"/>
+		
 		<result property="gvmNo" column="GVM_NO"/>
 		<result property="totalGviNo" column="TOTAL_GVI_NO"/>
 		<result property="voteY" column="VOTE_Y"/>
@@ -515,12 +518,12 @@
 	</select>
 	
 	<select id="selectVoteList"  parameterType="GroupInfo" resultMap="groupVoteResultSet" >
-		SELECT GV.GV_NO, GV.G_NO, GV.GM_NO, GV_TITLE, GV_CON, GV_START, GV_END, 
-               GV_ANO, GVI.GVI_NO, GVI_ITEM, GV_DELETE, COUNT(GVM.GVI_NO) AS TOTAL_GVI_NO
+		 SELECT GV.GV_NO, GV.G_NO, GV.GM_NO, GV_TITLE, GV_CON, GV_START, GV_END, GV_ANO, NAME , RENAME_FILE
         FROM GROUP_VOTE GV
         FULL JOIN GROUP_VOTE_ITEM GVI ON(GV.GV_NO = GVI.GV_NO)
         FULL JOIN GROUP_VOTE_MEMBER GVM ON(GVI.GVI_NO = GVM.GVI_NO)
-        GROUP BY GV.GV_NO, GV.G_NO, GV.GM_NO, GV_TITLE, GV_CON, GV_START, GV_END, 
-               GV_ANO, GVI.GVI_NO, GVI_ITEM, GV_DELETE
+        JOIN GROUP_MEMBER GM ON(GV.GM_NO = GM.GM_NO)
+        JOIN MEMBER M ON (GM.GM_ID = M.ID)
+        GROUP BY GV.GV_NO, GV.G_NO, GV.GM_NO, GV_TITLE, GV_CON, GV_START, GV_END, GV_ANO, NAME , RENAME_FILE
 	</select>
 </mapper>

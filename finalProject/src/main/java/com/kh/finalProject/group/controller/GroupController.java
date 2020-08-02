@@ -1169,8 +1169,9 @@ public class GroupController {
 					jObj.put("gvEnd", v.getGvEnd());
 					jObj.put("gvAno", v.getGvAno());
 					jObj.put("gvDelete", v.getGvDelete());
-					jObj.put("gviNo", v.getGviNo());
-					jObj.put("gviItem", v.getGviItem());
+					
+					jObj.put("name", v.getName());
+					jObj.put("renameFile", v.getRenameFile());
 				
 					vArr.add(jObj);
 				}
