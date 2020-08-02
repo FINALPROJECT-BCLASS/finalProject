@@ -1255,7 +1255,7 @@ public class GroupController {
 			mv.addObject("voteList", voteList);
 			mv.addObject("itemList", itemList);
 			mv.addObject("voteTotalList", voteTotalList);
-			mv.setViewName("group/GGroupVoteDetail");
+			mv.setViewName("group/GVoteDetail");
 			return mv;
 	
 		}
