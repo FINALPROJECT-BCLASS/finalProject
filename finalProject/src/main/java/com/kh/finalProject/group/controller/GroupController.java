@@ -1138,15 +1138,16 @@ public class GroupController {
 			
 			
 			ArrayList<GroupVote> voteList = gService.selectVoteList(pi);
-			
+			ArrayList<GroupVote> itemList = gService.selectItemList(gInfo);
 			
 			System.out.println("VOTILIST :" + voteList);
+			System.out.println("itemList :" + itemList);
 			
 			response.setContentType("application/json;charset=utf-8");
 			
 			
 			JSONArray vArr = new JSONArray();
-//			JSONArray pArr = new JSONArray();
+			JSONArray iArr = new JSONArray();
 //			JSONArray lArr = new JSONArray();
 //			JSONArray rArr = new JSONArray();
 			
@@ -1175,10 +1176,24 @@ public class GroupController {
 				
 					vArr.add(jObj);
 				}
+				
+				if (itemList != null) {
+					for (GroupVote v : itemList) {
+						JSONObject jObj = new JSONObject();
+
+						jObj.put("gvNo", v.getGvNo());
+						jObj.put("gNo", v.getgNo());
+
+						jObj.put("gviItem", v.getGviItem());
+						jObj.put("totalGviNo", v.getTotalGviNo());
+					
+
+						iArr.add(jObj);
+					}
 
 				JSONObject sendJson = new JSONObject();
 				sendJson.put("voteList", vArr);
-//						sendJson.put("photoList", pArr);
+				sendJson.put("itemList", iArr);
 //						sendJson.put("likeList", lArr);
 //						sendJson.put("replyList", rArr);
 //						
@@ -1192,5 +1207,6 @@ public class GroupController {
 				
 			}
 
+			}		
 		}
 }

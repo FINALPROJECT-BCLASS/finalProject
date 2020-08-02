@@ -518,12 +518,24 @@
 	</select>
 	
 	<select id="selectVoteList"  parameterType="GroupInfo" resultMap="groupVoteResultSet" >
-		 SELECT GV.GV_NO, GV.G_NO, GV.GM_NO, GV_TITLE, GV_CON, GV_START, GV_END, GV_ANO, NAME , RENAME_FILE
+		SELECT GV.GV_NO, GV.G_NO, GV.GM_NO, GV_TITLE, GV_CON, GV_START, GV_END, GV_ANO, NAME , RENAME_FILE
         FROM GROUP_VOTE GV
         FULL JOIN GROUP_VOTE_ITEM GVI ON(GV.GV_NO = GVI.GV_NO)
         FULL JOIN GROUP_VOTE_MEMBER GVM ON(GVI.GVI_NO = GVM.GVI_NO)
         JOIN GROUP_MEMBER GM ON(GV.GM_NO = GM.GM_NO)
         JOIN MEMBER M ON (GM.GM_ID = M.ID)
+        WHERE GV.G_NO = #{groupNo}
+        AND GV_DELETE = 'N'
         GROUP BY GV.GV_NO, GV.G_NO, GV.GM_NO, GV_TITLE, GV_CON, GV_START, GV_END, GV_ANO, NAME , RENAME_FILE
+	</select>
+	
+	<select id="selectItemList" resultMap="groupVoteResultSet">
+		SELECT GV.GV_NO, GV.G_NO, GVI_ITEM, COUNT(GVM.GVI_NO) AS TOTAL_GVI_NO 
+        FROM GROUP_VOTE GV
+        FULL JOIN GROUP_VOTE_ITEM GVI ON(GV.GV_NO = GVI.GV_NO)
+        FULL JOIN GROUP_VOTE_MEMBER GVM ON(GVI.GVI_NO = GVM.GVI_NO)
+        WHERE GV.G_NO = 1
+        AND GV_DELETE = 'N'
+        GROUP BY GV.GV_NO, GV.G_NO, GVI_ITEM
 	</select>
 </mapper>

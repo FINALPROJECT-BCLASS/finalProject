@@ -113,6 +113,8 @@ public interface GroupService {
 
 	ArrayList<GroupVote> selectVoteList(PageInfo pi);
 
+	ArrayList<GroupVote> selectItemList(GroupInfo gInfo);
+
 	
 
 

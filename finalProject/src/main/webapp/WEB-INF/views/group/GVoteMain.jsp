@@ -25,6 +25,7 @@
     /* 게시판 css */
     html, body { height:100%;}
     h1{text-align:center;}
+    button{border:none; outline:none !important;}
     .btnList{width:100%; text-align:right;}
     .groupBtn{border:none; font-weight: 600; background:none;}
     .voteBtn{color:#2860E1; font-size: 21px;}
@@ -61,14 +62,22 @@
     .noticeBoardDate{padding-left:37px; font-size:12px; font-weight: 600;}
     .noticeBoardContent{margin-left:37px; margin-top:10px; padding-top:5px;padding-left:15px; width:1050px; height:70px; overflow:scroll; overflow-x:hidden; font-size:13px; background: #F3F3F3; border-radius: 5px; margin-bottom: 7px;}
   	.boardPhotoList{width:200px; height:100px; display:inline-block; border-radius:6px;}
-  	.imgBox{display:inline-block; margin-left:20px;}
-  	.etcBox{padding-left:20px; padding-top:10px; padding-bottom:20px;}
-  	.like, .reply{cursor:pointer; font-size:30px !important;}
-  	.totalLike, .totalReply{margin-left:10px; margin-right:20px; margin-bottom:10px; }
   	
- 
+  	  /* 투표 내용 시작 */
+    .voteBox{ margin-bottom: 10px; margin-left:17px; width:1100px !important; border-radius:10px; border:1px solid #F3F3F3; display: flex; align-items: center;}
+    .voteTitle{width:85%; height:50px; cursor: pointer; border:0; outline:0 !important; background:none; }
+    .voteSubmit{font-weight: 600;font-size: 17px;color:white; margin-left: 3px; margin-top:20px; margin-bottom:10px; width:45%; height:50px; border:none; background:#2860E1; border-radius: 5px; }
+    .voteEnd{background:#FBD14B;}
+    .voteUpdate{background:#2860E1 ;}
+    .voteDelete{background:#dc3545 ;}
+    .checkName{display:inline-block; margin-bottom:10px; font-weight: 600; font-size: 16px; color:#434343;}
+    .checkClick{display:inline-block; font-size:14px; color:gray; padding-left:5px;}
+ 	.checkView{width:100px;padding: 10px 30px !important;}
+  	.etcBox{text-align:center !important;}	
   	
-  
+  	.endBtn{background:#2860E1;}
+  	.removeBtn{background:lightgray;}
+  	
   	tr > td:nth-child(1) {
         color: #484848;
         text-align: left;
@@ -145,7 +154,7 @@
                dataType: "json",
                data:{page:pagePlus},
                success: function(data){
-				/* alert(data); */
+				
 				console.log(data);
               	 page = data.voteList[0].page;
               	 pagePlus = page + 1;
@@ -183,27 +192,24 @@
                 	var $emoticon = $("<div>").attr("class","MemberImgBox");
                 	var $memberNoImg = $("<img>").attr("class","memberImg").attr("src","resources/images/icons/profile_default.png");
                 	var $memberImg = $("<img>").attr("class","memberImg").attr("src","resources/muploadFiles/"+data.voteList[i].renameFile);
-                	
-                	/* var $detailPage = $("<div>").text("Detail").attr("class","detailBtn"); */
-                	/* var $gbNo = $("<input type='hidden' id='gbNo' value='"+ data.boardList[i].gbNo +"'>"); */
-                	
+                                	
                 	var $boardTitle = $("<div>").text(data.voteList[i].gvTitle).attr("class","noticeBoardTitle");
                   	var $boardWriter = $("<div>").text(data.voteList[i].name).attr("class","noticeBoardWriter");
                   	var $boardDate = $("<div>").text(data.voteList[i].gvStart).attr("class","noticeBoardDate");
                   	var $boardContent = $("<div>").text(data.voteList[i].gvCon).attr("class","noticeBoardContent");
                  	
-                  	/* var $like = $("<span>").text("favorite_border").attr("class","material-icons like");
-                 	var $reply = $("<span>").text("sms").attr("class","material-icons reply"); */
-                 	
-                 	/* $td1.append($gbNo); */
+                  	var $endBtn = $("<button class='voteSubmit endBtn'>").text("Close Vote");
+                  	var $removeBtn = $("<button class='voteSubmit removeBtn'>").text("Delete");
+                  	
                  	if(data.voteList[i].renameFile == null){
                  		$emoticon.append($memberNoImg);
                  	}else{
                  		$emoticon.append($memberImg);
                  	}
+                 	
                		$td1.append($emoticon);
                		$td1.append($boardTitle);
-               		/* $td1.append($detailPage); */
+               		
                    	$tr1.append($td1);
                    	
                    	$td2.append($boardWriter);
@@ -215,11 +221,42 @@
                    	$td4.append($boardContent);
                    	$tr4.append($td4);
  					
-                 
+                   	if(data.itemList[i].gviItem != null){
+                   		for(var i in data.itemList){
+                   		
+                 			
+                   			var $td5  = $("<td>");
+                   			var $td5  = $("<tr>");
+                 			
+                   			var $voteItem = $("<div>").attr("class","voteBox");
+                          	var $check = $("<span>").attr("class","material-icons checkView");
+                          	var $itemBtn = $("<button class='voteTitle' value='"+ data.itemList[i].gvNo +"'>").text( data.itemList[i].gviItem);
+                          	var $userImoticon = $("<span>").attr("class","material-icons voteUser").text("person");
+                          	var $totalItem = $("<span>").text(data.itemList[i].totalGviNo );
+	                   		
+                          	$voteItem.append($check);
+	                   		$voteItem.append($itemBtn); 
+	                   		$voteItem.append($userImoticon);
+	                   		$voteItem.append($totalItem);
+	                   		
+	                   		$td5.append($voteItem);
+	                   		$tr5.append($td5);
+
+                   		
+                   		}
+                   		
+                   	}
+                 	
+                   	$td6.append($endBtn);
+                   	$td6.append($removeBtn);
+                	$tr6.append($td6);
+                	
                		$boardTb.append($tr1);
                   	$boardTb.append($tr2);
                   	$boardTb.append($tr3);
                   	$boardTb.append($tr4);
+                  	$boardTb.append($tr5);
+                  	$boardTb.append($tr6);
                 
                   	$groupBoard.append($boardTb); 
 
@@ -234,6 +271,24 @@
        }
       
 	    </script>
+	    
+	    <!-- 투표 체크하기 -->
+	     <script>
+           $(function(){
+        	$(document).on("click",".voteTitle", function(){
+        		// 투표항목 색 바꾸기
+                $(".voteTitle").css("background","none");
+                $(".voteBox").css("background","none");
+                $(this).css("background","#FBD14B");
+                $(this).closest(".voteBox").css("background","#FBD14B");
+
+                // 클릭한거 체크 표시
+                $(".voteTitle").prev("span").text("");
+                $(this).prev("span").text("check");
+               })
+        	})   
+           
+          </script>
 		    <!-- 스크롤 게시판 end -->
 		     <jsp:include page="../common/footer.jsp"/>	
 </body>

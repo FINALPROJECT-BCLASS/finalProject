@@ -230,6 +230,11 @@ public class GroupDao {
 		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectVoteList",pi, rowBounds);
 		
 	}
+
+	public ArrayList<GroupVote> selectItemList(GroupInfo gInfo) {
+return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectItemList", gInfo);
+		
+	}
 	
 	
 	

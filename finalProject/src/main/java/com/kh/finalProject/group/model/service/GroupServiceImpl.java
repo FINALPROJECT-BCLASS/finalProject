@@ -254,13 +254,17 @@ public class GroupServiceImpl implements GroupService{
 
 	@Override
 	public int voteGetListCount(int groupNo) {
-		
 		return gDao.voteGetListCount(groupNo);
 	}
 
 	@Override
 	public ArrayList<GroupVote> selectVoteList(PageInfo pi) {
 			return gDao.selectVoteList(pi);
+	}
+
+	@Override
+	public ArrayList<GroupVote> selectItemList(GroupInfo gInfo) {
+		return gDao.selectItemList(gInfo);
 	}
 
 
