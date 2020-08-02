@@ -530,13 +530,19 @@
         ORDER BY GV.GV_NO DESC
 	</select>
 	
-	<select id="selectItemList" resultMap="groupVoteResultSet">
-		SELECT GV.GV_NO, GV.G_NO, GVI_ITEM, COUNT(GVM.GVI_NO) AS TOTAL_GVI_NO 
+	<select id="selectItemList" parameterType="GroupInfo"  resultMap="groupVoteResultSet" >
+		SELECT GV.GV_NO, GV.G_NO, GVI.GVI_NO, GVM.GM_NO, GVI_ITEM, COUNT(GVM.GVI_NO) AS TOTAL_GVI_NO 
         FROM GROUP_VOTE GV
         FULL JOIN GROUP_VOTE_ITEM GVI ON(GV.GV_NO = GVI.GV_NO)
         FULL JOIN GROUP_VOTE_MEMBER GVM ON(GVI.GVI_NO = GVM.GVI_NO)
-        WHERE GV.G_NO = 1
+        WHERE GV.G_NO = #{groupNo}
         AND GV_DELETE = 'N'
-        GROUP BY GV.GV_NO, GV.G_NO, GVI_ITEM
+        GROUP BY GV.GV_NO, GV.G_NO, GVI_ITEM, GVI.GVI_NO, GVM.GM_NO
+	</select>
+	
+	<select id="selectVoteMemberLsit" parameterType="GroupInfo" resultMap="groupVoteResultSet" >
+		SELECT GVM_NO, GVM.GV_NO, GVM.G_NO, GVM.GM_NO, GVM.GVI_NO AS GVI_NO
+		FROM GROUP_VOTE GV
+		RIGHT JOIN GROUP_VOTE_MEMBER GVM ON(GV.GV_NO = GVM.GVI_NO)
 	</select>
 </mapper>

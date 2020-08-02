@@ -1140,9 +1140,11 @@ public class GroupController {
 			
 			ArrayList<GroupVote> voteList = gService.selectVoteList(pi);
 			ArrayList<GroupVote> itemList = gService.selectItemList(gInfo);
+			ArrayList<GroupVote> voteMemberList = gService.selectVoteMemberLsit(gInfo);
 			
 			System.out.println("VOTILIST :" + voteList);
 			System.out.println("itemList :" + itemList);
+			System.out.println("voteMemberList :" + voteMemberList);
 			
 			response.setContentType("application/json;charset=utf-8");
 			
@@ -1150,15 +1152,13 @@ public class GroupController {
 			JSONArray vArr = new JSONArray();
 			JSONArray iArr = new JSONArray();
 			JSONArray gArr = new JSONArray();
-//			JSONArray rArr = new JSONArray();
+			JSONArray mArr = new JSONArray();
+			
 			
 			gArr.add(gmNo);
 			
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			
-	
-						
 
 			if (voteList != null) {
 				for (GroupVote v : voteList) {
@@ -1186,20 +1186,35 @@ public class GroupController {
 
 						jObj.put("gvNo", v.getGvNo());
 						jObj.put("gNo", v.getgNo());
-
+						
+						jObj.put("gviNo", v.getGviNo());
 						jObj.put("gviItem", v.getGviItem());
 						jObj.put("totalGviNo", v.getTotalGviNo());
 					
 
 						iArr.add(jObj);
 					}
+					
+				if (voteMemberList != null) {
+					for (GroupVote v : voteMemberList) {
+						JSONObject jObj = new JSONObject();
+
+						jObj.put("gvmNo", v.getGvmNo());
+						jObj.put("gvNo", v.getGvNo());
+						
+						jObj.put("gNo", v.getgNo());
+						jObj.put("gvmNo", v.getGvmNo());
+						jObj.put("gviNo", v.getGviNo());
+					
+
+						mArr.add(jObj);
+					}	
 
 				JSONObject sendJson = new JSONObject();
 				sendJson.put("voteList", vArr);
 				sendJson.put("itemList", iArr);
 				sendJson.put("gInfoGmNo", gArr);
-//						sendJson.put("replyList", rArr);
-//						
+				sendJson.put("voteMemberList", mArr);
 				
 				PrintWriter out = response.getWriter();
 				out.print(sendJson);
@@ -1209,7 +1224,26 @@ public class GroupController {
 			} else {
 				
 			}
-
+				}
 			}		
 		}
+		
+		// 투표 ajax
+		@RequestMapping(value = "voteAjax.do", method = RequestMethod.GET)
+		public void voteAjax(HttpServletResponse response, @RequestParam(value = "gvNo") String gvNo, @RequestParam(value = "gviNo") String gviNo) throws IOException {
+			System.out.println("오니?");
+			System.out.println("gvNo : " + gvNo);
+			System.out.println("gviNo : " + gviNo);
+			
+			response.setContentType("application/json;charset=utf-8");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+			PrintWriter out = response.getWriter();
+			out.print("대댓글 삭제 성공");
+			out.flush();
+			out.close();
+	
+		}
+		
+		
 }

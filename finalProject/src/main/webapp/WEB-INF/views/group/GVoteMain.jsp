@@ -233,17 +233,29 @@
                    			var $voteItem = $("<div>").attr("class","voteBox");
                           	var $check = $("<span>").attr("class","material-icons checkView");
                           	var $itemBtn = $("<button class='voteTitle' value='"+ data.itemList[j].gvNo +"'>").text( data.itemList[j].gviItem);
+                          	var $hiddenGviNo = $("<input type='hidden' id='hiddenGviNo' value='"+ data.itemList[j].gviNo +"'>");
                           	var $userImoticon = $("<span>").attr("class","material-icons voteUser").text("person");
                           	var $totalItem = $("<span>").text(data.itemList[j].totalGviNo );
 	                   		
                           	$voteItem.append($check);
 	                   		$voteItem.append($itemBtn); 
+	                   		$voteItem.append($hiddenGviNo); 
 	                   		$voteItem.append($userImoticon);
 	                   		$voteItem.append($totalItem);
 	                   		
 	                   		$td5.append($voteItem);
 	                   		$tr5.append($td5);
-
+							
+	                   	 for(var m in data.voteMemberList ){
+	                   		 if(data.voteMemberList[i].gmNo == data.gInfoGmNo ){
+	                   			if(data.itemList[j].gviNo == data.voteMemberList[m].gviNo){
+	                   			
+	                   			}
+	                   		} 
+	                   		 
+	                   	 }
+	                   	 
+	                   	 
                    		
                    		}
                    		}
@@ -291,6 +303,28 @@
                 // 클릭한거 체크 표시
                 $(".voteTitle").prev("span").text("");
                 $(this).prev("span").text("check");
+                
+                
+                // 투표하기
+                var gvNo = $(".voteTitle").val();
+                var gviNo = $(this).next().val();
+                
+                 $.ajax({
+                    url:"voteAjax.do",
+                    type: "GET",
+                    dataType: "json",
+                    data:{gvNo:gvNo, gviNo:gviNo},
+                    success: function(data){
+     			
+                     
+                    },
+                    error:function(request, status, errorData){
+     						alert("error code: " + request.status + "\n"
+     								+"message: " + request.responseText
+     								+"error: " + errorData);
+     					}
+                });
+                 
                })
         	})   
            

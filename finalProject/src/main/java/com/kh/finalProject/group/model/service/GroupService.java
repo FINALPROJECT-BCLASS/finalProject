@@ -115,6 +115,8 @@ public interface GroupService {
 
 	ArrayList<GroupVote> selectItemList(GroupInfo gInfo);
 
+	ArrayList<GroupVote> selectVoteMemberLsit(GroupInfo gInfo);
+
 	
 
 

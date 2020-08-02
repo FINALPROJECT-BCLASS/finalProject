@@ -232,8 +232,11 @@ public class GroupDao {
 	}
 
 	public ArrayList<GroupVote> selectItemList(GroupInfo gInfo) {
-return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectItemList", gInfo);
-		
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectItemList", gInfo);		
+	}
+
+	public ArrayList<GroupVote> selectVoteMemberLsit(GroupInfo gInfo) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectVoteMemberLsit", gInfo);		
 	}
 	
 	
