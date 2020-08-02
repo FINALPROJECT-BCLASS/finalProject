@@ -24,7 +24,7 @@
 		<result property="gNo" column="G_NO"/>
 		<result property="gmDelete" column="GM_DELETE"/>
 	</resultMap>
-	
+	 
 
 	<resultMap id="memberResultSet" type="Member">
 		<id property="id" column="ID"/>
