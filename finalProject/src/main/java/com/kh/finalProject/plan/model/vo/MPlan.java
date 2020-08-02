@@ -2,6 +2,9 @@ package com.kh.finalProject.plan.model.vo;
 
 import java.io.Serializable;
 
+import org.springframework.stereotype.Component;
+
+@Component("mp")
 public class MPlan implements Serializable {
 	
 	/**

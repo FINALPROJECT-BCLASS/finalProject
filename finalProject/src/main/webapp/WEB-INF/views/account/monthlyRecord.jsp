@@ -186,7 +186,7 @@
 	                                    	</td>
                                     	</tr>
                                         <tr>
-                                            <td><b>Category</b></td>
+                                            <th>Category</th>
                                             <td>
                                             	<select id="apcNo" name="apcNo" style="width: 230px;">
                                             		<option value="1">월급</option>
@@ -218,17 +218,17 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td><b>Date</b></td>
+                                            <th>Date</th>
                                             <td>
                                             	<input type="date" name="abDate" id="abDate" style="width: 230px;">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td><b>Amount</b></td>
+                                            <th>Amount</th>
                                             <td><input type="number" name="abAmount" style="width: 230px;"></td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2"><b>Memo</b></td>
+                                            <th colspan="2">Memo</th>
                                         </tr>
                                         <tr>
                                             <td colspan="2">
@@ -257,7 +257,7 @@
                     <div class="modal-body" align="center">
                     	<table id="detailTable">
                     		<tr>
-                    			<td><b>Date</b></td>
+                    			<th>Date</th>
                     			<td><span id="detailDate"></span></td>
                     		</tr>
                     		<tr id="pContent">
@@ -267,7 +267,7 @@
                     			<td colspan="2"><b style="color: red;">Expenditure</b></td>
                     		</tr>
                     		<tr>
-                    			<td colspan="2"><b>Memo</b></td>
+                    			<th colspan="2">Memo</th>
                     		</tr>
                     		<tr>
                     			<td colspan="2"><span id="abMemo">&nbsp;</span></td>

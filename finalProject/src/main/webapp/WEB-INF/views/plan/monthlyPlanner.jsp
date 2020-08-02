@@ -288,24 +288,24 @@
                                 	<input type="hidden" name="id" value="${loginUser.id }">
                                     <table id="addTable">
                                         <tr>
-                                            <td><b>Title</b></td>
+                                            <th>Title</th>
                                             <td><input type="text" id="addTitle" name="mpTitle" size="42"></td>
                                         </tr>
                                         <tr>
-                                            <td><b>Date</b></td>
+                                            <th>Date</th>
                                             <td>
                                                 <input type="date" id="mpStart" name="mpStart"> - 
                                                 <input type="date" id="mpEnd" name="mpEnd">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td><b>Time</b></td>
+                                            <th>Time</th>
                                             <td>
                                             	<input type="time" id="addTime" name="mpTime" style="width: 335px;">
                                             </td>
                                         </tr>
                                         <tr>
-                                        	<td><b>Color</b></td>
+                                        	<th>Color</th>
                                         	<td>
                                         		<div style="display: flex;">
 	                                        		<input type="radio" name="color" id="yellow" value="#FBD14B" checked>
@@ -335,7 +335,7 @@
                                             <td colspan="2"><input type="text" name="mpSub" class="subAddress" size="49"></td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2"><b>Memo</b></td>
+                                            <th colspan="2">Memo</th>
                                         </tr>
                                         <tr>
                                             <td colspan="2">
@@ -497,19 +497,19 @@
 	                   	<input type="hidden" name="mpNo" id="mpNo">
 	                       <table id="detailTable">
 	                           <tr>
-	                               <td><b>Title</b></td>
+	                               <th>Title</th>
 	                               <td><span id="mpTitle"></span></td>
 	                           </tr>
 	                           <tr>
-	                               <td><b>Date</b></td>
+	                               <th>Date</th>
 	                               <td><span id="mpDate"></span></td>
 	                           </tr>
 	                           <tr>
-	                               <td><b>Time</b></td>
+	                               <th>Time</th>
 	                               <td><span id="mpTime"></span></td>
 	                           </tr>
 	                           <tr>
-	                               <td colspan="2"><b>Memo</b></td>
+	                               <th colspan="2">Memo</th>
 	                           </tr>
 	                           <tr>
 	                               <td colspan="2"><span id="mpMemo">&nbsp;</span></td>
@@ -542,25 +542,25 @@
                            <input type="hidden" name="mpNo" id="updateNo">
                            <table id="updateTable">
                                <tr>
-                                   <td><b>Title</b></td>
+                                   <th>Title</th>
                                    <td><input type="text" name="mpTitle" id="updateTitle" size="42"></td>
                                </tr>
                                <tr>
-                                   <td><b>Date</b></td>
+                                   <th>Date</th>
                                    <td>
                                        <input type="date" name="mpStart" id="updateStart"> - 
                                        <input type="date" name="mpEnd" id="updateEnd">
                                    </td>
                                </tr>
                                <tr>
-                                   <td><b>Time</b></td>
+                                   <th>Time</th>
                                    <td>
                                    	<input type="time" name="mpTime" id="updateTime" style="width: 335px;">
                                    </td>
                                </tr>
                                <tr>
-                               	<td><b>Color</b></td>
-                               	<td><!-- 샘이언니한테 물어보기 -->
+                               	<th>Color</th>
+                               	<td>
                                		<div style="display: flex;">
                                 		<input type="radio" name="color" id="uYellow" value="#FBD14B" checked>
 			                         	<label class="u-icons" for="uYellow"><div class="b-yell"></div></label>
@@ -589,7 +589,7 @@
                                    <td colspan="2"><input type="text" name="mpSub" id="updateSub" class="subAddress" size="49"></td>
                                </tr>
                                <tr>
-                                   <td colspan="2"><b>Memo</b></td>
+                                   <th colspan="2">Memo</th>
                                </tr>
                                <tr>
                                    <td colspan="2">

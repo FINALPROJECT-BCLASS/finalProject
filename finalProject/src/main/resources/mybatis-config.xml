@@ -43,17 +43,20 @@
 		<typeAlias type="com.kh.finalProject.account.model.vo.ExpCategory" alias="ExpCategory"/>			<!-- 예지 -->
 
 		<typeAlias type="com.kh.finalProject.chat.model.vo.Chat" alias="Chat"/>
+		
+		<typeAlias type="com.kh.finalProject.memo.model.vo.Memo" alias="Memo"/>	<!-- 예지 -->
 
 	</typeAliases>
 
 	<mappers>
 		<mapper resource="/mappers/member-mapper.xml"/>
 		<mapper resource="/mappers/diet-mapper.xml"/>
-		<mapper resource="/mappers/plan-mapper.xml"/>	<!-- 예지 -->
+		<mapper resource="/mappers/plan-mapper.xml"/>		<!-- 예지 -->
 		<mapper resource="/mappers/group-mapper.xml"/>
 		<mapper resource="/mappers/daily-mapper.xml"/>
 		<mapper resource="/mappers/chat-mapper.xml"/>
 		<mapper resource="/mappers/account-mapper.xml"/>	<!-- 예지 -->
+		<mapper resource="/mappers/memo-mapper.xml"/>		<!-- 예지 -->
 	</mappers>
 	
 </configuration>
