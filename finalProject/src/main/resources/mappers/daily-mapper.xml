@@ -129,7 +129,7 @@
 		WHERE ID=#{id}
         AND TO_CHAR(HTR_DATE, 'YY/MM')=#{htr_date}
         AND HTR_DELETE = 'N'
-		ORDER BY HT_NO DESC
+		ORDER BY HTR_NO DESC
 	</select>
 	
 	<select id="selectHabitSumList" parameterType="Habit" resultMap="habitSumResultSet">
@@ -196,6 +196,7 @@
 		AND HTR.HT_NO =#{ht_no}
 		AND HTR.HTR_DELETE = 'N'
 		AND HT.HT_DELETE= 'N'
+		ORDER BY HTR.HTR_NO DESC
 	</select>
 	
 	<select id="selectHabitRecordListD" parameterType="HabitRecord" resultMap="habitRecordResultSet_2">
@@ -216,5 +217,14 @@
 		</if>
 		ORDER BY HTR_NO DESC
 	</select>
+	
+	<update id="deleteHabit" parameterType="hashmap">
+		UPDATE HABIT_TRACKER
+		SET HT_DELETE = 'Y'
+		WHERE HT_NO = #{ht_no}
+		AND ID = #{id}
+		AND HT_DELETE = 'N'
+	</update>
+	
 	
 </mapper>

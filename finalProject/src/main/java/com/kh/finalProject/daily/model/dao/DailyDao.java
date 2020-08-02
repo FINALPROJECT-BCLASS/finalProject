@@ -1,6 +1,7 @@
 package com.kh.finalProject.daily.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,6 +106,11 @@ public class DailyDao {
 	public ArrayList<HabitRecord> selectHabitRecordListD(HabitRecord hr) {
 		
 		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectHabitRecordListD", hr);
+	}
+
+	public int deleteHabit(HashMap<String, String> map) {
+
+		return sqlSessionTemplate.update("dailyMapper.deleteHabit", map);
 	}
 
 

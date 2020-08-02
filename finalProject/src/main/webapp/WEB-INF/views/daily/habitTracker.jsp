@@ -602,11 +602,11 @@
         <div class="right-area">
             <span class="pSubject">Habit Tracker</span>
             
-            <div class="small-button-area slide-btn">
+           <!--  <div class="small-button-area slide-btn">
        			<button type="button" onclick="cycleBtn();">D</button>
        			<button type="button" onclick="cycleBtn();">W</button>
                 <button type="button" onclick="cycleBtn();">M</button>
-			</div>
+			</div> -->
             <!-- 슬라이드 -->
             <div class="carousel" data-flickity='{ "draggable": true }'>
 				<c:forEach var="h" items="${hlist }">
@@ -640,7 +640,7 @@
             <!-- Button Start-->
             <div class="button-area">
                 <button onclick="location.href='addHabitView.do'">Add</button>
-                <button>Delete</button>
+                <button id="d-btn">Delete</button>
                 <button>Edit</button>
             </div>
 
@@ -773,7 +773,7 @@
 			      
             <!-- Button Start-->
             <div class="button-area">
-                <button class="blue">Graph >></button>
+                <button class="blue" onclick="location.href='graphView.do'">Graph >></button>
             </div>
             <!-- Button End-->
         </div>
@@ -785,6 +785,13 @@
 		<script type="text/javascript"  src='resources/js/simpleCalendar/jquery.simple-calendar.js'></script>
 		<script>
 		
+			$(document).on("click","#d-btn",function(){
+				var d_htNum = $(".clicked").prev("#htNum").val();
+				console.log("잘 나오니? " + d_htNum);
+				
+				location.href="deleteHabit.do?ht_no="+ d_htNum;
+			}); 
+			
 			var htDate;
 			$(".content").hide();
 	
@@ -856,12 +863,11 @@
                 	})
                 	
       	            $("#event-cal-container").simpleCalendar({
-      	            	insertEvent: true,
       	                fixedStartDay: true,
       	              	displayEvent: true,
-      	              	insertEvent: true,
       	               	events: eventDates,
       	              	selectCallback: function(date){ // 캘린더에서 날짜를 눌렀을 때
+      	              	
       	              	
       	              		var change = date.replace(/-/g, "/");
       	              		var day = change.substr(2);
@@ -1359,6 +1365,13 @@
 							
 							if(data == "success"){
 								$("."+htr_date).trigger("click");
+								
+		      	              	console.log("과연?" + $(".habit-record").html());
+								
+								if(!$(".habit-record").html()){
+									$("."+htr_date).removeClass("event");
+									alert("됨?");
+								}
 								
 							}else{
 			    				alert("삭제 실패, 다시 시도해 주세요.");

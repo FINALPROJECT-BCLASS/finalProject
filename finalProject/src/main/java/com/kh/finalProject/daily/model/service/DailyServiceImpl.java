@@ -1,6 +1,7 @@
 package com.kh.finalProject.daily.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -122,6 +123,12 @@ public class DailyServiceImpl implements DailyService {
 	public ArrayList<HabitRecord> selectHabitRecordListD(HabitRecord hr) {
 
 		return dailyDao.selectHabitRecordListD(hr);
+	}
+
+	@Override
+	public int deleteHabit(HashMap<String, String> map) {
+		
+		return dailyDao.deleteHabit(map);
 	}
 
 
