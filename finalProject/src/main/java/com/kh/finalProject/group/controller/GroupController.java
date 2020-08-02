@@ -1163,6 +1163,7 @@ public class GroupController {
 					jObj.put("gvNo", v.getGvNo());
 					jObj.put("gNo", v.getgNo());
 					jObj.put("gmNo", v.getGmNo());
+					jObj.put("gvTitle", v.getGvTitle());
 					jObj.put("gvCon", v.getGvCon());
 					jObj.put("gvStart", v.getGvStart());
 					jObj.put("gvEnd", v.getGvEnd());

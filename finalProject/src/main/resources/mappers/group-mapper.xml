@@ -98,6 +98,7 @@
 		<id property="gvNo" column="GV_NO"/>
 		<result property="gNo" column="G_NO"/>
 		<result property="gmNo" column="GM_NO"/>
+		<result property="gvTitle" column="GV_TITLE"/>
 		<result property="gvCon" column="GV_CON"/>
 		<result property="gvStart" column="GV_START"/>
 		<result property="gvEnd" column="GV_END"/>
@@ -514,12 +515,12 @@
 	</select>
 	
 	<select id="selectVoteList"  parameterType="GroupInfo" resultMap="groupVoteResultSet" >
-		SELECT GV.GV_NO, GV.G_NO, GV.GM_NO, GV_CON, GV_START, GV_END, 
+		SELECT GV.GV_NO, GV.G_NO, GV.GM_NO, GV_TITLE, GV_CON, GV_START, GV_END, 
                GV_ANO, GVI.GVI_NO, GVI_ITEM, GV_DELETE, COUNT(GVM.GVI_NO) AS TOTAL_GVI_NO
         FROM GROUP_VOTE GV
         FULL JOIN GROUP_VOTE_ITEM GVI ON(GV.GV_NO = GVI.GV_NO)
         FULL JOIN GROUP_VOTE_MEMBER GVM ON(GVI.GVI_NO = GVM.GVI_NO)
-        GROUP BY GV.GV_NO, GV.G_NO, GV.GM_NO, GV_CON, GV_START, GV_END, 
+        GROUP BY GV.GV_NO, GV.G_NO, GV.GM_NO, GV_TITLE, GV_CON, GV_START, GV_END, 
                GV_ANO, GVI.GVI_NO, GVI_ITEM, GV_DELETE
 	</select>
 </mapper>

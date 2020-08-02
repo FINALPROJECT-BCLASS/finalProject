@@ -12,6 +12,7 @@ public class GroupVote implements Serializable{
 	private int gvNo;
 	private int gNo;
 	private int gmNo;
+	private String gvTitle;
 	private String gvCon;
 	private String gvStart;
 	private String gvEnd;
@@ -36,13 +37,14 @@ public class GroupVote implements Serializable{
 	}
 
 
-	public GroupVote(int gvNo, int gNo, int gmNo, String gvCon, String gvStart, String gvEnd, String gvAno,
-			String gvDelete, int gviNo, String gviItem, int totalGviNo, int gvmNo, int voteY, int voteYName, int voteN,
-			int voteNName) {
+	public GroupVote(int gvNo, int gNo, int gmNo, String gvTitle, String gvCon, String gvStart, String gvEnd,
+			String gvAno, String gvDelete, int gviNo, String gviItem, int totalGviNo, int gvmNo, int voteY,
+			int voteYName, int voteN, int voteNName) {
 		super();
 		this.gvNo = gvNo;
 		this.gNo = gNo;
 		this.gmNo = gmNo;
+		this.gvTitle = gvTitle;
 		this.gvCon = gvCon;
 		this.gvStart = gvStart;
 		this.gvEnd = gvEnd;
@@ -86,6 +88,16 @@ public class GroupVote implements Serializable{
 
 	public void setGmNo(int gmNo) {
 		this.gmNo = gmNo;
+	}
+
+
+	public String getGvTitle() {
+		return gvTitle;
+	}
+
+
+	public void setGvTitle(String gvTitle) {
+		this.gvTitle = gvTitle;
 	}
 
 
@@ -226,13 +238,14 @@ public class GroupVote implements Serializable{
 
 	@Override
 	public String toString() {
-		return "GroupVote [gvNo=" + gvNo + ", gNo=" + gNo + ", gmNo=" + gmNo + ", gvCon=" + gvCon + ", gvStart="
-				+ gvStart + ", gvEnd=" + gvEnd + ", gvAno=" + gvAno + ", gvDelete=" + gvDelete + ", gviNo=" + gviNo
-				+ ", gviItem=" + gviItem + ", totalGviNo=" + totalGviNo + ", gvmNo=" + gvmNo + ", voteY=" + voteY
-				+ ", voteYName=" + voteYName + ", voteN=" + voteN + ", voteNName=" + voteNName + "]\n";
+		return "GroupVote [gvNo=" + gvNo + ", gNo=" + gNo + ", gmNo=" + gmNo + ", gvTitle=" + gvTitle + ", gvCon="
+				+ gvCon + ", gvStart=" + gvStart + ", gvEnd=" + gvEnd + ", gvAno=" + gvAno + ", gvDelete=" + gvDelete
+				+ ", gviNo=" + gviNo + ", gviItem=" + gviItem + ", totalGviNo=" + totalGviNo + ", gvmNo=" + gvmNo
+				+ ", voteY=" + voteY + ", voteYName=" + voteYName + ", voteN=" + voteN + ", voteNName=" + voteNName
+				+ "]\n";
 	}
 
-	
+
 	
 	
 }

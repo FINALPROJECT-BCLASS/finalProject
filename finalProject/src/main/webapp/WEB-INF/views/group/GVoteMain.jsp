@@ -161,7 +161,7 @@
                    if( length < 5 ){
                        isEnd = true;
                    }
-             /*        for(i in data.boardList){
+                   for(i in data.boardList){
                     
                   	var $groupBoard = $(".groupNotice");
                   	var $boardTb = $("<table>").attr("class","noticeBoardTb");
@@ -185,13 +185,13 @@
                 	var $memberNoImg = $("<img>").attr("class","memberImg").attr("src","resources/images/icons/profile_default.png");
                 	var $memberImg = $("<img>").attr("class","memberImg").attr("src","resources/muploadFiles/"+data.boardList[i].renameFile);
                 	
-                	var $detailPage = $("<div>").text("Detail").attr("class","detailBtn");
-                	var $gbNo = $("<input type='hidden' id='gbNo' value='"+ data.boardList[i].gbNo +"'>");
+                	/* var $detailPage = $("<div>").text("Detail").attr("class","detailBtn"); */
+                	/* var $gbNo = $("<input type='hidden' id='gbNo' value='"+ data.boardList[i].gbNo +"'>"); */
                 	
-                	var $boardTitle = $("<div>").text(data.boardList[i].gbTitle).attr("class","noticeBoardTitle");
-                  	var $boardWriter = $("<div>").text(data.boardList[i].name).attr("class","noticeBoardWriter");
-                  	var $boardDate = $("<div>").text(data.boardList[i].gbDate).attr("class","noticeBoardDate");
-                  	var $boardContent = $("<div>").text(data.boardList[i].gbCon).attr("class","noticeBoardContent");
+                	var $boardTitle = $("<div>").text(data.voteList[i].gbTitle).attr("class","noticeBoardTitle");
+                  	var $boardWriter = $("<div>").text(data.voteList[i].name).attr("class","noticeBoardWriter");
+                  	var $boardDate = $("<div>").text(data.voteList[i].gbDate).attr("class","noticeBoardDate");
+                  	var $boardContent = $("<div>").text(data.voteList[i].gbCon).attr("class","noticeBoardContent");
                  	
                   	var $like = $("<span>").text("favorite_border").attr("class","material-icons like");
                  	var $reply = $("<span>").text("sms").attr("class","material-icons reply");
@@ -282,7 +282,6 @@
                   	$groupBoard.append($boardTb); 
 
                    	}
-                 */
                },
                error:function(request, status, errorData){
 						alert("error code: " + request.status + "\n"
