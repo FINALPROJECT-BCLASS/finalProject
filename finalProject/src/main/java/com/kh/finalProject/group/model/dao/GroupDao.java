@@ -216,6 +216,19 @@ public class GroupDao {
 	public int deleteNotice(String gnNo) {
 		return sqlSessionTemplate.update("groupMapper.deleteNotice",gnNo);
 	}
+
+	public int voteGetListCount(int groupNo) {
+		return sqlSessionTemplate.selectOne("groupMapper.voteGetListCount", groupNo);
+	}
+
+	public ArrayList<GroupBoard> selectVoteList(PageInfo pi) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectVoteList",pi, rowBounds);
+		
+	}
 	
 	
 	

@@ -251,6 +251,17 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.deleteNotice(gnNo);
 	}
 
+	@Override
+	public int voteGetListCount(int groupNo) {
+		
+		return gDao.voteGetListCount(groupNo);
+	}
+
+	@Override
+	public ArrayList<GroupBoard> selectVoteList(PageInfo pi) {
+			return gDao.selectVoteList(pi);
+	}
+
 
 
 

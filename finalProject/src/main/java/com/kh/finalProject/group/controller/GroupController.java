@@ -1082,5 +1082,155 @@ public class GroupController {
 
 			return "redirect:boardMain.do";
 		}
+	// ---------------------------------게시판 end--------------------------------
+	//---------------------------------투표 start --------------------------------
+		// 투표 메인
+		@RequestMapping(value = "voteMain.do", method = RequestMethod.GET)
+		public ModelAndView voteMain(HttpSession session, ModelAndView mv,
+				@RequestParam(value = "page", required = false) String page) {
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			System.out.println("투표 메인 gInfo : " + gInfo);
+			GroupNotice noticeList = gService.selectNoticeOne(gInfo);
 
+			int currentPage = 1;
+			if (page != null) {
+				int Cpage = Integer.parseInt(page);
+				currentPage = Cpage;
+			}
+
+			int listCount = gService.voteGetListCount(gInfo.getGroupNo());
+			System.out.println("투표 LISTCOUNT : " + listCount);
+			
+			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+
+			mv.addObject("noticeList", noticeList);
+			mv.addObject("pi", pi);
+			mv.setViewName("group/GVoteMain");
+
+			return mv;
+		}
+
+		// 투표 메인 ajax
+		@RequestMapping(value = "voteMainAjax.do", method = RequestMethod.GET)
+		public void voteAjax(HttpServletResponse response, HttpSession session,
+				@RequestParam(value = "page", required = false) String page) throws IOException {
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			Member loginUser = (Member) session.getAttribute("loginUser");
+			int currentPage = 1;
+			if (page != null) {
+				int Cpage = Integer.parseInt(page);
+				currentPage = Cpage;
+			}
+
+			int listCount = gService.boardGetListCount(gInfo.getGroupNo());
+
+			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+
+			pi.setLoginUserId(gInfo.getLoginUserId());
+			pi.setGroupNo(gInfo.getGroupNo());
+			pi.setGmNo(gInfo.getGmNo());
+
+			// 투표 목록
+			// 투표 항목 (항목에는 참여하지 않은사람을표시하기위해 미참여을넣어준다)
+			// 투표 참여자 ( 참여자 미참여자 표시) 
+			// 투표 참여자 수  미참여자 수(미참여자 수는 조인해서 null값 세기)
+			
+			
+			ArrayList<GroupBoard> voteList = gService.selectVoteList(pi);
+			System.out.println("VOTILIST :" + voteList);
+			
+			response.setContentType("application/json;charset=utf-8");
+			
+			
+			JSONArray jArr = new JSONArray();
+			JSONArray pArr = new JSONArray();
+			JSONArray lArr = new JSONArray();
+			JSONArray rArr = new JSONArray();
+			
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			
+//			if (boardList != null) {
+//				for (GroupBoard b : boardList) {
+//					JSONObject jObj = new JSONObject();
+//					b.setPage(currentPage);
+//
+//					jObj.put("page", b.getPage());
+//
+//					jObj.put("gbNo", b.getGbNo());
+//					jObj.put("gmNo", b.getGmNo());
+//					jObj.put("gNo", b.getgNo());
+//					jObj.put("gbTitle", b.getGbTitle());
+//					jObj.put("gbCon", b.getGbCon());
+//					jObj.put("gbDate", b.getGbDate());
+//					jObj.put("gbDelete", b.getGbDelete());
+//					jObj.put("gbCount", b.getGbCount());
+//					jObj.put("name", b.getName());
+//					jObj.put("renameFile", b.getRenameFile());
+//
+//					jArr.add(jObj);
+//				}
+//
+//				if (photoList != null) {
+//					for (GroupBoardPhoto b : photoList) {
+//						JSONObject jObj = new JSONObject();
+//
+//						jObj.put("gbpNo", b.getGbpNo());
+//						jObj.put("gbNo", b.getGbNo());
+//						jObj.put("gmNo", b.getGmNo());
+//						jObj.put("gNo", b.getgNo());
+//						jObj.put("gbpOrigin", b.getGbpOrigin());
+//						jObj.put("gbpRename", b.getGbpRename());
+//
+//						pArr.add(jObj);
+//					}
+//
+//					if(replyList != null) {
+//						for (GroupReply r : replyList) {
+//							JSONObject jObj = new JSONObject();
+//
+//							jObj.put("grNo", r.getGrNo());
+//							jObj.put("gbNo", r.getGbNo());
+//							jObj.put("gmNo", r.getGmNo());
+//							jObj.put("grCon", r.getGrCon());
+//							jObj.put("grDate", r.getGrDate());
+//							jObj.put("grDelete", r.getGrDelete());
+//							jObj.put("totalReply", r.getTotalReply());
+//
+//							rArr.add(jObj);
+//						}
+//						
+//
+//						if (likeList != null) {
+//							for (GroupLike l : likeList) {
+//								JSONObject jObj = new JSONObject();
+//
+//								jObj.put("gbNo", l.getGbNo());
+//								jObj.put("gmNo", l.getGmNo());
+//								jObj.put("totalLike", l.getTotalLike());
+//
+//								lArr.add(jObj);
+//							}
+//
+//							JSONObject sendJson = new JSONObject();
+//							sendJson.put("boardList", jArr);
+//							sendJson.put("photoList", pArr);
+//							sendJson.put("likeList", lArr);
+//							sendJson.put("replyList", rArr);
+//							
+//							
+//							PrintWriter out = response.getWriter();
+//							out.print(sendJson);
+//							out.flush();
+//							out.close();
+//
+//						} else {
+//							
+//						}
+//
+//					}
+//				}
+//			}
+			
+		}
 }

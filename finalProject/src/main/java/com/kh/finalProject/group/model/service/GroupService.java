@@ -108,6 +108,10 @@ public interface GroupService {
 
 	int deleteNotice(String gnNo);
 
+	int voteGetListCount(int groupNo);
+
+	ArrayList<GroupBoard> selectVoteList(PageInfo pi);
+
 	
 
 

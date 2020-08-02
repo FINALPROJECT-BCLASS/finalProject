@@ -93,6 +93,27 @@
 		<result property="name" column="NAME"/>
 		<result property="totalReReply" column="TOTAL_REREPLY"/>
 	</resultMap>
+	
+	<resultMap id="groupVoteResultSet" type="GroupVote">
+		<id property="gvNo" column="GV_NO"/>
+		<result property="gNo" column="G_NO"/>
+		<result property="gmNo" column="GM_NO"/>
+		<result property="gvCon" column="GV_CON"/>
+		<result property="gvStart" column="GV_START"/>
+		<result property="gvEnd" column="GV_END"/>
+		<result property="gvAno" column="GV_ANO"/>
+		<result property="gvDelete" column="GV_DELETE"/>
+		
+		<result property="gviNo" column="GVI_NO"/>
+		<result property="gviItem" column="GVI_ITEM"/>
+		
+		<result property="gvmNo" column="GVM_NO"/>
+		<result property="voteY" column="VOTE_Y"/>
+		<result property="voteN" column="VOTE_N"/>
+		<result property="voteYName" column="VOATE_Y_NAME"/>
+		<result property="voteNName" column="VOATE_N_NAME"/>
+		
+	</resultMap>
 	<!-- resultMap end -->
 	
 	<!-- 그룹 메인 및 생성 -->	
@@ -482,4 +503,31 @@
 		SET GB_DELETE = 'Y'
 		WHERE GB_NO = #{gbNo}
 	</update>
+	
+	<!-- 투표 -->
+	<select id="voteGetListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM GROUP_VOTE
+		WHERE G_NO = #{groupNo}
+		AND GV_DELETE = 'N'
+	</select>
+	
+	
+	
+		<select id="selectBoardList" parameterType="GroupInfo" resultMap="groupBoardResultSet">
+		SELECT GB_NO, GB.GM_NO AS GM_NO, GB.G_NO AS G_NO, GB_TITLE, GB_CON, GB_DATE, GB_DELETE, GB_COUNT, NAME, RENAME_FILE
+		FROM GROUP_BOARD GB
+		JOIN GROUP_MEMBER GM ON(GB.GM_NO = GM.GM_NO)
+        JOIN MEMBER M ON (GM.GM_ID = M.ID)
+        WHERE GB.G_NO = #{groupNo}
+        AND GB_DELETE = 'N'
+		ORDER BY GB_NO DESC
+	</select>
+	
+	<select id="selectVoteList"  parameterType="GroupInfo" resultMap="groupVoteResultSet" >
+		SELECT GV.GV_NO, GV.G_NO, GV.GM_NO, GV_CON, GV_START, GV_END, 
+               GV_ANO, GVI.GVI_NO, GVI_ITEM, GV_DELETE
+        FROM GROUP_VOTE GV
+        JOIN GROUP_VOTE_ITEM GVI ON(GV.GV_NO = GVI.GV_NO)
+	</select>
 </mapper>
