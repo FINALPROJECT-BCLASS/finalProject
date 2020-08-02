@@ -38,6 +38,7 @@ import com.kh.finalProject.group.model.vo.GroupReReply;
 import com.kh.finalProject.group.model.vo.GroupReply;
 import com.kh.finalProject.group.model.vo.GroupSearchName;
 import com.kh.finalProject.group.model.vo.GroupTable;
+import com.kh.finalProject.group.model.vo.GroupVote;
 import com.kh.finalProject.member.model.vo.Member;
 
 @Controller
@@ -1136,101 +1137,58 @@ public class GroupController {
 			// 투표 참여자 수  미참여자 수(미참여자 수는 조인해서 null값 세기)
 			
 			
-			ArrayList<GroupBoard> voteList = gService.selectVoteList(pi);
+			ArrayList<GroupVote> voteList = gService.selectVoteList(pi);
+			
+			
 			System.out.println("VOTILIST :" + voteList);
 			
 			response.setContentType("application/json;charset=utf-8");
 			
 			
-			JSONArray jArr = new JSONArray();
-			JSONArray pArr = new JSONArray();
-			JSONArray lArr = new JSONArray();
-			JSONArray rArr = new JSONArray();
+			JSONArray vArr = new JSONArray();
+//			JSONArray pArr = new JSONArray();
+//			JSONArray lArr = new JSONArray();
+//			JSONArray rArr = new JSONArray();
 			
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			
-//			if (boardList != null) {
-//				for (GroupBoard b : boardList) {
-//					JSONObject jObj = new JSONObject();
-//					b.setPage(currentPage);
-//
-//					jObj.put("page", b.getPage());
-//
-//					jObj.put("gbNo", b.getGbNo());
-//					jObj.put("gmNo", b.getGmNo());
-//					jObj.put("gNo", b.getgNo());
-//					jObj.put("gbTitle", b.getGbTitle());
-//					jObj.put("gbCon", b.getGbCon());
-//					jObj.put("gbDate", b.getGbDate());
-//					jObj.put("gbDelete", b.getGbDelete());
-//					jObj.put("gbCount", b.getGbCount());
-//					jObj.put("name", b.getName());
-//					jObj.put("renameFile", b.getRenameFile());
-//
-//					jArr.add(jObj);
-//				}
-//
-//				if (photoList != null) {
-//					for (GroupBoardPhoto b : photoList) {
-//						JSONObject jObj = new JSONObject();
-//
-//						jObj.put("gbpNo", b.getGbpNo());
-//						jObj.put("gbNo", b.getGbNo());
-//						jObj.put("gmNo", b.getGmNo());
-//						jObj.put("gNo", b.getgNo());
-//						jObj.put("gbpOrigin", b.getGbpOrigin());
-//						jObj.put("gbpRename", b.getGbpRename());
-//
-//						pArr.add(jObj);
-//					}
-//
-//					if(replyList != null) {
-//						for (GroupReply r : replyList) {
-//							JSONObject jObj = new JSONObject();
-//
-//							jObj.put("grNo", r.getGrNo());
-//							jObj.put("gbNo", r.getGbNo());
-//							jObj.put("gmNo", r.getGmNo());
-//							jObj.put("grCon", r.getGrCon());
-//							jObj.put("grDate", r.getGrDate());
-//							jObj.put("grDelete", r.getGrDelete());
-//							jObj.put("totalReply", r.getTotalReply());
-//
-//							rArr.add(jObj);
-//						}
+	
+						
+
+			if (voteList != null) {
+				for (GroupVote v : voteList) {
+					JSONObject jObj = new JSONObject();
+
+					jObj.put("gvNo", v.getGvNo());
+					jObj.put("gNo", v.getgNo());
+					jObj.put("gmNo", v.getGmNo());
+					jObj.put("gvCon", v.getGvCon());
+					jObj.put("gvStart", v.getGvStart());
+					jObj.put("gvEnd", v.getGvEnd());
+					jObj.put("gvAno", v.getGvAno());
+					jObj.put("gvDelete", v.getGvDelete());
+					jObj.put("gviNo", v.getGviNo());
+					jObj.put("gviItem", v.getGviItem());
+				
+					vArr.add(jObj);
+				}
+
+				JSONObject sendJson = new JSONObject();
+				sendJson.put("voteList", vArr);
+//						sendJson.put("photoList", pArr);
+//						sendJson.put("likeList", lArr);
+//						sendJson.put("replyList", rArr);
 //						
-//
-//						if (likeList != null) {
-//							for (GroupLike l : likeList) {
-//								JSONObject jObj = new JSONObject();
-//
-//								jObj.put("gbNo", l.getGbNo());
-//								jObj.put("gmNo", l.getGmNo());
-//								jObj.put("totalLike", l.getTotalLike());
-//
-//								lArr.add(jObj);
-//							}
-//
-//							JSONObject sendJson = new JSONObject();
-//							sendJson.put("boardList", jArr);
-//							sendJson.put("photoList", pArr);
-//							sendJson.put("likeList", lArr);
-//							sendJson.put("replyList", rArr);
-//							
-//							
-//							PrintWriter out = response.getWriter();
-//							out.print(sendJson);
-//							out.flush();
-//							out.close();
-//
-//						} else {
-//							
-//						}
-//
-//					}
-//				}
-//			}
-			
+				
+				PrintWriter out = response.getWriter();
+				out.print(sendJson);
+				out.flush();
+				out.close();
+
+			} else {
+				
+			}
+
 		}
 }

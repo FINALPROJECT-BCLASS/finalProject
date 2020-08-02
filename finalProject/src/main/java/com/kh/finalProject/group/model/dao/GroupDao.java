@@ -18,6 +18,7 @@ import com.kh.finalProject.group.model.vo.GroupReReply;
 import com.kh.finalProject.group.model.vo.GroupReply;
 import com.kh.finalProject.group.model.vo.GroupSearchName;
 import com.kh.finalProject.group.model.vo.GroupTable;
+import com.kh.finalProject.group.model.vo.GroupVote;
 import com.kh.finalProject.member.model.vo.Member;
 
 
@@ -221,7 +222,7 @@ public class GroupDao {
 		return sqlSessionTemplate.selectOne("groupMapper.voteGetListCount", groupNo);
 	}
 
-	public ArrayList<GroupBoard> selectVoteList(PageInfo pi) {
+	public ArrayList<GroupVote> selectVoteList(PageInfo pi) {
 		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());

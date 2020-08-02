@@ -13,6 +13,7 @@ import com.kh.finalProject.group.model.vo.GroupReReply;
 import com.kh.finalProject.group.model.vo.GroupReply;
 import com.kh.finalProject.group.model.vo.GroupSearchName;
 import com.kh.finalProject.group.model.vo.GroupTable;
+import com.kh.finalProject.group.model.vo.GroupVote;
 import com.kh.finalProject.member.model.vo.Member;
 
 
@@ -110,7 +111,7 @@ public interface GroupService {
 
 	int voteGetListCount(int groupNo);
 
-	ArrayList<GroupBoard> selectVoteList(PageInfo pi);
+	ArrayList<GroupVote> selectVoteList(PageInfo pi);
 
 	
 

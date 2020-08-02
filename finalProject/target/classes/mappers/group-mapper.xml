@@ -108,6 +108,7 @@
 		<result property="gviItem" column="GVI_ITEM"/>
 		
 		<result property="gvmNo" column="GVM_NO"/>
+		<result property="totalGviNo" column="TOTAL_GVI_NO"/>
 		<result property="voteY" column="VOTE_Y"/>
 		<result property="voteN" column="VOTE_N"/>
 		<result property="voteYName" column="VOATE_Y_NAME"/>
@@ -512,22 +513,13 @@
 		AND GV_DELETE = 'N'
 	</select>
 	
-	
-	
-		<select id="selectBoardList" parameterType="GroupInfo" resultMap="groupBoardResultSet">
-		SELECT GB_NO, GB.GM_NO AS GM_NO, GB.G_NO AS G_NO, GB_TITLE, GB_CON, GB_DATE, GB_DELETE, GB_COUNT, NAME, RENAME_FILE
-		FROM GROUP_BOARD GB
-		JOIN GROUP_MEMBER GM ON(GB.GM_NO = GM.GM_NO)
-        JOIN MEMBER M ON (GM.GM_ID = M.ID)
-        WHERE GB.G_NO = #{groupNo}
-        AND GB_DELETE = 'N'
-		ORDER BY GB_NO DESC
-	</select>
-	
 	<select id="selectVoteList"  parameterType="GroupInfo" resultMap="groupVoteResultSet" >
 		SELECT GV.GV_NO, GV.G_NO, GV.GM_NO, GV_CON, GV_START, GV_END, 
-               GV_ANO, GVI.GVI_NO, GVI_ITEM, GV_DELETE
+               GV_ANO, GVI.GVI_NO, GVI_ITEM, GV_DELETE, COUNT(GVM.GVI_NO) AS TOTAL_GVI_NO
         FROM GROUP_VOTE GV
-        JOIN GROUP_VOTE_ITEM GVI ON(GV.GV_NO = GVI.GV_NO)
+        FULL JOIN GROUP_VOTE_ITEM GVI ON(GV.GV_NO = GVI.GV_NO)
+        FULL JOIN GROUP_VOTE_MEMBER GVM ON(GVI.GVI_NO = GVM.GVI_NO)
+        GROUP BY GV.GV_NO, GV.G_NO, GV.GM_NO, GV_CON, GV_START, GV_END, 
+               GV_ANO, GVI.GVI_NO, GVI_ITEM, GV_DELETE
 	</select>
 </mapper>

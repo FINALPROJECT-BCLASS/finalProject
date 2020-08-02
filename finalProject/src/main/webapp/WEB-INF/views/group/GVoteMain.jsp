@@ -112,5 +112,187 @@
  
           </div>
 		</div>
+		
+			  <!-- 스크롤 게시판 -->
+	  <script>
+	  
+ 		/* var gInfo = ${gInfo.gmNo}; */
+ 		
+       let isEnd = false;
+      
+       var pagePlus = 1;
+       $(function(){
+      	 
+      	    $(".groupNotice").scroll(function(){
+             	 /* console.log("ajax 전 page : " + ${pi.currentPage}); */
+                 	 if ($(this)[0].scrollHeight - Math.round($(this).scrollTop()) == $(this).outerHeight()){
+                 		 
+                          fetchList();
+                          
+                      }       
+                  })
+                  
+                    fetchList(); 
+              })
+       
+       
+       let fetchList = function(){
+           if(isEnd == true){
+               return;
+           }
+        
+           $.ajax({
+               url:"voteMainAjax.do",
+               type: "GET",
+               dataType: "json",
+               data:{page:pagePlus},
+               success: function(data){
+				alert(data);
+				console.log(data);
+              	 page = data.voteList[0].page;
+              	 pagePlus = page + 1;
+              	 
+                   // 컨트롤러에서 가져온 방명록 리스트는 result.data에 담겨오도록 했다.
+                   // 남은 데이터가 5개 이하일 경우 무한 스크롤 종료
+              	 let length =  data.voteList.length;
+              	 /* console.log("length : " + length); */
+              	 
+              	 
+                   if( length < 5 ){
+                       isEnd = true;
+                   }
+             /*        for(i in data.boardList){
+                    
+                  	var $groupBoard = $(".groupNotice");
+                  	var $boardTb = $("<table>").attr("class","noticeBoardTb");
+                  	
+                  	var $tr1 = $("<tr>");
+                	var $tr2 = $("<tr>");
+                	var $tr3 = $("<tr>");
+                	var $tr4 = $("<tr>");
+               		var $tr5 = $("<tr>");
+                	var $tr6 = $("<tr>");
+                	
+                	var $td1 = $("<td>");
+                	var $td2 = $("<td>");
+                	var $td3 = $("<td>");
+                	var $td4 = $("<td>");
+                	var $td5 = $("<td>");
+                	var $td6 = $("<td>").attr("class","etcBox");
+                	
+                	
+                	var $emoticon = $("<div>").attr("class","MemberImgBox");
+                	var $memberNoImg = $("<img>").attr("class","memberImg").attr("src","resources/images/icons/profile_default.png");
+                	var $memberImg = $("<img>").attr("class","memberImg").attr("src","resources/muploadFiles/"+data.boardList[i].renameFile);
+                	
+                	var $detailPage = $("<div>").text("Detail").attr("class","detailBtn");
+                	var $gbNo = $("<input type='hidden' id='gbNo' value='"+ data.boardList[i].gbNo +"'>");
+                	
+                	var $boardTitle = $("<div>").text(data.boardList[i].gbTitle).attr("class","noticeBoardTitle");
+                  	var $boardWriter = $("<div>").text(data.boardList[i].name).attr("class","noticeBoardWriter");
+                  	var $boardDate = $("<div>").text(data.boardList[i].gbDate).attr("class","noticeBoardDate");
+                  	var $boardContent = $("<div>").text(data.boardList[i].gbCon).attr("class","noticeBoardContent");
+                 	
+                  	var $like = $("<span>").text("favorite_border").attr("class","material-icons like");
+                 	var $reply = $("<span>").text("sms").attr("class","material-icons reply");
+                 	
+                 	$td1.append($gbNo);
+                 	if(data.boardList[i].renameFile == null){
+                 		$emoticon.append($memberNoImg);
+                 	}else{
+                 		$emoticon.append($memberImg);
+                 	}
+               		$td1.append($emoticon);
+               		$td1.append($boardTitle);
+               		$td1.append($detailPage);
+                   	$tr1.append($td1);
+                   	
+                   	$td2.append($boardWriter);
+                   	$tr2.append($td2);
+                   	
+                   	$td3.append($boardDate);
+                   	$tr3.append($td3);
+                   	
+                   	$td4.append($boardContent);
+                   	$tr4.append($td4);
+ 					
+                   	$td6.append($like);
+                   	
+                   	// 좋아요
+                    var $totalLike;
+                    $totalLike = $("<span>").text(0).attr("class","totalLike");
+                    
+                    if(data.likeList.length > 0){
+                   		for(l in data.likeList){
+                     		if(data.boardList[i].gbNo == data.likeList[l].gbNo){
+                     			if(data.likeList[l].totalLike > 0){
+	                     			$totalLike = $("<span>").text(data.likeList[l].totalLike).attr("class","totalLike");
+	                     			$td6.append($totalLike);
+                     			}	
+                     		}
+                    	}
+                         	 
+                   	}
+                    
+                    $td6.append($totalLike);
+                   	$td6.append($reply);
+                  
+                   	
+                 // 댓글
+                    var $totalReply;
+                    $totalReply = $("<span>").text(0).attr("class","totalReply");
+                    
+                    if(data.replyList.length > 0){
+                   		for(l in data.replyList){
+                     		if(data.boardList[i].gbNo == data.replyList[l].gbNo){
+                     			if(data.replyList[l].totalReply > 0){
+	                     			$totalReply = $("<span>").text(data.replyList[l].totalReply).attr("class","totalReply");
+	                     			$td6.append($totalReply);
+                     			}	
+                     		}
+                    	}
+                         	 
+                   	}
+                   	
+                    $td6.append($totalReply);
+                 	$tr6.append($td6);
+     				
+               		$boardTb.append($tr1);
+                  	$boardTb.append($tr2);
+                  	$boardTb.append($tr3);
+                  	$boardTb.append($tr4);
+                  	
+                  	// 사진
+                  	if(data.photoList.length > 0){
+                  
+                   		for(j in  data.photoList){
+                   			if(data.boardList[i].gbNo == data.photoList[j].gbNo){
+                   				var $img = $("<img src='resources/groupBoardFiles/"+data.photoList[j].gbpOrigin+"' class='boardPhotoList'>");
+                   				var $imgBox = $("<div>").attr("class","imgBox");
+                   				$imgBox.append($img);
+                   				$td5.append($imgBox);
+                   				$tr5.append($td5);                             	 
+                   				$boardTb.append($tr5);
+                   				$groupBoard.append($boardTb); 
+                   			}
+                   		}
+                   	}
+                  	
+                  	$boardTb.append($tr6);
+                  	$groupBoard.append($boardTb); 
+
+                   	}
+                 */
+               },
+               error:function(request, status, errorData){
+						alert("error code: " + request.status + "\n"
+								+"message: " + request.responseText
+								+"error: " + errorData);
+					}
+           });
+       }
+   
+	    </script>
+		    <!-- 스크롤 게시판 end -->
 </body>
 </html>

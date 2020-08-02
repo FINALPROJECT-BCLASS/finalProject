@@ -23,6 +23,7 @@ public class GroupVote implements Serializable{
 	private String gviItem;
 	
 // GROUP_VOTE_MEMBER	
+	private int totalGviNo;
 	private int gvmNo;
 	private int voteY;	    // 투표 총 참여
 	private int voteYName;	// 투표 총 참여명
@@ -36,7 +37,8 @@ public class GroupVote implements Serializable{
 
 
 	public GroupVote(int gvNo, int gNo, int gmNo, String gvCon, String gvStart, String gvEnd, String gvAno,
-			String gvDelete, int gviNo, String gviItem, int gvmNo, int voteY, int voteYName, int voteN, int voteNName) {
+			String gvDelete, int gviNo, String gviItem, int totalGviNo, int gvmNo, int voteY, int voteYName, int voteN,
+			int voteNName) {
 		super();
 		this.gvNo = gvNo;
 		this.gNo = gNo;
@@ -48,6 +50,7 @@ public class GroupVote implements Serializable{
 		this.gvDelete = gvDelete;
 		this.gviNo = gviNo;
 		this.gviItem = gviItem;
+		this.totalGviNo = totalGviNo;
 		this.gvmNo = gvmNo;
 		this.voteY = voteY;
 		this.voteYName = voteYName;
@@ -156,6 +159,16 @@ public class GroupVote implements Serializable{
 	}
 
 
+	public int getTotalGviNo() {
+		return totalGviNo;
+	}
+
+
+	public void setTotalGviNo(int totalGviNo) {
+		this.totalGviNo = totalGviNo;
+	}
+
+
 	public int getGvmNo() {
 		return gvmNo;
 	}
@@ -215,10 +228,11 @@ public class GroupVote implements Serializable{
 	public String toString() {
 		return "GroupVote [gvNo=" + gvNo + ", gNo=" + gNo + ", gmNo=" + gmNo + ", gvCon=" + gvCon + ", gvStart="
 				+ gvStart + ", gvEnd=" + gvEnd + ", gvAno=" + gvAno + ", gvDelete=" + gvDelete + ", gviNo=" + gviNo
-				+ ", gviItem=" + gviItem + ", gvmNo=" + gvmNo + ", voteY=" + voteY + ", voteYName=" + voteYName
-				+ ", voteN=" + voteN + ", voteNName=" + voteNName + "]\n";
+				+ ", gviItem=" + gviItem + ", totalGviNo=" + totalGviNo + ", gvmNo=" + gvmNo + ", voteY=" + voteY
+				+ ", voteYName=" + voteYName + ", voteN=" + voteN + ", voteNName=" + voteNName + "]\n";
 	}
 
+	
 	
 	
 }

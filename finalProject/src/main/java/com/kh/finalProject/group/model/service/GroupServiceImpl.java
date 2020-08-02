@@ -17,6 +17,7 @@ import com.kh.finalProject.group.model.vo.GroupReReply;
 import com.kh.finalProject.group.model.vo.GroupReply;
 import com.kh.finalProject.group.model.vo.GroupSearchName;
 import com.kh.finalProject.group.model.vo.GroupTable;
+import com.kh.finalProject.group.model.vo.GroupVote;
 import com.kh.finalProject.member.model.vo.Member;
 
 
@@ -258,7 +259,7 @@ public class GroupServiceImpl implements GroupService{
 	}
 
 	@Override
-	public ArrayList<GroupBoard> selectVoteList(PageInfo pi) {
+	public ArrayList<GroupVote> selectVoteList(PageInfo pi) {
 			return gDao.selectVoteList(pi);
 	}
 
