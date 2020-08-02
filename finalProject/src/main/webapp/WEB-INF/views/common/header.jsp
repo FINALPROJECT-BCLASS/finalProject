@@ -89,6 +89,7 @@
 	                        <li class="t-radius"><a href="${myInfoView }">Info</a></li>
 	                        <li><a onclick="chatview()">Chat</a></li>
 	                        <li><a href="#">Alarm</a></li>
+	                        <li><a href="mmview.do">Memo</a></li>
 	                        <li class="b-radius"><a href="logout.do">Logout</a></li>
 	                    </ul>
 	                </div>
