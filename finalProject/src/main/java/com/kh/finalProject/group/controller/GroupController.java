@@ -1235,7 +1235,7 @@ public class GroupController {
 			
 			gv.setGmNo(String.valueOf(gInfo.getGmNo()));
 			gv.setgNo(String.valueOf(gInfo.getGroupNo()));
-//			System.out.println("투표 ajax : " + gv);
+			System.out.println("투표 ajax : " + gv);
 			
 			GroupVote voteList = gService.selectOneVote(gv);
 			ArrayList<GroupVote> itemList = gService.selectOneItem(gv);

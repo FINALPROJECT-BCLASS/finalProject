@@ -84,10 +84,10 @@
                     <tr>
                         <td rowspan="2" style="width:20px">
                         	<div class="MemberImgBox">
-                        		<c:if test="${gInfo.gmNo ne voteList.gmNo}">
+                        		<c:if test="${empty voteList.renameFile}">
                         			 <img src="resources/images/icons/profile_default.png" class="MemberImg">
                         		</c:if>
-                        		<c:if test="${gInfo.gmNo eq voteList.gmNo}">
+                        		<c:if test="${!empty voteList.renameFile}">
                         			<img src="resources/muploadFiles/${voteList.renameFile }" class="MemberImg">
                         		</c:if>
                         	</div>
