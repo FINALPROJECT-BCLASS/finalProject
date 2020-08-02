@@ -1116,6 +1116,7 @@ public class GroupController {
 		public void voteAjax(HttpServletResponse response, HttpSession session,
 				@RequestParam(value = "page", required = false) String page) throws IOException {
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			int gmNo = gInfo.getGmNo();
 			Member loginUser = (Member) session.getAttribute("loginUser");
 			int currentPage = 1;
 			if (page != null) {
@@ -1148,8 +1149,10 @@ public class GroupController {
 			
 			JSONArray vArr = new JSONArray();
 			JSONArray iArr = new JSONArray();
-//			JSONArray lArr = new JSONArray();
+			JSONArray gArr = new JSONArray();
 //			JSONArray rArr = new JSONArray();
+			
+			gArr.add(gmNo);
 			
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -1194,7 +1197,7 @@ public class GroupController {
 				JSONObject sendJson = new JSONObject();
 				sendJson.put("voteList", vArr);
 				sendJson.put("itemList", iArr);
-//						sendJson.put("likeList", lArr);
+				sendJson.put("gInfoGmNo", gArr);
 //						sendJson.put("replyList", rArr);
 //						
 				

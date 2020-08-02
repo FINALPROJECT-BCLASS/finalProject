@@ -250,9 +250,12 @@
                    		
                    	}
                  	
+                   	if(data.gInfoGmNo == data.voteList[i].gmNo){
+                   		
                    	$td6.append($endBtn);
                    	$td6.append($removeBtn);
                 	$tr6.append($td6);
+                   	}
                 	
                		$boardTb.append($tr1);
                   	$boardTb.append($tr2);
