@@ -641,7 +641,7 @@
             <div class="button-area">
                 <button onclick="location.href='addHabitView.do'">Add</button>
                 <button id="d-btn">Delete</button>
-                <button>Edit</button>
+                <button id="e-btn">Edit</button>
             </div>
 
     		<!-- 내용 -->
@@ -785,11 +785,43 @@
 		<script type="text/javascript"  src='resources/js/simpleCalendar/jquery.simple-calendar.js'></script>
 		<script>
 		
+			// 습관 삭제하기
 			$(document).on("click","#d-btn",function(){
 				var d_htNum = $(".clicked").prev("#htNum").val();
 				console.log("잘 나오니? " + d_htNum);
 				
-				location.href="deleteHabit.do?ht_no="+ d_htNum;
+				if($(".habitItem").hasClass("clicked") === true) {
+
+					if(!confirm('삭제하시겠습니까?')){
+						return false;}
+					
+					location.href="deleteHabit.do?ht_no="+ d_htNum;
+
+				}else {
+					
+					alert("삭제할 습관을 선택해 주세요.");
+					
+				}
+
+				
+			}); 
+			
+			// 습관 수정하기
+			$(document).on("click","#e-btn",function(){
+				var d_htNum = $(".clicked").prev("#htNum").val();
+				console.log("잘 나오니? " + d_htNum);
+				
+				if($(".habitItem").hasClass("clicked") === true) {
+
+					location.href="editHabitView.do?ht_no="+ d_htNum;
+
+				}else {
+					
+					alert("수정할 습관을 선택해 주세요.");
+					
+				}
+
+				
 			}); 
 			
 			var htDate;
@@ -1264,6 +1296,8 @@
 		    	var htr_now = $("#htr_now").val();
 		    	var htr_con = $("#htr_con").val();
 		    	var htr_date = $("#period > a").html();
+		    	
+		    	console.log("오늘날짜 찍히는지" + htr_date);
 		    	
 		    	var htr = [ht_no, htr_now, htr_con, htr_date];
 		    	 

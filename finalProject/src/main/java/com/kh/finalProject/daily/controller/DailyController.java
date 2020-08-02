@@ -322,7 +322,7 @@ public class DailyController {
 		String htr_con = htr[2];
 		String htr_date = htr[3];
 		
-		System.out.println(htr_date);
+		System.out.println("으잉?" + htr[3]);
 		
 		
 		SimpleDateFormat dailySet = new SimpleDateFormat ("yyyy-MM-dd"); // 오늘 날짜 저장
@@ -605,6 +605,26 @@ public String deleteHabit(HttpServletRequest request,
 	
 	
 }
+
+@RequestMapping("editHabitView.do")
+public ModelAndView editHabitView(HttpServletRequest request, @RequestParam(value = "ht_no", required = false) String ht_no) {
+
+	HttpSession session = request.getSession();
+	Member member = (Member)session.getAttribute("loginUser");
+	
+	String id = member.getId();
+	//map으로 가져가서 확인해주자
+	HashMap<String, String> map = new HashMap<>();
+	map.put("id", id);
+	map.put("ht_no", ht_no);
+	
+//	Habit habit = dailyService.deleteHabit(map);
+	
+
+	
+	return null;
+}
+
 
 	
 }
