@@ -527,6 +527,7 @@
         WHERE GV.G_NO = #{groupNo}
         AND GV_DELETE = 'N'
         GROUP BY GV.GV_NO, GV.G_NO, GV.GM_NO, GV_TITLE, GV_CON, GV_START, GV_END, GV_ANO, NAME , RENAME_FILE
+        ORDER BY GV.GV_NO DESC
 	</select>
 	
 	<select id="selectItemList" resultMap="groupVoteResultSet">

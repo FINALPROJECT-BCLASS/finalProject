@@ -222,7 +222,9 @@
                    	$tr4.append($td4);
  					
                    	if(data.itemList[i].gviItem != null){
-                   		for(var i in data.itemList){
+                   		for(var j in data.itemList){
+                   		if(data.itemList[j].gvNo == data.voteList[i].gvNo){
+                   			
                    		
                  			
                    			var $td5  = $("<td>");
@@ -230,9 +232,9 @@
                  			
                    			var $voteItem = $("<div>").attr("class","voteBox");
                           	var $check = $("<span>").attr("class","material-icons checkView");
-                          	var $itemBtn = $("<button class='voteTitle' value='"+ data.itemList[i].gvNo +"'>").text( data.itemList[i].gviItem);
+                          	var $itemBtn = $("<button class='voteTitle' value='"+ data.itemList[j].gvNo +"'>").text( data.itemList[j].gviItem);
                           	var $userImoticon = $("<span>").attr("class","material-icons voteUser").text("person");
-                          	var $totalItem = $("<span>").text(data.itemList[i].totalGviNo );
+                          	var $totalItem = $("<span>").text(data.itemList[j].totalGviNo );
 	                   		
                           	$voteItem.append($check);
 	                   		$voteItem.append($itemBtn); 
@@ -243,6 +245,7 @@
 	                   		$tr5.append($td5);
 
                    		
+                   		}
                    		}
                    		
                    	}
