@@ -40,6 +40,9 @@
     .contentBox tr{background:white;}
 	.boardImg{width:50%; height: 40%;}
 	
+	.dateView{font-weight:600; margin-left: 35px; color: #2860E1;font-size: 13px;display:inline-block; }
+	 #sample04{display: inline-block;font-size: 13px;    color: #2860E1;}
+	
 	  /* 투표 내용 시작 */
     .voteBox{ margin-bottom: 10px; margin-left:17px; width:950px !important; border-radius:10px; border:1px solid #F3F3F3; display: flex; align-items: center;}
     .voteTitle{width:80%; height:50px; cursor: pointer !important; border:0; outline:0 !important; background:none; }
@@ -54,6 +57,8 @@
 	
 	.yellowBox{    background:#FBD14B !important;}
 	
+	.memberList{display:none; color:gray; font-size:13px; }
+	.re{font-size:21px !important; color:darkgray;margin-left: 30px;padding: 0 !important;}
 	.howVote{color:#2860E1; cursor:pointer;}
 	
 	
@@ -65,6 +70,9 @@
 	 /* tooltip 색상 변경 css */
     .tooltip .bs-tooltip-bottom .tooltip-inner { background:#2860E1 !important;}
     .tooltip .arrow:before { border-bottom-color:#2860E1 !important; border-top-color:#2860E1 !important; }
+
+
+
 </style>
 </head>
 <body>
@@ -103,12 +111,25 @@
                     <tr>
                         <td colspan="2">
                         	<div class="BoardName">${voteList.name }</div>
-                        	<div class="BoardDate">${voteList.gvStart }</div>
+                        	
                         	<div class="BoardCount">
                         	<span class="material-icons done">done</span> 3
                         	</div>
                         </td>
                     </tr>
+                     <tr>
+                    	<td colspan="2">
+                    		<div class="BoardDate dateView">Start : </div>
+                    		<div class="BoardDate" style="margin-left: -6px;">${voteList.gvStart }</div>
+                    		<br>
+                    		
+                    		<c:if test="${!empty voteList.gvEnd}">
+	                    		<div class="BoardDate dateView">End : </div>
+	                    		<div class="BoardDate">${voteList.gvEnd }</div>
+	                    		<div class="BoardDate" align="right" id="sample04"></div>
+                    		</c:if>
+                    	</td>
+                    </tr>	
                     <tr>
                     	<td colspan="2">
                     		<div class="BoardCon">${voteList.gvCon }</div>
@@ -126,7 +147,16 @@
 					                    <input type="hidden" class="voteTitle" value="${i.gvNo }">
 					                    <span class="material-icons voteUser">person</span>
 					                    <span>${i.totalGviNo }</span>
+					                    <br>
 					                </div>
+					                   <div class="memberList">
+				                    		<span class="material-icons re">subdirectory_arrow_right</span> 
+					                    	<c:forEach var="m" items="${memberList }">
+						                    	<c:if test="${i.gviNo eq m.gviNo }">
+						                    		 ${m.name }
+						                    	</c:if>		
+					                    	</c:forEach>
+					                    </div>
 	                    		</td>
 	                    	</tr>
                  	  		</c:if>
@@ -141,6 +171,16 @@
 						                    <span class="material-icons voteUser">person</span>
 						                    <span>${i.totalGviNo }</span>
 						                </div>
+						                  <div class="memberList">
+						                  	
+						                  	<span class="material-icons re">subdirectory_arrow_right</span>
+						                  	
+					                    	<c:forEach var="m" items="${memberList }">
+						                    	<c:if test="${i.gviNo eq m.gviNo }">
+						                    		${m.name } 
+						                    	</c:if>		
+					                    	</c:forEach>
+					                    </div>
 		                    		</td>
 		                    	</tr>
 	                    	</c:if>
@@ -164,7 +204,17 @@
                
             </div>
          </div>
-		
+		 
+		 <!-- 투표 클릭 -->
+		 <script>
+		 	$(".howVote").click(function(){
+		 		
+		 	$(".memberList").css("display","block");
+		 		})
+		 	
+		 	
+		 </script>
+		 
 		 <!-- 뒤로가기 버튼 -->
 		 <script>
 		 	function goBack(){
@@ -185,13 +235,7 @@
                 $(this).css("background","#FBD14B");
                 $(this).closest(".voteBox").css("background","#FBD14B");
 				$(this).parent().attr("class","voteBox yellowBox");
-				
-				/* var totalPlus = parseInt($(this).next().next().next().text());
-				$(this).next().next().next().text(totalPlus + 1);
-				
-				var totalMinus = parseInt($(".first").children().next().next().next().next().text());
-				$(".first").children().next().next().next().next().text(totalMinus - 1);
-				 */
+
                 // 클릭한거 체크 표시
                 $(".voteTitle").prev("span").text("");
                 $(this).prev("span").text("check");
@@ -204,17 +248,52 @@
        	})   
 			</script>
 			
-			<script>
-                // 투표하기
-                
-               
-                $("#submit").click(function(){
-                	location.href="toVote.do?gvNo="+gvNo+"&gviNo="+gviNo;
-                			
-                	})
-          	</script>
+		<!-- 투표하기 -->
+		<script>               
+               $("#submit").click(function(){
+               	location.href="toVote.do?gvNo="+gvNo+"&gviNo="+gviNo;
+               			
+               	})
+       	</script>
         
-         
+          <!-- 타이머 script -->
+			<script>
+			  
+            const countDownTimer = function (id, date) {
+                var _vDate = new Date(date); // 전달 받은 일자
+                var _second = 1000;
+                var _minute = _second * 60;
+                var _hour = _minute * 60;
+                var _day = _hour * 24;
+                var timer;
+        
+                function showRemaining() {
+                    var now = new Date();
+                    var distDt = _vDate - now;
+        		
+                    if (distDt < 0) {
+                        clearInterval(timer);	// setInterval()과 함께 사용(시간을 끝내주는 함수)
+                        document.getElementById(id).textContent = '해당 투표는 종료된 투표입니다.';
+                        return;
+                    }
+        
+                    var days = Math.floor(distDt / _day);
+                    var hours = Math.floor((distDt % _day) / _hour);
+                    var minutes = Math.floor((distDt % _hour) / _minute);
+                    var seconds = Math.floor((distDt % _minute) / _second);
+        
+                    document.getElementById(id).textContent = days + ' 일 ';
+                    document.getElementById(id).textContent += hours + ' 시간 ';
+                    document.getElementById(id).textContent += minutes + ' 분 ';
+                    document.getElementById(id).textContent += seconds + ' 초 후 종료됩니다. ';
+                }
+                timer = setInterval(showRemaining, 1000);	// 시간 설정 값을 담은 함수
+            }
+       
+              /* countDownTimer('sample04', '2020/10/28'); // 2024년 4월 1일까지 */ 
+             
+              countDownTimer('sample04', '${voteList.gvEnd }');
+   			   </script>
          
          
          

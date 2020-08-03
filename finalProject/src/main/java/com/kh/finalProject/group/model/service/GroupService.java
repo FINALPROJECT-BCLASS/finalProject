@@ -147,6 +147,8 @@ public interface GroupService {
 
 	int insertNewItem(ArrayList<GroupVote> voteItemList);
 
+	ArrayList<GroupVote> selectMemberList(GroupVote gv);
+
 
 	
 

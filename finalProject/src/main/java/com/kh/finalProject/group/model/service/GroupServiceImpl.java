@@ -347,6 +347,11 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.insertNewItem(voteItemList);
 	}
 
+	@Override
+	public ArrayList<GroupVote> selectMemberList(GroupVote gv) {
+		return gDao.selectMemberList(gv);
+	}
+
 
 
 

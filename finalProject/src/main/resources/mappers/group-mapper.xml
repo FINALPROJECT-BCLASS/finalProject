@@ -595,11 +595,7 @@
 		    #{gviNo}
 		)
 	</insert>
-	
-	<!-- <select id="oneTotalItem"  parameterType="GroupVote" resultType="_int">
-	
-	</select> -->
-	
+
 	<update id="endVote" parameterType="GroupVote">
 		UPDATE GROUP_VOTE SET GV_DELETE = 'Y' 
 		WHERE GV_NO = #{gvNo}
@@ -680,5 +676,14 @@
 		</foreach>
 		)I
 	</insert>
+	
+	<select id="selectMemberList" parameterType="GroupVote" resultMap="groupVoteResultSet" >
+	    SELECT GVM.GVI_NO, GVM.GM_NO, NAME
+        FROM GROUP_VOTE_MEMBER GVM
+        FULL JOIN GROUP_VOTE_ITEM GVI ON(GvM.G_NO = GVI.G_NO)
+        JOIN GROUP_MEMBER GM ON(GVM.GM_NO = GM.GM_NO)
+        JOIN MEMBER M ON (GM.GM_ID = M.ID)
+        WHERE GVM.GV_NO = #{gvNo}
+	</select>
 	
 </mapper>
