@@ -133,7 +133,7 @@
 	                        <c:if test="${!empty menstrual }">
 	                        	<td><input type="number" min="1" max="31" value="${menstrual.mcCycle }" name="mcCycle"><br></td>	
 	                        </c:if>
-	                        <td><b>days</b></td>
+	                        <th>days</th>
 	                        <c:if test="${check ne 0}">
 	                        	<td><button type="button" class="default-btn b-lightgray" id="resetBtn">Reset</button></td>	                        
 	                        </c:if>
@@ -151,7 +151,7 @@
 	                        <c:if test="${!empty menstrual }">
 	                        	<td><input type="number" min="1" max="31" value="${menstrual.mcPeriod }" name="mcPeriod"><br></td>	
 	                        </c:if>
-	                        <td><b>days</b></td>
+	                        <th>days</th>
 	                        <c:if test="${check ne 0}">
 	                        	<td><button type="submit" class="default-btn b-lightgray">Save</button></td>	                        
 	                        </c:if>

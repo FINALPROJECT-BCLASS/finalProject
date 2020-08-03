@@ -301,7 +301,7 @@
     				
     				for(var i in data.ecList) {
     					var category = data.ecList[i].category;
-    					$("#" + category).find(".amount").html(data.ecList[i].amount);
+    					$("#" + category).find(".amount").html(data.ecList[i].amount.toLocaleString());
     					
    						name = data.ecList[i].title;
 	    				amount = parseInt(data.ecList[i].amount);
@@ -321,7 +321,7 @@
     				
     				if(data.ecList.length > 0) {
 	    				if(data.gap == "plus") {
-	    					$("#gapAmount").html(data.gapAmount).css("color", "blue");
+	    					$("#gapAmount").html("+" + data.gapAmount).css("color", "blue");
 	    				} else {
 	    					$("#gapAmount").html(data.gapAmount).css("color", "red");
 	    				}
@@ -333,8 +333,8 @@
 	    				}    					
     				}
     				
-    				$("#profit").html(data.pSum);
-    				$("#expenditure").html(data.eSum);
+    				$("#profit").html(data.formatPSum);
+    				$("#expenditure").html(data.formatESum);
     			},
     			error:function(request, status, errorData){
                     alert("error code: " + request.status + "\n"

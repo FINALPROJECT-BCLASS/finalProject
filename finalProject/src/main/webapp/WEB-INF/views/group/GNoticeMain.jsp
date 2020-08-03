@@ -28,9 +28,10 @@
     .noticeContent{padding-top:5px; padding-left:15px; padding-bottom: 20px; font-size:14px; color:#F3F3F3; }
 
 	/* 글쓰기 버튼 */
-	#groupWrite { text-align:right; width:100%; height: 50px; margin-right:40px; margin-bottom:10px; border:none;}
-    img {width:50px; height:40px; cursor: pointer; border-radius: 5px;}
-	
+	#groupWrite {text-align:right; width:100%; height: 50px; margin-right:40px; margin-bottom:10px; border:none;}
+    .groupWrite {width:50 px; height:40px; cursor: pointer; border-radius: 5px;} 
+    button {margin-bottom: 10px; margin-right:40px; background:none; border:0;}
+	.writeBtn{color:#2860E1 !important; font-size:60px !important; cursor:pointer;}
 	.groupListCount{width:95%; margin-bottom:10px; text-align:right;}
 	
     .emptyNoticeList{margin-top:100px; text-align:center; font-size:20px; font-weight:600;}
@@ -39,7 +40,7 @@
    	.memberImg{width:100%; height:100%;border-radius:50%; }
     
     .groupNotice{width:100%; height:400px;overflow:scroll; overflow-x:hidden;}
-    .noticeBoardTb{margin-bottom:10px; margin-right:5px; border-radius:6px; width:100%; background:white;border:0.5px solid lightgray;}
+    .noticeBoardTb{margin-bottom:10px; margin-right:5px; border-radius:10px; width:100%; background:white;}
     .noticeBoardTitle{display:inline-block;padding-top:20px;font-weight: 600; font-size: 20px;}
     .noticeBoardWriter{padding-left:40px; font-size:12px; font-weight: 600;}
     .noticeBoardDate{padding-left:40px; font-size:12px; font-weight: 600;}
@@ -73,6 +74,7 @@
 	    text-align: center;
 	}
 	
+	.updateBtn, .deleteBtn {display:inline-block; margin-right:10px;}
 	
 	/* 공지사항 작성 */
 	.groupTb{margin:auto; width:600px; border-spacing: 10px; border-collapse: separate;}
@@ -123,7 +125,8 @@
     	</div>
     	
       	<br>
-      	<div id="groupWrite" ><img src="resources/images/write.png" id="writeBtn"></div>
+      	<div id="groupWrite" ><span class="material-icons writeBtn" id="writeBtn">create</span></div>
+        <br>
         <br>
         
 		<div class="groupListCount">총 공지 : ${pi.listCount }</div>
@@ -370,12 +373,28 @@
 					                        </tr>
 					                    </table>
 					                </form>
-		  					  		<button id="detailbtn" class="updateBtn default-btn b-yell" type="button">Update</button>
+					                <div class="btnBox">
+			  					  		<button id="updateBtn" class="updateBtn default-btn b-yell" type="button">Update</button>
+			  					  		<button id="deleteBtn" class="deleteBtn default-btn b-lightgray" type="button">Delete</button>
+		  					  		</div>
 		       					 <!-- remote ajax call이 되는영역 -->
 		   					 </div>
 		  				</div>
 					</div>
 
+		<!-- 공지사항 삭제 -->
+		<script>
+			$("#deleteBtn").click(function(){
+				var gnNo = $("#gnNo").val();
+				var deleteConfirm = confirm("공지사항을 삭제하시겠습니까? ");
+		 		if(deleteConfirm){
+		 			alert("공지사항이 삭제되었습니다.");
+		 			location.href="deleteNotice.do?gnNo="+gnNo;
+		 		}
+			})
+		</script>
+
+		<!-- 공지사항 작성 modal -->
 		 <script>
 		 var gnNo;
 		 
@@ -393,7 +412,7 @@
     	})
    
 		 
-		 
+		 <!-- 공지사항 수정하기 modal-->
 		 $(".updateBtn").click(function(){
 			 if($("#titleModi").val() == "" && $("#conModi").val() == ""){
 				 alert("공지 제목 혹은 공지 내용을 입력해주세요.");

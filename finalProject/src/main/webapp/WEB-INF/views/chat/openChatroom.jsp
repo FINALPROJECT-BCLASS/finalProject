@@ -83,13 +83,16 @@
 	.left{
 		justify-content: flex-start !important;
 	}
-	
+	.roomtitle{
+	    font-size: 25px;
+	}
 </style>
 <body>
 	
 	<jsp:include page="../common/chatheader.jsp"/>
-	
-	<h1>${openchat.cm_title}</h1>
+	<div class="roomtitle">
+	${openchat.cm_title}
+	</div>
 	<div class="chat-area">
 		<div id="chatdata">
 			<div class="text-con"></div>

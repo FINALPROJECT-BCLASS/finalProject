@@ -72,7 +72,9 @@ public class AccountController {
 		
 		for(Sum p : pSumList) {
 			JSONObject jObj = new JSONObject();
-			jObj.put("eventTitle", p.getSum());
+			
+			String formatSum = String.format("%,d", p.getSum());
+			jObj.put("eventTitle", formatSum);
 			jObj.put("date", p.getDate());
 			jObj.put("color", "blue");
 			jObj.put("type", "profit");
@@ -82,7 +84,9 @@ public class AccountController {
 		
 		for(Sum e : eSumList) {
 			JSONObject jObj = new JSONObject();
-			jObj.put("eventTitle", e.getSum());
+			
+			String formatSum = String.format("%,d", e.getSum());
+			jObj.put("eventTitle", formatSum);
 			jObj.put("date", e.getDate());
 			jObj.put("color", "red");
 			jObj.put("type", "expenditure");
@@ -117,8 +121,13 @@ public class AccountController {
 		
 		JSONArray jArr = new JSONArray();
 		
+		int i = 0;
 		for(AccountBook p : pList) {
 			JSONObject jObj = new JSONObject();
+			
+			i = i + 1;
+			
+			jObj.put("index", i);
 			
 			switch(p.getApcNo()) {
 				case 1: jObj.put("category", "월급"); break;
@@ -134,7 +143,10 @@ public class AccountController {
 			jObj.put("type", "profit");
 			jObj.put("no", p.getAbNo());
 			jObj.put("date", p.getAbDate());
-			jObj.put("amount", p.getAbAmount());
+			
+			String formatAmount = String.format("%,d", p.getAbAmount());
+			jObj.put("amount", formatAmount);
+			
 			jObj.put("memo", p.getAbMemo());
 			
 			jArr.add(jObj);
@@ -142,6 +154,10 @@ public class AccountController {
 		
 		for(AccountBook e : eList) {
 			JSONObject jObj = new JSONObject();
+			
+			i = i + 1;
+			
+			jObj.put("index", i);
 			
 			switch(e.getAecNo()) {
 				case 1: jObj.put("category", "식비"); break;
@@ -166,7 +182,10 @@ public class AccountController {
 			jObj.put("type", "expenditure");
 			jObj.put("no", e.getAbNo());
 			jObj.put("date", e.getAbDate());
-			jObj.put("amount", e.getAbAmount());
+			
+			String formatAmount = String.format("%,d", e.getAbAmount());
+			jObj.put("amount", formatAmount);
+			
 			jObj.put("memo", e.getAbMemo());
 			
 			jArr.add(jObj);
@@ -222,10 +241,13 @@ public class AccountController {
 			eSum += aService.selectAbAmount(abENoList.get(i).getAbNo());
 		}
 		
+		String formatPSum = String.format("%,d", pSum);
+		String formatESum = String.format("%,d", eSum);
+		
 		JSONObject jObj = new JSONObject();
 		
-		jObj.put("pSum", pSum);
-		jObj.put("eSum", eSum);
+		jObj.put("pSum", formatPSum);
+		jObj.put("eSum", formatESum);
 		
 		PrintWriter out = response.getWriter();
 		out.print(jObj);
@@ -370,12 +392,21 @@ public class AccountController {
 		}
 		
 		JSONObject sendJson = new JSONObject();
+		
+		String formatPSum = String.format("%,d", pSum);
 		sendJson.put("pSum", pSum);
+		sendJson.put("formatPSum", formatPSum);
+		
+		String formatESum = String.format("%,d", eSum);
 		sendJson.put("eSum", eSum);
+		sendJson.put("formatESum", formatESum);
+		
 		sendJson.put("ecList", jArr);
 		sendJson.put("maxExp", maxExp);
 		sendJson.put("gap", gap);
-		sendJson.put("gapAmount", gapAmount);
+		
+		String formatGap = String.format("%,d", gapAmount);
+		sendJson.put("gapAmount", formatGap);
 		
 		PrintWriter out = response.getWriter();
 		out.print(sendJson);

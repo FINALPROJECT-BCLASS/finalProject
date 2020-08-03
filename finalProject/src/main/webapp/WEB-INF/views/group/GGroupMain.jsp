@@ -22,8 +22,12 @@
     p{text-align:center; margin-top:5px;}
     .groupImg {width:300px; height:250px; cursor: pointer; border-radius: 6px;}
 
+	/* 글쓰기 버튼 */
+	.writeBtn{color:#2860E1 !important; font-size:60px !important; margin-right:30px;}
+	
+
     /* tooltip 색상 변경 css */
-    .tooltip.bs-tooltip-bottom .tooltip-inner { background:#2860E1 !important;}
+    .tooltip .bs-tooltip-bottom .tooltip-inner { background:#2860E1 !important;}
     .tooltip .arrow:before { border-bottom-color:#2860E1 !important; border-top-color:#2860E1 !important; }
   </style>
 </head>
@@ -48,7 +52,7 @@
 	    <h4>What we have created</h4>
 		<br>
 		<br>
-	    <button id="groupWrite" onclick="location.href='groupInsertView.do'" ><img src="resources/images/write.png" id="writeBtn"></button>
+	    <button id="groupWrite" onclick="location.href='groupInsertView.do'" ><span class="material-icons writeBtn">create</span></button>
 	    <div style="clear:both"></div>  
 		<br>
 		<h4>가입한 그룹이 없습니다.</h4>
@@ -66,7 +70,7 @@
 	    
 	    <h4>What we have created</h4>
 	
-	    <button id="groupWrite" onclick="location.href='groupInsertView.do'" ><img src="resources/images/write.png" id="writeBtn"></button>
+	    <button id="groupWrite" onclick="location.href='groupInsertView.do'" ><span class="material-icons writeBtn">create</span></button>
 	
 	    <div style="clear:both"></div>
 

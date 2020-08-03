@@ -1,7 +1,11 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
 <<<<<<< HEAD
+<<<<<<< HEAD
 #Fri Jul 31 16:31:12 KST 2020
 =======
 #Fri Jul 31 14:31:14 KST 2020
+>>>>>>> refs/remotes/origin/master
+=======
+#Sat Aug 01 16:33:16 KST 2020
 >>>>>>> refs/remotes/origin/master
 surefire-2.12.4.pom>central=

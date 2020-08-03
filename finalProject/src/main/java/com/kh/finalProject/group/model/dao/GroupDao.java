@@ -18,6 +18,7 @@ import com.kh.finalProject.group.model.vo.GroupReReply;
 import com.kh.finalProject.group.model.vo.GroupReply;
 import com.kh.finalProject.group.model.vo.GroupSearchName;
 import com.kh.finalProject.group.model.vo.GroupTable;
+import com.kh.finalProject.group.model.vo.GroupVote;
 import com.kh.finalProject.member.model.vo.Member;
 
 
@@ -187,6 +188,79 @@ public class GroupDao {
 
 	public int deleteReReply(String grrNo) {
 		return sqlSessionTemplate.update("groupMapper.deleteReReply",grrNo);
+	}
+
+	public int insertBoard(GroupBoard gb) {
+		return sqlSessionTemplate.insert("groupMapper.insertBoard",gb);
+	}
+
+	public int selectGbNo() {
+		return sqlSessionTemplate.selectOne("groupMapper.selectGbNo");
+	}
+
+	public int insertBoardPhoto(ArrayList<GroupBoardPhoto> photoList) {
+		return sqlSessionTemplate.insert("groupMapper.insertBoardPhoto",photoList);
+	}
+
+	public int deletePhoto(String gbNo) {
+		return sqlSessionTemplate.delete("groupMapper.deletePhoto",gbNo);
+	}
+
+	public int updateBoard(GroupBoard gb) {
+		return sqlSessionTemplate.update("groupMapper.updateBoard",gb);
+	}
+
+	public int deleteBoard(String gbNo) {
+		return sqlSessionTemplate.update("groupMapper.deleteBoard",gbNo);
+	}
+
+	public int deleteNotice(String gnNo) {
+		return sqlSessionTemplate.update("groupMapper.deleteNotice",gnNo);
+	}
+
+	public int voteGetListCount(int groupNo) {
+		return sqlSessionTemplate.selectOne("groupMapper.voteGetListCount", groupNo);
+	}
+
+	public ArrayList<GroupVote> selectVoteList(PageInfo pi) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectVoteList",pi, rowBounds);
+		
+	}
+
+	public ArrayList<GroupVote> selectItemList(GroupInfo gInfo) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectItemList", gInfo);		
+	}
+
+	public ArrayList<GroupVote> selectVoteMemberLsit(GroupInfo gInfo) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectVoteMemberLsit", gInfo);		
+	}
+
+	public GroupVote selectOneVote(GroupVote gv) {
+		return sqlSessionTemplate.selectOne("groupMapper.selectOneVote", gv);
+	}
+
+	public ArrayList<GroupVote> selectOneItem(GroupVote gv) {
+		return  (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectOneItem", gv);
+	}
+
+	public GroupVote selectTotalItem(GroupVote gv) {
+		return sqlSessionTemplate.selectOne("groupMapper.selectTotalItem", gv);		
+	}
+
+	public int deleteVote(GroupVote gv) {
+		return sqlSessionTemplate.delete("groupMapper.deleteVote", gv);		
+	}
+
+	public int insertVote(GroupVote gv) {
+		return sqlSessionTemplate.delete("groupMapper.insertVote", gv);		
+	}
+
+	public int oneTotalItem(GroupVote gv) {
+		return sqlSessionTemplate.selectOne("groupMapper.oneTotalItem", gv);		
 	}
 	
 	
