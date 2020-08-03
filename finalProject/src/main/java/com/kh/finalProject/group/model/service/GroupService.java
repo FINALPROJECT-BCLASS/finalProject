@@ -133,6 +133,14 @@ public interface GroupService {
 
 	int removeVote(GroupVote gv);
 
+	int finishedVoteGetListCount(int groupNo);
+
+	ArrayList<GroupVote> selectfinishedVoteList(PageInfo pi);
+
+	ArrayList<GroupVote> selectfinishedItemList(GroupInfo gInfo);
+
+	ArrayList<GroupVote> selectfinishedVoteMemberLsit(GroupInfo gInfo);
+
 
 	
 

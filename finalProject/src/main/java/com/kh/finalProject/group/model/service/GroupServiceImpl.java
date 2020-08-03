@@ -312,6 +312,26 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.removeVote(gv);
 	}
 
+	@Override
+	public int finishedVoteGetListCount(int groupNo) {
+		return gDao.finishedVoteGetListCount(groupNo);
+	}
+
+	@Override
+	public ArrayList<GroupVote> selectfinishedVoteList(PageInfo pi) {
+		return gDao.selectfinishedVoteList(pi);
+	}
+
+	@Override
+	public ArrayList<GroupVote> selectfinishedItemList(GroupInfo gInfo) {
+		return gDao.selectfinishedItemList(gInfo);
+	}
+
+	@Override
+	public ArrayList<GroupVote> selectfinishedVoteMemberLsit(GroupInfo gInfo) {
+		return gDao.selectfinishedVoteMemberLsit(gInfo);
+	}
+
 
 
 

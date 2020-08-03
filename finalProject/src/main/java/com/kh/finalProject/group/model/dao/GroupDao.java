@@ -270,6 +270,27 @@ public class GroupDao {
 	public int removeVote(GroupVote gv) {
 		return sqlSessionTemplate.delete("groupMapper.removeVote", gv);		
 	}
+
+	public int finishedVoteGetListCount(int groupNo) {
+		return sqlSessionTemplate.selectOne("groupMapper.finishedVoteGetListCount", groupNo);
+	}
+
+	public ArrayList<GroupVote> selectfinishedVoteList(PageInfo pi) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectfinishedVoteList",pi, rowBounds);
+		
+	}
+
+	public ArrayList<GroupVote> selectfinishedItemList(GroupInfo gInfo) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectfinishedItemList", gInfo);		
+	}
+
+	public ArrayList<GroupVote> selectfinishedVoteMemberLsit(GroupInfo gInfo) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectfinishedVoteMemberLsit", gInfo);		
+	}
 	
 	
 	

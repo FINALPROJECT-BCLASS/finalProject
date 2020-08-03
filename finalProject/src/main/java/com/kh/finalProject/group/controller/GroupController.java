@@ -429,7 +429,7 @@ public class GroupController {
 
 		// 게시판 목록
 		ArrayList<GroupBoard> boardList = gService.selectBoardList(pi);
-
+		
 		// 사진 목록
 		ArrayList<GroupBoardPhoto> photoList = gService.selectPhotoList(pi);
 
@@ -1087,7 +1087,7 @@ public class GroupController {
 	//---------------------------------투표 start --------------------------------
 		// 투표 메인
 		@RequestMapping(value = "voteMain.do", method = RequestMethod.GET)
-		public ModelAndView voteMain(HttpSession session, ModelAndView mv,
+		public ModelAndView voteMain(HttpSession session, ModelAndView mv, 
 				@RequestParam(value = "page", required = false) String page) {
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 			GroupNotice noticeList = gService.selectNoticeOne(gInfo);
@@ -1111,8 +1111,10 @@ public class GroupController {
 
 		// 투표 메인 ajax
 		@RequestMapping(value = "voteMainAjax.do", method = RequestMethod.GET)
-		public void voteAjax(HttpServletResponse response, HttpSession session,
+		public void voteAjax(HttpServletResponse response, HttpSession session, GroupVote gv,
 				@RequestParam(value = "page", required = false) String page) throws IOException {
+			
+			
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 			int gmNo = gInfo.getGmNo();
 			Member loginUser = (Member) session.getAttribute("loginUser");
@@ -1122,7 +1124,7 @@ public class GroupController {
 				currentPage = Cpage;
 			}
 
-			int listCount = gService.boardGetListCount(gInfo.getGroupNo());
+			int listCount = gService.voteGetListCount(gInfo.getGroupNo());
 
 			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 
@@ -1137,6 +1139,8 @@ public class GroupController {
 			
 			
 			ArrayList<GroupVote> voteList = gService.selectVoteList(pi);
+			
+			System.out.println("ajax voteList : " + voteList);
 			ArrayList<GroupVote> itemList = gService.selectItemList(gInfo);
 			ArrayList<GroupVote> voteMemberList = gService.selectVoteMemberLsit(gInfo);
 			
@@ -1156,7 +1160,8 @@ public class GroupController {
 			if (voteList != null) {
 				for (GroupVote v : voteList) {
 					JSONObject jObj = new JSONObject();
-
+					jObj.put("page", gv.getPage());
+					
 					jObj.put("gvNo", v.getGvNo());
 					jObj.put("gNo", v.getgNo());
 					jObj.put("gmNo", v.getGmNo());
@@ -1281,6 +1286,7 @@ public class GroupController {
 	 
 		}
 		
+		// 투표 삭제
 		@RequestMapping(value = "removeVote.do", method = RequestMethod.GET)
 		public String removeVote(HttpSession session,  GroupVote gv) throws IOException {
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
@@ -1297,5 +1303,144 @@ public class GroupController {
 	 
 		}
 		
+		// 투표 종료 메인
+		@RequestMapping(value = "finishedVote.do", method = RequestMethod.GET)
+		public ModelAndView finishedVote(HttpSession session, ModelAndView mv, GroupVote gv,
+				@RequestParam(value = "page", required = false) String page) {
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			GroupNotice noticeList = gService.selectNoticeOne(gInfo);
+
+			int currentPage = 1;
+			if (page != null) {
+				int Cpage = Integer.parseInt(page);
+				currentPage = Cpage;
+			}
+
+			int listCount = gService.finishedVoteGetListCount(gInfo.getGroupNo());
+			System.out.println("투표 종료 메인 listCount :  " + listCount);
+			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+
+			mv.addObject("noticeList", noticeList);
+			mv.addObject("pi", pi);
+			mv.setViewName("group/GVoteFinished");
+
+			return mv;
+		}
+
+		// 투표 종료 메인 ajax
+		@RequestMapping(value = "finishedVoteMainAjax.do", method = RequestMethod.GET)
+		public void finishedVoteMainAjax(HttpServletResponse response, HttpSession session,GroupVote gv,
+				@RequestParam(value = "page", required = false) String page) throws IOException {
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			int gmNo = gInfo.getGmNo();
+			Member loginUser = (Member) session.getAttribute("loginUser");
+			
+			int currentPage = 1;
+			if (page != null) {
+				int Cpage = Integer.parseInt(page);
+				currentPage = Cpage;
+			}
+			System.out.println("종료메인 :  " + gv);
+			int listCount = gService.finishedVoteGetListCount(gInfo.getGroupNo());
+
+			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+
+			pi.setLoginUserId(gInfo.getLoginUserId());
+			pi.setGroupNo(gInfo.getGroupNo());
+			pi.setGmNo(gInfo.getGmNo());
+
+			// 투표 목록
+			// 투표 항목 (항목에는 참여하지 않은사람을표시하기위해 미참여을넣어준다)
+			// 투표 참여자 ( 참여자 미참여자 표시) 
+			// 투표 참여자 수  미참여자 수(미참여자 수는 조인해서 null값 세기)
+			
+			
+			ArrayList<GroupVote> voteList = gService.selectfinishedVoteList(pi);
+			ArrayList<GroupVote> itemList = gService.selectfinishedItemList(gInfo);
+			ArrayList<GroupVote> voteMemberList = gService.selectfinishedVoteMemberLsit(gInfo);
+			
+			response.setContentType("application/json;charset=utf-8");
+			
+			JSONArray vArr = new JSONArray();
+			JSONArray iArr = new JSONArray();
+			JSONArray gArr = new JSONArray();
+			JSONArray mArr = new JSONArray();
+			
+			
+			gArr.add(gmNo);
+			
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+			if (voteList != null) {
+				for (GroupVote v : voteList) {
+					JSONObject jObj = new JSONObject();
+					
+					jObj.put("page", page);
+					
+					jObj.put("gvNo", v.getGvNo());
+					jObj.put("gNo", v.getgNo());
+					jObj.put("gmNo", v.getGmNo());
+					jObj.put("gvTitle", v.getGvTitle());
+					jObj.put("gvCon", v.getGvCon());
+					jObj.put("gvStart", v.getGvStart());
+					jObj.put("gvEnd", v.getGvEnd());
+					jObj.put("gvAno", v.getGvAno());
+					jObj.put("gvDelete", v.getGvDelete());
+					
+					jObj.put("name", v.getName());
+					jObj.put("renameFile", v.getRenameFile());
+				
+					vArr.add(jObj);
+				}
+				
+				if (itemList != null) {
+					for (GroupVote v : itemList) {
+						JSONObject jObj = new JSONObject();
+
+						jObj.put("gvNo", v.getGvNo());
+						jObj.put("gNo", v.getgNo());
+						
+						jObj.put("gviNo", v.getGviNo());
+						jObj.put("gviItem", v.getGviItem());
+						jObj.put("totalGviNo", v.getTotalGviNo());
+					
+
+						iArr.add(jObj);
+					}
+					
+				if (voteMemberList != null) {
+					for (GroupVote v : voteMemberList) {
+						JSONObject jObj = new JSONObject();
+
+						jObj.put("gvmNo", v.getGvmNo());
+						jObj.put("gvNo", v.getGvNo());
+						
+						jObj.put("gNo", v.getgNo());
+						jObj.put("gmNo", v.getGmNo());
+						jObj.put("gviNo", v.getGviNo());
+					
+
+						mArr.add(jObj);
+					}	
+
+				JSONObject sendJson = new JSONObject();
+				sendJson.put("voteList", vArr);
+				sendJson.put("itemList", iArr);
+				sendJson.put("gInfoGmNo", gArr);
+				sendJson.put("voteMemberList", mArr);
+				
+				PrintWriter out = response.getWriter();
+				out.print(sendJson);
+				out.flush();
+				out.close();
+
+			} else {
+				
+			}
+				}
+			}		
+		}
+
 		
 }

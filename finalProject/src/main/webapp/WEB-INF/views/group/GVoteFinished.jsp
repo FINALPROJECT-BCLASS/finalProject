@@ -28,7 +28,7 @@
     button{border:none; outline:none !important;}
     .btnList{width:100%; text-align:right;}
     .groupBtn{border:none; font-weight: 600; background:none;}
-    .voteBtn{color:#2860E1; font-size: 21px;}
+    .FinishedBtn{color:#2860E1; font-size: 21px;}
     .join-form-area{padding-top:150px !important;position:relative; float: right;display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 40px; width: 81%; background: #F3F3F3; }
     .groupJoin{width:900px;}
     
@@ -104,8 +104,8 @@
   		
         <h1>Group Diary</h1>
         <div class="btnList">
-            <button class="groupBtn voteBtn">Voting</button>
-            <button class="groupBtn FinishedBtn" >Finished</button>
+            <button class="groupBtn voteBtn" >Voting</button>
+            <button class="groupBtn FinishedBtn">Finished</button>
     	</div>
      	
      	<br>
@@ -113,7 +113,7 @@
         <br>
         <br>
         
-        <div class="groupListCount">진행중인 투표 : ${pi.listCount } 건</div>
+        <div class="groupListCount">종료된 투표 : ${pi.listCount } 건</div>
 		<div style="clear:both"></div>
      	
 		 <div class="groupNotice">
@@ -136,6 +136,7 @@
 				location.href="finishedVote.do";
 			})
 		</script>
+			
 		
 	  <!-- 스크롤 게시판 -->
 	  <script>
@@ -166,30 +167,30 @@
            }
         
            $.ajax({
-               url:"voteMainAjax.do",
+               url:"finishedVoteMainAjax.do",
                type: "GET",
                dataType: "json",
                data:{page:pagePlus},
                success: function(data){
-				
+            	   
             	   if(data.voteList[0] == null){
-   					$(".groupNotice").text("진행중인 투표가 없습니다.").css({"text-align":"center","padding-top":"200px","font-weight":"600","color":"gray"});
-   				}
+    					$(".groupNotice").text("종료된 투표가 없습니다.").css({"text-align":"center","padding-top":"200px","font-weight":"600","color":"gray"});
+    				}
 				console.log(data);
-				
-			 	 page = data.voteList[0].page;
-              	 pagePlus = page + 1;
-              	 
+				 page = parseInt(data.voteList[0].page);
+             	 pagePlus = page + 1;
+             	 
                    // 컨트롤러에서 가져온 방명록 리스트는 result.data에 담겨오도록 했다.
                    // 남은 데이터가 5개 이하일 경우 무한 스크롤 종료
               	 let length =  data.voteList.length;
-              	 console.log("length : " + length);
+              	 /* console.log("length : " + length); */
               	 
               	 
                    if( length < 5 ){
                        isEnd = true;
                    }
                    for(i in data.voteList){
+                	  
                     
                   	var $groupBoard = $(".groupNotice");
                   	$groupBoard.append(data.voteList[i]);
@@ -287,13 +288,7 @@
                    		
                    	}	// if gviItem != null
                  	
-                   	if(data.gInfoGmNo == data.voteList[i].gmNo){
-                   		
-                   	$td6.append($endBtn);
-                   	$td6.append($removeBtn);
-                	$tr6.append($td6);
-                   	}
-                	
+                   
                		$boardTb.append($tr1);
                   	$boardTb.append($tr2);
                   	$boardTb.append($tr3);
