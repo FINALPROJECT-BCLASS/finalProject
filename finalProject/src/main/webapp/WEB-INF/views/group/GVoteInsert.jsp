@@ -99,7 +99,7 @@
                         <td class="groupTbTd itemLinst anno">
                               <span class="material-icons annoIcon">check_box_outline_blank</span>
                               <span class="anonymousVote">익명투표 설정</span>
-                              <input type="hidden" id="anno" name="anno" value="">
+                              <input type="hidden" id="anno" name="anno" value="no">
                         </td>
                       </tr>
                     </table>
@@ -175,6 +175,7 @@
            $(".anno").click(function(){
             if($(".annoIcon").text() == "check_box_outline_blank"){
               $(this).children(".annoIcon").text("check_box");
+              $("#anno").remove();
               $(this).append("<input type='hidden' class='annoIn' name='anno' value='anno'>");
             } else{
               $(this).children(".annoIcon").text("check_box_outline_blank");

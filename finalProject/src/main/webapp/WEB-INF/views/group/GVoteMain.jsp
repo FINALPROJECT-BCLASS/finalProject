@@ -62,7 +62,10 @@
    	.memberImg{width:100%; height:100%;border-radius:50%; }
     
     .noticeBoardWriter{padding-left:37px; font-size:12px; font-weight: 600;}
-    .noticeBoardDate{padding-left:37px; font-size:12px; font-weight: 600;}
+    .dateView{margin-left: 35px; color: #2860E1;font-size: 13px;display:inline-block; }
+    .noticeBoardDate{display: inline-block;padding-left:10px; font-size:13px; font-weight: 400;}
+    .endDate{margin-left:5px;}
+    #sample04{display: inline-block;margin-left: 15px;font-size: 13px;    color: #2860E1;}
     .noticeBoardContent{margin-left:37px; margin-top:10px; padding-top:5px;padding-left:15px; width:1050px; height:70px; overflow:scroll; overflow-x:hidden; font-size:13px; background: #F3F3F3; border-radius: 5px; margin-bottom: 7px;}
   	.boardPhotoList{width:200px; height:100px; display:inline-block; border-radius:6px;}
   	
@@ -209,6 +212,7 @@
                 	var $tr4 = $("<tr>");
                		var $tr5 = $("<tr>");
                 	var $tr6 = $("<tr>");
+                	var $tr7 = $("<tr>");
                 	
                 	var $td1 = $("<td>");
                 	var $td2 = $("<td>");
@@ -216,6 +220,7 @@
                 	var $td4 = $("<td>");
                 	var $td5 = $("<td>");
                 	var $td6 = $("<td>").attr("class","etcBox");
+                	var $td7 = $("<td>");
                 	
                 	var $detailPage = $("<div>").text("Take Vote").attr("class","detailBtn");
                 	var $gvNo = $("<input type='hidden' id='gvNo' value='"+ data.voteList[i].gvNo +"'>");
@@ -226,7 +231,13 @@
                                 	
                 	var $boardTitle = $("<div>").text(data.voteList[i].gvTitle).attr("class","noticeBoardTitle");
                   	var $boardWriter = $("<div>").text(data.voteList[i].name).attr("class","noticeBoardWriter");
+                  	var $voteStart = $("<div>").text("Start : ").attr("class","dateView");
                   	var $boardDate = $("<div>").text(data.voteList[i].gvStart).attr("class","noticeBoardDate");
+                  	
+                  	var $voteEnd = $("<div>").text("End : ").attr("class","dateView");
+                  	var $endDate = $("<div>").text(data.voteList[i].gvEnd).attr("class","noticeBoardDate endDate");
+                  	
+                  	
                   	var $boardContent = $("<div>").text(data.voteList[i].gvCon).attr("class","noticeBoardContent");
                  	
                   	var $endBtn = $("<button class='voteSubmit endBtn'>").text("Close Vote");
@@ -248,8 +259,15 @@
                    	$td2.append($boardWriter);
                    	$tr2.append($td2);
                    	
+                   	$td3.append($voteStart);
                    	$td3.append($boardDate);
                    	$tr3.append($td3);
+                   	
+                   	if(data.voteList[i].gvEnd != null){
+                   	$td7.append($voteEnd);
+                   	$td7.append($endDate);
+                   	$tr7.append($td7);
+                   	}
                    	
                    	$td4.append($boardContent);
                    	$tr4.append($td4);
@@ -305,6 +323,7 @@
                		$boardTb.append($tr1);
                   	$boardTb.append($tr2);
                   	$boardTb.append($tr3);
+                  	$boardTb.append($tr7);
                   	$boardTb.append($tr4);
                   	$boardTb.append($tr5);
                   	$boardTb.append($tr6);
@@ -312,6 +331,9 @@
                 
                   	$groupBoard.append($boardTb); 
 
+                  	
+                    	
+                    
                    	} // for voteList end
                },
                error:function(request, status, errorData){
@@ -355,9 +377,10 @@
 		    	
 	    	})
 	    </script>
-	    
-	  
-		    <!-- 스크롤 게시판 end -->
+    <!-- 스크롤 게시판 end -->
+    
+   
+   			   
 		     <jsp:include page="../common/footer.jsp"/>	
 </body>
 </html>

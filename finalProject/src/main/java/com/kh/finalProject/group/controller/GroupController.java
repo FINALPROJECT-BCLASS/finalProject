@@ -947,7 +947,7 @@ public class GroupController {
 			
 			mv.addObject("boardList", gbList);
 			mv.addObject("photoList", photoList);
-			mv.setViewName("group/updateBoard");
+			mv.setViewName("group/GUpdateBoard");
 		
 			return mv;
 	}
@@ -1131,12 +1131,6 @@ public class GroupController {
 			pi.setLoginUserId(gInfo.getLoginUserId());
 			pi.setGroupNo(gInfo.getGroupNo());
 			pi.setGmNo(gInfo.getGmNo());
-
-			// 투표 목록
-			// 투표 항목 (항목에는 참여하지 않은사람을표시하기위해 미참여을넣어준다)
-			// 투표 참여자 ( 참여자 미참여자 표시) 
-			// 투표 참여자 수  미참여자 수(미참여자 수는 조인해서 null값 세기)
-			
 			
 			ArrayList<GroupVote> voteList = gService.selectVoteList(pi);
 			
@@ -1236,15 +1230,20 @@ public class GroupController {
 			GroupNotice noticeList = gService.selectNoticeOne(gInfo);
 			
 			GroupVote voteList = gService.selectOneVote(gv);
+
 			ArrayList<GroupVote> itemList = gService.selectOneItem(gv);
+
 			GroupVote voteTotalList = gService.selectTotalItem(gv);
 	
+			ArrayList<GroupVote> memberList = gService.selectMemberList(gv);
+			
 			mv.addObject("gvNo", gv.getGvNo());
 			mv.addObject("noticeList", noticeList);
 			mv.addObject("gInfo", gInfo);
 			mv.addObject("voteList", voteList);
 			mv.addObject("itemList", itemList);
 			mv.addObject("voteTotalList", voteTotalList);
+			mv.addObject("memberList", memberList);
 			mv.setViewName("group/GVoteDetail");
 			return mv;
 	 
@@ -1294,10 +1293,7 @@ public class GroupController {
 			gv.setGmNo(String.valueOf(gInfo.getGmNo()));
 			gv.setgNo(String.valueOf(gInfo.getGroupNo()));
 			
-			int result = gService.removeVote(gv); 
-			System.out.println("삭제 result: " + result);
-			
-	
+			int result = gService.removeVote(gv);
 			
 			return "redirect:voteMain.do";
 	 
@@ -1317,7 +1313,7 @@ public class GroupController {
 			}
 
 			int listCount = gService.finishedVoteGetListCount(gInfo.getGroupNo());
-			System.out.println("투표 종료 메인 listCount :  " + listCount);
+
 			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 
 			mv.addObject("noticeList", noticeList);
@@ -1340,7 +1336,7 @@ public class GroupController {
 				int Cpage = Integer.parseInt(page);
 				currentPage = Cpage;
 			}
-			System.out.println("종료메인 :  " + gv);
+			
 			int listCount = gService.finishedVoteGetListCount(gInfo.getGroupNo());
 
 			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
@@ -1348,13 +1344,7 @@ public class GroupController {
 			pi.setLoginUserId(gInfo.getLoginUserId());
 			pi.setGroupNo(gInfo.getGroupNo());
 			pi.setGmNo(gInfo.getGmNo());
-
-			// 투표 목록
-			// 투표 항목 (항목에는 참여하지 않은사람을표시하기위해 미참여을넣어준다)
-			// 투표 참여자 ( 참여자 미참여자 표시) 
-			// 투표 참여자 수  미참여자 수(미참여자 수는 조인해서 null값 세기)
-			
-			
+		
 			ArrayList<GroupVote> voteList = gService.selectfinishedVoteList(pi);
 			ArrayList<GroupVote> itemList = gService.selectfinishedItemList(gInfo);
 			ArrayList<GroupVote> voteMemberList = gService.selectfinishedVoteMemberLsit(gInfo);
@@ -1462,18 +1452,15 @@ public class GroupController {
 			gv.setGmNo(String.valueOf(gInfo.getGmNo()));
 			System.out.println("투표 작성 anno : "+ anno );
 			System.out.println("투표 작성 gv : "+ gv );
-			
-			if(anno != null) {
+
+			if(anno.equals("anno")) {
 				gv.setGvAno("Y");
+			}else if(anno.equals("no")){
+				gv.setGvAno("N");
 			}
-//			GVI_NO
-//			G_NO
-//			GV_NO
-//			GVI_ITEM
+			System.out.println("작성 gv : " + gv);
 			int InsertResult = gService.insertNewVote(gv);
 			int voteCurrval = gService.voteCurrval();
-			System.out.println("투표 작성 InsertResult : " + InsertResult);
-			System.out.println("투표 작성 voteCurrval : " + voteCurrval);
 			
 			for(String i : items) {
 				gv = new GroupVote();
@@ -1482,17 +1469,10 @@ public class GroupController {
 				gv.setGviItem(i);
 				
 				voteItemList.add(gv);
-				System.out.println("투표 작성 i : " + i);
-				System.out.println("투표 작성 voteItemList : " + voteItemList);
-				
+
 			}
-			
-			
+						
 			int InsertItem = gService.insertNewItem(voteItemList);
-			
-			System.out.println("insertResult : " + InsertResult);
-			System.out.println("투표 작성 itemList : "+ itemList );
-			System.out.println("투표 작성 InsertItem : "+ InsertItem );
 			
 			return "redirect:voteMain.do";
 		}

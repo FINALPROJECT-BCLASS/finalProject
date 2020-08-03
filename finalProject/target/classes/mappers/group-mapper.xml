@@ -518,7 +518,7 @@
 	</select>
 	
 	<select id="selectVoteList"  parameterType="GroupInfo" resultMap="groupVoteResultSet" >
-		SELECT GV.GV_NO, GV.G_NO, GV.GM_NO, GV_TITLE, GV_CON, GV_START, GV_END, GV_ANO, NAME , RENAME_FILE
+		SELECT GV.GV_NO, GV.G_NO, GV.GM_NO, GV_TITLE, GV_CON,TO_CHAR(TO_DATE(GV_START),'YYYY/MM/DD') AS GV_START, TO_CHAR(TO_DATE(GV_END),'YYYY/MM/DD') AS GV_END, GV_ANO, NAME , RENAME_FILE
         FROM GROUP_VOTE GV
         FULL JOIN GROUP_VOTE_ITEM GVI ON(GV.GV_NO = GVI.GV_NO)
         FULL JOIN GROUP_VOTE_MEMBER GVM ON(GVI.GVI_NO = GVM.GVI_NO)
@@ -548,7 +548,7 @@
 	</select>
 	
 	<select id="selectOneVote" parameterType="GroupVote"  resultMap="groupVoteResultSet" >
-		SELECT GV.GV_NO, GV.G_NO, GV.GM_NO, GV_TITLE, GV_CON, GV_START, GV_END, GV_ANO, NAME , RENAME_FILE
+		SELECT GV.GV_NO, GV.G_NO, GV.GM_NO, GV_TITLE, GV_CON,TO_CHAR(TO_DATE(GV_START),'YYYY/MM/DD') AS GV_START, TO_CHAR(TO_DATE(GV_END),'YYYY/MM/DD') AS GV_END, GV_ANO, NAME , RENAME_FILE
         FROM GROUP_VOTE GV
         FULL JOIN GROUP_VOTE_ITEM GVI ON(GV.GV_NO = GVI.GV_NO)
         FULL JOIN GROUP_VOTE_MEMBER GVM ON(GVI.GVI_NO = GVM.GVI_NO)
@@ -595,11 +595,7 @@
 		    #{gviNo}
 		)
 	</insert>
-	
-	<!-- <select id="oneTotalItem"  parameterType="GroupVote" resultType="_int">
-	
-	</select> -->
-	
+
 	<update id="endVote" parameterType="GroupVote">
 		UPDATE GROUP_VOTE SET GV_DELETE = 'Y' 
 		WHERE GV_NO = #{gvNo}
@@ -680,5 +676,14 @@
 		</foreach>
 		)I
 	</insert>
+	
+	<select id="selectMemberList" parameterType="GroupVote" resultMap="groupVoteResultSet" >
+	    SELECT GVM.GVI_NO, GVM.GM_NO, NAME
+        FROM GROUP_VOTE_MEMBER GVM
+        FULL JOIN GROUP_VOTE_ITEM GVI ON(GvM.G_NO = GVI.G_NO)
+        JOIN GROUP_MEMBER GM ON(GVM.GM_NO = GM.GM_NO)
+        JOIN MEMBER M ON (GM.GM_ID = M.ID)
+        WHERE GVM.GV_NO = #{gvNo}
+	</select>
 	
 </mapper>

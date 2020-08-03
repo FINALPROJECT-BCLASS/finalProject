@@ -303,6 +303,10 @@ public class GroupDao {
 	public int insertNewItem(ArrayList<GroupVote> voteItemList) {
 		return sqlSessionTemplate.insert("groupMapper.insertNewItem", voteItemList);		
 	}
+
+	public ArrayList<GroupVote> selectMemberList(GroupVote gv) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectMemberList", gv);		
+	}
 	
 	
 	
