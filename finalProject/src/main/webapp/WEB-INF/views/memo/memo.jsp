@@ -300,7 +300,7 @@
                         <form action="mminsert.do" method="post">
                         	<input type="hidden" name="id" value="${loginUser.id }">
                         	<input type="hidden" name="mainNo" value="1">
-                        	<input type="hidden" name="color" value="#FBD14B">
+                        	<input type="hidden" name="mpColor" value="#FBD14B">
                             <table id="addTable">
                                 <tr>
                                     <th>Title</th>
@@ -433,7 +433,7 @@
 	    $(document).on("click",".deleteBtn",function(){
 			var memoNo = $(this).parent().next().val();
 	    	
-	    	var deleteCheck = confirm("내역을 삭제하시겠습니까?");
+	    	var deleteCheck = confirm("메모를 삭제하시겠습니까?");
 			if(deleteCheck == true){
 				location.href="memodelete.do?memoNo="+memoNo;
 			}
@@ -450,7 +450,7 @@
 				location.href="mpadd.do?memoNo="+memoNo;
 			}
 			else if(deleteCheck == false){
-				console.log("메모 삭제를 취소합니다.");
+				console.log("일정 추가를 취소합니다.");
 			}
 		});
     </script>	
