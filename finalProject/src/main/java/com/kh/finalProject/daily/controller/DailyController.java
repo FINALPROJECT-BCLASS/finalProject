@@ -346,8 +346,10 @@ public class DailyController {
 	        
 		System.out.println("확인" + hr);
 		
-		
 	    int result = dailyService.insertHabitRecord(hr);
+	    // 업데이트 된 습관기록 불러오기
+//	    HabitRecord HR = dailyService.selectHabitRecord(hr);
+//	    System.out.println("hr확인" + HR);
 	    
 	    if(result > 0) {
 	    	out.print("success");

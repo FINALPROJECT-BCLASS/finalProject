@@ -131,6 +131,12 @@ public class DailyServiceImpl implements DailyService {
 		return dailyDao.deleteHabit(map);
 	}
 
+	@Override
+	public HabitRecord selectHabitRecord(HabitRecord hr) {
+
+		return dailyDao.selectHabitRecord(hr);
+	}
+
 
 
 	

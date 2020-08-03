@@ -631,6 +631,7 @@
 							</div> <!-- now는 기록 메모 테이블의 현재값 컬럼을 더한 값 -->
 						</div>
 						<div class="percent">${percent }%</div>
+						<!-- 주 -->
 					</div>
 				</c:forEach>
 			</div>
@@ -784,6 +785,8 @@
         crossorigin="anonymous"></script> -->
 		<script type="text/javascript"  src='resources/js/simpleCalendar/jquery.simple-calendar.js'></script>
 		<script>
+			
+		var changeNo = 0;
 		
 			// 습관 삭제하기
 			$(document).on("click","#d-btn",function(){
@@ -934,6 +937,7 @@
     	     	   						
     	     	   						var sum = 0;
     	     	   						
+    	     	   						
     	     	   						if(htCycle == "Today") {
     	     	   							
      	     							for(var i in caldata.hrc) {
@@ -1023,7 +1027,6 @@
 	     	     	      	              		}else if(selectWeek == week_5){
 	     	     	      	              			$("#period").html(year+"/"+month + " " + 5 + "주차<br>" + "<a class = 'smallA'>" + date + "</a>");
 	     	     	      	              		}
-	     	     								
 	     	     							     	     								
      	     								}
      	     								
@@ -1042,6 +1045,48 @@
          	         	              		}
      	     							}
      	     						}
+    	     	   						
+        	     	   					
+    	     	   						
+    	     	   						if($(".clicked").hasClass("Daily") === true) {
+    	     	   					
+    	     	   						console.log("today" + today);
+    	     	   						console.log("date" + date);
+    	     	   							
+    	     	   							if(today == date){
+    	     	   								
+    	     	   								
+    	     	   							var htNum =$(".clicked").prev("#htNum").val();
+											
+    										$(".clicked").find(".percent").html(Math.ceil(sum/goal*100)+"%");
+    										
+    										var color = $(".clicked").find(".progress-bar").css("background-color");
+    										
+    										console.log("color" + color);
+    										
+    										$(".clicked").find(".progress-bar").attr("style", "background-color:"+ color + "; width:" + Math.ceil(sum/goal*100)+"%")
+    										
+    										$(".clicked").find(".ht_now").html(sum);
+    	     	   							}
+    	     	   						}else if($(".clicked").hasClass("Weekly") === true){
+      	  									
+    	     	   							var clickWeek =  $("." + $(".smallA").html()).closest("tr").html();
+    	     	   							 
+      	  									if(thisWeek == clickWeek) {
+      	  										
+												var htNum =$(".clicked").prev("#htNum").val();
+	    										var color = $(".clicked").find(".progress-bar").css("background-color");
+												
+	    										$(".clicked").find(".percent").html(Math.ceil(sum/goal*100)+"%");
+	    										
+	    										$(".clicked").find(".progress-bar").attr("style", "background-color:"+ color + "; width:" + Math.ceil(sum/goal*100)+"%")
+	    										
+	    										$(".clicked").find(".ht_now").html(sum);
+      	  										
+      	  									}
+      	  								}
+    	     	   						
+										// 와우  
     	     							
     	     							//현재 값
     	     	   						$("#now").html(sum);
@@ -1312,7 +1357,9 @@
 							$("."+htr_date).addClass("event");
 							$("#add-count").modal("hide");
 							$("#htr_con").val("");
-							
+							// 주석 
+							/* var goal = $(".clicked a.ht_goal").html();
+							${(h.ht_now/h.ht_goal)*100+(1-(((h.ht_now/h.ht_goal)*100)%1))%1} */
 						}else {
 							alert("기록 실패, 다시 시도해 주세요.");
 							

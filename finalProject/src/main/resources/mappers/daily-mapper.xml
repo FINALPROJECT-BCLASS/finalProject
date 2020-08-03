@@ -226,5 +226,15 @@
 		AND HT_DELETE = 'N'
 	</update>
 	
+	<select id="selectHabitRecord" parameterType="HabitRecord" resultMap="habitResultSet">
+		SELECT HT.HT_NO, SUM(HTR_NOW) AS HT_NOW
+		FROM HABIT_TRACKER_RECORD HTR
+		JOIN HABIT_TRACKER HT ON (HT.HT_NO = HTR.HT_NO)
+		WHERE HT.ID = #{id}
+		AND HT.HT_NO = #{ht_no}
+		AND HT.HT_DELETE = 'N'
+		AND HTR.HTR_DELETE = 'N'
+		GROUP BY HT.HT_NO
+	</select>
 	
 </mapper>

@@ -113,5 +113,10 @@ public class DailyDao {
 		return sqlSessionTemplate.update("dailyMapper.deleteHabit", map);
 	}
 
+	public HabitRecord selectHabitRecord(HabitRecord hr) {
+
+		return sqlSessionTemplate.selectOne("dailyMapper.selectHabitRecord", hr);
+	}
+
 
 }

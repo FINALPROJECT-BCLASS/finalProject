@@ -45,6 +45,8 @@ public interface DailyService {
 
 	int deleteHabit(HashMap<String, String> map);
 
+	HabitRecord selectHabitRecord(HabitRecord hr);
+
 
 
 }
