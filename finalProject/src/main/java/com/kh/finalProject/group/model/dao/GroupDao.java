@@ -295,6 +295,14 @@ public class GroupDao {
 	public int insertNewVote(GroupVote gv) {
 		return sqlSessionTemplate.insert("groupMapper.insertNewVote", gv);		
 	}
+
+	public int voteCurrval() {
+		return sqlSessionTemplate.selectOne("groupMapper.voteCurrval");		
+	}
+
+	public int insertNewItem(ArrayList<GroupVote> voteItemList) {
+		return sqlSessionTemplate.insert("groupMapper.insertNewItem", voteItemList);		
+	}
 	
 	
 	

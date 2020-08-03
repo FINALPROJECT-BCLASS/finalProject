@@ -2,6 +2,8 @@ package com.kh.finalProject.group.model.vo;
 
 import java.io.Serializable;
 
+import org.springframework.stereotype.Component;
+
 public class GroupVote implements Serializable{
 
 	/**

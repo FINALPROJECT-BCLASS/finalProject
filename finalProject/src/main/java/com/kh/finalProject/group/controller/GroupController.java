@@ -1450,15 +1450,13 @@ public class GroupController {
 		
 		// 투표 작성 
 		@RequestMapping(value = "voteInsert.do", method = RequestMethod.POST)
-		public ModelAndView voteInsert(HttpSession session, ModelAndView mv, GroupVote gv,
+		public String voteInsert(HttpSession session,GroupVote gv,
 				@RequestParam(value = "anno", required = false) String anno,
 				@RequestParam(value = "itemList", required = false) String itemList) {
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 			String[] items = itemList.split(",");
 			
-			for(String i : items) {
-				System.out.println(i);
-			}
+			ArrayList<GroupVote> voteItemList = new ArrayList<>();
 			
 			gv.setgNo(String.valueOf(gInfo.getGroupNo()));
 			gv.setGmNo(String.valueOf(gInfo.getGmNo()));
@@ -1468,12 +1466,34 @@ public class GroupController {
 			if(anno != null) {
 				gv.setGvAno("Y");
 			}
-			
+//			GVI_NO
+//			G_NO
+//			GV_NO
+//			GVI_ITEM
 			int InsertResult = gService.insertNewVote(gv);
+			int voteCurrval = gService.voteCurrval();
+			System.out.println("투표 작성 InsertResult : " + InsertResult);
+			System.out.println("투표 작성 voteCurrval : " + voteCurrval);
+			
+			for(String i : items) {
+				gv = new GroupVote();
+				gv.setgNo(String.valueOf(gInfo.getGroupNo()));
+				gv.setGvNo(String.valueOf(voteCurrval));
+				gv.setGviItem(i);
+				
+				voteItemList.add(gv);
+				System.out.println("투표 작성 i : " + i);
+				System.out.println("투표 작성 voteItemList : " + voteItemList);
+				
+			}
+			
+			
+			int InsertItem = gService.insertNewItem(voteItemList);
 			
 			System.out.println("insertResult : " + InsertResult);
 			System.out.println("투표 작성 itemList : "+ itemList );
+			System.out.println("투표 작성 InsertItem : "+ InsertItem );
 			
-			return mv;
+			return "redirect:voteMain.do";
 		}
 }
