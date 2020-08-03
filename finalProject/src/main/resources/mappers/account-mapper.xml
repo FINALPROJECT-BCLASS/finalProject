@@ -26,6 +26,7 @@
 	</resultMap>
 	
 	<resultMap type="ExpCategory" id="ecResultSet">
+		<result property="no" column="AEC_NO"/>
 		<result property="title" column="AEC_TITLE"/>
 		<result property="sum" column="AB_SUM"/>
 	</resultMap>
@@ -72,6 +73,7 @@
 			AND AB_DATE=#{abDate}
 			AND AB_DELETE='N'
 			AND AB_VIEW='Y'
+		ORDER BY AB_NO ASC
 	</select>
 	
 	<select id="selectEList" parameterType="AccountBook" resultMap="abResultSet">
@@ -82,6 +84,7 @@
 			AND AB_DATE=#{abDate}
 			AND AB_DELETE='N'
 			AND AB_VIEW='Y'
+		ORDER BY AB_NO ASC
 	</select>
 	
 	<update id="deleteAccountBook" parameterType="AccountBook">
@@ -90,7 +93,7 @@
 		WHERE AB_NO=#{abNo}
 	</update>
 	
-	<select id="selectAbPNoList" parameterType="SumCondition" resultMap="abResultSet">
+	<select id="selectAbPNoList" parameterType="Condition" resultMap="abResultSet">
 		SELECT AB_NO
 		FROM ACCOUNT_BOOK
 		WHERE ID=#{id}
@@ -101,7 +104,7 @@
 		    AND AB_DELETE='N'
 	</select>
 	
-	<select id="selectAbENoList" parameterType="SumCondition" resultMap="abResultSet">
+	<select id="selectAbENoList" parameterType="Condition" resultMap="abResultSet">
 		SELECT AB_NO
 		FROM ACCOUNT_BOOK
 		WHERE ID=#{id}
@@ -140,8 +143,8 @@
 		GROUP BY EXTRACT(MONTH FROM AB_DATE)
 	</select>
 	
-	<select id="selectECList" parameterType="CategoryCondition" resultMap="ecResultSet">
-		SELECT AEC_TITLE, SUM(AB_AMOUNT) "AB_SUM"
+	<select id="selectECList" parameterType="Condition" resultMap="ecResultSet">
+		SELECT B.AEC_NO "AEC_NO", AEC_TITLE, SUM(AB_AMOUNT) "AB_SUM"
 		FROM ACCOUNT_BOOK B
 		JOIN A_EXPENDITURE_CATEGORY E ON(B.AEC_NO=E.AEC_NO)
 		WHERE ID=#{id}
@@ -150,7 +153,26 @@
 		    AND EXTRACT(MONTH FROM AB_DATE)=#{month}
 		    AND AB_DELETE='N'
 		    AND AB_VIEW = 'Y'
-		GROUP BY AEC_TITLE
+		GROUP BY B.AEC_NO, AEC_TITLE
+	</select>
+	
+	<select id="getOverrun" parameterType="Condition" resultType="string">
+		SELECT AEC_TITLE
+		FROM (SELECT B.AEC_NO "AEC_NO", AEC_TITLE, SUM(AB_AMOUNT) "AB_SUM"
+				FROM ACCOUNT_BOOK B
+				JOIN A_EXPENDITURE_CATEGORY E ON(B.AEC_NO=E.AEC_NO)
+				WHERE ID=#{id}
+				    AND B.AEC_NO!=0
+				    AND EXTRACT(YEAR FROM AB_DATE)=#{year}
+				    AND EXTRACT(MONTH FROM AB_DATE)=#{month}
+				    AND AB_DELETE='N'
+				    AND AB_VIEW = 'Y'
+		            AND B.AEC_NO != 11
+		            AND B.AEC_NO != 12
+		            AND B.AEC_NO != 16
+				GROUP BY B.AEC_NO, AEC_TITLE
+		        ORDER BY AB_SUM DESC)
+		WHERE ROWNUM=1
 	</select>
 
 </mapper>

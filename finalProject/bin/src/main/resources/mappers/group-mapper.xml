@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="groupMapper">
+
+	<!-- resultMap   -->
+	<resultMap id="groupTableResultSet" type="GroupTable">
+		<id property="gNo" column="G_NO"/>
+		<result property="gTitle" column="G_TITLE"/>
+		<result property="gCon" column="G_CON"/>
+		<result property="gName" column="G_NAME"/>
+		<result property="gOrigin" column="G_ORIGIN"/>
+		<result property="gRename" column="G_RENAME"/>
+		<result property="gDelete" column="G_DELETE"/>
+		<result property="id" column="ID"/>
+		
+		<result property="gmNo" column="GM_NO"/>
+		<result property="gmId" column="GM_ID"/>
+		<result property="gmDelete" column="GM_DELETE"/>
+	</resultMap>
+	
+	<resultMap id="groupMemberResultSet" type="GroupMember">
+		<id property="gmNO" column="GM_NO"/>
+		<result property="gmId" column="GM_ID"/>
+		<result property="gNo" column="G_NO"/>
+		<result property="gmDelete" column="GM_DELETE"/>
+	</resultMap>
+	
+
+	<resultMap id="memberResultSet" type="Member">
+		<id property="id" column="ID"/>
+		<result property="name" column="NAME"/>
+	</resultMap>
+
+	<resultMap id="groupNoticeResultSet" type="GroupNotice">
+		<id property="gnNo" column="GN_NO"/>
+		<result property="gmNo" column="GM_NO"/>
+		<result property="gNo" column="G_NO"/>
+		<result property="gnTitle" column="GN_TITLE"/>
+		<result property="gnCon" column="GN_CON"/>
+		<result property="gnDate" column="GN_DATE"/>
+		<result property="gnDelete" column="GN_DELETE"/>
+		<result property="gnCount" column="GN_COUNT"/>
+		<result property="name" column="NAME"/>
+		<result property="renameFile" column="RENAME_FILE"/>
+	</resultMap>
+	
+	<resultMap id="groupBoardResultSet" type="GroupBoard">
+		<id property="gbNo" column="GB_NO"/>
+		<result property="gmNo" column="GM_NO"/>
+		<result property="gNo" column="G_NO"/>
+		<result property="gbTitle" column="GB_TITLE"/>
+		<result property="gbCon" column="GB_CON"/>
+		<result property="gbDate" column="GB_DATE"/>
+		<result property="gbDelete" column="GB_DELETE"/>
+		<result property="gbCount" column="GB_COUNT"/>
+		<result property="name" column="NAME"/>
+		<result property="renameFile" column="RENAME_FILE"/>
+	</resultMap>
+	
+	<resultMap id="groupBoardPhotoResultSet" type="groupBoardPhoto">
+		<id property="gbpNo" column="GBP_NO"/>
+		<result property="gbNo" column="GB_NO"/>
+		<result property="gmNo" column="GM_NO"/>
+		<result property="gNo" column="G_NO"/>
+		<result property="gbpOrigin" column="GBP_ORIGIN"/>
+		<result property="gbpRename" column="GBP_RENAME"/>
+	</resultMap>
+	
+	<resultMap id="groupLikeResultSet" type="GroupLike">
+		<id property="gbNo" column="GB_NO"/>
+		<result property="gmNo" column="GM_NO"/>
+		<result property="totalLike" column="TOTAL_LIKE"/>
+	</resultMap>
+	
+	<resultMap id="groupReplyResultSet" type="GroupReply">
+		<id property="grNo" column="GR_NO"/>
+		<result property="gbNo" column="GB_NO"/>
+		<result property="gmNo" column="GM_NO"/>
+		<result property="grCon" column="GR_CON"/>
+		<result property="grDate" column="GR_DATE"/>
+		<result property="grDelete" column="GR_DELETE"/>
+		<result property="totalReply" column="TOTAL_REPLY"/>
+	</resultMap>
+	
+	<resultMap id="groupReReplyResultSet" type="GroupReReply">
+		<id property="grrNo" column="GRR_NO"/>
+		<result property="gmNo" column="GM_NO"/>
+		<result property="gbNo" column="GB_NO"/>
+		<result property="grNo" column="GR_NO"/>
+		<result property="grrCon" column="GRR_CON"/>
+		<result property="grrDate" column="GRR_DATE"/>
+		<result property="grrDelete" column="GRR_DELETE"/>
+		<result property="name" column="NAME"/>
+		<result property="totalReReply" column="TOTAL_REREPLY"/>
+	</resultMap>
+	<!-- resultMap end -->
+	
+	<!-- 그룹 메인 및 생성 -->	
+	<select id="selectGroup" resultMap="groupTableResultSet">
+		SELECT GT.G_NO AS G_NO, G_TITLE, G_CON, G_NAME, G_ORIGIN, G_DELETE, ID, G_DATE, GM_NO, GM_ID, GM_DELETE
+		FROM GROUP_TABLE GT
+		JOIN GROUP_MEMBER GM ON(GT.G_NO = GM.G_NO)
+		WHERE GM_ID = #{loginUserId}
+		AND G_DELETE = 'N'
+	</select>
+
+	<select id="selectGroupMember" resultMap="groupMemberResultSet">
+		SELECT GM_NO, GM_ID, G_NO, GM_DELETE, NAME
+		FROM GROUP_MEMBER TM
+		JOIN MEMBER M ON(TM.GM_ID  = M.ID)
+		WHERE GM_DELETE = 'N'
+	</select> 
+
+	<select id="searchNameList" parameterType="GroupSearchName" resultMap="memberResultSet">
+		SELECT ID, NAME
+		FROM MEMBER
+		WHERE NAME LIKE '%' || #{searchName} || '%' 
+		AND ID NOT IN  #{loginUserId}
+		AND OUT_YN = 'N'
+	</select>
+	
+	<insert id="groupInsert" parameterType="GroupTable">
+		INSERT INTO GROUP_TABLE VALUES(
+		SEQ_GID.NEXTVAL,
+		#{gTitle},
+		#{gCon},
+		#{gName},
+		#{gOrigin},
+		#{gOrigin},
+		#{gDelete},
+		#{id},
+		SYSDATE
+		)
+	</insert>
+	
+	<insert id="insertOrderList" parameterType="java.util.List">
+		INSERT INTO JUMUN(ORDER_NO, MENU, AMOUNT, ORDER_DATE, TABLE_NO, PAY_YN)
+		SELECT SEQ_JUMUN.NEXTVAL , J.*
+		FROM (
+		<foreach collection="list" item="item" index="ix" separator="UNION ALL">
+			SELECT #{item.MENU} AS MENU , #{item.AMOUNT} AS AMOUNT , SYSDATE AS ORDER_DATE , #{item.TABLE_NO} AS TABLE_NO, 'N'
+			FROM DUAL 
+		</foreach>
+		)J
+	</insert>
+	
+	<select id="groupNoSelect" resultType="_int">
+		SELECT SEQ_GID.CURRVAL
+		FROM DUAL
+	</select>
+	
+	
+	
+	<insert id="groupMemberInsert" parameterType="arraylist">
+		INSERT INTO GROUP_MEMBER(GM_NO, GM_ID, G_NO, GM_DELETE)
+		SELECT SEQ_GM.NEXTVAL , M.*
+		FROM (
+		<foreach collection="list" item="memberList" index="ix" separator="UNION ALL">
+			SELECT #{memberList.groupMemberId} AS GM_ID, #{memberList.groupNo} AS G_NO , 'N' 
+			FROM DUAL 
+		</foreach>
+		)M
+	</insert>
+	
+	<!-- 그룹 메인 및 생성 end -->
+	
+	<!-- 그룹 캘린더 -->
+	<select id="memberNoSelect" parameterType="GroupInfo" resultType="_int">
+		SELECT GM_NO
+		FROM GROUP_MEMBER
+		WHERE G_NO = #{groupNo} 
+		AND GM_ID = #{loginUserId}
+		AND GM_DELETE = 'N'
+	</select>
+	<!-- 그룹 캘린더 end-->
+	
+	<!-- 그룹 공지 -->
+	<select id="selectNoticeList" parameterType="GroupInfo" resultMap="groupNoticeResultSet">
+		SELECT GN_NO, GN.GM_NO AS GM_NO, GN.G_NO AS G_NO, GN_TITLE, GN_CON, GN_DATE, GN_DELETE, GN_COUNT, NAME, RENAME_FILE
+		FROM GROUP_NOTICE GN
+		JOIN GROUP_MEMBER GM ON(GN.GM_NO = GM.GM_NO)
+        JOIN MEMBER M ON (GM.GM_ID = M.ID)
+        WHERE GN.G_NO = #{groupNo}
+		AND GN_DELETE = 'N'
+		ORDER BY GN_NO DESC
+	</select>
+	
+	<select id="getListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM GROUP_NOTICE
+		WHERE GN_DELETE = 'N'
+		AND G_NO = #{groupNo}
+	</select>
+	
+	<insert id="noticeInsert" parameterType="GroupNotice">
+		INSERT INTO GROUP_NOTICE 
+		VALUES(SEQ_GN.NEXTVAL,
+				#{gmNo},
+				#{gNo},
+				#{gnTitle},
+				#{gnCon},
+				SYSDATE,
+				'N',
+				0)
+	</insert>
+	
+	<update id="noticeUpdate" parameterType="GroupNotice">
+		UPDATE GROUP_NOTICE SET GN_TITLE = #{gnTitle}, GN_CON = #{gnCon}
+		WHERE GN_NO = #{gnNo}
+	</update>
+	<!-- 그룹 공지  end -->
+	
+	<!-- 그룹 게시판 -->
+	<select id="selectNoticeOne" resultMap="groupNoticeResultSet">
+		SELECT *
+		FROM (
+			SELECT GN_NO, GN.GM_NO AS GM_NO, GN.G_NO AS G_NO, GN_TITLE, GN_CON, GN_DATE, GN_DELETE, GN_COUNT, NAME
+			FROM GROUP_NOTICE GN
+			JOIN GROUP_MEMBER GM ON(GN.GM_NO = GM.GM_NO)
+	        JOIN MEMBER M ON (GM.GM_ID = M.ID)
+	        WHERE GN.G_NO = #{groupNo}
+	        AND GN_DELETE = 'N'
+	        ORDER BY GN_NO DESC
+		)
+		WHERE ROWNUM =1
+	</select>
+
+	<select id="boardGetListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM GROUP_BOARD
+		WHERE G_NO = #{groupNo}
+		AND GB_DELETE = 'N'
+	</select>
+	
+	<select id="selectBoardList" parameterType="GroupInfo" resultMap="groupBoardResultSet">
+		SELECT GB_NO, GB.GM_NO AS GM_NO, GB.G_NO AS G_NO, GB_TITLE, GB_CON, GB_DATE, GB_DELETE, GB_COUNT, NAME, RENAME_FILE
+		FROM GROUP_BOARD GB
+		JOIN GROUP_MEMBER GM ON(GB.GM_NO = GM.GM_NO)
+        JOIN MEMBER M ON (GM.GM_ID = M.ID)
+        WHERE GB.G_NO = #{groupNo}
+        AND GB_DELETE = 'N'
+		ORDER BY GB_NO DESC
+	</select>
+	
+	<select id="selectPhotoList" parameterType="GroupInfo" resultMap="groupBoardPhotoResultSet">
+		SELECT *
+        FROM GROUP_BOARD_PHOTO
+        WHERE G_NO = #{groupNo}
+	</select>
+	
+	<select id="totlaLike" resultMap="groupLikeResultSet">
+		SELECT GB_NO, COUNT(GB_NO) AS TOTAL_LIKE
+        FROM GROUP_LIKE
+        GROUP BY GB_NO
+	</select>
+	
+	<select id="totalReply" resultMap="groupReplyResultSet">
+		SELECT GB_NO, COUNT(GB_NO) AS TOTAL_REPLY
+		FROM GROUP_REPLY
+		GROUP BY GB_NO
+	</select>
+	
+	<update id="plusgbCount" parameterType="string">
+		UPDATE GROUP_BOARD SET GB_COUNT = GB_COUNT + 1 WHERE GB_NO = #{gbNo}
+	</update>
+	
+	<select id="selectBoardDetail" parameterType="string" resultMap="groupBoardResultSet">
+		SELECT GB_NO, GB.GM_NO AS GM_NO, GB.G_NO AS G_NO, GB_TITLE, GB_CON, GB_DATE, GB_DELETE, GB_COUNT, NAME
+		FROM GROUP_BOARD GB
+		JOIN GROUP_MEMBER GM ON(GB.GM_NO = GM.GM_NO)
+        JOIN MEMBER M ON (GM.GM_ID = M.ID)
+        WHERE GB_NO = #{gbNo}
+        AND GB_DELETE = 'N'
+	</select>
+	
+	<select id="selectDetailPhotoList" parameterType="string" resultMap="groupBoardPhotoResultSet">
+		SELECT *
+        FROM GROUP_BOARD_PHOTO
+        WHERE GB_NO = #{gbNo}
+	</select>
+	
+	<select id="totalLikeList" parameterType="string" resultType="_int">
+		SELECT COUNT(GB_NO)
+		FROM GROUP_LIKE
+		WHERE GB_NO =  #{gbNo}
+	</select>
+	
+	<select id="totalReplyList" parameterType="string" resultType="_int">
+		SELECT COUNT(GB_NO)
+		FROM GROUP_REPLY
+		WHERE GB_NO = #{gbNo}
+		AND GR_DELETE = 'N'
+	</select>
+	
+	<select id="selectLikeList" parameterType="string" resultMap="groupLikeResultSet">
+		SELECT GM_NO
+		FROM GROUP_LIKE
+		WHERE GB_NO = #{gbNo}
+		AND GM_NO = #{gmNo}
+	</select>
+	
+	<insert id="insertHeart" parameterType="GroupLike">
+		INSERT INTO GROUP_LIKE 
+		VALUES(
+		#{gbNo},
+		#{gmNo}
+		)
+	</insert>
+	
+	<delete id="deletetHeart" parameterType="GroupLike">
+		DELETE FROM GROUP_LIKE
+		WHERE GB_NO = #{gbNo}
+		AND GM_NO = #{gmNo}
+	</delete>
+	
+	<select id="selectReplyList" parameterType="string" resultMap="groupReplyResultSet">
+		SELECT GR_NO, GB_NO, GR.GM_NO, GR_CON, GR_DATE, GR_DELETE, NAME
+		FROM GROUP_REPLY GR
+        JOIN GROUP_MEMBER GM ON(GR.GM_NO = GM.GM_NO)
+        JOIN MEMBER M ON(M.ID = GM.GM_ID)
+		WHERE GB_NO = #{gbNo}
+		<!-- AND GR_DELETE = 'N' -->
+		ORDER BY GR_NO DESC
+	</select>
+	
+	<insert id="replyInsert" parameterType="GroupReply">
+		INSERT INTO GROUP_REPLY 
+		VALUES (
+			SEQ_GR.NEXTVAL,
+			#{gbNo},
+			#{gmNo},
+			#{grCon},
+			SYSDATE,
+			'N'
+		)
+	</insert>
+	
+	<insert id="reReplyInsert" parameterType="GroupReReply">
+		INSERT INTO GROUP_REREPLY 
+		VALUES (
+			SEQ_GRR.NEXTVAL,
+			#{gmNo},
+			#{gbNo},
+			#{grNo},
+			#{grrCon},
+			SYSDATE,
+			'N'
+		)
+	</insert>
+	
+	<select id="selectReReplyList" parameterType="string" resultMap="groupReReplyResultSet">
+		SELECT GRR_NO, GR.GM_NO AS GM_NO, GB_NO, GR_NO, GRR_CON, GRR_DATE, GRR_DELETE, NAME
+		FROM GROUP_REREPLY GR
+        JOIN GROUP_MEMBER GM ON(GR.GM_NO = GM.GM_NO)
+        JOIN MEMBER M ON(M.ID = GM.GM_ID)
+		WHERE GB_NO = #{gbNo}
+		AND GRR_DELETE = 'N'
+		ORDER BY GRR_NO DESC
+	</select>
+	
+	<select id="selectReReplyList2" parameterType="GroupReReply" resultMap="groupReReplyResultSet">
+		SELECT GRR_NO, GR.GM_NO AS GM_NO, GB_NO, GR_NO, GRR_CON, GRR_DATE, GRR_DELETE, NAME
+		FROM GROUP_REREPLY GR
+        JOIN GROUP_MEMBER GM ON(GR.GM_NO = GM.GM_NO)
+        JOIN MEMBER M ON(M.ID = GM.GM_ID)
+		WHERE GB_NO = #{gbNo}
+		AND GR_NO = #{grNo}
+		AND GRR_DELETE = 'N'
+		ORDER BY GRR_NO DESC
+	</select>
+	
+	<select id="totalReReplyList" parameterType="string" resultType="_int">
+		SELECT COUNT(GB_NO)
+		FROM GROUP_REREPLY
+		WHERE GB_NO = #{gbNo}
+	</select>
+	
+	<select id="reReplyCurrval" resultType="_int">
+		SELECT SEQ_GRR.CURRVAL
+		FROM DUAL
+	</select>
+	
+	<select id="selectOneReReplyList" parameterType="_int" resultMap="groupReReplyResultSet">
+		SELECT GRR_NO, GR.GM_NO AS GM_NO, GB_NO, GR_NO, GRR_CON, GRR_DATE, GRR_DELETE, NAME
+		FROM GROUP_REREPLY GR
+        JOIN GROUP_MEMBER GM ON(GR.GM_NO = GM.GM_NO)
+        JOIN MEMBER M ON(M.ID = GM.GM_ID)
+		WHERE GRR_NO = #{reReplyCurrval}
+		AND GRR_DELETE = 'N'
+		ORDER BY GR_NO DESC
+	</select>
+	
+	<select id="replyCurrval" resultType="_int">
+		SELECT SEQ_GR.CURRVAL
+		FROM DUAL
+	</select>
+	
+	<select id="selectOneReplyList" parameterType="int" resultMap="groupReplyResultSet">
+		SELECT GR_NO, GB_NO, GR.GM_NO, GR_CON, GR_DATE, GR_DELETE, NAME
+		FROM GROUP_REPLY GR
+        JOIN GROUP_MEMBER GM ON(GR.GM_NO = GM.GM_NO)
+        JOIN MEMBER M ON(M.ID = GM.GM_ID)
+		WHERE GR_NO = #{replyCurrval}
+		AND GR_DELETE = 'N'
+		ORDER BY GR_NO DESC
+	</select>
+	
+	<select id="totalReReply" resultMap="groupReReplyResultSet">
+		SELECT GB_NO, COUNT(GB_NO) AS TOTAL_REREPLY
+		FROM GROUP_REREPLY
+		GROUP BY GB_NO
+	</select>
+	
+	<update id="deleteReply" parameterType="string">
+		UPDATE GROUP_REPLY 
+		SET GR_DELETE = 'Y'
+		WHERE GR_NO = #{grNo}
+	</update>
+	
+	<update id="deleteReReply" parameterType="string">
+		UPDATE GROUP_REREPLY 
+		SET GRR_DELETE = 'Y'
+		WHERE GRR_NO = #{grrNo}
+	</update>
+</mapper>

@@ -20,6 +20,7 @@ public class GroupNotice implements Serializable{
 	
 //	Member
 	private String name;
+	private String renameFile;
 	
 //	해당 jsp 페이지 정보
 	private int page;	
@@ -29,7 +30,7 @@ public class GroupNotice implements Serializable{
 	}
 
 	public GroupNotice(String gnNo, int gmNo, int gNo, String gnTitle, String gnCon, String gnDate, String gnDelete,
-			int gnCount, String name, int page) {
+			int gnCount, String name, String renameFile, int page) {
 		super();
 		this.gnNo = gnNo;
 		this.gmNo = gmNo;
@@ -40,6 +41,7 @@ public class GroupNotice implements Serializable{
 		this.gnDelete = gnDelete;
 		this.gnCount = gnCount;
 		this.name = name;
+		this.renameFile = renameFile;
 		this.page = page;
 	}
 
@@ -115,6 +117,14 @@ public class GroupNotice implements Serializable{
 		this.name = name;
 	}
 
+	public String getRenameFile() {
+		return renameFile;
+	}
+
+	public void setRenameFile(String renameFile) {
+		this.renameFile = renameFile;
+	}
+
 	public int getPage() {
 		return page;
 	}
@@ -129,16 +139,10 @@ public class GroupNotice implements Serializable{
 
 	@Override
 	public String toString() {
-		return "GroupNotice [gnNo=" + gnNo + ", gmNo=" + gmNo + ", gNo=" + gNo + ", gnTitle=" + gnTitle + ", gnCon="
-				+ gnCon + ", gnDate=" + gnDate + ", gnDelete=" + gnDelete + ", gnCount=" + gnCount + ", name=" + name
-				+ ", page=" + page + "]\n";
+		return "GroupNotice [gmNo=" + gmNo + ", gnCon=" + gnCon + ", gnCount=" + gnCount + ", gnDate=" + gnDate
+				+ ", gnDelete=" + gnDelete + ", gnNo=" + gnNo + ", gNo=" + gNo + ", gnTitle=" + gnTitle + ", name="
+				+ name + ", page=" + page + ", renameFile=" + renameFile + "]\n";
 	}
-	
-	
 
-	
-	
-	
-	
 	
 }

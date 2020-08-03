@@ -7,12 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.finalProject.account.model.vo.AccountBook;
-import com.kh.finalProject.account.model.vo.CategoryCondition;
+import com.kh.finalProject.account.model.vo.Condition;
 import com.kh.finalProject.account.model.vo.ExpCategory;
 import com.kh.finalProject.account.model.vo.MSumCondition;
 import com.kh.finalProject.account.model.vo.MonthlySum;
 import com.kh.finalProject.account.model.vo.Sum;
-import com.kh.finalProject.account.model.vo.SumCondition;
 
 @Repository("aDao")
 public class AccountDao {
@@ -50,14 +49,14 @@ public class AccountDao {
 		return sqlSessionTemplate.update("accountMapper.deleteAccountBook", a);
 	}
 
-	public ArrayList<AccountBook> selectAbPNoList(SumCondition sc) {
+	public ArrayList<AccountBook> selectAbPNoList(Condition condition) {
 	
-		return (ArrayList)sqlSessionTemplate.selectList("accountMapper.selectAbPNoList", sc);
+		return (ArrayList)sqlSessionTemplate.selectList("accountMapper.selectAbPNoList", condition);
 	}
 
-	public ArrayList<AccountBook> selectAbENoList(SumCondition sc) {
+	public ArrayList<AccountBook> selectAbENoList(Condition condition) {
 		
-		return (ArrayList)sqlSessionTemplate.selectList("accountMapper.selectAbENoList", sc);
+		return (ArrayList)sqlSessionTemplate.selectList("accountMapper.selectAbENoList", condition);
 	}
 
 	public int selectAbAmount(int abNo) {
@@ -75,9 +74,14 @@ public class AccountDao {
 		return (ArrayList)sqlSessionTemplate.selectList("accountMapper.selectMESumList", mc);
 	}
 
-	public ArrayList<ExpCategory> selectECList(CategoryCondition cc) {
+	public ArrayList<ExpCategory> selectECList(Condition condition) {
 		
-		return (ArrayList)sqlSessionTemplate.selectList("accountMapper.selectECList", cc);
+		return (ArrayList)sqlSessionTemplate.selectList("accountMapper.selectECList", condition);
+	}
+
+	public String getOverrun(Condition condition) {
+		
+		return sqlSessionTemplate.selectOne("accountMapper.getOverrun", condition);
 	}
 
 }

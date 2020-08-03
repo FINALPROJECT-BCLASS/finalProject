@@ -17,12 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kh.finalProject.account.model.exception.AccountException;
 import com.kh.finalProject.account.model.service.AccountService;
 import com.kh.finalProject.account.model.vo.AccountBook;
-import com.kh.finalProject.account.model.vo.CategoryCondition;
+import com.kh.finalProject.account.model.vo.Condition;
 import com.kh.finalProject.account.model.vo.ExpCategory;
 import com.kh.finalProject.account.model.vo.MSumCondition;
 import com.kh.finalProject.account.model.vo.MonthlySum;
 import com.kh.finalProject.account.model.vo.Sum;
-import com.kh.finalProject.account.model.vo.SumCondition;
 import com.kh.finalProject.member.model.vo.Member;
 
 @Controller
@@ -32,10 +31,7 @@ public class AccountController {
 	AccountService aService;
 	
 	@Autowired
-	SumCondition sc;
-	
-	@Autowired
-	CategoryCondition cc;
+	Condition condition;
 	
 	@RequestMapping("mrview.do")
 	public String monthlyRecordView() {
@@ -76,7 +72,9 @@ public class AccountController {
 		
 		for(Sum p : pSumList) {
 			JSONObject jObj = new JSONObject();
-			jObj.put("eventTitle", p.getSum());
+			
+			String formatSum = String.format("%,d", p.getSum());
+			jObj.put("eventTitle", formatSum);
 			jObj.put("date", p.getDate());
 			jObj.put("color", "blue");
 			jObj.put("type", "profit");
@@ -86,7 +84,9 @@ public class AccountController {
 		
 		for(Sum e : eSumList) {
 			JSONObject jObj = new JSONObject();
-			jObj.put("eventTitle", e.getSum());
+			
+			String formatSum = String.format("%,d", e.getSum());
+			jObj.put("eventTitle", formatSum);
 			jObj.put("date", e.getDate());
 			jObj.put("color", "red");
 			jObj.put("type", "expenditure");
@@ -121,8 +121,13 @@ public class AccountController {
 		
 		JSONArray jArr = new JSONArray();
 		
+		int i = 0;
 		for(AccountBook p : pList) {
 			JSONObject jObj = new JSONObject();
+			
+			i = i + 1;
+			
+			jObj.put("index", i);
 			
 			switch(p.getApcNo()) {
 				case 1: jObj.put("category", "월급"); break;
@@ -138,7 +143,10 @@ public class AccountController {
 			jObj.put("type", "profit");
 			jObj.put("no", p.getAbNo());
 			jObj.put("date", p.getAbDate());
-			jObj.put("amount", p.getAbAmount());
+			
+			String formatAmount = String.format("%,d", p.getAbAmount());
+			jObj.put("amount", formatAmount);
+			
 			jObj.put("memo", p.getAbMemo());
 			
 			jArr.add(jObj);
@@ -146,6 +154,10 @@ public class AccountController {
 		
 		for(AccountBook e : eList) {
 			JSONObject jObj = new JSONObject();
+			
+			i = i + 1;
+			
+			jObj.put("index", i);
 			
 			switch(e.getAecNo()) {
 				case 1: jObj.put("category", "식비"); break;
@@ -170,7 +182,10 @@ public class AccountController {
 			jObj.put("type", "expenditure");
 			jObj.put("no", e.getAbNo());
 			jObj.put("date", e.getAbDate());
-			jObj.put("amount", e.getAbAmount());
+			
+			String formatAmount = String.format("%,d", e.getAbAmount());
+			jObj.put("amount", formatAmount);
+			
 			jObj.put("memo", e.getAbMemo());
 			
 			jArr.add(jObj);
@@ -208,13 +223,13 @@ public class AccountController {
 		String year = a.getAbDate().substring(0, 4);
 		String month = a.getAbDate().substring(5);
 		
-		sc.setId(id);
-		sc.setYear(year);
-		sc.setMonth(month);
+		condition.setId(id);
+		condition.setYear(year);
+		condition.setMonth(month);
 		
-		ArrayList<AccountBook> abPNoList = aService.selectAbPNoList(sc);
+		ArrayList<AccountBook> abPNoList = aService.selectAbPNoList(condition);
 		
-		ArrayList<AccountBook> abENoList = aService.selectAbENoList(sc);
+		ArrayList<AccountBook> abENoList = aService.selectAbENoList(condition);
 		
 		int pSum = 0;
 		for(int i = 0; i < abPNoList.size(); i++) {
@@ -226,10 +241,13 @@ public class AccountController {
 			eSum += aService.selectAbAmount(abENoList.get(i).getAbNo());
 		}
 		
+		String formatPSum = String.format("%,d", pSum);
+		String formatESum = String.format("%,d", eSum);
+		
 		JSONObject jObj = new JSONObject();
 		
-		jObj.put("pSum", pSum);
-		jObj.put("eSum", eSum);
+		jObj.put("pSum", formatPSum);
+		jObj.put("eSum", formatESum);
 		
 		PrintWriter out = response.getWriter();
 		out.print(jObj);
@@ -306,13 +324,13 @@ public class AccountController {
 		String year = date.substring(0, 4);
 		String month = date.substring(5);
 		
-		sc.setId(id);
-		sc.setYear(year);
-		sc.setMonth(month);
+		condition.setId(id);
+		condition.setYear(year);
+		condition.setMonth(month);
 		
-		ArrayList<AccountBook> abPNoList = aService.selectAbPNoList(sc);
+		ArrayList<AccountBook> abPNoList = aService.selectAbPNoList(condition);
 		
-		ArrayList<AccountBook> abENoList = aService.selectAbENoList(sc);
+		ArrayList<AccountBook> abENoList = aService.selectAbENoList(condition);
 		
 		int pSum = 0;
 		for(int i = 0; i < abPNoList.size(); i++) {
@@ -324,29 +342,71 @@ public class AccountController {
 			eSum += aService.selectAbAmount(abENoList.get(i).getAbNo());
 		}
 		
-		cc.setId(id);
-		cc.setYear(year);
-		cc.setMonth(month);
+		String maxExp = "";
+		if(eSum > pSum) {
+			maxExp = aService.getOverrun(condition);			
+		}
 		
-		ArrayList<ExpCategory> ecList = aService.selectECList(cc);
+		int gapAmount = pSum - eSum;
+		String gap = "";
+		if(gapAmount > 0) {
+			gap = "plus";
+		} else {
+			gap = "minus";
+		}
+		
+		ArrayList<ExpCategory> ecList = aService.selectECList(condition);
 		
 		JSONArray jArr = new JSONArray();
 		
 		for(ExpCategory e : ecList) {
 			JSONObject jObj = new JSONObject();
 
-			jObj.put("year", cc.getYear());
-			jObj.put("month", cc.getMonth());
-			jObj.put("category", e.getTitle());
+			jObj.put("year", condition.getYear());
+			jObj.put("month", condition.getMonth());
+			
+			switch(e.getNo()) {
+				case 1: jObj.put("category", "meal"); break;
+				case 2: jObj.put("category", "transition"); break;
+				case 3: jObj.put("category", "culture"); break;
+				case 4: jObj.put("category", "life"); break;
+				case 5: jObj.put("category", "clothes"); break;
+				case 6: jObj.put("category", "beauty"); break;
+				case 7: jObj.put("category", "health"); break;
+				case 8: jObj.put("category", "education"); break;
+				case 9: jObj.put("category", "phone"); break;
+				case 10: jObj.put("category", "membership"); break;
+				case 11: jObj.put("category", "occasion"); break;
+				case 12: jObj.put("category", "saving"); break;
+				case 13: jObj.put("category", "machine"); break;
+				case 14: jObj.put("category", "utility"); break;
+				case 15: jObj.put("category", "card"); break;
+				case 16: jObj.put("category", "etc"); break;
+				default: System.out.println("해당 사항 없음"); break;
+			}
+			
+			jObj.put("title", e.getTitle());
 			jObj.put("amount", e.getSum());
 			
 			jArr.add(jObj);
 		}
 		
 		JSONObject sendJson = new JSONObject();
+		
+		String formatPSum = String.format("%,d", pSum);
 		sendJson.put("pSum", pSum);
+		sendJson.put("formatPSum", formatPSum);
+		
+		String formatESum = String.format("%,d", eSum);
 		sendJson.put("eSum", eSum);
+		sendJson.put("formatESum", formatESum);
+		
 		sendJson.put("ecList", jArr);
+		sendJson.put("maxExp", maxExp);
+		sendJson.put("gap", gap);
+		
+		String formatGap = String.format("%,d", gapAmount);
+		sendJson.put("gapAmount", formatGap);
 		
 		PrintWriter out = response.getWriter();
 		out.print(sendJson);

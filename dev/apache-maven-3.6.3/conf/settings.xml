@@ -52,6 +52,7 @@ under the License.
    | Default: ${user.home}/.m2/repository
   <localRepository>/path/to/local/repo</localRepository>
 <<<<<<< HEAD
+<<<<<<< HEAD
   -->
 
 <localRepository>/Users/samee/Desktop/kh_sammy/final/workspace/finalProject/dev/apache-maven-3.6.3/repository</localRepository>

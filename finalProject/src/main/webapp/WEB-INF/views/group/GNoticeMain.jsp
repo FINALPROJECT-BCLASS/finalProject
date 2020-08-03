@@ -13,35 +13,38 @@
     .groupBtn{border:none; font-weight: 600; background:none;}
     .noticeBtn{color:#2860E1; font-size: 21px;}
 
-    .join-form-area{float: right;display: flex;justify-content: center; flex-direction: column; align-items: center; padding: 40px; width: 81%; background: #F3F3F3; }
+    .join-form-area{padding-top:150px !important;position:relative; float: right;display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 40px; width: 81%; background: #F3F3F3; }
     .groupJoin{width:900px;}
 
     /* 구글 아이콘 */
     .material-icons{padding-top:12px; padding-left: 10px; text-shadow: 1.5px 1.5px 1.5px gray; }
+   .noticeIcon{color:#F3F3F3;}
    
-    /* 공지 */
-    .noticeText{float: right;margin:auto; width: 81%; background:#c2c2c2; border-radius: 0 0 5px 5px;  }
+   /* 공지 */
+    .noticeText{ background: linear-gradient(#285fe1b3, #2860E1 ) fixed; box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.048); position:absolute; top:0; float: right; margin:auto; width: 100%; }
     .noticeTb{margin-left:20px;}
-    .noticeTitle{padding-top:20px; padding-left:10px;font-weight: 600; font-size: 20px;  text-shadow: 1.5px 1.5px 1.5px gray; }
-    .noticeWriter{padding-left:5px; font-size:12px; font-weight: 600;  text-shadow: 1.5px 1.5px 1.5px gray; }
-    .noticeDate{padding-left:10px; font-size:12px; font-weight: 600;  text-shadow: 1.5px 1.5px 1.5px gray; }
-    .noticeContent{padding-top:5px; padding-left:10px; padding-bottom: 20px; font-size:14px;  text-shadow: 1.5px 1.5px 1.5px gray; }
+    .noticeTitle{padding-top:20px; padding-left:5px; font-size: 20px; color:#F3F3F3; }
+    .noticeWriter, .noticeDate {padding-left:5px; font-size:12px; font-weight: 600;  color:#F3F3F3; }
+    .noticeContent{padding-top:5px; padding-left:15px; padding-bottom: 20px; font-size:14px; color:#F3F3F3; }
 
 	/* 글쓰기 버튼 */
-	#groupWrite { text-align:right; width:100%; height: 50px; margin-right:40px; margin-bottom:10px; border:none;}
-    img {width:50px; height:40px; cursor: pointer; border-radius: 5px;}
-	
+	#groupWrite {text-align:right; width:100%; height: 50px; margin-right:40px; margin-bottom:10px; border:none;}
+    .groupWrite {width:50 px; height:40px; cursor: pointer; border-radius: 5px;} 
+    button {margin-bottom: 10px; margin-right:40px; background:none; border:0;}
+	.writeBtn{color:#2860E1 !important; font-size:60px !important; cursor:pointer;}
 	.groupListCount{width:95%; margin-bottom:10px; text-align:right;}
 	
     .emptyNoticeList{margin-top:100px; text-align:center; font-size:20px; font-weight:600;}
     /* 공지게시판 */
+    .memberImgBox{width:50px; height:50px; display:inline-block;margin:10px;}
+   	.memberImg{width:100%; height:100%;border-radius:50%; }
     
     .groupNotice{width:100%; height:400px;overflow:scroll; overflow-x:hidden;}
-    .noticeBoardTb{margin-bottom:10px; margin-right:5px; border-radius:6px; width:100%; background:white;border:0.5px solid lightgray;}
-    .noticeBoardTitle{padding-top:20px; padding-left:10px;font-weight: 600; font-size: 20px;}
-    .noticeBoardWriter{padding-left:5px; font-size:12px; font-weight: 600;}
-    .noticeBoardDate{padding-left:10px; font-size:12px; font-weight: 600;}
-    .noticeBoardContent{padding-top:5px; padding-left:10px; height:50px; overflow:scroll; overflow-x:hidden; overflow-y:hidden; font-size:13px;}
+    .noticeBoardTb{margin-bottom:10px; margin-right:5px; border-radius:10px; width:100%; background:white;}
+    .noticeBoardTitle{display:inline-block;padding-top:20px;font-weight: 600; font-size: 20px;}
+    .noticeBoardWriter{padding-left:40px; font-size:12px; font-weight: 600;}
+    .noticeBoardDate{padding-left:40px; font-size:12px; font-weight: 600;}
+    .noticeBoardContent{padding-top:5px; padding-left:40px; height:50px; overflow:scroll; overflow-x:hidden; overflow-y:hidden; font-size:13px;}
 	
 	/* 수정버튼  */
 	.aditBtn{border:none; cursor:pointer; padding-top:6px; text-align:center; border-radius:6px; background:#FBD14B; width:60px; height:35px; margin:0 auto;}
@@ -71,6 +74,7 @@
 	    text-align: center;
 	}
 	
+	.updateBtn, .deleteBtn {display:inline-block; margin-right:10px;}
 	
 	/* 공지사항 작성 */
 	.groupTb{margin:auto; width:600px; border-spacing: 10px; border-collapse: separate;}
@@ -95,11 +99,13 @@
 
 	<jsp:include page="../common/sidenaviGroup.jsp"/>
 	
+      <div class="join-form-area">
+	 <!-- 공지사항  -->	
 	  <div class="noticeText">
 	   	<c:if test="${!empty noticeList }">
         <table class="noticeTb">
           <tr>
-	          <td><span class="material-icons">campaign</span></td>
+	          <td><span class="material-icons noticeIcon">campaign</span></td>
 	          <td><div class="noticeTitle">${noticeList[0].gnTitle }</div></td>
           </tr>
           <tr><td></td><td><div class="noticeWriter">${noticeList[0].name }</div></td></tr>
@@ -108,7 +114,6 @@
         </table>
         </c:if>
       </div>
-      <div class="join-form-area">
   
         <h1>Group Diary</h1>
         
@@ -120,7 +125,8 @@
     	</div>
     	
       	<br>
-      	<div id="groupWrite" ><img src="resources/images/write.png" id="writeBtn"></div>
+      	<div id="groupWrite" ><span class="material-icons writeBtn" id="writeBtn">create</span></div>
+        <br>
         <br>
         
 		<div class="groupListCount">총 공지 : ${pi.listCount }</div>
@@ -202,6 +208,10 @@
 	                    	var $td4 = $("<td>");
 	                    	var $td5 = $("<td>").attr("class","td5");
 	                    	
+	                    	var $emoticon = $("<div>").attr("class","MemberImgBox");
+	                    	var $memberNoImg = $("<img>").attr("class","memberImg").attr("src","resources/images/icons/profile_default.png");
+	                    	var $memberImg = $("<img>").attr("class","memberImg").attr("src","resources/muploadFiles/"+data.noticeList[i].renameFile);
+	                    	
 	                    	var $noticeBoardTitle = $("<div>").text(data.noticeList[i].gnTitle).attr("class","noticeBoardTitle");
 	                    	var $titleInput = $("<input type='hidden' id='noticeTitle' value='"+ data.noticeList[i].gnTitle+"'>");
 	                    	
@@ -215,6 +225,14 @@
 	                    	var $gnNo = $("<input type='hidden' id='gnNo' value='"+data.noticeList[i].gnNo+"'>");
 	                    	
 	                    	if(gInfo != data.noticeList[i].gmNo){
+	                    		
+	                    		if(data.noticeList[i].renameFile == null){
+	                         		$emoticon.append($memberNoImg);
+	                         	}else{
+	                         		$emoticon.append($memberImg);
+	                         	}
+	                    		
+	                    		$td1.append($emoticon);
 	                    		$td1.append($noticeBoardTitle);
 	                    		$td1.append($titleInput);
 		                    	$tr1.append($td1);
@@ -232,6 +250,13 @@
 		                    	
 	                    	
 	                    	} else{
+	                    		if(data.noticeList[i].renameFile == null){
+	                         		$emoticon.append($memberNoImg);
+	                         	}else{
+	                         		$emoticon.append($memberImg);
+	                         	}
+	                    		
+	                    		$td1.append($emoticon);
 	                    		$td1.append($noticeBoardTitle);
 	                    		$td1.append($titleInput);
 		                    	$tr1.append($td1);
@@ -309,7 +334,7 @@
 					</div>
 
 		 <script>
-		 $("#groupWrite").click(function(){
+		 $("#writeBtn").click(function(){
 			 
 		 $("#modal").modal();
 		 })
@@ -348,12 +373,28 @@
 					                        </tr>
 					                    </table>
 					                </form>
-		  					  		<button id="detailbtn" class="updateBtn default-btn b-yell" type="button">Update</button>
+					                <div class="btnBox">
+			  					  		<button id="updateBtn" class="updateBtn default-btn b-yell" type="button">Update</button>
+			  					  		<button id="deleteBtn" class="deleteBtn default-btn b-lightgray" type="button">Delete</button>
+		  					  		</div>
 		       					 <!-- remote ajax call이 되는영역 -->
 		   					 </div>
 		  				</div>
 					</div>
 
+		<!-- 공지사항 삭제 -->
+		<script>
+			$("#deleteBtn").click(function(){
+				var gnNo = $("#gnNo").val();
+				var deleteConfirm = confirm("공지사항을 삭제하시겠습니까? ");
+		 		if(deleteConfirm){
+		 			alert("공지사항이 삭제되었습니다.");
+		 			location.href="deleteNotice.do?gnNo="+gnNo;
+		 		}
+			})
+		</script>
+
+		<!-- 공지사항 작성 modal -->
 		 <script>
 		 var gnNo;
 		 
@@ -371,7 +412,7 @@
     	})
    
 		 
-		 
+		 <!-- 공지사항 수정하기 modal-->
 		 $(".updateBtn").click(function(){
 			 if($("#titleModi").val() == "" && $("#conModi").val() == ""){
 				 alert("공지 제목 혹은 공지 내용을 입력해주세요.");

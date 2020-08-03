@@ -42,9 +42,9 @@
 	</resultMap>
 	
 	<resultMap type="DTodolist" id="dtResultSet">
-		<id property="dtNo" column="DT_NO"/>
-		<result property="id" column="ID"/>
-		<result property="dtDate" column="DT_DATE"/>
+		<result property="dtDate" column="DT_NO"/>
+		<result property="dtNo" column="ID"/>
+		<result property="id" column="DT_DATE"/>
 		<result property="dtCon" column="DT_CON"/>
 		<result property="dtComplete" column="DT_COMPLETE"/>
 		<result property="dtDelete" column="DT_DELETE"/>
@@ -67,7 +67,7 @@
 	</resultMap>
 	
 	<resultMap type="MTodolist" id="mtResultSet">
-		<id property="mtDate" column="MT_DATE"/>
+		<result property="mtDate" column="MT_DATE"/>
 		<result property="mtNo" column="MT_NO"/>
 		<result property="id" column="ID"/>
 		<result property="mtCon" column="MT_CON"/>
@@ -250,9 +250,9 @@
 	
 	<insert id="insertDTodolist" parameterType="DTodolist">
 		INSERT INTO DAY_TODOLIST
-		VALUES(SEQ_DT.NEXTVAL
+		VALUES(#{dtDate}
+			, #{dtNo}
 			, #{id}
-			, #{dtDate}
 			, #{dtCon}
 			, #{dtComplete}
 			, DEFAULT)

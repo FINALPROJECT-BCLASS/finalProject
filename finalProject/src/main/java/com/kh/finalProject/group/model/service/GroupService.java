@@ -13,6 +13,7 @@ import com.kh.finalProject.group.model.vo.GroupReReply;
 import com.kh.finalProject.group.model.vo.GroupReply;
 import com.kh.finalProject.group.model.vo.GroupSearchName;
 import com.kh.finalProject.group.model.vo.GroupTable;
+import com.kh.finalProject.group.model.vo.GroupVote;
 import com.kh.finalProject.member.model.vo.Member;
 
 
@@ -42,7 +43,7 @@ public interface GroupService {
 
 	GroupNotice selectNoticeOne(GroupInfo gInfo);
 
-	int boardGetListCount();
+	int boardGetListCount(int groupNo);
 
 	ArrayList<GroupBoard> selectBoardList(PageInfo pi);
 
@@ -89,6 +90,46 @@ public interface GroupService {
 	ArrayList<GroupReply> selectOneReplyList(int replyCurrval);
 
 	ArrayList<GroupReReply> totalReReply();
+
+	int deleteReply(String grNo);
+
+	int deleteReReply(String grrNo);
+
+	int insertBoard(GroupBoard gb);
+
+	int selectGbNo();
+
+	int insertBoardPhoto(ArrayList<GroupBoardPhoto> photoList);
+
+	int deletePhoto(String gbNo);
+
+	int updateBoard(GroupBoard gb);
+
+	int deleteBoard(String gbNo);
+
+	int deleteNotice(String gnNo);
+
+	int voteGetListCount(int groupNo);
+
+	ArrayList<GroupVote> selectVoteList(PageInfo pi);
+
+	ArrayList<GroupVote> selectItemList(GroupInfo gInfo);
+
+	ArrayList<GroupVote> selectVoteMemberLsit(GroupInfo gInfo);
+
+	GroupVote selectOneVote(GroupVote gv);
+
+	ArrayList<GroupVote> selectOneItem(GroupVote gv);
+
+	GroupVote selectTotalItem(GroupVote gv);
+
+	int deleteVote(GroupVote gv);
+
+	int insertVote(GroupVote gv);
+
+	int oneTotalItem(GroupVote gv);
+
+	
 
 
 

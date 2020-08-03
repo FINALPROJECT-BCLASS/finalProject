@@ -30,31 +30,37 @@
     .btnList{width:100%; text-align:right;}
     .groupBtn{border:none; font-weight: 600; background:none;}
     .BoardBtn{color:#2860E1; font-size: 21px;}
-    .join-form-area{float: right;display: flex;justify-content: center; flex-direction: column; align-items: center; padding: 40px; width: 81%; background: #F3F3F3; }
+    .join-form-area{padding-top:150px !important;position:relative; float: right;display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 40px; width: 81%; background: #F3F3F3; }
     .groupJoin{width:900px;}
+    
     /* 구글 아이콘 */
-    .material-icons{padding-top:12px; padding-left: 10px; text-shadow: 1.5px 1.5px 1.5px gray; }
+    .material-icons{padding-top:12px; padding-left: 10px; }
+    .noticeIcon{color:#F3F3F3;}
+    .like{color:#f3487b;}
+    .reply{color:#2860E1;}
+    
    
-    /* 공지 */
-    .noticeText{float: right;margin:auto; width: 81%; background:#c2c2c2; border-radius: 0 0 5px 5px;  }
-    .noticeTb{margin-left:20px;}
-    .noticeTitle{padding-top:20px; padding-left:5px;font-weight: 600; font-size: 20px;  text-shadow: 1.5px 1.5px 1.5px gray; }
-    .noticeWriter{padding-left:5px; font-size:12px; font-weight: 600;  text-shadow: 1.5px 1.5px 1.5px gray; }
-    .noticeDate{padding-left:5px; font-size:12px; font-weight: 600;  text-shadow: 1.5px 1.5px 1.5px gray; }
-    .noticeContent{padding-top:5px; padding-left:15px; padding-bottom: 20px; font-size:14px;  text-shadow: 1.5px 1.5px 1.5px gray; }
+	
 	/* 글쓰기 버튼 */
 	#groupWrite {text-align:right; width:100%; height: 50px; margin-right:40px; margin-bottom:10px; border:none;}
-    .groupWrite {width:50px; height:40px; cursor: pointer; border-radius: 5px;}
+    .groupWrite {width:50 px; height:40px; cursor: pointer; border-radius: 5px;} 
+    button {margin-bottom: 10px; margin-right:40px; background:none; border:0;}
+	.writeBtn{color:#2860E1 !important; font-size:60px !important;  text-shadow: 1.5px 1.5px 1.5px gray !important; cursor:pointer;}
 	
-	.groupListCount{width:95%; margin-bottom:10px; text-align:right;}
+	.groupListCount{width:99%; margin-bottom:10px; text-align:right;}
 	.emptyNoticeList{margin-top:100px; text-align:center; font-size:20px; font-weight:600;}
 	    
-    /* 공지게시판 */
+    /* 게시판 */
     .groupNotice{width:100%; height:400px;overflow:scroll; overflow-x:hidden;}
-    .noticeBoardTb{width:100%; margin-bottom:5px; background:white;border:0.5px solid lightgray; border-radius:10px;}
+    .noticeBoardTb{width:100%; margin-bottom:5px; background:white; border-radius:10px;}
     .noticeBoardTitle{display:inline-block; padding-top:20px; padding-left:5px;font-weight: 600; font-size: 20px;}
-   	.detailBtn{margin-left:1000px; padding:7.2px; display:inline-block; border:none; border-radius:6px; width:60px; height:35px; background:#FBD14B;}
-   	.detailBtn:hover{margin-left:1000px; padding:7px; display:inline-block; border:none; border-radius:6px; width:60px; height:35px; background:#ffc400; cursor:pointer;}
+    
+   	.detailBtn{display:inline-block; margin:10px 10px 0px 0px; float:right; padding:7.2px; display:inline-block; border:none; border-radius:6px; width:60px; height:35px; background:#FBD14B;}
+   	.detailBtn:hover{display:inline-block; margin:10px 10px 0px 0px; float:right; padding:7.2px; display:inline-block; border:none; border-radius:6px; width:60px; height:35px; background:#ffc400; cursor:pointer;}
+   	
+   	.memberImgBox{width:50px; height:50px; display:inline-block;margin:10px;}
+   	.memberImg{width:100%; height:100%;border-radius:50%; }
+    
     .noticeBoardWriter{padding-left:37px; font-size:12px; font-weight: 600;}
     .noticeBoardDate{padding-left:37px; font-size:12px; font-weight: 600;}
     .noticeBoardContent{margin-left:37px; margin-top:10px; padding-top:5px;padding-left:15px; width:1050px; height:70px; overflow:scroll; overflow-x:hidden; font-size:13px; background: #F3F3F3; border-radius: 5px; margin-bottom: 7px;}
@@ -86,24 +92,12 @@
 	
 	<jsp:include page="../common/sidenaviGroup.jsp"/>
 
-	<!-- 공지사항 -->
-
-	<div class="noticeText">
-	   	<c:if test="${!empty noticeList }">
-        <table class="noticeTb">
-          <tr>
-	          <td><span class="material-icons">campaign</span></td>
-	          <td><div class="noticeTitle">${noticeList.gnTitle }</div></td>
-          </tr>
-          <tr><td></td><td><div class="noticeWriter">${noticeList.name }</div></td></tr>
-          <tr><td></td><td><div class="noticeDate">${noticeList.gnDate }</div></td></tr>
-          <tr><td></td><td><div class="noticeContent">${noticeList.gnCon }</div></td></tr>
-        </table>
-        </c:if>
-      </div>
       
       <div class="join-form-area">
-  
+	
+  		<jsp:include page="../common/groupNoticeHeader.jsp"/>
+  		
+  		
         <h1>Group Diary</h1>
         <div class="btnList">
             <button class="groupBtn noticeBtn" onclick="location.href='noticeMain.do'">Notice</button>
@@ -113,7 +107,8 @@
     	</div>
      	
      	<br>
-      	<div id="groupWrite" ><img class="groupWrite" src="resources/images/write.png" id="writeBtn"></div>
+      	<div id="groupWrite"  ><span class="material-icons writeBtn">create</span></div>
+        <br>
         <br>
         
         <div class="groupListCount">총 게시판 : ${pi.listCount }</div>
@@ -124,8 +119,8 @@
 		 	<br>
  
           </div>
-	
-	  </div>
+		</div>
+
 
 	
 	  <!-- 스크롤 게시판 -->
@@ -162,7 +157,7 @@
                dataType: "json",
                data:{page:pagePlus},
                success: function(data){
-
+				
               	 page = data.boardList[0].page;
               	 pagePlus = page + 1;
               	 
@@ -176,6 +171,7 @@
                        isEnd = true;
                    }
                     for(i in data.boardList){
+                    
                   	var $groupBoard = $(".groupNotice");
                   	var $boardTb = $("<table>").attr("class","noticeBoardTb");
                   	
@@ -194,17 +190,27 @@
                 	var $td6 = $("<td>").attr("class","etcBox");
                 	
                 	
-                	var $emoticon = $("<span>").text("perm_identity").attr("class","material-icons");
+                	var $emoticon = $("<div>").attr("class","MemberImgBox");
+                	var $memberNoImg = $("<img>").attr("class","memberImg").attr("src","resources/images/icons/profile_default.png");
+                	var $memberImg = $("<img>").attr("class","memberImg").attr("src","resources/muploadFiles/"+data.boardList[i].renameFile);
+                	
                 	var $detailPage = $("<div>").text("Detail").attr("class","detailBtn");
                 	var $gbNo = $("<input type='hidden' id='gbNo' value='"+ data.boardList[i].gbNo +"'>");
+                	
                 	var $boardTitle = $("<div>").text(data.boardList[i].gbTitle).attr("class","noticeBoardTitle");
                   	var $boardWriter = $("<div>").text(data.boardList[i].name).attr("class","noticeBoardWriter");
                   	var $boardDate = $("<div>").text(data.boardList[i].gbDate).attr("class","noticeBoardDate");
                   	var $boardContent = $("<div>").text(data.boardList[i].gbCon).attr("class","noticeBoardContent");
-                 	var $like = $("<span>").text("favorite_border").attr("class","material-icons like");
+                 	
+                  	var $like = $("<span>").text("favorite_border").attr("class","material-icons like");
                  	var $reply = $("<span>").text("sms").attr("class","material-icons reply");
                  	
                  	$td1.append($gbNo);
+                 	if(data.boardList[i].renameFile == null){
+                 		$emoticon.append($memberNoImg);
+                 	}else{
+                 		$emoticon.append($memberImg);
+                 	}
                		$td1.append($emoticon);
                		$td1.append($boardTitle);
                		$td1.append($detailPage);
@@ -267,10 +273,10 @@
                   	
                   	// 사진
                   	if(data.photoList.length > 0){
-                   		/* console.log("사진 legnth : " + data.photoList.length); */
+                  
                    		for(j in  data.photoList){
                    			if(data.boardList[i].gbNo == data.photoList[j].gbNo){
-                   				var $img = $("<img src='resources/groupMainFiles/"+data.photoList[j].gbpOrigin+"' class='boardPhotoList'>");
+                   				var $img = $("<img src='resources/groupBoardFiles/"+data.photoList[j].gbpOrigin+"' class='boardPhotoList'>");
                    				var $imgBox = $("<div>").attr("class","imgBox");
                    				$imgBox.append($img);
                    				$td5.append($imgBox);
@@ -283,11 +289,7 @@
                   	
                   	$boardTb.append($tr6);
                   	$groupBoard.append($boardTb); 
-                    
-                  	
-                	
-                   	
-                   	
+
                    	}
                 
                },
@@ -320,6 +322,13 @@
 			  location.href="detailBoard.do?gbNo="+$gbNo;
 			})
 	</script>  
+	
+	<!-- 게시판 글쓰기  -->
+	<script>
+		$(".writeBtn").click(function(){
+			location.href="boardInsertView.do";
+		})
+	</script>
 	  <jsp:include page="../common/footer.jsp"/>	
 </body>
 
