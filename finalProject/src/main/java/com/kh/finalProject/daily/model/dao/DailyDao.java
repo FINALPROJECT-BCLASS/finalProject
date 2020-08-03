@@ -123,5 +123,10 @@ public class DailyDao {
 		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectHabitGraphData", map);
 	}
 
+	public int updateHabit(Habit habit) {
+
+		return sqlSessionTemplate.update("dailyMapper.updateHabit", habit);
+	}
+
 
 }

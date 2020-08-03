@@ -143,6 +143,12 @@ public class DailyServiceImpl implements DailyService {
 		return dailyDao.selectGraphData(map);
 	}
 
+	@Override
+	public int updateHabit(Habit habit) {
+
+		return dailyDao.updateHabit(habit);
+	}
+
 
 
 	

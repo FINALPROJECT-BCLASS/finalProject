@@ -626,7 +626,7 @@ public ModelAndView editHabitView(ModelAndView mv, HttpServletRequest request, @
 		mv.addObject("habit", h);
 		mv.setViewName("daily/habitEdit");
 	} else {
-		mv.addObject("msg","수정 실패");
+		mv.addObject("msg","조회 실패");
         mv.addObject("url","/htList.do");
 		mv.setViewName("common/redirect");
 	}
@@ -681,6 +681,36 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 			out.close();
 			
 	}
+
+	@RequestMapping("updateHabit.do")
+	public String updateHabit(Habit habit, Model model,
+			HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+
+	HttpSession session = request.getSession();
+	Member member = (Member) session.getAttribute("loginUser");
+	String id = member.getId();
+	
+	habit.setId(id); // 세션에서 받아온 아이디 저장
+	
+	System.out.println("확인" + habit);
+	int result = dailyService.updateHabit(habit);
+	
+	if(result > 0) {
+	
+	return "redirect:htList.do";
+	
+	} else {
+
+	model.addAttribute("msg","습관 등록에 실패하셨습니다. 다시 시도해 주세요.");
+	model.addAttribute("url","/htList.do");
+	
+	return "common/redirect";
+	
+	}
+
+}
+	
 
 	
 }

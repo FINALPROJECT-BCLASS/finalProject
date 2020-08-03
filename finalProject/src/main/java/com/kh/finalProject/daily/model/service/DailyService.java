@@ -49,6 +49,8 @@ public interface DailyService {
 
 	ArrayList<Habit> selectGraphData(HashMap<String, String> map);
 
+	int updateHabit(Habit habit);
+
 
 
 }

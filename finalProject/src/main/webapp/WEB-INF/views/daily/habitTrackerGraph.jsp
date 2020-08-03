@@ -85,134 +85,11 @@
         }
         
 	    .content-section1 {
-	    	height: 900px;
+	    	height: 920px;
 	    	position: relative;
 	    }
-        .content-section2 {
-        	justify-content: start;
-        }
+       
         
-        .content-section1-left,
-        .content-section2-left {
-			width: 50%;
-		    height: 262px;
-		    background: #f3f3f3;
-		    border-radius: 10px;
-		    display: flex;
-		    justify-content: center;
-		    align-items: center;
-	        flex-direction: column;
-		}
-		
-		.content-section2-left {
-			padding-right: 20px;
-			width: 46%;
-		}
-		
-		.conetent-section1-left {
-			width: 50%;
-		    padding-left: 70px;
-		    height: 100%;
-		    flex-direction: column;
-		}
-		
-		.content-section1-right,
-		.content-section2-right {
-			width: 50%;
-		    height: 262px;
-		    float: right;
-		    border-radius: 10px;
-		    display: flex;
-		    justify-content: center;
-		    align-items: center;
-	        flex-direction: column;
-		}
-		
-		.content-section2-right {
-			width: 56%;
-		}
-		
-		.section1-item-area,
-		.section2-item-area {
-			width: 85%;
-		    display: flex;
-    		justify-content: center;
-		}
-		
-		.section1-item,
-		.section2-item {
-			width: 46%;
-		    background: white;
-		    border-radius: 10px;
-		    padding: 15px;
-		    display: flex;
-		    justify-content: center;
-		    align-items: center;
-		    flex-direction: column;
-		    margin-top: 10px;
-		}
-		
-		.section2-item {
-			background: #F3F3F3;
-		    text-align: left;
-		    width: 100%;
-		    height: 100%;
-		    overflow: hidden;
-		    overflow-y: scroll;
-		    align-items: baseline;
-		    justify-content:start;
-		    
-		}
-		
-		.section2-item::-webkit-scrollbar {
-  		  	display: none; 
-		}
-		
-		.add {
-			position:relative;
-		}
-		
-		.add::after {
-			display: flex;
-			position: absolute;
-		    content: "+";
-		    width: 100%;
-		    height: 100%;
-		    background: #0000007a;
-		    color: white;
-		    border-radius: 10px;
-		    justify-content: center;
-		    align-items: flex-end;
-		    font-size: 80px;
-		    font-weight: 200;
-		    opacity: 0;
-		    
-		}
-		
-		.add:hover::after {
-			cursor: pointer;
-			opacity: 1;
-			transition-duration: 0.5s;
-			
-		}
-		
-		.section1-item > span:nth-child(1) {
-			font-weight: 600;
-			font-size: 20px;
-		}
-		
-		.section1-item > span:nth-child(2) {
-			font-size: 29px;
-		    font-weight: 700;
-		    color: #6b98ff;
-		    margin-top: -5px;
-		}
-		
-		.section1-item > span:nth-child(3) {
-		    font-weight: 600;
-		    color: gray;
-	        margin-top: -8px;
-		}
 
         textarea {
             border: 0px;
@@ -245,10 +122,11 @@
 
         .button-area {
             display: flex;
-            justify-content: flex-end;
+            justify-content: flex-start;
             margin-top: 10px;
             width: 100%;
 	    }
+	    
 	
         .button-area > button {
             border: none;
@@ -399,111 +277,7 @@
         	background: white;
         }
         
-        /*모달*/
         
-        .close {
-        	position: absolute;
-		    z-index: 1;
-		    right: 10px;
-		    top: 10px;
-		    width: 30px;
-		    height: 30px;
-        }
-        
-        .modal-content {
-       	    border-radius: 0.7rem !important;
-        }
-        
-        .modal-body {
-       	    padding: 16px !important;
-        }
-        
-        .modal-dialog {
-        	margin-top: 100px !important;
-        	max-width: 415px !important;
-        }
-        
-        .modal-t {
-       	    margin: 15px;
-    		text-align: left;
-        }
-        
-        .modal-t > div:nth-child(1) {
-       	    font-size: 21px;
-    		font-weight: 600;
-        }
-        
-        .count-area {
-		    height: 100px;
-		    border-radius: 10px;
-	        margin: 15px;
-		    display: flex;
-		    align-items: center;
-        }
-        
-        .count-area > span:nth-child(1) {
-       	    width: 81px;
-		    float: left;
-		    font-size: 30px;
-		    margin-top: -7px;
-		    
-        }
-        
-        .count-area > span:nth-child(3) {
-        	font-size: 30px;
-        }
-        
-        .count {
-        	text-align: right;
-		    background: none;
-		    border: none;
-		    font-size: 50px;
-		    width: 200px;
-		    padding: 10px;
-        }
-        
-        .memo-area, .comment-area, .record-area {
-        	margin: 15px;
-   			text-align: left;		
-        }
-        
-        .memo-area > div:nth-child(1) {
-      	    font-size: 21px;
-    		font-weight: 600;
-    		margin-bottom: 10px;
-        }
-        
-        .memo-area > input {
-        	background: #f3f3f3;
-		    font-size: 17px;
-    		color: #484848;
-		    height: 60px;
-		    width: 100%;
-		    border-radius: 10px;
-		    display: flex;
-		    align-items: flex-start;
-		    border: 0;
-		    padding: 15px;
-        }
-        
-        .comment-area > textarea {
-        	background: #f3f3f3;
-		    font-size: 17px;
-		    color: #484848;
-		    height: 190px;
-		    width: 100%;
-		    border-radius: 10px;
-		    display: flex;
-		    align-items: flex-start;
-		    border: 15px solid #f3f3f3;
-		    
-        }
-        
-        .comment-area > textarea::-webkit-scrollbar {
-  		  	display: none; 
-		}
-		
-		
         
         /* 작은 버튼 */
         
@@ -591,6 +365,18 @@
 		    color: gray !important;
         }
         
+        .small-subject {
+        	margin-top: -58px;
+		    margin-bottom: 20px;
+		    font-size: 20px;
+		    font-weight: 600;
+        }
+        
+        .s2 {
+        	margin-top: 30px;
+    		margin-bottom: 20px;
+        }
+        
         
 
 		
@@ -602,12 +388,7 @@
 		<jsp:include page="../common/sidenaviDaily.jsp"/>
         <div class="right-area">
             <span class="pSubject">Habit Tracker</span>
-            
-            <div class="small-button-area slide-btn">
-       			<button type="button" onclick="cycleBtn();">D</button>
-       			<button type="button" onclick="cycleBtn();">W</button>
-                <button type="button" onclick="cycleBtn();">M</button>
-			</div>
+
             <!-- 슬라이드 -->
             <div class="carousel" data-flickity='{ "draggable": true }'>
 				<c:forEach var="h" items="${hlist }">
@@ -639,13 +420,6 @@
 			</div>
 		
        
-            
-            <!-- Button Start-->
-            <div class="button-area">
-                <button onclick="location.href='addHabitView.do'">Add</button>
-                <button>Delete</button>
-                <button>Edit</button>
-            </div>
 
     		<!-- 내용 -->
             <div id="content" class="content">
@@ -653,7 +427,9 @@
             	<div class="cSubject" id="habitTitle">Drink Water</div>
             	<div class="content-section1">
             	<div class="chart-container" style="top: 10%; position: absolute; height:200px; width:50vw">
+            		<div class="small-subject">This Week</div>
             		<canvas id="myChart"></canvas>
+            		<div class="small-subject s2">This Month</div>
             		<canvas id="myChartM"></canvas>
             	</div>
 	            </div>
@@ -661,7 +437,7 @@
 			      
             <!-- Button Start-->
             <div class="button-area">
-                <button class="blue" >Graph >></button>
+                <button class="blue" onclick="location.href='htList.do'"><< Back</button>
             </div>
             <!-- Button End-->
         </div>
@@ -674,6 +450,7 @@
 		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 		<script>
 		
+		$(".content").hide();
 		
 		var data = [];
 		var target = $('.habitItem');
@@ -688,6 +465,9 @@
 		
 	    target.on("click", function(){
 	    	$(this).addClass("clicked");
+	    	$(".content").show();
+	    	
+	    	$("#habitTitle").html($(this).find(".ht_title").html());
 	    	
 	    	var cycle = $(this).prev().prev("#htCycle").val();
 	    	var no = $(this).prev("#htNum").val();
@@ -766,12 +546,12 @@
 			}
 
 		}
-	     
+	    
 		
-	    console.log("과연: "+datalist);
 		var ctx = document.getElementById('myChart').getContext('2d');
 		
 		var chart = new Chart(ctx, {
+			
 		    // The type of chart we want to create
 		    type: 'bar',
 		    // The data for our dataset
@@ -816,6 +596,7 @@
 		                    yAxes: [{
 		                        ticks: {
 		                            beginAtZero: true
+		                                 
 		                        }
 		                    }]
 		                },
@@ -824,7 +605,11 @@
 		    },
 
 		    // Configuration options go here
-		    options: {}
+		    options: {
+		    	legend:{
+                	display:false
+		    	}
+		    }
 		});
 		
 		var datalistM = [];
@@ -902,7 +687,11 @@
 		    },
 
 		    // Configuration options go here
-		    options: {}
+		    options: {
+		    	legend:{
+                	display:false
+      			}
+		    }
 		});
 		
 	    }

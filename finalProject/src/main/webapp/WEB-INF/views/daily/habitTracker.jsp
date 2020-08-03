@@ -169,10 +169,11 @@
 		
 		.add {
 			position:relative;
+			height: 130px;
 		}
 		
 		.add::after {
-			display: flex;
+			/* display: flex; */
 			position: absolute;
 		    content: "+";
 		    width: 100%;
@@ -180,8 +181,8 @@
 		    background: #0000007a;
 		    color: white;
 		    border-radius: 10px;
-		    justify-content: center;
-		    align-items: flex-end;
+		    /* justify-content: center;
+		    align-items: flex-end; */
 		    font-size: 80px;
 		    font-weight: 200;
 		    opacity: 0;
