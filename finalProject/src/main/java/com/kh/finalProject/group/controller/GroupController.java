@@ -1469,7 +1469,7 @@ public class GroupController {
 				gv.setGviItem(i);
 				
 				voteItemList.add(gv);
-
+ 
 			}
 						
 			int InsertItem = gService.insertNewItem(voteItemList);
