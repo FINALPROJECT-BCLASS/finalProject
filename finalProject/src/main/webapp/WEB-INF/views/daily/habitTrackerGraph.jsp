@@ -86,6 +86,7 @@
         
 	    .content-section1 {
 	    	height: 430px;
+	    	position: relative;
 	    }
         .content-section2 {
         	justify-content: start;
@@ -613,8 +614,10 @@
 					<!-- 퍼센트 연산처리 -->
 					<fmt:parseNumber var="percent" value="${(h.ht_now/h.ht_goal)*100+(1-(((h.ht_now/h.ht_goal)*100)%1))%1}" integerOnly="true" />
 					<!-- 슬라이드 아이템 -->
+					<input id="htCycle" type="hidden" value="${h.ht_cycle }">
 		        	<input id="htNum" type="hidden" value="${h.ht_no }"> <!-- 습관 번호 -->
 					<div class="progress carousel-cell habitItem ${h.ht_cycle }">
+			        	<!-- 습관 주기 -->
 				  		<div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:${percent }%; background-color:${h.ht_color};"></div>
 			    		<div class="bar-info">
 							<div class="ht_title">${h.ht_title }</div>
@@ -649,7 +652,9 @@
             	<input type="hidden" id="ht_no">
             	<div class="cSubject" id="habitTitle">Drink Water</div>
             	<div class="content-section1">
+            	<div class="chart-container" style="top: 10%; position: absolute; height:200px; width:50vw">
             		<canvas id="myChart"></canvas>
+            	</div>
 	            </div>
             </div>
 			      
@@ -668,22 +673,33 @@
 		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 		<script>
 		
-		var data = [];
-		var target=$('.habitItem');
 		
+		var data = [];
+		var target = $('.habitItem');
+		
+		var t = new Date(); // 오늘 날짜
+        var y= t.getFullYear(); // 년도
+        var m = (t.getMonth()+1)>9 ? ''+(t.getMonth()+1) : '0'+(t.getMonth()+1); // 월
+        var d = t.getDate()>9 ? ''+t.getDate() : '0'+t.getDate(); // 일
+                
+        var today = y + '-' + m + '-' + d;
 		
 		
 	    target.on("click", function(){
 	    	$(this).addClass("clicked");
 	    	
+	    	var cycle = $(this).prev().prev("#htCycle").val();
+	    	var no = $(this).prev("#htNum").val();
+	    	
 	    	$.ajax({
 	    		
-	    		url: "",
+	    		url: "selectGraphData.do",
 	   			type: "post",
-				data: {},
+				data: {ht_cycle:cycle, ht_no:no, today:today},
 				dataType:"json",
-				success:function(caldata){
-					
+				success:function(data){
+					console.log("data" + data);
+					graph(data);
 				},
 				error:function(request, status, errorData){
                       alert("error code: " + request.status + "\n"
@@ -697,14 +713,63 @@
 	    	target.not($(this)).removeClass("clicked");
 	    });
 	    
+	    // 일주일 구하기
+	    var currentDay = new Date();  
+		var theYear = currentDay.getFullYear();
+		var theMonth = currentDay.getMonth();
+		var theDate  = currentDay.getDate();
+		var theDayOfWeek = currentDay.getDay();
+		 
+		var thisWeek = [];
+		 
+		for(var i=0; i<7; i++) {
+		  var resultDay = new Date(theYear, theMonth, theDate + (i - theDayOfWeek));
+		  var yy = resultDay.getFullYear();
+		  var mm = Number(resultDay.getMonth()) + 1;
+		  var dd = resultDay.getDate() + 1 ;
+		 
+		  mm = String(mm).length === 1 ? '0' + mm : mm;
+		  dd = String(dd).length === 1 ? '0' + dd : dd;
+		 
+		  thisWeek[i] = yy + '/' + mm + '/' + dd;
+		  
+		  thisWeek[i] = thisWeek[i].substring(2);
+		  
+		}
+		
+	    
+	    // graph 실행 함수
+	    function graph(data) {
+	    	
+	    var labels = [];
+	    var datalist  = [];
+	    
+ 	    
+		for(var i=0;i< thisWeek.length;i++){
+			datalist.push(0);
+		}
+	     
+		for(var i=0;i< thisWeek.length;i++){
+			for(var j in data.hd){
+				if(thisWeek[i] == data.hd[j].ht_date){
+
+					datalist.splice(i,1,data.hd[j].ht_now);
+				}
+			}
+
+		}
+	     
+		
+	    console.log("과연: "+datalist);
 		var ctx = document.getElementById('myChart').getContext('2d');
+		
 		var chart = new Chart(ctx, {
 		    // The type of chart we want to create
 		    type: 'bar',
 
 		    // The data for our dataset
 		    data: {
-		        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'september', 'actober', 'rebember', ''],
+		        labels: thisWeek,//['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'september', 'actober', 'rebember', ''],
 		        datasets: [{
 		            label: 'Drink water',
 		            backgroundColor: [
@@ -736,13 +801,26 @@
 		                'rgba(255, 159, 64, 1)'
 		            ],
 		            borderWidth: 1,
-		            data: [50, 100, 500, 200, 500, 300, 1500]
+		            data:datalist,
+		            options: {
+		                responsive: false,
+		                maintainAspectRatio: false,
+		                scales: {
+		                    yAxes: [{
+		                        ticks: {
+		                            beginAtZero: true
+		                        }
+		                    }]
+		                },
+		            }
 		        }]
 		    },
 
 		    // Configuration options go here
 		    options: {}
 		});
+		
+	    }
 		</script>
         <jsp:include page="../common/footer.jsp"/>
     </body>

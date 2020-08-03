@@ -237,4 +237,19 @@
 		GROUP BY HT.HT_NO
 	</select>
 	
+	<select id="selectHabitGraphData" parameterType="hashmap" resultMap="habitResultSet">
+		SELECT SUBSTR(HTR.HTR_DATE, 0, 8) HT_START, SUM(HTR_NOW) AS HT_NOW
+		FROM HABIT_TRACKER_RECORD HTR
+		JOIN HABIT_TRACKER HT ON (HT.HT_NO = HTR.HT_NO)
+		WHERE HT.HT_CYCLE = #{ht_cycle} 
+		AND HT.ID = #{id}
+		AND HTR.HT_NO = #{ht_no}
+		AND  HTR_DATE BETWEEN TO_CHAR(TRUNC(TO_DATE(#{today}, 'YY-MM-DD'),'iw')  ,'yy-mm-dd')
+                		 AND TO_CHAR(TRUNC(TO_DATE(#{today}, 'YY-MM-DD'),'iw') + 6  ,'yy-mm-dd')
+		AND HTR.HTR_DELETE = 'N'
+		AND HT.HT_DELETE = 'N'
+		GROUP BY SUBSTR(HTR.HTR_DATE, 0, 8)
+	</select>
+	
+	
 </mapper>

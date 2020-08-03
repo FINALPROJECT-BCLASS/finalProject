@@ -137,6 +137,12 @@ public class DailyServiceImpl implements DailyService {
 		return dailyDao.selectHabitRecord(hr);
 	}
 
+	@Override
+	public ArrayList<Habit> selectGraphData(HashMap<String, String> map) {
+
+		return dailyDao.selectGraphData(map);
+	}
+
 
 
 	

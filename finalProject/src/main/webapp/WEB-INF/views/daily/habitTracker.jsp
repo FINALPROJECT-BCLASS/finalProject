@@ -1047,6 +1047,8 @@
      	     						}
     	     	   						
         	     	   					
+	    	     	   							var htNum =$(".clicked").prev("#htNum").val();
+	    										var color = $(".clicked").find(".progress-bar").css("background-color");
     	     	   						
     	     	   						if($(".clicked").hasClass("Daily") === true) {
     	     	   					
@@ -1055,27 +1057,18 @@
     	     	   							
     	     	   							if(today == date){
     	     	   								
-    	     	   								
-    	     	   							var htNum =$(".clicked").prev("#htNum").val();
-											
-    										$(".clicked").find(".percent").html(Math.ceil(sum/goal*100)+"%");
-    										
-    										var color = $(".clicked").find(".progress-bar").css("background-color");
-    										
-    										console.log("color" + color);
-    										
-    										$(".clicked").find(".progress-bar").attr("style", "background-color:"+ color + "; width:" + Math.ceil(sum/goal*100)+"%")
-    										
-    										$(".clicked").find(".ht_now").html(sum);
+	    										$(".clicked").find(".percent").html(Math.ceil(sum/goal*100)+"%");
+	    										
+	    										$(".clicked").find(".progress-bar").attr("style", "background-color:"+ color + "; width:" + Math.ceil(sum/goal*100)+"%")
+	    										
+	    										$(".clicked").find(".ht_now").html(sum);
     	     	   							}
+    	     	   							
     	     	   						}else if($(".clicked").hasClass("Weekly") === true){
       	  									
     	     	   							var clickWeek =  $("." + $(".smallA").html()).closest("tr").html();
     	     	   							 
       	  									if(thisWeek == clickWeek) {
-      	  										
-												var htNum =$(".clicked").prev("#htNum").val();
-	    										var color = $(".clicked").find(".progress-bar").css("background-color");
 												
 	    										$(".clicked").find(".percent").html(Math.ceil(sum/goal*100)+"%");
 	    										
@@ -1084,6 +1077,21 @@
 	    										$(".clicked").find(".ht_now").html(sum);
       	  										
       	  									}
+      	  								}else if($(".clicked").hasClass("Monthly") === true){
+      	  									
+      	  									console.log("month는?" + month);
+      	  									console.log("m은?" + m);
+      	  									
+      	  									if(m == month) {
+      	  										
+	    										$(".clicked").find(".percent").html(Math.ceil(sum/goal*100)+"%");
+	    										
+	    										$(".clicked").find(".progress-bar").attr("style", "background-color:"+ color + "; width:" + Math.ceil(sum/goal*100)+"%")
+	    										
+	    										$(".clicked").find(".ht_now").html(sum);
+    										
+      	  									}
+      	  									
       	  								}
     	     	   						
 										// 와우  

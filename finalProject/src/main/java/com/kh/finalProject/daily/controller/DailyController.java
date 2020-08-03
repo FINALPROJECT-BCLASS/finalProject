@@ -635,6 +635,52 @@ public ModelAndView editHabitView(ModelAndView mv, HttpServletRequest request, @
 
 }
 
+@RequestMapping(value="selectGraphData.do" , method=RequestMethod.POST)
+public void selectGraphData(HttpServletResponse response, HttpServletRequest request, String ht_no, String ht_cycle, String today) throws IOException {
+		System.out.println(ht_no + ht_cycle + today);
+		
+		response.setContentType("application/json;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		
+		String id = member.getId();
+		
+		
+		HashMap<String,String> map = new HashMap();
+		map.put("id", id);
+		map.put("ht_no", ht_no);
+		map.put("ht_cycle",ht_cycle);
+		map.put("today", today);
+		
+		ArrayList<Habit> habit = new ArrayList<Habit>();
+		
+		habit = dailyService.selectGraphData(map);
+		
+		System.out.println("잘 되는가요?"+habit);
+		JSONArray HabitData = new JSONArray();
+			
+			// 이번 주로 조회한 습관 기록 배열에 담기
+			for(Habit hd : habit) {
+				
+				JSONObject jObj = new JSONObject();
+				jObj.put("ht_now", hd.getHt_now());
+				jObj.put("ht_date", hd.getHt_start());
+				
+				HabitData.add(jObj);
+				
+			}
+			
+			JSONObject hdl = new JSONObject();
+			
+			hdl.put("hd", HabitData);
+			
+			out.print(hdl);
+			out.flush();
+			out.close();
+			
+	}
 
 	
 }

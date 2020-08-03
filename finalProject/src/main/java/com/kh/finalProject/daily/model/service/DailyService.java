@@ -47,6 +47,8 @@ public interface DailyService {
 
 	HabitRecord selectHabitRecord(HabitRecord hr);
 
+	ArrayList<Habit> selectGraphData(HashMap<String, String> map);
+
 
 
 }

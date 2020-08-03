@@ -118,5 +118,10 @@ public class DailyDao {
 		return sqlSessionTemplate.selectOne("dailyMapper.selectHabitRecord", hr);
 	}
 
+	public ArrayList<Habit> selectGraphData(HashMap<String, String> map) {
+
+		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectHabitGraphData", map);
+	}
+
 
 }
