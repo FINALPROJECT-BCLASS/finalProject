@@ -125,11 +125,16 @@ public class MemoController {
 		int result1 = mmService.addMPlan(m);
 		
 		int result2 = 0;
+		int result3 = 0;
 		if(result1 > 0) {
 			result2 = mmService.deleteMemo(m);
+			
+			if(result2 > 0) {
+				result3 = mmService.updateMpEnd(m);
+			}
 		}
 		
-		if(result2 > 0) {
+		if(result3 > 0) {
 			return "memo/memo";
 		} else {
 			throw new MemoException("일정에 추가 실패");

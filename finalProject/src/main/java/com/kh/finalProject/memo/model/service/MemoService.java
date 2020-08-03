@@ -21,4 +21,6 @@ public interface MemoService {
 
 	int addMPlan(Memo m);
 
+	int updateMpEnd(Memo m);
+
 }

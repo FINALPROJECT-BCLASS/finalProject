@@ -50,4 +50,9 @@ public class MemoDao {
 		return sqlSessionTemplate.update("memoMapper.addMPlan", m);
 	}
 
+	public int updateMpEnd(Memo m) {
+	
+		return sqlSessionTemplate.update("memoMapper.updateMpEnd", m);
+	}
+
 }

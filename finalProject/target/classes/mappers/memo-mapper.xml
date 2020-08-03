@@ -95,5 +95,11 @@
 		SET MP_VIEW='Y'
 		WHERE MEMO_NO=#{memoNo}
 	</update>
+	
+	<update id="updateMpEnd" parameterType="Memo">
+		UPDATE MONTHLY_PLAN
+		SET MP_END=MP_END+1
+		WHERE MEMO_NO=#{memoNo}
+	</update>
 
 </mapper>

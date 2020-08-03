@@ -57,4 +57,10 @@ public class MemoServiceImpl implements MemoService {
 		return mmDao.addMPlan(m);
 	}
 
+	@Override
+	public int updateMpEnd(Memo m) {
+		
+		return mmDao.updateMpEnd(m);
+	}
+
 }
