@@ -10,6 +10,21 @@
 <body>
 	<jsp:include page="../common/chatheader.jsp"/>
 	
-	
+	<table>
+		<tr>
+			<td>제목란</td>
+			<td>소개란</td>
+			<td>인원</td>
+		</tr>
+	</table>
+	<button id="insertopenchatroom">개설하기</button>
 </body>
+<script>
+
+$(function(){
+	$("#insertopenchatroom").click(function(){
+		location.href="insertopenchatroom.do";	
+	})
+})
+</script>
 </html>

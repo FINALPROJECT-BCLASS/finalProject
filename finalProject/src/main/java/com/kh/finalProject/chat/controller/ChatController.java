@@ -7,7 +7,6 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.ws.RequestWrapper;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -19,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.finalProject.chat.model.service.ChatService;
 import com.kh.finalProject.chat.model.vo.Chat;
+import com.kh.finalProject.chat.model.vo.openChat;
 import com.kh.finalProject.member.model.vo.Member;
 
 @Controller
@@ -172,4 +172,51 @@ public class ChatController {
 		return mv;
 	}
 	
+	@RequestMapping("insertopenchatroom.do")
+	public ModelAndView insertopenchatroomView(ModelAndView mv, HttpSession session) {
+		
+		mv.setViewName("chat/insertchatroom");
+		
+		return mv;
+	}
+	
+	@RequestMapping("openchatroominsert.do")
+	public String openchatroominser(HttpSession session,openChat openchat) {
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		
+		openchat.setCm_id(loginUser.getId());
+		
+		int result = cService.openchatroominsert(openchat);
+		
+		if(result > 0 ) {
+			
+			int cm_no = cService.selectopenchatroom(openchat);
+			
+			return "redirect:openchatview.do?cm_no=" + cm_no;
+		}else {
+			System.out.println("방만들기 실패");
+			return "<script> alert('방만들기에 실패하였습니다..'); history.back(); </script>";
+		}
+		
+	}
+	@RequestMapping("openchatview.do")
+	public ModelAndView openchatView(ModelAndView mv,HttpSession session, int cm_no) {
+		
+		System.out.println("잘넘어왔습니까?" + cm_no);
+		
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+			//추가할것.. 방인원..
+		openChat openchat = cService.selectopenchatroomdetail(cm_no);
+		System.out.println("openchat : " + openchat);
+		
+		session.setAttribute("cm_no", cm_no);
+		mv.addObject("cm_no", cm_no).addObject("openchat", openchat).setViewName("chat/openChatroom");
+		
+		
+		return mv;
+		
+		
+	}
 }

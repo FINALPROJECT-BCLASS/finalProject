@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.finalProject.chat.model.dao.ChatDao;
 import com.kh.finalProject.chat.model.vo.Chat;
+import com.kh.finalProject.chat.model.vo.openChat;
 import com.kh.finalProject.member.model.vo.Member;
 
 @Service("sService")
@@ -62,6 +63,24 @@ public class ChatServiceImpl implements ChatService{
 	public Chat selectchatroomdetail(String co_no) {
 		
 		return cDao.selectchatroomdetail(co_no);
+	}
+
+	@Override
+	public int openchatroominsert(openChat openchat) {
+		
+		return cDao.openchatroominsert(openchat);
+	}
+
+	@Override
+	public int selectopenchatroom(openChat openchat) {
+	
+		return cDao.selectopenchatroom(openchat);
+	}
+
+	@Override
+	public openChat selectopenchatroomdetail(int cm_no) {
+	
+		return cDao.selectopenchatroomdetail(cm_no);
 	}
 	
 }

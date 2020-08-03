@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.kh.finalProject.chat.model.vo.Chat;
+import com.kh.finalProject.chat.model.vo.openChat;
 import com.kh.finalProject.member.model.vo.Member;
 
 public interface ChatService {
@@ -23,5 +24,11 @@ public interface ChatService {
 	ArrayList<Chat> selectchatroom(String id);
 
 	Chat selectchatroomdetail(String co_no);
+
+	int openchatroominsert(openChat openchat);
+
+	int selectopenchatroom(openChat openchat);
+
+	openChat selectopenchatroomdetail(int cm_no);
 
 }

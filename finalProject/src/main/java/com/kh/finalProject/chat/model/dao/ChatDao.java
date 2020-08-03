@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.finalProject.chat.model.vo.Chat;
+import com.kh.finalProject.chat.model.vo.openChat;
 import com.kh.finalProject.member.model.vo.Member;
 
 @Repository("cDao")
@@ -55,5 +56,20 @@ public class ChatDao {
 	public Chat selectchatroomdetail(String co_no) {
 		
 		return sqlSessionTemplate.selectOne("chatMapper.selectOnechatroom", co_no);
+	}
+
+	public int openchatroominsert(openChat openchat) {
+		
+		return sqlSessionTemplate.insert("chatMapper.openchatroominsert", openchat);
+	}
+
+	public int selectopenchatroom(openChat openchat) {
+		
+		return sqlSessionTemplate.selectOne("chatMapper.selectopenchatroom", openchat);
+	}
+
+	public openChat selectopenchatroomdetail(int cm_no) {
+
+		return sqlSessionTemplate.selectOne("chatMapper.selectopenchatroomdetail", cm_no);
 	}
 }
