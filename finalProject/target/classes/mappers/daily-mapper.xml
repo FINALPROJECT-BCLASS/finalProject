@@ -76,7 +76,12 @@
 	
 	<insert id="insertHabitRecord" parameterType="HabitRecord">
 		INSERT INTO HABIT_TRACKER_RECORD
+		<if test='htr_date == "Today"'>
 		VALUES (SEQ_HTR.NEXTVAL, #{id}, #{ht_no}, SYSDATE, #{htr_now}, #{htr_con}, DEFAULT)
+		</if>
+		<if test='htr_date != "Today"'>
+		VALUES (SEQ_HTR.NEXTVAL, #{id}, #{ht_no}, #{htr_date}, #{htr_now}, #{htr_con}, DEFAULT)
+		</if>
 	</insert>
 	
 	<select id="selectHabitNum" parameterType="Habit" resultMap="habitResultSet">
@@ -94,7 +99,7 @@
 		AND HT_NO=#{ht_no}
 		AND TO_CHAR(HTR_DATE, 'YY/MM/DD')=#{htr_date}
 		AND HTR_DELETE='N'
-		ORDER BY HTR_DATE DESC
+		ORDER BY HTR_NO DESC
 	</select>
 	
 	<select id="selectHabitRecordListW" parameterType="HabitRecord" resultMap="habitRecordResultSet_2">
@@ -105,7 +110,7 @@
 		AND HTR_DELETE='N'
 		AND HTR_DATE BETWEEN TO_DATE(TRUNC(SYSDATE,'IW'), 'YY/MM/DD') 
                    		 AND TO_DATE(TRUNC(SYSDATE,'IW') + 7, 'YY/MM/DD')
-		ORDER BY HTR_DATE DESC
+		ORDER BY HTR_NO DESC
 	</select>
 	
 	<select id="selectHabitRecordListM" parameterType="HabitRecord" resultMap="habitRecordResultSet_2">
@@ -115,7 +120,7 @@
 		AND HT_NO=#{ht_no}
 		AND TO_CHAR(HTR_DATE, 'YY/MM')=#{htr_date}
 		AND HTR_DELETE='N'
-		ORDER BY HTR_DATE DESC
+		ORDER BY HTR_NO DESC
 	</select>
 	
 	<select id="selectHabitRecordListDaily" parameterType="HabitRecord" resultMap="habitRecordResultSet">
@@ -124,7 +129,7 @@
 		WHERE ID=#{id}
         AND TO_CHAR(HTR_DATE, 'YY/MM')=#{htr_date}
         AND HTR_DELETE = 'N'
-		ORDER BY HT_NO DESC
+		ORDER BY HTR_NO DESC
 	</select>
 	
 	<select id="selectHabitSumList" parameterType="Habit" resultMap="habitSumResultSet">
@@ -160,7 +165,7 @@
 		AND HT.HT_DELETE = 'N'
 		AND HTR.HTR_DELETE = 'N'
 		AND HTR_DATE BETWEEN TO_DATE(TRUNC(SYSDATE,'IW'), 'YY/MM/DD') 
-                   		 AND TO_DATE(TRUNC(SYSDATE,'IW') + 7, 'YY/MM/DD')
+                   		 AND TO_DATE(TRUNC(SYSDATE,'IW') + 6, 'YY/MM/DD')
 		GROUP BY HT.HT_NO
 	</select>
 	
@@ -182,5 +187,44 @@
 		SET HTR_NOW = #{htr_now}, HTR_CON = #{htr_con}
 		WHERE HTR_NO = #{htr_no}
 	</update>
+	
+	<select id="selectHabitRecordListC" parameterType="HabitRecord" resultMap="habitRecordResultSet">
+		SELECT TO_CHAR(HTR_DATE, 'YYYY-MM-DD') HTR_DATE
+		FROM HABIT_TRACKER HT
+		JOIN HABIT_TRACKER_RECORD HTR ON (HT.HT_NO = HTR.HT_NO)
+		WHERE HTR.ID=#{id}
+		AND HTR.HT_NO =#{ht_no}
+		AND HTR.HTR_DELETE = 'N'
+		AND HT.HT_DELETE= 'N'
+		ORDER BY HTR.HTR_NO DESC
+	</select>
+	
+	<select id="selectHabitRecordListD" parameterType="HabitRecord" resultMap="habitRecordResultSet_2">
+		SELECT HTR_NO, ID, HT_NO, TO_CHAR(HTR_DATE, 'HH:MI') AS "HTR_TIME", TO_CHAR(HTR_DATE, 'DD') AS "HTR_MONTH", HTR_NOW, HTR_CON, HTR_DELETE
+		FROM HABIT_TRACKER_RECORD
+		WHERE ID=#{id}
+		AND HT_NO=#{ht_no}
+		AND HTR_DELETE='N'
+		<if test='htr_time == "Today"'>
+		AND TO_CHAR(HTR_DATE, 'YY/MM/DD')=#{htr_date}
+		</if>
+		<if test='htr_time == "This Week"'>
+		AND HTR_DATE BETWEEN TO_CHAR(TRUNC(TO_DATE(#{htr_date}, 'YY/MM/DD'),'iw')  ,'YY/MM/DD')
+                   		 AND TO_CHAR(TRUNC(TO_DATE(#{htr_date}, 'YY/MM/DD'),'iw') + 6  ,'YY/MM/DD')
+		</if>
+		<if test='htr_time == "This Month"'>
+		AND TO_CHAR(HTR_DATE, 'YY/MM')=#{htr_date}
+		</if>
+		ORDER BY HTR_NO DESC
+	</select>
+	
+	<update id="deleteHabit" parameterType="hashmap">
+		UPDATE HABIT_TRACKER
+		SET HT_DELETE = 'Y'
+		WHERE HT_NO = #{ht_no}
+		AND ID = #{id}
+		AND HT_DELETE = 'N'
+	</update>
+	
 	
 </mapper>
