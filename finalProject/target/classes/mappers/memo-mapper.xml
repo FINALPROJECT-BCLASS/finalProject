@@ -2,6 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="memoMapper">
 
+	<resultMap type="Memo" id="memoResultSet">
+		<id property="memoNo" column="MEMO_NO"/>
+		<result property="id" column="ID"/>
+		<result property="memoDate" column="MEMO_DATE"/>
+		<result property="memoCon" column="MEMO_CON"/>
+		<result property="mainNo" column="MAIN_NO"/>
+		<result property="memoDelete" column="MEMO_DELETE"/>
+	</resultMap>
+	
+	<resultMap type="Memo" id="totalResultSet">
+		<id property="memoNo" column="MEMO_NO"/>
+		<result property="memoDate" column="MEMO_DATE"/>
+		<result property="memoCon" column="MEMO_CON"/>
+		<result property="mainNo" column="MAIN_NO"/>
+		<result property="mpTitle" column="MP_TITLE"/>
+		<result property="mpStart" column="MP_START"/>
+		<result property="mpEnd" column="MP_END"/>
+		<result property="mpTime" column="MP_TIME"/>
+		<result property="mpMain" column="MP_MAIN"/>
+		<result property="mpSub" column="MP_SUB"/>
+		<result property="mpMemo" column="MP_MEMO"/>
+	</resultMap>
+
 	<insert id="insertMemo" parameterType="Memo">
 		INSERT INTO MEMO
 		VALUES(SEQ_MM.NEXTVAL
@@ -38,5 +61,45 @@
 			, #{memoNo}
 			, 'N')
 	</insert>
+	
+	<select id="selectMemoList" parameterType="string" resultMap="memoResultSet">
+		SELECT MEMO_NO, TO_CHAR(MEMO_DATE, 'YYYY-MM-DD')"MEMO_DATE", MAIN_NO
+		FROM MEMO
+		WHERE ID=#{id}
+			AND MEMO_DELETE='N' 
+	</select>
+	
+	<select id="selectMemo" parameterType="Memo" resultMap="totalResultSet">
+		<if test="mainNo == 0">
+			SELECT MEMO_NO, TO_CHAR(MEMO_DATE, 'YYYY-MM-DD') "MEMO_DATE", MEMO_CON, MAIN_NO
+			FROM MEMO
+		</if>
+		<if test="mainNo == 1">
+			SELECT MEMO.MEMO_NO, TO_CHAR(MEMO_DATE, 'YYYY-MM-DD') "MEMO_DATE", MAIN_NO,
+			    MP_TITLE, TO_CHAR(MP_START, 'YYYY-MM-DD') "MP_START",
+			    TO_CHAR(MP_END, 'YYYY-MM-DD') "MP_END", MP_TIME, MP_MAIN, MP_SUB, MP_MEMO
+			FROM MEMO
+			JOIN MONTHLY_PLAN MP ON (MEMO.MEMO_NO=MP.MEMO_NO)
+		</if>
+			WHERE MEMO.MEMO_NO=#{memoNo}
+	</select>
+	
+	<update id="deleteMemo" parameterType="Memo">
+		UPDATE MEMO
+		SET MEMO_DELETE='Y'
+		WHERE MEMO_NO=#{memoNo}
+	</update>
+	
+	<update id="addMPlan" parameterType="Memo">
+		UPDATE MONTHLY_PLAN
+		SET MP_VIEW='Y'
+		WHERE MEMO_NO=#{memoNo}
+	</update>
+	
+	<update id="updateMpEnd" parameterType="Memo">
+		UPDATE MONTHLY_PLAN
+		SET MP_END=MP_END+1
+		WHERE MEMO_NO=#{memoNo}
+	</update>
 
 </mapper>
