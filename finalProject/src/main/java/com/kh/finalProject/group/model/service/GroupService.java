@@ -143,6 +143,10 @@ public interface GroupService {
 
 	int insertNewVote(GroupVote gv);
 
+	int voteCurrval();
+
+	int insertNewItem(ArrayList<GroupVote> voteItemList);
+
 
 	
 

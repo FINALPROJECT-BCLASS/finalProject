@@ -661,4 +661,24 @@
 			'N'
 		)
 	</insert>
+	
+	<select id="voteCurrval" resultType="_int">
+		SELECT SEQ_GV.CURRVAL
+		FROM DUAL
+	</select>
+	
+	<insert id="insertNewItem" parameterType="arraylist">
+		INSERT INTO GROUP_VOTE_ITEM(GVI_NO, G_NO, GV_NO, GVI_ITEM)
+		SELECT SEQ_GVI.NEXTVAL , I.*
+		FROM (
+		<foreach collection="list" item="voteItemList" index="ix" separator="UNION ALL">
+			SELECT	#{voteItemList.gvNo} AS G_NO,
+					 #{voteItemList.gvNo} AS GV_NO ,
+					 #{voteItemList.gviItem} AS GVI_ITEM 
+					 
+			FROM DUAL 
+		</foreach>
+		)I
+	</insert>
+	
 </mapper>
