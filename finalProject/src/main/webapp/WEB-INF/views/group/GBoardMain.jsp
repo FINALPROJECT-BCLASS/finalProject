@@ -43,14 +43,16 @@
 	
 	/* 글쓰기 버튼 */
 	#groupWrite {text-align:right; width:100%; height: 50px; margin-right:40px; margin-bottom:10px; border:none;}
-    .groupWrite {width:50px; height:40px; cursor: pointer; border-radius: 5px;}
+    .groupWrite {width:50 px; height:40px; cursor: pointer; border-radius: 5px;} 
+    button {margin-bottom: 10px; margin-right:40px; background:none; border:0;}
+	.writeBtn{color:#2860E1 !important; font-size:60px !important;  text-shadow: 1.5px 1.5px 1.5px gray !important; cursor:pointer;}
 	
 	.groupListCount{width:99%; margin-bottom:10px; text-align:right;}
 	.emptyNoticeList{margin-top:100px; text-align:center; font-size:20px; font-weight:600;}
 	    
     /* 게시판 */
     .groupNotice{width:100%; height:400px;overflow:scroll; overflow-x:hidden;}
-    .noticeBoardTb{width:100%; margin-bottom:5px; background:white;border:0.5px solid lightgray; border-radius:10px;}
+    .noticeBoardTb{width:100%; margin-bottom:5px; background:white; border-radius:10px;}
     .noticeBoardTitle{display:inline-block; padding-top:20px; padding-left:5px;font-weight: 600; font-size: 20px;}
     
    	.detailBtn{display:inline-block; margin:10px 10px 0px 0px; float:right; padding:7.2px; display:inline-block; border:none; border-radius:6px; width:60px; height:35px; background:#FBD14B;}
@@ -105,7 +107,8 @@
     	</div>
      	
      	<br>
-      	<div id="groupWrite" ><img class="groupWrite" src="resources/images/write.png" id="writeBtn"></div>
+      	<div id="groupWrite"  ><span class="material-icons writeBtn">create</span></div>
+        <br>
         <br>
         
         <div class="groupListCount">총 게시판 : ${pi.listCount }</div>
@@ -273,7 +276,7 @@
                   
                    		for(j in  data.photoList){
                    			if(data.boardList[i].gbNo == data.photoList[j].gbNo){
-                   				var $img = $("<img src='resources/groupMainFiles/"+data.photoList[j].gbpOrigin+"' class='boardPhotoList'>");
+                   				var $img = $("<img src='resources/groupBoardFiles/"+data.photoList[j].gbpOrigin+"' class='boardPhotoList'>");
                    				var $imgBox = $("<div>").attr("class","imgBox");
                    				$imgBox.append($img);
                    				$td5.append($imgBox);
@@ -319,6 +322,13 @@
 			  location.href="detailBoard.do?gbNo="+$gbNo;
 			})
 	</script>  
+	
+	<!-- 게시판 글쓰기  -->
+	<script>
+		$(".writeBtn").click(function(){
+			location.href="boardInsertView.do";
+		})
+	</script>
 	  <jsp:include page="../common/footer.jsp"/>	
 </body>
 

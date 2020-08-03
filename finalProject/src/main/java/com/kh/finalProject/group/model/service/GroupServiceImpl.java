@@ -17,6 +17,7 @@ import com.kh.finalProject.group.model.vo.GroupReReply;
 import com.kh.finalProject.group.model.vo.GroupReply;
 import com.kh.finalProject.group.model.vo.GroupSearchName;
 import com.kh.finalProject.group.model.vo.GroupTable;
+import com.kh.finalProject.group.model.vo.GroupVote;
 import com.kh.finalProject.member.model.vo.Member;
 
 
@@ -215,6 +216,94 @@ public class GroupServiceImpl implements GroupService{
 	public int deleteReReply(String grrNo) {
 		return gDao.deleteReReply(grrNo);
 	}
+
+	@Override
+	public int insertBoard(GroupBoard gb) {
+		return gDao.insertBoard(gb);
+	}
+
+	@Override
+	public int selectGbNo() {
+		return gDao.selectGbNo();
+	}
+
+	@Override
+	public int insertBoardPhoto(ArrayList<GroupBoardPhoto> photoList) {
+		return gDao.insertBoardPhoto(photoList);
+	}
+
+	@Override
+	public int deletePhoto(String gbNo) {
+		return gDao.deletePhoto(gbNo);
+	}
+
+	@Override
+	public int updateBoard(GroupBoard gb) {
+		return gDao.updateBoard(gb);
+	}
+
+	@Override
+	public int deleteBoard(String gbNo) {
+		return gDao.deleteBoard(gbNo);
+	}
+
+	@Override
+	public int deleteNotice(String gnNo) {
+		return gDao.deleteNotice(gnNo);
+	}
+
+	@Override
+	public int voteGetListCount(int groupNo) {
+		return gDao.voteGetListCount(groupNo);
+	}
+
+	@Override
+	public ArrayList<GroupVote> selectVoteList(PageInfo pi) {
+			return gDao.selectVoteList(pi);
+	}
+
+	@Override
+	public ArrayList<GroupVote> selectItemList(GroupInfo gInfo) {
+		return gDao.selectItemList(gInfo);
+	}
+
+	@Override
+	public ArrayList<GroupVote> selectVoteMemberLsit(GroupInfo gInfo) {
+		return gDao.selectVoteMemberLsit(gInfo);
+	}
+
+	@Override
+	public GroupVote selectOneVote(GroupVote gv) {
+		return gDao.selectOneVote(gv);
+	}
+
+	@Override
+	public ArrayList<GroupVote> selectOneItem(GroupVote gv) {
+		return gDao.selectOneItem(gv);
+	}
+
+	@Override
+	public GroupVote selectTotalItem(GroupVote gv) {
+		return gDao.selectTotalItem(gv);
+	}
+
+	@Override
+	public int deleteVote(GroupVote gv) {
+		return gDao.deleteVote(gv);
+	}
+
+	@Override
+	public int insertVote(GroupVote gv) {
+		return gDao.insertVote(gv);
+	}
+
+	@Override
+	public int oneTotalItem(GroupVote gv) {
+		return gDao.oneTotalItem(gv);
+	}
+
+
+
 
 
 	

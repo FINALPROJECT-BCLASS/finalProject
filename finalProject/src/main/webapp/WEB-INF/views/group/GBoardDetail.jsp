@@ -12,7 +12,7 @@
 
     h1, h4{margin-top:20px; text-align:center;}
 	
-	input:focus {outline:none;}
+	input:focus, button:focus {outline:none;}
 	
 	 /* 구글 아이콘 */
     .material-icons{font-size:30px !important; padding-top:12px; padding-left: 10px; padding-right: 10px;  }
@@ -67,11 +67,11 @@
 	/* 대댓글 */
 	.re{font-weight:600 !important; color:gray !important; display:inline-block; font-size:15px !important; margin: 0 !important; padding:0 !important; text-shodow:0 !important;}
 	.rereName{display:inline-block;}
-	
-	
-    #submit{background:none; border:none; color:#2860E1; font-weight: 600; font-size: 20px; border-radius:6px; width:60px; height:35px;}
-    #reset{background:none; border:none; color:#484848; font-weight: 600; font-size: 20px; width:100px;}
-	
+
+    #submit{background:none; border:none; color:#2860E1; font-weight: 700; font-size: 20px; border-radius:6px; width:60px; height:35px;margin-right: 20px; cursor:pointer;}
+    #reset{background:none; border:none; color:#484848; font-weight: 700; font-size: 20px; width:100px; cursor:pointer;    margin-right: 20px;}
+	#delete{background:none; border:none; color:#ee1212d0; font-weight: 700; font-size: 20px; width:100px; cursor:pointer;    
+
 </style>
 </head>
 <body>
@@ -91,11 +91,11 @@
                     <tr>
                         <td rowspan="2" style="width:20px">
                         	<div class="MemberImgBox">
-                        		<c:if test="${empty memberPhoto }">
+                        		<c:if test="${gInfo.gmNo ne boardList.gmNo}">
                         			 <img src="resources/images/icons/profile_default.png" class="MemberImg">
                         		</c:if>
-                        		<c:if test="${!empty memberPhoto }">
-                        			<img src="resources/muploadFiles/${memberPhoto }" class="MemberImg">
+                        		<c:if test="${gInfo.gmNo eq boardList.gmNo}">
+                        			<img src="resources/muploadFiles/${boardList.renameFile }" class="MemberImg">
                         		</c:if>
                         	</div>
                         </td>
@@ -128,7 +128,8 @@
 						<c:forEach var="p" items="${photoList }">
 							<tr>
 								<td>
-									<img class="boardImg" src="resources/groupBoardFiles/${p.gbpOrigin }">
+									<img class="boardImg" src="resources/groupBoardFiles/${p.gbpOrigin }" download>
+									
 								</td>
 							<tr>
 						</c:forEach>
@@ -211,14 +212,43 @@
                         <td><button class="replyBtn">submit</button></td>
                     </tr>
                 </table>
-               
-                <br><br>
-                <div class="groubJoinBtn">
-                    <span id="reset">Back</span>
-                   <span><button id="submit">Update</button>&nbsp;</span>
-                </div>
+
+               <br><br>
+                <c:if test="${gInfo.gmNo eq boardList.gmNo }">
+	                <div class="groubJoinBtn">
+	                    <span id="reset" onclick="goBack();">Back</span>
+	                   <span id="submit" onclick="location.href='boardUpdateView.do?gbNo='+${boardList.gbNo}">Update</span>
+	                    <span id="delete"  >Delete</span>
+	                </div>
+                </c:if>
+                <c:if test="${gInfo.gmNo ne boardList.gmNo }">
+                	<div class="groubJoinBtn">
+	                    <span id="reset" onclick="goBack();">Back</span>	                   
+	                </div>
+                </c:if>
             </div>
          </div>
+		
+		 <!-- 뒤로가기 버튼 -->
+		 <script>
+		 	function goBack(){
+		 		window.history.back();	
+		 	}
+		 	
+		 </script>
+		 <!-- 삭제 버튼 -->
+		 <script>
+		 
+		 	$("#delete").click(function(){
+		 		var deleteConfirm = confirm("게시글을 삭제하시겠습니까? ");
+		 		if(deleteConfirm){
+		 			alert("게시글이 삭제되었습니다.");
+		 			location.href="deleteBoard.do?gbNo="+${boardList.gbNo};
+		 		}
+		 		
+		 	})
+		 	
+		 </script>
          
          <!-- 좋아요 클릭 -->
          <script>
@@ -481,24 +511,20 @@
 			})
  			</script>        
          
-         <!-- 대댓글 삭제@@@@@@@@@@@@@@@@수정중 -->
+         <!-- 대댓글 삭제-->
 			<script>
          	 $(document).on("click",".reReplyDelete",function(){
          		var deleteConfirm = confirm("댓글을 삭제하시겠습니까? ");
          		if(deleteConfirm){
-					/* var deleteCon = $(this).parent().prev().prev().children(); */
          			var deleteTr = $(this).closest(".reReplyTr");
 					var deleteTd = $(this).closest(".reReplyTr").children();
          			var removeTd = $("<td>").attr("colspan", 3);
          			var deleteComment = $("<div>").text("삭제한 댓글입니다.").attr("class","removeReply");
-					/* var deleteInput = deleteTr.prev(); */
          			var grrNo =  deleteTr.attr('data-value');
          
          			deleteTd.remove();
          			removeTd.append(deleteComment);
          			deleteTr.append(removeTd);
-
-/* 					deleteInput.remove(); */
 
         			$.ajax({
              			url:"reReplyDelete.do",
