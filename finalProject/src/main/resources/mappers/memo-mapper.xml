@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="memoMapper">
+
+	<insert id="insertMemo" parameterType="Memo">
+		INSERT INTO MEMO
+		VALUES(SEQ_MM.NEXTVAL
+			, #{id}
+			, SYSDATE
+			, #{memoCon}
+			, #{mainNo}
+			, DEFAULT)
+	</insert>
+	
+	<select id="selectMemoNo" parameterType="Memo" resultType="_int">
+		SELECT *
+		FROM (SELECT MEMO_NO
+		    FROM MEMO
+		    WHERE ID=#{id}
+		        AND MEMO_DELETE='N'
+		    ORDER BY MEMO_NO DESC)
+		WHERE ROWNUM=1
+	</select>
+	
+	<insert id="insertMPlan" parameterType="MPlan">
+		INSERT INTO MONTHLY_PLAN
+		VALUES(SEQ_MP.NEXTVAL
+			, #{id}
+			, #{mpTitle}
+			, #{mpStart}
+			, #{mpEnd}
+			, #{mpTime}
+			, #{mpColor}
+			, #{mpMain}
+			, #{mpSub}
+			, #{mpMemo}
+			, DEFAULT
+			, #{memoNo}
+			, 'N')
+	</insert>
+
+</mapper>

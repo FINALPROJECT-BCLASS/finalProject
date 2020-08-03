@@ -311,20 +311,18 @@ public class PlanController {
 			if(!dtConArr[i].equals("")) {
 				DTodolist insertDt = new DTodolist();
 				
+				insertDt.setDtNo(i+1);
+				insertDt.setDtDate(dtDate);
 				insertDt.setId(id);
 				insertDt.setDtCon(dtConArr[i]);
 				insertDt.setDtComplete(dtComArr[i]);
-				insertDt.setDtDate(dtDate);
 				
-				result += pService.insertDTodolist(insertDt);				
+				result += pService.insertDTodolist(insertDt);
 			}
 		}				
 		
-		if(result > 0) {
-			return "redirect:ttview.do";
-		} else {
-			throw new PlanException("todolist 등록 실패");
-		}
+		return "redirect:ttview.do";
+		
 	}
 	
 	@RequestMapping("dtlist.do")
@@ -507,11 +505,9 @@ public class PlanController {
 			}
 		}				
 		
-		if(result > 0) {
-			return "redirect:mpview.do";
-		} else {
-			throw new PlanException("todolist 등록 실패");
-		}
+		
+		return "redirect:mpview.do";
+
 	}
 	
 	@RequestMapping("mtlist.do")

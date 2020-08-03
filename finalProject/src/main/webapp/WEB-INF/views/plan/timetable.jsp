@@ -318,26 +318,26 @@
                                 	<input type="hidden" value="${loginUser.id }" name="id">
                                     <table id="addTable">
                                         <tr>
-                                            <td><b>Title</b></td>
+                                            <th>Title</th>
                                             <td>
                                             	<input type="text" name="ttTitle" size="30">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td><b>Date</b></td>
+                                            <th>Date</th>
                                             <td>
                                             	<input type="date" name="ttDate" id="ttDate" style="width: 250px;">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td><b>Time</b></td>
+                                            <th>Time</th>
                                             <td>
                                                 <input type="time" name="ttStart" required> - 
                                                 <input type="time" name="ttEnd" required>
                                             </td>
                                         </tr>
                                         <tr>
-                                        	<td><b>Color</b></td>
+                                        	<th>Color</th>
                                         	<td>
                                         		<div style="display: flex;">
 	                                        		<input type="radio" name="color" id="yellow" value="#FBD14B" checked>
@@ -355,7 +355,7 @@
                                         	</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2"><b>Memo</b></td>
+                                            <th colspan="2">Memo</th>
                                         </tr>
                                         <tr>
                                             <td colspan="2">
