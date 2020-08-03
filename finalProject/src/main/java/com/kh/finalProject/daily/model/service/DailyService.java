@@ -1,6 +1,7 @@
 package com.kh.finalProject.daily.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
@@ -37,6 +38,12 @@ public interface DailyService {
 	int deleteHabitRecord(HabitRecord hr);
 
 	int updateHabitRecord(HabitRecord hr);
+
+	ArrayList<HabitRecord> selectHabitRecordListC(HabitRecord hr);
+
+	ArrayList<HabitRecord> selectHabitRecordListD(HabitRecord hr);
+
+	int deleteHabit(HashMap<String, String> map);
 
 
 
