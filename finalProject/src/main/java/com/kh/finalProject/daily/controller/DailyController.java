@@ -108,8 +108,6 @@ public class DailyController {
 				
 				hlist.add(h);
 			}
-			
-			System.out.println("목록 확인 :" + hlist);
 
 			if(list != null) {
 				mv.addObject("hlist", hlist);
@@ -607,22 +605,32 @@ public String deleteHabit(HttpServletRequest request,
 }
 
 @RequestMapping("editHabitView.do")
-public ModelAndView editHabitView(HttpServletRequest request, @RequestParam(value = "ht_no", required = false) String ht_no) {
+public ModelAndView editHabitView(ModelAndView mv, HttpServletRequest request, @RequestParam(value = "ht_no", required = false) int ht_no) {
 
 	HttpSession session = request.getSession();
 	Member member = (Member)session.getAttribute("loginUser");
 	
 	String id = member.getId();
-	//map으로 가져가서 확인해주자
-	HashMap<String, String> map = new HashMap<>();
-	map.put("id", id);
-	map.put("ht_no", ht_no);
 	
-//	Habit habit = dailyService.deleteHabit(map);
+	Habit habit = new Habit();
+	habit.setHt_no(ht_no);
+	habit.setId(id);
 	
+	Habit h = dailyService.selectHabitNum(habit);
+	
+	System.out.println("잘 조회해 오나? " + h);
 
+	if(h != null) {
+		mv.addObject("habit", h);
+		mv.setViewName("daily/habitEdit");
+	} else {
+		mv.addObject("msg","수정 실패");
+        mv.addObject("url","/htList.do");
+		mv.setViewName("common/redirect");
+	}
 	
-	return null;
+	return mv;
+
 }
 
 
