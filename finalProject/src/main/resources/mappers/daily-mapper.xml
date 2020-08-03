@@ -244,8 +244,9 @@
 		WHERE HT.HT_CYCLE = #{ht_cycle} 
 		AND HT.ID = #{id}
 		AND HTR.HT_NO = #{ht_no}
-		AND  HTR_DATE BETWEEN TO_CHAR(TRUNC(TO_DATE(#{today}, 'YY-MM-DD'),'iw')  ,'yy-mm-dd')
-                		 AND TO_CHAR(TRUNC(TO_DATE(#{today}, 'YY-MM-DD'),'iw') + 6  ,'yy-mm-dd')
+		AND TO_CHAR(HTR_DATE, 'YY/MM')= TO_CHAR(TO_DATE(#{today}, 'YY/MM/DD') ,'YY/MM')
+		<!-- AND HTR_DATE BETWEEN TO_CHAR(TRUNC(TO_DATE(#{today}, 'YY-MM-DD'),'iw')  ,'yy-mm-dd')
+                		 AND TO_CHAR(TRUNC(TO_DATE(#{today}, 'YY-MM-DD'),'iw') + 6  ,'yy-mm-dd') -->
 		AND HTR.HTR_DELETE = 'N'
 		AND HT.HT_DELETE = 'N'
 		GROUP BY SUBSTR(HTR.HTR_DATE, 0, 8)

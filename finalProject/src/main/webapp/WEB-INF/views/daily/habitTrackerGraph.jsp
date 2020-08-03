@@ -85,7 +85,7 @@
         }
         
 	    .content-section1 {
-	    	height: 430px;
+	    	height: 900px;
 	    	position: relative;
 	    }
         .content-section2 {
@@ -654,6 +654,7 @@
             	<div class="content-section1">
             	<div class="chart-container" style="top: 10%; position: absolute; height:200px; width:50vw">
             		<canvas id="myChart"></canvas>
+            		<canvas id="myChartM"></canvas>
             	</div>
 	            </div>
             </div>
@@ -737,7 +738,14 @@
 		  
 		}
 		
-	    
+		// 해당월의 일수 구해오기
+		var dayCount = new Date(theYear,theMonth,0).getDate();
+		var thisMonth = [];
+		
+		for(var i=0; i<dayCount; i++) {
+			thisMonth[i] = i+1;
+		}
+		
 	    // graph 실행 함수
 	    function graph(data) {
 	    	
@@ -766,7 +774,6 @@
 		var chart = new Chart(ctx, {
 		    // The type of chart we want to create
 		    type: 'bar',
-
 		    // The data for our dataset
 		    data: {
 		        labels: thisWeek,//['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'september', 'actober', 'rebember', ''],
@@ -802,6 +809,84 @@
 		            ],
 		            borderWidth: 1,
 		            data:datalist,
+		            options: {
+		                responsive: false,
+		                maintainAspectRatio: false,
+		                scales: {
+		                    yAxes: [{
+		                        ticks: {
+		                            beginAtZero: true
+		                        }
+		                    }]
+		                },
+		            }
+		        }]
+		    },
+
+		    // Configuration options go here
+		    options: {}
+		});
+		
+		var datalistM = [];
+		
+		for(var i=0;i< thisMonth.length;i++){
+			datalistM.push(0);
+		}
+	     
+		for(var i=0;i< thisMonth.length;i++){
+			for(var j in data.hd){
+				
+				var date = data.hd[j].ht_date;
+				var cutDay = date.substring(6);
+				
+				if(thisMonth[i] == cutDay){
+
+					datalistM.splice(i,1,data.hd[j].ht_now);
+				}
+			}
+
+		}
+		
+		var ctxm = document.getElementById('myChartM').getContext('2d');
+		var chartm = new Chart(ctxm, {
+		    // The type of chart we want to create
+		    type: 'bar',
+
+		    // The data for our dataset
+		    data: {
+		        labels: thisMonth,//['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'september', 'actober', 'rebember', ''],
+		        datasets: [{
+		            label: 'Drink water',
+		            backgroundColor: [
+		                'rgba(255, 99, 132, 0.2)',
+		                'rgba(54, 162, 235, 0.2)',
+		                'rgba(255, 206, 86, 0.2)',
+		                'rgba(75, 192, 192, 0.2)',
+		                'rgba(153, 102, 255, 0.2)',
+		                'rgba(255, 159, 64, 0.2)',
+		                'rgba(255, 99, 132, 0.2)',
+		                'rgba(54, 162, 235, 0.2)',
+		                'rgba(255, 206, 86, 0.2)',
+		                'rgba(75, 192, 192, 0.2)',
+		                'rgba(153, 102, 255, 0.2)',
+		                'rgba(255, 159, 64, 0.2)'
+		            ],
+		            borderColor: [
+		                'rgba(255, 99, 132, 1)',
+		                'rgba(54, 162, 235, 1)',
+		                'rgba(255, 206, 86, 1)',
+		                'rgba(75, 192, 192, 1)',
+		                'rgba(153, 102, 255, 1)',
+		                'rgba(255, 159, 64, 1)',
+		                'rgba(255, 99, 132, 1)',
+		                'rgba(54, 162, 235, 1)',
+		                'rgba(255, 206, 86, 1)',
+		                'rgba(75, 192, 192, 1)',
+		                'rgba(153, 102, 255, 1)',
+		                'rgba(255, 159, 64, 1)'
+		            ],
+		            borderWidth: 1,
+		            data:datalistM,
 		            options: {
 		                responsive: false,
 		                maintainAspectRatio: false,
