@@ -22,14 +22,14 @@
         }
 
         #circleArea{
-            width: 500px;
+            width: 100%;
             display: flex;
             align-items: center;
             margin: 50px;
         }
 
         #memoLogo{
-            margin-left: -30px;
+            margin-left: -40px;
             padding-top: 7px;
             font-size: 40px;
             color: rgba(72, 72, 72, 1);;
@@ -46,54 +46,81 @@
 		    background-color: #2860E1;
         }
         
-        input[type="radio"] {
-            display: none;
-        }
-
-        input[type="radio"]:checked + .b-icons>div{
-            border: 3px solid #484848;
+        #memoArea {
+        	display: flex;
+		    align-items: center;
+		    flex-flow: wrap;
         }
         
-        label{
-            margin:0 !important;
+        .memo-size {
+        	width: 400px;
+        	height: 350px;
+        	margin-left: 20px;
+        	margin-bottom: 20px;
+        	padding: 10px;
         }
         
-        .b-icons {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            width: 25px;
-            height: 25px;
-            margin-bottom: 0;
-            margin-right: 10px !important;
-            cursor: pointer;
-        }
-
-        .b-icons > div {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            vertical-align: middle;
-            text-align: center;
+        .etc {
+        	background-color: #fde392;
         }
         
-        /* color */
-        .sky {
-            background-color: #6B98FF;
+        .plan {
+        	background-color: #a1e6d9;
         }
-
-        .pink {
-            background-color: #FFA3E5;
+        
+        .dBtnArea {
+        	width: 100%;
+        	text-align: right;
         }
-
-        .light-purple {
-            background-color: #C9A8FF;
+        
+        .deleteBtn {
+        	background: none;
+        	border: none;
+        	font-weight: bold;
         }
-
-        .green {
-            background-color: #50c6b0;
+        
+        .aBtnArea {
+        	width: 100%;
+        	text-align: center;
         }
+        
+        .addBtn {
+        	margin-top: 20px;
+        	font-size: 15px;
+		    font-weight: 600;
+		    color: white;
+		    background-color: #484848;
+			border-style: none;
+		    border-radius: 8px;
+		    height: 30px;
+		    width: 60px;
+		}
+		
+		.circle {
+			width: 15px;
+	      	height: 15px;
+	      	border-radius: 50%;
+	      	display: inline-block;
+		}
+		
+		#colorArea {
+			margin-left: 100px;
+			width: 500px;
+		}
+		
+		#planColor {
+			background-color: #a1e6d9;
+		}
+		
+		#bookmarkColor {
+			background-color: #dfcbff;
+		}
+		
+		#etcColor {
+			background-color: #fde392;
+		}
+		
+		/* pink:#ffc5ef sky:#c5d2ef */
     </style>
 </head>
 
@@ -106,8 +133,145 @@
             <b id="memoLogo">Memo</b>
             &nbsp;&nbsp;&nbsp;&nbsp;
             <button type="button" class="default-btn" data-toggle="modal" data-target="#selectModal">Add</button>
+            <div id="colorArea">
+            	<div class="circle" id="planColor"></div>&nbsp;<b>Monthly Planner</b>&nbsp;&nbsp;
+            	<div class="circle" id="bookmarkColor"></div>&nbsp;<b>Bookmark</b>&nbsp;&nbsp;
+            	<div class="circle" id="etcColor"></div>&nbsp;<b>Etc</b>
+            </div>
         </div>
         
+        <div id="memoArea"></div>
+        
+        <script>
+        	$(function(){
+        		$.ajax({
+        			url: 'memolist.do',
+        			dataType: 'json',
+        			success: function(data) {
+        				for(var i in data.memoList){
+    	   					if(data.memoList[i].main == 0) {
+    	   						$div = $("<div class='memo-size etc'>");
+    	   						
+    	   						$dBtnDiv = $("<div class='dBtnArea'>");
+    	   						$deleteBtn = $("<button type='button' class='deleteBtn'>").text("X");
+    	   						
+    	   						$dBtnDiv.append($deleteBtn);
+    	   						
+    	   						$no = $("<input type='hidden' class='memoNo' value='" + data.memoList[i].no + "'>");
+    	   						
+    	   						$table = $("<table class='memo-table'>");
+    	   						
+    	   						$dateTr = $("<tr>");
+    	   						$dateTd1 = $("<th>").html("Date");
+    	   						$dateTd2 = $("<td>").html(data.memoList[i].date);
+    	   						
+    	   						$conTr1 = $("<tr>");
+    	   						$conTd1 = $("<th colspan='2'>").html("Content");
+    	   						
+    	   						$conTr2 = $("<tr>");
+    	   						$conTd2 = $("<td colspan='2'>").html(data.memoList[i].content);
+    	   						
+    	   						$dateTr.append($dateTd1).append($dateTd2);
+    	   						
+    	   						$conTr1.append($conTd1);
+    	   						
+    	   						$conTr2.append($conTd2);
+    	   						
+    	   						$table.append($dateTr).append($conTr1).append($conTr2);
+    	   						
+    	   						$div.append($dBtnDiv).append($no).append($table);
+    	   						
+    	   						$("#memoArea").append($div);
+    	   					} else if(data.memoList[i].main == 1) {
+								$div = $("<div class='memo-size plan'>");
+								
+								$dBtnDiv = $("<div class='dBtnArea'>");
+    	   						$deleteBtn = $("<button type='button' class='deleteBtn'>").text("X");
+    	   						
+    	   						$dBtnDiv.append($deleteBtn);
+    	   						
+    	   						$no = $("<input type='hidden' class='memoNo' value='" + data.memoList[i].no + "'>");
+    	   						
+    	   						$table = $("<table class='memo-table'>");
+    	   						
+    	   						$dateTr = $("<tr>");
+    	   						$dateTd1 = $("<th>").html("Date");
+    	   						$dateTd2 = $("<td>").html(data.memoList[i].date);
+    	   						
+    	   						$titleTr = $("<tr>");
+    	   						$titleTd1 = $("<th>").html("Title");
+    	   						$titleTd2 = $("<td>").html(data.memoList[i].mpTitle);
+    	   						
+    	   						$startTr = $("<tr>");
+    	   						$startTd1 = $("<th>").html("Start");
+    	   						$startTd2 = $("<td>").html(data.memoList[i].mpStart);
+    	   						
+    	   						$endTr = $("<tr>");
+    	   						$endTd1 = $("<th>").html("End");
+    	   						$endTd2 = $("<td>").html(data.memoList[i].mpEnd);
+    	   						
+    	   						$timeTr = $("<tr>");
+    	   						$timeTd1 = $("<th>").html("Time");
+    	   						$timeTd2 = $("<td>").html(data.memoList[i].mpTime);
+    	   						
+    	   						$locationTr1 = $("<tr>");
+    	   						$locationTd1 = $("<th colspan='2'>").html("Location");
+    	   						
+    	   						$locationTr2 = $("<tr>");
+    	   						$locationTd2 = $("<td colspan='2'>").html("<br>");    	   							
+    	   						if(data.memoList[i].mpMain != null) {
+	    	   						$locationTd2 = $("<td colspan='2'>").html(data.memoList[i].mpMain + " " + data.memoList[i].mpSub);    	   							
+    	   						}
+    	   						
+    	   						
+    	   						$memoTr1 = $("<tr>");
+    	   						$memoTd1 = $("<th colspan='2'>").html("Memo");
+    	   						
+    	   						$memoTr2 = $("<tr>");
+    	   						$memoTd2 = $("<td colspan='2'>").html("<br>");    	   							
+    	   						if(data.memoList[i].mpMemo != null) {
+    	   							$memoTd2 = $("<td colspan='2'>").html(data.memoList[i].mpMemo);	   							
+    	   						}
+    	   						
+    	   						$aBtnDiv = $("<div class='aBtnArea'>");
+    	   						$addBtn = $("<button type='button' class='addBtn'>").text("Add");
+    	   						
+    	   						$aBtnDiv.append($addBtn);
+    	   						
+    	   						$dateTr.append($dateTd1).append($dateTd2);
+    	   						
+    	   						$titleTr.append($titleTd1).append($titleTd2);
+    	   						
+    	   						$startTr.append($startTd1).append($startTd2);
+    	   						
+    	   						$endTr.append($endTd1).append($endTd2);
+    	   						
+    	   						$timeTr.append($timeTd1).append($timeTd2);
+    	   						
+								$locationTr1.append($locationTd1);
+    	   						
+    	   						$locationTr2.append($locationTd2);
+    	   						
+								$memoTr1.append($memoTd1);
+    	   						
+    	   						$memoTr2.append($memoTd2);
+    	   						
+    	   						$table.append($dateTr).append($titleTr).append($startTr).append($endTr).append($timeTr).append($locationTr1).append($locationTr2).append($memoTr1).append($memoTr2);
+    	   						
+    	   						$div.append($dBtnDiv).append($no).append($table).append($aBtnDiv);
+    	   						
+    	   						$("#memoArea").append($div);
+    	   					}
+    	   				};
+        			},
+        			error:function(request, status, errorData){
+                        alert("error code: " + request.status + "\n"
+                              +"message: " + request.responseText
+                              +"error: " + errorData);
+                    }   
+        		})
+        	})
+        </script>
         
     	<div class="modal fade" id="selectModal" role="dialog">
             <div class="modal-dialog">
@@ -136,6 +300,7 @@
                         <form action="mminsert.do" method="post">
                         	<input type="hidden" name="id" value="${loginUser.id }">
                         	<input type="hidden" name="mainNo" value="1">
+                        	<input type="hidden" name="color" value="#FBD14B">
                             <table id="addTable">
                                 <tr>
                                     <th>Title</th>
@@ -153,24 +318,6 @@
                                     <td>
                                     	<input type="time" id="addTime" name="mpTime" style="width: 335px;">
                                     </td>
-                                </tr>
-                                <tr>
-                                	<th>Color</th>
-                                	<td>
-                                		<div style="display: flex;">
-	                                 		<input type="radio" name="color" id="yellow" value="#FBD14B" checked>
-				                          	<label class="b-icons" for="yellow"><div class="b-yell"></div></label>
-				                          	<input type="radio" name="color" id="pink" value="#FFA3E5" >
-				                          	<label class="b-icons" for="pink" ><div class="pink"></div></label>
-				                          	<input type="radio" name="color" id="purple" value="#C9A8FF">
-				                          	<label class="b-icons" for="purple"><div class="light-purple"></div></label>
-				                          	<input type="radio" name="color" id="blue" value="#2860E1">
-				                          	<label class="b-icons" for="blue" ><div class="sky"></div></label>
-				                          	<input type="radio" name="color" id="green" value="#50c6b0">
-				                          	<label class="b-icons" for="green"><div class="green"></div></label>                                        		
-                                		</div>
-                                		<input type="hidden" id="mpColor" name="mpColor" value="#FBD14B">
-                                	</td>
                                 </tr>
                                 <tr>
                                     <td colspan="2">
@@ -282,6 +429,30 @@
 	            }
 	        }).open();
 	    }
+	    
+	    $(document).on("click",".deleteBtn",function(){
+			var memoNo = $(this).parent().next().val();
+	    	
+	    	var deleteCheck = confirm("내역을 삭제하시겠습니까?");
+			if(deleteCheck == true){
+				location.href="memodelete.do?memoNo="+memoNo;
+			}
+			else if(deleteCheck == false){
+				console.log("메모 삭제를 취소합니다.");
+			}
+		});
+	    
+	    $(document).on("click",".addBtn",function(){
+			var memoNo = $(this).parent().parent().find(".memoNo").val();
+
+	    	var deleteCheck = confirm("일정에 추가하시겠습니까?");
+			if(deleteCheck == true){
+				location.href="mpadd.do?memoNo="+memoNo;
+			}
+			else if(deleteCheck == false){
+				console.log("메모 삭제를 취소합니다.");
+			}
+		});
     </script>	
     
 </body>

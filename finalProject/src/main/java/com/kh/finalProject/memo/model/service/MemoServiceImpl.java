@@ -1,5 +1,7 @@
 package com.kh.finalProject.memo.model.service;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,30 @@ public class MemoServiceImpl implements MemoService {
 	public int insertMPlan(MPlan mp) {
 	
 		return mmDao.insertMPlan(mp);
+	}
+
+	@Override
+	public ArrayList<Memo> selectMemoList(String id) {
+		
+		return mmDao.selectMemoList(id);
+	}
+
+	@Override
+	public Memo selectMemo(Memo m) {
+		
+		return mmDao.selectMemo(m);
+	}
+
+	@Override
+	public int deleteMemo(Memo m) {
+		
+		return mmDao.deleteMemo(m);
+	}
+
+	@Override
+	public int addMPlan(Memo m) {
+		
+		return mmDao.addMPlan(m);
 	}
 
 }
