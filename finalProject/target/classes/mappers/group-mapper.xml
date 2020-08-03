@@ -596,7 +596,17 @@
 		)
 	</insert>
 	
-	<select id="oneTotalItem"  parameterType="GroupVote" resultType="_int">
+	<!-- <select id="oneTotalItem"  parameterType="GroupVote" resultType="_int">
 	
-	</select>
+	</select> -->
+	
+	<update id="endVote" parameterType="GroupVote">
+		UPDATE GROUP_VOTE SET GV_DELETE = 'Y' 
+		WHERE GV_NO = #{gvNo}
+	</update>
+	
+	<delete id="removeVote" parameterType="GroupVote">
+		DELETE FROM GROUP_VOTE
+		WHERE GV_NO = #{gvNo}
+	</delete>
 </mapper>

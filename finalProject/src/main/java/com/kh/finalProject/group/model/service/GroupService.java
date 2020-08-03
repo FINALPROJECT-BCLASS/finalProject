@@ -129,6 +129,11 @@ public interface GroupService {
 
 	int oneTotalItem(GroupVote gv);
 
+	int endVote(GroupVote gv);
+
+	int removeVote(GroupVote gv);
+
+
 	
 
 

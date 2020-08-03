@@ -302,6 +302,17 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.oneTotalItem(gv);
 	}
 
+	@Override
+	public int endVote(GroupVote gv) {
+		return gDao.endVote(gv);
+	}
+
+	@Override
+	public int removeVote(GroupVote gv) {
+		return gDao.removeVote(gv);
+	}
+
+
 
 
 

@@ -244,6 +244,7 @@
                           	var $itemBtn = $("<button class='voteTitle' value='"+ data.itemList[j].gvNo +"'>").text( data.itemList[j].gviItem);
                           	var $itemBtnCheck = $("<button class='voteTitle' value='"+ data.itemList[j].gvNo +"'>").text( data.itemList[j].gviItem);
                           	var $hiddenGviNo = $("<input type='hidden' id='hiddenGviNo' value='"+ data.itemList[j].gviNo +"'>");
+                          	var $hiddenGvNo = $("<input type='hidden' id='hiddenGviNo' value='"+ data.itemList[j].gvNo +"'>");
                           	var $userImoticon = $("<span>").attr("class","material-icons voteUser").text("person");
                           	var $totalItem = $("<span>").text(data.itemList[j].totalGviNo );
 	                   		
@@ -281,6 +282,7 @@
                   	$boardTb.append($tr4);
                   	$boardTb.append($tr5);
                   	$boardTb.append($tr6);
+                  	$boardTb.append($hiddenGvNo);
                 
                   	$groupBoard.append($boardTb); 
 
@@ -296,10 +298,35 @@
       
 	    </script>
 	    
+	    <!-- 투표 상세 페이지 이동 -->
 	    <script>
 	    	$(document).on("click",".detailBtn", function(){
 	    	var gvNo = $(this).next().val();
 	    		location.href="voteDetail.do?gvNo="+gvNo;
+	    	})
+	    </script>
+	    
+	    <!-- 투표 종료 -->
+	    <script>
+	    	$(document).on("click",".endBtn", function(){
+		    	var gvNo = $(this).parent().parent().next().val();
+		    	
+	    		location.href="endVote.do?gvNo="+gvNo;
+	    	})
+	    </script>
+	    
+	      <!-- 투표 삭제 -->
+	    <script>
+	    	$(document).on("click",".removeBtn", function(){
+	    		
+	    		
+	    		var deleteConfirm = confirm("투표를 삭제하시겠습니까? ");
+		 		if(deleteConfirm){
+		 			alert("투표를 삭제되었습니다.");
+		 			var gvNo = $(this).parent().parent().next().val();
+		    		location.href="removeVote.do?gvNo="+gvNo;
+		 		}
+		    	
 	    	})
 	    </script>
 	    

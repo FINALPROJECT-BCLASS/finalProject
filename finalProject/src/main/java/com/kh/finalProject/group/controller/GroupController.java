@@ -1267,5 +1267,35 @@ public class GroupController {
 	
 		}
 		
+		// 투표 종료
+		@RequestMapping(value = "endVote.do", method = RequestMethod.GET)
+		public String endVote(HttpSession session,  GroupVote gv) throws IOException {
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			
+			gv.setGmNo(String.valueOf(gInfo.getGmNo()));
+			gv.setgNo(String.valueOf(gInfo.getGroupNo()));
+			
+			int result = gService.endVote(gv); 
+
+			return "redirect:voteMain.do";
+	 
+		}
+		
+		@RequestMapping(value = "removeVote.do", method = RequestMethod.GET)
+		public String removeVote(HttpSession session,  GroupVote gv) throws IOException {
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			
+			gv.setGmNo(String.valueOf(gInfo.getGmNo()));
+			gv.setgNo(String.valueOf(gInfo.getGroupNo()));
+			
+			int result = gService.removeVote(gv); 
+			System.out.println("삭제 result: " + result);
+			
+	
+			
+			return "redirect:voteMain.do";
+	 
+		}
+		
 		
 }

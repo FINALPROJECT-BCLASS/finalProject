@@ -262,6 +262,14 @@ public class GroupDao {
 	public int oneTotalItem(GroupVote gv) {
 		return sqlSessionTemplate.selectOne("groupMapper.oneTotalItem", gv);		
 	}
+
+	public int endVote(GroupVote gv) {
+		return sqlSessionTemplate.update("groupMapper.endVote", gv);		
+		}
+
+	public int removeVote(GroupVote gv) {
+		return sqlSessionTemplate.delete("groupMapper.removeVote", gv);		
+	}
 	
 	
 	
