@@ -74,11 +74,11 @@
                         </tr>
                        <tr>
                            <td class="groupTbTd">ITEM&nbsp;</td>
-                           <td><input type="text" class="voteList" name="itemList" placeholder="   항목 입력"></td>
+                           <td><input type="text" class="voteList voteList1" name="itemList" placeholder="   항목 입력"></td>
                        </tr>
                        <tr>
                             <td class="groupTbTd">ITEM&nbsp;</td>
-                            <td><input type="text" class="voteList" name="itemList"  placeholder="   항목 입력" ></td>
+                            <td><input type="text" class="voteList voteList2" name="itemList"  placeholder="   항목 입력" ></td>
                       </tr>
                       <tr class="itemPlusTr">
                         <td></td>
@@ -122,12 +122,21 @@
          
          <!-- submit -->
          <script>
-         	$("#submit").click(function(){
-         		
-         		
-         		
-         		
-         		$("#voteForm").submit();
+         	$("#submit").click(function(){         	
+         	
+         		if($(".voteList1").val() == ""){
+         			alert("항목을 입력해주세요");
+         			
+         		} else if($(".voteList2").val() == ""){
+         			alert("항목을 입력해주세요");
+         			
+         		}else if($(".voteList").val() == ""){
+         			alert("항목을 입력해주세요");
+         			
+         		}else if($(".voteList2").val() != ""){
+         			$("#voteForm").submit();
+         		}         		
+         			
          		
          	})
          	
