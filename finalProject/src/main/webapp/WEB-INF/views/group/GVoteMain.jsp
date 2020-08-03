@@ -98,8 +98,8 @@
 
       
       <div class="join-form-area">
-	
-  		<jsp:include page="../common/groupNoticeHeader.jsp"/>
+		
+  			<jsp:include page="../common/groupNoticeHeader.jsp"/>
   		
   		
         <h1>Group Diary</h1>
