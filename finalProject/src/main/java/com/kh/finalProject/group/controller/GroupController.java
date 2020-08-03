@@ -1242,7 +1242,7 @@ public class GroupController {
 			mv.addObject("voteTotalList", voteTotalList);
 			mv.setViewName("group/GVoteDetail");
 			return mv;
-	
+	 
 		}
 		
 		// 투표하기
