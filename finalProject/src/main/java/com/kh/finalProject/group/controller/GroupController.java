@@ -1236,7 +1236,6 @@ public class GroupController {
 			GroupVote voteTotalList = gService.selectTotalItem(gv);
 	
 			ArrayList<GroupVote> memberList = gService.selectMemberList(gv);
-			System.out.println("상세 memberList : " + memberList);
 			
 			mv.addObject("gvNo", gv.getGvNo());
 			mv.addObject("noticeList", noticeList);
@@ -1453,11 +1452,13 @@ public class GroupController {
 			gv.setGmNo(String.valueOf(gInfo.getGmNo()));
 			System.out.println("투표 작성 anno : "+ anno );
 			System.out.println("투표 작성 gv : "+ gv );
-			
-			if(anno != null) {
-				gv.setGvAno("Y");
-			}
 
+			if(anno.equals("anno")) {
+				gv.setGvAno("Y");
+			}else if(anno.equals("no")){
+				gv.setGvAno("N");
+			}
+			System.out.println("작성 gv : " + gv);
 			int InsertResult = gService.insertNewVote(gv);
 			int voteCurrval = gService.voteCurrval();
 			
