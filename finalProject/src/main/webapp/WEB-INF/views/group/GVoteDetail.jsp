@@ -117,12 +117,13 @@
                     
 	                    <c:forEach var="i" items="${ itemList}">
 	                   	 <c:if test="${i.gviNo  eq voteTotalList.gviNo}">
+	                   	 	
 	                    	<tr>
 	                    		<td colspan="2">
 		                    		<div class="voteBox first yellowBox">
 					                    <span class="material-icons checkView">check</span>
 					                    <button class="voteTitle " value="${i.gviNo }">${i.gviItem }</button>
-					                    <input type="hidden" class="voteTitle" value="">
+					                    <input type="hidden" class="voteTitle" value="${i.gvNo }">
 					                    <span class="material-icons voteUser">person</span>
 					                    <span>${i.totalGviNo }</span>
 					                </div>
@@ -136,7 +137,7 @@
 			                    		<div class="voteBox">
 						                    <span class="material-icons checkView"></span>
 						                    <button class="voteTitle" value="${i.gviNo }">${i.gviItem }</button>
-						                    <input type="hidden" class="voteTitle" value="">
+						                    <input type="hidden" class="voteTitle"  value="${i.gvNo }">
 						                    <span class="material-icons voteUser">person</span>
 						                    <span>${i.totalGviNo }</span>
 						                </div>
@@ -197,14 +198,15 @@
                 
                 
                  gviNo = $(this).val();
-                
+                 gvNo = $(this).next().val();
+                 
         	  })
        	})   
 			</script>
 			
 			<script>
                 // 투표하기
-                var gvNo = $(".voteTitle").val();
+                
                
                 $("#submit").click(function(){
                 	location.href="toVote.do?gvNo="+gvNo+"&gviNo="+gviNo;

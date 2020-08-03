@@ -1090,7 +1090,6 @@ public class GroupController {
 		public ModelAndView voteMain(HttpSession session, ModelAndView mv,
 				@RequestParam(value = "page", required = false) String page) {
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
-			System.out.println("투표 메인 gInfo : " + gInfo);
 			GroupNotice noticeList = gService.selectNoticeOne(gInfo);
 
 			int currentPage = 1;
@@ -1100,7 +1099,6 @@ public class GroupController {
 			}
 
 			int listCount = gService.voteGetListCount(gInfo.getGroupNo());
-			System.out.println("투표 LISTCOUNT : " + listCount);
 			
 			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 
@@ -1142,12 +1140,7 @@ public class GroupController {
 			ArrayList<GroupVote> itemList = gService.selectItemList(gInfo);
 			ArrayList<GroupVote> voteMemberList = gService.selectVoteMemberLsit(gInfo);
 			
-			System.out.println("VOTILIST :" + voteList);
-			System.out.println("itemList :" + itemList);
-			System.out.println("voteMemberList :" + voteMemberList);
-			
 			response.setContentType("application/json;charset=utf-8");
-			
 			
 			JSONArray vArr = new JSONArray();
 			JSONArray iArr = new JSONArray();
@@ -1235,22 +1228,14 @@ public class GroupController {
 			
 			gv.setGmNo(String.valueOf(gInfo.getGmNo()));
 			gv.setgNo(String.valueOf(gInfo.getGroupNo()));
-			System.out.println("투표 ajax : " + gv);
+			GroupNotice noticeList = gService.selectNoticeOne(gInfo);
 			
 			GroupVote voteList = gService.selectOneVote(gv);
 			ArrayList<GroupVote> itemList = gService.selectOneItem(gv);
 			GroupVote voteTotalList = gService.selectTotalItem(gv);
-			
-			System.out.println("상세 voteList : " + voteList);
-			System.out.println("상세 itemList : " + itemList);
-
-			
-			
-//			수정하기
-			System.out.println("상세 voteTotalList : " + voteTotalList);
-			
-			
-			
+	
+			mv.addObject("gvNo", gv.getGvNo());
+			mv.addObject("noticeList", noticeList);
 			mv.addObject("gInfo", gInfo);
 			mv.addObject("voteList", voteList);
 			mv.addObject("itemList", itemList);
@@ -1262,13 +1247,12 @@ public class GroupController {
 		
 		// 투표하기
 		@RequestMapping(value = "toVote.do", method = RequestMethod.GET)
-		public ModelAndView voteAjax(ModelAndView mv, HttpSession session, HttpServletResponse response, GroupVote gv) throws IOException {
+		public String voteAjax( HttpSession session, HttpServletResponse response, GroupVote gv) throws IOException {
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 			int gmNo = gInfo.getGmNo();
 			int gNo = gInfo.getGroupNo();
 			String gvNo = gv.getGvNo();
-			
-			System.out.println("투표 ajax : " + gv);
+
 			
 			gv.setGmNo(String.valueOf(gInfo.getGmNo()));
 			gv.setgNo(String.valueOf(gInfo.getGroupNo()));
@@ -1276,23 +1260,10 @@ public class GroupController {
 			int deleteResult = gService.deleteVote(gv);
 			int insertResult = gService.insertVote(gv);
 			ArrayList<GroupVote> itemList = gService.selectOneItem(gv);
+
 			
-			System.out.println("투표 ajas deleteResult : " + deleteResult);
-			System.out.println("투표 ajas insertResult : " + insertResult);
-			
-			
-			mv.addObject("gvNo", gvNo);
-			mv.setViewName("redirect:voteDetail.do");
-			
-//			response.setContentType("application/json;charset=utf-8");
-//			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//
-//			PrintWriter out = response.getWriter();
-//			out.print("투표 성공");
-//			out.flush();
-//			out.close();
-			
-			return mv;
+
+			return "redirect:voteDetail.do?gvNo="+gvNo;
 	
 		}
 		
