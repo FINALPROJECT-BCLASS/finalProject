@@ -1260,12 +1260,14 @@ public class GroupController {
 	
 		}
 		
-		// 투표 ajax
-		@RequestMapping(value = "voteAjax.do", method = RequestMethod.GET)
-		public void voteAjax(HttpSession session, HttpServletResponse response, GroupVote gv) throws IOException {
+		// 투표하기
+		@RequestMapping(value = "toVote.do", method = RequestMethod.GET)
+		public ModelAndView voteAjax(ModelAndView mv, HttpSession session, HttpServletResponse response, GroupVote gv) throws IOException {
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 			int gmNo = gInfo.getGmNo();
 			int gNo = gInfo.getGroupNo();
+			String gvNo = gv.getGvNo();
+			
 			System.out.println("투표 ajax : " + gv);
 			
 			gv.setGmNo(String.valueOf(gInfo.getGmNo()));
@@ -1278,13 +1280,19 @@ public class GroupController {
 			System.out.println("투표 ajas deleteResult : " + deleteResult);
 			System.out.println("투표 ajas insertResult : " + insertResult);
 			
-			response.setContentType("application/json;charset=utf-8");
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-			PrintWriter out = response.getWriter();
-			out.print("투표 성공");
-			out.flush();
-			out.close();
+			
+			mv.addObject("gvNo", gvNo);
+			mv.setViewName("redirect:voteDetail.do");
+			
+//			response.setContentType("application/json;charset=utf-8");
+//			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//
+//			PrintWriter out = response.getWriter();
+//			out.print("투표 성공");
+//			out.flush();
+//			out.close();
+			
+			return mv;
 	
 		}
 		

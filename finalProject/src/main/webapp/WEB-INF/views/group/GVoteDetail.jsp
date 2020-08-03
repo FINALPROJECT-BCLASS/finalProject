@@ -158,6 +158,7 @@
                
                 <div class="groubJoinBtn">
                     <span id="reset" onclick="goBack();">Back</span>
+                    <span id="submit">To Vote</span>
                 </div>
                
             </div>
@@ -184,47 +185,32 @@
                 $(this).closest(".voteBox").css("background","#FBD14B");
 				$(this).parent().attr("class","voteBox yellowBox");
 				
-				var totalPlus = parseInt($(this).next().next().next().text());
+				/* var totalPlus = parseInt($(this).next().next().next().text());
 				$(this).next().next().next().text(totalPlus + 1);
 				
 				var totalMinus = parseInt($(".first").children().next().next().next().next().text());
 				$(".first").children().next().next().next().next().text(totalMinus - 1);
-				
+				 */
                 // 클릭한거 체크 표시
                 $(".voteTitle").prev("span").text("");
                 $(this).prev("span").text("check");
                 
                 
+                 gviNo = $(this).val();
+                
+        	  })
+       	})   
+			</script>
+			
+			<script>
                 // 투표하기
                 var gvNo = $(".voteTitle").val();
-                var gviNo = $(this).val();
-
-                 $.ajax({
-                    url:"voteAjax.do",
-                    type: "GET",
-                    dataType: "text",
-                    data:{gvNo:gvNo, gviNo:gviNo},
-                    success: function(data){
-                    	
-                    /* 	for(var i in itemList){
-                    	var $totalItem = data.itemList[i].totalGviNo;
-                    	
-                    	
-                    		}
-                    	 */
-                     
-                    },
-                    error:function(request, status, errorData){
-     						alert("error code: " + request.status + "\n"
-     								+"message: " + request.responseText
-     								+"error: " + errorData);
-     					}
-                });
-                 
-               })
-        	})   
-           
-          </script>
+               
+                $("#submit").click(function(){
+                	location.href="toVote.do?gvNo="+gvNo+"&gviNo="+gviNo;
+                			
+                	})
+          	</script>
         
          
          
