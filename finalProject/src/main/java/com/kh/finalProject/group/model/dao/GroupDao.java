@@ -291,6 +291,10 @@ public class GroupDao {
 	public ArrayList<GroupVote> selectfinishedVoteMemberLsit(GroupInfo gInfo) {
 		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectfinishedVoteMemberLsit", gInfo);		
 	}
+
+	public int insertNewVote(GroupVote gv) {
+		return sqlSessionTemplate.insert("groupMapper.insertNewVote", gv);		
+	}
 	
 	
 	

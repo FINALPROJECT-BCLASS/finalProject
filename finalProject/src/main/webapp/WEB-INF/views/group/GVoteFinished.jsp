@@ -210,7 +210,7 @@
                 	var $td5 = $("<td>");
                 	var $td6 = $("<td>").attr("class","etcBox");
                 	
-                	var $detailPage = $("<div>").text("Take Vote").attr("class","detailBtn");
+                
                 	var $gvNo = $("<input type='hidden' id='gvNo' value='"+ data.voteList[i].gvNo +"'>");
                 	
                 	var $emoticon = $("<div>").attr("class","MemberImgBox");
@@ -233,7 +233,7 @@
                  	
                		$td1.append($emoticon);
                		$td1.append($boardTitle);
-               		$td1.append($detailPage);
+               		
                		$td1.append($gvNo);
                		
                    	$tr1.append($td1);

@@ -1441,6 +1441,39 @@ public class GroupController {
 				}
 			}		
 		}
-
 		
+		// 투표 작성 View
+		@RequestMapping(value = "voteWrite.do", method = RequestMethod.GET)
+		public String voteWrite(Model model) {
+			return "group/GVoteInsert";
+		}
+		
+		// 투표 작성 
+		@RequestMapping(value = "voteInsert.do", method = RequestMethod.POST)
+		public ModelAndView voteInsert(HttpSession session, ModelAndView mv, GroupVote gv,
+				@RequestParam(value = "anno", required = false) String anno,
+				@RequestParam(value = "itemList", required = false) String itemList) {
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			String[] items = itemList.split(",");
+			
+			for(String i : items) {
+				System.out.println(i);
+			}
+			
+			gv.setgNo(String.valueOf(gInfo.getGroupNo()));
+			gv.setGmNo(String.valueOf(gInfo.getGmNo()));
+			System.out.println("투표 작성 anno : "+ anno );
+			System.out.println("투표 작성 gv : "+ gv );
+			
+			if(anno != null) {
+				gv.setGvAno("Y");
+			}
+			
+			int InsertResult = gService.insertNewVote(gv);
+			
+			System.out.println("insertResult : " + InsertResult);
+			System.out.println("투표 작성 itemList : "+ itemList );
+			
+			return mv;
+		}
 }

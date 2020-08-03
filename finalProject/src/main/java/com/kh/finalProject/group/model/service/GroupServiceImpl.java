@@ -332,6 +332,11 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.selectfinishedVoteMemberLsit(gInfo);
 	}
 
+	@Override
+	public int insertNewVote(GroupVote gv) {
+		return gDao.insertNewVote(gv);
+	}
+
 
 
 

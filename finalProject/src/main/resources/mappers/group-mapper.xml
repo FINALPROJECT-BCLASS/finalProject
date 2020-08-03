@@ -646,4 +646,19 @@
 		FROM GROUP_VOTE GV
 		RIGHT JOIN GROUP_VOTE_MEMBER GVM ON(GV.GV_NO = GVM.GVI_NO)
 	</select>
+	
+	<insert id="insertNewVote" parameterType="GroupVote">
+		INSERT INTO GROUP_VOTE
+		VALUES(
+			SEQ_GV.NEXTVAL,
+			#{gNo},
+			#{gmNo},
+			#{gvTitle},
+			#{gvCon},
+			SYSDATE,
+			TO_DATE(#{gvEnd},'YYYY-MM-DD'),
+			#{gvAno},
+			'N'
+		)
+	</insert>
 </mapper>

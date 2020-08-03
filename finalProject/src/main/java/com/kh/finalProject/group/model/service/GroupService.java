@@ -141,6 +141,8 @@ public interface GroupService {
 
 	ArrayList<GroupVote> selectfinishedVoteMemberLsit(GroupInfo gInfo);
 
+	int insertNewVote(GroupVote gv);
+
 
 	
 

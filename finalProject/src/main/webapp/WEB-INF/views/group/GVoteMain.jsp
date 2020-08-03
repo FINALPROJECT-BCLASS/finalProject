@@ -123,6 +123,14 @@
           </div>
 		</div>
 		
+		<!-- write Btn -->
+		<script>
+			$(".writeBtn").click(function(){
+				location.href="voteWrite.do";
+			})
+		</script>
+		
+		
 		<!-- Voting Btn -->
 		<script>
 			$(".voteBtn").click(function(){
