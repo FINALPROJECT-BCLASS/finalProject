@@ -1131,12 +1131,6 @@ public class GroupController {
 			pi.setLoginUserId(gInfo.getLoginUserId());
 			pi.setGroupNo(gInfo.getGroupNo());
 			pi.setGmNo(gInfo.getGmNo());
-
-			// 투표 목록
-			// 투표 항목 (항목에는 참여하지 않은사람을표시하기위해 미참여을넣어준다)
-			// 투표 참여자 ( 참여자 미참여자 표시) 
-			// 투표 참여자 수  미참여자 수(미참여자 수는 조인해서 null값 세기)
-			
 			
 			ArrayList<GroupVote> voteList = gService.selectVoteList(pi);
 			
@@ -1236,6 +1230,7 @@ public class GroupController {
 			GroupNotice noticeList = gService.selectNoticeOne(gInfo);
 			
 			GroupVote voteList = gService.selectOneVote(gv);
+			System.out.println("상세 voteList :" +  voteList);
 			ArrayList<GroupVote> itemList = gService.selectOneItem(gv);
 			GroupVote voteTotalList = gService.selectTotalItem(gv);
 	

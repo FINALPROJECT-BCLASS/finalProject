@@ -62,7 +62,9 @@
    	.memberImg{width:100%; height:100%;border-radius:50%; }
     
     .noticeBoardWriter{padding-left:37px; font-size:12px; font-weight: 600;}
-    .noticeBoardDate{padding-left:37px; font-size:12px; font-weight: 600;}
+    .dateView{margin-left: 35px; color: #2860E1;font-size: 13px;display:inline-block; }
+    .noticeBoardDate{display: inline-block;padding-left:10px; font-size:13px; font-weight: 400;}
+    #sample04{display: inline-block;margin-left: 15px;font-size: 13px;    color: #2860E1;}
     .noticeBoardContent{margin-left:37px; margin-top:10px; padding-top:5px;padding-left:15px; width:1050px; height:70px; overflow:scroll; overflow-x:hidden; font-size:13px; background: #F3F3F3; border-radius: 5px; margin-bottom: 7px;}
   	.boardPhotoList{width:200px; height:100px; display:inline-block; border-radius:6px;}
   	
@@ -209,6 +211,7 @@
                 	var $tr4 = $("<tr>");
                		var $tr5 = $("<tr>");
                 	var $tr6 = $("<tr>");
+                	var $tr7 = $("<tr>");
                 	
                 	var $td1 = $("<td>");
                 	var $td2 = $("<td>");
@@ -216,6 +219,7 @@
                 	var $td4 = $("<td>");
                 	var $td5 = $("<td>");
                 	var $td6 = $("<td>").attr("class","etcBox");
+                	var $td7 = $("<td>");
                 	
                 	var $detailPage = $("<div>").text("Take Vote").attr("class","detailBtn");
                 	var $gvNo = $("<input type='hidden' id='gvNo' value='"+ data.voteList[i].gvNo +"'>");
@@ -226,7 +230,14 @@
                                 	
                 	var $boardTitle = $("<div>").text(data.voteList[i].gvTitle).attr("class","noticeBoardTitle");
                   	var $boardWriter = $("<div>").text(data.voteList[i].name).attr("class","noticeBoardWriter");
+                  	var $voteStart = $("<div>").text("Start : ").attr("class","dateView");
                   	var $boardDate = $("<div>").text(data.voteList[i].gvStart).attr("class","noticeBoardDate");
+                  	
+                  	var $voteEnd = $("<div>").text("End : ").attr("class","dateView");
+                  	var $endDate = $("<div>").text(data.voteList[i].gvEnd).attr("class","noticeBoardDate");
+                  	/* var $endTime = countDownTimer('sample04', data.voteList[i].gvEnd); */ 
+                  	var $endDateForm = $("<div>").attr("id","sample04"); 
+                  	
                   	var $boardContent = $("<div>").text(data.voteList[i].gvCon).attr("class","noticeBoardContent");
                  	
                   	var $endBtn = $("<button class='voteSubmit endBtn'>").text("Close Vote");
@@ -248,8 +259,16 @@
                    	$td2.append($boardWriter);
                    	$tr2.append($td2);
                    	
+                   	$td3.append($voteStart);
                    	$td3.append($boardDate);
                    	$tr3.append($td3);
+                   	
+                   	if(data.voteList[i].gvEnd != null){
+                   	$td7.append($voteEnd);
+                   	$td7.append($endDate);
+                	/* $td7.append($endDateForm); */
+                   	$tr7.append($td7);
+                   	}
                    	
                    	$td4.append($boardContent);
                    	$tr4.append($td4);
@@ -305,6 +324,7 @@
                		$boardTb.append($tr1);
                   	$boardTb.append($tr2);
                   	$boardTb.append($tr3);
+                  	$boardTb.append($tr7);
                   	$boardTb.append($tr4);
                   	$boardTb.append($tr5);
                   	$boardTb.append($tr6);
@@ -312,6 +332,9 @@
                 
                   	$groupBoard.append($boardTb); 
 
+                  	
+                    	
+                    
                    	} // for voteList end
                },
                error:function(request, status, errorData){
@@ -355,9 +378,45 @@
 		    	
 	    	})
 	    </script>
-	    
-	  
-		    <!-- 스크롤 게시판 end -->
+    <!-- 스크롤 게시판 end -->
+    
+    <!-- 타이머 script -->
+			<script>
+            const countDownTimer = function (id, date) {
+                var _vDate = new Date(date); // 전달 받은 일자
+                var _second = 1000;
+                var _minute = _second * 60;
+                var _hour = _minute * 60;
+                var _day = _hour * 24;
+                var timer;
+        
+                function showRemaining() {
+                    var now = new Date();
+                    var distDt = _vDate - now;
+        		
+                    if (distDt < 0) {
+                        clearInterval(timer);	// setInterval()과 함께 사용(시간을 끝내주는 함수)
+                        document.getElementById(id).textContent = '해당 이벤트가 종료 되었습니다!';
+                        return;
+                    }
+        
+                    var days = Math.floor(distDt / _day);
+                    var hours = Math.floor((distDt % _day) / _hour);
+                    var minutes = Math.floor((distDt % _hour) / _minute);
+                    var seconds = Math.floor((distDt % _minute) / _second);
+        
+                    document.getElementById(id).textContent = days + ' d ';
+                    document.getElementById(id).textContent += hours + ' h ';
+                    document.getElementById(id).textContent += minutes + ' m ';
+                    document.getElementById(id).textContent += seconds + ' s ';
+                }
+                timer = setInterval(showRemaining, 1000);	// 시간 설정 값을 담은 함수
+            }
+       
+              /* countDownTimer('sample04', '2020/10/28'); // 2024년 4월 1일까지 */ 
+            
+   			   </script>
+   			   
 		     <jsp:include page="../common/footer.jsp"/>	
 </body>
 </html>
