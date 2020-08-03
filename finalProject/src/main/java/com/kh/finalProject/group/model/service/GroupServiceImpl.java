@@ -352,6 +352,11 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.selectMemberList(gv);
 	}
 
+	@Override
+	public GroupTable selectOneGroup(GroupInfo gInfo) {
+		return gDao.selectOneGroup(gInfo);
+	}
+
 
 
 

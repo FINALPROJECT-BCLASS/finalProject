@@ -149,6 +149,8 @@ public interface GroupService {
 
 	ArrayList<GroupVote> selectMemberList(GroupVote gv);
 
+	GroupTable selectOneGroup(GroupInfo gInfo);
+
 
 	
 

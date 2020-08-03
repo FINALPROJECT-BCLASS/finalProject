@@ -207,6 +207,17 @@ public class GroupController {
 
 		return filePath;
 	}
+	
+	// 그룹 수정
+	@RequestMapping(value = "voteSettings.do", method = RequestMethod.GET)
+	public ModelAndView voteSettings(ModelAndView mv, HttpSession session) {
+		GroupInfo gInfo = (GroupInfo)session.getAttribute("gInfo");
+		
+		GroupTable gt = gService.selectOneGroup(gInfo);
+		mv.addObject("groupTable", gt);
+		mv.setViewName("group/GGroupUpdate");
+		return mv;
+	}
 
 	// ---------------------------------- 그룹 메인 & 생성 end// -------------------------------------------
 
@@ -1476,4 +1487,7 @@ public class GroupController {
 			
 			return "redirect:voteMain.do";
 		}
+		
+		
+		
 }

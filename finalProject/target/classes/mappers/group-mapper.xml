@@ -10,6 +10,7 @@
 		<result property="gName" column="G_NAME"/>
 		<result property="gOrigin" column="G_ORIGIN"/>
 		<result property="gRename" column="G_RENAME"/>
+		<result property="gDate" column="G_DATE"/>
 		<result property="gDelete" column="G_DELETE"/>
 		<result property="id" column="ID"/>
 		
@@ -187,6 +188,15 @@
 		</foreach>
 		)M
 	</insert>
+	
+	<select id="selectOneGroup" resultMap="groupTableResultSet">
+		SELECT GT.G_NO AS G_NO, G_TITLE, G_CON, G_NAME, G_ORIGIN, G_DELETE, ID, G_DATE, GM_DELETE
+		FROM GROUP_TABLE GT
+		JOIN GROUP_MEMBER GM ON(GT.G_NO = GM.G_NO)
+		WHERE GT.G_NO = ${groupNo}
+		AND G_DELETE = 'N'
+        GROUP BY GT.G_NO, G_TITLE, G_CON, G_NAME, G_ORIGIN, G_DELETE, ID, G_DATE, GM_DELETE
+	</select>
 	
 	<!-- 그룹 메인 및 생성 end -->
 	

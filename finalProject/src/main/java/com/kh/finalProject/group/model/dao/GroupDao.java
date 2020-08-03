@@ -307,6 +307,10 @@ public class GroupDao {
 	public ArrayList<GroupVote> selectMemberList(GroupVote gv) {
 		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectMemberList", gv);		
 	}
+
+	public GroupTable selectOneGroup(GroupInfo gInfo) {
+		return sqlSessionTemplate.selectOne("groupMapper.selectOneGroup",gInfo);		
+	}
 	
 	
 	
