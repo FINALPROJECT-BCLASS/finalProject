@@ -214,7 +214,7 @@
                         <td>
                             <input style="margin-bottom: 13px;" type="text">
                             <input style="width: 411px; margin-right: 5px;" type="text">
-                            <button class="default-btn b-yell">Upload</button> 
+                            <button class="default-btn b-yell" onclick="searchAddress()">Search</button> 
 						</td>
                     </tr>
                     <tr class="map-area">

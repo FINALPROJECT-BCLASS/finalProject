@@ -1,12 +1,11 @@
 package com.kh.finalProject.daily.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -22,9 +21,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.finalProject.daily.model.service.DailyService;
+import com.kh.finalProject.daily.model.vo.Bookmark;
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
 import com.kh.finalProject.daily.model.vo.HabitSum;
@@ -711,6 +712,99 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 
 }
 	
-
+	@RequestMapping("bookmarkView.do")
+	public String bookmarkView() {
+		
+		return "daily/bookmarkList";
+	}
+	
+	@RequestMapping("addBookmarkView.do")
+	public String addbookmarkView() {
+		
+		return "daily/bookmarkGroupAdd";
+	}
+	
+		
+	@RequestMapping("insertBookmark.do")
+	public String insertBookmark(Bookmark bm, Model model,
+								HttpServletRequest request, HttpServletResponse response,
+								@RequestParam(value="file", required=false) MultipartFile file) {
+		
+		System.out.println("받아온 bm" + bm);
+		
+		
+		HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("loginUser");
+		String id = member.getId();
+		bm.setId(id);
+		
+		if(!file.getOriginalFilename().equals("")) {
+			
+			String renameFile = saveFile(file, bm, request);
+			
+			bm.setBl_origin(file.getOriginalFilename());
+			bm.setBl_rename(renameFile);
+			
+			System.out.println("새로 세팅한 bm :" + bm);
+		}
+		
+//		int result = mService.insertMember(m);
+//		
+//		
+//		if(result > 0) {
+//			return "member/login";
+//		}else {
+//			//로그인 실패
+//            model.addAttribute("msg","회원가입에 실패하셨습니다. 다시 시도해 주세요.");
+//            model.addAttribute("url","/join.do");
+//			
+//			return "common/redirect";
+//		}
+		
+		return "redirect:bookmarkView.do";
+	}
+	
+	// 저장 파일 이름 변경
+	
+		public String saveFile(MultipartFile file, Bookmark bm, HttpServletRequest request) {
+			
+			String root = request.getSession().getServletContext().getRealPath("resources");
+			
+			String savePath = root + "/muploadFiles/";
+			
+			File folder = new File(savePath);
+			
+			if(!folder.exists()) {
+				folder.mkdirs();
+			}
+			
+			// 업로드 시간을 기준으로 파일명 변경
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm");
+			
+			String originFileName = file.getOriginalFilename();
+			
+			// 파일명 앞에 '사용자 아이디_' 추가
+			String renameFileName = bm.getId() + "_" + sdf.format(new java.sql.Date(System.currentTimeMillis()))
+										+"."+originFileName.substring(originFileName.lastIndexOf(".")+1);
+			
+			String filePath = folder + "/" + renameFileName;
+			
+			try {
+				file.transferTo(new File(filePath));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			return renameFileName;
+			
+		}
+	
+	
+		
+	@RequestMapping("addMapView.do")
+	public String addMapView() {
+		
+		return "daily/bookmarkMapAdd";
+	}
 	
 }

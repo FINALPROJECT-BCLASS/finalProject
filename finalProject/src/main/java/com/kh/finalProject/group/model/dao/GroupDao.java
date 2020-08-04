@@ -262,6 +262,67 @@ public class GroupDao {
 	public int oneTotalItem(GroupVote gv) {
 		return sqlSessionTemplate.selectOne("groupMapper.oneTotalItem", gv);		
 	}
+
+	public int endVote(GroupVote gv) {
+		return sqlSessionTemplate.update("groupMapper.endVote", gv);		
+		}
+
+	public int removeVote(GroupVote gv) {
+		return sqlSessionTemplate.delete("groupMapper.removeVote", gv);		
+	}
+
+	public int finishedVoteGetListCount(int groupNo) {
+		return sqlSessionTemplate.selectOne("groupMapper.finishedVoteGetListCount", groupNo);
+	}
+
+	public ArrayList<GroupVote> selectfinishedVoteList(PageInfo pi) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectfinishedVoteList",pi, rowBounds);
+		
+	}
+
+	public ArrayList<GroupVote> selectfinishedItemList(GroupInfo gInfo) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectfinishedItemList", gInfo);		
+	}
+
+	public ArrayList<GroupVote> selectfinishedVoteMemberLsit(GroupInfo gInfo) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectfinishedVoteMemberLsit", gInfo);		
+	}
+
+	public int insertNewVote(GroupVote gv) {
+		return sqlSessionTemplate.insert("groupMapper.insertNewVote", gv);		
+	}
+
+	public int voteCurrval() {
+		return sqlSessionTemplate.selectOne("groupMapper.voteCurrval");		
+	}
+
+	public int insertNewItem(ArrayList<GroupVote> voteItemList) {
+		return sqlSessionTemplate.insert("groupMapper.insertNewItem", voteItemList);		
+	}
+
+	public ArrayList<GroupVote> selectMemberList(GroupVote gv) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectMemberList", gv);		
+	}
+
+	public GroupTable selectOneGroup(GroupInfo gInfo) {
+		return sqlSessionTemplate.selectOne("groupMapper.selectOneGroup",gInfo);		
+	}
+
+	public ArrayList<GroupMember> selectGroupMemberList(GroupInfo gInfo) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectGroupMemberList",gInfo);		
+	}
+
+	public int groupUpdate(GroupTable gt) {
+		return sqlSessionTemplate.update("groupMapper.groupUpdate",gt);		
+	}
+
+	public int deleteMemberList(int groupNo) {
+		return sqlSessionTemplate.delete("groupMapper.deleteMemberList",groupNo);		
+	}
 	
 	
 	

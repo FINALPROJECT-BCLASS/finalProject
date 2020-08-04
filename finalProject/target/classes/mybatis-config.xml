@@ -46,6 +46,9 @@
 		<typeAlias type="com.kh.finalProject.chat.model.vo.Chat" alias="Chat"/>
 		
 		<typeAlias type="com.kh.finalProject.memo.model.vo.Memo" alias="Memo"/>	<!-- 예지 -->
+		
+		
+		<typeAlias type="com.kh.finalProject.daily.model.vo.Bookmark" alias="Bookmark"/>
 
 	</typeAliases>
 

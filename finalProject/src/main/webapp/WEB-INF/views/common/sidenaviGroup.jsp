@@ -24,7 +24,7 @@
                 <li><a href="voteMain.do">Vote</a></li>
                 <li><a href="#">Account Book</a></li>
                 <li><a href="#">Ladder Game</a></li>
-                <li class="l-last-line"><a href="#">Settings</a></li>
+                <li class="l-last-line"><a href="voteSettings.do">Settings</a></li>
             </ul>
         </nav>
     </div>

@@ -47,6 +47,8 @@
 	            text-align: left;
 	            padding-left: 46px;
 	            width: 554px;
+	            display: flex;
+    			align-items: center;
 	        }
 	
 	        input[type="checkbox"] {
@@ -162,53 +164,73 @@
 	        }
 	
 	        /* 이미지 업로드 */
-		
-	        .profile-image-area {
-	            display: inline-block;
-	        }
-	        
-	        .profile-image {
-	            width: 60px;
-	            height: 60px;
-	        }
-	        
-	        .file-box {
-	            display: inline-block;
-	        }
-	        
-	        .file-box input[type="file"] {
-	            position: absolute;
-	            width: 0;
-	            height: 0;
-	            padding: 0;
-	            overflow: hidden;
-	            border: 0;
-	        }
-	        
-	        .file-box label {
-	            display: inline-block;
-	            height: 40px;
-	            padding: 7px 20px;
-	            color: #484848;
-	            font-size: 15px;
-	            font-weight: 600;
-	            vertical-align: middle;
-	            background-color: #FBD14B;
-	            cursor: pointer;
-	            border-radius: 8px;
-	            margin: 0;
-	        }
 	
-	        /* radio select */
+	.profile-image-area {
+	    width: 50px;
+	    height: 50px;
+	    border-radius: 50%;
+	    overflow: hidden;
+	    margin-right: 10px;
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	}
 	
-	        /* input[type="radio"] {
-	            display: none;
-	        } */
+	.profile-image {
+	    height: 135%;
+	}
 	
-	        /* input[type="radio"]:checked + label{
-	        background-color: #FBD14B;
-	        
-	        } */
+	.filebox {
+		display: inline-block;
+	}
+	
+	.filebox input[type="file"] {
+	    position: absolute;
+	    width: 0;
+	    height: 0;
+	    padding: 0;
+	    overflow: hidden;
+	    border: 0;
+	}
+	
+	.filebox label {
+		display: inline-block;
+	    height: 40px;
+	    padding: 7px 20px;
+	    color: #484848;
+	    font-size: 15px;
+	    font-weight: 600;
+	    vertical-align: middle;
+	    background-color: #FBD14B;
+	    cursor: pointer;
+	    border-radius: 8px;
+	    margin: 0;
+	}
+	
+	/* named upload */
+	.filebox .upload-name {
+		display: inline-block;
+	    vertical-align: middle;
+	    width: 164px;
+	    height: 40px;
+	    font-size: 13px;
+	    padding: 0 10px;
+	    border: 0;
+	    border-radius: 8px;
+	    margin-right: 5px;
+	    background-color: white;
+	}
+	
+        /* radio select */
+
+        /* input[type="radio"] {
+            display: none;
+        } */
+
+        /* input[type="radio"]:checked + label{
+        background-color: #FBD14B;
+        
+        } */
 	    </style>
 	</head>
 	<body>
@@ -216,7 +238,7 @@
 		<jsp:include page="../common/sidenaviDaily.jsp"/>
 	    <div class="right-area">
 	        <div>
-	            <form action="#">
+	            <form action="insertBookmark.do" method="post" enctype="multipart/form-data">
 	                <span class="pSubject">Add Bookmark Group</span>
 	                <table cellpadding="6px">
 	                    <tr>
@@ -226,15 +248,15 @@
 	                    <tr>
 	                        <td>Type</td>
 	                        <td>
-	                            <input type="radio" name="type" id="map">
-	                            <label for="map">Map</label> &nbsp;&nbsp;
-	                            <input type="radio" name="type" id="url">
-	                            <label for="url">Url</label>
+	                            <input type="radio" name="type" id="map" value="map">
+	                            <label for="map">&nbsp; Map</label> &nbsp;&nbsp;
+	                            <input type="radio" name="type" id="url" value="url">
+	                            <label for="url">&nbsp; Url</label>
 	                        </td>
 	                    </tr>
 	                    <tr>
 	                        <td>Content</td>
-	                        <td><textarea class="b-content"></textarea></td>
+	                        <td><textarea class="b-content" name="bl_con"></textarea></td>
 	                    </tr>
 	                    <tr>
 	                        <td>Image</td>
@@ -243,7 +265,7 @@
 	                                <img class="profile-image" src="resources/images/icons/profile_white.png">
 	                            </div>
 	                            <div class="file-box"> 
-	                                <input type="file" id="file"> 
+	                                <input type="file" id="file" name="file" onchange="uploadPhoto(this);"> 
 	                                <input class="upload-name" value="Select file">
 	                                <label class="b-yell" for="file">Upload</label> 
 	                            </div>
@@ -251,8 +273,8 @@
 	                    </tr>
 	                </table>
 	                <div class="button-area">
-	                    <button>Back</button>
-	                    <button>Save</button>
+	                    <button type="button">Back</button>
+	                    <button type="submit">Save</button>
 	                </div>
 	            </form>
 	        </div>
@@ -260,25 +282,27 @@
 	
 	    <script>
 	        
-	        /* 파일 업로드 */
-	        $(document).ready(function(){
-	        	
-	        	var fileTarget = $('#file');
-	        	
-	        	fileTarget.on('change', function(){
-	        		if(window.FileReader){
-	        			var filename = $(this)[0].files[0].name;
-	        		} else { 
-	        			var filename = $(this).val().split('/').pop().split('\\').pop();
-	        		}
-	        		
-	        		$(this).siblings('.upload-name').val(filename);
-	        		
-	        		$(".upload-file").attr("style", "display:inline-block");
-	        		
-	        	});
-	        	
-	        });
+		/* 파일 업로드 */
+	    
+	    function uploadPhoto(value) {
+	    	
+			if(value.files && value.files[0]) {
+				
+				var reader = new FileReader();
+			
+				reader.onload = function(e) {
+					
+					$(".profile-image").attr("src", e.target.result);
+					
+					var filename = $("#file").val().split('/').pop().split('\\').pop();
+					
+					$(".upload-name").val("");
+					$(".upload-name").val(filename);
+				}
+				
+				reader.readAsDataURL(value.files[0]);
+			}
+	    }
 	    </script>
 	    <jsp:include page="../common/footer.jsp"/>
 	</body>
