@@ -25,6 +25,7 @@
     .oneSearchBox:hover{width:100%; cursor: pointer; background:#FBD14B;}
     .oneSearchBox{width:100%; cursor: pointer; }
     .searchNameAfter{background:white; border:none; border-radius: 6px; height:100px; color:darkgray; height:150px; width:600px; overflow:scroll;  overflow-x:hidden;} /* width 다시보기*/
+     .adminBtn{ background:#2860E1 !important; color:white !important; }
     .searchNameBox{margin-bottom:20px; margin:5px; width:100px; height:30px; background:#FBD14B; border:none; border-radius: 5px; font-size:small;}
     .searchNameBox:hover{margin-bottom:20px; margin:5px; width:100px; height:30px; background:darkgray; border:none; border-radius: 5px; cursor:pointer;font-size:small;}
     .searchNameForm{display:none; height:100px; overflow:scroll;  overflow-x:hidden; }
@@ -125,9 +126,7 @@
                                     <input type="text" id="search" placeholder="참여명 검색">
                                     <span class="material-icons">search</span>
                                     <div class="searchNameForm">
-                                    	 <!-- <div class="searchName">&nbsp;김혜린</div>
-                                   		 <div class="searchName">&nbsp;김경섭</div> -->
-                                   		 <!-- ★★★ input으로 넘기는 값은 이름만 되도록? group_member는 어떻게 insert할지 생각 ★★★ -->
+                                    	 
                                     </div>
                              
                                 </div>
@@ -138,7 +137,14 @@
                             <td style="height:100px;">
                                 <div class="searchNameAfter">
                                     &nbsp;&nbsp;Click and remove it.<br>
-                                    <div class="searchNameAfterIn"></div>
+                                    <div class="searchNameAfterIn">
+                                    	<button type="button" class="searchNameBox adminBtn" value="${m.id }">
+		                                    	${m.name }&nbsp;${m.id }
+		                                    <input type="hidden" name="groupName" value="${m.name }">
+		                                    <input type="hidden" class='groupId adminId' name="groupId" value="${m.id }">
+	                                    </button>
+                                    
+                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -234,14 +240,18 @@
             
             
             //  클릭된 이름 삭제
-             $(".searchNameBox").click(function(){
-                 $(this).remove();
-            })
-
              $(document).on("click",".searchNameBox",function(){
-               		$(this).remove();
-           	})
-          
+            	 if($(this).hasClass("adminBtn") === true){
+            		 alert("그룹 생성자는 삭제 할  수 없습니다.");
+            	 }else if($(this).hasClass("adminBtn") === false){
+            		 
+            	 var deleteConfirm = confirm("삭제하시겠습니까? ");
+ 		 			if(deleteConfirm){
+ 		 				$(this).remove();
+ 					}
+            	 }
+ 
+            })
 
              
          </script>

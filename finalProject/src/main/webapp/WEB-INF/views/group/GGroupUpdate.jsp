@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,6 +26,7 @@
     .oneSearchBox:hover{width:100%; cursor: pointer; background:#FBD14B;}
     .oneSearchBox{width:100%; cursor: pointer; }
     .searchNameAfter{background:white; border:none; border-radius: 6px; height:100px; color:darkgray; height:150px; width:600px; overflow:scroll;  overflow-x:hidden;} /* width 다시보기*/
+    .adminBtn{ background:#2860E1 !important; color:white !important; }
     .searchNameBox{margin-bottom:20px; margin:5px; width:100px; height:30px; background:#FBD14B; border:none; border-radius: 5px; font-size:small;}
     .searchNameBox:hover{margin-bottom:20px; margin:5px; width:100px; height:30px; background:darkgray; border:none; border-radius: 5px; cursor:pointer;font-size:small;}
     .searchNameForm{display:none; height:100px; overflow:scroll;  overflow-x:hidden; }
@@ -108,9 +110,9 @@
  	<jsp:include page="../common/header.jsp"/>  
     <div class="join-form-area">
         <h1>Group Diary</h1>
-        <h4 class="pSubject">Join</h4><br>
+        <h4 class="pSubject">Update</h4><br>
             <div class="groupJoin">
-                <form action="groupInsert.do" method="post" id="groupInsertFrom" enctype="Multipart/form-data">
+                <form action="groupUpdate.do" method="post" id="groupUpdateFrom" enctype="Multipart/form-data">
                     <table class="groupTb">
                     	<%-- <input type="hidden" name="id" value="${loginUser.id }"> --%>
                         <tr>
@@ -139,16 +141,24 @@
                                 <div class="searchNameAfter">
                                     &nbsp;&nbsp;Click and remove it.<br>
                                     <div class="searchNameAfterIn">
-                                    <button type="button" class="searchNameBox" value="신희지">
-	                                    	신희지&nbsp;glwl
-	                                    <input type="hidden" name="groupName" value="신희지">
-	                                    <input type="hidden" class='groupId' name="groupId" value="glwl">
-                                    </button>
-                                    <button type="button" class="searchNameBox" value="김계연">
-	                                    	김계연&nbsp;dkssud
-	                                    <input type="hidden" name="groupName" value="김계연">
-	                                    <input type="hidden" class='groupId' name="groupId" value="dkssud">
-                                    </button>
+                                    
+	                                     <c:forEach var="m" items="${ memberList}">
+	                                     	<c:if test="${ groupTable.id eq m.gmId}">
+	                                   			<button type="button" class="searchNameBox adminBtn" value="${m.gmId }">
+				                                    	${m.name }&nbsp;${m.gmId }
+				                                    <input type="hidden" name="groupName" value="${m.name }">
+				                                    <input type="hidden" class='groupId adminId' name="groupId" value="${m.gmId }">
+			                                    </button>
+	                                     	</c:if>
+	                                     	<c:if test="${ groupTable.id ne m.gmId}">
+		                                    <button type="button" class="searchNameBox" value="${m.name }">
+			                                    	${m.name }&nbsp;${m.gmId }
+			                                    <input type="hidden" name="groupName" value="${m.name }">
+			                                    <input type="hidden" class='groupId' name="groupId" value="${m.gmId }">
+		                                    </button>
+		                                    </c:if>
+	                                    </c:forEach>
+                                    
                                     </div>
                                 </div>
                             </td>
@@ -165,7 +175,14 @@
                             <td class="groupTbTd">Profile Image&nbsp;</td>
                             <td>
                                <div class=profile-image-area>
-                        			<img class="profile-image" src="resources/groupMainFiles/${groupTable.gOrigin }">
+                               		<c:if test="${!empty groupTable.gOrigin }">
+                        				<img class="profile-image" src="resources/groupMainFiles/${groupTable.gOrigin }">
+                        			</c:if>
+                        			<c:if test="${empty groupTable.gOrigin }">
+                        				<img class="profile-image" src="resources/images/icons/profile_default.png">
+                        			</c:if>
+                        			<input type="hidden" name="beforeImg" value="${groupTable.gOrigin }">
+                        			<input type="hidden" name="gNo" value="${groupTable.gNo }"> 
                        			</div>
                               	<div class="filebox">
 								  <input type="file" id="file" class="ex_file" name="uploadFile" onchange="uploadPhoto(this);">
@@ -225,7 +242,7 @@
 					alert("가입할 멤버를 등록해주세요");
 					}else {
 						var aminName = "<input type='hidden' name='groupName' value='${sessionScope.loginUser.id}'>";
-						$("#groupInsertFrom").submit();
+						$("#groupUpdateFrom").submit();
 					}
 				})
 			
@@ -242,7 +259,10 @@
 	                $('.groupId').each(function(){
 	                 	  text = $(this).val();
 	                 	  if(text == $searchId){
+	                 		  
 	                 		  alert("그룹 가입자는 추가할 수 없습니다.");
+	                 		  sameText = text;
+	                 	  }else if(text != $searchId){
 	                 		  sameText = text;
 	                 	  }
 	                 	  
@@ -251,27 +271,35 @@
 	                 	  
 	                 	});
 		                if(sameText != $searchId){
-	                		 $searchNameAfter = $(".searchNameAfterIn");
+		                	
+	                		$searchNameAfter = $(".searchNameAfterIn");
 	                        $searchNameBox = "<button type='button' class='searchNameBox' value='"+ $searchName + "'>"+ $searchName + "&nbsp;" + $searchId 
 	                        +"<input type='hidden' name='groupName' value='" + $searchName + "'>" +"<input type='hidden' class='groupId' name='groupId' value='" + $searchId + "'></button>";
 	                        $searchNameAfter.append($searchNameBox);
+	                        
 	                	  }
+		                
 	           	  
              
             })
             
             
             //  클릭된 이름 삭제
-             $(".searchNameBox").click(function(){
-                 $(this).remove();
-            })
-
              $(document).on("click",".searchNameBox",function(){
-               		$(this).remove();
-           	})
-          
-
-             
+            	 if($(this).hasClass("adminBtn") === true){
+            		 alert("그룹 생성자는 탈퇴 시킬 수 없습니다.");
+            	 }else if($(this).hasClass("adminBtn") === false){
+            		 
+            	 var deleteConfirm = confirm("참여자를 탈퇴 시키겠습니까? ");
+ 		 			if(deleteConfirm){
+ 		 				$(this).remove();
+ 					}
+            	 }
+            	 
+            	 
+                 
+            })
+  
          </script>
          
          <!-- 이름 검색  -->

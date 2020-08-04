@@ -311,6 +311,18 @@ public class GroupDao {
 	public GroupTable selectOneGroup(GroupInfo gInfo) {
 		return sqlSessionTemplate.selectOne("groupMapper.selectOneGroup",gInfo);		
 	}
+
+	public ArrayList<GroupMember> selectGroupMemberList(GroupInfo gInfo) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectGroupMemberList",gInfo);		
+	}
+
+	public int groupUpdate(GroupTable gt) {
+		return sqlSessionTemplate.update("groupMapper.groupUpdate",gt);		
+	}
+
+	public int deleteMemberList(int groupNo) {
+		return sqlSessionTemplate.delete("groupMapper.deleteMemberList",groupNo);		
+	}
 	
 	
 	

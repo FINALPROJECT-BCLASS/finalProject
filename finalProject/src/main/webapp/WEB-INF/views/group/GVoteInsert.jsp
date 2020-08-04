@@ -123,8 +123,10 @@
          <!-- submit -->
          <script>
          	$("#submit").click(function(){         	
-         	
-         		if($(".voteList1").val() == ""){
+         		if($("#content").val() == ""){
+         			alert("제목을 입력해주세요");
+         			
+         		}else if($(".voteList1").val() == ""){
          			alert("항목을 입력해주세요");
          			
          		} else if($(".voteList2").val() == ""){

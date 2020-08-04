@@ -80,7 +80,7 @@ public class GroupController {
 		if (loginUser != null) {
 			String loginUserId = loginUser.getId();
 			ArrayList<GroupTable> list = gService.selectGroup(loginUserId);
-//			
+
 			mv.addObject("list", list);
 			mv.setViewName("group/GGroupMain");
 		} else {
@@ -93,8 +93,12 @@ public class GroupController {
 
 	// 그룹생성 View
 	@RequestMapping(value = "groupInsertView.do", method = RequestMethod.GET)
-	public String groupWrite(Model model) {
-		return "group/GGroupInsert";
+	public ModelAndView groupWrite(ModelAndView mv, HttpSession session) {
+		Member m = (Member)session.getAttribute("loginUser");
+		
+		mv.addObject("m", m);
+		mv.setViewName("group/GGroupInsert");
+		return mv;
 	}
 
 	// 그룹생성 이름검색
@@ -152,8 +156,9 @@ public class GroupController {
 			int groupNo = gService.groupNoSelect();
 
 			if (groupId != null) {
+				System.out.println("그룹아이디 : " + groupId);
 				String[] groupIds = groupId.split(",");
-
+				
 				ArrayList<GroupMemberList> memberList = new ArrayList<>();
 
 				for (int i = 0; i < groupIds.length; i++) {
@@ -164,16 +169,11 @@ public class GroupController {
 					gmList.setGroupNo(groupNo);
 
 					memberList.add(gmList);
+					System.out.println("gmList : " + gmList);
 				}
 
-				// 생성한 사람 GROUP_MEMBER INSERT
-				gmList = new GroupMemberList();
-				gmList.setGroupMemberId(m.getId());
-				gmList.setGroupNo(groupNo);
-
-				memberList.add(gmList);
-
 				System.out.println("그룹 생성 memberList : " + memberList);
+				
 				// GROUP_MEMBER INSERT
 				int memberResult = gService.groupMemberInsert(memberList);
 
@@ -214,11 +214,104 @@ public class GroupController {
 		GroupInfo gInfo = (GroupInfo)session.getAttribute("gInfo");
 		
 		GroupTable gt = gService.selectOneGroup(gInfo);
+		ArrayList<GroupMember> memberList = gService.selectGroupMemberList(gInfo);
+		
+		mv.addObject("memberList", memberList);
 		mv.addObject("groupTable", gt);
 		mv.setViewName("group/GGroupUpdate");
 		return mv;
 	}
+	
+	
+	// 그룹 사진 삭제
+	public void deleteGroupFile(String fileName, HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("resources");
+	
+		String savePath = root + "\\groupMainFiles";
+	
+		File f = new File(savePath + "\\" + fileName);
+		if(f.exists()) {
+			f.delete();
+		}
+	}
+	
+	// 그룹 수정
+		@RequestMapping(value = "groupUpdate.do", method = RequestMethod.POST)
+		public String groupUpdate(Model model, HttpSession session, HttpServletRequest request, GroupTable gt,
+				@RequestParam(value = "groupName", required = false) String groupName,
+				@RequestParam(name = "uploadFile", required = false) MultipartFile file,
+				@RequestParam(value = "groupId", required = false) String groupId,
+				@RequestParam(value = "beforeImg", required = false) String beforeImg) {
 
+			Member m = (Member) session.getAttribute("loginUser");
+			System.out.println("그룹 수정 loginId : " + m.getId());
+			System.out.println("그룹 수정  groupName: " + groupName);
+			System.out.println("그룹 수정 groupId : " + groupId);
+			System.out.println("그룹 수정 file: " + file);
+
+//			gt.setgName(groupName);
+
+			gt.setgDelete("N");
+			gt.setId(m.getId());
+
+			
+			
+			// 사진 삭제
+			if(beforeImg != null) {
+				deleteGroupFile(beforeImg, request);
+			}else {
+				System.out.println("기존 사진이 없습니다.");
+			}
+			
+			// 사진 파일 저장
+			if (!file.getOriginalFilename().contentEquals("")) { // 빈파일이 아니라면
+				String savePath = SaveFile(file, request);
+				if (savePath != null) { // 파일이 잘 저장된 경우
+					gt.setgOrigin(file.getOriginalFilename());
+				}
+			}
+			System.out.println("그룹 수정 gt : " + gt);
+			// GROUP_TABLE UPDATE
+			int result = gService.groupUpdate(gt);
+			
+			System.out.println("그룹 테이블 수정 : " + result);
+			
+			if (result > 0) { // 그룹 테이블 insert 성공시 그룹멤버 테이블 insert
+
+				int groupNo = gt.getgNo();
+				int deleteMember = gService.deleteMemberList(groupNo);
+				System.out.println("그룹 삭제 : " + deleteMember);
+				
+
+				if (groupId != null) {
+					System.out.println("수정 그룹아이디 : " + groupId);
+					String[] groupIds = groupId.split(",");
+					
+					ArrayList<GroupMemberList> memberList = new ArrayList<>();
+
+					for (int i = 0; i < groupIds.length; i++) {
+						gmList = new GroupMemberList();
+//						System.out.println("그룹 생성 id : " + System.identityHashCode(groupIds[i]));
+
+						gmList.setGroupMemberId(groupIds[i]);
+						gmList.setGroupNo(groupNo);
+
+						memberList.add(gmList);
+						System.out.println("gmList : " + gmList);
+					}
+
+					System.out.println("그룹 생성 memberList : " + memberList);
+					
+					// GROUP_MEMBER INSERT
+					int memberResult = gService.groupMemberInsert(memberList);
+
+				}
+				return "redirect:groupMain.do";
+			} else {
+				return "redirect:groupMain.do";
+			}
+		}
+	
 	// ---------------------------------- 그룹 메인 & 생성 end// -------------------------------------------
 
 	// ---------------------------------- 캘린더// ------------------------------------------------------
@@ -1461,15 +1554,13 @@ public class GroupController {
 			
 			gv.setgNo(String.valueOf(gInfo.getGroupNo()));
 			gv.setGmNo(String.valueOf(gInfo.getGmNo()));
-			System.out.println("투표 작성 anno : "+ anno );
-			System.out.println("투표 작성 gv : "+ gv );
 
 			if(anno.equals("anno")) {
 				gv.setGvAno("Y");
 			}else if(anno.equals("no")){
 				gv.setGvAno("N");
 			}
-			System.out.println("작성 gv : " + gv);
+
 			int InsertResult = gService.insertNewVote(gv);
 			int voteCurrval = gService.voteCurrval();
 			

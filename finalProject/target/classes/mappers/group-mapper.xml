@@ -24,6 +24,7 @@
 		<result property="gmId" column="GM_ID"/>
 		<result property="gNo" column="G_NO"/>
 		<result property="gmDelete" column="GM_DELETE"/>
+		<result property="name" column="NAME"/>
 	</resultMap>
 	 
 
@@ -198,6 +199,26 @@
         GROUP BY GT.G_NO, G_TITLE, G_CON, G_NAME, G_ORIGIN, G_DELETE, ID, G_DATE, GM_DELETE
 	</select>
 	
+	<select id="selectGroupMemberList" parameterType="GroupInfo" resultMap="groupMemberResultSet" >
+		SELECT GM_NO, GM_ID, G_NO, GM_DELETE, NAME
+		FROM GROUP_MEMBER TM
+		JOIN MEMBER M ON(TM.GM_ID  = M.ID)
+		WHERE GM_DELETE = 'N'
+        AND G_NO = ${groupNo}
+	</select>
+	
+	<update id="groupUpdate" parameterType="GroupTable">
+		UPDATE GROUP_TABLE 
+		SET G_TITLE = #{gTitle},
+		 	G_CON = #{gCon},
+		 	G_ORIGIN = #{gOrigin}
+		WHERE G_NO = #{gNo}
+	</update>
+	
+	<delete id="deleteMemberList" parameterType="_int">
+		DELETE FROM GROUP_MEMBER
+		WHERE G_NO = #{groupNo}
+	</delete>
 	<!-- 그룹 메인 및 생성 end -->
 	
 	<!-- 그룹 캘린더 -->
@@ -695,5 +716,7 @@
         JOIN MEMBER M ON (GM.GM_ID = M.ID)
         WHERE GVM.GV_NO = #{gvNo}
 	</select>
+	
+	
 	
 </mapper>

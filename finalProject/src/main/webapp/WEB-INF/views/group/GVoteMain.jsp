@@ -29,7 +29,7 @@
     .btnList{width:100%; text-align:right;}
     .groupBtn{border:none; font-weight: 600; background:none;}
     .voteBtn{color:#2860E1; font-size: 21px;}
-    .join-form-area{padding-top:150px !important;position:relative; float: right;display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 40px; width: 81%; background: #F3F3F3; }
+    .join-form-area{z-index:0; padding-top:150px !important;position:relative; float: right;display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 40px; width: 81%; background: #F3F3F3; }
     .groupJoin{width:900px;}
     
     /* 구글 아이콘 */
@@ -357,9 +357,12 @@
 	    <!-- 투표 종료 -->
 	    <script>
 	    	$(document).on("click",".endBtn", function(){
-		    	var gvNo = $(this).parent().parent().next().val();
-		    	
-	    		location.href="endVote.do?gvNo="+gvNo;
+	    		var deleteConfirm = confirm("투표를 종료하시겠습니까? ");
+		 		if(deleteConfirm){
+		 			alert("투표가 종료되었습니다.");
+		 			var gvNo = $(this).parent().parent().next().val();
+		 			location.href="endVote.do?gvNo="+gvNo;
+				}
 	    	})
 	    </script>
 	    

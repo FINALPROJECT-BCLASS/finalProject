@@ -151,6 +151,12 @@ public interface GroupService {
 
 	GroupTable selectOneGroup(GroupInfo gInfo);
 
+	ArrayList<GroupMember> selectGroupMemberList(GroupInfo gInfo);
+
+	int groupUpdate(GroupTable gt);
+
+	int deleteMemberList(int groupNo);
+
 
 	
 
