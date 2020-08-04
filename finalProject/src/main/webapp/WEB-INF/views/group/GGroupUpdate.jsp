@@ -148,6 +148,7 @@
 				                                    	${m.name }&nbsp;${m.gmId }
 				                                    <input type="hidden" name="groupName" value="${m.name }">
 				                                    <input type="hidden" class='groupId adminId' name="groupId" value="${m.gmId }">
+				                                    <input type="hidden" class='groupId' name="gmNo" value="${m.gmNO }">
 			                                    </button>
 	                                     	</c:if>
 	                                     	<c:if test="${ groupTable.id ne m.gmId}">
@@ -155,6 +156,7 @@
 			                                    	${m.name }&nbsp;${m.gmId }
 			                                    <input type="hidden" name="groupName" value="${m.name }">
 			                                    <input type="hidden" class='groupId' name="groupId" value="${m.gmId }">
+			                                    <input type="hidden" class='groupId' name="gmNo" value="${m.gmNO }">
 		                                    </button>
 		                                    </c:if>
 	                                    </c:forEach>

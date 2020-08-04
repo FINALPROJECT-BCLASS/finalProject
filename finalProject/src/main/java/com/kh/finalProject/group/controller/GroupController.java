@@ -215,7 +215,7 @@ public class GroupController {
 		
 		GroupTable gt = gService.selectOneGroup(gInfo);
 		ArrayList<GroupMember> memberList = gService.selectGroupMemberList(gInfo);
-		
+		System.out.println("수정가기전 memberList :" + memberList);
 		mv.addObject("memberList", memberList);
 		mv.addObject("groupTable", gt);
 		mv.setViewName("group/GGroupUpdate");
@@ -238,11 +238,12 @@ public class GroupController {
 	// 그룹 수정
 		@RequestMapping(value = "groupUpdate.do", method = RequestMethod.POST)
 		public String groupUpdate(Model model, HttpSession session, HttpServletRequest request, GroupTable gt,
+				
 				@RequestParam(value = "groupName", required = false) String groupName,
 				@RequestParam(name = "uploadFile", required = false) MultipartFile file,
 				@RequestParam(value = "groupId", required = false) String groupId,
 				@RequestParam(value = "beforeImg", required = false) String beforeImg) {
-
+			System.out.println("수정 gm:" + gm);
 			Member m = (Member) session.getAttribute("loginUser");
 			System.out.println("그룹 수정 loginId : " + m.getId());
 			System.out.println("그룹 수정  groupName: " + groupName);
@@ -304,9 +305,9 @@ public class GroupController {
 					
 					// GROUP_MEMBER INSERT
 					int memberResult = gService.groupMemberInsert(memberList);
-
+					System.out.println("수정 memberResult : " + memberResult);
 				}
-				return "redirect:groupMain.do";
+				return "group/GCalendarMain";
 			} else {
 				return "redirect:groupMain.do";
 			}
@@ -1218,7 +1219,7 @@ public class GroupController {
 		public void voteAjax(HttpServletResponse response, HttpSession session, GroupVote gv,
 				@RequestParam(value = "page", required = false) String page) throws IOException {
 			
-			
+			System.out.println("투표 ajax : " + page);
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 			int gmNo = gInfo.getGmNo();
 			Member loginUser = (Member) session.getAttribute("loginUser");
