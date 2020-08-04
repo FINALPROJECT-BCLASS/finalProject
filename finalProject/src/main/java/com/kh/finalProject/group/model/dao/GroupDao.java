@@ -323,6 +323,15 @@ public class GroupDao {
 	public int deleteMemberList(int groupNo) {
 		return sqlSessionTemplate.delete("groupMapper.deleteMemberList",groupNo);		
 	}
+
+	public int insertNewMember(GroupMember gm) {
+		return sqlSessionTemplate.delete("groupMapper.insertNewMember",gm);		
+	}
+
+	public int updateMember(GroupMember gm) {
+		return sqlSessionTemplate.update("groupMapper.updateMember",gm);		
+	}
+
 	
 	
 	

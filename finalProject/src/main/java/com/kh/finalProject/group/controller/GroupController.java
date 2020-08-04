@@ -212,9 +212,13 @@ public class GroupController {
 	@RequestMapping(value = "voteSettings.do", method = RequestMethod.GET)
 	public ModelAndView voteSettings(ModelAndView mv, HttpSession session) {
 		GroupInfo gInfo = (GroupInfo)session.getAttribute("gInfo");
-		
+
+		// 원래는 selectOne이었음
 		GroupTable gt = gService.selectOneGroup(gInfo);
+		System.out.println("수정가지전 gt : " + gt);
+		
 		ArrayList<GroupMember> memberList = gService.selectGroupMemberList(gInfo);
+		
 		System.out.println("수정가기전 memberList :" + memberList);
 		mv.addObject("memberList", memberList);
 		mv.addObject("groupTable", gt);
@@ -239,9 +243,11 @@ public class GroupController {
 		@RequestMapping(value = "groupUpdate.do", method = RequestMethod.POST)
 		public String groupUpdate(Model model, HttpSession session, HttpServletRequest request, GroupTable gt,
 				
-				@RequestParam(value = "groupName", required = false) String groupName,
 				@RequestParam(name = "uploadFile", required = false) MultipartFile file,
 				@RequestParam(value = "groupId", required = false) String groupId,
+				@RequestParam(value = "groupName", required = false) String groupName,
+				@RequestParam(value = "member", required = false) String member,
+				@RequestParam(value = "gmNo", required = false) String gmNo,
 				@RequestParam(value = "beforeImg", required = false) String beforeImg) {
 			System.out.println("수정 gm:" + gm);
 			Member m = (Member) session.getAttribute("loginUser");
@@ -280,32 +286,60 @@ public class GroupController {
 			if (result > 0) { // 그룹 테이블 insert 성공시 그룹멤버 테이블 insert
 
 				int groupNo = gt.getgNo();
-				int deleteMember = gService.deleteMemberList(groupNo);
-				System.out.println("그룹 삭제 : " + deleteMember);
+//				int deleteMember = gService.deleteMemberList(groupNo);
+//				System.out.println("그룹 삭제 : " + deleteMember);
 				
-
-				if (groupId != null) {
-					System.out.println("수정 그룹아이디 : " + groupId);
+				
+				System.out.println("그룹 수정 groupId : " + groupId);
+				System.out.println("그룹 수정 groupName : " + groupName);
+				System.out.println("그룹 수정 member : " + member);
+				System.out.println("그룹 수정 gmNo : " + gmNo);
+				if (groupId != null && groupName != null && member != null ) {
+					
+					
 					String[] groupIds = groupId.split(",");
+					String[] groupNames = groupName.split(",");
+					String[] members = member.split(",");
+					String[] gmNos = gmNo.split(",");
+					
 					
 					ArrayList<GroupMemberList> memberList = new ArrayList<>();
+					
 
 					for (int i = 0; i < groupIds.length; i++) {
-						gmList = new GroupMemberList();
+						gm = new GroupMember();
 //						System.out.println("그룹 생성 id : " + System.identityHashCode(groupIds[i]));
 
-						gmList.setGroupMemberId(groupIds[i]);
-						gmList.setGroupNo(groupNo);
+						gm.setGmId(groupIds[i]);
+						gm.setName(groupNames[i]);
+						
+						if(members[i].equals("plus")) {
+							members[i] = "N";
+						}else if(members[i].equals("minus")) {
+							members[i] = "Y";
+						}
+						gm.setGmDelete(members[i]);
+						gm.setgNo(String.valueOf(groupNo));
+						if(!gmNos[i].equals("x")) {
+							
+							gm.setGmNO(Integer.valueOf(gmNos[i]));
+							System.out.println("gm : " + gm);
+						}else {
+							System.out.println("새로 인서트 해야함");
+							System.out.println("인서트 해야하는 gm : " + gm);
+							int newresult = gService.insertNewMember(gm);
+							System.out.println("newresult : " + newresult);
+						}
 
-						memberList.add(gmList);
-						System.out.println("gmList : " + gmList);
+						int updateResult = gService.updateMember(gm);
+						System.out.println("updateResult : " + updateResult);
 					}
 
-					System.out.println("그룹 생성 memberList : " + memberList);
+//					System.out.println("그룹 생성 memberList : " + memberList);
 					
 					// GROUP_MEMBER INSERT
-					int memberResult = gService.groupMemberInsert(memberList);
-					System.out.println("수정 memberResult : " + memberResult);
+//					int memberResult = gService.groupMemberInsert(memberList);
+//					System.out.println("수정 memberResult : " + memberResult);
 				}
 				return "group/GCalendarMain";
 			} else {

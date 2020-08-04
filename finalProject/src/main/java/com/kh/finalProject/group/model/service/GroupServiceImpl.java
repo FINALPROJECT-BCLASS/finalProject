@@ -372,6 +372,15 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.deleteMemberList(groupNo);
 	}
 
+	@Override
+	public int insertNewMember(GroupMember gm) {
+		return gDao.insertNewMember(gm);
+	}
+
+	@Override
+	public int updateMember(GroupMember gm) {
+		return gDao.updateMember(gm);
+	}
 
 
 

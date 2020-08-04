@@ -157,6 +157,10 @@ public interface GroupService {
 
 	int deleteMemberList(int groupNo);
 
+	int insertNewMember(GroupMember gm);
+
+	int updateMember(GroupMember gm);
+
 
 	
 

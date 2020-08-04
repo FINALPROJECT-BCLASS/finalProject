@@ -190,7 +190,7 @@
 				
 			 	 page = parseInt(data.voteList[0].page);
               	 pagePlus = page + 1;
-              	 alert("pagePlus : " + pagePlus); 
+              	 /* alert("pagePlus : " + pagePlus); */ 
                    // 컨트롤러에서 가져온 방명록 리스트는 result.data에 담겨오도록 했다.
                    // 남은 데이터가 5개 이하일 경우 무한 스크롤 종료
               	 let length =  data.voteList.length;

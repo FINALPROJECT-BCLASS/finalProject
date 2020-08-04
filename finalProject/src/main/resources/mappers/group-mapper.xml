@@ -130,6 +130,7 @@
 		JOIN GROUP_MEMBER GM ON(GT.G_NO = GM.G_NO)
 		WHERE GM_ID = #{loginUserId}
 		AND G_DELETE = 'N'
+		AND GM_DELETE = 'N'
 	</select>
 
 	<select id="selectGroupMember" resultMap="groupMemberResultSet">
@@ -191,20 +192,19 @@
 	</insert>
 	
 	<select id="selectOneGroup" resultMap="groupTableResultSet">
-		SELECT GT.G_NO AS G_NO, G_TITLE, G_CON, G_NAME, G_ORIGIN, G_DELETE, ID, G_DATE, GM_DELETE
+		SELECT GT.G_NO AS G_NO, G_TITLE, G_CON, G_NAME, G_ORIGIN, G_DELETE, ID, G_DATE
 		FROM GROUP_TABLE GT
 		JOIN GROUP_MEMBER GM ON(GT.G_NO = GM.G_NO)
 		WHERE GT.G_NO = ${groupNo}
 		AND G_DELETE = 'N'
-        GROUP BY GT.G_NO, G_TITLE, G_CON, G_NAME, G_ORIGIN, G_DELETE, ID, G_DATE, GM_DELETE
+        GROUP BY GT.G_NO, G_TITLE, G_CON, G_NAME, G_ORIGIN, G_DELETE, ID, G_DATE
 	</select>
 	
 	<select id="selectGroupMemberList" parameterType="GroupInfo" resultMap="groupMemberResultSet" >
 		SELECT GM_NO, GM_ID, G_NO, GM_DELETE, NAME
 		FROM GROUP_MEMBER TM
 		JOIN MEMBER M ON(TM.GM_ID  = M.ID)
-		WHERE GM_DELETE = 'N'
-        AND G_NO = ${groupNo}
+		WHERE G_NO = ${groupNo}
 	</select>
 	
 	<update id="groupUpdate" parameterType="GroupTable">
@@ -219,6 +219,25 @@
 		DELETE FROM GROUP_MEMBER
 		WHERE G_NO = #{groupNo}
 	</delete>
+	
+	<insert id="insertNewMember" parameterType="GroupMember">
+		INSERT INTO GROUP_MEMBER
+		VALUES(
+			SEQ_GM.NEXTVAL,
+			#{gmId},
+			#{gNo},
+			#{gmDelete}
+		)
+		
+	</insert>
+	
+	<update id="updateMember" parameterType="GroupMember">
+		UPDATE GROUP_MEMBER
+		SET GM_ID = #{gmId},
+			G_NO = #{gNo},
+			GM_DELETE = #{gmDelete}
+		WHERE GM_NO = #{gmNO}
+	</update>
 	<!-- 그룹 메인 및 생성 end -->
 	
 	<!-- 그룹 캘린더 -->

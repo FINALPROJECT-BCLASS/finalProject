@@ -27,6 +27,7 @@
     .oneSearchBox{width:100%; cursor: pointer; }
     .searchNameAfter{background:white; border:none; border-radius: 6px; height:100px; color:darkgray; height:150px; width:600px; overflow:scroll;  overflow-x:hidden;} /* width 다시보기*/
     .adminBtn{ background:#2860E1 !important; color:white !important; }
+    .gmDeleteY{background:#dc3545 !important; color:white !important; }
     .searchNameBox{margin-bottom:20px; margin:5px; width:100px; height:30px; background:#FBD14B; border:none; border-radius: 5px; font-size:small;}
     .searchNameBox:hover{margin-bottom:20px; margin:5px; width:100px; height:30px; background:darkgray; border:none; border-radius: 5px; cursor:pointer;font-size:small;}
     .searchNameForm{display:none; height:100px; overflow:scroll;  overflow-x:hidden; }
@@ -149,15 +150,32 @@
 				                                    <input type="hidden" name="groupName" value="${m.name }">
 				                                    <input type="hidden" class='groupId adminId' name="groupId" value="${m.gmId }">
 				                                    <input type="hidden" class='groupId' name="gmNo" value="${m.gmNO }">
+				                                    <input type="hidden" class='groupId' name="member" value="plus">
+				                                    <input type="hidden" class='groupId' name="gmDelete" value="${m.gmDelete }">
 			                                    </button>
 	                                     	</c:if>
+	                                     	
 	                                     	<c:if test="${ groupTable.id ne m.gmId}">
+	                                     	<c:if test="${ m.gmDelete eq 'Y'}">
+		                                    <button type="button" class="searchNameBox gmDeleteY" value="${m.name }">
+			                                    	${m.name }&nbsp;${m.gmId }
+			                                    <input type="hidden" name="groupName" value="${m.name }">
+			                                    <input type="hidden" class='groupId' name="groupId" value="${m.gmId }">
+			                                    <input type="hidden" class='groupId' name="gmNo" value="${m.gmNO }">
+			                                    <input type="hidden" class='groupId' name="member" value="plus">
+			                                    <input type="hidden" class='groupId' name="gmDelete" value="${m.gmDelete }">
+		                                    </button>
+		                                    </c:if>
+		                                    <c:if test="${ m.gmDelete eq 'N'}">
 		                                    <button type="button" class="searchNameBox" value="${m.name }">
 			                                    	${m.name }&nbsp;${m.gmId }
 			                                    <input type="hidden" name="groupName" value="${m.name }">
 			                                    <input type="hidden" class='groupId' name="groupId" value="${m.gmId }">
 			                                    <input type="hidden" class='groupId' name="gmNo" value="${m.gmNO }">
+			                                    <input type="hidden" class='groupId' name="member" value="plus">
+			                                    <input type="hidden" class='groupId' name="gmDelete" value="${m.gmDelete }">
 		                                    </button>
+		                                    </c:if>
 		                                    </c:if>
 	                                    </c:forEach>
                                     
@@ -256,7 +274,7 @@
             	  var $searchNameBoxValue ="";
 	           	  var $searchName = $(this).children(".searchName").html();
 	           	  var $searchId = $(this).children(".searchId").html();
-	                
+	           	  
 	                // 중복확인
 	                $('.groupId').each(function(){
 	                 	  text = $(this).val();
@@ -276,7 +294,11 @@
 		                	
 	                		$searchNameAfter = $(".searchNameAfterIn");
 	                        $searchNameBox = "<button type='button' class='searchNameBox' value='"+ $searchName + "'>"+ $searchName + "&nbsp;" + $searchId 
-	                        +"<input type='hidden' name='groupName' value='" + $searchName + "'>" +"<input type='hidden' class='groupId' name='groupId' value='" + $searchId + "'></button>";
+	                        +"<input type='hidden' name='groupName' value='" + $searchName + "'>" 
+	                        +"<input type='hidden' class='groupId' name='groupId' value='" + $searchId + "'>"
+	                        +"<input type='hidden' class='groupId' name='gmNo' value='x'>"
+	                        +"<input type='hidden' class='groupId' name='member' value='plus'>"
+	                        "</button>";
 	                        $searchNameAfter.append($searchNameBox);
 	                        
 	                	  }
@@ -294,7 +316,9 @@
             		 
             	 var deleteConfirm = confirm("참여자를 탈퇴 시키겠습니까? ");
  		 			if(deleteConfirm){
- 		 				$(this).remove();
+ 		 				$(this).children().next().next().next().val("minus");
+ 		 				$(this).css("display","none");
+ 		 				
  					}
             	 }
             	 

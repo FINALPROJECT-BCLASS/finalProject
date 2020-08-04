@@ -93,8 +93,9 @@ public class GroupMember implements Serializable{
 	@Override
 	public String toString() {
 		return "GroupMember [gmNO=" + gmNO + ", gmId=" + gmId + ", gNo=" + gNo + ", gmDelete=" + gmDelete + ", name="
-				+ name + "]\n";
+				+ name + "]";
 	}
+
 
 
 	
