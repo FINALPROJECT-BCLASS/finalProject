@@ -11,6 +11,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <!-- 해더 css -->
 <link rel="stylesheet" href="resources/css/ChatHeader.css">
+<!-- 구글 아이콘 링크 -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body>
 

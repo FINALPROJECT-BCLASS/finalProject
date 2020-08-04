@@ -72,4 +72,14 @@ public class ChatDao {
 
 		return sqlSessionTemplate.selectOne("chatMapper.selectopenchatroomdetail", cm_no);
 	}
+
+	public int insertOpenChatmsg(HashMap<String, Object> dbmap) {
+		
+		return sqlSessionTemplate.insert("chatMapper.insertOpenChatmsg",dbmap);
+	}
+
+	public ArrayList<openChat> selectopenchatroomlist() {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("chatMapper.selectopenchatroomlist");
+	}
 }

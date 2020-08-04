@@ -82,5 +82,17 @@ public class ChatServiceImpl implements ChatService{
 	
 		return cDao.selectopenchatroomdetail(cm_no);
 	}
+
+	@Override
+	public int insertOpenChatmsg(HashMap<String, Object> dbmap) {
+		
+		return cDao.insertOpenChatmsg(dbmap);
+	}
+
+	@Override
+	public ArrayList<openChat> selectopenchatroomlist() {
+		
+		return cDao.selectopenchatroomlist();
+	}
 	
 }

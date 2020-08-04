@@ -165,9 +165,19 @@ public class ChatController {
 		return mv;
 	}
 	@RequestMapping("openchatroom.do")
-	public ModelAndView openchatroomViw(ModelAndView mv, HttpSession session) {
+	public ModelAndView openchatroomView(ModelAndView mv, HttpSession session) {
 		
-		mv.setViewName("chat/openchatlist");
+		ArrayList<openChat> oclist = new ArrayList<openChat>();
+		
+		oclist= cService.selectopenchatroomlist();
+		if(oclist != null) {
+			System.out.println("oc : " + oclist);
+		}else {
+		System.out.println("조회된 방이 없습니다.");
+		}
+		
+		
+		mv.addObject("oclist", oclist).setViewName("chat/openchatlist");
 		
 		return mv;
 	}
@@ -212,6 +222,7 @@ public class ChatController {
 		System.out.println("openchat : " + openchat);
 		
 		session.setAttribute("cm_no", cm_no);
+		
 		mv.addObject("cm_no", cm_no).addObject("openchat", openchat).setViewName("chat/openChatroom");
 		
 		

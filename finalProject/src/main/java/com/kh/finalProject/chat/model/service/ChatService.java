@@ -31,4 +31,8 @@ public interface ChatService {
 
 	openChat selectopenchatroomdetail(int cm_no);
 
+	int insertOpenChatmsg(HashMap<String, Object> dbmap);
+
+	ArrayList<openChat> selectopenchatroomlist();
+
 }
