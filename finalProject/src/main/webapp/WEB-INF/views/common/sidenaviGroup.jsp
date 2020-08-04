@@ -23,11 +23,28 @@
                 </li>
                 <li><a href="voteMain.do">Vote</a></li>
                 <li><a href="#">Account Book</a></li>
+                
                 <li><a href="#">Ladder Game</a></li>
-                <li class="l-last-line"><a href="voteSettings.do">Settings</a></li>
+                <!-- <li class="l-last-line"><a href="voteSettings.do">Settings</a></li> -->
+                <li class="l-last-line settings">Settings</li>
+               	
+                	
+                
             </ul>
         </nav>
     </div>
+    
+    <!-- settings -->
+    <script>
+    	$(".settings").click(function(){
+    		if(${gInfo.loginUserId } === ${groupTable.id }){
+    			location.href="voteSettings.do";
+    		}else if(${gInfo.loginUserId } != ${groupTable.id }){
+    			alert("해당 페이지는 그룹 관리자만 사용가능합니다.");
+    		}
+    	})
+    </script>
+    
     <script>
     	$(function(){
     		$(window).scroll(function(){

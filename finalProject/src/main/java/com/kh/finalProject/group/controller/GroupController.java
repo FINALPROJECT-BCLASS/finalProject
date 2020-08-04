@@ -347,12 +347,13 @@ public class GroupController {
 			}
 		}
 	
+		
 	// ---------------------------------- 그룹 메인 & 생성 end// -------------------------------------------
 
 	// ---------------------------------- 캘린더// ------------------------------------------------------
 	// 캘린더 메인 (그룹번호 세션생성)
 	@RequestMapping(value = "groupCalendarMain.do", method = RequestMethod.GET)
-	public String CalendarMain(Model model, HttpSession session, Member m, @RequestParam("groupNo") int groupNo) {
+	public ModelAndView CalendarMain(ModelAndView mv, HttpSession session, Member m, @RequestParam("groupNo") int groupNo) {
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		String id = loginUser.getId();
 
@@ -363,8 +364,16 @@ public class GroupController {
 		gInfo.setGmNo(memberNo);
 		
 		session.setAttribute("gInfo", gInfo);
+		GroupTable gt = gService.selectOneGroup(gInfo);
+		
 		System.out.println("gInfo : " + gInfo);
-		return "group/GCalendarMain";
+		System.out.println("gt : " + gt);
+		
+		mv.addObject("gInfo", gInfo);
+		mv.addObject("groupTable", gt);
+		mv.setViewName("common/sidenaviGroup");
+		mv.setViewName("group/GCalendarMain");
+		return mv;
 
 	}
 
