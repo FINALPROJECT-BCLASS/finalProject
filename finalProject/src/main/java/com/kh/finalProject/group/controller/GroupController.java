@@ -1226,7 +1226,7 @@ public class GroupController {
 			if (page != null) {
 				int Cpage = Integer.parseInt(page);
 				currentPage = Cpage;
-			}
+			} 
 
 			int listCount = gService.voteGetListCount(gInfo.getGroupNo());
 
