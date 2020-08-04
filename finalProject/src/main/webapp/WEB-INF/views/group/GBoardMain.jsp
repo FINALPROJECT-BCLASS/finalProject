@@ -157,7 +157,11 @@
                dataType: "json",
                data:{page:pagePlus},
                success: function(data){
-				
+            	   if(data.boardList[0] == null){
+      					$(".groupNotice").text("게시글이 없습니다.").css({"text-align":"center","padding-top":"200px","font-weight":"600","color":"gray"});
+      				}
+            	   
+            	   
               	 page = data.boardList[0].page;
               	 pagePlus = page + 1;
               	 

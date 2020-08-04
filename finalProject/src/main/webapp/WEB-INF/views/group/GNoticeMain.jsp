@@ -34,7 +34,7 @@
 	.writeBtn{color:#2860E1 !important; font-size:60px !important; cursor:pointer;}
 	.groupListCount{width:95%; margin-bottom:10px; text-align:right;}
 	
-    .emptyNoticeList{margin-top:100px; text-align:center; font-size:20px; font-weight:600;}
+    .emptyNoticeList{color: gray;margin-top:200px; text-align:center; font-size:15px; font-weight:600;}
     /* 공지게시판 */
     .memberImgBox{width:50px; height:50px; display:inline-block;margin:10px;}
    	.memberImg{width:100%; height:100%;border-radius:50%; }

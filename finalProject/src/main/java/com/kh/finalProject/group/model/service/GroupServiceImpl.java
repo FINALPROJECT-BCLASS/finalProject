@@ -302,6 +302,77 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.oneTotalItem(gv);
 	}
 
+	@Override
+	public int endVote(GroupVote gv) {
+		return gDao.endVote(gv);
+	}
+
+	@Override
+	public int removeVote(GroupVote gv) {
+		return gDao.removeVote(gv);
+	}
+
+	@Override
+	public int finishedVoteGetListCount(int groupNo) {
+		return gDao.finishedVoteGetListCount(groupNo);
+	}
+
+	@Override
+	public ArrayList<GroupVote> selectfinishedVoteList(PageInfo pi) {
+		return gDao.selectfinishedVoteList(pi);
+	}
+
+	@Override
+	public ArrayList<GroupVote> selectfinishedItemList(GroupInfo gInfo) {
+		return gDao.selectfinishedItemList(gInfo);
+	}
+
+	@Override
+	public ArrayList<GroupVote> selectfinishedVoteMemberLsit(GroupInfo gInfo) {
+		return gDao.selectfinishedVoteMemberLsit(gInfo);
+	}
+
+	@Override
+	public int insertNewVote(GroupVote gv) {
+		return gDao.insertNewVote(gv);
+	}
+
+	@Override
+	public int voteCurrval() {
+		return gDao.voteCurrval();
+	}
+
+	@Override
+	public int insertNewItem(ArrayList<GroupVote> voteItemList) {
+		return gDao.insertNewItem(voteItemList);
+	}
+
+	@Override
+	public ArrayList<GroupVote> selectMemberList(GroupVote gv) {
+		return gDao.selectMemberList(gv);
+	}
+
+	@Override
+	public GroupTable selectOneGroup(GroupInfo gInfo) {
+		return gDao.selectOneGroup(gInfo);
+	}
+
+	@Override
+	public ArrayList<GroupMember> selectGroupMemberList(GroupInfo gInfo) {
+		return gDao.selectGroupMemberList(gInfo);
+		}
+
+	@Override
+	public int groupUpdate(GroupTable gt) {
+		return gDao.groupUpdate(gt);
+	}
+
+	@Override
+	public int deleteMemberList(int groupNo) {
+		return gDao.deleteMemberList(groupNo);
+	}
+
+
 
 
 

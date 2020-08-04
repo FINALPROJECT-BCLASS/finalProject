@@ -69,8 +69,8 @@ public class HabitRecord implements Serializable{
 		return ht_no;
 	}
 
-	public void setHt_no(int i) {
-		this.ht_no = i;
+	public void setHt_no(int ht_no) {
+		this.ht_no = ht_no;
 	}
 
 	public String getHtr_date() {
