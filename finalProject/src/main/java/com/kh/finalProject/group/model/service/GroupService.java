@@ -129,6 +129,35 @@ public interface GroupService {
 
 	int oneTotalItem(GroupVote gv);
 
+	int endVote(GroupVote gv);
+
+	int removeVote(GroupVote gv);
+
+	int finishedVoteGetListCount(int groupNo);
+
+	ArrayList<GroupVote> selectfinishedVoteList(PageInfo pi);
+
+	ArrayList<GroupVote> selectfinishedItemList(GroupInfo gInfo);
+
+	ArrayList<GroupVote> selectfinishedVoteMemberLsit(GroupInfo gInfo);
+
+	int insertNewVote(GroupVote gv);
+
+	int voteCurrval();
+
+	int insertNewItem(ArrayList<GroupVote> voteItemList);
+
+	ArrayList<GroupVote> selectMemberList(GroupVote gv);
+
+	GroupTable selectOneGroup(GroupInfo gInfo);
+
+	ArrayList<GroupMember> selectGroupMemberList(GroupInfo gInfo);
+
+	int groupUpdate(GroupTable gt);
+
+	int deleteMemberList(int groupNo);
+
+
 	
 
 

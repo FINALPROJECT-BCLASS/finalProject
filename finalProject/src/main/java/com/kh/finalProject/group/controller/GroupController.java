@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+ 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
+ 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
@@ -80,7 +80,7 @@ public class GroupController {
 		if (loginUser != null) {
 			String loginUserId = loginUser.getId();
 			ArrayList<GroupTable> list = gService.selectGroup(loginUserId);
-//			
+
 			mv.addObject("list", list);
 			mv.setViewName("group/GGroupMain");
 		} else {
@@ -93,8 +93,12 @@ public class GroupController {
 
 	// 그룹생성 View
 	@RequestMapping(value = "groupInsertView.do", method = RequestMethod.GET)
-	public String groupWrite(Model model) {
-		return "group/GGroupInsert";
+	public ModelAndView groupWrite(ModelAndView mv, HttpSession session) {
+		Member m = (Member)session.getAttribute("loginUser");
+		
+		mv.addObject("m", m);
+		mv.setViewName("group/GGroupInsert");
+		return mv;
 	}
 
 	// 그룹생성 이름검색
@@ -152,8 +156,9 @@ public class GroupController {
 			int groupNo = gService.groupNoSelect();
 
 			if (groupId != null) {
+				System.out.println("그룹아이디 : " + groupId);
 				String[] groupIds = groupId.split(",");
-
+				
 				ArrayList<GroupMemberList> memberList = new ArrayList<>();
 
 				for (int i = 0; i < groupIds.length; i++) {
@@ -164,16 +169,11 @@ public class GroupController {
 					gmList.setGroupNo(groupNo);
 
 					memberList.add(gmList);
+					System.out.println("gmList : " + gmList);
 				}
 
-				// 생성한 사람 GROUP_MEMBER INSERT
-				gmList = new GroupMemberList();
-				gmList.setGroupMemberId(m.getId());
-				gmList.setGroupNo(groupNo);
-
-				memberList.add(gmList);
-
 				System.out.println("그룹 생성 memberList : " + memberList);
+				
 				// GROUP_MEMBER INSERT
 				int memberResult = gService.groupMemberInsert(memberList);
 
@@ -207,7 +207,111 @@ public class GroupController {
 
 		return filePath;
 	}
+	
+	// 그룹 수정
+	@RequestMapping(value = "voteSettings.do", method = RequestMethod.GET)
+	public ModelAndView voteSettings(ModelAndView mv, HttpSession session) {
+		GroupInfo gInfo = (GroupInfo)session.getAttribute("gInfo");
+		
+		GroupTable gt = gService.selectOneGroup(gInfo);
+		ArrayList<GroupMember> memberList = gService.selectGroupMemberList(gInfo);
+		
+		mv.addObject("memberList", memberList);
+		mv.addObject("groupTable", gt);
+		mv.setViewName("group/GGroupUpdate");
+		return mv;
+	}
+	
+	
+	// 그룹 사진 삭제
+	public void deleteGroupFile(String fileName, HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("resources");
+	
+		String savePath = root + "\\groupMainFiles";
+	
+		File f = new File(savePath + "\\" + fileName);
+		if(f.exists()) {
+			f.delete();
+		}
+	}
+	
+	// 그룹 수정
+		@RequestMapping(value = "groupUpdate.do", method = RequestMethod.POST)
+		public String groupUpdate(Model model, HttpSession session, HttpServletRequest request, GroupTable gt,
+				@RequestParam(value = "groupName", required = false) String groupName,
+				@RequestParam(name = "uploadFile", required = false) MultipartFile file,
+				@RequestParam(value = "groupId", required = false) String groupId,
+				@RequestParam(value = "beforeImg", required = false) String beforeImg) {
 
+			Member m = (Member) session.getAttribute("loginUser");
+			System.out.println("그룹 수정 loginId : " + m.getId());
+			System.out.println("그룹 수정  groupName: " + groupName);
+			System.out.println("그룹 수정 groupId : " + groupId);
+			System.out.println("그룹 수정 file: " + file);
+
+//			gt.setgName(groupName);
+
+			gt.setgDelete("N");
+			gt.setId(m.getId());
+
+			
+			
+			// 사진 삭제
+			if(beforeImg != null) {
+				deleteGroupFile(beforeImg, request);
+			}else {
+				System.out.println("기존 사진이 없습니다.");
+			}
+			
+			// 사진 파일 저장
+			if (!file.getOriginalFilename().contentEquals("")) { // 빈파일이 아니라면
+				String savePath = SaveFile(file, request);
+				if (savePath != null) { // 파일이 잘 저장된 경우
+					gt.setgOrigin(file.getOriginalFilename());
+				}
+			}
+			System.out.println("그룹 수정 gt : " + gt);
+			// GROUP_TABLE UPDATE
+			int result = gService.groupUpdate(gt);
+			
+			System.out.println("그룹 테이블 수정 : " + result);
+			
+			if (result > 0) { // 그룹 테이블 insert 성공시 그룹멤버 테이블 insert
+
+				int groupNo = gt.getgNo();
+				int deleteMember = gService.deleteMemberList(groupNo);
+				System.out.println("그룹 삭제 : " + deleteMember);
+				
+
+				if (groupId != null) {
+					System.out.println("수정 그룹아이디 : " + groupId);
+					String[] groupIds = groupId.split(",");
+					
+					ArrayList<GroupMemberList> memberList = new ArrayList<>();
+
+					for (int i = 0; i < groupIds.length; i++) {
+						gmList = new GroupMemberList();
+//						System.out.println("그룹 생성 id : " + System.identityHashCode(groupIds[i]));
+
+						gmList.setGroupMemberId(groupIds[i]);
+						gmList.setGroupNo(groupNo);
+
+						memberList.add(gmList);
+						System.out.println("gmList : " + gmList);
+					}
+
+					System.out.println("그룹 생성 memberList : " + memberList);
+					
+					// GROUP_MEMBER INSERT
+					int memberResult = gService.groupMemberInsert(memberList);
+
+				}
+				return "redirect:groupMain.do";
+			} else {
+				return "redirect:groupMain.do";
+			}
+		}
+	
 	// ---------------------------------- 그룹 메인 & 생성 end// -------------------------------------------
 
 	// ---------------------------------- 캘린더// ------------------------------------------------------
@@ -429,7 +533,7 @@ public class GroupController {
 
 		// 게시판 목록
 		ArrayList<GroupBoard> boardList = gService.selectBoardList(pi);
-
+		
 		// 사진 목록
 		ArrayList<GroupBoardPhoto> photoList = gService.selectPhotoList(pi);
 
@@ -947,7 +1051,7 @@ public class GroupController {
 			
 			mv.addObject("boardList", gbList);
 			mv.addObject("photoList", photoList);
-			mv.setViewName("group/updateBoard");
+			mv.setViewName("group/GUpdateBoard");
 		
 			return mv;
 	}
@@ -1087,10 +1191,9 @@ public class GroupController {
 	//---------------------------------투표 start --------------------------------
 		// 투표 메인
 		@RequestMapping(value = "voteMain.do", method = RequestMethod.GET)
-		public ModelAndView voteMain(HttpSession session, ModelAndView mv,
+		public ModelAndView voteMain(HttpSession session, ModelAndView mv, 
 				@RequestParam(value = "page", required = false) String page) {
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
-			System.out.println("투표 메인 gInfo : " + gInfo);
 			GroupNotice noticeList = gService.selectNoticeOne(gInfo);
 
 			int currentPage = 1;
@@ -1100,7 +1203,6 @@ public class GroupController {
 			}
 
 			int listCount = gService.voteGetListCount(gInfo.getGroupNo());
-			System.out.println("투표 LISTCOUNT : " + listCount);
 			
 			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 
@@ -1113,8 +1215,10 @@ public class GroupController {
 
 		// 투표 메인 ajax
 		@RequestMapping(value = "voteMainAjax.do", method = RequestMethod.GET)
-		public void voteAjax(HttpServletResponse response, HttpSession session,
+		public void voteAjax(HttpServletResponse response, HttpSession session, GroupVote gv,
 				@RequestParam(value = "page", required = false) String page) throws IOException {
+			
+			
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 			int gmNo = gInfo.getGmNo();
 			Member loginUser = (Member) session.getAttribute("loginUser");
@@ -1124,30 +1228,21 @@ public class GroupController {
 				currentPage = Cpage;
 			}
 
-			int listCount = gService.boardGetListCount(gInfo.getGroupNo());
+			int listCount = gService.voteGetListCount(gInfo.getGroupNo());
 
 			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 
 			pi.setLoginUserId(gInfo.getLoginUserId());
 			pi.setGroupNo(gInfo.getGroupNo());
 			pi.setGmNo(gInfo.getGmNo());
-
-			// 투표 목록
-			// 투표 항목 (항목에는 참여하지 않은사람을표시하기위해 미참여을넣어준다)
-			// 투표 참여자 ( 참여자 미참여자 표시) 
-			// 투표 참여자 수  미참여자 수(미참여자 수는 조인해서 null값 세기)
-			
 			
 			ArrayList<GroupVote> voteList = gService.selectVoteList(pi);
+			
+			System.out.println("ajax voteList : " + voteList);
 			ArrayList<GroupVote> itemList = gService.selectItemList(gInfo);
 			ArrayList<GroupVote> voteMemberList = gService.selectVoteMemberLsit(gInfo);
 			
-			System.out.println("VOTILIST :" + voteList);
-			System.out.println("itemList :" + itemList);
-			System.out.println("voteMemberList :" + voteMemberList);
-			
 			response.setContentType("application/json;charset=utf-8");
-			
 			
 			JSONArray vArr = new JSONArray();
 			JSONArray iArr = new JSONArray();
@@ -1163,7 +1258,8 @@ public class GroupController {
 			if (voteList != null) {
 				for (GroupVote v : voteList) {
 					JSONObject jObj = new JSONObject();
-
+					jObj.put("page", gv.getPage());
+					
 					jObj.put("gvNo", v.getGvNo());
 					jObj.put("gNo", v.getgNo());
 					jObj.put("gmNo", v.getGmNo());
@@ -1235,38 +1331,36 @@ public class GroupController {
 			
 			gv.setGmNo(String.valueOf(gInfo.getGmNo()));
 			gv.setgNo(String.valueOf(gInfo.getGroupNo()));
-//			System.out.println("투표 ajax : " + gv);
+			GroupNotice noticeList = gService.selectNoticeOne(gInfo);
 			
 			GroupVote voteList = gService.selectOneVote(gv);
-			ArrayList<GroupVote> itemList = gService.selectOneItem(gv);
-			GroupVote voteTotalList = gService.selectTotalItem(gv);
-			
-			System.out.println("상세 voteList : " + voteList);
-			System.out.println("상세 itemList : " + itemList);
 
+			ArrayList<GroupVote> itemList = gService.selectOneItem(gv);
+
+			GroupVote voteTotalList = gService.selectTotalItem(gv);
+	
+			ArrayList<GroupVote> memberList = gService.selectMemberList(gv);
 			
-			
-//			수정하기
-			System.out.println("상세 voteTotalList : " + voteTotalList);
-			
-			
-			
+			mv.addObject("gvNo", gv.getGvNo());
+			mv.addObject("noticeList", noticeList);
 			mv.addObject("gInfo", gInfo);
 			mv.addObject("voteList", voteList);
 			mv.addObject("itemList", itemList);
 			mv.addObject("voteTotalList", voteTotalList);
-			mv.setViewName("group/GGroupVoteDetail");
+			mv.addObject("memberList", memberList);
+			mv.setViewName("group/GVoteDetail");
 			return mv;
-	
+	 
 		}
 		
-		// 투표 ajax
-		@RequestMapping(value = "voteAjax.do", method = RequestMethod.GET)
-		public void voteAjax(HttpSession session, HttpServletResponse response, GroupVote gv) throws IOException {
+		// 투표하기
+		@RequestMapping(value = "toVote.do", method = RequestMethod.GET)
+		public String voteAjax( HttpSession session, HttpServletResponse response, GroupVote gv) throws IOException {
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 			int gmNo = gInfo.getGmNo();
 			int gNo = gInfo.getGroupNo();
-			System.out.println("투표 ajax : " + gv);
+			String gvNo = gv.getGvNo();
+
 			
 			gv.setGmNo(String.valueOf(gInfo.getGmNo()));
 			gv.setgNo(String.valueOf(gInfo.getGroupNo()));
@@ -1274,19 +1368,217 @@ public class GroupController {
 			int deleteResult = gService.deleteVote(gv);
 			int insertResult = gService.insertVote(gv);
 			ArrayList<GroupVote> itemList = gService.selectOneItem(gv);
-			
-			System.out.println("투표 ajas deleteResult : " + deleteResult);
-			System.out.println("투표 ajas insertResult : " + insertResult);
-			
-			response.setContentType("application/json;charset=utf-8");
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-			PrintWriter out = response.getWriter();
-			out.print("투표 성공");
-			out.flush();
-			out.close();
+			
+
+			return "redirect:voteDetail.do?gvNo="+gvNo;
 	
 		}
+		
+		// 투표 종료
+		@RequestMapping(value = "endVote.do", method = RequestMethod.GET)
+		public String endVote(HttpSession session,  GroupVote gv) throws IOException {
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			
+			gv.setGmNo(String.valueOf(gInfo.getGmNo()));
+			gv.setgNo(String.valueOf(gInfo.getGroupNo()));
+			
+			int result = gService.endVote(gv); 
+
+			return "redirect:voteMain.do";
+	 
+		}
+		
+		// 투표 삭제
+		@RequestMapping(value = "removeVote.do", method = RequestMethod.GET)
+		public String removeVote(HttpSession session,  GroupVote gv) throws IOException {
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			
+			gv.setGmNo(String.valueOf(gInfo.getGmNo()));
+			gv.setgNo(String.valueOf(gInfo.getGroupNo()));
+			
+			int result = gService.removeVote(gv);
+			
+			return "redirect:voteMain.do";
+	 
+		}
+		
+		// 투표 종료 메인
+		@RequestMapping(value = "finishedVote.do", method = RequestMethod.GET)
+		public ModelAndView finishedVote(HttpSession session, ModelAndView mv, GroupVote gv,
+				@RequestParam(value = "page", required = false) String page) {
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			GroupNotice noticeList = gService.selectNoticeOne(gInfo);
+
+			int currentPage = 1;
+			if (page != null) {
+				int Cpage = Integer.parseInt(page);
+				currentPage = Cpage;
+			}
+
+			int listCount = gService.finishedVoteGetListCount(gInfo.getGroupNo());
+
+			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+
+			mv.addObject("noticeList", noticeList);
+			mv.addObject("pi", pi);
+			mv.setViewName("group/GVoteFinished");
+
+			return mv;
+		}
+
+		// 투표 종료 메인 ajax
+		@RequestMapping(value = "finishedVoteMainAjax.do", method = RequestMethod.GET)
+		public void finishedVoteMainAjax(HttpServletResponse response, HttpSession session,GroupVote gv,
+				@RequestParam(value = "page", required = false) String page) throws IOException {
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			int gmNo = gInfo.getGmNo();
+			Member loginUser = (Member) session.getAttribute("loginUser");
+			
+			int currentPage = 1;
+			if (page != null) {
+				int Cpage = Integer.parseInt(page);
+				currentPage = Cpage;
+			}
+			
+			int listCount = gService.finishedVoteGetListCount(gInfo.getGroupNo());
+
+			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+
+			pi.setLoginUserId(gInfo.getLoginUserId());
+			pi.setGroupNo(gInfo.getGroupNo());
+			pi.setGmNo(gInfo.getGmNo());
+		
+			ArrayList<GroupVote> voteList = gService.selectfinishedVoteList(pi);
+			ArrayList<GroupVote> itemList = gService.selectfinishedItemList(gInfo);
+			ArrayList<GroupVote> voteMemberList = gService.selectfinishedVoteMemberLsit(gInfo);
+			
+			response.setContentType("application/json;charset=utf-8");
+			
+			JSONArray vArr = new JSONArray();
+			JSONArray iArr = new JSONArray();
+			JSONArray gArr = new JSONArray();
+			JSONArray mArr = new JSONArray();
+			
+			
+			gArr.add(gmNo);
+			
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+			if (voteList != null) {
+				for (GroupVote v : voteList) {
+					JSONObject jObj = new JSONObject();
+					
+					jObj.put("page", page);
+					
+					jObj.put("gvNo", v.getGvNo());
+					jObj.put("gNo", v.getgNo());
+					jObj.put("gmNo", v.getGmNo());
+					jObj.put("gvTitle", v.getGvTitle());
+					jObj.put("gvCon", v.getGvCon());
+					jObj.put("gvStart", v.getGvStart());
+					jObj.put("gvEnd", v.getGvEnd());
+					jObj.put("gvAno", v.getGvAno());
+					jObj.put("gvDelete", v.getGvDelete());
+					
+					jObj.put("name", v.getName());
+					jObj.put("renameFile", v.getRenameFile());
+				
+					vArr.add(jObj);
+				}
+				
+				if (itemList != null) {
+					for (GroupVote v : itemList) {
+						JSONObject jObj = new JSONObject();
+
+						jObj.put("gvNo", v.getGvNo());
+						jObj.put("gNo", v.getgNo());
+						
+						jObj.put("gviNo", v.getGviNo());
+						jObj.put("gviItem", v.getGviItem());
+						jObj.put("totalGviNo", v.getTotalGviNo());
+					
+
+						iArr.add(jObj);
+					}
+					
+				if (voteMemberList != null) {
+					for (GroupVote v : voteMemberList) {
+						JSONObject jObj = new JSONObject();
+
+						jObj.put("gvmNo", v.getGvmNo());
+						jObj.put("gvNo", v.getGvNo());
+						
+						jObj.put("gNo", v.getgNo());
+						jObj.put("gmNo", v.getGmNo());
+						jObj.put("gviNo", v.getGviNo());
+					
+
+						mArr.add(jObj);
+					}	
+
+				JSONObject sendJson = new JSONObject();
+				sendJson.put("voteList", vArr);
+				sendJson.put("itemList", iArr);
+				sendJson.put("gInfoGmNo", gArr);
+				sendJson.put("voteMemberList", mArr);
+				
+				PrintWriter out = response.getWriter();
+				out.print(sendJson);
+				out.flush();
+				out.close();
+
+			} else {
+				
+			}
+				}
+			}		
+		}
+		
+		// 투표 작성 View
+		@RequestMapping(value = "voteWrite.do", method = RequestMethod.GET)
+		public String voteWrite(Model model) {
+			return "group/GVoteInsert";
+		}
+		
+		// 투표 작성 
+		@RequestMapping(value = "voteInsert.do", method = RequestMethod.POST)
+		public String voteInsert(HttpSession session,GroupVote gv,
+				@RequestParam(value = "anno", required = false) String anno,
+				@RequestParam(value = "itemList", required = false) String itemList) {
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			String[] items = itemList.split(",");
+			
+			ArrayList<GroupVote> voteItemList = new ArrayList<>();
+			
+			gv.setgNo(String.valueOf(gInfo.getGroupNo()));
+			gv.setGmNo(String.valueOf(gInfo.getGmNo()));
+
+			if(anno.equals("anno")) {
+				gv.setGvAno("Y");
+			}else if(anno.equals("no")){
+				gv.setGvAno("N");
+			}
+
+			int InsertResult = gService.insertNewVote(gv);
+			int voteCurrval = gService.voteCurrval();
+			
+			for(String i : items) {
+				gv = new GroupVote();
+				gv.setgNo(String.valueOf(gInfo.getGroupNo()));
+				gv.setGvNo(String.valueOf(voteCurrval));
+				gv.setGviItem(i);
+				
+				voteItemList.add(gv);
+ 
+			}
+						
+			int InsertItem = gService.insertNewItem(voteItemList);
+			
+			return "redirect:voteMain.do";
+		}
+		
 		
 		
 }

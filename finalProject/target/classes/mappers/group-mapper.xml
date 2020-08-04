@@ -10,6 +10,7 @@
 		<result property="gName" column="G_NAME"/>
 		<result property="gOrigin" column="G_ORIGIN"/>
 		<result property="gRename" column="G_RENAME"/>
+		<result property="gDate" column="G_DATE"/>
 		<result property="gDelete" column="G_DELETE"/>
 		<result property="id" column="ID"/>
 		
@@ -23,6 +24,7 @@
 		<result property="gmId" column="GM_ID"/>
 		<result property="gNo" column="G_NO"/>
 		<result property="gmDelete" column="GM_DELETE"/>
+		<result property="name" column="NAME"/>
 	</resultMap>
 	 
 
@@ -188,6 +190,35 @@
 		)M
 	</insert>
 	
+	<select id="selectOneGroup" resultMap="groupTableResultSet">
+		SELECT GT.G_NO AS G_NO, G_TITLE, G_CON, G_NAME, G_ORIGIN, G_DELETE, ID, G_DATE, GM_DELETE
+		FROM GROUP_TABLE GT
+		JOIN GROUP_MEMBER GM ON(GT.G_NO = GM.G_NO)
+		WHERE GT.G_NO = ${groupNo}
+		AND G_DELETE = 'N'
+        GROUP BY GT.G_NO, G_TITLE, G_CON, G_NAME, G_ORIGIN, G_DELETE, ID, G_DATE, GM_DELETE
+	</select>
+	
+	<select id="selectGroupMemberList" parameterType="GroupInfo" resultMap="groupMemberResultSet" >
+		SELECT GM_NO, GM_ID, G_NO, GM_DELETE, NAME
+		FROM GROUP_MEMBER TM
+		JOIN MEMBER M ON(TM.GM_ID  = M.ID)
+		WHERE GM_DELETE = 'N'
+        AND G_NO = ${groupNo}
+	</select>
+	
+	<update id="groupUpdate" parameterType="GroupTable">
+		UPDATE GROUP_TABLE 
+		SET G_TITLE = #{gTitle},
+		 	G_CON = #{gCon},
+		 	G_ORIGIN = #{gOrigin}
+		WHERE G_NO = #{gNo}
+	</update>
+	
+	<delete id="deleteMemberList" parameterType="_int">
+		DELETE FROM GROUP_MEMBER
+		WHERE G_NO = #{groupNo}
+	</delete>
 	<!-- 그룹 메인 및 생성 end -->
 	
 	<!-- 그룹 캘린더 -->
@@ -518,7 +549,7 @@
 	</select>
 	
 	<select id="selectVoteList"  parameterType="GroupInfo" resultMap="groupVoteResultSet" >
-		SELECT GV.GV_NO, GV.G_NO, GV.GM_NO, GV_TITLE, GV_CON, GV_START, GV_END, GV_ANO, NAME , RENAME_FILE
+		SELECT GV.GV_NO, GV.G_NO, GV.GM_NO, GV_TITLE, GV_CON,TO_CHAR(TO_DATE(GV_START),'YYYY/MM/DD') AS GV_START, TO_CHAR(TO_DATE(GV_END),'YYYY/MM/DD') AS GV_END, GV_ANO, NAME , RENAME_FILE
         FROM GROUP_VOTE GV
         FULL JOIN GROUP_VOTE_ITEM GVI ON(GV.GV_NO = GVI.GV_NO)
         FULL JOIN GROUP_VOTE_MEMBER GVM ON(GVI.GVI_NO = GVM.GVI_NO)
@@ -531,13 +562,13 @@
 	</select>
 	
 	<select id="selectItemList" parameterType="GroupInfo"  resultMap="groupVoteResultSet" >
-		SELECT GV.GV_NO, GV.G_NO, GVI.GVI_NO, GVM.GM_NO, GVI_ITEM, COUNT(GVM.GVI_NO) AS TOTAL_GVI_NO 
+		SELECT GV.GV_NO, GV.G_NO, GVI.GVI_NO, GVI_ITEM, COUNT(GVM.GVI_NO) AS TOTAL_GVI_NO 
         FROM GROUP_VOTE GV
-        FULL JOIN GROUP_VOTE_ITEM GVI ON(GV.GV_NO = GVI.GV_NO)
+        full JOIN GROUP_VOTE_ITEM GVI ON(GV.GV_NO = GVI.GV_NO)
         FULL JOIN GROUP_VOTE_MEMBER GVM ON(GVI.GVI_NO = GVM.GVI_NO)
         WHERE GV.G_NO = #{groupNo}
         AND GV_DELETE = 'N'
-        GROUP BY GV.GV_NO, GV.G_NO, GVI_ITEM, GVI.GVI_NO, GVM.GM_NO
+        GROUP BY GV.GV_NO, GV.G_NO, GVI_ITEM, GVI.GVI_NO
         ORDER BY GVI_NO 
 	</select>
 	
@@ -548,7 +579,7 @@
 	</select>
 	
 	<select id="selectOneVote" parameterType="GroupVote"  resultMap="groupVoteResultSet" >
-		SELECT GV.GV_NO, GV.G_NO, GV.GM_NO, GV_TITLE, GV_CON, GV_START, GV_END, GV_ANO, NAME , RENAME_FILE
+		SELECT GV.GV_NO, GV.G_NO, GV.GM_NO, GV_TITLE, GV_CON,TO_CHAR(TO_DATE(GV_START),'YYYY/MM/DD') AS GV_START, TO_CHAR(TO_DATE(GV_END),'YYYY/MM/DD') AS GV_END, GV_ANO, NAME , RENAME_FILE
         FROM GROUP_VOTE GV
         FULL JOIN GROUP_VOTE_ITEM GVI ON(GV.GV_NO = GVI.GV_NO)
         FULL JOIN GROUP_VOTE_MEMBER GVM ON(GVI.GVI_NO = GVM.GVI_NO)
@@ -561,14 +592,14 @@
 	</select>
 	
 	<select id="selectOneItem" parameterType="GroupVote"  resultMap="groupVoteResultSet" >
-		SELECT GV.GV_NO, GV.G_NO, GVI.GVI_NO, GVM.GM_NO, GVI_ITEM, COUNT(GVM.GVI_NO) AS TOTAL_GVI_NO 
+		SELECT GV.GV_NO, GV.G_NO, GVI.GVI_NO, GVI_ITEM, COUNT(GVM.GVI_NO) AS TOTAL_GVI_NO 
         FROM GROUP_VOTE GV
-        FULL JOIN GROUP_VOTE_ITEM GVI ON(GV.GV_NO = GVI.GV_NO)
+        full JOIN GROUP_VOTE_ITEM GVI ON(GV.GV_NO = GVI.GV_NO)
         FULL JOIN GROUP_VOTE_MEMBER GVM ON(GVI.GVI_NO = GVM.GVI_NO)
-        WHERE GV.GV_NO = #{gvNo}
+       WHERE GV.GV_NO = #{gvNo}
         AND GV_DELETE = 'N'
-        GROUP BY GV.GV_NO, GV.G_NO, GVI_ITEM, GVI.GVI_NO, GVM.GM_NO
-        ORDER BY GVI_NO 
+        GROUP BY GV.GV_NO, GV.G_NO, GVI_ITEM, GVI.GVI_NO
+        ORDER BY GVI_NO  
 	</select>
 	
 	<select id="selectTotalItem" parameterType="GroupVote"  resultMap="groupVoteResultSet" >
@@ -595,8 +626,97 @@
 		    #{gviNo}
 		)
 	</insert>
+
+	<update id="endVote" parameterType="GroupVote">
+		UPDATE GROUP_VOTE SET GV_DELETE = 'Y' 
+		WHERE GV_NO = #{gvNo}
+	</update>
 	
-	<select id="oneTotalItem"  parameterType="GroupVote" resultType="_int">
+	<delete id="removeVote" parameterType="GroupVote">
+		DELETE FROM GROUP_VOTE
+		WHERE GV_NO = #{gvNo}
+	</delete>
 	
+	<select id="finishedVoteGetListCount"  resultType="_int">
+		SELECT COUNT(*)
+		FROM GROUP_VOTE
+		WHERE G_NO = #{groupNo}
+		AND GV_DELETE = 'Y'
 	</select>
+
+	<select id="selectfinishedVoteList" parameterType="GroupInfo" resultMap="groupVoteResultSet" >
+		SELECT GV.GV_NO, GV.G_NO, GV.GM_NO, GV_TITLE, GV_CON, GV_START, GV_END, GV_ANO, NAME , RENAME_FILE
+        FROM GROUP_VOTE GV
+        FULL JOIN GROUP_VOTE_ITEM GVI ON(GV.GV_NO = GVI.GV_NO)
+        FULL JOIN GROUP_VOTE_MEMBER GVM ON(GVI.GVI_NO = GVM.GVI_NO)
+        JOIN GROUP_MEMBER GM ON(GV.GM_NO = GM.GM_NO)
+        JOIN MEMBER M ON (GM.GM_ID = M.ID)
+        WHERE GV.G_NO = #{groupNo}
+        AND GV_DELETE = 'Y'
+        GROUP BY GV.GV_NO, GV.G_NO, GV.GM_NO, GV_TITLE, GV_CON, GV_START, GV_END, GV_ANO, NAME , RENAME_FILE
+        ORDER BY GV.GV_NO DESC	
+	</select>
+	
+	<select id="selectfinishedItemList" parameterType="GroupInfo"  resultMap="groupVoteResultSet" >
+		SELECT GV.GV_NO, GV.G_NO, GVI.GVI_NO, GVI_ITEM, COUNT(GVM.GVI_NO) AS TOTAL_GVI_NO 
+        FROM GROUP_VOTE GV
+        full JOIN GROUP_VOTE_ITEM GVI ON(GV.GV_NO = GVI.GV_NO)
+        FULL JOIN GROUP_VOTE_MEMBER GVM ON(GVI.GVI_NO = GVM.GVI_NO)
+        WHERE GV.G_NO = #{groupNo}
+        AND GV_DELETE = 'Y'
+        GROUP BY GV.GV_NO, GV.G_NO, GVI_ITEM, GVI.GVI_NO
+        ORDER BY GVI_NO 
+	</select>
+	
+	<select id="selectfinishedVoteMemberLsit" parameterType="GroupInfo" resultMap="groupVoteResultSet" >
+		SELECT GVM_NO, GVM.GV_NO, GVM.G_NO, GVM.GM_NO, GVM.GVI_NO AS GVI_NO
+		FROM GROUP_VOTE GV
+		RIGHT JOIN GROUP_VOTE_MEMBER GVM ON(GV.GV_NO = GVM.GVI_NO)
+	</select>
+	
+	<insert id="insertNewVote" parameterType="GroupVote">
+		INSERT INTO GROUP_VOTE
+		VALUES(
+			SEQ_GV.NEXTVAL,
+			#{gNo},
+			#{gmNo},
+			#{gvTitle},
+			#{gvCon},
+			SYSDATE,
+			TO_DATE(#{gvEnd},'YYYY-MM-DD'),
+			#{gvAno},
+			'N'
+		)
+	</insert>
+	
+	<select id="voteCurrval" resultType="_int">
+		SELECT SEQ_GV.CURRVAL
+		FROM DUAL
+	</select>
+	
+	<insert id="insertNewItem" parameterType="arraylist">
+		INSERT INTO GROUP_VOTE_ITEM(GVI_NO, G_NO, GV_NO, GVI_ITEM)
+		SELECT SEQ_GVI.NEXTVAL , I.*
+		FROM (
+		<foreach collection="list" item="voteItemList" index="ix" separator="UNION ALL">
+			SELECT	#{voteItemList.gvNo} AS G_NO,
+					 #{voteItemList.gvNo} AS GV_NO ,
+					 #{voteItemList.gviItem} AS GVI_ITEM 
+					 
+			FROM DUAL 
+		</foreach>
+		)I
+	</insert>
+	
+	<select id="selectMemberList" parameterType="GroupVote" resultMap="groupVoteResultSet" >
+	    SELECT GVM.GVI_NO, GVM.GM_NO, NAME
+        FROM GROUP_VOTE_MEMBER GVM
+        FULL JOIN GROUP_VOTE_ITEM GVI ON(GvM.G_NO = GVI.G_NO)
+        JOIN GROUP_MEMBER GM ON(GVM.GM_NO = GM.GM_NO)
+        JOIN MEMBER M ON (GM.GM_ID = M.ID)
+        WHERE GVM.GV_NO = #{gvNo}
+	</select>
+	
+	
+	
 </mapper>
