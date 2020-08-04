@@ -450,7 +450,11 @@
 		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 		<script>
 		
+		var myChart;
+		var myChartM;
+		
 		$(".content").hide();
+		
 		
 		var data = [];
 		var target = $('.habitItem');
@@ -480,7 +484,7 @@
 				dataType:"json",
 				success:function(data){
 					console.log("data" + data);
-					graph(data);
+					graph(data); 
 				},
 				error:function(request, status, errorData){
                       alert("error code: " + request.status + "\n"
@@ -526,9 +530,10 @@
 			thisMonth[i] = i+1;
 		}
 		
+		// 에이작스 데이터를 전역변수로 뺴고 그래프를 다큐먼트로 지정해주고 destroy()하고 실행하게 해보자.
 	    // graph 실행 함수
 	    function graph(data) {
-	    	
+	   	
 	    var labels = [];
 	    var datalist  = [];
 	    
@@ -546,11 +551,13 @@
 			}
 
 		}
-	    
+	
+     	 if (myChart) {
+          myChart.destroy();
+        }
 		
 		var ctx = document.getElementById('myChart').getContext('2d');
-		
-		var chart = new Chart(ctx, {
+		myChart = new Chart(ctx, {
 			
 		    // The type of chart we want to create
 		    type: 'bar',
@@ -558,7 +565,7 @@
 		    data: {
 		        labels: thisWeek,//['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'september', 'actober', 'rebember', ''],
 		        datasets: [{
-		            label: 'Drink water',
+		            label: $("#habitTitle").html(),
 		            backgroundColor: [
 		                'rgba(255, 99, 132, 0.2)',
 		                'rgba(54, 162, 235, 0.2)',
@@ -611,6 +618,10 @@
 		    	}
 		    }
 		});
+		/* chart.reset();
+		chart.data.datasets.push(datalist);
+		chart.update(); */
+		
 		
 		var datalistM = [];
 		
@@ -632,8 +643,12 @@
 
 		}
 		
+		if (myChartM) {
+	          myChartM.destroy();
+	    }
+		
 		var ctxm = document.getElementById('myChartM').getContext('2d');
-		var chartm = new Chart(ctxm, {
+		myChartM = new Chart(ctxm, {
 		    // The type of chart we want to create
 		    type: 'bar',
 
@@ -641,7 +656,7 @@
 		    data: {
 		        labels: thisMonth,//['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'september', 'actober', 'rebember', ''],
 		        datasets: [{
-		            label: 'Drink water',
+		            label: $("#habitTitle").html(),
 		            backgroundColor: [
 		                'rgba(255, 99, 132, 0.2)',
 		                'rgba(54, 162, 235, 0.2)',
@@ -691,10 +706,11 @@
 		    	legend:{
                 	display:false
       			}
-		    }
+		    } 
 		});
 		
 	    }
+	    
 		</script>
         <jsp:include page="../common/footer.jsp"/>
     </body>
