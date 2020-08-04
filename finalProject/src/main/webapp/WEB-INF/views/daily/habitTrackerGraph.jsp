@@ -649,7 +649,7 @@
 		
 		var ctxm = document.getElementById('myChartM').getContext('2d');
 		myChartM = new Chart(ctxm, {
-		    // The type of chart we want to create
+		    // The type of chart Swe want to create
 		    type: 'bar',
 
 		    // The data for our dataset
