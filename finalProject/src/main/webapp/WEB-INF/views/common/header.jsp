@@ -62,8 +62,8 @@
             <c:if test="${!empty sessionScope.loginUser }">
             	<c:if test="${sessionScope.loginUser.id eq 'admin' }">
             		<ul class = "navi-area">
-            			<c:url var="managemview" value="managemview.do"/>
-		                <li><a href="${managemview }">Member</a></li>
+            			<c:url var="memberlist" value="memberlist.do"/>
+		                <li><a href="${memberlist }">Member</a></li>
 		                <c:url var="managerview" value="managerview.do"/>
 		                <li><a href="${managerview }">Report</a></li>
 		            </ul>

@@ -21,6 +21,7 @@ public class Member implements Serializable {
 	private String original_file;
 	private String rename_file;
 	private Date join_date;
+	private String chat_yn;
 	private String out_yn;
 	
 	
@@ -29,7 +30,8 @@ public class Member implements Serializable {
 	}
 
 	public Member(String id, String name, String nickname, String pwd, String email, String phone, String birthday,
-			String address, int main_no, String original_file, String rename_file, Date join_date, String out_yn) {
+			String address, int main_no, String original_file, String rename_file, Date join_date, String chat_yn,
+			String out_yn) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -43,6 +45,7 @@ public class Member implements Serializable {
 		this.original_file = original_file;
 		this.rename_file = rename_file;
 		this.join_date = join_date;
+		this.chat_yn = chat_yn;
 		this.out_yn = out_yn;
 	}
 
@@ -154,17 +157,20 @@ public class Member implements Serializable {
 		return serialVersionUID;
 	}
 
+	public String getChat_yn() {
+		return chat_yn;
+	}
+
+	public void setChat_yn(String chat_yn) {
+		this.chat_yn = chat_yn;
+	}
+
 	@Override
 	public String toString() {
 		return "Member [id=" + id + ", name=" + name + ", nickname=" + nickname + ", pwd=" + pwd + ", email=" + email
 				+ ", phone=" + phone + ", birthday=" + birthday + ", address=" + address + ", main_no=" + main_no
 				+ ", original_file=" + original_file + ", rename_file=" + rename_file + ", join_date=" + join_date
-				+ ", out_yn=" + out_yn + "]";
+				+ ", chat_yn=" + chat_yn + ", out_yn=" + out_yn + "]";
 	}
-	
-	
-	
-	
-	
 	
 }

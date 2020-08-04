@@ -58,6 +58,7 @@
 		<mapper resource="/mappers/chat-mapper.xml"/>
 		<mapper resource="/mappers/account-mapper.xml"/>	<!-- 예지 -->
 		<mapper resource="/mappers/memo-mapper.xml"/>		<!-- 예지 -->
+		<mapper resource="/mappers/manager-mapper.xml"/>	<!-- 예지 -->
 	</mappers>
 	
 </configuration>
