@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.finalProject.daily.model.dao.DailyDao;
+import com.kh.finalProject.daily.model.vo.Bookmark;
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
 import com.kh.finalProject.daily.model.vo.HabitSum;
@@ -136,17 +137,25 @@ public class DailyServiceImpl implements DailyService {
 
 		return dailyDao.selectHabitRecord(hr);
 	}
-
+	
+	// 그래프 데이터 가져오기
 	@Override
 	public ArrayList<Habit> selectGraphData(HashMap<String, String> map) {
 
 		return dailyDao.selectGraphData(map);
 	}
 
+	// 습관 수정하기
 	@Override
 	public int updateHabit(Habit habit) {
 
 		return dailyDao.updateHabit(habit);
+	}
+
+	@Override
+	public int insertBookmarkGroup(Bookmark bm) {
+
+		return dailyDao.insertBookmarkGroup(bm);
 	}
 
 

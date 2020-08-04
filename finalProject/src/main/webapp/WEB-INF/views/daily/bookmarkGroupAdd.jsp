@@ -243,14 +243,14 @@
 	                <table cellpadding="6px">
 	                    <tr>
 	                        <td>Title</td>
-	                        <td><input type="text"></td>
+	                        <td><input type="text" name="bl_title"></td>
 	                    </tr>
 	                    <tr>
 	                        <td>Type</td>
 	                        <td>
-	                            <input type="radio" name="type" id="map" value="map">
+	                            <input type="radio" name="bl_type" id="map" value="map">
 	                            <label for="map">&nbsp; Map</label> &nbsp;&nbsp;
-	                            <input type="radio" name="type" id="url" value="url">
+	                            <input type="radio" name="bl_type" id="url" value="url">
 	                            <label for="url">&nbsp; Url</label>
 	                        </td>
 	                    </tr>

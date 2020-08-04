@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.finalProject.daily.model.vo.Bookmark;
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
 import com.kh.finalProject.daily.model.vo.HabitSum;
@@ -126,6 +127,11 @@ public class DailyDao {
 	public int updateHabit(Habit habit) {
 
 		return sqlSessionTemplate.update("dailyMapper.updateHabit", habit);
+	}
+
+	public int insertBookmarkGroup(Bookmark bm) {
+
+		return sqlSessionTemplate.insert("dailyMapper.insertBookmarkGroup", bm);
 	}
 
 

@@ -3,6 +3,7 @@ package com.kh.finalProject.daily.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.kh.finalProject.daily.model.vo.Bookmark;
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
 import com.kh.finalProject.daily.model.vo.HabitSum;
@@ -50,6 +51,8 @@ public interface DailyService {
 	ArrayList<Habit> selectGraphData(HashMap<String, String> map);
 
 	int updateHabit(Habit habit);
+
+	int insertBookmarkGroup(Bookmark bm);
 
 
 

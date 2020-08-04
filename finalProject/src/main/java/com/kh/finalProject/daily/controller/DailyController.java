@@ -748,20 +748,21 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 			System.out.println("새로 세팅한 bm :" + bm);
 		}
 		
-//		int result = mService.insertMember(m);
-//		
-//		
-//		if(result > 0) {
-//			return "member/login";
-//		}else {
-//			//로그인 실패
-//            model.addAttribute("msg","회원가입에 실패하셨습니다. 다시 시도해 주세요.");
-//            model.addAttribute("url","/join.do");
-//			
-//			return "common/redirect";
-//		}
+		int result = dailyService.insertBookmarkGroup(bm);
 		
-		return "redirect:bookmarkView.do";
+		
+		if(result > 0) {
+			
+			return "redirect:bookmarkView.do";
+			
+		}else {
+			
+            model.addAttribute("msg","북마크 등록 실패, 다시 시도해 주세요.");
+            model.addAttribute("url","/addBookmarkView.do");
+			
+			return "common/redirect";
+		}
+		
 	}
 	
 	// 저장 파일 이름 변경

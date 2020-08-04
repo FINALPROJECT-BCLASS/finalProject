@@ -254,18 +254,29 @@
 	
 	<update id="updateHabit" parameterType="Habit">
 		UPDATE HABIT_TRACKER
-		SET HT_TITLE= #{ht_title},
-			HT_TYPE= #{ht_type},
-			HT_GOAL= #{ht_goal},
-			HT_UNIT= #{ht_unit},
-			HT_CYCLE = #{ht_cycle},
-			HT_AMOUNT = #{ht_amount},
-			HT_COLOR = #{ht_color},
-			HT_CON = #{ht_con}
+		SET HT_TITLE= #{ht_title}
+			, HT_TYPE= #{ht_type}
+			, HT_GOAL= #{ht_goal}
+			, HT_UNIT= #{ht_unit}
+			, HT_CYCLE = #{ht_cycle}
+			, HT_AMOUNT = #{ht_amount}
+			, HT_COLOR = #{ht_color}
+			, HT_CON = #{ht_con}
 		WHERE HT_NO = #{ht_no}
 		AND ID = #{id}
 		AND HT_DELETE = 'N'
 	</update>
 	
+	<insert id="insertBookmarkGroup" parameterType="Bookmark">
+		INSERT INTO BOOKMARK_LIST
+		VALUES (SEQ_BL.NEXTVAL
+				, #{id}
+				, #{bl_title}
+				, #{bl_con}
+				, #{bl_type}
+				, #{bl_origin}
+				, #{bl_rename}
+				, DEFAULT)
+	</insert>
 	
 </mapper>
