@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.finalProject.manager.model.vo.MPageInfo;
+import com.kh.finalProject.manager.model.vo.Report;
 import com.kh.finalProject.member.model.vo.Member;
 
 @Repository("mgDao")
@@ -28,6 +29,20 @@ public class ManagerDao {
 		RowBounds rowBounds = new RowBounds(offset, mpi.getBoardLimit());
 		
 		return (ArrayList)sqlSessionTemplate.selectList("managerMapper.selectMList", mpi.getId(), rowBounds);
+	}
+
+	public int getReportCount(String id) {
+		
+		return sqlSessionTemplate.selectOne("managerMapper.getReportCount", id);
+	}
+
+	public ArrayList<Report> selectRList(MPageInfo mpi) {
+		
+		int offset = (mpi.getCurrentPage() - 1) * mpi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, mpi.getBoardLimit());
+	
+		return (ArrayList)sqlSessionTemplate.selectList("managerMapper.selectRList", mpi.getId(), rowBounds);
 	}
 
 }

@@ -18,6 +18,16 @@
 		<result property="chat_yn" column="CHAT_YN"/>
 		<result property="out_yn" column="OUT_YN"/>
 	</resultMap>
+	
+	<resultMap type="Report" id="reportResultSet">
+		<id property="rpNo" column="RP_NO"/>
+		<result property="id" column="ID"/>
+		<result property="rpDate" column="RP_DATE"/>
+		<result property="rpCon" column="RP_CON"/>
+		<result property="rpResult" column="RP_RESULT"/>
+		<result property="rpRDate" column="RP_RDATE"/>
+		<result property="rpCount" column="RP_COUNT"/>
+	</resultMap>
 
 	<select id="getMemberCount" parameterType="string" resultType="_int">
 		SELECT COUNT(*)
@@ -32,6 +42,21 @@
 		FROM MEMBER
 		WHERE OUT_YN='N'
 			AND ID LIKE '%'||#{id}||'%'
+			AND ID!='admin'
+	</select>
+	
+	<select id="getReportCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*)
+		FROM REPORT
+		WHERE ID LIKE '%'||#{id}||'%'
+			AND ID!='admin'	
+	</select>
+	
+	<select id="selectRList" parameterType="string" resultMap="reportResultSet">
+		SELECT RP_NO, ID, RP_DATE, RP_CON,  RPR_CON "RP_RESULT", RP_RDATE, RP_COUNT
+		FROM REPORT R
+		JOIN REPORT_RESULT RR ON(R.RPR_NO=RR.RPR_NO)
+		WHERE ID LIKE '%'||#{id}||'%'
 			AND ID!='admin'
 	</select>
 	

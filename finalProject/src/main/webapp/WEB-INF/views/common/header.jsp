@@ -64,8 +64,8 @@
             		<ul class = "navi-area">
             			<c:url var="memberlist" value="memberlist.do"/>
 		                <li><a href="${memberlist }">Member</a></li>
-		                <c:url var="managerview" value="managerview.do"/>
-		                <li><a href="${managerview }">Report</a></li>
+		                <c:url var="reportlist" value="reportlist.do"/>
+		                <li><a href="${reportlist }">Report</a></li>
 		            </ul>
             	</c:if>
 	            <c:if test="${sessionScope.loginUser.id ne 'admin' }">

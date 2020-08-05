@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.finalProject.manager.model.dao.ManagerDao;
 import com.kh.finalProject.manager.model.vo.MPageInfo;
+import com.kh.finalProject.manager.model.vo.Report;
 import com.kh.finalProject.member.model.vo.Member;
 
 @Service("mgService")
@@ -25,6 +26,18 @@ public class ManagerServiceImpl implements ManagerService {
 	public ArrayList<Member> selectMList(MPageInfo mpi) {
 		
 		return mgDao.selectMList(mpi);
+	}
+
+	@Override
+	public int getReportCount(String id) {
+		
+		return mgDao.getReportCount(id);
+	}
+
+	@Override
+	public ArrayList<Report> selectRList(MPageInfo mpi) {
+		
+		return mgDao.selectRList(mpi);
 	}
 
 }
