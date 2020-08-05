@@ -682,7 +682,8 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 			out.close();
 			
 	}
-
+	
+	// 습관 수정
 	@RequestMapping("updateHabit.do")
 	public String updateHabit(Habit habit, Model model,
 			HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -785,41 +786,40 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 	}
 	
 	// 저장 파일 이름 변경
-	
-		public String saveFile(MultipartFile file, Bookmark bm, HttpServletRequest request) {
-			
-			String root = request.getSession().getServletContext().getRealPath("resources");
-			
-			String savePath = root + "/bluploadFiles/";
-			
-			File folder = new File(savePath);
-			
-			if(!folder.exists()) {
-				folder.mkdirs();
-			}
-			
-			// 업로드 시간을 기준으로 파일명 변경
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm");
-			
-			String originFileName = file.getOriginalFilename();
-			
-			// 파일명 앞에 '사용자 아이디_' 추가
-			String renameFileName = bm.getId() + "_" + sdf.format(new java.sql.Date(System.currentTimeMillis()))
-										+"."+originFileName.substring(originFileName.lastIndexOf(".")+1);
-			
-			String filePath = folder + "/" + renameFileName;
-			
-			try {
-				file.transferTo(new File(filePath));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			return renameFileName;
-			
-		}
-	
+	public String saveFile(MultipartFile file, Bookmark bm, HttpServletRequest request) {
 		
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		
+		String savePath = root + "/bluploadFiles/";
+		
+		File folder = new File(savePath);
+		
+		if(!folder.exists()) {
+			folder.mkdirs();
+		}
+		
+		// 업로드 시간을 기준으로 파일명 변경
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm");
+		
+		String originFileName = file.getOriginalFilename();
+		
+		// 파일명 앞에 '사용자 아이디_' 추가
+		String renameFileName = bm.getId() + "_" + sdf.format(new java.sql.Date(System.currentTimeMillis()))
+									+"."+originFileName.substring(originFileName.lastIndexOf(".")+1);
+		
+		String filePath = folder + "/" + renameFileName;
+		
+		try {
+			file.transferTo(new File(filePath));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return renameFileName;
+		
+	}
+	
+	// 북마크 그룹 삭제
 	@RequestMapping("deleteBookmark.do")
 	public String deleteBookmark(HttpServletRequest request, HttpServletResponse response, Model model,
 			 					@RequestParam(value = "bl_no", required = false) String bl_no) {
@@ -849,6 +849,97 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 			
 		}
 			
+	}
+	
+	// 북마크 그룹 수정 페이지
+	@RequestMapping("editBookmarkView.do")
+	public String editBookmark(HttpServletRequest request, HttpServletResponse response, Model model,
+			 					@RequestParam(value = "bl_no", required = false) String bl_no) {
+		
+	
+		HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		Bookmark bm = new Bookmark();
+		bm.setId(id);
+		bm.setBl_no(bl_no);
+		
+		Bookmark result = dailyService.selectBookmark(bm);
+		
+		System.out.println(result);
+		
+		if(result != null) {
+		
+			model.addAttribute("bm", result);
+			return "daily/bookmarkGroupEdit";
+			
+		}else {
+			
+			model.addAttribute("msg","북마크 삭제 실패, 다시 시도해 주세요.");
+            model.addAttribute("url","/BookmarkView.do");
+			
+			return "common/redirect";
+			
+		}
+			
+	}
+	
+	@RequestMapping("editBookmark.do")
+	public String updateBookmark(Bookmark bm, Model model,
+								HttpServletRequest request, HttpServletResponse response,
+								@RequestParam(value="file", required=false) MultipartFile file) {
+		
+		
+		System.out.println("받아온 bm " + bm);
+		System.out.println("file " + file);
+		
+		HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("loginUser");
+		String id = member.getId();
+		bm.setId(id);
+		
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "/bluploadFiles/";
+		
+		// 프로필 사진 저장
+		if(!file.getOriginalFilename().equals("")) {
+			
+			String renameFile = saveFile(file, bm, request);
+			
+			bm.setBl_origin(file.getOriginalFilename());
+			bm.setBl_rename(renameFile);
+			
+			System.out.println("세팅한 bm" + bm);
+			
+			if(bm.getBl_rename() != null) { 
+				
+				File reFile = new File(savePath + bm.getBl_rename());
+				reFile.delete();// 기존에 있던 사진파일 삭제
+			}
+			
+		}else {
+			// 기존 사진 파일 유지
+			bm.setBl_origin(bm.getBl_origin());
+			bm.setBl_rename(bm.getBl_rename());
+		}
+		
+		
+		int result = dailyService.updateBookmarkGroup(bm);
+		
+		
+		if(result > 0) {
+			
+			return "redirect:bookmarkView.do";
+			
+		}else {
+			
+            model.addAttribute("msg","북마크 수정 실패, 다시 시도해 주세요.");
+            model.addAttribute("url","/editBookmarkView.do");
+			
+			return "common/redirect";
+		}
+		
 	}
 		
 	

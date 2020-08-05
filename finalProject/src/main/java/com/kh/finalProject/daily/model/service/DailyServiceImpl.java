@@ -170,6 +170,18 @@ public class DailyServiceImpl implements DailyService {
 		return dailyDao.deleteBookmark(bm);
 	}
 
+	@Override
+	public Bookmark selectBookmark(Bookmark bm) {
+
+		return dailyDao.selectBookmark(bm);
+	}
+
+	@Override
+	public int updateBookmarkGroup(Bookmark bm) {
+
+		return dailyDao.updateBookmark(bm);
+	}
+
 
 
 	

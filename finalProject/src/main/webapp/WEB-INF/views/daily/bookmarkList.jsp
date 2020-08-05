@@ -461,7 +461,7 @@
 
             <!-- Button Start-->
             <div class="button-area">
-                <button>Edit</button>
+                <button type = "button" onclick="editBookmark()">Edit</button>
                 <button type = "button" onclick="deleteBookmark()">Delete</button>
                 <!-- <button type = "button" data-toggle="modal" data-target="#select-type">Add</button> -->
                 <button type = "button" onclick="location.href='addBookmarkView.do'">Add</button>
@@ -559,9 +559,15 @@
 	        function deleteBookmark() {
 	        	
 	        	var bl_no = $(".clicked").prev().val();
-	        	
 	        	location.href="deleteBookmark.do?bl_no="+ bl_no;
 	        	
+	        	
+	        }
+	        
+	        function editBookmark() {
+	        	
+				var bl_no = $(".clicked").prev().val();
+	        	location.href="editBookmarkView.do?bl_no="+ bl_no;
 	        	
 	        }
 	        

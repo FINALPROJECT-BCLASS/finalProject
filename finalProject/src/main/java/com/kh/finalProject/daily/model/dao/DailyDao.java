@@ -144,5 +144,14 @@ public class DailyDao {
 		return sqlSessionTemplate.update("dailyMapper.deleteBookmarkGroup", bm);
 	}
 
+	public Bookmark selectBookmark(Bookmark bm) {
+
+		return sqlSessionTemplate.selectOne("dailyMapper.selectBookmarkGroup", bm);
+	}
+
+	public int updateBookmark(Bookmark bm) {
+
+		return sqlSessionTemplate.update("dailyMapper.updateBookmarkGroup", bm);
+	}
 
 }

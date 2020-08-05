@@ -58,6 +58,10 @@ public interface DailyService {
 
 	int deleteBookmark(Bookmark bm);
 
+	Bookmark selectBookmark(Bookmark bm);
+
+	int updateBookmarkGroup(Bookmark bm);
+
 
 
 }

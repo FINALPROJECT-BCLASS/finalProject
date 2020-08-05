@@ -308,5 +308,26 @@
 		AND BL_DELETE = 'N'
 	</update>
 	
+	<select id="selectBookmarkGroup" parameterType="Bookmark" resultMap="BookmarkResultSet">
+		SELECT *
+		FROM BOOKMARK_LIST
+		WHERE BL_NO = #{bl_no}
+		AND ID = #{id}
+		AND BL_DELETE = 'N'
+	</select>
+	
+	<update id="updateBookmarkGroup" parameterType="Bookmark">
+		UPDATE BOOKMARK_LIST
+		SET BL_TITLE= #{bl_title}
+			,BL_CON = #{bl_con}
+			,BL_TYPE = #{bl_type}
+			,BL_ORIGIN = #{bl_origin}
+			,BL_RENAME = #{bl_rename}
+			,BL_COLOR = #{bl_color}
+		WHERE BL_NO = #{bl_no}
+		AND ID = #{id}
+		AND BL_DELETE = 'N'
+	</update>
+	
 	
 </mapper>
