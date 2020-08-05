@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -87,8 +88,15 @@
 	
 	<jsp:include page="../common/header.jsp"/>
 	
+	<c:if test="${ groupTable.id eq gInfo.loginUserId}">
+	<jsp:include page="../common/sidenaviGroupAdmin.jsp"/>
+	</c:if>
+	
+	<c:if test="${ groupTable.id ne gInfo.loginUserId}">
 	<jsp:include page="../common/sidenaviGroup.jsp"/>
-
+	</c:if>
+	
+	
 	<div style="Float:right; width:81%">
 				
 			  <div id='script-warning'>

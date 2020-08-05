@@ -371,7 +371,7 @@ public class GroupController {
 		
 		mv.addObject("gInfo", gInfo);
 		mv.addObject("groupTable", gt);
-		mv.setViewName("common/sidenaviGroup");
+
 		mv.setViewName("group/GCalendarMain");
 		return mv;
 
@@ -385,7 +385,7 @@ public class GroupController {
 
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
-
+		GroupTable gt = gService.selectOneGroup(gInfo);
 		int currentPage = 1;
 		if (page != null) {
 			int Cpage = Integer.parseInt(page);
@@ -406,6 +406,7 @@ public class GroupController {
 
 			mv.addObject("noticeList", noticeList);
 			mv.addObject("pi", pi);
+			mv.addObject("groupTable", gt);
 			mv.addObject("gInfo", gInfo);
 			mv.setViewName("group/GNoticeMain");
 
@@ -537,7 +538,7 @@ public class GroupController {
 		GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 		System.out.println("게시판 메인 gInfo : " + gInfo);
 		GroupNotice noticeList = gService.selectNoticeOne(gInfo);
-
+		GroupTable gt = gService.selectOneGroup(gInfo);
 		int currentPage = 1;
 		if (page != null) {
 			int Cpage = Integer.parseInt(page);
@@ -548,6 +549,8 @@ public class GroupController {
 
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 
+		mv.addObject("gInfo", gInfo);
+		mv.addObject("groupTable", gt);
 		mv.addObject("noticeList", noticeList);
 		mv.addObject("pi", pi);
 		mv.setViewName("group/GBoardMain");
@@ -706,7 +709,7 @@ public class GroupController {
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 		String gmNo = Integer.toString(gInfo.getGmNo());
-		
+		GroupTable gt = gService.selectOneGroup(gInfo);
 		GroupNotice noticeList = gService.selectNoticeOne(gInfo);
 		
 		// 조회수 증가
@@ -732,6 +735,7 @@ public class GroupController {
 		int totalRe = totalReply + totalReReply;
 		
 		mv.addObject("gInfo", gInfo);
+		mv.addObject("groupTable", gt);
 		mv.addObject("memberPhoto", loginUser.getRename_file());
 		mv.addObject("gInfoGmNo", gmNo);
 		mv.addObject("noticeList", noticeList);
@@ -953,8 +957,15 @@ public class GroupController {
 		
 		// 게시판 작성 view
 		@RequestMapping(value = "boardInsertView.do", method = RequestMethod.GET)
-		public String boardInsertView(Model model, HttpSession session, GroupNotice gn) {
-			return "group/GBoardInsert";
+		public ModelAndView boardInsertView(ModelAndView mv, HttpSession session, GroupNotice gn) {
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			GroupTable gt = gService.selectOneGroup(gInfo);
+			
+			mv.addObject("groupTable",gt);
+			mv.addObject("gInfo",gInfo);
+			mv.setViewName("group/GBoardInsert");
+			
+			return mv;
 		}
 		
 		
@@ -1089,10 +1100,14 @@ public class GroupController {
 
 		// 게시판 수정  View
 		@RequestMapping(value = "boardUpdateView.do", method = RequestMethod.GET)
-		public ModelAndView updateBoardView(ModelAndView mv, HttpServletResponse response, @RequestParam(value = "gbNo") String gbNo) {
+		public ModelAndView updateBoardView(HttpSession session, ModelAndView mv, HttpServletResponse response, @RequestParam(value = "gbNo") String gbNo) {
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 			GroupBoard gbList = gService.selectBoardDetail(gbNo);
 			ArrayList<GroupBoardPhoto> photoList = gService.selectDetailPhotoList(gbNo);
+			GroupTable gt = gService.selectOneGroup(gInfo);
 			
+			mv.addObject("groupTable", gt);
+			mv.addObject("gInfo", gInfo);
 			mv.addObject("boardList", gbList);
 			mv.addObject("photoList", photoList);
 			mv.setViewName("group/GUpdateBoard");
@@ -1123,6 +1138,8 @@ public class GroupController {
 				@RequestParam(name = "uploadFile5", required = false) MultipartFile uploadFile5
 				) {
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			GroupTable gt = gService.selectOneGroup(gInfo);
+			
 			System.out.println("게시판 수정  gb  :" + gb);
 			GroupBoardPhoto gbp = new GroupBoardPhoto();			
 			String gbNo = gb.getGbNo();
@@ -1239,7 +1256,7 @@ public class GroupController {
 				@RequestParam(value = "page", required = false) String page) {
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 			GroupNotice noticeList = gService.selectNoticeOne(gInfo);
-
+			GroupTable gt = gService.selectOneGroup(gInfo);
 			int currentPage = 1;
 			if (page != null) {
 				int Cpage = Integer.parseInt(page);
@@ -1250,8 +1267,10 @@ public class GroupController {
 			
 			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 
-			mv.addObject("noticeList", noticeList);
+			mv.addObject("gInfo", gInfo);
+			mv.addObject("groupTable", gt);
 			mv.addObject("pi", pi);
+			mv.addObject("noticeList", noticeList);
 			mv.setViewName("group/GVoteMain");
 
 			return mv;
@@ -1372,6 +1391,7 @@ public class GroupController {
 		@RequestMapping(value = "voteDetail.do", method = RequestMethod.GET)
 		public ModelAndView voteDetail(ModelAndView mv,HttpSession session,  GroupVote gv) throws IOException {
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			GroupTable gt = gService.selectOneGroup(gInfo);
 			
 			gv.setGmNo(String.valueOf(gInfo.getGmNo()));
 			gv.setgNo(String.valueOf(gInfo.getGroupNo()));
@@ -1388,6 +1408,7 @@ public class GroupController {
 			mv.addObject("gvNo", gv.getGvNo());
 			mv.addObject("noticeList", noticeList);
 			mv.addObject("gInfo", gInfo);
+			mv.addObject("groupTable", gt);
 			mv.addObject("voteList", voteList);
 			mv.addObject("itemList", itemList);
 			mv.addObject("voteTotalList", voteTotalList);
@@ -1453,7 +1474,7 @@ public class GroupController {
 				@RequestParam(value = "page", required = false) String page) {
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 			GroupNotice noticeList = gService.selectNoticeOne(gInfo);
-
+			GroupTable gt = gService.selectOneGroup(gInfo);
 			int currentPage = 1;
 			if (page != null) {
 				int Cpage = Integer.parseInt(page);
@@ -1464,6 +1485,8 @@ public class GroupController {
 
 			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 
+			mv.addObject("gInfo", gInfo);
+			mv.addObject("groupTable", gt);
 			mv.addObject("noticeList", noticeList);
 			mv.addObject("pi", pi);
 			mv.setViewName("group/GVoteFinished");
