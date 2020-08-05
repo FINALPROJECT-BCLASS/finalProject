@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -87,7 +88,7 @@
         }
         
         .clicked {
-            border : 3px solid #838383;
+        	box-shadow: 0 0 0 3px #c4c4c4;
         }
 
 
@@ -99,6 +100,7 @@
             display: block;
             margin-top: 30px;
             padding: 15px;
+            padding-bottom: 29px;
         }
 
         .content-area {
@@ -175,7 +177,7 @@
             display: flex;
             justify-content: flex-end;
             margin-top: 10px;
-            width: 855px;
+            width: 100%;
 	    }
 	
         .button-area > button {
@@ -290,6 +292,7 @@
 		body { font-family: sans-serif; }
 		
 		.carousel {
+		  height: 106px;
 		  background: #f7f7f7;
 		}
 		
@@ -298,20 +301,26 @@
 		    display: flex;
 		    justify-content: flex-start;
 		    align-items: center;
-		    padding: 10px;
+		    padding: 20px;
 		    height: 100px;
 		    margin-right: 10px;
 		    background: white;
-		    border-radius: 5px;
+	    	border-radius: 8px !important;
 		    counter-increment: carousel-cell;
+		    position: relative;
 		}
 		
-		.carousel-cell > span:nth-child(1) {
+		.carousel-cell > div:nth-child(1) {
 		    margin-left: 15px;
 		}
 		
-		.carousel-cell > span:nth-child(2) {
+		.carousel-cell > div:nth-child(2) {
 		    margin-left: 15px;
+		}
+		
+		.carousel-cell > div:nth-child(3) {
+			position:absolute;
+			right: 35px;
 		}
 		
 		/* .carousel-cell.is-selected {
@@ -332,7 +341,12 @@
 		  position: absolute;
 		  width: 100%;
 		  height: 100%;
-		  left: 0 !important;
+		  display: flex;
+    	  align-items: center;
+		}
+		
+		.flickity-viewport {
+			height:100% !important;
 		}
 		
 		
@@ -382,6 +396,27 @@
         	background:#FBD14B;
         }
         
+        .image-area {
+        	width: 30px;
+        	height: 30px;
+        	overflow: hidden;
+        	display: flex;
+        	align-items: center;
+        	justify-content: center;
+        	border-radius: 50%;
+        	
+        }
+        
+        .image {
+        	height: 110%;
+        
+        }
+        
+        .flickity-page-dots {
+        	display:none;
+        }
+        
+        
 	
 
 
@@ -396,22 +431,38 @@
             <span class="pSubject">Bookmark</span>
                  <!-- 슬라이드 -->
             <div style="width: 100%">
-	            <div class="carousel" data-flickity='{ "groupCells": true }' style="width: 100%">
-				  <div class="carousel-cell">
-		  			<span class="material-icons">
-						restaurant
-					</span>
-					<span>
-						제목
-					</span>
-				  </div>
+	            <div class="carousel" data-flickity='{ "draggable": true }' style="width: 100%">
+					<c:forEach var="bm" items="${bm }">
+						<input type="hidden" name="bl_no" value="${bm.bl_no }">
+						<div class="carousel-cell" style="background:${bm.bl_color }">
+				  			<div class="image-area">
+				  				<c:if test="${empty bm.bl_rename }">
+									<c:if test="${bm.bl_type eq 'url'}">
+										<span class="material-icons">link</span>
+									</c:if>
+									<c:if test="${bm.bl_type eq 'map'}">
+										<span class="material-icons">place</span>
+									</c:if>
+			                   	</c:if>
+			                   	<c:if test="${!empty bm.bl_rename }">
+			                   		<img class="image" src="resources/bluploadFiles/${bm.bl_rename }">
+			                   	</c:if>
+			                </div>
+							<div>
+								${bm.bl_title }
+							</div>
+							<div>
+								3
+							</div>
+						</div>
+					</c:forEach>
 				</div>
 			</div>
 
             <!-- Button Start-->
             <div class="button-area">
                 <button>Edit</button>
-                <button>Delete</button>
+                <button type = "button" onclick="deleteBookmark()">Delete</button>
                 <!-- <button type = "button" data-toggle="modal" data-target="#select-type">Add</button> -->
                 <button type = "button" onclick="location.href='addBookmarkView.do'">Add</button>
             </div>
@@ -492,8 +543,36 @@
 			$(".content-box").hide();
 			
 			
+			var target = $(".carousel-cell");
 			
-		
+			target.on("click", function() {
+				
+				$(this).addClass("clicked");
+				
+				$(".content-box").show();
+				
+				target.not($(this)).removeClass("clicked");
+				
+			});
+			
+	        
+	        function deleteBookmark() {
+	        	
+	        	var bl_no = $(".clicked").prev().val();
+	        	
+	        	location.href="deleteBookmark.do?bl_no="+ bl_no;
+	        	
+	        	
+	        }
+	        
+	        
+	        
+	        $(function(){
+				
+		        var responseMessage = "<c:out value="${message}" />";
+		        if (responseMessage != ""){alert(responseMessage)}
+		   
+		    });
 
             // var container = document.getElementById('map');
             // var options = {

@@ -134,5 +134,15 @@ public class DailyDao {
 		return sqlSessionTemplate.insert("dailyMapper.insertBookmarkGroup", bm);
 	}
 
+	public ArrayList<Bookmark> selectBookmarkGroupList(String id) {
+
+		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectBookmarkGroupList", id);
+	}
+
+	public int deleteBookmark(Bookmark bm) {
+
+		return sqlSessionTemplate.update("dailyMapper.deleteBookmarkGroup", bm);
+	}
+
 
 }

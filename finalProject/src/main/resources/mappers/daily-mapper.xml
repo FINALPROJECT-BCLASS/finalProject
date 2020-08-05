@@ -39,10 +39,22 @@
 		<result property="htr_delete" column="HTR_DELETE"/>
 	</resultMap>
 	
-		<resultMap type="HabitSum" id="habitSumResultSet">
+	<resultMap type="HabitSum" id="habitSumResultSet">
 		<id property="ht_no" column="HT_NO"/>
 		<result property="ht_now" column="HT_NOW"/>
 	</resultMap>
+	
+	<resultMap type="Bookmark" id="BookmarkResultSet">
+		<id property="bl_no" column="BL_NO"/>
+		<result property="id" column="ID"/>
+		<result property="bl_title" column="BL_TITLE"/>
+		<result property="bl_con" column="BL_CON"/>
+		<result property="bl_type" column="BL_TYPE"/>
+		<result property="bl_origin" column="BL_ORIGIN"/>
+		<result property="bl_rename" column="BL_RENAME"/>
+		<result property="bl_color" column="BL_COLOR"/>
+	</resultMap>
+	
 	
 	<insert id="insertHabit" parameterType="Habit">
 		INSERT INTO HABIT_TRACKER
@@ -276,7 +288,25 @@
 				, #{bl_type}
 				, #{bl_origin}
 				, #{bl_rename}
-				, DEFAULT)
+				, DEFAULT
+				, #{bl_color})
 	</insert>
+	
+	<select id="selectBookmarkGroupList" parameterType="String" resultMap="BookmarkResultSet">
+		SELECT *
+		FROM BOOKMARK_LIST
+		WHERE ID = #{id}
+		AND BL_DELETE = 'N'
+		ORDER BY BL_NO DESC
+	</select>
+	
+	<update id="deleteBookmarkGroup" parameterType="Bookmark">
+		UPDATE BOOKMARK_LIST
+		SET BL_DELETE = 'Y'
+		WHERE BL_NO = #{bl_no}
+		AND ID = #{id}
+		AND BL_DELETE = 'N'
+	</update>
+	
 	
 </mapper>

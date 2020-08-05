@@ -16,13 +16,14 @@ public class Bookmark implements Serializable {
 	private String bl_type;
 	private String bl_origin;
 	private String bl_rename;
+	private String bl_color;
 	
 	public Bookmark() {
 
 	}
 
 	public Bookmark(String bl_no, String id, String bl_title, String bl_con, String bl_type, String bl_origin,
-			String bl_rename) {
+			String bl_rename, String bl_color) {
 		super();
 		this.bl_no = bl_no;
 		this.id = id;
@@ -31,6 +32,7 @@ public class Bookmark implements Serializable {
 		this.bl_type = bl_type;
 		this.bl_origin = bl_origin;
 		this.bl_rename = bl_rename;
+		this.bl_color = bl_color;
 	}
 
 	public String getBl_no() {
@@ -89,6 +91,14 @@ public class Bookmark implements Serializable {
 		this.bl_rename = bl_rename;
 	}
 
+	public String getBl_color() {
+		return bl_color;
+	}
+
+	public void setBl_color(String bl_color) {
+		this.bl_color = bl_color;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -96,10 +106,10 @@ public class Bookmark implements Serializable {
 	@Override
 	public String toString() {
 		return "Bookmark [bl_no=" + bl_no + ", id=" + id + ", bl_title=" + bl_title + ", bl_con=" + bl_con
-				+ ", bl_type=" + bl_type + ", bl_origin=" + bl_origin + ", bl_rename=" + bl_rename + "]";
+				+ ", bl_type=" + bl_type + ", bl_origin=" + bl_origin + ", bl_rename=" + bl_rename + ", bl_color="
+				+ bl_color + "]";
 	}
-	
-	
+
 	
 	
 

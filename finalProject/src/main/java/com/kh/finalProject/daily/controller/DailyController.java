@@ -67,8 +67,8 @@ public class DailyController {
 			hsm.setId(id);
 			hsm.setHt_start(month);
 			
-			System.out.println("daily habit : " + hs);
-			System.out.println("monthly habit : " + hsm);
+//			System.out.println("daily habit : " + hs);
+//			System.out.println("monthly habit : " + hsm);
 			
 			ArrayList<Habit> list = dailyService.selectHabitList(id);			// 전체 목록 조회
 			ArrayList<HabitSum> sum = dailyService.selectHabitSumList(hs);		// daily 합계
@@ -76,9 +76,9 @@ public class DailyController {
 			ArrayList<HabitSum> Msum = dailyService.selectHabitMSumList(hsm);	// monthly 합계
 			
 			
-			System.out.println("daily sum : " + sum);
-			System.out.println("weekly sum : " + Wsum);
-			System.out.println("monthly sum : " + Msum);
+//			System.out.println("daily sum : " + sum);
+//			System.out.println("weekly sum : " + Wsum);
+//			System.out.println("monthly sum : " + Msum);
 			
 			ArrayList<Habit> hlist = new ArrayList<Habit>();
 			
@@ -688,34 +688,53 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 			HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 
-	HttpSession session = request.getSession();
-	Member member = (Member) session.getAttribute("loginUser");
-	String id = member.getId();
-	
-	habit.setId(id); // 세션에서 받아온 아이디 저장
-	
-	System.out.println("확인" + habit);
-	int result = dailyService.updateHabit(habit);
-	
-	if(result > 0) {
-	
-	return "redirect:htList.do";
-	
-	} else {
-
-	model.addAttribute("msg","습관 등록에 실패하셨습니다. 다시 시도해 주세요.");
-	model.addAttribute("url","/htList.do");
-	
-	return "common/redirect";
-	
-	}
-
-}
-	
-	@RequestMapping("bookmarkView.do")
-	public String bookmarkView() {
+		HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("loginUser");
+		String id = member.getId();
 		
-		return "daily/bookmarkList";
+		habit.setId(id); // 세션에서 받아온 아이디 저장
+		
+		System.out.println("확인" + habit);
+		int result = dailyService.updateHabit(habit);
+		
+		if(result > 0) {
+		
+		return "redirect:htList.do";
+		
+		} else {
+	
+		model.addAttribute("msg","습관 등록에 실패하셨습니다. 다시 시도해 주세요.");
+		model.addAttribute("url","/htList.do");
+		
+		return "common/redirect";
+		
+		}
+
+	}
+	
+	// 북마크 리스트 불러오기
+	@RequestMapping("bookmarkView.do")
+	public ModelAndView bookmarkView(ModelAndView mv, HttpServletRequest request, HttpServletResponse response) {
+		
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		ArrayList<Bookmark> bookmark = new ArrayList();
+		
+		bookmark = dailyService.selectBookmarkGroupList(id);
+		
+		System.out.println("잘 불러옵니까?" + bookmark);
+		
+		if(bookmark != null) {
+			mv.addObject("bm", bookmark);
+			mv.setViewName("daily/bookmarkList");
+		} else {
+			mv.addObject("message", "목록이 없습니다. 추가해 주세요.");
+			mv.setViewName("daily/bookmarkList");
+		}
+		
+		return mv;
 	}
 	
 	@RequestMapping("addBookmarkView.do")
@@ -724,7 +743,7 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		return "daily/bookmarkGroupAdd";
 	}
 	
-		
+	// 북마크 그룹 생성
 	@RequestMapping("insertBookmark.do")
 	public String insertBookmark(Bookmark bm, Model model,
 								HttpServletRequest request, HttpServletResponse response,
@@ -771,7 +790,7 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 			
 			String root = request.getSession().getServletContext().getRealPath("resources");
 			
-			String savePath = root + "/muploadFiles/";
+			String savePath = root + "/bluploadFiles/";
 			
 			File folder = new File(savePath);
 			
@@ -800,6 +819,38 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 			
 		}
 	
+		
+	@RequestMapping("deleteBookmark.do")
+	public String deleteBookmark(HttpServletRequest request, HttpServletResponse response, Model model,
+			 					@RequestParam(value = "bl_no", required = false) String bl_no) {
+		
+	
+		HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		Bookmark bm = new Bookmark();
+		bm.setId(id);
+		bm.setBl_no(bl_no);
+		
+		int result = dailyService.deleteBookmark(bm);
+		
+		System.out.println(result);
+		if(result > 0) {
+			
+			return "redirect:bookmarkView.do";
+			
+		}else {
+			
+			model.addAttribute("msg","북마크 삭제 실패, 다시 시도해 주세요.");
+            model.addAttribute("url","/BookmarkView.do");
+			
+			return "common/redirect";
+			
+		}
+			
+	}
+		
 	
 		
 	@RequestMapping("addMapView.do")

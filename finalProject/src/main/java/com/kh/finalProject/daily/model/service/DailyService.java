@@ -54,6 +54,10 @@ public interface DailyService {
 
 	int insertBookmarkGroup(Bookmark bm);
 
+	ArrayList<Bookmark> selectBookmarkGroupList(String id);
+
+	int deleteBookmark(Bookmark bm);
+
 
 
 }
