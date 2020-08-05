@@ -2,7 +2,7 @@ package com.kh.finalProject.manager.model.vo;
 
 public class MPagination {
 	
-	public static MPageInfo getPageInfo(int currentPage, int listCount) {
+	public static MPageInfo getPageInfo(int currentPage, int listCount, String id) {
 		
 		MPageInfo mpi = null;
 		
@@ -23,7 +23,7 @@ public class MPagination {
 			endPage = maxPage;
 		}
 		
-		mpi = new MPageInfo(currentPage, listCount, pageLimit, maxPage, startPage, endPage, limit);
+		mpi = new MPageInfo(currentPage, listCount, pageLimit, maxPage, startPage, endPage, limit, id);
 		
 		return mpi;
 		

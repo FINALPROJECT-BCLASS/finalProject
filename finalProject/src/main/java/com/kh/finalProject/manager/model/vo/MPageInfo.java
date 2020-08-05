@@ -18,11 +18,13 @@ public class MPageInfo implements Serializable {
 	
 	private int boardLimit;
 	
+	private String id;
+	
 	public MPageInfo() {
 	}
-	
+
 	public MPageInfo(int currentPage, int listCount, int pageLimit, int maxPage, int startPage, int endPage,
-			int boardLimit) {
+			int boardLimit, String id) {
 		this.currentPage = currentPage;
 		this.listCount = listCount;
 		this.pageLimit = pageLimit;
@@ -30,6 +32,7 @@ public class MPageInfo implements Serializable {
 		this.startPage = startPage;
 		this.endPage = endPage;
 		this.boardLimit = boardLimit;
+		this.id = id;
 	}
 
 	public int getCurrentPage() {
@@ -73,6 +76,12 @@ public class MPageInfo implements Serializable {
 	}
 	public void setBoardLimit(int boardLimit) {
 		this.boardLimit = boardLimit;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	@Override

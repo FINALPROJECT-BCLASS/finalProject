@@ -16,9 +16,9 @@ public class ManagerDao {
 	@Autowired
 	SqlSessionTemplate sqlSessionTemplate;
 
-	public int getMemberCount() {
+	public int getMemberCount(String id) {
 		
-		return sqlSessionTemplate.selectOne("managerMapper.getMemberCount");
+		return sqlSessionTemplate.selectOne("managerMapper.getMemberCount", id);
 	}
 
 	public ArrayList<Member> selectMList(MPageInfo mpi) {
@@ -27,7 +27,7 @@ public class ManagerDao {
 		
 		RowBounds rowBounds = new RowBounds(offset, mpi.getBoardLimit());
 		
-		return (ArrayList)sqlSessionTemplate.selectList("managerMapper.selectMList", null, rowBounds);
+		return (ArrayList)sqlSessionTemplate.selectList("managerMapper.selectMList", mpi.getId(), rowBounds);
 	}
 
 }

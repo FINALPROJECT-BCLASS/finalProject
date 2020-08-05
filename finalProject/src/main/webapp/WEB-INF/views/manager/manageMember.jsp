@@ -7,7 +7,6 @@
 <meta charset="UTF-8">
     <title>Document</title>
     <script type="text/javascript"></script>
-    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>	<!-- 주소 api -->
     
     <link href='resources/css/main.css' rel='stylesheet' />
     <script src='resources/lib/main.js'></script>
@@ -129,6 +128,12 @@
         	</table>
         </div>
         
+        <c:if test="${!empty searchID }">
+        	<script>
+        		$("#searchID").val("${searchID }");
+        	</script>
+        </c:if>
+        
         <div id="paginationArea">
         	<!-- [이전] -->
 			<c:if test="${mpi.currentPage eq 1 }">
@@ -137,6 +142,7 @@
 			<c:if test="${mpi.currentPage gt 1 }">
 				<c:url var="mlistBack" value="memberlist.do">
 					<c:param name="page" value="${mpi.currentPage - 1 }"/>
+					<c:param name="id" value="${searchID }"/>
 				</c:url>
 				<a href="${mlistBack }">[이전]</a>
 			</c:if>
@@ -148,6 +154,7 @@
 				<c:if test="${p ne mpi.currentPage }">
 					<c:url var="mlistCheck" value="memberlist.do">
 						<c:param name="page" value="${p }"/>
+						<c:param name="id" value="${searchID }"/>
 					</c:url>
 					<a href="${mlistCheck }">${p }</a>
 				</c:if>
@@ -159,6 +166,7 @@
 			<c:if test="${mpi.currentPage ne mpi.maxPage }">
 				<c:url var="mlistNext" value="memberlist.do">
 					<c:param name="page" value="${mpi.currentPage + 1 }"/>
+					<c:param name="id" value="${searchID }"/>
 				</c:url>
 				<a href="${mlistNext }">[다음]</a>
 			</c:if>
@@ -170,7 +178,7 @@
     <script>
     	$(function(){
     		$("#search-btn").click(function(){
-    			var id = $("#searchID").val();
+    			var searchID = $("#searchID").val();
     			
     			location.href="memberlist.do?id="+searchID;
     		})

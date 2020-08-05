@@ -16,9 +16,9 @@ public class ManagerServiceImpl implements ManagerService {
 	ManagerDao mgDao;
 
 	@Override
-	public int getMemberCount() {
+	public int getMemberCount(String id) {
 		
-		return mgDao.getMemberCount();
+		return mgDao.getMemberCount(id);
 	}
 
 	@Override

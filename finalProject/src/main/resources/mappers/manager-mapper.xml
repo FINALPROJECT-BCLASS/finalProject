@@ -19,17 +19,19 @@
 		<result property="out_yn" column="OUT_YN"/>
 	</resultMap>
 
-	<select id="getMemberCount" resultType="_int">
+	<select id="getMemberCount" parameterType="string" resultType="_int">
 		SELECT COUNT(*)
 		FROM MEMBER
 		WHERE OUT_YN='N'
+			AND ID LIKE '%'||#{id}||'%'
 			AND ID!='admin'	
 	</select>
 	
-	<select id="selectMList" resultMap="memberResultSet">
+	<select id="selectMList" parameterType="string" resultMap="memberResultSet">
 		SELECT *
 		FROM MEMBER
 		WHERE OUT_YN='N'
+			AND ID LIKE '%'||#{id}||'%'
 			AND ID!='admin'
 	</select>
 	

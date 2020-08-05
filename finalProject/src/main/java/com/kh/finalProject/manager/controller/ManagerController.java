@@ -33,12 +33,6 @@ public class ManagerController {
 	@Autowired
 	ManagerService mgService;
 	
-	@RequestMapping("managemview.do")
-	public String manageMemberView() {
-		
-		return "manager/manageMember";
-	}
-	
 	@RequestMapping("managerview.do") 
 	public String manageReportView() {
 		
@@ -55,15 +49,24 @@ public class ManagerController {
 			currentPage = Integer.parseInt(page);
 		}
 		
-		int listCount = mgService.getMemberCount();
+		String searchID = "";
+		if(id != null) {
+			searchID = id;
+		}
+		System.out.println(id);
 		
-		MPageInfo mpi = MPagination.getPageInfo(currentPage, listCount);
+		int listCount = mgService.getMemberCount(searchID);
+		
+		MPageInfo mpi = MPagination.getPageInfo(currentPage, listCount, searchID);
 		
 		ArrayList<Member> mlist = mgService.selectMList(mpi);
+		
+		JSONArray jArr = new JSONArray();
 		
 		if(mlist != null) {
 			mv.addObject("mlist", mlist);
 			mv.addObject("mpi", mpi);
+			mv.addObject("searchID", id);
 			mv.setViewName("manager/manageMember");
 		} else {
 			throw new ManagerException("멤버 전체 조회 실패");

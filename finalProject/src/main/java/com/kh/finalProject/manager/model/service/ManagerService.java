@@ -7,7 +7,7 @@ import com.kh.finalProject.member.model.vo.Member;
 
 public interface ManagerService {
 
-	int getMemberCount();
+	int getMemberCount(String id);
 
 	ArrayList<Member> selectMList(MPageInfo mpi);
 
