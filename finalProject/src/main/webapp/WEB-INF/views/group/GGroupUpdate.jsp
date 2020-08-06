@@ -11,7 +11,7 @@
 
     h1, h4{margin-top:20px; text-align:center;}
 
-    .join-form-area{float: right;display: flex;justify-content: center; flex-direction: column; align-items: center; padding: 65px; width: 100%; background: #F3F3F3; }
+    .join-form-area{float: right;display: flex;justify-content: center; flex-direction: column; align-items: center; padding: 65px; width: 81%; background: #F3F3F3; }
 
     .groupJoin{width:900px;}
     .groupTb{margin:auto; width:700px; border-spacing: 5px; border-collapse: separate;}
@@ -109,6 +109,14 @@
 </head>
 <body>
  	<jsp:include page="../common/header.jsp"/>  
+ 	
+ 		<c:if test="${ groupTable.id eq gInfo.loginUserId}">
+		<jsp:include page="../common/sidenaviGroupAdmin.jsp"/>
+		</c:if>
+		
+		<c:if test="${ groupTable.id ne gInfo.loginUserId}">
+		<jsp:include page="../common/sidenaviGroup.jsp"/>
+		</c:if>
     <div class="join-form-area">
         <h1>Group Diary</h1>
         <h4 class="pSubject">Update</h4><br>

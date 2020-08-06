@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
- 
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
- 
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
@@ -34,12 +34,14 @@ import com.kh.finalProject.group.model.vo.GroupLike;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupMemberList;
 import com.kh.finalProject.group.model.vo.GroupNotice;
+import com.kh.finalProject.group.model.vo.GroupPlan;
 import com.kh.finalProject.group.model.vo.GroupReReply;
 import com.kh.finalProject.group.model.vo.GroupReply;
 import com.kh.finalProject.group.model.vo.GroupSearchName;
 import com.kh.finalProject.group.model.vo.GroupTable;
 import com.kh.finalProject.group.model.vo.GroupVote;
 import com.kh.finalProject.member.model.vo.Member;
+import com.kh.finalProject.plan.model.vo.MPlan;
 
 @Controller
 public class GroupController {
@@ -351,12 +353,12 @@ public class GroupController {
 	// ---------------------------------- 그룹 메인 & 생성 end// -------------------------------------------
 
 	// ---------------------------------- 캘린더// ------------------------------------------------------
-	// 캘린더 메인 (그룹번호 세션생성)
-	@RequestMapping(value = "groupCalendarMain.do", method = RequestMethod.GET)
-	public ModelAndView CalendarMain(ModelAndView mv, HttpSession session, Member m, @RequestParam("groupNo") int groupNo) {
+	// 세션 생성 (그룹번호 세션생성)
+	@RequestMapping(value = "sessionCreate.do", method = RequestMethod.GET)
+	public ModelAndView sessionCreate(ModelAndView mv, HttpSession session, Member m, @RequestParam("groupNo") int groupNo) {
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		String id = loginUser.getId();
-
+		System.out.println("gInfo : " + groupNo);
 		gInfo.setLoginUserId(id);
 		gInfo.setGroupNo(groupNo);
 
@@ -372,10 +374,75 @@ public class GroupController {
 		mv.addObject("gInfo", gInfo);
 		mv.addObject("groupTable", gt);
 
-		mv.setViewName("group/GCalendarMain");
+		mv.setViewName("redirect:groupCalendarMain.do");
 		return mv;
 
 	}
+	
+	// 캘린더 메인 (그룹번호 세션생성)
+		@RequestMapping(value = "groupCalendarMain.do", method = RequestMethod.GET)
+		public ModelAndView CalendarMain(ModelAndView mv, HttpSession session, Member m) {
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			GroupTable gt = gService.selectOneGroup(gInfo);
+			
+			mv.addObject("gInfo", gInfo);
+			mv.addObject("groupTable", gt);
+
+			mv.setViewName("group/GCalendarMain");
+			return mv;
+
+		}
+		
+	// 캘린더 작성
+	@RequestMapping(value = "insertPlan.do", method = RequestMethod.POST)
+	public ModelAndView insertPlan(ModelAndView mv, HttpSession session, GroupPlan gp) {
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+
+		System.out.println("gp : " + gp);
+		int result = gService.planInsert(gp);
+		System.out.println("캘린더 result : " + result);
+		mv.setViewName("redirect:groupCalendarMain.do");
+		return mv;
+	}
+	
+	// 캘린더 목록
+	@RequestMapping("selectPlan.do")
+	public void selectPlan(HttpSession session, HttpServletResponse response) throws IOException {
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+		response.setContentType("application/json;charset=utf-8");
+		
+		ArrayList<GroupPlan> planList = gService.selectPlanList(gInfo);
+		System.out.println("캘린더 : " + planList);
+		JSONArray jArr = new JSONArray();
+		
+		for(GroupPlan p : planList) {
+			JSONObject jObj = new JSONObject();
+			jObj.put("gpNo", p.getGpNo());
+			jObj.put("gNo", p.getgNo());
+			jObj.put("gmNo", p.getGmNo());
+			jObj.put("gpTitle", p.getGpTitle());
+			jObj.put("gpCon", p.getGpCon());
+			jObj.put("gpStart", p.getGpStart());
+			jObj.put("gpEnd", p.getGpEnd());
+			jObj.put("address1", p.getAddress1());
+			jObj.put("address2", p.getAddress2());
+			jObj.put("color", p.getColor());
+			jObj.put("gpDelete", p.getGpDelete());
+			
+			jArr.add(jObj);
+		}
+		
+		JSONObject sendJson = new JSONObject();
+		sendJson.put("planList", jArr);
+		
+		PrintWriter out = response.getWriter();
+		out.print(sendJson);
+		out.flush();
+		out.close();
+	}
+	
 
 	// ---------------------------------- 공지// ------------------------------------------------------
 	// 공지 메인

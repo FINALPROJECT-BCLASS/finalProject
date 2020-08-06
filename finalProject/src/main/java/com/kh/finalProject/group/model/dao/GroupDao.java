@@ -14,6 +14,7 @@ import com.kh.finalProject.group.model.vo.GroupInfo;
 import com.kh.finalProject.group.model.vo.GroupLike;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupNotice;
+import com.kh.finalProject.group.model.vo.GroupPlan;
 import com.kh.finalProject.group.model.vo.GroupReReply;
 import com.kh.finalProject.group.model.vo.GroupReply;
 import com.kh.finalProject.group.model.vo.GroupSearchName;
@@ -330,6 +331,14 @@ public class GroupDao {
 
 	public int updateMember(GroupMember gm) {
 		return sqlSessionTemplate.update("groupMapper.updateMember",gm);		
+	}
+
+	public int planInsert(GroupPlan gp) {
+		return sqlSessionTemplate.insert("groupMapper.planInsert", gp);		
+	}
+
+	public ArrayList<GroupPlan> selectPlanList(GroupInfo gInfo) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectPlanList",gInfo);		
 	}
 
 	
