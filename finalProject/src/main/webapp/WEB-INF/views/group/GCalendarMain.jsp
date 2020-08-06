@@ -291,6 +291,7 @@
             font-size: 16px;
         }
         
+        
     </style>
 </head>
 
@@ -306,6 +307,11 @@
 		<c:if test="${ groupTable.id ne gInfo.loginUserId}">
 		<jsp:include page="../common/sidenaviGroup.jsp"/>
 		</c:if>
+		
+	
+    
+    <jsp:include page="../common/groupNoticeHeader.jsp"/>
+    	</div>
         
         <br><br>
         <div class="row">
@@ -517,10 +523,11 @@
     <jsp:include page="../common/footer.jsp"/>	
 	
 	<script>
-		$("#insertBtn").click(function(){
+		
+			$(document).on("click","#insertBtn",function(){
 			if($("#addTitle").val() == ""){
 				alert("제목을 입력해주세요");
-			}else if($("#gpTitle").val() != ""){
+			}else if($("#addTitle").val() != ""){
 				$("#insertForm").submit();
 			}
 		})

@@ -379,12 +379,14 @@ public class GroupController {
 
 	}
 	
-	// 캘린더 메인 (그룹번호 세션생성)
+	// 캘린더 메인 
 		@RequestMapping(value = "groupCalendarMain.do", method = RequestMethod.GET)
 		public ModelAndView CalendarMain(ModelAndView mv, HttpSession session, Member m) {
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 			GroupTable gt = gService.selectOneGroup(gInfo);
+			GroupNotice noticeList = gService.selectNoticeOne(gInfo);
 			System.out.println("메인 gInfo :  " + gInfo);
+			mv.addObject("noticeList", noticeList);
 			mv.addObject("gInfo", gInfo);
 			mv.addObject("groupTable", gt);
 
@@ -1770,6 +1772,7 @@ public class GroupController {
 			return "redirect:voteMain.do";
 		}
 		
+		// ------------------------- 가계부 --------------------------
 		
 		
 }
