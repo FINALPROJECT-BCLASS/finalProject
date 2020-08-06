@@ -353,6 +353,10 @@ public class GroupDao {
 		return sqlSessionTemplate.update("groupMapper.planDelete",gp);		
 	}
 
+	public ArrayList<Member> searchNameAccount(GroupSearchName gSearch) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.searchNameAccount",gSearch);		
+	}
+
 	
 	
 	

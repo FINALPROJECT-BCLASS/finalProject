@@ -408,6 +408,11 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.planDelete(gp);
 	}
 
+	@Override
+	public ArrayList<Member> searchNameAccount(GroupSearchName gSearch) {
+		return gDao.searchNameAccount(gSearch);
+	}
+
 
 
 

@@ -172,6 +172,8 @@ public interface GroupService {
 
 	int planDelete(GroupPlan gp);
 
+	ArrayList<Member> searchNameAccount(GroupSearchName gSearch);
+
 
 	
 

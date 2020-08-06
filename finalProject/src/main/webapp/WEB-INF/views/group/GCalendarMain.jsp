@@ -309,9 +309,10 @@
 		</c:if>
 		
 	
-    
-    <jsp:include page="../common/groupNoticeHeader.jsp"/>
-    	</div>
+    	<br><br>
+    <%-- <jsp:include page="../common/groupNoticeHeader.jsp"/> --%>
+    	  <h1 align="center">Group Diary</h1>
+        <h4 align="center">Plan</h4><br>
         
         <br><br>
         <div class="row">
@@ -322,6 +323,7 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
+                            	<h4 align="center">Plan Writer</h4>
                                 <button type="button" class="close" data-dismiss="modal">×</button>
                             </div>
                             <div class="modal-body" align="center">
@@ -397,6 +399,7 @@
 	       <div class="modal-dialog">
 	           <div class="modal-content">
 	               <div class="modal-header">
+	               		<h4>Plan Detail</h4>
 	                   <button type="button" class="close" data-dismiss="modal">×</button>
 	               </div>
 	               <div class="modal-body" align="center">
@@ -455,6 +458,7 @@
            <div class="modal-dialog">
                <div class="modal-content">
                    <div class="modal-header">
+                   		<h4>Plan Update</h4>
                        <button type="button" class="close" data-dismiss="modal">×</button>
                    </div>
                    <div class="modal-body" align="center">

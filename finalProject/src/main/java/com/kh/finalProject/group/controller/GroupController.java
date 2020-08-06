@@ -1773,6 +1773,94 @@ public class GroupController {
 		}
 		
 		// ------------------------- 가계부 --------------------------
+		// 가계부 메인 
+		@RequestMapping(value = "accountMain.do", method = RequestMethod.GET)
+		public ModelAndView accountMain(ModelAndView mv, HttpSession session) {
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			GroupTable gt = gService.selectOneGroup(gInfo);
+			GroupNotice noticeList = gService.selectNoticeOne(gInfo);
+			
+			System.out.println("메인 gInfo :  " + gInfo);
+			mv.addObject("noticeList", noticeList);
+			mv.addObject("gInfo", gInfo);
+			mv.addObject("groupTable", gt);
+
+			mv.setViewName("group/GAccountMain");
+			return mv;
+
+		}
+		
+		// 가계부 작성 view
+		@RequestMapping(value = "insertAccountView.do", method = RequestMethod.GET)
+		public ModelAndView insertAccountView(ModelAndView mv, HttpSession session, 
+				@RequestParam(value = "clickDate", required = false) String clickDate) {
+			Member loginUser = (Member) session.getAttribute("loginUser");
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			GroupTable gt = gService.selectOneGroup(gInfo);
+			mv.addObject("gInfo", gInfo);
+			mv.addObject("groupTable", gt);
+			mv.addObject("clickDate", clickDate);
+			mv.setViewName("group/GAccountInsert");
+			return mv;
+		}
+		
+		// 가계부생성 이름검색
+		@RequestMapping(value = "searchNameAccount.do", method = RequestMethod.GET)
+		public void searchNameAccount(HttpSession session, HttpServletResponse response, String searchName)
+				throws JsonIOException, IOException {
+			Member loginUser = (Member) session.getAttribute("loginUser");
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+					
+			gSearch.setLoginUserId(loginUser.getId());
+			gSearch.setSearchName(searchName);
+			gSearch.setgNo(gInfo.getGroupNo());
+			ArrayList<Member> list = gService.searchNameAccount(gSearch);
+
+			System.out.println("가계부 생성 검색 : " + list);
+
+			response.setContentType("application/json;charset=utf-8");
+
+			Gson gson = new GsonBuilder().setDateFormat("yyyy년 MM월 dd일").create();
+			gson.toJson(list, response.getWriter());
+
+		}
+		
+		// 캘린더 목록
+//		@RequestMapping("selectPlan.do")
+//		public void selectPlan(HttpSession session, HttpServletResponse response) throws IOException {
+//			Member loginUser = (Member) session.getAttribute("loginUser");
+//			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+//			response.setContentType("application/json;charset=utf-8");
+//			
+//			ArrayList<GroupPlan> planList = gService.selectPlanList(gInfo);
+//			System.out.println("캘린더 : " + planList);
+//			JSONArray jArr = new JSONArray();
+//			
+//			for(GroupPlan p : planList) {
+//				JSONObject jObj = new JSONObject();
+//				jObj.put("gpNo", p.getGpNo());
+//				jObj.put("gNo", p.getgNo());
+//				jObj.put("gmNo", p.getGmNo());
+//				jObj.put("gpTitle", p.getGpTitle());
+//				jObj.put("gpCon", p.getGpCon());
+//				jObj.put("gpStart", p.getGpStart());
+//				jObj.put("gpEnd", p.getGpEnd());
+//				jObj.put("address1", p.getAddress1());
+//				jObj.put("address2", p.getAddress2());
+//				jObj.put("color", p.getColor());
+//				jObj.put("gpDelete", p.getGpDelete());
+//				
+//				jArr.add(jObj);
+//			}
+//			
+//			JSONObject sendJson = new JSONObject();
+//			sendJson.put("planList", jArr);
+//			
+//			PrintWriter out = response.getWriter();
+//			out.print(sendJson);
+//			out.flush();
+//			out.close();
+//		}
 		
 		
 }
