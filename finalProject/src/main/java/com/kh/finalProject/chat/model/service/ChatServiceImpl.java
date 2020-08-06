@@ -94,5 +94,17 @@ public class ChatServiceImpl implements ChatService{
 		
 		return cDao.selectopenchatroomlist();
 	}
+
+	@Override
+	public ArrayList<openChat> selectchatlist(int cm_no) {
+	
+		return cDao.selectchatlist(cm_no);
+	}
+
+	@Override
+	public openChat passwordcheck(HashMap<String, Object> check) {
+	
+		return cDao.passwordcheck(check);
+	}
 	
 }

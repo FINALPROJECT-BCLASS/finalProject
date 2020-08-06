@@ -82,4 +82,13 @@ public class ChatDao {
 		
 		return (ArrayList)sqlSessionTemplate.selectList("chatMapper.selectopenchatroomlist");
 	}
+
+	public ArrayList<openChat> selectchatlist(int cm_no) {
+		return (ArrayList)sqlSessionTemplate.selectList("chatMapper.selectchatlist", cm_no);
+	}
+
+	public openChat passwordcheck(HashMap<String, Object> check) {
+		
+		return sqlSessionTemplate.selectOne("chatMapper.passwordcheck", check);
+	}
 }

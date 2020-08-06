@@ -220,14 +220,52 @@ public class ChatController {
 			//추가할것.. 방인원..
 		openChat openchat = cService.selectopenchatroomdetail(cm_no);
 		System.out.println("openchat : " + openchat);
+		ArrayList<openChat> chatlist = cService.selectchatlist(cm_no);
+		
+		System.out.println("chatlist : " + chatlist);
+		
 		
 		session.setAttribute("cm_no", cm_no);
 		
-		mv.addObject("cm_no", cm_no).addObject("openchat", openchat).setViewName("chat/openChatroom");
+		mv.addObject("chatlist", chatlist).addObject("cm_no", cm_no).addObject("openchat", openchat).setViewName("chat/openChatroom");
 		
 		
 		return mv;
 		
 		
 	}
+	
+	@RequestMapping("passwordcheck.do")
+	public void passwordcheck(HttpServletResponse response,String result,String cm_no) throws IOException {
+		
+		response.setContentType("text/html;charset=utf-8");
+		
+		System.out.println("입력받은  password:" + result);
+		System.out.println("방번호 cm_no : " + cm_no);
+		HashMap<String,Object> check = new HashMap<String, Object>();
+		check.put("cm_no", cm_no);
+		check.put("pwd", result);
+		
+		openChat opcheck = cService.passwordcheck(check);
+		System.out.println("opcheck : " + opcheck);
+		String str = "";
+		if(opcheck == null) {
+			str="비밀번호가 일치하지 않습니다.";
+		}else if (opcheck != null){
+			str="비밀번호가 일치합니다.";
+		}
+		
+		
+		
+		  PrintWriter out = response.getWriter();
+		 
+		  out.print(str);
+		  out.flush();
+		  out.close();
+		
+		
+	
+	}
+	
+	
 }

@@ -33,7 +33,13 @@
 			<result property="cm_pwd" column="CM_PWD"/>
 			<result property="cm_max" column="CM_MAX"/>
 			<result property="cm_cot" column="CM_COT"/>
+			<result property="cm_con" column="CM_CON"/>
 			<result property="cm_id" column="CM_ID"/>
+			<result property="ml_no" column="ML_NO"/>
+			<result property="id" column="ID"/>
+			<result property="ml_cont" column="ML_CONT"/>
+			<result property="ml_date" column="ML_DATE"/>
+			<result property="rename_file" column="RENAME_FILE"/>
 	</resultMap>
 
 <select id="selectMember" parameterType="string" resultMap="memberResultSet">
@@ -136,6 +142,21 @@ INSERT INTO CHAT_ONETOONE
 	SELECT * 
 	FROM CHAT_MULTI
 	ORDER BY CM_NO
+</select>
+
+<select id="selectchatlist" parameterType="int" resultMap="openChatRoomResultSet">
+	SELECT ML.ML_NO, ML.CM_NO, ML.ID, ML.ML_CONT ,ML.ML_DATE,M.RENAME_FILE
+	FROM MULTICHAT_LIST ML
+    JOIN MEMBER M ON(ML.ID = M.ID)
+    WHERE CM_NO = #{cm_no}
+	ORDER BY ML_DATE
+</select>
+
+<select id="passwordcheck" parameterType="hashmap" resultMap="openChatRoomResultSet">
+	SELECT *
+	FROM CHAT_MULTI
+	WHERE CM_NO=#{cm_no}
+			AND CM_PWD=#{pwd}
 </select>
 </mapper>
 

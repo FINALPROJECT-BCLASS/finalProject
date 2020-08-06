@@ -35,4 +35,8 @@ public interface ChatService {
 
 	ArrayList<openChat> selectopenchatroomlist();
 
+	ArrayList<openChat> selectchatlist(int cm_no);
+
+	openChat passwordcheck(HashMap<String, Object> check);
+
 }
