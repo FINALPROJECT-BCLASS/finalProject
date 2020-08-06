@@ -891,16 +891,23 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 								@RequestParam(value="file", required=false) MultipartFile file) {
 		
 		
-		System.out.println("받아온 bm " + bm);
-		System.out.println("file " + file);
+//		System.out.println("받아온 bm " + bm);
+//		System.out.println("file " + file);
 		
 		HttpSession session = request.getSession();
 		Member member = (Member) session.getAttribute("loginUser");
 		String id = member.getId();
 		bm.setId(id);
 		
+		
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "/bluploadFiles/";
+		
+		String rFile = bm.getBl_rename();
+		String oFile = bm.getBl_origin();
+		
+//		System.out.println("원래 리네임 파일" + rFile);
+//		System.out.println("원래 오리진 파일" + oFile);
 		
 		// 프로필 사진 저장
 		if(!file.getOriginalFilename().equals("")) {
@@ -912,16 +919,16 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 			
 			System.out.println("세팅한 bm" + bm);
 			
-			if(bm.getBl_rename() != null) { 
+			if(rFile != null) { 
 				
-				File reFile = new File(savePath + bm.getBl_rename());
+				File reFile = new File(savePath + rFile);
 				reFile.delete();// 기존에 있던 사진파일 삭제
 			}
 			
 		}else {
 			// 기존 사진 파일 유지
-			bm.setBl_origin(bm.getBl_origin());
-			bm.setBl_rename(bm.getBl_rename());
+			bm.setBl_origin(oFile);
+			bm.setBl_rename(rFile);
 		}
 		
 		

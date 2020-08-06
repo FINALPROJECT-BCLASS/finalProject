@@ -327,8 +327,8 @@
 	            <form id="edit-bm" action="editBookmark.do" method="post" enctype="multipart/form-data">
 	                <span class="pSubject">Edit Bookmark Group</span>
 	                <input type="hidden" id="bl_no" name="bl_no" value="${bm.bl_no }">
-	                <%-- <input type="hidden" name="bl_origin" value="${bm.bl_origin }">
-	                <input type="hidden" name="bl_rename" value="${bm.bl_rename }"> --%>
+	                <input type="hidden" name="bl_origin" value="${bm.bl_origin }">
+	                <input type="hidden" name="bl_rename" value="${bm.bl_rename }">
 	                <table cellpadding="6px">
 	                    <tr>
 	                        <td>Title</td>
