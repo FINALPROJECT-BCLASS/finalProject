@@ -393,6 +393,11 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.selectPlanList(gInfo);
 	}
 
+	@Override
+	public GroupPlan detailPlan(GroupPlan gp) {
+		return gDao.detailPlan(gp);
+	}
+
 
 
 

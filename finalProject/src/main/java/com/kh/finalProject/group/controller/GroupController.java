@@ -384,7 +384,7 @@ public class GroupController {
 		public ModelAndView CalendarMain(ModelAndView mv, HttpSession session, Member m) {
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 			GroupTable gt = gService.selectOneGroup(gInfo);
-			
+			System.out.println("메인 gInfo :  " + gInfo);
 			mv.addObject("gInfo", gInfo);
 			mv.addObject("groupTable", gt);
 
@@ -443,7 +443,51 @@ public class GroupController {
 		out.close();
 	}
 	
+	// 캘린더 상세
+	@RequestMapping("detailPlan.do")
+	public void detailPlan(HttpSession session, HttpServletResponse response, GroupPlan gp) throws IOException {
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+		response.setContentType("application/json;charset=utf-8");
+		System.out.println("상세 gp : " + gp);
+		
+		GroupPlan p = gService.detailPlan(gp);
+		System.out.println("캘린더 상세: " + p);
+	
+		JSONObject jObj = new JSONObject();
+		jObj.put("gpNo", p.getGpNo());
+		jObj.put("gNo", p.getgNo());
+		jObj.put("gmNo", p.getGmNo());
+		jObj.put("gpTitle", p.getGpTitle());
+		jObj.put("gpCon", p.getGpCon());
+		jObj.put("gpStart", p.getGpStart());
+		jObj.put("gpEnd", p.getGpEnd());
+		jObj.put("address1", p.getAddress1());
+		jObj.put("address2", p.getAddress2());
+		jObj.put("color", p.getColor());
+		jObj.put("gpDelete", p.getGpDelete());
+		
+		jObj.put("name", p.getName());
+		
+		PrintWriter out = response.getWriter();
+		out.print(jObj);
+		out.flush();
+		out.close();
+	}
 
+	
+	// 캘린더 수정
+	@RequestMapping(value = "updatePlan.do", method = RequestMethod.POST)
+	public ModelAndView updatePlan(ModelAndView mv, HttpSession session, GroupPlan gp) {
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+	
+		System.out.println("수정 gp : " + gp);
+//		int result = gService.planInsert(gp);
+//		System.out.println("캘린더 result : " + result);
+		mv.setViewName("redirect:groupCalendarMain.do");
+		return mv;
+	}
 	// ---------------------------------- 공지// ------------------------------------------------------
 	// 공지 메인
 	@RequestMapping(value = "noticeMain.do", method = RequestMethod.GET)

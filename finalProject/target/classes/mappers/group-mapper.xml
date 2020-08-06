@@ -46,6 +46,8 @@
 		<result property="address2" column="GP_ADDRESS2"/>
 		<result property="color" column="GP_COLOR"/>
 		<result property="gpDelete" column="GP_DELETE"/>
+		
+		<result property="name" column="NAME"/>
 	</resultMap>
 
 	<resultMap id="groupNoticeResultSet" type="GroupNotice">
@@ -287,6 +289,15 @@
 		SELECT GP_NO, G_NO, GM_NO, GP_TITLE, GP_CON, GP_START, GP_END, GP_POST, GP_ADDRESS1, GP_ADDRESS2, GP_COLOR
 		FROM GROUP_PLAN
 		WHERE G_NO = #{groupNo}
+		AND GP_DELETE = 'N'
+	</select>
+	
+	<select id="detailPlan" parameterType="GroupPlan" resultMap="groupPlanResultSet">
+		SELECT GP_NO, GP.G_NO, GP.GM_NO, GP_TITLE, GP_CON, GP_START, GP_END, GP_POST, GP_ADDRESS1, GP_ADDRESS2, GP_COLOR, NAME
+		FROM GROUP_PLAN GP
+        JOIN GROUP_MEMBER GM ON(GP.GM_NO = GM.GM_NO)
+        JOIN MEMBER M ON(GM.GM_ID = M.ID)
+		WHERE GP_NO = #{gpNo}
 		AND GP_DELETE = 'N'
 	</select>
 	<!-- 그룹 캘린더 end-->

@@ -9,7 +9,7 @@ public class GroupPlan  implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private int gpNo;
+	private String gpNo;
 	private String gNo;
 	private String gmNo;
 	private String gpTitle;
@@ -22,6 +22,7 @@ public class GroupPlan  implements Serializable{
 	private String color;
 	private String gpDelete;
 	
+	private String name;
 	
 	
 	public GroupPlan() {
@@ -29,9 +30,8 @@ public class GroupPlan  implements Serializable{
 	}
 
 
-
-	public GroupPlan(int gpNo, String gNo, String gmNo, String gpTitle, String gpCon, String gpStart, String gpEnd,
-			String gpPost, String address1, String address2, String color, String gpDelete) {
+	public GroupPlan(String gpNo, String gNo, String gmNo, String gpTitle, String gpCon, String gpStart, String gpEnd,
+			String gpPost, String address1, String address2, String color, String gpDelete, String name) {
 		super();
 		this.gpNo = gpNo;
 		this.gNo = gNo;
@@ -45,20 +45,18 @@ public class GroupPlan  implements Serializable{
 		this.address2 = address2;
 		this.color = color;
 		this.gpDelete = gpDelete;
+		this.name = name;
 	}
 
 
-
-	public int getGpNo() {
+	public String getGpNo() {
 		return gpNo;
 	}
 
 
-
-	public void setGpNo(int gpNo) {
+	public void setGpNo(String gpNo) {
 		this.gpNo = gpNo;
 	}
-
 
 
 	public String getgNo() {
@@ -66,11 +64,9 @@ public class GroupPlan  implements Serializable{
 	}
 
 
-
 	public void setgNo(String gNo) {
 		this.gNo = gNo;
 	}
-
 
 
 	public String getGmNo() {
@@ -78,11 +74,9 @@ public class GroupPlan  implements Serializable{
 	}
 
 
-
 	public void setGmNo(String gmNo) {
 		this.gmNo = gmNo;
 	}
-
 
 
 	public String getGpTitle() {
@@ -90,11 +84,9 @@ public class GroupPlan  implements Serializable{
 	}
 
 
-
 	public void setGpTitle(String gpTitle) {
 		this.gpTitle = gpTitle;
 	}
-
 
 
 	public String getGpCon() {
@@ -102,11 +94,9 @@ public class GroupPlan  implements Serializable{
 	}
 
 
-
 	public void setGpCon(String gpCon) {
 		this.gpCon = gpCon;
 	}
-
 
 
 	public String getGpStart() {
@@ -114,11 +104,9 @@ public class GroupPlan  implements Serializable{
 	}
 
 
-
 	public void setGpStart(String gpStart) {
 		this.gpStart = gpStart;
 	}
-
 
 
 	public String getGpEnd() {
@@ -126,11 +114,9 @@ public class GroupPlan  implements Serializable{
 	}
 
 
-
 	public void setGpEnd(String gpEnd) {
 		this.gpEnd = gpEnd;
 	}
-
 
 
 	public String getGpPost() {
@@ -138,11 +124,9 @@ public class GroupPlan  implements Serializable{
 	}
 
 
-
 	public void setGpPost(String gpPost) {
 		this.gpPost = gpPost;
 	}
-
 
 
 	public String getAddress1() {
@@ -150,11 +134,9 @@ public class GroupPlan  implements Serializable{
 	}
 
 
-
 	public void setAddress1(String address1) {
 		this.address1 = address1;
 	}
-
 
 
 	public String getAddress2() {
@@ -162,11 +144,9 @@ public class GroupPlan  implements Serializable{
 	}
 
 
-
 	public void setAddress2(String address2) {
 		this.address2 = address2;
 	}
-
 
 
 	public String getColor() {
@@ -174,11 +154,9 @@ public class GroupPlan  implements Serializable{
 	}
 
 
-
 	public void setColor(String color) {
 		this.color = color;
 	}
-
 
 
 	public String getGpDelete() {
@@ -186,11 +164,19 @@ public class GroupPlan  implements Serializable{
 	}
 
 
-
 	public void setGpDelete(String gpDelete) {
 		this.gpDelete = gpDelete;
 	}
 
+
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 
 	public static long getSerialversionuid() {
@@ -198,12 +184,11 @@ public class GroupPlan  implements Serializable{
 	}
 
 
-
 	@Override
 	public String toString() {
 		return "GroupPlan [gpNo=" + gpNo + ", gNo=" + gNo + ", gmNo=" + gmNo + ", gpTitle=" + gpTitle + ", gpCon="
 				+ gpCon + ", gpStart=" + gpStart + ", gpEnd=" + gpEnd + ", gpPost=" + gpPost + ", address1=" + address1
-				+ ", address2=" + address2 + ", color=" + color + ", gpDelete=" + gpDelete + "]\n";
+				+ ", address2=" + address2 + ", color=" + color + ", gpDelete=" + gpDelete + ", name=" + name + "]\n";
 	}
 
 

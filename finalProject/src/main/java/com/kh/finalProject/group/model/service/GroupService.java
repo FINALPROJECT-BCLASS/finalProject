@@ -166,6 +166,8 @@ public interface GroupService {
 
 	ArrayList<GroupPlan> selectPlanList(GroupInfo gInfo);
 
+	GroupPlan detailPlan(GroupPlan gp);
+
 
 	
 

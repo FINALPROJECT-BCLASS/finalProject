@@ -31,7 +31,8 @@
 		    	   								,start:data.planList[i].gpStart
 		    	   								,end:data.planList[i].gpEnd
 		    	   								,color:data.planList[i].color
-		    	   								,id:data.planList[i].getGpNo})
+		    	   								,id:data.planList[i].gpNo
+		    	   								})
 		    	   				};
 	            				
 	            				successCallback(events);
@@ -73,7 +74,7 @@
 			var calendarDate = year + "-" + formatMonth;
 			$("#listDate").val(calendarDate);
 			
-			mtListView(calendarDate);
+			/* mtListView(calendarDate); */
 	        
 	        $(".fc-prev-button").click(function(){
 	        	month = month - 1;
@@ -92,7 +93,7 @@
 	        	calendarDate = year + "-" + formatMonth;
 	        	$("#listDate").val(calendarDate);
 	        	
-	        	mtListView(calendarDate);
+	        	/* mtListView(calendarDate); */
 	        })
 	        
 	        $(".fc-next-button").click(function(){
@@ -112,7 +113,7 @@
 	        	calendarDate = year + "-" + formatMonth;
 	        	$("#listDate").val(calendarDate);
 	        	
-	        	mtListView(calendarDate);
+	        	/* mtListView(calendarDate); */
 	        })
 	    });
 	    	  
@@ -190,6 +191,10 @@
         
 		.modal-dialog{
 			max-width:750px !important;
+		}
+		
+		#deleteBtn{
+			margin-left:20px;
 		}
 		
         #addTable td{
@@ -314,7 +319,7 @@
                                 <button type="button" class="close" data-dismiss="modal">×</button>
                             </div>
                             <div class="modal-body" align="center">
-                                <form action="insertPlan.do" method="post">
+                                <form action="insertPlan.do" id="insertForm" method="post">
                                 	<input type="hidden" name="id" value="${gInfo }">
                                     <table id="addTable">
                                     <input type="hidden" name="gNo" value="${gInfo.groupNo }">
@@ -370,7 +375,7 @@
                                             </td>
                                         </tr>
                                     </table>
-                                    <button type="submit" class="default-btn b-yell">Add</button>
+                                    <button type="button" id="insertBtn" class="default-btn b-yell">Add</button>
                                 </form>
                             </div>
                         </div>
@@ -389,38 +394,51 @@
 	                   <button type="button" class="close" data-dismiss="modal">×</button>
 	               </div>
 	               <div class="modal-body" align="center">
-	                   <form action="mpinsert.do" method="post">
-	                   	<input type="hidden" name="mpNo" id="mpNo">
+	                   <form action="detail" method="post">
+	                   	<input type="hidden" name="gpNo" id="gpNo">
 	                       <table id="detailTable">
+	                          <tr>
+                                   <td>Title</td>
+                                   <td><input type="text" id="gpTitle2" class="textBox" name="gpTitle" size="42" readonly></td>
+                               </tr>
+                               <tr>
+                                   <td>Writer</td>
+                                   <td><input type="text" id="name" class="textBox" name="name" size="42" readonly></td>
+                               </tr>
+                         	   <tr>
+                                  <td>Date</td>
+                                  <td>
+                                      <input type="date" id="gpStart" name="gpStart" class="textBox" readonly> - 
+                                      <input type="date" id="gpEnd" name="gpEnd" class="textBox" readonly>
+                                  </td>
+                              </tr>
 	                           <tr>
-	                               <td>Title</td>
-	                               <td><span id="mpTitle"></span></td>
-	                           </tr>
-	                           <tr>
-	                               <td>Date</td>
-	                               <td><span id="mpDate"></span></td>
-	                           </tr>
-	                           <!-- <tr>
-	                               <th>Time</th>
-	                               <td><span id="mpTime"></span></td>
-	                           </tr> -->
-	                           <tr>
-	                               <td colspan="2">Content</td>
-	                           </tr>
-	                           <tr>
-	                               <td colspan="2"><span id="mpMemo">&nbsp;</span></td>
-	                           </tr>
-	                           <tr>
-	                               <td colspan="2">Location</td>
-	                           </tr>
+                                   <td colspan="2">
+                                   	Location&nbsp;
+                                   </td>
+                               </tr>
+                                <tr>
+                                   <td colspan="2"><input type="text" id="address1" name="address1" class="mainAddress textBox" size="49" readonly></td>
+                               </tr>
+                               <tr>
+                                   <td colspan="2"><input type="text" id="address2" name="address2" class="subAddress textBox" size="49" readonly></td>
+                               </tr>
 	                           <tr>
 	                               <td colspan="2"><span id="mpLocation">&nbsp;</span></td>
 	                           </tr>
+	                           <tr>
+                                  <td colspan="2">Content</td>
+                              </tr>
+                              <tr>
+                                  <td colspan="2">
+                                      <textarea id="gpCon" name="gpCon"   class="textCon textBox" cols="52" rows="5" readonly></textarea>
+                                  </td>
+                              </tr>
 	                       </table>
 	                       <div id="map" style="width:300px;height:200px;"></div>
 	                       <br><br>
-	                       <button type="button" class="default-btn" id="updateBtn">Edit</button>
-	                       &nbsp;<button type="button" class="default-btn" id="deleteBtn">Delete</button>
+	                       <div class="btnBox"></div>
+	                      
 	                   </form>
 	               </div>
 	           </div>
@@ -434,28 +452,23 @@
                        <button type="button" class="close" data-dismiss="modal">×</button>
                    </div>
                    <div class="modal-body" align="center">
-                       <form action="mpupdate.do" method="post">
-                           <input type="hidden" name="mpNo" id="updateNo">
+                       <form action="updatePlan.do" method="post" id="updatePlan">
+                           <input type="hidden" name="gpNo" id="updateNo" >
                            <table id="updateTable">
                                <tr>
-                                   <th>Title</th>
-                                   <td><input type="text" name="mpTitle" id="updateTitle" size="42"></td>
+                                   <td>Title</td>
+                                   <td><input type="text" name="gpTitle" class="textBox" id="updateTitle" size="42"></td>
                                </tr>
                                <tr>
-                                   <th>Date</th>
+                                   <td>Date</td>
                                    <td>
-                                       <input type="date" name="mpStart" id="updateStart"> - 
-                                       <input type="date" name="mpEnd" id="updateEnd">
+                                   		
+                                       <input type="date" name="gpStart" class="textBox"  id="updateStart"> - 
+                                       <input type="date" name="gpEnd" class="textBox"  id="updateEnd">
                                    </td>
                                </tr>
                                <tr>
-                                   <th>Time</th>
-                                   <td>
-                                   	<input type="time" name="mpTime" id="updateTime" style="width: 335px;">
-                                   </td>
-                               </tr>
-                               <tr>
-                               	<th>Color</th>
+                               	<td>Color</td>
                                	<td>
                                		<div style="display: flex;">
                                 		<input type="radio" name="color" id="uYellow" value="#FBD14B" checked>
@@ -469,31 +482,31 @@
 			                         	<input type="radio" name="color" id="uGreen" value="#50c6b0">
 			                         	<label class="u-icons" for="uGreen"><div class="green"></div></label>                                        		
                                		</div>
-                               		<input type="hidden" id="updateColor" name="mpColor" value="#FBD14B">
+                               		<input type="hidden" id="updateColor" name="mpcolor" value="#FBD14B">
                                	</td>
                                </tr>
                                <tr>
                                    <td colspan="2">
-                                   	<b>Location</b>&nbsp;
-                                   	<button type="button" class="default-btn b-lightgray" onclick="searchAddress()">Search</button>
+                                   	Location&nbsp;
+                                   	<button type="button" class="default-btn b-lightgray textBox" onclick="searchAddress()">Search</button>
                                    </td>
                                </tr>
                                <tr>
-                                   <td colspan="2"><input type="text" name="mpMain" id="updateMain" class="mainAddress" size="49"></td>
+                                   <td colspan="2"><input type="text" name="address1" id="updateMain" class="mainAddress textBox" size="49"></td>
                                </tr>
                                <tr>
-                                   <td colspan="2"><input type="text" name="mpSub" id="updateSub" class="subAddress" size="49"></td>
+                                   <td colspan="2"><input type="text" name="address2" id="updateSub" class="subAddress textBox" size="49"></td>
                                </tr>
                                <tr>
-                                   <th colspan="2">Memo</th>
+                                   <td colspan="2">Content</td>
                                </tr>
                                <tr>
                                    <td colspan="2">
-                                       <textarea name="mpMemo" id="updateMemo" cols="52" rows="5"></textarea>
+                                       <textarea name="gpCon" class="textBox textCon"  id="updateMemo" cols="52" rows="5"></textarea>
                                    </td>
                                </tr>
                            </table>
-                           <button type="submit" class="default-btn">Save</button>
+                           <button type="button" id="updatePlanBtn" class="default-btn">Save</button>
                        </form>
                    </div>
                </div>
@@ -502,7 +515,23 @@
     </section>
 
     <jsp:include page="../common/footer.jsp"/>	
-
+	
+	<script>
+		$("#insertBtn").click(function(){
+			if($("#addTitle").val() == ""){
+				alert("제목을 입력해주세요");
+			}else if($("#gpTitle").val() != ""){
+				$("#insertForm").submit();
+			}
+		})
+	</script>
+	
+	 <script>
+		$("#updatePlanBtn").click(function(){
+			$("#updatePlan").submit();
+		})
+	</script>
+	
     <script>
 	    var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
 	    var options = { //지도를 생성할 때 필요한 기본 옵션
@@ -574,44 +603,58 @@
 	    function mpDetailView(id) {
 	    	
 	    	$.ajax({
-    			url: 'mpdetail.do',
-    			data:{mpNo:id},
+    			url: 'detailPlan.do',
+    			data:{gpNo:id},
     			dataType: 'json',
     			success: function(data) {
-    				var mpNo = data.no;
-    				var mpTitle = data.eventTitle;
-    				var mpStart = data.start;
-    				var mpEnd = data.end;
-    				var mpDate = mpStart + " - " + mpEnd;
-    				var mpTime = data.time;
-    				var mpLocation = data.location;
-    				var mpMemo = data.memo;
-    				var mapAddress = data.map;
+    				var gpNo = data.gpNo;
+    				var gNo = data.gNo;
+    				var gmNo = data.gmNo;
+    				var gpTitle = data.gpTitle;
+    				var gpCon =  data.gpCon;
+    				var gpStart = data.gpStart;
+    				var gpEnd = data.gpEnd;
+    				var address1 = data.address1;
+    				var address2 = data.address2;
+    				var color = data.color;
     				
-    				$("#mpNo").val(mpNo);
-    				$("#mpTitle").html(mpTitle);
-    				$("#mpDate").html(mpDate);
-    				$("#mpTime").html(mpTime);
-    				$("#mpLocation").html(mpLocation);
-    				$("#mpMemo").html(mpMemo);
+    				var name = data.name;
+					
+    				var update =  '<button type="button" class="default-btn" id="updateBtn">Edit</button>';
+    				var Delete = '<button type="button" class="default-btn" id="deleteBtn">Delete</button>';
+    				var btnBox = $(".btnBox");
     				
-    				$("#updateNo").val(mpNo);
-    				$("#updateTitle").val(mpTitle);
-    				$("#updateStart").val(mpStart);
-    				$("#updateEnd").val(mpEnd);
-    				$("#updateTime").val(mpTime);
-    				$("#updateMain").val(data.main);
-    				$("#updateSub").val(data.sub);
-    				$("#updateMemo").val(mpMemo);
+    				$("#gpNo").val(gpNo);
+    				$("#gpTitle").val(gpTitle);
+    				$("#name").val(name);
+    				$("#gpStart").val(gpStart);
+    				$("#gpEnd").val(gpEnd);
+    				$("#address1").val(address1);
+    				$("#address2").val(address2);
     				
+    				$("#gpCon").val(gpCon);
+    				if("${gInfo.gmNo}" == data.gmNo){
+    					btnBox.append(update);
+    					btnBox.append(Delete);
+    				}
+    				
+    				$("#updateNo").val(gpNo);
+    				$("#updateTitle").val(gpTitle);
+    				$("#updateStart").val(gpStart);
+    				$("#updateEnd").val(gpEnd);
+    				$("#updateMain").val(address1);
+    				$("#updateSub").val(address2);
+    				$("#updateMemo").val(gpCon);
+    				 
     				$("#detailModal").modal();
     				
-    				if(mapAddress != null) {
+    				/* 지도 */
+    				if(address1 != null) {
     					$("#map").css("display", "block");
     					
 	    	    		var geocoder = new kakao.maps.services.Geocoder();
 	    				// 주소로 좌표를 검색합니다
-	    				geocoder.addressSearch(mapAddress, function(result, status) {
+	    				geocoder.addressSearch(address1, function(result, status) {
 	    				
 	    				    // 정상적으로 검색이 완료됐으면 
 	    				     if (status === kakao.maps.services.Status.OK) {
@@ -625,7 +668,7 @@
 	    				        });
 	    				
 	    				        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-	    				        /* map.setCenter(coords); */
+	    				        map.setCenter(coords);
 	    				        
 	    				        resizeMap(coords);
 	    				    } 
@@ -644,37 +687,7 @@
 	    	
 	    }
 	    
-	    /* function mtListView(calendarDate) {
-	    	$(".listCheck").prop("checked",false);
-        	$(".listInput").val("");
-        	
-	        $.ajax({
-       			url: 'mtlist.do',
-       			data: {mtDate:calendarDate},
-       			dataType: 'json',
-       			success: function(data) {
-       				for(var i in data.mtList){
-   	   					var content = data.mtList[i].content;
-   	   					
-   	   					$("#listContent"+i).val(content);
-
-   	   					if(data.mtList[i].complete == 'Y') {
-   	   						$("#listCheck"+i).prop("checked", true);
-   	   						$("#checkResult"+i).val("Y");
-   	   					} else {
-   	   						$("#listCheck"+i).prop("checked", false);
-   	   						$("#checkResult"+i).val("N");
-   	   					}
-   	   				}
-       			},
-       			error:function(request, status, errorData){
-                       alert("error code: " + request.status + "\n"
-                             +"message: " + request.responseText
-                             +"error: " + errorData);
-                   }   
-       		})
-	    } */
-    
+	  
         $(document).ready(function(){
         	$(".b-icons").click(function(){
         		var color = $(this).prev().val();
@@ -707,13 +720,7 @@
 				$("#addMemo").val("");
 			});
         	
-        	/* $(".listCheck").change(function(){
-    			if($(this).is(":checked") == true){
-    			    $(this).next().val("Y");
-    			} else {
-    				$(this).next().val("N");
-    			}
-    		}) */
+        
         });
     </script>
     

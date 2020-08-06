@@ -341,6 +341,10 @@ public class GroupDao {
 		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectPlanList",gInfo);		
 	}
 
+	public GroupPlan detailPlan(GroupPlan gp) {
+		return sqlSessionTemplate.selectOne("groupMapper.detailPlan",gp);		
+	}
+
 	
 	
 	
