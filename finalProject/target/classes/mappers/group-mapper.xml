@@ -312,6 +312,12 @@
 			GP_COLOR = #{color}		
 		WHERE GP_NO = #{gpNo}
 	</update>
+	
+	<update id="planDelete" parameterType="Groupplan">
+		UPDATE GROUP_PLAN
+		SET GP_DELETE = 'Y'
+		WHERE GP_NO = #{gpNo}
+	</update>
 	<!-- 그룹 캘린더 end-->
 	
 	<!-- 그룹 공지 -->

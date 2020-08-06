@@ -403,6 +403,11 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.planUpdate(gp);
 	}
 
+	@Override
+	public int planDelete(GroupPlan gp) {
+		return gDao.planDelete(gp);
+	}
+
 
 
 

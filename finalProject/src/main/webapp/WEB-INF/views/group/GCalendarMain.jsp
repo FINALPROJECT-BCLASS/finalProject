@@ -700,10 +700,14 @@
         		$("#updateColor").val(color);
         	})
         	
-        	$("#deleteBtn").click(function(){
-        		var deleteNo = $("#mpNo").val();
-        		
-      			location.href="mpdelete.do?mpNo="+deleteNo;
+        	$(document).on("click","#deleteBtn",function(){
+        	
+        		var deleteNo = $("#gpNo").val();
+        		var deleteConfirm = confirm("일정을 삭제하시겠습니까? ");
+		 		if(deleteConfirm){
+		 			alert("일정이 삭제되었습니다.");
+      			location.href="deletePlan.do?gpNo="+deleteNo;
+		 		}
       		})
       		
       		$(document).on("click","#updateBtn",function(){

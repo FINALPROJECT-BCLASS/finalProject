@@ -170,6 +170,8 @@ public interface GroupService {
 
 	int planUpdate(GroupPlan gp);
 
+	int planDelete(GroupPlan gp);
+
 
 	
 

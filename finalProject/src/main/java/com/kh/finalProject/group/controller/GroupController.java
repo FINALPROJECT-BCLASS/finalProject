@@ -481,13 +481,26 @@ public class GroupController {
 	public ModelAndView updatePlan(ModelAndView mv, HttpSession session, GroupPlan gp) {
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
-	
-		System.out.println("수정 gp : " + gp);
+
 		int result = gService.planUpdate(gp);
-		System.out.println("캘린더 수정 : " + result);
+
 		mv.setViewName("redirect:groupCalendarMain.do");
 		return mv;
 	}
+	
+	// 캘린더 삭제
+	@RequestMapping(value = "deletePlan.do", method = RequestMethod.GET)
+	public ModelAndView deletePlan(ModelAndView mv, HttpSession session, GroupPlan gp) {
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+	
+		System.out.println("삭제 gp : " + gp);
+		int result = gService.planDelete(gp);
+		System.out.println("캘린더 삭제 : " + result);
+		mv.setViewName("redirect:groupCalendarMain.do");
+		return mv;
+	}
+
 	// ---------------------------------- 공지// ------------------------------------------------------
 	// 공지 메인
 	@RequestMapping(value = "noticeMain.do", method = RequestMethod.GET)
