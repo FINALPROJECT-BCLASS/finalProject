@@ -398,6 +398,10 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.detailPlan(gp);
 	}
 
+	@Override
+	public int planUpdate(GroupPlan gp) {
+		return gDao.planUpdate(gp);
+	}
 
 
 

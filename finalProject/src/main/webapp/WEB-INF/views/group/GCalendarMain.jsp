@@ -399,7 +399,7 @@
 	                       <table id="detailTable">
 	                          <tr>
                                    <td>Title</td>
-                                   <td><input type="text" id="gpTitle2" class="textBox" name="gpTitle" size="42" readonly></td>
+                                   <td><input type="text" id="gpTitle" class="textBox" name="gpTitle" size="42" readonly></td>
                                </tr>
                                <tr>
                                    <td>Writer</td>
@@ -706,7 +706,8 @@
       			location.href="mpdelete.do?mpNo="+deleteNo;
       		})
       		
-      		$("#updateBtn").click(function(){
+      		$(document).on("click","#updateBtn",function(){
+
       			$('#detailModal').modal("hide"); //닫기 
       			 
       			$('#updateModal').modal("show"); //열기

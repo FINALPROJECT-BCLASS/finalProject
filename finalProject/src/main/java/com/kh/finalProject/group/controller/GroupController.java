@@ -483,8 +483,8 @@ public class GroupController {
 		GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 	
 		System.out.println("수정 gp : " + gp);
-//		int result = gService.planInsert(gp);
-//		System.out.println("캘린더 result : " + result);
+		int result = gService.planUpdate(gp);
+		System.out.println("캘린더 수정 : " + result);
 		mv.setViewName("redirect:groupCalendarMain.do");
 		return mv;
 	}

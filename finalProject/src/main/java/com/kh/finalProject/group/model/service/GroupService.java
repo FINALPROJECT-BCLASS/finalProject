@@ -168,6 +168,8 @@ public interface GroupService {
 
 	GroupPlan detailPlan(GroupPlan gp);
 
+	int planUpdate(GroupPlan gp);
+
 
 	
 

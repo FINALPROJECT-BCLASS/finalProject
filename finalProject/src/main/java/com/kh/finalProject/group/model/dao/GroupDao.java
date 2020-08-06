@@ -345,6 +345,10 @@ public class GroupDao {
 		return sqlSessionTemplate.selectOne("groupMapper.detailPlan",gp);		
 	}
 
+	public int planUpdate(GroupPlan gp) {
+		return sqlSessionTemplate.update("groupMapper.planUpdate",gp);		
+	}
+
 	
 	
 	

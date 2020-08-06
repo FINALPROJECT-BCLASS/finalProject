@@ -300,6 +300,18 @@
 		WHERE GP_NO = #{gpNo}
 		AND GP_DELETE = 'N'
 	</select>
+	
+	<update id="planUpdate" parameterType="Groupplan">
+		UPDATE GROUP_PLAN
+		SET GP_TITLE = #{gpTitle},
+			GP_CON = #{gpCon},
+			GP_START = #{gpStart},
+			GP_END = #{gpEnd},
+			GP_ADDRESS1 = #{address1},
+			GP_ADDRESS2 = #{address2},
+			GP_COLOR = #{color}		
+		WHERE GP_NO = #{gpNo}
+	</update>
 	<!-- 그룹 캘린더 end-->
 	
 	<!-- 그룹 공지 -->
