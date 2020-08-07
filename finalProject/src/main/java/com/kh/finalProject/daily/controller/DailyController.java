@@ -957,6 +957,13 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		return "daily/bookmarkMapAdd";
 	}
 	
+	@RequestMapping("addBookmarkUrlView.do")
+	public String addUrlView(Model model, @RequestParam(value="bl_no", required=true) String bl_no) {
+		
+		model.addAttribute("bl_no", bl_no);
+		return "daily/bookmarkUrlAdd";
+	}
+	
 	@RequestMapping("addBookmarkMap.do")
 	public String addBookrmarkMap(BookmarkMap bmm, Model model,
 									HttpServletRequest request, HttpServletResponse response,
@@ -989,6 +996,63 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		}
 		
 	
+	}
+	
+	@RequestMapping("addBookmarkUrl.do")
+	public String addBookrmarkUrl(BookmarkMap bmm, Model model,
+									HttpServletRequest request,
+									@RequestParam(value="mainAddress", required=true) String mainAddress,
+									@RequestParam(value="subAddress", required=false) String subAddress) {
+		
+		HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		bmm.setId(id);
+		bmm.setMb_address(mainAddress+"_"+subAddress);
+		
+		System.out.println("값 어떻게 들어오나? :" + bmm);
+		
+		
+		int result = dailyService.insertBookmarkMap(bmm);
+		
+		
+		if(result > 0) {
+			
+			return "redirect:bookmarkView.do";
+		}else {
+			
+			model.addAttribute("msg","지도 북마크 등록 실패, 다시 시도해 주세요.");
+            model.addAttribute("url","/addBookmarkMapView.do");
+			
+			return "common/redirect";
+			
+		}
+		
+	}
+	
+	@RequestMapping("selectBookmarkMapList.do")
+	public void SelectBookmarkMapList(Model model,
+			HttpServletRequest request, HttpServletResponse response, String bl_no) throws IOException {
+		
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		BookmarkMap bm = new BookmarkMap();
+		bm.setBl_no(bl_no);
+		bm.setId(id);
+		
+		ArrayList<BookmarkMap> mblist = dailyService.selectBookmarkMapList(bm);
+		
+		out.print(mblist);
+		out.flush();
+		out.close();
+		
+		
 	}
 	
 }

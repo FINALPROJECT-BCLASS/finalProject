@@ -55,6 +55,13 @@
 		<result property="bl_color" column="BL_COLOR"/>
 	</resultMap>
 	
+	<resultMap type="BookmarkMap" id="BookmarkMapResultSet">
+		<id property="mb_no" column="MB_NO"/>
+		<result property="id" column="ID"/>
+		<result property="bl_no" column="BL_NO"/>
+		<result property="mb_title" column="MB_CON"/>
+		<result property="mb_phone" column="MB_PHONE"/>
+	</resultMap>
 	
 	<insert id="insertHabit" parameterType="Habit">
 		INSERT INTO HABIT_TRACKER
@@ -257,8 +264,6 @@
 		AND HT.ID = #{id}
 		AND HTR.HT_NO = #{ht_no}
 		AND TO_CHAR(HTR_DATE, 'YY/MM')= TO_CHAR(TO_DATE(#{today}, 'YY/MM/DD') ,'YY/MM')
-		<!-- AND HTR_DATE BETWEEN TO_CHAR(TRUNC(TO_DATE(#{today}, 'YY-MM-DD'),'iw')  ,'yy-mm-dd')
-                		 AND TO_CHAR(TRUNC(TO_DATE(#{today}, 'YY-MM-DD'),'iw') + 6  ,'yy-mm-dd') -->
 		AND HTR.HTR_DELETE = 'N'
 		AND HT.HT_DELETE = 'N'
 		GROUP BY SUBSTR(HTR.HTR_DATE, 0, 8)
@@ -344,5 +349,13 @@
 				, 0
 				, 'N')
 	</insert>
+	
+	<select id="selectBookmarkMapList" parameterType="BookmarkMap" resultMap="BookmarkMapResultSet">
+		SELECT *
+		FROM MAP_BOOKMARK
+		WHERE BL_NO = #{bl_no}
+		AND ID = #{id}
+		AND MB_DELETE = 'N'
+	</select>
 	
 </mapper>

@@ -10,7 +10,7 @@
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script type="text/javascript" src="dapi.kakao.com/v2/maps/sdk.js?appkey=a5165e87a2b10b900ab474145bc13247"></script>
 <!-- services와 clusterer, drawing 라이브러리 불러오기 -->
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=APIKEY&libraries=services,clusterer,drawing"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a5165e87a2b10b900ab474145bc13247&libraries=services,clusterer,drawing"></script>
 <!-- CSS -->
 <link rel="stylesheet" href="resources/css/flickity/flickity.css">
 <!-- JavaScript -->
@@ -462,6 +462,8 @@
             <div style="width: 100%">
 	            <div class="carousel" data-flickity='{ "draggable": true }' style="width: 100%">
 					<c:forEach var="bm" items="${bm }">
+						<input id="bl_con" type="hidden" name="bl_con" value="${bm.bl_con }">
+						<input id="bl_type" type="hidden" name="bl_type" value="${bm.bl_type }">
 						<input id="bl_no" type="hidden" name="bl_no" value="${bm.bl_no }">
 						<div class="carousel-cell" style="background:${bm.bl_color }">
 				  			<div class="image-area">
@@ -477,7 +479,7 @@
 			                   		<img class="image" src="resources/bluploadFiles/${bm.bl_rename }">
 			                   	</c:if>
 			                </div>
-							<div>
+							<div class="bl_title">
 								${bm.bl_title }
 							</div>
 							<div>
@@ -504,7 +506,7 @@
                     <div class="title-content">: 맛집 리스트 모음</div>
                 </div>
                 <div class="small-button-area">
-        			<button type="button" onclick="addMap()">Add</button>
+        			<button type="button" onclick="addBookmark_m_u()">Add</button>
 		            <button>Edit</button>
 		            <button>Delete</button>
     			</div> 
@@ -533,13 +535,21 @@
 		
 		<script>
 		
-			function addMap() {
+			// 북마크 그룹 내의 add 버튼 클릭시 실행되는 함수
+			function addBookmark_m_u() {
 				
 				var bl_no = $(".clicked").prev().val();
+				var bl_type = $(".clicked").prev().prev().val();
 				
-				console.log(bl_no);
+				if(bl_type == "map") {
+					
+					location.href='addBookmarkMapView.do?bl_no='+ bl_no;
+					
+				}else {
+					
+					location.href='addBookmarkUrlView.do?bl_no='+ bl_no;
+				}
 				
-				location.href='addBookmarkMapView.do?bl_no='+ bl_no;
 			}
 		
 		
@@ -553,21 +563,51 @@
 				
 				$(this).addClass("clicked");
 				
+				var bl_title = $(".clicked").find(".bl_title").html();
+				var bl_con = $(".clicked").prev().prev().prev().val();
+				
 				$(".content-box").show();
+				$(".title-area > span:nth-child(1)").html(bl_title);
+				$(".title-content").html(bl_con);
+				
+				showBoookmarkMapList();
 				
 				target.not($(this)).removeClass("clicked");
 				
 			});
 			
-	        
+			// 지도 북마크 
+			function showBoookmarkMapList() {
+				
+				var bl_no = $(".clicked").prev().val();
+				
+				$.ajax({
+		    	    method: 'POST',
+		    	    url: 'selectBookmarkMapList.do',
+		    	    data: {'bl_no':bl_no},
+		    	    success : function(data) {
+						console.log("data : " + data);
+		    	    },
+		    	    error:function(request, status, errorData){
+                        alert("error code: " + request.status + "\n"
+                              +"message: " + request.responseText
+                              +"error: " + errorData);
+             		} 
+		    	 
+		    	});	
+				
+			}
+			
+			
+	        // 북마크 그룹 삭제
 	        function deleteBookmark() {
 	        	
 	        	var bl_no = $(".clicked").prev().val();
 	        	location.href="deleteBookmark.do?bl_no="+ bl_no;
 	        	
-	        	
 	        }
 	        
+	        // 북마크 그룹 편집
 	        function editBookmark() {
 	        	
 				var bl_no = $(".clicked").prev().val();
@@ -583,14 +623,6 @@
 		        if (responseMessage != ""){alert(responseMessage)}
 		   
 		    });
-
-            // var container = document.getElementById('map');
-            // var options = {
-            //     center: new kakao.maps.LatLng(33.450701, 126.570667),
-            //     level: 3
-            // };
-
-            // var map = new kakao.maps.Map(container, options);
             
         </script>
         <jsp:include page="../common/footer.jsp"/>

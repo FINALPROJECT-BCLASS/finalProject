@@ -65,6 +65,8 @@ public interface DailyService {
 
 	int insertBookmarkMap(BookmarkMap bmm);
 
+	ArrayList<BookmarkMap> selectBookmarkMapList(BookmarkMap bm);
+
 
 
 }

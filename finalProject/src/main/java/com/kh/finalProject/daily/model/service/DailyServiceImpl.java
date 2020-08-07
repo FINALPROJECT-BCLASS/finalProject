@@ -189,6 +189,12 @@ public class DailyServiceImpl implements DailyService {
 		return dailyDao.insertBookmarkMap(bmm);
 	}
 
+	@Override
+	public ArrayList<BookmarkMap> selectBookmarkMapList(BookmarkMap bm) {
+
+		return dailyDao.selectBookmarkMapList(bm);
+	}
+
 
 
 	
