@@ -267,7 +267,7 @@
 				</div>
 					<div class="tri-right"></div>
 				<div class="text-con-area">
-					<div>${cl.id }</div>
+					<div>${cl.nickname }</div>
 					<div class="text-con-someone">${cl.ml_cont }</div>
 				</div>
 			</div>
@@ -278,7 +278,7 @@
 		<div class="send-area">
 			<textarea id="message"></textarea>
 			<input type="button" id="sendBtn" class="default-btn" value="전송"/>
-				<input type="hidden" value="${loginUser.id }" id="loginuser">
+				<input type="hidden" value="${loginUser.nickname }" id="loginuser">
 				<input type="hidden" value="${cm_no }" id="cm_no">
 		</div>
 </body>
@@ -301,7 +301,7 @@
 	//연결될시 시작되는 메소드
  	function onOpen(){
 		var msgData = {
-				user_id : $("#loginuser").val(),
+				user_id : "${loginUser.nickname}",
 				cm_no : $("#cm_no").val(),
 				msg : "입장하셨습니다.",
 				join : "join",
@@ -436,12 +436,12 @@
 
 	function onClose(evt) {
 		var msgData = {
-			user_id : $("#loginuser").val(),
+			user_id : "${loginUser.nickname}",
 			cm_no : $("#cm_no").val(),
 			msg : "퇴장하셨습니다.",
 			out : "out"
 		};
-		var jsonData = JSON.stringify(msgData);//JSON.stringify란 자바스크립트의 값을 JSON 문자열로 변환한다. 
+		var jsonData = JSON.stringify(msgData);	//JSON.stringify란 자바스크립트의 값을 JSON 문자열로 변환한다. 
 		sock.send(jsonData);
 	}
 
@@ -494,6 +494,5 @@
 			location.href = "openchatroom.do";
 		})
 	})
-
 </script>
 </html>

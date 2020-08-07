@@ -23,6 +23,7 @@ public class openChat implements Serializable{
 	private String ml_date;
 	
 	private String rename_file;	//사진이름
+	private String nickname;	//닉네임
 	
 	public openChat() {
 	}
@@ -38,6 +39,12 @@ public class openChat implements Serializable{
 	
 	
 	
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
 	public String getRename_file() {
 		return rename_file;
 	}
@@ -117,9 +124,12 @@ public class openChat implements Serializable{
 	public String toString() {
 		return "openChat [cm_no=" + cm_no + ", cm_title=" + cm_title + ", cm_pwd=" + cm_pwd + ", cm_max=" + cm_max
 				+ ", cm_cot=" + cm_cot + ", cm_con=" + cm_con + ", cm_id=" + cm_id + ", ml_no=" + ml_no + ", id=" + id
-				+ ", ml_cont=" + ml_cont + ", ml_date=" + ml_date + ", rename_file=" + rename_file + "]";
+				+ ", ml_cont=" + ml_cont + ", ml_date=" + ml_date + ", rename_file=" + rename_file + ", nickname="
+				+ nickname + "]";
 	}
-
+	
+	
+	
 	
 	
 

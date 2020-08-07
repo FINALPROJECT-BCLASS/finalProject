@@ -2,6 +2,7 @@ package com.kh.finalProject.chat.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,9 @@ public class ChatServiceImpl implements ChatService{
 	ChatDao cDao;
 
 	@Override
-	public ArrayList<Member> selectMember(String name) {
+	public ArrayList<Member> selectMember(HashMap<String, Object> map) {
 		
-		return cDao.selectMember(name);
+		return cDao.selectMember(map);
 	}
 
 	@Override
@@ -106,5 +107,24 @@ public class ChatServiceImpl implements ChatService{
 	
 		return cDao.passwordcheck(check);
 	}
+
+	@Override
+	public int openchatroomOut(Map<String, Object> map2) {
+		
+		return cDao.openchatroomOut(map2);
+	}
+
+	@Override
+	public int joinchatroom(Map<String, Object> map2) {
+
+		return cDao.joinchatroom(map2);
+	}
+
+	@Override
+	public int deletefriend(HashMap<String, Object> map) {
+	
+		return cDao.deletefriend(map);
+	}
+
 	
 }

@@ -40,14 +40,23 @@
 			<result property="ml_cont" column="ML_CONT"/>
 			<result property="ml_date" column="ML_DATE"/>
 			<result property="rename_file" column="RENAME_FILE"/>
+			<result property="nickname" column="NICKNAME"/>
 	</resultMap>
 
-<select id="selectMember" parameterType="string" resultMap="memberResultSet">
-
+<select id="selectMember" parameterType="map" resultMap="memberResultSet">
+<!-- 
 	SELECT *
 	FROM MEMBER
 	WHERE NAME = #{name}
-	
+	 -->
+	SELECT *
+	FROM MEMBER
+	WHERE ID NOT IN(SELECT FL.FL_ID
+		            FROM FRIEND_LIST FL
+		            WHERE FL.ID=#{id})
+        AND ID !=#{id}
+        AND NAME LIKE '%' || #{nickname} || '%'
+        AND OUT_YN = 'N'
 </select>
 
 
@@ -64,7 +73,7 @@
 	SELECT M.*
 	FROM FRIEND_LIST FL
 	JOIN MEMBER M ON (FL.FL_ID = M.ID)
-	WHERE FL.ID= #{Id}
+	WHERE FL.ID= #{id}
 </select>
 
 <select id="selectChatOnetoOne" resultType="hashmap" resultMap="chatResultSet">
@@ -109,7 +118,7 @@ INSERT INTO CHAT_ONETOONE
 				,#{cm_title}
 				,#{cm_pwd}
 				,#{cm_max}
-				,1
+				,0
 				,#{cm_con}
 				,#{cm_id})
 </insert>
@@ -145,7 +154,7 @@ INSERT INTO CHAT_ONETOONE
 </select>
 
 <select id="selectchatlist" parameterType="int" resultMap="openChatRoomResultSet">
-	SELECT ML.ML_NO, ML.CM_NO, ML.ID, ML.ML_CONT ,ML.ML_DATE,M.RENAME_FILE
+	SELECT ML.ML_NO, ML.CM_NO, ML.ID, ML.ML_CONT ,ML.ML_DATE,M.RENAME_FILE,M.NICKNAME
 	FROM MULTICHAT_LIST ML
     JOIN MEMBER M ON(ML.ID = M.ID)
     WHERE CM_NO = #{cm_no}
@@ -158,5 +167,25 @@ INSERT INTO CHAT_ONETOONE
 	WHERE CM_NO=#{cm_no}
 			AND CM_PWD=#{pwd}
 </select>
+
+<update id="openchatroomOut" parameterType="map">
+	UPDATE CHAT_MULTI
+	SET CM_COT= CM_COT-1
+	WHERE CM_NO= #{cm_no}
+</update>
+
+<update id="joinchatroom" parameterType="map">
+	UPDATE CHAT_MULTI
+	SET CM_COT= CM_COT+1
+	WHERE CM_NO= #{cm_no}
+</update>
+
+<delete id="deletefriend" parameterType="hashmap">
+	DELETE
+	FROM FRIEND_LIST
+	WHERE  ID=#{id}
+		 AND FL_ID=#{friendid}
+
+</delete>
 </mapper>
 

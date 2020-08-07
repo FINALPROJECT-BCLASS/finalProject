@@ -44,13 +44,24 @@ public class ChatController {
 	}
 	
 	@RequestMapping("selectMember.do")
-	public void selectMember(HttpServletResponse response,String name) throws IOException {
+	public void selectMember(HttpSession session,HttpServletResponse response,String name) throws IOException {
 		response.setContentType("application/json;charset=utf-8");
 		System.out.println("name : " +name);
 		
+		Member loginMember = (Member)session.getAttribute("loginUser");
+		
+		String str = loginMember.getId();// 자신의 이름.
+		
+		System.out.println("str : " + str);
+		
+		HashMap<String,Object> map = new HashMap<String, Object>();
+		map.put("id", str);
+		map.put("nickname", name);
+		
+		//검색 목록 셀렉 시작
 		ArrayList<Member> member = new ArrayList();
 		
-		member =cService.selectMember(name);
+		member =cService.selectMember(map);
 		
 		System.out.println("member : " + member);
 		
@@ -266,6 +277,27 @@ public class ChatController {
 		
 	
 	}
-	
+	@RequestMapping("deletefriend.do")
+	public String deletefriend(HttpSession session,String id) {
+		System.out.println("친구 아이디 : " + id);
+		Member m = (Member)session.getAttribute("loginUser");
+		
+		String str =  m.getId();
+		System.out.println("사용자 아이디 : " + str);
+		
+		HashMap<String,Object> map = new HashMap<String, Object>();
+		
+		map.put("friendid", id);
+		map.put("id",str);
+		
+		int result = cService.deletefriend(map);
+		
+		if(result > 0) {
+			return "redirect:chatview.do";
+		}else {
+			return "<script> alert('방만들기에 실패하였습니다..'); history.back(); </script>";
+		}
+		
+	}
 	
 }

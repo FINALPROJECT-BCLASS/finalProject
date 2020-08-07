@@ -55,7 +55,9 @@ public class openChatHandler extends TextWebSocketHandler {
 
 		Map<String, Object> map2 = new HashMap<String, Object>();
 		map2.put("cm_no", cm_no);
-		map2.put("id", m.getId());
+		map2.put("id", m.getNickname());
+		
+		int result = cService.joinchatroom(map2);
 
 		System.out.println("session 접속 : " + session.getId());
 
@@ -109,10 +111,10 @@ public class openChatHandler extends TextWebSocketHandler {
 				// 만약 Map값을 불러왔는데 방번호가 같다면?
 				if (cm_no.equals(mapReceive.get("cm_no"))) {
 
-					Map<String, Object> userIdmap = session.getAttributes();
-					Member m = (Member) userIdmap.get("loginUser"); // 세션 교체
+					//Map<String, Object> userIdmap = session.getAttributes();
+					//Member m = (Member) userIdmap.get("loginUser"); // 세션 교체
 
-					String nickname = m.getNickname();
+					//String nickname = m.getNickname();
 
 					String jsonStr2 = cm_no + "|" + joinUser + "|" + mapReceive.get("msg") + "|" + mapReceive.get("join")+"|"+"join";
 
@@ -125,6 +127,7 @@ public class openChatHandler extends TextWebSocketHandler {
 			return;
 		}
 
+		//채팅 메세지 보내기
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("cm_no", mapReceive.get("cm_no"));
 		map.put("session", session);// 세션을 httpsession의 로그인아이디 로 교체 작업도중 끝
@@ -155,13 +158,17 @@ public class openChatHandler extends TextWebSocketHandler {
 				// int result =1;
 				if (result > 0) {
 
-					String jsonStr2 = cm_no + "|" + loginid + "|" + mapReceive.get("msg")+ "|" +mapReceive.get("img");
+					String nickname =m.getNickname();
+					
+					String jsonStr2 = cm_no + "|" + nickname + "|" + mapReceive.get("msg")+ "|" +mapReceive.get("img");
 
 					System.out.println("확인 에욱" + jsonStr2);
 					sess.sendMessage(new TextMessage(jsonStr2)); // 여기잠깐바꿈
 
 				} else {
-					String jsonStr2 = cm_no + "|" + loginid + "|" + mapReceive.get("msg")+"|" +mapReceive.get("img");
+					String nickname =m.getNickname();
+					
+					String jsonStr2 = cm_no + "|" + nickname+ "|" + mapReceive.get("msg")+"|" +mapReceive.get("img");
 
 					System.out.println("db저장 실패");
 					sess.sendMessage(new TextMessage(jsonStr2));
@@ -183,10 +190,13 @@ public class openChatHandler extends TextWebSocketHandler {
 			Map<String, Object> map = sessionList.get(i);
 			Map<String, Object> map2 = connectUserList.get(i);
 			String cm_no = (String)map.get("cm_no");
-			WebSocketSession sess = (WebSocketSession) map.get("session");
+			WebSocketSession sess = (WebSocketSession)map.get("session");
 			String userid = String.valueOf(map2.get("id"));
 			
 			if (session.equals(sess)) {
+				
+				int result = cService.openchatroomOut(map2);
+				
 				sessionList.remove(map);
 				connectUserList.remove(map2);
 			}
@@ -231,7 +241,7 @@ public class openChatHandler extends TextWebSocketHandler {
 
 					String nickname = m.getNickname();
 
-					String jsonStr2 = cm_no + "|" + joinUser + "|" + "퇴장하셨습니다." + "|" + "out" + "|"+"out";
+					String jsonStr2 = cm_no + "|" + joinUser + "|" + "퇴장하셨습니다." + "|" + "out" + "|"+"퇴장";
 
 					System.out.println("확인 에욱" + jsonStr2);
 					sess.sendMessage(new TextMessage(jsonStr2)); // 여기잠깐바꿈

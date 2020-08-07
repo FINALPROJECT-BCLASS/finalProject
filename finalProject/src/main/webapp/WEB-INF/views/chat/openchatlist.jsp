@@ -36,14 +36,17 @@
 	}
 	
 	.my-chat-item {
-	    display: inline-block;
-	    width: 100px;
-    	height: 100px;
-	    padding: 1%;
+	    display: flex;
+	    flex-direction: column;
+	    justify-content: center;
+	    width: 90%;
+	    height: 60%;
+	    background: white;
+	    padding: 4%;
+	    border: 1px solid #eaeaea;
 	    border-radius: 10px;
-        background: white;
-    	border: 1px solid #ececec;
-	    margin-right: 2%;
+	    margin-bottom: 10px;
+	    position: relative;
 	}
 	
 	.chat-body {
@@ -65,14 +68,21 @@
 	}
 	
 	.item-wrap {
-	    height: 125px;
-	    padding-left: 3%;
+        height: 125px;
 	    overflow: hidden;
 	    white-space: nowrap;
+	    display: flex;
+	    flex-direction: column;
+	    align-items: center;
+	    overflow-y: scroll;
+	}
+	
+	.item-wrap::-webkit-scrollbar {
+		display:none;
 	}
 	
 	.item-wrap:hover {
-		 overflow-x: scroll;
+		 
 	}
 	
 	.chat-subject {
@@ -90,8 +100,26 @@
          text-overflow: ellipsis;
          white-space: nowrap;
          width: 100%;
+         font-size: 14px;
+ 		 font-weight: 600;
+ 		 color: gray;
 	}
 	
+	.membercount {
+		position: absolute;
+	    right: 15px;
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+	    color:gray;
+	    font-weight:600;
+		
+	}
+	
+	.membercount > span {
+		font-size:20px;
+		color:gray;
+	}
 	
 	
 	
@@ -101,7 +129,7 @@
 <jsp:include page="../common/chatheader.jsp"/>
 	<div class="chat-body">
 		<div class="my-chat-list">
-			<span class="chat-subject">나의 오픈 채팅방</span>
+			<span class="chat-subject">My Chatroom</span>
 			<div class="btn-area">
 				<button class="default-btn add" id="insertopenchatroom">채팅방 개설하기</button>
 			</div>
@@ -110,7 +138,7 @@
 					<c:if test="${oc.cm_id eq loginUser.id}">
 						<div class="my-chat-item">
 							<div class="chattitle">${oc.cm_title }</div>
-							<div>참가인원 : ${oc.cm_cot }</div>
+							<div class="membercount"><span class="material-icons">person</span> ${oc.cm_cot }</div>
 							<input type="hidden" id="cm_no" value="${oc.cm_no }" name="cm_no">
 					</div>
 					</c:if>
