@@ -16,4 +16,10 @@ public interface ManagerService {
 
 	ArrayList<Report> selectRList(MPageInfo mpi);
 
+	int updateReport(Report r);
+
+	int updateRpCount(String id);
+
+	int updateChatYn(String id);
+
 }

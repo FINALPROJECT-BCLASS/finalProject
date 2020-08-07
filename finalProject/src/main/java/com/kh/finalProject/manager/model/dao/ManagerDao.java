@@ -45,4 +45,19 @@ public class ManagerDao {
 		return (ArrayList)sqlSessionTemplate.selectList("managerMapper.selectRList", mpi.getId(), rowBounds);
 	}
 
+	public int updateReport(Report r) {
+	
+		return sqlSessionTemplate.update("managerMapper.updateReport", r);
+	}
+
+	public int updateRpCount(String id) {
+		
+		return sqlSessionTemplate.update("managerMapper.updateRpCount", id);
+	}
+
+	public int updateChatYn(String id) {
+		
+		return sqlSessionTemplate.update("managerMapper.updateChatYn", id);
+	}
+
 }

@@ -74,6 +74,17 @@
 		    width: 80px;
 		    background-color: #2860E1;
 		}
+		
+		.save-btn {
+			font-size: 15px;
+		    font-weight: 700;
+			border-style: none;
+		    border-radius: 8px;
+		    height: 40px;
+		    width: 80px;
+		    /* background-color: #2860E1; */
+		    background: none;
+		}
         
     </style>
 </head>
@@ -84,7 +95,7 @@
     <section>
 		<div id="circleArea">
             <div id="circle"></div>
-            <b id="manageLogo">회원 관리</b>
+            <b id="manageLogo">신고 관리</b>
         </div>
         
         <div id="searchArea">
@@ -100,22 +111,69 @@
         				<th style="width: 80px;">신고 번호</th>
         				<th style="width: 100px;">ID</th>
         				<th style="width: 100px;">신고 날짜</th>
-        				<th style="width: 400px;">신고 내용</th>
+        				<th style="width: 500px;">신고 내용</th>
         				<th style="width: 100px;">처리 결과</th>
         				<th style="width: 100px;">처리 날짜</th>
         				<th style="width: 100px;">누적 횟수</th>
+        				<th style="width: 100px;">저장</th>
         			</tr>
         		</thead>
         		<tbody>
         		<c:forEach var="r" items="${rlist }">
         			<tr>
-        				<td style="width: 80px;">${r.rpNo }</td>
-        				<td style="width: 100px;">${r.id }</td>
+        				<td style="width: 80px;">
+        					<input type="hidden" class="rpNo" value="${r.rpNo }">
+        					${r.rpNo }
+        				</td>
+        				<td style="width: 100px;">
+        					<input type="hidden" class="rpId" value="${r.id }">
+        					${r.id }
+        				</td>
         				<td style="width: 100px;">${r.rpDate }</td>
-        				<td style="width: 400px;">${r.rpCon }</td>
-        				<td style="width: 100px;">${r.rpResult }</td>
+        				<td style="width: 500px;">${r.rpCon }</td>
+        			<c:if test="${r.rprNo eq 1}">
+        				<td style="width: 100px;">
+        					<select class="rprNo" name="rprNo">
+        						<option value="1" selected>처리 전</option>
+        						<option value="2">접수 완료</option>
+        						<option value="3">계정 정지</option>
+        						<option value="4">보류</option>
+        					</select>
+        				</td>        			
+        			</c:if>
+        			<c:if test="${r.rprNo eq 2}">
+        				<td style="width: 100px;">
+        					<select class="rprNo" name="rprNo">
+        						<option value="1">처리 전</option>
+        						<option value="2" selected>접수 완료</option>
+        						<option value="3">계정 정지</option>
+        						<option value="4">보류</option>
+        					</select>
+        				</td>        			
+        			</c:if>
+        			<c:if test="${r.rprNo eq 3}">
+        				<td style="width: 100px;">
+        					<select class="rprNo" name="rprNo">
+        						<option value="1">처리 전</option>
+        						<option value="2">접수 완료</option>
+        						<option value="3" selected>계정 정지</option>
+        						<option value="4">보류</option>
+        					</select>
+        				</td>        			
+        			</c:if>
+        			<c:if test="${r.rprNo eq 4}">
+        				<td style="width: 100px;">
+        					<select class="rprNo" name="rprNo">
+        						<option value="1">처리 전</option>
+        						<option value="2">접수 완료</option>
+        						<option value="3">계정 정지</option>
+        						<option value="4" selected>보류</option>
+        					</select>
+        				</td>        			
+        			</c:if>
         				<td style="width: 100px;">${r.rpRDate }</td>
         				<td style="width: 100px;">${r.rpCount }</td>
+        				<td style="width: 100px;"><button type="button" class="save-btn" onclick="updateReport()">Save</button></td>
         			</tr>
         		</c:forEach>
         		</tbody>
@@ -170,13 +228,25 @@
     <jsp:include page="../common/footer.jsp"/>
     
     <script>
+    	function updateReport(rpNo, rprNo, rpId) {
+    		location.href="updatereport.do?rpNo="+rpNo+"&rprNo="+rprNo+"&rpId="+rpId;
+    	}
+    	
     	$(function(){
     		$("#search-btn").click(function(){
     			var searchID = $("#searchID").val();
     			
     			location.href="reportlist.do?id="+searchID;
     		})
-    	})
+    		
+    		$(".save-btn").click(function(){
+    			var rpNo = $(this).parent().parent().find(".rpNo").val();
+    			var rprNo = $(this).parent().parent().find(".rprNo").val();
+    			var rpId = $(this).parent().parent().find(".rpId").val();
+
+    			updateReport(rpNo, rprNo, rpId);
+    		})
+    	})    	
     </script>	
     
 </body>

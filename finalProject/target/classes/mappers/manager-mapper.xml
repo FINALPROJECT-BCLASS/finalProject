@@ -24,7 +24,7 @@
 		<result property="id" column="ID"/>
 		<result property="rpDate" column="RP_DATE"/>
 		<result property="rpCon" column="RP_CON"/>
-		<result property="rpResult" column="RP_RESULT"/>
+		<result property="rprNo" column="RPR_NO"/>
 		<result property="rpRDate" column="RP_RDATE"/>
 		<result property="rpCount" column="RP_COUNT"/>
 	</resultMap>
@@ -53,11 +53,31 @@
 	</select>
 	
 	<select id="selectRList" parameterType="string" resultMap="reportResultSet">
-		SELECT RP_NO, ID, RP_DATE, RP_CON,  RPR_CON "RP_RESULT", RP_RDATE, RP_COUNT
+		SELECT RP_NO, R.ID, TO_CHAR(RP_DATE, 'YYYY-MM-DD') "RP_DATE", RP_CON,
+			R.RPR_NO, TO_CHAR(RP_RDATE, 'YYYY-MM-DD') "RP_RDATE", M.RP_COUNT
 		FROM REPORT R
-		JOIN REPORT_RESULT RR ON(R.RPR_NO=RR.RPR_NO)
-		WHERE ID LIKE '%'||#{id}||'%'
-			AND ID!='admin'
+		JOIN MEMBER M ON(R.ID=M.ID)
+		WHERE R.ID LIKE '%'||#{id}||'%'
+			AND R.ID!='admin'
+		ORDER BY RP_NO DESC
 	</select>
+	
+	<update id="updateReport" parameterType="Report">
+		UPDATE REPORT
+		SET RPR_NO=#{rprNo}, RP_RDATE=SYSDATE
+		WHERE RP_NO=#{rpNo}
+	</update>
+	
+	<update id="updateRpCount" parameterType="string">
+		UPDATE MEMBER
+		SET RP_COUNT=RP_COUNT+1
+		WHERE ID=#{id}
+	</update>
+	
+	<update id="updateChatYn" parameterType="string">
+		UPDATE MEMBER
+		SET CHAT_YN='N'
+		WHERE ID=#{id}
+	</update>
 	
 </mapper>

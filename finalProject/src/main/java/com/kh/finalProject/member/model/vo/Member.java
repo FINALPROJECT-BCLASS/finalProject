@@ -21,6 +21,7 @@ public class Member implements Serializable {
 	private String original_file;
 	private String rename_file;
 	private Date join_date;
+	private int rp_count;
 	private String chat_yn;
 	private String out_yn;
 	
@@ -30,8 +31,8 @@ public class Member implements Serializable {
 	}
 
 	public Member(String id, String name, String nickname, String pwd, String email, String phone, String birthday,
-			String address, int main_no, String original_file, String rename_file, Date join_date, String chat_yn,
-			String out_yn) {
+			String address, int main_no, String original_file, String rename_file, Date join_date, int rp_count,
+			String chat_yn, String out_yn) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -45,6 +46,7 @@ public class Member implements Serializable {
 		this.original_file = original_file;
 		this.rename_file = rename_file;
 		this.join_date = join_date;
+		this.rp_count = rp_count;
 		this.chat_yn = chat_yn;
 		this.out_yn = out_yn;
 	}
@@ -145,6 +147,22 @@ public class Member implements Serializable {
 		this.join_date = join_date;
 	}
 
+	public int getRp_count() {
+		return rp_count;
+	}
+
+	public void setRp_count(int rp_count) {
+		this.rp_count = rp_count;
+	}
+
+	public String getChat_yn() {
+		return chat_yn;
+	}
+	
+	public void setChat_yn(String chat_yn) {
+		this.chat_yn = chat_yn;
+	}
+	
 	public String getOut_yn() {
 		return out_yn;
 	}
@@ -153,24 +171,12 @@ public class Member implements Serializable {
 		this.out_yn = out_yn;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	public String getChat_yn() {
-		return chat_yn;
-	}
-
-	public void setChat_yn(String chat_yn) {
-		this.chat_yn = chat_yn;
-	}
-
 	@Override
 	public String toString() {
 		return "Member [id=" + id + ", name=" + name + ", nickname=" + nickname + ", pwd=" + pwd + ", email=" + email
 				+ ", phone=" + phone + ", birthday=" + birthday + ", address=" + address + ", main_no=" + main_no
 				+ ", original_file=" + original_file + ", rename_file=" + rename_file + ", join_date=" + join_date
-				+ ", chat_yn=" + chat_yn + ", out_yn=" + out_yn + "]";
+				+ ", rp_count=" + rp_count + ", chat_yn=" + chat_yn + ", out_yn=" + out_yn + "]";
 	}
 	
 }

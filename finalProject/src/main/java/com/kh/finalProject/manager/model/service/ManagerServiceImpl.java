@@ -40,4 +40,22 @@ public class ManagerServiceImpl implements ManagerService {
 		return mgDao.selectRList(mpi);
 	}
 
+	@Override
+	public int updateReport(Report r) {
+		
+		return mgDao.updateReport(r);
+	}
+
+	@Override
+	public int updateRpCount(String id) {
+		
+		return mgDao.updateRpCount(id);
+	}
+
+	@Override
+	public int updateChatYn(String id) {
+		
+		return mgDao.updateChatYn(id);
+	}
+
 }

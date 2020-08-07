@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +22,9 @@ public class ManagerController {
 	
 	@Autowired
 	ManagerService mgService;
+	
+	@Autowired
+	Report r;
 	
 	@RequestMapping("managerview.do") 
 	public String manageReportView() {
@@ -96,6 +98,39 @@ public class ManagerController {
 		
 		return mv;
 		
+	}
+	
+	@RequestMapping("updatereport.do")
+	public String reportUpdate(@RequestParam("rpNo") int rpNo,
+							@RequestParam("rprNo") int rprNo,
+							@RequestParam("rpId") String rpId) throws ManagerException {
+
+//		int updateRpNo = Integer.parseInt(rpNo);
+//		int updateRprNo = Integer.parseInt(rprNo);
+		
+		r.setRpNo(rpNo);
+		r.setRprNo(rprNo);
+		
+		int result1 = 0;
+		result1 = mgService.updateReport(r);
+		
+		int result2 = 0;
+		int result3 = 0;
+		if(result1 > 0) {
+			if(rprNo == 2 || rprNo ==3) {
+				result2 = mgService.updateRpCount(rpId);
+				
+				if(rprNo == 3) {
+					result3 = mgService.updateChatYn(rpId);
+				}
+			}
+		}
+		
+		if(result1 > 0) {
+			return "redirect:reportlist.do";
+		} else {
+			throw new ManagerException("신고 수정 실패");
+		}
 	}
 
 }
