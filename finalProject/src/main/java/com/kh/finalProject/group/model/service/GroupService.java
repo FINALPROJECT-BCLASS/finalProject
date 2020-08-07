@@ -183,9 +183,9 @@ public interface GroupService {
 
 	ArrayList<GroupAccount> selectTotalProList(GroupAccount ga);
 
-	ArrayList<GroupAccount> selectTotalExeList(GroupInfo gInfo);
+	ArrayList<GroupAccount> selectTotalExeList(GroupAccount ga);
 
-	ArrayList<GroupAccount> selectTotalFeeList(GroupInfo gInfo);
+	ArrayList<GroupAccount> selectTotalFeeList(GroupAccount ga);
 
 
 	

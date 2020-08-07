@@ -234,6 +234,8 @@ public class AccountController {
 		int pSum = 0;
 		for(int i = 0; i < abPNoList.size(); i++) {
 			pSum += aService.selectAbAmount(abPNoList.get(i).getAbNo());
+			System.out.println("pSum : " + pSum );
+			System.out.println("abPNoList.get(i).getAbNo() : " + abPNoList.get(i).getAbNo());
 		}
 		
 		int eSum = 0;

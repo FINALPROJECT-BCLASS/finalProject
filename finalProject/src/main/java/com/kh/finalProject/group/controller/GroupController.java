@@ -1907,20 +1907,22 @@ public class GroupController {
 			
 			
 			ArrayList<GroupAccount> proTotalList = gService.selectTotalProList(ga);
-//			ArrayList<GroupAccount> expTotalList = gService.selectTotalExeList(gInfo);
-//			ArrayList<GroupAccount> feeTotalList = gService.selectTotalFeeList(gInfo);
+			ArrayList<GroupAccount> expTotalList = gService.selectTotalExeList(ga);
+			ArrayList<GroupAccount> feeTotalList = gService.selectTotalFeeList(ga);
 //			
 			System.out.println("proTotalList : " + proTotalList);
-//			System.out.println("expTotalList : " + expTotalList);
-//			System.out.println("feeTotalList : " + feeTotalList);
-//			JSONArray jArr = new JSONArray();
-//			
-//			for(GroupAccount p : proTotalList) {
+			System.out.println("expTotalList : " + expTotalList);
+			System.out.println("feeTotalList : " + feeTotalList);
+			JSONArray jArr = new JSONArray();
+			
+			int pSum = 0;
+//			for(int i = 0; i < proTotalList.size(); i++) {
+//				pSum += 
 //				JSONObject jObj = new JSONObject();
 //				
 ////				String formatSum = String.format("%,d", p.getSum());
 //				jObj.put("eventTitle", p.getTotalAmount());
-//				jObj.put("date", p.getTotalAmount());
+//				jObj.put("date", p.getGaDate());
 //				jObj.put("color", "blue");
 //				jObj.put("type", "profit");
 //				
@@ -1932,7 +1934,7 @@ public class GroupController {
 //				
 ////				String formatSum = String.format("%,d", e.getSum());
 //				jObj.put("eventTitle", p.getTotalAmount());
-//				jObj.put("date", p.getTotalAmount());
+//				jObj.put("date", p.getGaDate());
 //				jObj.put("color", "blue");
 //				jObj.put("type", "profit");
 //				
@@ -1944,7 +1946,7 @@ public class GroupController {
 //				
 ////				String formatSum = String.format("%,d", e.getSum());
 //				jObj.put("eventTitle", p.getTotalAmount());
-//				jObj.put("date", p.getTotalAmount());
+//				jObj.put("date", p.getGaDate());
 //				jObj.put("color", "blue");
 //				jObj.put("type", "profit");
 //				

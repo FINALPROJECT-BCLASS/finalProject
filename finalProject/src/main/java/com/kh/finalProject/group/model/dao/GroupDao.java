@@ -374,12 +374,12 @@ public class GroupDao {
 		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectTotalProList",ga);		
 	}
 
-	public ArrayList<GroupAccount> selectTotalExeList(GroupInfo gInfo) {
-		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectTotalExeList",gInfo);		
+	public ArrayList<GroupAccount> selectTotalExeList(GroupAccount ga) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectTotalExeList",ga);		
 	}
 
-	public ArrayList<GroupAccount> selectTotalFeeList(GroupInfo gInfo) {
-		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectTotalFeeList",gInfo);		
+	public ArrayList<GroupAccount> selectTotalFeeList(GroupAccount ga) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectTotalFeeList",ga);		
 	}
 
 	

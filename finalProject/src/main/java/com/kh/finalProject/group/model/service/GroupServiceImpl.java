@@ -435,13 +435,13 @@ public class GroupServiceImpl implements GroupService{
 	}
 
 	@Override
-	public ArrayList<GroupAccount> selectTotalExeList(GroupInfo gInfo) {
-		return gDao.selectTotalExeList(gInfo);
+	public ArrayList<GroupAccount> selectTotalExeList(GroupAccount ga) {
+		return gDao.selectTotalExeList(ga);
 	}
 
 	@Override
-	public ArrayList<GroupAccount> selectTotalFeeList(GroupInfo gInfo) {
-		return gDao.selectTotalFeeList(gInfo);
+	public ArrayList<GroupAccount> selectTotalFeeList(GroupAccount ga) {
+		return gDao.selectTotalFeeList(ga);
 	}
 
 
