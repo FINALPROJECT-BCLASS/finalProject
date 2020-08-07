@@ -238,6 +238,7 @@
 				<c:url var="rlistBack" value="reportlist.do">
 					<c:param name="page" value="${rpi.currentPage - 1 }"/>
 					<c:param name="id" value="${searchID }"/>
+					<c:param name="rprNo" value="${selectRprNo }"/>
 				</c:url>
 				<a href="${rlistBack }">[이전]</a>
 			</c:if>
@@ -250,6 +251,7 @@
 					<c:url var="rlistCheck" value="reportlist.do">
 						<c:param name="page" value="${p }"/>
 						<c:param name="id" value="${searchID }"/>
+						<c:param name="rprNo" value="${selectRprNo }"/>
 					</c:url>
 					<a href="${rlistCheck }">${p }</a>
 				</c:if>
@@ -262,6 +264,7 @@
 				<c:url var="rlistNext" value="reportlist.do">
 					<c:param name="page" value="${rpi.currentPage + 1 }"/>
 					<c:param name="id" value="${searchID }"/>
+					<c:param name="rprNo" value="${selectRprNo }"/>
 				</c:url>
 				<a href="${rlistNext }">[다음]</a>
 			</c:if>

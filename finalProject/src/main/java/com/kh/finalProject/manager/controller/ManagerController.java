@@ -99,6 +99,7 @@ public class ManagerController {
 			mv.addObject("rlist", rlist);
 			mv.addObject("rpi", rpi);
 			mv.addObject("searchID", id);
+			mv.addObject("selectRprNo", rprNo);
 			mv.setViewName("manager/manageReport");
 		} else {
 			throw new ManagerException("신고 전체 조회 실패");
