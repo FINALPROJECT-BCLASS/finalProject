@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="groupMapper">
-
+ 
 	<!-- resultMap   -->
 	<resultMap id="groupTableResultSet" type="GroupTable">
 		<id property="gNo" column="G_NO"/>
@@ -30,6 +30,23 @@
 
 	<resultMap id="memberResultSet" type="Member">
 		<id property="id" column="ID"/>
+		<result property="name" column="NAME"/>
+	</resultMap>
+
+	<resultMap id="groupPlanResultSet" type="GroupPlan">
+		<id property="gpNo" column="GP_NO"/>
+		<result property="gNo" column="G_NO"/>
+		<result property="gmNo" column="GM_NO"/>
+		<result property="gpTitle" column="GP_TITLE"/>
+		<result property="gpCon" column="GP_CON"/>
+		<result property="gpStart" column="GP_START"/>
+		<result property="gpEnd" column="GP_END"/>
+		<result property="gpPost" column="GP_POST"/>
+		<result property="address1" column="GP_ADDRESS1"/>
+		<result property="address2" column="GP_ADDRESS2"/>
+		<result property="color" column="GP_COLOR"/>
+		<result property="gpDelete" column="GP_DELETE"/>
+		
 		<result property="name" column="NAME"/>
 	</resultMap>
 
@@ -130,6 +147,7 @@
 		JOIN GROUP_MEMBER GM ON(GT.G_NO = GM.G_NO)
 		WHERE GM_ID = #{loginUserId}
 		AND G_DELETE = 'N'
+		AND GM_DELETE = 'N'
 	</select>
 
 	<select id="selectGroupMember" resultMap="groupMemberResultSet">
@@ -191,20 +209,19 @@
 	</insert>
 	
 	<select id="selectOneGroup" resultMap="groupTableResultSet">
-		SELECT GT.G_NO AS G_NO, G_TITLE, G_CON, G_NAME, G_ORIGIN, G_DELETE, ID, G_DATE, GM_DELETE
+		SELECT GT.G_NO AS G_NO, G_TITLE, G_CON, G_NAME, G_ORIGIN, G_DELETE, ID, G_DATE
 		FROM GROUP_TABLE GT
 		JOIN GROUP_MEMBER GM ON(GT.G_NO = GM.G_NO)
 		WHERE GT.G_NO = ${groupNo}
 		AND G_DELETE = 'N'
-        GROUP BY GT.G_NO, G_TITLE, G_CON, G_NAME, G_ORIGIN, G_DELETE, ID, G_DATE, GM_DELETE
+        GROUP BY GT.G_NO, G_TITLE, G_CON, G_NAME, G_ORIGIN, G_DELETE, ID, G_DATE
 	</select>
 	
 	<select id="selectGroupMemberList" parameterType="GroupInfo" resultMap="groupMemberResultSet" >
 		SELECT GM_NO, GM_ID, G_NO, GM_DELETE, NAME
 		FROM GROUP_MEMBER TM
 		JOIN MEMBER M ON(TM.GM_ID  = M.ID)
-		WHERE GM_DELETE = 'N'
-        AND G_NO = ${groupNo}
+		WHERE G_NO = ${groupNo}
 	</select>
 	
 	<update id="groupUpdate" parameterType="GroupTable">
@@ -219,6 +236,25 @@
 		DELETE FROM GROUP_MEMBER
 		WHERE G_NO = #{groupNo}
 	</delete>
+	
+	<insert id="insertNewMember" parameterType="GroupMember">
+		INSERT INTO GROUP_MEMBER
+		VALUES(
+			SEQ_GM.NEXTVAL,
+			#{gmId},
+			#{gNo},
+			#{gmDelete}
+		)
+		
+	</insert>
+	
+	<update id="updateMember" parameterType="GroupMember">
+		UPDATE GROUP_MEMBER
+		SET GM_ID = #{gmId},
+			G_NO = #{gNo},
+			GM_DELETE = #{gmDelete}
+		WHERE GM_NO = #{gmNO}
+	</update>
 	<!-- 그룹 메인 및 생성 end -->
 	
 	<!-- 그룹 캘린더 -->
@@ -229,6 +265,59 @@
 		AND GM_ID = #{loginUserId}
 		AND GM_DELETE = 'N'
 	</select>
+	
+	<insert id="planInsert" parameterType="GroupPlan" >
+		INSERT INTO GROUP_PLAN
+		VALUES(
+			SEQ_GP.NEXTVAL,
+			#{gNo},
+			#{gmNo},
+			#{gpTitle},
+			#{gpCon},
+			#{gpStart},
+			#{gpEnd},
+			#{gpPost},
+			#{address1},
+			#{address2},
+			#{color},
+			#{gpDelete}
+		)
+		
+	</insert>
+	
+	<select id="selectPlanList" parameterType="GroupInfo" resultMap="groupPlanResultSet">
+		SELECT GP_NO, G_NO, GM_NO, GP_TITLE, GP_CON, GP_START, GP_END, GP_POST, GP_ADDRESS1, GP_ADDRESS2, GP_COLOR
+		FROM GROUP_PLAN
+		WHERE G_NO = #{groupNo}
+		AND GP_DELETE = 'N'
+	</select>
+	
+	<select id="detailPlan" parameterType="GroupPlan" resultMap="groupPlanResultSet">
+		SELECT GP_NO, GP.G_NO, GP.GM_NO, GP_TITLE, GP_CON, GP_START, GP_END, GP_POST, GP_ADDRESS1, GP_ADDRESS2, GP_COLOR, NAME
+		FROM GROUP_PLAN GP
+        JOIN GROUP_MEMBER GM ON(GP.GM_NO = GM.GM_NO)
+        JOIN MEMBER M ON(GM.GM_ID = M.ID)
+		WHERE GP_NO = #{gpNo}
+		AND GP_DELETE = 'N'
+	</select>
+	
+	<update id="planUpdate" parameterType="Groupplan">
+		UPDATE GROUP_PLAN
+		SET GP_TITLE = #{gpTitle},
+			GP_CON = #{gpCon},
+			GP_START = #{gpStart},
+			GP_END = #{gpEnd},
+			GP_ADDRESS1 = #{address1},
+			GP_ADDRESS2 = #{address2},
+			GP_COLOR = #{color}		
+		WHERE GP_NO = #{gpNo}
+	</update>
+	
+	<update id="planDelete" parameterType="Groupplan">
+		UPDATE GROUP_PLAN
+		SET GP_DELETE = 'Y'
+		WHERE GP_NO = #{gpNo}
+	</update>
 	<!-- 그룹 캘린더 end-->
 	
 	<!-- 그룹 공지 -->
@@ -717,6 +806,14 @@
         WHERE GVM.GV_NO = #{gvNo}
 	</select>
 	
-	
+	<!-- 가계부 -->
+	<select id="searchNameAccount" parameterType="GroupSearchName" resultMap="memberResultSet">
+		SELECT ID, NAME, GM_NO
+		FROM MEMBER M
+        JOIN GROUP_MEMBER GM ON(GM.GM_ID = M.ID)
+		WHERE NAME LIKE '%' || #{searchName} || '%' 
+		AND G_NO = #{gNo}
+		AND OUT_YN = 'N'
+	</select>
 	
 </mapper>

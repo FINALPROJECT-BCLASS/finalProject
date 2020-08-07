@@ -11,7 +11,7 @@
 
     h1, h4{margin-top:20px; text-align:center;}
 
-    .join-form-area{float: right;display: flex;justify-content: center; flex-direction: column; align-items: center; padding: 65px; width: 100%; background: #F3F3F3; }
+    .join-form-area{float: right;display: flex;justify-content: center; flex-direction: column; align-items: center; padding: 65px; width: 81%; background: #F3F3F3; }
 
     .groupJoin{width:900px;}
     .groupTb{margin:auto; width:700px; border-spacing: 5px; border-collapse: separate;}
@@ -27,6 +27,7 @@
     .oneSearchBox{width:100%; cursor: pointer; }
     .searchNameAfter{background:white; border:none; border-radius: 6px; height:100px; color:darkgray; height:150px; width:600px; overflow:scroll;  overflow-x:hidden;} /* width 다시보기*/
     .adminBtn{ background:#2860E1 !important; color:white !important; }
+    .gmDeleteY{background:#dc3545 !important; color:white !important; }
     .searchNameBox{margin-bottom:20px; margin:5px; width:100px; height:30px; background:#FBD14B; border:none; border-radius: 5px; font-size:small;}
     .searchNameBox:hover{margin-bottom:20px; margin:5px; width:100px; height:30px; background:darkgray; border:none; border-radius: 5px; cursor:pointer;font-size:small;}
     .searchNameForm{display:none; height:100px; overflow:scroll;  overflow-x:hidden; }
@@ -108,6 +109,14 @@
 </head>
 <body>
  	<jsp:include page="../common/header.jsp"/>  
+ 	
+ 		<c:if test="${ groupTable.id eq gInfo.loginUserId}">
+		<jsp:include page="../common/sidenaviGroupAdmin.jsp"/>
+		</c:if>
+		
+		<c:if test="${ groupTable.id ne gInfo.loginUserId}">
+		<jsp:include page="../common/sidenaviGroup.jsp"/>
+		</c:if>
     <div class="join-form-area">
         <h1>Group Diary</h1>
         <h4 class="pSubject">Update</h4><br>
@@ -148,14 +157,33 @@
 				                                    	${m.name }&nbsp;${m.gmId }
 				                                    <input type="hidden" name="groupName" value="${m.name }">
 				                                    <input type="hidden" class='groupId adminId' name="groupId" value="${m.gmId }">
+				                                    <input type="hidden" class='groupId' name="gmNo" value="${m.gmNO }">
+				                                    <input type="hidden" class='groupId' name="member" value="plus">
+				                                    <input type="hidden" class='groupId' name="gmDelete" value="${m.gmDelete }">
 			                                    </button>
 	                                     	</c:if>
+	                                     	
 	                                     	<c:if test="${ groupTable.id ne m.gmId}">
+	                                     	<c:if test="${ m.gmDelete eq 'Y'}">
+		                                    <button type="button" class="searchNameBox gmDeleteY" value="${m.name }">
+			                                    	${m.name }&nbsp;${m.gmId }
+			                                    <input type="hidden" name="groupName" value="${m.name }">
+			                                    <input type="hidden" class='groupId' name="groupId" value="${m.gmId }">
+			                                    <input type="hidden" class='groupId' name="gmNo" value="${m.gmNO }">
+			                                    <input type="hidden" class='groupId' name="member" value="plus">
+			                                    <input type="hidden" class='groupId' name="gmDelete" value="${m.gmDelete }">
+		                                    </button>
+		                                    </c:if>
+		                                    <c:if test="${ m.gmDelete eq 'N'}">
 		                                    <button type="button" class="searchNameBox" value="${m.name }">
 			                                    	${m.name }&nbsp;${m.gmId }
 			                                    <input type="hidden" name="groupName" value="${m.name }">
 			                                    <input type="hidden" class='groupId' name="groupId" value="${m.gmId }">
+			                                    <input type="hidden" class='groupId' name="gmNo" value="${m.gmNO }">
+			                                    <input type="hidden" class='groupId' name="member" value="plus">
+			                                    <input type="hidden" class='groupId' name="gmDelete" value="${m.gmDelete }">
 		                                    </button>
+		                                    </c:if>
 		                                    </c:if>
 	                                    </c:forEach>
                                     
@@ -196,12 +224,18 @@
                 <br><br>
                 <div class="groubJoinBtn">
                    <span><button id="submit">Submit</button>&nbsp;</span>
-                   <span><input type="reset" value="Reset" id="reset"></span>
+                   <span><button id="reset" onclick="goBack();">Back</button>&nbsp;</span>
                 </div>
             </div>
          </div>
          
-         
+          <!-- 뒤로가기 버튼 -->
+		 <script>
+		 	function goBack(){
+		 		window.history.back();	
+		 	}
+		 	
+		 </script>
          <script>
          /* 파일 업로드 */
 		 	    
@@ -254,7 +288,7 @@
             	  var $searchNameBoxValue ="";
 	           	  var $searchName = $(this).children(".searchName").html();
 	           	  var $searchId = $(this).children(".searchId").html();
-	                
+	           	  
 	                // 중복확인
 	                $('.groupId').each(function(){
 	                 	  text = $(this).val();
@@ -274,7 +308,11 @@
 		                	
 	                		$searchNameAfter = $(".searchNameAfterIn");
 	                        $searchNameBox = "<button type='button' class='searchNameBox' value='"+ $searchName + "'>"+ $searchName + "&nbsp;" + $searchId 
-	                        +"<input type='hidden' name='groupName' value='" + $searchName + "'>" +"<input type='hidden' class='groupId' name='groupId' value='" + $searchId + "'></button>";
+	                        +"<input type='hidden' name='groupName' value='" + $searchName + "'>" 
+	                        +"<input type='hidden' class='groupId' name='groupId' value='" + $searchId + "'>"
+	                        +"<input type='hidden' class='groupId' name='gmNo' value='x'>"
+	                        +"<input type='hidden' class='groupId' name='member' value='plus'>"
+	                        "</button>";
 	                        $searchNameAfter.append($searchNameBox);
 	                        
 	                	  }
@@ -292,7 +330,9 @@
             		 
             	 var deleteConfirm = confirm("참여자를 탈퇴 시키겠습니까? ");
  		 			if(deleteConfirm){
- 		 				$(this).remove();
+ 		 				$(this).children().next().next().next().val("minus");
+ 		 				$(this).css("display","none");
+ 		 				
  					}
             	 }
             	 

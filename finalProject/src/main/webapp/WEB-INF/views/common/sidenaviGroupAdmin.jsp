@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,11 +23,14 @@
                 </li>
                 <li><a href="voteMain.do">Vote</a></li>
                 <li><a href="accountMain.do">Account Book</a></li>
-                <li  class="l-last-line"><a href="#">Ladder Game</a></li>
-
+                
+                <li><a href="#">Ladder Game</a></li>
+                <li class="l-last-line"><a href="voteSettings.do">Settings</a></li>
             </ul>
         </nav>
     </div>
+    
+    
     <script>
     	$(function(){
     		$(window).scroll(function(){
