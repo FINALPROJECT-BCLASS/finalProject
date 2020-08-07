@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.finalProject.daily.model.dao.DailyDao;
 import com.kh.finalProject.daily.model.vo.Bookmark;
+import com.kh.finalProject.daily.model.vo.BookmarkMap;
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
 import com.kh.finalProject.daily.model.vo.HabitSum;
@@ -180,6 +181,12 @@ public class DailyServiceImpl implements DailyService {
 	public int updateBookmarkGroup(Bookmark bm) {
 
 		return dailyDao.updateBookmark(bm);
+	}
+
+	@Override
+	public int insertBookmarkMap(BookmarkMap bmm) {
+
+		return dailyDao.insertBookmarkMap(bmm);
 	}
 
 

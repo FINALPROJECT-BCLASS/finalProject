@@ -462,7 +462,7 @@
             <div style="width: 100%">
 	            <div class="carousel" data-flickity='{ "draggable": true }' style="width: 100%">
 					<c:forEach var="bm" items="${bm }">
-						<input type="hidden" name="bl_no" value="${bm.bl_no }">
+						<input id="bl_no" type="hidden" name="bl_no" value="${bm.bl_no }">
 						<div class="carousel-cell" style="background:${bm.bl_color }">
 				  			<div class="image-area">
 				  				<c:if test="${empty bm.bl_rename }">
@@ -504,7 +504,7 @@
                     <div class="title-content">: 맛집 리스트 모음</div>
                 </div>
                 <div class="small-button-area">
-        			<button type="button" onclick="location.href='addBookmarkMapView.do'">Add</button>
+        			<button type="button" onclick="addMap()">Add</button>
 		            <button>Edit</button>
 		            <button>Delete</button>
     			</div> 
@@ -532,6 +532,17 @@
         </div>
 		
 		<script>
+		
+			function addMap() {
+				
+				var bl_no = $(".clicked").prev().val();
+				
+				console.log(bl_no);
+				
+				location.href='addBookmarkMapView.do?bl_no='+ bl_no;
+			}
+		
+		
 			$(".content-box").hide();
 			$(".content-box-2").hide();
 			

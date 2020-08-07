@@ -51,6 +51,7 @@
 		
 		
 		<typeAlias type="com.kh.finalProject.daily.model.vo.Bookmark" alias="Bookmark"/>
+		<typeAlias type="com.kh.finalProject.daily.model.vo.BookmarkMap" alias="BookmarkMap"/>
 
 
 	</typeAliases>

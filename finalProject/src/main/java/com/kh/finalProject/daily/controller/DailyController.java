@@ -26,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.finalProject.daily.model.service.DailyService;
 import com.kh.finalProject.daily.model.vo.Bookmark;
+import com.kh.finalProject.daily.model.vo.BookmarkMap;
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
 import com.kh.finalProject.daily.model.vo.HabitSum;
@@ -950,15 +951,44 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 	}
 		
 	@RequestMapping("addBookmarkMapView.do")
-	public String addMapView() {
+	public String addMapView(Model model, @RequestParam(value="bl_no", required=true) String bl_no) {
 		
+		model.addAttribute("bl_no", bl_no);
 		return "daily/bookmarkMapAdd";
 	}
 	
 	@RequestMapping("addBookmarkMap.do")
-	public String addBookrmarkMap() {
+	public String addBookrmarkMap(BookmarkMap bmm, Model model,
+									HttpServletRequest request, HttpServletResponse response,
+									@RequestParam(value="mainAddress", required=true) String mainAddress,
+									@RequestParam(value="subAddress", required=false) String subAddress) {
 		
-		return null;
+		HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		bmm.setId(id);
+		bmm.setMb_address(mainAddress+"_"+subAddress);
+		
+		System.out.println("값 어떻게 들어오나? :" + bmm);
+		
+		
+		int result = dailyService.insertBookmarkMap(bmm);
+		
+		
+		if(result > 0) {
+			
+			return "redirect:bookmarkView.do";
+		}else {
+			
+			model.addAttribute("msg","지도 북마크 등록 실패, 다시 시도해 주세요.");
+            model.addAttribute("url","/addBookmarkMapView.do");
+			
+			return "common/redirect";
+			
+		}
+		
+	
 	}
 	
 }

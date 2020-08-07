@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.finalProject.daily.model.vo.Bookmark;
+import com.kh.finalProject.daily.model.vo.BookmarkMap;
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
 import com.kh.finalProject.daily.model.vo.HabitSum;
@@ -152,6 +153,11 @@ public class DailyDao {
 	public int updateBookmark(Bookmark bm) {
 
 		return sqlSessionTemplate.update("dailyMapper.updateBookmarkGroup", bm);
+	}
+
+	public int insertBookmarkMap(BookmarkMap bmm) {
+
+		return sqlSessionTemplate.insert("dailyMapper.insertBookmarkMap", bmm);
 	}
 
 }

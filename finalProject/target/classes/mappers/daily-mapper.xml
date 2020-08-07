@@ -329,5 +329,20 @@
 		AND BL_DELETE = 'N'
 	</update>
 	
+	<insert id="insertBookmarkMap" parameterType="BookmarkMap">
+		INSERT INTO MAP_BOOKMARK
+		VALUES (SEQ_MB.NEXTVAL
+				, #{id}
+				, #{bl_no}
+				, #{mb_title}
+				, #{mb_phone}
+				, #{mb_time}
+				, #{mb_memo}
+				, #{mb_address}
+				, SYSDATE
+				, DEFAULT
+				, 0
+				, 'N')
+	</insert>
 	
 </mapper>
