@@ -1,4 +1,12 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+<<<<<<< HEAD
+<<<<<<< HEAD
+#Fri Jul 31 16:31:06 KST 2020
+=======
+#Fri Jul 31 14:31:12 KST 2020
+>>>>>>> refs/remotes/origin/master
+=======
 #Sat Aug 01 16:33:12 KST 2020
+>>>>>>> refs/remotes/origin/master
 doxia-sink-api-1.0-alpha-7.jar>central=
 doxia-sink-api-1.0-alpha-7.pom>central=

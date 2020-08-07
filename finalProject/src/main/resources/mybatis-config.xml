@@ -21,6 +21,7 @@
 		<typeAlias type="com.kh.finalProject.plan.model.vo.MTodolist" alias="MTodolist"/>		<!-- 예지 -->
 		
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupTable" alias="GroupTable"/>
+		<typeAlias type="com.kh.finalProject.group.model.vo.GroupPlan" alias="GroupPlan"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupSearchName" alias="GroupSearchName"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupMember" alias="GroupMember"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupInfo" alias="GroupInfo"/>
@@ -44,11 +45,13 @@
 		<typeAlias type="com.kh.finalProject.account.model.vo.ExpCategory" alias="ExpCategory"/>			<!-- 예지 -->
 
 		<typeAlias type="com.kh.finalProject.chat.model.vo.Chat" alias="Chat"/>
+		<typeAlias type="com.kh.finalProject.chat.model.vo.openChat" alias="openChat"/>
 		
 		<typeAlias type="com.kh.finalProject.memo.model.vo.Memo" alias="Memo"/>	<!-- 예지 -->
 		
 		
 		<typeAlias type="com.kh.finalProject.daily.model.vo.Bookmark" alias="Bookmark"/>
+
 
 	</typeAliases>
 

@@ -94,7 +94,14 @@
 <body>
 <jsp:include page="../common/header.jsp"/>
 	
+	<c:if test="${ groupTable.id eq gInfo.loginUserId}">
+	<jsp:include page="../common/sidenaviGroupAdmin.jsp"/>
+	</c:if>
+	
+	<c:if test="${ groupTable.id ne gInfo.loginUserId}">
 	<jsp:include page="../common/sidenaviGroup.jsp"/>
+	</c:if>
+	
 
       
       <div class="join-form-area">

@@ -39,6 +39,7 @@
 	
 	<websocket:handlers>
 		<websocket:mapping handler="oneToOneChatHandler" path="/echo"/>
+		<websocket:mapping handler="openChatHandler" path="/echoroom"/>
 		<websocket:handshake-interceptors>
 			<beans:bean
 				class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
@@ -48,6 +49,10 @@
 	
 	<beans:bean id="oneToOneChatHandler"
 		class="com.kh.finalProject.chat.handler.oneToOneChatHandler"/>
-
 	
+	<beans:bean id="openChatHandler"
+		class="com.kh.finalProject.chat.handler.openChatHandler">
+	</beans:bean>
+
+
 </beans:beans>

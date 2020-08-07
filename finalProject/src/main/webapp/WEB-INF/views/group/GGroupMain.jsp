@@ -83,10 +83,11 @@
 		        	</c:if>
 		        	
 		            <td>
-		            	<c:url var="groupCalendar" value="groupCalendarMain.do">
+		            	<c:url var="groupCalendar" value="sessionCreate.do">
 								<c:param name="loginUser" value="${sessionScope.loginUser}"/>
 								<c:param name="groupNo" value="${g.gNo}"/>
 						</c:url>
+						
 		                <a href="${groupCalendar }" data-toggle="tooltip" data-placement="bottom" title="${g.gName }">
 		                	<c:if test="${empty g.gOrigin }">
 		                		<img class="groupImg" src="resources/groupMainFiles/empty_groupMain.png">

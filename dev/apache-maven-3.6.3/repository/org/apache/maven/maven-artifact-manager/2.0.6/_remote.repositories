@@ -1,4 +1,12 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+<<<<<<< HEAD
+<<<<<<< HEAD
+#Fri Jul 31 16:31:05 KST 2020
+=======
+#Fri Jul 31 14:31:11 KST 2020
+>>>>>>> refs/remotes/origin/master
+=======
 #Sat Aug 01 16:33:11 KST 2020
+>>>>>>> refs/remotes/origin/master
 maven-artifact-manager-2.0.6.jar>central=
 maven-artifact-manager-2.0.6.pom>central=

@@ -13,6 +13,7 @@ import com.kh.finalProject.group.model.vo.GroupInfo;
 import com.kh.finalProject.group.model.vo.GroupLike;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupNotice;
+import com.kh.finalProject.group.model.vo.GroupPlan;
 import com.kh.finalProject.group.model.vo.GroupReReply;
 import com.kh.finalProject.group.model.vo.GroupReply;
 import com.kh.finalProject.group.model.vo.GroupSearchName;
@@ -372,7 +373,45 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.deleteMemberList(groupNo);
 	}
 
+	@Override
+	public int insertNewMember(GroupMember gm) {
+		return gDao.insertNewMember(gm);
+	}
 
+	@Override
+	public int updateMember(GroupMember gm) {
+		return gDao.updateMember(gm);
+	}
+
+	@Override
+	public int planInsert(GroupPlan gp) {
+		return gDao.planInsert(gp);
+	}
+
+	@Override
+	public ArrayList<GroupPlan> selectPlanList(GroupInfo gInfo) {
+		return gDao.selectPlanList(gInfo);
+	}
+
+	@Override
+	public GroupPlan detailPlan(GroupPlan gp) {
+		return gDao.detailPlan(gp);
+	}
+
+	@Override
+	public int planUpdate(GroupPlan gp) {
+		return gDao.planUpdate(gp);
+	}
+
+	@Override
+	public int planDelete(GroupPlan gp) {
+		return gDao.planDelete(gp);
+	}
+
+	@Override
+	public ArrayList<Member> searchNameAccount(GroupSearchName gSearch) {
+		return gDao.searchNameAccount(gSearch);
+	}
 
 
 
