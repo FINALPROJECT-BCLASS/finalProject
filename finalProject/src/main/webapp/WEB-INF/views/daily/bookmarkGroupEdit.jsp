@@ -413,6 +413,7 @@
     			$("#url").attr("checked",true);
     		}
     		
+    		// color
     		if(color == "#FBD14B"){
     			$("#yellow").attr("checked", true);
     		}else if(color == "#FFA3E5"){

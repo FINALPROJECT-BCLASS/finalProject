@@ -949,12 +949,16 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		
 	}
 		
-	
-		
-	@RequestMapping("addMapView.do")
+	@RequestMapping("addBookmarkMapView.do")
 	public String addMapView() {
 		
 		return "daily/bookmarkMapAdd";
+	}
+	
+	@RequestMapping("addBookmarkMap.do")
+	public String addBookrmarkMap() {
+		
+		return null;
 	}
 	
 }

@@ -95,12 +95,23 @@
         /* content */
 
         .content-box {
+        	width: 100%;
             border-radius: 10px;
             background: white;
             display: block;
             margin-top: 30px;
             padding: 15px;
-            padding-bottom: 29px;
+            padding-bottom:0;
+            position:relative;
+        }
+        
+        .content-box-2 {
+        	width: 100%;
+            border-radius: 10px;
+            background: white;
+            display: block;
+            margin-top: 30px;
+            padding: 15px;
         }
 
         .content-area {
@@ -110,12 +121,13 @@
         }
 
         .content-item {
+            font-size: 14px;
             display: flex;
             vertical-align: center;
             padding:10px;
             height: 40px;
             margin-bottom: 10px;
-            width: 260px;
+            width: 292px;
             background-color: #f3f3f3;
             border-radius: 5px;
         }
@@ -196,7 +208,6 @@
             display: flex;
             align-items: center;
             height: 40px;
-            width: 825px;
             padding: 10px;
             border-radius: 5px;
         }
@@ -209,7 +220,6 @@
         }
 
         .title-area > div {
-            width: 700px;
             padding: 0 10px;
             display: flex;
         }
@@ -384,8 +394,27 @@
     		font-weight: 600;
         }
         
+        /* 작은 버튼 */
+        
         .small-button-area {
-       	    text-align: center;
+	        display: flex;
+		    justify-content: flex-end;
+		    width: 100%;
+		    font-size: 10px;
+		    position: absolute;
+		    right: 15px;
+		    top: 15px;
+        }
+        
+        .small-button-area > button {
+        	border: none;
+		    height: 40px;
+		    margin: 0 5px;
+		    background: none;
+		    font-size: 18px;
+		    font-weight: 700;
+		    color: #b7b7b7;
+		    
         }
         
         .default-btn {
@@ -471,76 +500,40 @@
             
             <div class="content-box intro" >
                 <div class="title-area">
-                    <span>맛집 List</span> <div class="title-content">: 맛집 리스트 모음</div>
+                    <span>맛집 List</span>
+                    <div class="title-content">: 맛집 리스트 모음</div>
                 </div>
+                <div class="small-button-area">
+        			<button type="button" onclick="location.href='addBookmarkMapView.do'">Add</button>
+		            <button>Edit</button>
+		            <button>Delete</button>
+    			</div> 
 	            <div class="content-box map-list">
 	                <div class="map-item">
 	                    <span>노원 황소곱창</span>
 	                    <span>02-1234-1234</span>
 	                </div>
-	                <div class="map-item">
-	                    <span>노원 황소곱창</span>
-	                    <span>02-1234-1234</span>
-	                </div>
-	                <div class="map-item">
-	                    <span>노원 황소곱창</span>
-	                    <span>02-1234-1234</span>
-	                </div>
-	                <div class="map-item">
-	                    <span>노원 황소곱창</span>
-	                    <span>02-1234-1234</span>
-	                </div>
-	                <div class="map-item">
-	                    <span>노원 황소곱창</span>
-	                    <span>02-1234-1234</span>
-	                </div>
-	                <div class="map-item">
-	                    <span>노원 황소곱창</span>
-	                    <span>02-1234-1234</span>
-	                </div>
-	                <div class="map-item">
-	                    <span>노원 황소곱창</span>
-	                    <span>02-1234-1234</span>
-	                </div>
-	            </div>
-	            <hr>
-	            <div class="content-box map-info">
-	                <div class="content-area">
-	                    <span class="content-item">노원 황소곱창</span>
-	                    <span class="content-item">02-0000-0000</span>
-	                    <span class="content-item time">주소입력란</span>
-	                    <textarea class="content-item time" readonly>평일 - 오전 9:00 ~ 오후 10:00
-	브레이크 타임 - 오후 3:00 ~ 오후 5:00</textarea>
-	                    <textarea class="content-item comment" readonly>글을 씁시다.글 쓴다구여어어어어어ㅓ엉 글써여</textarea>
-	                </div>
-	                <div class="map-area">
-	                    <div id="map">
-	                    </div>
-	                </div>
 	            </div>
             </div>
+            <div class="content-box-2 map-info">
+                <div class="content-area">
+                    <span class="content-item">노원 황소곱창</span>
+                    <span class="content-item">02-0000-0000</span>
+                    <span class="content-item time">주소입력란</span>
+                    <textarea class="content-item time" readonly>평일 - 오전 9:00 ~ 오후 10:00
+브레이크 타임 - 오후 3:00 ~ 오후 5:00</textarea>
+                    <textarea class="content-item comment" readonly>글을 씁시다.글 쓴다구여어어어어어ㅓ엉 글써여</textarea>
+                </div>
+                <div class="map-area">
+                    <div id="map">
+                    </div>
+                </div>
+            </div>
         </div>
-        
-        
-        <!-- <div class="modal fade" id="select-type" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-			  <div class="modal-dialog" role="document">
-			    <div class="modal-content">
-			      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			      	<div class="modal-body">
-					    <div class="modal-t">
-				      		<div>Select type of Bookmark</div>
-					    </div>
-					    <div class="small-button-area">
-	           				<button class="default-btn" onclick="location.href='addMapView.do'">Map</button>
-			                <button class="default-btn">URL</button>
-					    </div>
-			      	</div>
-			    </div>
-			  </div>
-			</div> -->
 		
 		<script>
 			$(".content-box").hide();
+			$(".content-box-2").hide();
 			
 			
 			var target = $(".carousel-cell");
