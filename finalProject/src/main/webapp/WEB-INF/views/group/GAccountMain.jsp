@@ -406,8 +406,8 @@
 		function sumView(calendarDate) {
         	
 	        $.ajax({
-       			url: 'sumview.do',
-       			data: {abDate:calendarDate},
+       			url: 'totalAccountList.do',
+       			data: {gaDate:calendarDate},
        			dataType: 'json',
        			success: function(data) {
        				$("#proSum").html("");

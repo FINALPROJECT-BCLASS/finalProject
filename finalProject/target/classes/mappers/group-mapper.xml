@@ -149,6 +149,8 @@
 		<result property="gaExp" column="GA_EXP"/>
 		<result property="gaFee" column="GA_FEE"/>
 		<result property="gaDelete" column="GA_DELETE"/>
+		
+		<result property="totalAmount" column="GA_TOTAL"/>
 	</resultMap>
 	<!-- resultMap end -->
 	
@@ -862,4 +864,7 @@
 		AND GA_DELETE = 'N'
 	</select>
 	
+	<select id="selectTotalProList" parameterType="GroupInfo" resultMap="groupAccountResultSet">
+	
+	</select>
 </mapper>
