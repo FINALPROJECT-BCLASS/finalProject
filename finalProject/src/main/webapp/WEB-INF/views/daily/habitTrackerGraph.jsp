@@ -85,133 +85,11 @@
         }
         
 	    .content-section1 {
-	    	height: 430px;
+	    	height: 920px;
+	    	position: relative;
 	    }
-        .content-section2 {
-        	justify-content: start;
-        }
+       
         
-        .content-section1-left,
-        .content-section2-left {
-			width: 50%;
-		    height: 262px;
-		    background: #f3f3f3;
-		    border-radius: 10px;
-		    display: flex;
-		    justify-content: center;
-		    align-items: center;
-	        flex-direction: column;
-		}
-		
-		.content-section2-left {
-			padding-right: 20px;
-			width: 46%;
-		}
-		
-		.conetent-section1-left {
-			width: 50%;
-		    padding-left: 70px;
-		    height: 100%;
-		    flex-direction: column;
-		}
-		
-		.content-section1-right,
-		.content-section2-right {
-			width: 50%;
-		    height: 262px;
-		    float: right;
-		    border-radius: 10px;
-		    display: flex;
-		    justify-content: center;
-		    align-items: center;
-	        flex-direction: column;
-		}
-		
-		.content-section2-right {
-			width: 56%;
-		}
-		
-		.section1-item-area,
-		.section2-item-area {
-			width: 85%;
-		    display: flex;
-    		justify-content: center;
-		}
-		
-		.section1-item,
-		.section2-item {
-			width: 46%;
-		    background: white;
-		    border-radius: 10px;
-		    padding: 15px;
-		    display: flex;
-		    justify-content: center;
-		    align-items: center;
-		    flex-direction: column;
-		    margin-top: 10px;
-		}
-		
-		.section2-item {
-			background: #F3F3F3;
-		    text-align: left;
-		    width: 100%;
-		    height: 100%;
-		    overflow: hidden;
-		    overflow-y: scroll;
-		    align-items: baseline;
-		    justify-content:start;
-		    
-		}
-		
-		.section2-item::-webkit-scrollbar {
-  		  	display: none; 
-		}
-		
-		.add {
-			position:relative;
-		}
-		
-		.add::after {
-			display: flex;
-			position: absolute;
-		    content: "+";
-		    width: 100%;
-		    height: 100%;
-		    background: #0000007a;
-		    color: white;
-		    border-radius: 10px;
-		    justify-content: center;
-		    align-items: flex-end;
-		    font-size: 80px;
-		    font-weight: 200;
-		    opacity: 0;
-		    
-		}
-		
-		.add:hover::after {
-			cursor: pointer;
-			opacity: 1;
-			transition-duration: 0.5s;
-			
-		}
-		
-		.section1-item > span:nth-child(1) {
-			font-weight: 600;
-			font-size: 20px;
-		}
-		
-		.section1-item > span:nth-child(2) {
-			font-size: 29px;
-		    font-weight: 700;
-		    color: #6b98ff;
-		    margin-top: -5px;
-		}
-		
-		.section1-item > span:nth-child(3) {
-		    font-weight: 600;
-		    color: gray;
-	        margin-top: -8px;
-		}
 
         textarea {
             border: 0px;
@@ -244,10 +122,11 @@
 
         .button-area {
             display: flex;
-            justify-content: flex-end;
+            justify-content: flex-start;
             margin-top: 10px;
             width: 100%;
 	    }
+	    
 	
         .button-area > button {
             border: none;
@@ -398,111 +277,7 @@
         	background: white;
         }
         
-        /*모달*/
         
-        .close {
-        	position: absolute;
-		    z-index: 1;
-		    right: 10px;
-		    top: 10px;
-		    width: 30px;
-		    height: 30px;
-        }
-        
-        .modal-content {
-       	    border-radius: 0.7rem !important;
-        }
-        
-        .modal-body {
-       	    padding: 16px !important;
-        }
-        
-        .modal-dialog {
-        	margin-top: 100px !important;
-        	max-width: 415px !important;
-        }
-        
-        .modal-t {
-       	    margin: 15px;
-    		text-align: left;
-        }
-        
-        .modal-t > div:nth-child(1) {
-       	    font-size: 21px;
-    		font-weight: 600;
-        }
-        
-        .count-area {
-		    height: 100px;
-		    border-radius: 10px;
-	        margin: 15px;
-		    display: flex;
-		    align-items: center;
-        }
-        
-        .count-area > span:nth-child(1) {
-       	    width: 81px;
-		    float: left;
-		    font-size: 30px;
-		    margin-top: -7px;
-		    
-        }
-        
-        .count-area > span:nth-child(3) {
-        	font-size: 30px;
-        }
-        
-        .count {
-        	text-align: right;
-		    background: none;
-		    border: none;
-		    font-size: 50px;
-		    width: 200px;
-		    padding: 10px;
-        }
-        
-        .memo-area, .comment-area, .record-area {
-        	margin: 15px;
-   			text-align: left;		
-        }
-        
-        .memo-area > div:nth-child(1) {
-      	    font-size: 21px;
-    		font-weight: 600;
-    		margin-bottom: 10px;
-        }
-        
-        .memo-area > input {
-        	background: #f3f3f3;
-		    font-size: 17px;
-    		color: #484848;
-		    height: 60px;
-		    width: 100%;
-		    border-radius: 10px;
-		    display: flex;
-		    align-items: flex-start;
-		    border: 0;
-		    padding: 15px;
-        }
-        
-        .comment-area > textarea {
-        	background: #f3f3f3;
-		    font-size: 17px;
-		    color: #484848;
-		    height: 190px;
-		    width: 100%;
-		    border-radius: 10px;
-		    display: flex;
-		    align-items: flex-start;
-		    border: 15px solid #f3f3f3;
-		    
-        }
-        
-        .comment-area > textarea::-webkit-scrollbar {
-  		  	display: none; 
-		}
-		
-		
         
         /* 작은 버튼 */
         
@@ -590,6 +365,18 @@
 		    color: gray !important;
         }
         
+        .small-subject {
+        	margin-top: -58px;
+		    margin-bottom: 20px;
+		    font-size: 20px;
+		    font-weight: 600;
+        }
+        
+        .s2 {
+        	margin-top: 30px;
+    		margin-bottom: 20px;
+        }
+        
         
 
 		
@@ -601,20 +388,17 @@
 		<jsp:include page="../common/sidenaviDaily.jsp"/>
         <div class="right-area">
             <span class="pSubject">Habit Tracker</span>
-            
-            <div class="small-button-area slide-btn">
-       			<button type="button" onclick="cycleBtn();">D</button>
-       			<button type="button" onclick="cycleBtn();">W</button>
-                <button type="button" onclick="cycleBtn();">M</button>
-			</div>
+
             <!-- 슬라이드 -->
             <div class="carousel" data-flickity='{ "draggable": true }'>
 				<c:forEach var="h" items="${hlist }">
 					<!-- 퍼센트 연산처리 -->
 					<fmt:parseNumber var="percent" value="${(h.ht_now/h.ht_goal)*100+(1-(((h.ht_now/h.ht_goal)*100)%1))%1}" integerOnly="true" />
 					<!-- 슬라이드 아이템 -->
+					<input id="htCycle" type="hidden" value="${h.ht_cycle }">
 		        	<input id="htNum" type="hidden" value="${h.ht_no }"> <!-- 습관 번호 -->
 					<div class="progress carousel-cell habitItem ${h.ht_cycle }">
+			        	<!-- 습관 주기 -->
 				  		<div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:${percent }%; background-color:${h.ht_color};"></div>
 			    		<div class="bar-info">
 							<div class="ht_title">${h.ht_title }</div>
@@ -636,26 +420,24 @@
 			</div>
 		
        
-            
-            <!-- Button Start-->
-            <div class="button-area">
-                <button onclick="location.href='addHabitView.do'">Add</button>
-                <button>Delete</button>
-                <button>Edit</button>
-            </div>
 
     		<!-- 내용 -->
             <div id="content" class="content">
             	<input type="hidden" id="ht_no">
             	<div class="cSubject" id="habitTitle">Drink Water</div>
             	<div class="content-section1">
+            	<div class="chart-container" style="top: 10%; position: absolute; height:200px; width:50vw">
+            		<div class="small-subject">This Week</div>
             		<canvas id="myChart"></canvas>
+            		<div class="small-subject s2">This Month</div>
+            		<canvas id="myChartM"></canvas>
+            	</div>
 	            </div>
             </div>
 			      
             <!-- Button Start-->
             <div class="button-area">
-                <button class="blue" >Graph >></button>
+                <button class="blue" onclick="location.href='htList.do'"><< Back</button>
             </div>
             <!-- Button End-->
         </div>
@@ -668,22 +450,41 @@
 		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 		<script>
 		
-		var data = [];
-		var target=$('.habitItem');
+		var myChart;
+		var myChartM;
 		
+		$(".content").hide();
+		
+		
+		var data = [];
+		var target = $('.habitItem');
+		
+		var t = new Date(); // 오늘 날짜
+        var y= t.getFullYear(); // 년도
+        var m = (t.getMonth()+1)>9 ? ''+(t.getMonth()+1) : '0'+(t.getMonth()+1); // 월
+        var d = t.getDate()>9 ? ''+t.getDate() : '0'+t.getDate(); // 일
+                
+        var today = y + '-' + m + '-' + d;
 		
 		
 	    target.on("click", function(){
 	    	$(this).addClass("clicked");
+	    	$(".content").show();
+	    	
+	    	$("#habitTitle").html($(this).find(".ht_title").html());
+	    	
+	    	var cycle = $(this).prev().prev("#htCycle").val();
+	    	var no = $(this).prev("#htNum").val();
 	    	
 	    	$.ajax({
 	    		
-	    		url: "",
+	    		url: "selectGraphData.do",
 	   			type: "post",
-				data: {},
+				data: {ht_cycle:cycle, ht_no:no, today:today},
 				dataType:"json",
-				success:function(caldata){
-					
+				success:function(data){
+					console.log("data" + data);
+					graph(data); 
 				},
 				error:function(request, status, errorData){
                       alert("error code: " + request.status + "\n"
@@ -697,16 +498,74 @@
 	    	target.not($(this)).removeClass("clicked");
 	    });
 	    
+	    // 일주일 구하기
+	    var currentDay = new Date();  
+		var theYear = currentDay.getFullYear();
+		var theMonth = currentDay.getMonth();
+		var theDate  = currentDay.getDate();
+		var theDayOfWeek = currentDay.getDay();
+		 
+		var thisWeek = [];
+		 
+		for(var i=0; i<7; i++) {
+		  var resultDay = new Date(theYear, theMonth, theDate + (i - theDayOfWeek));
+		  var yy = resultDay.getFullYear();
+		  var mm = Number(resultDay.getMonth()) + 1;
+		  var dd = resultDay.getDate() + 1 ;
+		 
+		  mm = String(mm).length === 1 ? '0' + mm : mm;
+		  dd = String(dd).length === 1 ? '0' + dd : dd;
+		 
+		  thisWeek[i] = yy + '/' + mm + '/' + dd;
+		  
+		  thisWeek[i] = thisWeek[i].substring(2);
+		  
+		}
+		
+		// 해당월의 일수 구해오기
+		var dayCount = new Date(theYear,theMonth,0).getDate();
+		var thisMonth = [];
+		
+		for(var i=0; i<dayCount; i++) {
+			thisMonth[i] = i+1;
+		}
+		
+		// 에이작스 데이터를 전역변수로 뺴고 그래프를 다큐먼트로 지정해주고 destroy()하고 실행하게 해보자.
+	    // graph 실행 함수
+	    function graph(data) {
+	   	
+	    var labels = [];
+	    var datalist  = [];
+	    
+ 	    
+		for(var i=0;i< thisWeek.length;i++){
+			datalist.push(0);
+		}
+	     
+		for(var i=0;i< thisWeek.length;i++){
+			for(var j in data.hd){
+				if(thisWeek[i] == data.hd[j].ht_date){
+
+					datalist.splice(i,1,data.hd[j].ht_now);
+				}
+			}
+
+		}
+	
+     	 if (myChart) {
+          myChart.destroy();
+        }
+		
 		var ctx = document.getElementById('myChart').getContext('2d');
-		var chart = new Chart(ctx, {
+		myChart = new Chart(ctx, {
+			
 		    // The type of chart we want to create
 		    type: 'bar',
-
 		    // The data for our dataset
 		    data: {
-		        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'september', 'actober', 'rebember', ''],
+		        labels: thisWeek,//['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'september', 'actober', 'rebember', ''],
 		        datasets: [{
-		            label: 'Drink water',
+		            label: $("#habitTitle").html(),
 		            backgroundColor: [
 		                'rgba(255, 99, 132, 0.2)',
 		                'rgba(54, 162, 235, 0.2)',
@@ -736,13 +595,122 @@
 		                'rgba(255, 159, 64, 1)'
 		            ],
 		            borderWidth: 1,
-		            data: [50, 100, 500, 200, 500, 300, 1500]
+		            data:datalist,
+		            options: {
+		                responsive: false,
+		                maintainAspectRatio: false,
+		                scales: {
+		                    yAxes: [{
+		                        ticks: {
+		                            beginAtZero: true
+		                                 
+		                        }
+		                    }]
+		                },
+		            }
 		        }]
 		    },
 
 		    // Configuration options go here
-		    options: {}
+		    options: {
+		    	legend:{
+                	display:false
+		    	}
+		    }
 		});
+		/* chart.reset();
+		chart.data.datasets.push(datalist);
+		chart.update(); */
+		
+		
+		var datalistM = [];
+		
+		for(var i=0;i< thisMonth.length;i++){
+			datalistM.push(0);
+		}
+	     
+		for(var i=0;i< thisMonth.length;i++){
+			for(var j in data.hd){
+				
+				var date = data.hd[j].ht_date;
+				var cutDay = date.substring(6);
+				
+				if(thisMonth[i] == cutDay){
+
+					datalistM.splice(i,1,data.hd[j].ht_now);
+				}
+			}
+
+		}
+		
+		if (myChartM) {
+	          myChartM.destroy();
+	    }
+		
+		var ctxm = document.getElementById('myChartM').getContext('2d');
+		myChartM = new Chart(ctxm, {
+		    // The type of chart Swe want to create
+		    type: 'bar',
+
+		    // The data for our dataset
+		    data: {
+		        labels: thisMonth,//['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'september', 'actober', 'rebember', ''],
+		        datasets: [{
+		            label: $("#habitTitle").html(),
+		            backgroundColor: [
+		                'rgba(255, 99, 132, 0.2)',
+		                'rgba(54, 162, 235, 0.2)',
+		                'rgba(255, 206, 86, 0.2)',
+		                'rgba(75, 192, 192, 0.2)',
+		                'rgba(153, 102, 255, 0.2)',
+		                'rgba(255, 159, 64, 0.2)',
+		                'rgba(255, 99, 132, 0.2)',
+		                'rgba(54, 162, 235, 0.2)',
+		                'rgba(255, 206, 86, 0.2)',
+		                'rgba(75, 192, 192, 0.2)',
+		                'rgba(153, 102, 255, 0.2)',
+		                'rgba(255, 159, 64, 0.2)'
+		            ],
+		            borderColor: [
+		                'rgba(255, 99, 132, 1)',
+		                'rgba(54, 162, 235, 1)',
+		                'rgba(255, 206, 86, 1)',
+		                'rgba(75, 192, 192, 1)',
+		                'rgba(153, 102, 255, 1)',
+		                'rgba(255, 159, 64, 1)',
+		                'rgba(255, 99, 132, 1)',
+		                'rgba(54, 162, 235, 1)',
+		                'rgba(255, 206, 86, 1)',
+		                'rgba(75, 192, 192, 1)',
+		                'rgba(153, 102, 255, 1)',
+		                'rgba(255, 159, 64, 1)'
+		            ],
+		            borderWidth: 1,
+		            data:datalistM,
+		            options: {
+		                responsive: false,
+		                maintainAspectRatio: false,
+		                scales: {
+		                    yAxes: [{
+		                        ticks: {
+		                            beginAtZero: true
+		                        }
+		                    }]
+		                },
+		            }
+		        }]
+		    },
+
+		    // Configuration options go here
+		    options: {
+		    	legend:{
+                	display:false
+      			}
+		    } 
+		});
+		
+	    }
+	    
 		</script>
         <jsp:include page="../common/footer.jsp"/>
     </body>

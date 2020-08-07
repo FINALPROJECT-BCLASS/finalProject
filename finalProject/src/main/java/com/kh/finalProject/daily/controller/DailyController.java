@@ -1,12 +1,11 @@
 package com.kh.finalProject.daily.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -22,9 +21,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.finalProject.daily.model.service.DailyService;
+import com.kh.finalProject.daily.model.vo.Bookmark;
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
 import com.kh.finalProject.daily.model.vo.HabitSum;
@@ -66,8 +67,8 @@ public class DailyController {
 			hsm.setId(id);
 			hsm.setHt_start(month);
 			
-			System.out.println("daily habit : " + hs);
-			System.out.println("monthly habit : " + hsm);
+//			System.out.println("daily habit : " + hs);
+//			System.out.println("monthly habit : " + hsm);
 			
 			ArrayList<Habit> list = dailyService.selectHabitList(id);			// 전체 목록 조회
 			ArrayList<HabitSum> sum = dailyService.selectHabitSumList(hs);		// daily 합계
@@ -75,9 +76,9 @@ public class DailyController {
 			ArrayList<HabitSum> Msum = dailyService.selectHabitMSumList(hsm);	// monthly 합계
 			
 			
-			System.out.println("daily sum : " + sum);
-			System.out.println("weekly sum : " + Wsum);
-			System.out.println("monthly sum : " + Msum);
+//			System.out.println("daily sum : " + sum);
+//			System.out.println("weekly sum : " + Wsum);
+//			System.out.println("monthly sum : " + Msum);
 			
 			ArrayList<Habit> hlist = new ArrayList<Habit>();
 			
@@ -346,8 +347,10 @@ public class DailyController {
 	        
 		System.out.println("확인" + hr);
 		
-		
 	    int result = dailyService.insertHabitRecord(hr);
+	    // 업데이트 된 습관기록 불러오기
+//	    HabitRecord HR = dailyService.selectHabitRecord(hr);
+//	    System.out.println("hr확인" + HR);
 	    
 	    if(result > 0) {
 	    	out.print("success");
@@ -624,7 +627,7 @@ public ModelAndView editHabitView(ModelAndView mv, HttpServletRequest request, @
 		mv.addObject("habit", h);
 		mv.setViewName("daily/habitEdit");
 	} else {
-		mv.addObject("msg","수정 실패");
+		mv.addObject("msg","조회 실패");
         mv.addObject("url","/htList.do");
 		mv.setViewName("common/redirect");
 	}
@@ -633,6 +636,329 @@ public ModelAndView editHabitView(ModelAndView mv, HttpServletRequest request, @
 
 }
 
+@RequestMapping(value="selectGraphData.do" , method=RequestMethod.POST)
+public void selectGraphData(HttpServletResponse response, HttpServletRequest request, String ht_no, String ht_cycle, String today) throws IOException {
+		System.out.println(ht_no + ht_cycle + today);
+		
+		response.setContentType("application/json;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		
+		String id = member.getId();
+		
+		
+		HashMap<String,String> map = new HashMap();
+		map.put("id", id);
+		map.put("ht_no", ht_no);
+		map.put("ht_cycle",ht_cycle);
+		map.put("today", today);
+		
+		ArrayList<Habit> habit = new ArrayList<Habit>();
+		
+		habit = dailyService.selectGraphData(map);
+		
+		System.out.println("잘 되는가요?"+habit);
+		JSONArray HabitData = new JSONArray();
+			
+			// 이번 주로 조회한 습관 기록 배열에 담기
+			for(Habit hd : habit) {
+				
+				JSONObject jObj = new JSONObject();
+				jObj.put("ht_now", hd.getHt_now());
+				jObj.put("ht_date", hd.getHt_start());
+				
+				HabitData.add(jObj);
+				
+			}
+			
+			JSONObject hdl = new JSONObject();
+			
+			hdl.put("hd", HabitData);
+			
+			out.print(hdl);
+			out.flush();
+			out.close();
+			
+	}
+	
+	// 습관 수정
+	@RequestMapping("updateHabit.do")
+	public String updateHabit(Habit habit, Model model,
+			HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+
+		HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		habit.setId(id); // 세션에서 받아온 아이디 저장
+		
+		System.out.println("확인" + habit);
+		int result = dailyService.updateHabit(habit);
+		
+		if(result > 0) {
+		
+		return "redirect:htList.do";
+		
+		} else {
+	
+		model.addAttribute("msg","습관 등록에 실패하셨습니다. 다시 시도해 주세요.");
+		model.addAttribute("url","/htList.do");
+		
+		return "common/redirect";
+		
+		}
+
+	}
+	
+	// 북마크 리스트 불러오기
+	@RequestMapping("bookmarkView.do")
+	public ModelAndView bookmarkView(ModelAndView mv, HttpServletRequest request, HttpServletResponse response) {
+		
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		ArrayList<Bookmark> bookmark = new ArrayList();
+		
+		bookmark = dailyService.selectBookmarkGroupList(id);
+		
+		System.out.println("잘 불러옵니까?" + bookmark);
+		
+		if(bookmark != null) {
+			mv.addObject("bm", bookmark);
+			mv.setViewName("daily/bookmarkList");
+		} else {
+			mv.addObject("message", "목록이 없습니다. 추가해 주세요.");
+			mv.setViewName("daily/bookmarkList");
+		}
+		
+		return mv;
+	}
+	
+	@RequestMapping("addBookmarkView.do")
+	public String addbookmarkView() {
+		
+		return "daily/bookmarkGroupAdd";
+	}
+	
+	// 북마크 그룹 생성
+	@RequestMapping("insertBookmark.do")
+	public String insertBookmark(Bookmark bm, Model model,
+								HttpServletRequest request, HttpServletResponse response,
+								@RequestParam(value="file", required=false) MultipartFile file) {
+		
+		System.out.println("받아온 bm" + bm);
+		
+		
+		HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("loginUser");
+		String id = member.getId();
+		bm.setId(id);
+		
+		if(!file.getOriginalFilename().equals("")) {
+			
+			String renameFile = saveFile(file, bm, request);
+			
+			bm.setBl_origin(file.getOriginalFilename());
+			bm.setBl_rename(renameFile);
+			
+			System.out.println("새로 세팅한 bm :" + bm);
+		}
+		
+		int result = dailyService.insertBookmarkGroup(bm);
+		
+		
+		if(result > 0) {
+			
+			return "redirect:bookmarkView.do";
+			
+		}else {
+			
+            model.addAttribute("msg","북마크 등록 실패, 다시 시도해 주세요.");
+            model.addAttribute("url","/addBookmarkView.do");
+			
+			return "common/redirect";
+		}
+		
+	}
+	
+	// 저장 파일 이름 변경
+	public String saveFile(MultipartFile file, Bookmark bm, HttpServletRequest request) {
+		
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		
+		String savePath = root + "/bluploadFiles/";
+		
+		File folder = new File(savePath);
+		
+		if(!folder.exists()) {
+			folder.mkdirs();
+		}
+		
+		// 업로드 시간을 기준으로 파일명 변경
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm");
+		
+		String originFileName = file.getOriginalFilename();
+		
+		// 파일명 앞에 '사용자 아이디_' 추가
+		String renameFileName = bm.getId() + "_" + sdf.format(new java.sql.Date(System.currentTimeMillis()))
+									+"."+originFileName.substring(originFileName.lastIndexOf(".")+1);
+		
+		String filePath = folder + "/" + renameFileName;
+		
+		try {
+			file.transferTo(new File(filePath));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return renameFileName;
+		
+	}
+	
+	// 북마크 그룹 삭제
+	@RequestMapping("deleteBookmark.do")
+	public String deleteBookmark(HttpServletRequest request, HttpServletResponse response, Model model,
+			 					@RequestParam(value = "bl_no", required = false) String bl_no) {
+		
+	
+		HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		Bookmark bm = new Bookmark();
+		bm.setId(id);
+		bm.setBl_no(bl_no);
+		
+		int result = dailyService.deleteBookmark(bm);
+		
+		System.out.println(result);
+		if(result > 0) {
+			
+			return "redirect:bookmarkView.do";
+			
+		}else {
+			
+			model.addAttribute("msg","북마크 삭제 실패, 다시 시도해 주세요.");
+            model.addAttribute("url","/BookmarkView.do");
+			
+			return "common/redirect";
+			
+		}
+			
+	}
+	
+	// 북마크 그룹 수정 페이지
+	@RequestMapping("editBookmarkView.do")
+	public String editBookmark(HttpServletRequest request, HttpServletResponse response, Model model,
+			 					@RequestParam(value = "bl_no", required = false) String bl_no) {
+		
+	
+		HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		Bookmark bm = new Bookmark();
+		bm.setId(id);
+		bm.setBl_no(bl_no);
+		
+		Bookmark result = dailyService.selectBookmark(bm);
+		
+		System.out.println(result);
+		
+		if(result != null) {
+		
+			model.addAttribute("bm", result);
+			return "daily/bookmarkGroupEdit";
+			
+		}else {
+			
+			model.addAttribute("msg","북마크 삭제 실패, 다시 시도해 주세요.");
+            model.addAttribute("url","/BookmarkView.do");
+			
+			return "common/redirect";
+			
+		}
+			
+	}
+	
+	@RequestMapping("editBookmark.do")
+	public String updateBookmark(Bookmark bm, Model model,
+								HttpServletRequest request, HttpServletResponse response,
+								@RequestParam(value="file", required=false) MultipartFile file) {
+		
+		
+//		System.out.println("받아온 bm " + bm);
+//		System.out.println("file " + file);
+		
+		HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("loginUser");
+		String id = member.getId();
+		bm.setId(id);
+		
+		
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "/bluploadFiles/";
+		
+		String rFile = bm.getBl_rename();
+		String oFile = bm.getBl_origin();
+		
+//		System.out.println("원래 리네임 파일" + rFile);
+//		System.out.println("원래 오리진 파일" + oFile);
+		
+		// 프로필 사진 저장
+		if(!file.getOriginalFilename().equals("")) {
+			
+			String renameFile = saveFile(file, bm, request);
+			
+			bm.setBl_origin(file.getOriginalFilename());
+			bm.setBl_rename(renameFile);
+			
+			System.out.println("세팅한 bm" + bm);
+			
+			if(rFile != null) { 
+				
+				File reFile = new File(savePath + rFile);
+				reFile.delete();// 기존에 있던 사진파일 삭제
+			}
+			
+		}else {
+			// 기존 사진 파일 유지
+			bm.setBl_origin(oFile);
+			bm.setBl_rename(rFile);
+		}
+		
+		
+		int result = dailyService.updateBookmarkGroup(bm);
+		
+		
+		if(result > 0) {
+			
+			return "redirect:bookmarkView.do";
+			
+		}else {
+			
+            model.addAttribute("msg","북마크 수정 실패, 다시 시도해 주세요.");
+            model.addAttribute("url","/editBookmarkView.do");
+			
+			return "common/redirect";
+		}
+		
+	}
+		
+	@RequestMapping("addBookmarkMapView.do")
+	public String addMapView() {
+		
+		return "daily/bookmarkMapAdd";
+	}
+	
+	@RequestMapping("addBookmarkMap.do")
+	public String addBookrmarkMap() {
+		
+		return null;
+	}
 	
 }

@@ -14,36 +14,54 @@ public class GroupSearchName implements Serializable{
 	
 	private String searchName;
 	private String loginUserId;
+	private int gNo;
 	
 	public GroupSearchName() {
 		super();
 	}
-	
-	public GroupSearchName(String searchName, String loginUserId) {
+
+	public GroupSearchName(String searchName, String loginUserId, int gNo) {
 		super();
 		this.searchName = searchName;
 		this.loginUserId = loginUserId;
+		this.gNo = gNo;
 	}
 
 	public String getSearchName() {
 		return searchName;
 	}
+
 	public void setSearchName(String searchName) {
 		this.searchName = searchName;
 	}
+
 	public String getLoginUserId() {
 		return loginUserId;
 	}
+
 	public void setLoginUserId(String loginUserId) {
 		this.loginUserId = loginUserId;
 	}
+
+	public int getgNo() {
+		return gNo;
+	}
+
+	public void setgNo(int gNo) {
+		this.gNo = gNo;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
 	@Override
 	public String toString() {
-		return "GroupSearchName [searchName=" + searchName + ", loginUserId=" + loginUserId + "]\n";
+		return "GroupSearchName [searchName=" + searchName + ", loginUserId=" + loginUserId + ", gNo=" + gNo + "]\n";
 	}
+
 	
+	
+
 	
 }

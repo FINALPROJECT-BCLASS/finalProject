@@ -1,3 +1,11 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+<<<<<<< HEAD
+<<<<<<< HEAD
+#Fri Jul 31 16:30:42 KST 2020
+=======
+#Fri Jul 31 14:30:50 KST 2020
+>>>>>>> refs/remotes/origin/master
+=======
 #Sat Aug 01 16:32:41 KST 2020
+>>>>>>> refs/remotes/origin/master
 maven-plugins-22.pom>central=

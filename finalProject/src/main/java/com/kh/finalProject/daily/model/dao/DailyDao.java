@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.finalProject.daily.model.vo.Bookmark;
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
 import com.kh.finalProject.daily.model.vo.HabitSum;
@@ -113,5 +114,44 @@ public class DailyDao {
 		return sqlSessionTemplate.update("dailyMapper.deleteHabit", map);
 	}
 
+	public HabitRecord selectHabitRecord(HabitRecord hr) {
+
+		return sqlSessionTemplate.selectOne("dailyMapper.selectHabitRecord", hr);
+	}
+
+	public ArrayList<Habit> selectGraphData(HashMap<String, String> map) {
+
+		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectHabitGraphData", map);
+	}
+
+	public int updateHabit(Habit habit) {
+
+		return sqlSessionTemplate.update("dailyMapper.updateHabit", habit);
+	}
+
+	public int insertBookmarkGroup(Bookmark bm) {
+
+		return sqlSessionTemplate.insert("dailyMapper.insertBookmarkGroup", bm);
+	}
+
+	public ArrayList<Bookmark> selectBookmarkGroupList(String id) {
+
+		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectBookmarkGroupList", id);
+	}
+
+	public int deleteBookmark(Bookmark bm) {
+
+		return sqlSessionTemplate.update("dailyMapper.deleteBookmarkGroup", bm);
+	}
+
+	public Bookmark selectBookmark(Bookmark bm) {
+
+		return sqlSessionTemplate.selectOne("dailyMapper.selectBookmarkGroup", bm);
+	}
+
+	public int updateBookmark(Bookmark bm) {
+
+		return sqlSessionTemplate.update("dailyMapper.updateBookmarkGroup", bm);
+	}
 
 }

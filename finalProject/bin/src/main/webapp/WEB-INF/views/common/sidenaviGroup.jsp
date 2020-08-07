@@ -21,7 +21,7 @@
                 <li>
                 	<a href="noticeMain.do">Sharing</a>
                 </li>
-                <li><a href="#">Vote</a></li>
+                <li><a href="voteMain.do">Vote</a></li>
                 <li><a href="#">Account Book</a></li>
                 <li><a href="#">Ladder Game</a></li>
                 <li class="l-last-line"><a href="#">Settings</a></li>

@@ -17,8 +17,6 @@
 		<result property="out_yn" column="OUT_YN"/>	
 	</resultMap>
 
-	
-
 	<select id="selectOne" parameterType="Member" resultMap="memberResultSet">
 		SELECT *
 		FROM MEMBER

@@ -9,6 +9,7 @@ import com.kh.finalProject.group.model.vo.GroupInfo;
 import com.kh.finalProject.group.model.vo.GroupLike;
 import com.kh.finalProject.group.model.vo.GroupMember;
 import com.kh.finalProject.group.model.vo.GroupNotice;
+import com.kh.finalProject.group.model.vo.GroupPlan;
 import com.kh.finalProject.group.model.vo.GroupReReply;
 import com.kh.finalProject.group.model.vo.GroupReply;
 import com.kh.finalProject.group.model.vo.GroupSearchName;
@@ -156,6 +157,22 @@ public interface GroupService {
 	int groupUpdate(GroupTable gt);
 
 	int deleteMemberList(int groupNo);
+
+	int insertNewMember(GroupMember gm);
+
+	int updateMember(GroupMember gm);
+
+	int planInsert(GroupPlan gp);
+
+	ArrayList<GroupPlan> selectPlanList(GroupInfo gInfo);
+
+	GroupPlan detailPlan(GroupPlan gp);
+
+	int planUpdate(GroupPlan gp);
+
+	int planDelete(GroupPlan gp);
+
+	ArrayList<Member> searchNameAccount(GroupSearchName gSearch);
 
 
 	

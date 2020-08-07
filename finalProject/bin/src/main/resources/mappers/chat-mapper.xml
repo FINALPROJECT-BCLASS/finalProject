@@ -26,6 +26,15 @@
 		<result property="ol_date" column="OL_DATE"/>
 		
 	</resultMap>
+	
+	<resultMap type="openChat" id="openChatRoomResultSet">
+		<id property="cm_no" column="CM_NO"/>
+			<result property="cm_title" column="CM_TITLE"/>
+			<result property="cm_pwd" column="CM_PWD"/>
+			<result property="cm_max" column="CM_MAX"/>
+			<result property="cm_cot" column="CM_COT"/>
+			<result property="cm_id" column="CM_ID"/>
+	</resultMap>
 
 <select id="selectMember" parameterType="string" resultMap="memberResultSet">
 
@@ -86,6 +95,32 @@ INSERT INTO CHAT_ONETOONE
 	SELECT *
 	FROM CHAT_ONETOONE
 	WHERE CO_NO= #{co_no}
+</select>
+
+<insert id="openchatroominsert" parameterType="openChat">
+	INSERT INTO CHAT_MULTI
+		VALUES(SEQ_CM.NEXTVAL
+				,#{cm_title}
+				,#{cm_pwd}
+				,#{cm_max}
+				,1
+				,#{cm_con}
+				,#{cm_id})
+</insert>
+
+<select id="selectopenchatroom" parameterType="openChat" resultType="int">
+	SELECT CM_NO
+	FROM CHAT_MULTI
+	WHERE CM_TITLE=#{cm_title} 
+		AND CM_ID=#{cm_id}
+		AND CM_CON=#{cm_con} 
+</select>
+
+<select id="selectopenchatroomdetail" parameterType="int" resultMap="openChatRoomResultSet">
+
+	SELECT *
+	FROM CHAT_MULTI
+	WHERE CM_NO=#{cm_no}
 </select>
 </mapper>
 
