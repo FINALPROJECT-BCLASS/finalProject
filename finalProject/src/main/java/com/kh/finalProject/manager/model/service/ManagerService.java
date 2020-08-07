@@ -3,6 +3,7 @@ package com.kh.finalProject.manager.model.service;
 import java.util.ArrayList;
 
 import com.kh.finalProject.manager.model.vo.MPageInfo;
+import com.kh.finalProject.manager.model.vo.RPageInfo;
 import com.kh.finalProject.manager.model.vo.Report;
 import com.kh.finalProject.member.model.vo.Member;
 
@@ -14,7 +15,7 @@ public interface ManagerService {
 
 	int getReportCount(String id);
 
-	ArrayList<Report> selectRList(MPageInfo mpi);
+	ArrayList<Report> selectRList(RPageInfo rpi);
 
 	int updateReport(Report r);
 

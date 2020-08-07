@@ -2,12 +2,12 @@ package com.kh.finalProject.manager.model.vo;
 
 import java.io.Serializable;
 
-public class MPageInfo implements Serializable {
+public class RPageInfo implements Serializable {
 	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1219895395661467322L;
+	private static final long serialVersionUID = -557336920388476326L;
 	
 	private int currentPage;
 	private int listCount;
@@ -20,11 +20,13 @@ public class MPageInfo implements Serializable {
 	
 	private String id;
 	
-	public MPageInfo() {
+	private int rprNo;
+
+	public RPageInfo() {
 	}
 
-	public MPageInfo(int currentPage, int listCount, int pageLimit, int maxPage, int startPage, int endPage,
-			int boardLimit, String id) {
+	public RPageInfo(int currentPage, int listCount, int pageLimit, int maxPage, int startPage, int endPage,
+			int boardLimit, String id, int rprNo) {
 		this.currentPage = currentPage;
 		this.listCount = listCount;
 		this.pageLimit = pageLimit;
@@ -33,6 +35,7 @@ public class MPageInfo implements Serializable {
 		this.endPage = endPage;
 		this.boardLimit = boardLimit;
 		this.id = id;
+		this.rprNo = rprNo;
 	}
 
 	public int getCurrentPage() {
@@ -99,11 +102,19 @@ public class MPageInfo implements Serializable {
 		this.id = id;
 	}
 
+	public int getRprNo() {
+		return rprNo;
+	}
+
+	public void setRprNo(int rprNo) {
+		this.rprNo = rprNo;
+	}
+
 	@Override
 	public String toString() {
-		return "MPageInfo [currentPage=" + currentPage + ", listCount=" + listCount + ", pageLimit=" + pageLimit
+		return "RPageInfo [currentPage=" + currentPage + ", listCount=" + listCount + ", pageLimit=" + pageLimit
 				+ ", maxPage=" + maxPage + ", startPage=" + startPage + ", endPage=" + endPage + ", boardLimit="
-				+ boardLimit + ", id=" + id + "]";
+				+ boardLimit + ", id=" + id + ", rprNo=" + rprNo + "]";
 	}
-	
+
 }

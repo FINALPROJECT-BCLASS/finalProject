@@ -52,13 +52,25 @@
 			AND ID!='admin'	
 	</select>
 	
-	<select id="selectRList" parameterType="string" resultMap="reportResultSet">
+	<select id="selectRList" parameterType="RPageInfo" resultMap="reportResultSet">
 		SELECT RP_NO, R.ID, TO_CHAR(RP_DATE, 'YYYY-MM-DD') "RP_DATE", RP_CON,
 			R.RPR_NO, TO_CHAR(RP_RDATE, 'YYYY-MM-DD') "RP_RDATE", M.RP_COUNT
 		FROM REPORT R
 		JOIN MEMBER M ON(R.ID=M.ID)
 		WHERE R.ID LIKE '%'||#{id}||'%'
 			AND R.ID!='admin'
+		<if test="rprNo == 1">
+			AND R.RPR_NO=1
+		</if>
+		<if test="rprNo == 2">
+			AND R.RPR_NO=2
+		</if>
+		<if test="rprNo == 3">
+			AND R.RPR_NO=3
+		</if>
+		<if test="rprNo == 4">
+			AND R.RPR_NO=4
+		</if>
 		ORDER BY RP_NO DESC
 	</select>
 	

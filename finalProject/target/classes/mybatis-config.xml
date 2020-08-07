@@ -47,7 +47,8 @@
 		
 		<typeAlias type="com.kh.finalProject.memo.model.vo.Memo" alias="Memo"/>	<!-- 예지 -->
 		
-		<typeAlias type="com.kh.finalProject.manager.model.vo.Report" alias="Report"/>	<!-- 예지 -->
+		<typeAlias type="com.kh.finalProject.manager.model.vo.Report" alias="Report"/>			<!-- 예지 -->
+		<typeAlias type="com.kh.finalProject.manager.model.vo.RPageInfo" alias="RPageInfo"/>	<!-- 예지 -->
 
 	</typeAliases>
 

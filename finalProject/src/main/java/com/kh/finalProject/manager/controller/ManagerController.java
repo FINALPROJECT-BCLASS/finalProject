@@ -14,6 +14,8 @@ import com.kh.finalProject.manager.model.exception.ManagerException;
 import com.kh.finalProject.manager.model.service.ManagerService;
 import com.kh.finalProject.manager.model.vo.MPageInfo;
 import com.kh.finalProject.manager.model.vo.MPagination;
+import com.kh.finalProject.manager.model.vo.RPageInfo;
+import com.kh.finalProject.manager.model.vo.RPagination;
 import com.kh.finalProject.manager.model.vo.Report;
 import com.kh.finalProject.member.model.vo.Member;
 
@@ -69,7 +71,8 @@ public class ManagerController {
 	@RequestMapping("reportlist.do")
 	public ModelAndView reportList(HttpServletResponse response, ModelAndView mv,
 						@RequestParam(value="page", required=false) String page,
-						@RequestParam(value="id", required=false) String id) throws ManagerException {
+						@RequestParam(value="id", required=false) String id,
+						@RequestParam(value="rprNo", required=false) String rprNo) throws ManagerException {
 		
 		int currentPage = 1;
 		if(page != null) {
@@ -81,15 +84,20 @@ public class ManagerController {
 			searchID = id;
 		}
 		
+		int selectRprNo = 0;
+		if(rprNo != null) {
+			selectRprNo = Integer.parseInt(rprNo);
+		}
+		
 		int listCount = mgService.getReportCount(searchID);
 		
-		MPageInfo mpi = MPagination.getPageInfo(currentPage, listCount, searchID);
+		RPageInfo rpi = RPagination.getPageInfo(currentPage, listCount, searchID, selectRprNo);
 		
-		ArrayList<Report> rlist = mgService.selectRList(mpi);
+		ArrayList<Report> rlist = mgService.selectRList(rpi);
 		
 		if(rlist != null) {
 			mv.addObject("rlist", rlist);
-			mv.addObject("mpi", mpi);
+			mv.addObject("rpi", rpi);
 			mv.addObject("searchID", id);
 			mv.setViewName("manager/manageReport");
 		} else {
@@ -104,9 +112,6 @@ public class ManagerController {
 	public String reportUpdate(@RequestParam("rpNo") int rpNo,
 							@RequestParam("rprNo") int rprNo,
 							@RequestParam("rpId") String rpId) throws ManagerException {
-
-//		int updateRpNo = Integer.parseInt(rpNo);
-//		int updateRprNo = Integer.parseInt(rprNo);
 		
 		r.setRpNo(rpNo);
 		r.setRprNo(rprNo);

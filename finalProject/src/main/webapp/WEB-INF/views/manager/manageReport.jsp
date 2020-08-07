@@ -44,14 +44,14 @@
         	margin-top: 50px;
         }
         
-        #memberTable th{
+        #reportTable th{
         	border: 2px solid #F3F3F3;
         	text-align: center;
         	background-color: #F3F3F3;
         	height: 30px;
         }
         
-        #memberTable td{
+        #reportTable td{
         	border: 2px solid #F3F3F3;
         	text-align: center;
         	height: 30px;
@@ -85,6 +85,34 @@
 		    /* background-color: #2860E1; */
 		    background: none;
 		}
+		
+		.no-btn {
+			font-size: 15px;
+		    font-weight: 700;
+			border-style: none;
+		    border-radius: 8px;
+		    height: 40px;
+		    width: 80px;
+		    /* background-color: #2860E1; */
+		    background: none;
+		}
+		
+		#btnArea {
+			width: 93%;
+			text-align: right;
+			margin-bottom: 10px;
+		}
+		
+		.rprNo-btn {
+			font-size: 15px;
+		    font-weight: 700;
+			border-style: none;
+		    border-radius: 8px;
+		    height: 30px;
+		    width: 80px;
+		    background-color: #484848;
+		    color: white;
+		}
         
     </style>
 </head>
@@ -105,7 +133,17 @@
         </div>
         
         <div id="tableArea">
-        	<table id="memberTable" align="center">
+        	<div id="btnArea">
+        		<input type="hidden" name="rprNo" value="1">
+	        	<button type="button" class="rprNo-btn">처리 전</button>&nbsp;
+	        	<input type="hidden" name="rprNo" value="2">
+	        	<button type="button" class="rprNo-btn">접수 완료</button>&nbsp;
+	        	<input type="hidden" name="rprNo" value="3">
+	        	<button type="button" class="rprNo-btn">계정 정지</button>&nbsp;
+	        	<input type="hidden" name="rprNo" value="4">
+	        	<button type="button" class="rprNo-btn">보류</button><br>
+	        </div>
+        	<table id="reportTable" align="center">
         		<thead>
         			<tr>
         				<th style="width: 80px;">신고 번호</th>
@@ -173,7 +211,12 @@
         			</c:if>
         				<td style="width: 100px;">${r.rpRDate }</td>
         				<td style="width: 100px;">${r.rpCount }</td>
+        			<c:if test="${empty r.rpRDate }">
         				<td style="width: 100px;"><button type="button" class="save-btn" onclick="updateReport()">Save</button></td>
+        			</c:if>
+        			<c:if test="${!empty r.rpRDate }">
+        				<td style="width: 100px;"><button type="button" class="no-btn" onclick="viewAlert()">Save</button></td>
+        			</c:if>
         			</tr>
         		</c:forEach>
         		</tbody>
@@ -188,22 +231,22 @@
         
         <div id="paginationArea">
         	<!-- [이전] -->
-			<c:if test="${mpi.currentPage eq 1 }">
+			<c:if test="${rpi.currentPage eq 1 }">
 				[이전]&nbsp;
 			</c:if>
-			<c:if test="${mpi.currentPage gt 1 }">
+			<c:if test="${rpi.currentPage gt 1 }">
 				<c:url var="rlistBack" value="reportlist.do">
-					<c:param name="page" value="${mpi.currentPage - 1 }"/>
+					<c:param name="page" value="${rpi.currentPage - 1 }"/>
 					<c:param name="id" value="${searchID }"/>
 				</c:url>
 				<a href="${rlistBack }">[이전]</a>
 			</c:if>
 			<!-- [번호들] -->
-			<c:forEach var="p" begin="${mpi.startPage }" end="${mpi.endPage }">
-				<c:if test="${p eq mpi.currentPage }">
+			<c:forEach var="p" begin="${rpi.startPage }" end="${rpi.endPage }">
+				<c:if test="${p eq rpi.currentPage }">
 					<font color="#FBD14B" size="4"><b>[${p }]</b></font>
 				</c:if>
-				<c:if test="${p ne mpi.currentPage }">
+				<c:if test="${p ne rpi.currentPage }">
 					<c:url var="rlistCheck" value="reportlist.do">
 						<c:param name="page" value="${p }"/>
 						<c:param name="id" value="${searchID }"/>
@@ -212,12 +255,12 @@
 				</c:if>
 			</c:forEach>
 			<!-- [다음] -->
-			<c:if test="${mpi.currentPage eq mpi.maxPage }">
+			<c:if test="${rpi.currentPage eq rpi.maxPage }">
 				[다음]&nbsp;
 			</c:if>
-			<c:if test="${mpi.currentPage ne mpi.maxPage }">
+			<c:if test="${rpi.currentPage ne rpi.maxPage }">
 				<c:url var="rlistNext" value="reportlist.do">
-					<c:param name="page" value="${mpi.currentPage + 1 }"/>
+					<c:param name="page" value="${rpi.currentPage + 1 }"/>
 					<c:param name="id" value="${searchID }"/>
 				</c:url>
 				<a href="${rlistNext }">[다음]</a>
@@ -230,6 +273,11 @@
     <script>
     	function updateReport(rpNo, rprNo, rpId) {
     		location.href="updatereport.do?rpNo="+rpNo+"&rprNo="+rprNo+"&rpId="+rpId;
+    	}
+    	
+    	function viewAlert() {
+    		alert("저장된 내용을 변경할 수 없습니다.");
+    		window.location.reload();
     	}
     	
     	$(function(){
@@ -245,6 +293,12 @@
     			var rpId = $(this).parent().parent().find(".rpId").val();
 
     			updateReport(rpNo, rprNo, rpId);
+    		})
+    		
+    		$(".rprNo-btn").click(function(){
+    			var rprNo = $(this).prev().val();
+    			
+    			location.href="reportlist.do?rprNo="+rprNo;
     		})
     	})    	
     </script>	
