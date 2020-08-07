@@ -150,6 +150,9 @@
 		<result property="gaFee" column="GA_FEE"/>
 		<result property="gaDelete" column="GA_DELETE"/>
 		
+		<result property="year" column="GA_YEAR"/>
+		<result property="month" column="GA_MONTH"/>
+		
 		<result property="totalAmount" column="GA_TOTAL"/>
 	</resultMap>
 	<!-- resultMap end -->
@@ -865,6 +868,12 @@
 	</select>
 	
 	<select id="selectTotalProList" parameterType="GroupInfo" resultMap="groupAccountResultSet">
-	
+	 	SELECT EXTRACT(MONTH FROM GA_DATE) AS GA_MONTH ,SUM(GA_AMOUNT) AS GA_TOTAL
+		FROM GROUP_ACCOUNT
+		WHERE G_NO = #{gNo}
+		    AND EXTRACT(YEAR FROM GA_DATE)= #{year}
+            AND GA_PRO = 'Y'
+		    AND GA_DELETE='N'
+		GROUP BY EXTRACT(MONTH FROM GA_DATE)
 	</select>
 </mapper>
