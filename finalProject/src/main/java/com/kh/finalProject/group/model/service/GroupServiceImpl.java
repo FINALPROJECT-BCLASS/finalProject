@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.finalProject.group.common.PageInfo;
 import com.kh.finalProject.group.model.dao.GroupDao;
+import com.kh.finalProject.group.model.vo.GroupAccount;
 import com.kh.finalProject.group.model.vo.GroupBoard;
 import com.kh.finalProject.group.model.vo.GroupBoardPhoto;
 import com.kh.finalProject.group.model.vo.GroupInfo;
@@ -411,6 +412,21 @@ public class GroupServiceImpl implements GroupService{
 	@Override
 	public ArrayList<Member> searchNameAccount(GroupSearchName gSearch) {
 		return gDao.searchNameAccount(gSearch);
+	}
+
+	@Override
+	public ArrayList<GroupAccount> selectProList(GroupInfo gInfo) {
+		return gDao.selectProList(gInfo);
+	}
+
+	@Override
+	public ArrayList<GroupAccount> selectExeList(GroupInfo gInfo) {
+		return gDao.selectExeList(gInfo);
+	}
+
+	@Override
+	public ArrayList<GroupAccount> selectFeeList(GroupInfo gInfo) {
+		return gDao.selectFeeList(gInfo);
 	}
 
 

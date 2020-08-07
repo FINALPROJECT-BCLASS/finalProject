@@ -222,7 +222,9 @@
                <br><br>
                
                 <div class="groubJoinBtn">
-                    <span id="reset" onclick="goBack();">Back</span>
+                    <!-- <span id="reset" onclick="goBack();">Back</span> -->
+                    
+                    <span id="reset" onclick="history.go(-2)">Back</span>
                     <span id="submit">To Vote</span>
                 </div>
                
@@ -238,14 +240,7 @@
 		 	
 		 	
 		 </script>
-		 
-		 <!-- 뒤로가기 버튼 -->
-		 <script>
-		 	function goBack(){
-		 		window.history.back();	
-		 	}
-		 	
-		 </script>
+
 		
            <!-- 투표 체크하기 -->
 	     <script>

@@ -136,7 +136,19 @@
 		<result property="voteN" column="VOTE_N"/>
 		<result property="voteYName" column="VOATE_Y_NAME"/>
 		<result property="voteNName" column="VOATE_N_NAME"/>
-		
+	</resultMap>
+	
+	<resultMap id="groupAccountResultSet" type="GroupAccount">
+		<id property="gaNo" column="GA_NO"/>
+		<result property="gNo" column="G_NO"/>
+		<result property="gmNo" column="GM_NO"/>
+		<result property="gaDate" column="GA_DATE"/>
+		<result property="gaCon" column="GA_CON"/>
+		<result property="gaAmount" column="GA_AMOUNT"/>
+		<result property="gaPro" column="GA_PRO"/>
+		<result property="gaExp" column="GA_EXP"/>
+		<result property="gaFee" column="GA_FEE"/>
+		<result property="gaDelete" column="GA_DELETE"/>
 	</resultMap>
 	<!-- resultMap end -->
 	
@@ -158,11 +170,21 @@
 	</select> 
 
 	<select id="searchNameList" parameterType="GroupSearchName" resultMap="memberResultSet">
-		SELECT ID, NAME
+		
+	  SELECT ID, NAME
+      FROM MEMBER
+      WHERE ID NOT IN(SELECT GM.GM_ID
+                   FROM GROUP_MEMBER GM
+                  WHERE GM.G_NO= #{gNo})
+       AND NAME LIKE '%' || #{searchName} || '%' 
+       AND ID NOT IN  #{loginUserId}
+       AND OUT_YN = 'N'
+		
+		<!-- SELECT ID, NAME
 		FROM MEMBER
 		WHERE NAME LIKE '%' || #{searchName} || '%' 
 		AND ID NOT IN  #{loginUserId}
-		AND OUT_YN = 'N'
+		AND OUT_YN = 'N' -->
 	</select>
 	
 	<insert id="groupInsert" parameterType="GroupTable">
@@ -814,6 +836,30 @@
 		WHERE NAME LIKE '%' || #{searchName} || '%' 
 		AND G_NO = #{gNo}
 		AND OUT_YN = 'N'
+	</select>
+	
+	<select id="selectProList" parameterType="GroupInfo" resultMap="groupAccountResultSet">
+		SELECT GA_NO, G_NO, GM_NO, TO_CHAR(TO_DATE(GA_DATE),'YYYY-MM-DD') AS GA_DATE, GA_CON, GA_AMOUNT, GA_PRO, GA_EXP, GA_FEE, GA_DELETE
+		FROM GROUP_ACCOUNT
+		WHERE G_NO = #{groupNo}
+		AND GA_PRO = 'Y'
+		AND GA_DELETE = 'N'
+	</select>
+	
+	<select id="selectExeList" parameterType="GroupInfo" resultMap="groupAccountResultSet">
+		SELECT GA_NO, G_NO, GM_NO, TO_CHAR(TO_DATE(GA_DATE),'YYYY-MM-DD') AS GA_DATE, GA_CON, GA_AMOUNT, GA_PRO, GA_EXP, GA_FEE, GA_DELETE
+		FROM GROUP_ACCOUNT
+		WHERE G_NO = #{groupNo}
+		AND GA_EXP = 'Y'
+		AND GA_DELETE = 'N'
+	</select>
+	
+	<select id="selectFeeList" parameterType="GroupInfo" resultMap="groupAccountResultSet">
+		SELECT GA_NO, G_NO, GM_NO, TO_CHAR(TO_DATE(GA_DATE),'YYYY-MM-DD') AS GA_DATE, GA_CON, GA_AMOUNT, GA_PRO, GA_EXP, GA_FEE, GA_DELETE
+		FROM GROUP_ACCOUNT
+		WHERE G_NO = #{groupNo}
+		AND GA_FEE = 'Y'
+		AND GA_DELETE = 'N'
 	</select>
 	
 </mapper>
