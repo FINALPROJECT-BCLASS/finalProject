@@ -82,10 +82,11 @@
 		                </li>
 		                <li>Daily
 		                    <ul class="sub-navi">
-		                    	<c:url var="htlist" value="htList.do"/>
 			                    <li><a href="#">Daily Record</a></li>
-			                    <li><a href="${htlist }">Habit Tracker</a></li>
-			                    <li class="b-radius"><a href="#">Bookmark</a></li>
+		                    	<c:url var="htview" value="htList.do"/>
+			                    <li><a href="${htview }">Habit Tracker</a></li>
+		                    	<c:url var="bmview" value="bookmarkView.do"/>
+			                    <li class="b-radius"><a href="${bmview }">Bookmark</a></li>
 		                    </ul>
 		                </li>
 		                <li>Diet

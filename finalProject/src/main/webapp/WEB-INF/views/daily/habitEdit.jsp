@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Add Habbit</title>
+<title>Edit Habit</title>
 <style>
         html, body {
             height: 100%;
@@ -205,9 +205,10 @@
 	<jsp:include page="../common/sidenaviDaily.jsp"/>
     <div class="right-area">
         <div>
-            <form action="insertHabit.do" method="post">
-                <span class="pSubject">Add Habit</span>
+            <form action="updateHabit.do" method="post">
+                <span class="pSubject">Edit Habit</span>
                 <table cellpadding="6px">
+                	<input type="hidden" id="ht_no" name="ht_no" value="${habit.ht_no }">
                     <tr>
                         <td>Name</td>
                         <td><input type="text" name="ht_title" value="${habit.ht_title }"></td>
@@ -270,9 +271,9 @@
 
                 </table>
                 <div class="button-area">
-                    <button>Back</button>
-                    <button>Reset</button>
-                    <button>Save</button>
+                    <button type="button" onclick = "history.go(-1)">Back</button>
+                    <button type="reset">Reset</button>
+                    <button type="submit">Save</button>
                 </div>
             </form>
         </div>

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Add Habbit</title>
+<title>Add Habit</title>
 <style>
         html, body {
             height: 100%;
@@ -270,9 +270,9 @@
 
                 </table>
                 <div class="button-area">
-                    <button>Back</button>
-                    <button>Reset</button>
-                    <button>Save</button>
+                    <button type="button" onclick = "history.go(-1)">Back</button>
+                    <button type="reset">Reset</button>
+                    <button type="submit">Save</button>
                 </div>
             </form>
         </div>

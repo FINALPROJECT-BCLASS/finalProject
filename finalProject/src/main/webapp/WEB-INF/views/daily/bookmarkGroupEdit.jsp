@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Add Bookmark Group</title>
+<title>Edit Bookmark Group</title>
 </head>
 	<style>
         html, body {
@@ -323,12 +324,15 @@
 		<jsp:include page="../common/sidenaviDaily.jsp"/>
 	    <div class="right-area">
 	        <div>
-	            <form action="insertBookmark.do" method="post" enctype="multipart/form-data">
-	                <span class="pSubject">Add Bookmark Group</span>
+	            <form id="edit-bm" action="editBookmark.do" method="post" enctype="multipart/form-data">
+	                <span class="pSubject">Edit Bookmark Group</span>
+	                <input type="hidden" id="bl_no" name="bl_no" value="${bm.bl_no }">
+	                <input type="hidden" name="bl_origin" value="${bm.bl_origin }">
+	                <input type="hidden" name="bl_rename" value="${bm.bl_rename }">
 	                <table cellpadding="6px">
 	                    <tr>
 	                        <td>Title</td>
-	                        <td><input type="text" name="bl_title" required></td>
+	                        <td><input type="text" name="bl_title" value="${bm.bl_title }" required></td>
 	                    </tr>
 	                    <tr>
 	                        <td>Type</td>
@@ -355,21 +359,25 @@
                             <input type="radio" name="bl_color" id="green" value="#50c6b0">
                             <label class="b-icons" for="green"><div class="green"></div></label>
                         </td>
-                        <input type="hidden" id="h-color" name="ht_color" value="#FBD14B">
                     </tr>
 	                    <tr>
 	                        <td>Content</td>
-	                        <td><textarea class="b-content" name="bl_con" required></textarea></td>
+	                        <td><textarea class="b-content" name="bl_con" required>${bm.bl_con }</textarea></td>
 	                    </tr>
 	                    <tr>
 	                        <td>Image</td>
 	                        <td>
 	                            <div class=profile-image-area>
-	                                <img class="profile-image" src="resources/images/icons/profile_white.png">
+	                            	<c:if test="${empty bm.bl_rename }">
+	                                	<img class="profile-image" src="resources/images/icons/profile_default.png">
+	                            	</c:if>
+	                            	<c:if test="${!empty bm.bl_rename }">
+	                                	<img class="profile-image" src="resources/bluploadFiles/${bm.bl_rename }">
+	                            	</c:if>
 	                            </div>
 	                            <div class="file-box"> 
 	                                <input type="file" id="file" name="file" onchange="uploadPhoto(this);"> 
-	                                <input class="upload-name" value="Select file" readOnly>
+	                                <input class="upload-name" value="${bm.bl_origin }" readOnly>
 	                                <label class="b-yell" for="file">Upload</label> 
 	                            </div>
 	                        </td>
@@ -377,13 +385,50 @@
 	                </table>
 	                <div class="button-area">
 	                    <button type="button" onclick="history.go(-1)">Back</button>
-	                    <button type="submit">Save</button>
+	                    <button type="button" onclick="submit_bm()">Edit</button>
 	                </div>
 	            </form>
 	        </div>
 	    </div>
 	
 	    <script>
+	    
+	    function submit_bm() {
+	    	
+	    	$("#edit-bm").submit();
+	    }
+	    
+	    $(document).ready(function() {
+	    	
+	    	var type = "${bm.bl_type}";
+    		var color = "${bm.bl_color}";
+    		
+    		// type
+    		if(type == "map") {
+    			$("#url").removeAttr("checked",true);
+    			$("#map").attr("checked",true);
+    			
+    		}else if(type == "url") {
+    			$("#map").removeAttr("checked",true);
+    			$("#url").attr("checked",true);
+    		}
+    		
+    		// color
+    		if(color == "#FBD14B"){
+    			$("#yellow").attr("checked", true);
+    		}else if(color == "#FFA3E5"){
+    			$("#pink").attr("checked", true);
+    		}else if(color == "#C9A8FF"){
+    			$("#purple").attr("checked", true);
+    		}else if(color == "#6B98FF"){
+    			$("#blue").attr("checked", true);
+    		}else if(color == "#50c6b0"){
+    			$("#green").attr("checked", true);
+    		}
+	    	
+	    	
+	    	
+	    })
 	        
 		/* 파일 업로드 */
 	    

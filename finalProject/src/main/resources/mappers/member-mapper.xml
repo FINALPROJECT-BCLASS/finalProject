@@ -18,8 +18,6 @@
 		
 	</resultMap>
 
-	
-
 	<select id="selectOne" parameterType="Member" resultMap="memberResultSet">
 		SELECT *
 		FROM MEMBER
@@ -36,7 +34,7 @@
 	<insert id="insertMember" parameterType="Member">
 		INSERT INTO MEMBER
 		VALUES(#{id}, #{name}, #{nickname}, #{pwd}, #{email}, #{phone},
-				#{birthday}, #{address}, #{main_no}, #{original_file}, #{rename_file}, SYSDATE, DEFAULT)
+				#{birthday}, #{address}, #{main_no}, #{original_file}, #{rename_file}, SYSDATE, DEFAULT, DEFAULT)
 	</insert>
 	
 	<update id="updateMember" parameterType="Member">

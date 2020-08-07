@@ -39,10 +39,22 @@
 		<result property="htr_delete" column="HTR_DELETE"/>
 	</resultMap>
 	
-		<resultMap type="HabitSum" id="habitSumResultSet">
+	<resultMap type="HabitSum" id="habitSumResultSet">
 		<id property="ht_no" column="HT_NO"/>
 		<result property="ht_now" column="HT_NOW"/>
 	</resultMap>
+	
+	<resultMap type="Bookmark" id="BookmarkResultSet">
+		<id property="bl_no" column="BL_NO"/>
+		<result property="id" column="ID"/>
+		<result property="bl_title" column="BL_TITLE"/>
+		<result property="bl_con" column="BL_CON"/>
+		<result property="bl_type" column="BL_TYPE"/>
+		<result property="bl_origin" column="BL_ORIGIN"/>
+		<result property="bl_rename" column="BL_RENAME"/>
+		<result property="bl_color" column="BL_COLOR"/>
+	</resultMap>
+	
 	
 	<insert id="insertHabit" parameterType="Habit">
 		INSERT INTO HABIT_TRACKER
@@ -224,6 +236,97 @@
 		WHERE HT_NO = #{ht_no}
 		AND ID = #{id}
 		AND HT_DELETE = 'N'
+	</update>
+	
+	<select id="selectHabitRecord" parameterType="HabitRecord" resultMap="habitResultSet">
+		SELECT HT.HT_NO, SUM(HTR_NOW) AS HT_NOW
+		FROM HABIT_TRACKER_RECORD HTR
+		JOIN HABIT_TRACKER HT ON (HT.HT_NO = HTR.HT_NO)
+		WHERE HT.ID = #{id}
+		AND HT.HT_NO = #{ht_no}
+		AND HT.HT_DELETE = 'N'
+		AND HTR.HTR_DELETE = 'N'
+		GROUP BY HT.HT_NO
+	</select>
+	
+	<select id="selectHabitGraphData" parameterType="hashmap" resultMap="habitResultSet">
+		SELECT SUBSTR(HTR.HTR_DATE, 0, 8) HT_START, SUM(HTR_NOW) AS HT_NOW
+		FROM HABIT_TRACKER_RECORD HTR
+		JOIN HABIT_TRACKER HT ON (HT.HT_NO = HTR.HT_NO)
+		WHERE HT.HT_CYCLE = #{ht_cycle} 
+		AND HT.ID = #{id}
+		AND HTR.HT_NO = #{ht_no}
+		AND TO_CHAR(HTR_DATE, 'YY/MM')= TO_CHAR(TO_DATE(#{today}, 'YY/MM/DD') ,'YY/MM')
+		<!-- AND HTR_DATE BETWEEN TO_CHAR(TRUNC(TO_DATE(#{today}, 'YY-MM-DD'),'iw')  ,'yy-mm-dd')
+                		 AND TO_CHAR(TRUNC(TO_DATE(#{today}, 'YY-MM-DD'),'iw') + 6  ,'yy-mm-dd') -->
+		AND HTR.HTR_DELETE = 'N'
+		AND HT.HT_DELETE = 'N'
+		GROUP BY SUBSTR(HTR.HTR_DATE, 0, 8)
+	</select>
+	
+	<update id="updateHabit" parameterType="Habit">
+		UPDATE HABIT_TRACKER
+		SET HT_TITLE= #{ht_title}
+			, HT_TYPE= #{ht_type}
+			, HT_GOAL= #{ht_goal}
+			, HT_UNIT= #{ht_unit}
+			, HT_CYCLE = #{ht_cycle}
+			, HT_AMOUNT = #{ht_amount}
+			, HT_COLOR = #{ht_color}
+			, HT_CON = #{ht_con}
+		WHERE HT_NO = #{ht_no}
+		AND ID = #{id}
+		AND HT_DELETE = 'N'
+	</update>
+	
+	<insert id="insertBookmarkGroup" parameterType="Bookmark">
+		INSERT INTO BOOKMARK_LIST
+		VALUES (SEQ_BL.NEXTVAL
+				, #{id}
+				, #{bl_title}
+				, #{bl_con}
+				, #{bl_type}
+				, #{bl_origin}
+				, #{bl_rename}
+				, DEFAULT
+				, #{bl_color})
+	</insert>
+	
+	<select id="selectBookmarkGroupList" parameterType="String" resultMap="BookmarkResultSet">
+		SELECT *
+		FROM BOOKMARK_LIST
+		WHERE ID = #{id}
+		AND BL_DELETE = 'N'
+		ORDER BY BL_NO DESC
+	</select>
+	
+	<update id="deleteBookmarkGroup" parameterType="Bookmark">
+		UPDATE BOOKMARK_LIST
+		SET BL_DELETE = 'Y'
+		WHERE BL_NO = #{bl_no}
+		AND ID = #{id}
+		AND BL_DELETE = 'N'
+	</update>
+	
+	<select id="selectBookmarkGroup" parameterType="Bookmark" resultMap="BookmarkResultSet">
+		SELECT *
+		FROM BOOKMARK_LIST
+		WHERE BL_NO = #{bl_no}
+		AND ID = #{id}
+		AND BL_DELETE = 'N'
+	</select>
+	
+	<update id="updateBookmarkGroup" parameterType="Bookmark">
+		UPDATE BOOKMARK_LIST
+		SET BL_TITLE= #{bl_title}
+			,BL_CON = #{bl_con}
+			,BL_TYPE = #{bl_type}
+			,BL_ORIGIN = #{bl_origin}
+			,BL_RENAME = #{bl_rename}
+			,BL_COLOR = #{bl_color}
+		WHERE BL_NO = #{bl_no}
+		AND ID = #{id}
+		AND BL_DELETE = 'N'
 	</update>
 	
 	
