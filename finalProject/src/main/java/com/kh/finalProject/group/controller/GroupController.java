@@ -1842,7 +1842,7 @@ public class GroupController {
 			
 			for(GroupAccount p : proList) {
 				JSONObject jObj = new JSONObject();
-				
+				 
 //				String formatSum = String.format("%,d", p.getGaAmount());
 				jObj.put("eventTitle", p.getGaAmount());
 				jObj.put("date", p.getGaDate());
