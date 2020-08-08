@@ -21,14 +21,16 @@
 	            		var events = [];
 	            		
 	            		$.ajax({
-	            			url: 'sumlist.do',
+	            			url: 'gAccountList.do',
 	            			dataType: 'json',
 	            			success: function(data) {
-	            				for(var i in data.sumList){
-		    	   					events.push({title:data.sumList[i].eventTitle
-		    	   								,date:data.sumList[i].date
-		    	   								,color:data.sumList[i].color
-		    	   								,id:data.sumList[i].date})
+	            				/* alert(data); */
+	            				console.log(data);
+	            				for(var i in data.accountList){
+		    	   					events.push({title:data.accountList[i].eventTitle
+		    	   								,date:data.accountList[i].date
+		    	   								,color:data.accountList[i].color
+		    	   								,id:data.accountList[i].gaNo})
 		    	   				};
 	            				
 	            				successCallback(events);
@@ -43,7 +45,7 @@
 	            }],
 	            dateClick: function(info){
 	            	var clickDate = info.dateStr;
-	            	alert(clickDate);
+	            	/* alert(clickDate); */
 	            	
 	            	location.href="insertAccountView.do?clickDate="+clickDate;
 		    	 	/* $("#abDate").val(info.dateStr);
@@ -144,6 +146,11 @@
         .fc-event-time{
         	display: none !important;
         }
+        .total{
+        	display:inline-block;
+        	
+        	width:150px;
+        }
     </style>
 </head>
 
@@ -165,21 +172,20 @@
          <h1 align="center">Group Diary</h1>
         <h4 align="center">Account</h4><br>
         <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-3">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
                 <table id="total">
                     <tr>
-                        <td style="color: blue; text-align: right;"><b>Profit :&nbsp;</b></td>
-                        <td><b id="proSum"></b></td>
-                    </tr>
-                   	<tr>
-                        <td style="color: red;text-align: right;"><b>Expenditure :&nbsp;</b></td>
-                        <td><b id="expSum"></b></td>
+                    	<td>
+                    		<div class="total pro">Profit : </div>
+                    		<div class="total exp">Expense : </div>
+                    		<div class="total fee">Fee : </div>
+                    	</td>
                     </tr>
                 </table>
             </div>
-            <div class="col-md-5"></div>
-            <div class="col-md-2">
+            
+            <div class="col-md-3">
             	<button type="button" class="default-btn" data-toggle="modal" data-target="#addModal">Add</button>
             	<div class="modal fade" id="addModal" role="dialog">
                     <div class="modal-dialog">
@@ -400,8 +406,8 @@
 		function sumView(calendarDate) {
         	
 	        $.ajax({
-       			url: 'sumview.do',
-       			data: {abDate:calendarDate},
+       			url: 'totalAccountList.do',
+       			data: {gaDate:calendarDate},
        			dataType: 'json',
        			success: function(data) {
        				$("#proSum").html("");
