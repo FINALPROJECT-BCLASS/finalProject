@@ -187,6 +187,8 @@ public interface GroupService {
 
 	ArrayList<GroupAccount> selectTotalFeeList(GroupAccount ga);
 
+	int insertAccount(GroupAccount ga);
+
 
 	
 

@@ -382,6 +382,10 @@ public class GroupDao {
 		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectTotalFeeList",ga);		
 	}
 
+	public int insertAccount(GroupAccount ga) {
+		return sqlSessionTemplate.insert("groupMapper.insertAccount", ga);		
+	}
+
 	
 	
 	

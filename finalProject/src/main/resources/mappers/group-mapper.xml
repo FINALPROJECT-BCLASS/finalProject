@@ -899,4 +899,21 @@
 		    AND GA_DELETE='N'
 		GROUP BY EXTRACT(MONTH FROM GA_DATE)
 	</select>
+	
+	<insert id="insertAccount" parameterType="GroupAccount">
+		INSERT INTO GROUP_ACCOUNT
+		VALUES(
+			SEQ_GA.NEXTVAL,
+			#{gNo},
+			#{gmNo},
+			#{gaTitle},
+			#{gaDate},
+			#{gaCon},
+			#{gaAmount},
+			#{gaPro},
+			#{gaExp},
+			#{gaFee},
+			#{gaDelete}
+		)
+	</insert>
 </mapper>

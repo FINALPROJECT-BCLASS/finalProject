@@ -7,6 +7,7 @@ public class GroupAccount implements Serializable{
 	private int gaNo;
 	private int gNo;
 	private int gmNo;
+	private String gaTitle;
 	private String gaDate;
 	private String gaCon;
 	private String gaAmount;
@@ -25,12 +26,14 @@ public class GroupAccount implements Serializable{
 		super();
 	}
 
-	public GroupAccount(int gaNo, int gNo, int gmNo, String gaDate, String gaCon, String gaAmount, String gaPro,
-			String gaExp, String gaFee, String gaDelete, String totalAmount, String color, String year, String month) {
+	public GroupAccount(int gaNo, int gNo, int gmNo, String gaTitle, String gaDate, String gaCon, String gaAmount,
+			String gaPro, String gaExp, String gaFee, String gaDelete, String totalAmount, String color, String year,
+			String month) {
 		super();
 		this.gaNo = gaNo;
 		this.gNo = gNo;
 		this.gmNo = gmNo;
+		this.gaTitle = gaTitle;
 		this.gaDate = gaDate;
 		this.gaCon = gaCon;
 		this.gaAmount = gaAmount;
@@ -66,6 +69,14 @@ public class GroupAccount implements Serializable{
 
 	public void setGmNo(int gmNo) {
 		this.gmNo = gmNo;
+	}
+
+	public String getGaTitle() {
+		return gaTitle;
+	}
+
+	public void setGaTitle(String gaTitle) {
+		this.gaTitle = gaTitle;
 	}
 
 	public String getGaDate() {
@@ -158,10 +169,11 @@ public class GroupAccount implements Serializable{
 
 	@Override
 	public String toString() {
-		return "GroupAccount [gaNo=" + gaNo + ", gNo=" + gNo + ", gmNo=" + gmNo + ", gaDate=" + gaDate + ", gaCon="
-				+ gaCon + ", gaAmount=" + gaAmount + ", gaPro=" + gaPro + ", gaExp=" + gaExp + ", gaFee=" + gaFee
-				+ ", gaDelete=" + gaDelete + ", totalAmount=" + totalAmount + ", color=" + color + ", year=" + year
-				+ ", month=" + month + "]\n";
+		return "GroupAccount [gaNo=" + gaNo + ", gNo=" + gNo + ", gmNo=" + gmNo + ", gaTitle=" + gaTitle + ", gaDate="
+				+ gaDate + ", gaCon=" + gaCon + ", gaAmount=" + gaAmount + ", gaPro=" + gaPro + ", gaExp=" + gaExp
+				+ ", gaFee=" + gaFee + ", gaDelete=" + gaDelete + ", totalAmount=" + totalAmount + ", color=" + color
+				+ ", year=" + year + ", month=" + month + "]\n";
 	}
+
 	
 }

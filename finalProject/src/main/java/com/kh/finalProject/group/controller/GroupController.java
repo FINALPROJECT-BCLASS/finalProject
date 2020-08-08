@@ -1968,4 +1968,21 @@ public class GroupController {
 			out.flush();
 			out.close();
 		}
+		
+		// 가계부 작성
+		@RequestMapping(value = "accountInsert.do", method = RequestMethod.POST)
+		public ModelAndView accountInsert(ModelAndView mv, HttpSession session, 
+				GroupAccount ga) {
+			Member loginUser = (Member) session.getAttribute("loginUser");
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			ga.setgNo(gInfo.getGroupNo());
+			ga.setGmNo(gInfo.getGmNo());
+			int result = gService.insertAccount(ga);
+			System.out.println(" 작성 result : " + result);
+			mv.addObject("gInfo", gInfo);
+			
+			
+			mv.setViewName("group/GAccountMain");
+			return mv;
+		}
 }

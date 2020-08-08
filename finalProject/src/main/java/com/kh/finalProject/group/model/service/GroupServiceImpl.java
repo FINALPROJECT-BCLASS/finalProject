@@ -444,6 +444,11 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.selectTotalFeeList(ga);
 	}
 
+	@Override
+	public int insertAccount(GroupAccount ga) {
+		return gDao.insertAccount(ga);
+	}
+
 
 
 
