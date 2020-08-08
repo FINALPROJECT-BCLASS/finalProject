@@ -79,7 +79,7 @@
     
     #submit{background:none; border:none; color:#2860E1; font-weight: 600; font-size: 20px; }
     #reset{background:none; border:none; color:#484848; font-weight: 600; font-size: 20px; width:100px;}
-
+	#delete{background:none; border:none; color:#ee1212d0; font-weight: 600; margin-right:10px; font-size: 20px; width:100px; cursor:pointer;
     tr > td:nth-child(1) {
             color: #484848;
             text-align: left;
@@ -192,7 +192,8 @@
                 <div class="groubJoinBtn">
                 <c:if test="${gInfo.loginUserId eq groupTable.id }">
                    <span><button  id="submit">Update</button>&nbsp;</span>
-                
+                   <span id="delete"  >Delete</span>
+                   <input type="hidden" id="gaNo" value="${gaList.gaNo}">
                 </c:if>
                    <span id="reset" onclick="goBack();">Back</span>
                 </div>
@@ -204,6 +205,20 @@
 		 	function goBack(){
 		 		window.history.back();	
 		 	}
+		 	
+		 </script>
+		 
+		 <!-- 삭제버튼 -->
+		 <script>
+		 	$("#delete").click(function(){
+		 		var gaNo = $(this).next().val();
+		 		var deleteConfirm = confirm("가계부를 삭제하시겠습니까?");
+		 		if(deleteConfirm){
+		 			
+					alert("가계부를 삭제하였습니다.");		 		
+		 			location.href="accountDelete.do?gaNo="+gaNo;
+		 		}
+		 	})
 		 	
 		 </script>
              <jsp:include page="../common/footer.jsp"/>	

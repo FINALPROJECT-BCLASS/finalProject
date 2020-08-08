@@ -208,6 +208,8 @@ public interface GroupService {
 
 	int checkGam(GroupAccountMember gam);
 
+	int deleteAccount(String gaNo);
+
 
 	
 

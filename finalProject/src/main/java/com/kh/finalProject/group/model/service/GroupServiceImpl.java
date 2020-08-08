@@ -495,6 +495,11 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.checkGam(gam);
 	}
 
+	@Override
+	public int deleteAccount(String gaNo) {
+		return gDao.deleteAccount(gaNo);
+	}
+
 
 
 

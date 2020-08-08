@@ -2061,4 +2061,19 @@ public class GroupController {
 			gson.toJson("체크성공", response.getWriter());
 
 		}
+		
+		// 가계부 삭제
+		@RequestMapping(value = "accountDelete.do", method = RequestMethod.GET)
+		public ModelAndView accountDelete(ModelAndView mv, HttpSession session, 
+				@RequestParam(value = "gaNo", required = false) String gaNo) {
+			Member loginUser = (Member) session.getAttribute("loginUser");
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			GroupTable gt = gService.selectOneGroup(gInfo);
+			System.out.println("삭제 gaNo : " + gaNo);
+			
+			int result = gService.deleteAccount(gaNo);
+			mv.setViewName("redirect:accountMain.do");
+				
+			return mv;
+		}
 }

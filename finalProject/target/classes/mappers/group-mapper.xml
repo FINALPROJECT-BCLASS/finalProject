@@ -1002,4 +1002,10 @@
 		SET GAM_YN = #{gamYn}
 		WHERE GAM_NO = #{gamNo}
 	</update>
+	
+	<update id="deleteAccount" parameterType="string">
+		UPDATE GROUP_ACCOUNT
+		SET GA_DELETE = 'Y'
+		WHERE GA_NO = #{gaNo}
+	</update>
 </mapper>

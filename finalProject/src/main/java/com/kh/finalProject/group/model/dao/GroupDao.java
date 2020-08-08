@@ -423,6 +423,10 @@ public class GroupDao {
 		return sqlSessionTemplate.update("groupMapper.checkGam", gam);		
 	}
 
+	public int deleteAccount(String gaNo) {
+		return sqlSessionTemplate.update("groupMapper.deleteAccount", gaNo);		
+	}
+
 	
 	
 	
