@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.finalProject.group.common.PageInfo;
+import com.kh.finalProject.group.model.vo.GroupAccount;
 import com.kh.finalProject.group.model.vo.GroupBoard;
 import com.kh.finalProject.group.model.vo.GroupBoardPhoto;
 import com.kh.finalProject.group.model.vo.GroupInfo;
@@ -355,6 +356,30 @@ public class GroupDao {
 
 	public ArrayList<Member> searchNameAccount(GroupSearchName gSearch) {
 		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.searchNameAccount",gSearch);		
+	}
+
+	public ArrayList<GroupAccount> selectProList(GroupInfo gInfo) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectProList",gInfo);		
+	}
+
+	public ArrayList<GroupAccount> selectExeList(GroupInfo gInfo) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectExeList",gInfo);		
+	}
+
+	public ArrayList<GroupAccount> selectFeeList(GroupInfo gInfo) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectFeeList",gInfo);		
+	}
+
+	public ArrayList<GroupAccount> selectTotalProList(GroupAccount ga) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectTotalProList",ga);		
+	}
+
+	public ArrayList<GroupAccount> selectTotalExeList(GroupAccount ga) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectTotalExeList",ga);		
+	}
+
+	public ArrayList<GroupAccount> selectTotalFeeList(GroupAccount ga) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectTotalFeeList",ga);		
 	}
 
 	

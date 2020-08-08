@@ -21,7 +21,7 @@
 	            		var events = [];
 	            		
 	            		$.ajax({
-	            			url: 'gAccountList.do',
+	            			url: 'accountList.do',
 	            			dataType: 'json',
 	            			success: function(data) {
 	            				/* alert(data); */
