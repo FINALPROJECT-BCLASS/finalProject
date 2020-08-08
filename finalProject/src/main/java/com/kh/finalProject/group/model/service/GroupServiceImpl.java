@@ -490,6 +490,11 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.updateSharing(gaNo);
 	}
 
+	@Override
+	public int checkGam(GroupAccountMember gam) {
+		return gDao.checkGam(gam);
+	}
+
 
 
 

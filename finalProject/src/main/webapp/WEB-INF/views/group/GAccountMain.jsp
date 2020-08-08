@@ -230,7 +230,8 @@
 	     			<div class="cansle">x</div>
 	     		</c:if>
 	     		<table>
-	     			<input type="hidden" value="${c.gaNo }">
+	     			<input type="hidden" class="gaNo" value="${c.gaNo }">
+	     			
 	     			<tr>
 	     				<td style="font-weight:600;">Title : </td>
 	     				<td colspan="2">${c.gaTitle }</td>
@@ -242,11 +243,18 @@
 	     			<c:forEach var="m" items="${checkMemberList }">
 	     			<c:if test="${c.gaNo eq m.gaNo }">
 	     				<tr>
+	     					<input type="hidden" class="gamNo" value="${m.gamNo }">
 	     					<c:if test="${m.gamYn eq 'Y'}">
-	     						<td><input type="checkBox" class="memberCheck" checked></td>
+	     						<td>
+	     							<input type="checkBox" class="memberCheck" checked>
+	     							<input type="hidden" class="checkYn"  name="gamYn" value="Y">
+	     						</td>
 	     					</c:if>
 	     					<c:if test="${m.gamYn eq 'N'}">
-	     						<td><input type="checkBox" class="memberCheck" ></td>
+	     						<td>
+	     							<input type="checkBox" class="memberCheck" >
+	     							<input type="hidden" class="checkYn" name="gamYn" value="N">
+	     						</td>
 	     					</c:if>
 	     					<td>${m.name } : </td>
 	     					<td>${m.gamAmount }</td>
@@ -260,7 +268,35 @@
 	</div>
 
     <jsp:include page="../common/footer.jsp"/>	
+	
+	<!-- 메모 체크 -->
+	<script>
+		$(document).on("change",".memberCheck",function(){
+			if($(this).is(":checked") == true){
+				$(".checkYn").val("Y");
+			}else if($(this).is(":checked") == false){
+				$(".checkYn").val("N");
+				
+			}
+			var gamNo = $(this).parent().prev().val();
+			var gamYn = $(this).next().val();
+			$.ajax({
+       			url: 'gamCheckYn.do',
+       			data: {gamYn:gamYn,gamNo:gamNo},
+       			dataType: 'json',
+       			success: function(data) {
+					console.log(data);
 
+       			},
+       			error:function(request, status, errorData){
+                       alert("error code: " + request.status + "\n"
+                             +"message: " + request.responseText
+                             +"error: " + errorData);
+                   }   
+       		})
+		})
+	</script>
+	
 	<!-- 전체 금액  -->
     <script>	
 		function sumView(calendarDate) {

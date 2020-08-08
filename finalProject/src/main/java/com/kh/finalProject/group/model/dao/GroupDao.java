@@ -419,6 +419,10 @@ public class GroupDao {
 		return sqlSessionTemplate.update("groupMapper.updateSharing", gaNo);		
 	}
 
+	public int checkGam(GroupAccountMember gam) {
+		return sqlSessionTemplate.update("groupMapper.checkGam", gam);		
+	}
+
 	
 	
 	

@@ -206,6 +206,8 @@ public interface GroupService {
 
 	int updateSharing(String gaNo);
 
+	int checkGam(GroupAccountMember gam);
+
 
 	
 

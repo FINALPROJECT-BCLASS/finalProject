@@ -2044,4 +2044,21 @@ public class GroupController {
 			mv.setViewName("redirect:accountMain.do");
 					return mv;
 				}
+		
+		// 가계부 이름 체크
+		@RequestMapping(value = "gamCheckYn.do", method = RequestMethod.GET)
+		public void gamCheckYn(HttpSession session, HttpServletResponse response, GroupAccountMember gam)
+				throws JsonIOException, IOException {
+			Member loginUser = (Member) session.getAttribute("loginUser");
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			System.out.println("체크 gam : " + gam);
+			
+			int result = gService.checkGam(gam);
+			
+			response.setContentType("application/json;charset=utf-8");
+
+			Gson gson = new GsonBuilder().setDateFormat("yyyy년 MM월 dd일").create();
+			gson.toJson("체크성공", response.getWriter());
+
+		}
 }
