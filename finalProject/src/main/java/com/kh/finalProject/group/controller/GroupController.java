@@ -1780,12 +1780,16 @@ public class GroupController {
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 			GroupTable gt = gService.selectOneGroup(gInfo);
 			GroupNotice noticeList = gService.selectNoticeOne(gInfo);
+			ArrayList<GroupAccount> checkList = gService.selectCheckList(gInfo);
+			ArrayList<GroupAccountMember> checkMemberList = gService.selectMemberCheckList(gInfo);
 			
-			System.out.println("메인 gInfo :  " + gInfo);
+			System.out.println("checkList : " + checkList);
+			System.out.println("checkMemberList : " + checkMemberList);
+			mv.addObject("checkList", checkList);
+			mv.addObject("checkMemberList", checkMemberList);
 			mv.addObject("noticeList", noticeList);
 			mv.addObject("gInfo", gInfo);
 			mv.addObject("groupTable", gt);
- 
 			mv.setViewName("group/GAccountMain");
 			return mv;
 
@@ -2026,4 +2030,18 @@ public class GroupController {
 			mv.setViewName("group/GAccountDetail");
 			return mv;
 		}
+		
+		// 가계부 상세
+		@RequestMapping(value = "cansleSharing.do", method = RequestMethod.GET)
+		public ModelAndView cansleSharing(ModelAndView mv, HttpSession session, 
+				@RequestParam(value = "gaNo", required = false) String gaNo) {
+			Member loginUser = (Member) session.getAttribute("loginUser");
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			GroupTable gt = gService.selectOneGroup(gInfo);
+			System.out.println("삭제 gaNo : " + gaNo);
+			
+			int result = gService.updateSharing(gaNo);
+			mv.setViewName("redirect:accountMain.do");
+					return mv;
+				}
 }

@@ -9,6 +9,9 @@ public class GroupAccountMember implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	private String gaTitle;
+	private String gaDate;
+	
 	private int gamNo;
 	private int gNo;
 	private int gmNo;
@@ -25,9 +28,11 @@ public class GroupAccountMember implements Serializable{
 	}
 
 
-	public GroupAccountMember(int gamNo, int gNo, int gmNo, int gaNo, int gamAmount, String gamDelete, String gamYn,
-			String name) {
+	public GroupAccountMember(String gaTitle, String gaDate, int gamNo, int gNo, int gmNo, int gaNo, int gamAmount,
+			String gamDelete, String gamYn, String name) {
 		super();
+		this.gaTitle = gaTitle;
+		this.gaDate = gaDate;
 		this.gamNo = gamNo;
 		this.gNo = gNo;
 		this.gmNo = gmNo;
@@ -36,6 +41,26 @@ public class GroupAccountMember implements Serializable{
 		this.gamDelete = gamDelete;
 		this.gamYn = gamYn;
 		this.name = name;
+	}
+
+
+	public final String getGaTitle() {
+		return gaTitle;
+	}
+
+
+	public final void setGaTitle(String gaTitle) {
+		this.gaTitle = gaTitle;
+	}
+
+
+	public final String getGaDate() {
+		return gaDate;
+	}
+
+
+	public final void setGaDate(String gaDate) {
+		this.gaDate = gaDate;
 	}
 
 
@@ -126,11 +151,10 @@ public class GroupAccountMember implements Serializable{
 
 	@Override
 	public String toString() {
-		return "GroupAccountMember [gamNo=" + gamNo + ", gNo=" + gNo + ", gmNo=" + gmNo + ", gaNo=" + gaNo
-				+ ", gamAmount=" + gamAmount + ", gamDelete=" + gamDelete + ", gamYn=" + gamYn + ", name=" + name + "]\n";
+		return "GroupAccountMember [gaTitle=" + gaTitle + ", gaDate=" + gaDate + ", gamNo=" + gamNo + ", gNo=" + gNo
+				+ ", gmNo=" + gmNo + ", gaNo=" + gaNo + ", gamAmount=" + gamAmount + ", gamDelete=" + gamDelete
+				+ ", gamYn=" + gamYn + ", name=" + name + "]\n";
 	}
-
-
 
 
 	

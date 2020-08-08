@@ -160,6 +160,9 @@
 	
 	<resultMap id="groupAccountMemberResultSet" type="GroupAccountMember">
 		<id property="gamNo" column="GAM_NO"/>
+		<result property="gaTitle" column="GA_TITLE"/>
+		<result property="gaDate" column="GA_DATE"/>
+		
 		<result property="gNo" column="G_NO"/>
 		<result property="gmNo" column="GM_NO"/>
 		<result property="gaNo" column="GA_NO"/>
@@ -969,4 +972,28 @@
 		FROM GROUP_ACCOUNT_MEMBER
 		WHERE GA_NO = #{gaNo}
 	</select>
+	
+	<select id="selectCheckList" parameterType="GroupInfo" resultMap="groupAccountResultSet">
+	SELECT GA_TITLE, GA_DATE , GA_NO
+		FROM GROUP_ACCOUNT
+		WHERE G_NO = #{groupNo}
+		AND GA_FEE = 'Y'
+		AND GAS_YN = 'Y'
+	</select>
+	
+	<select id="selectMemberCheckList" parameterType="GroupInfo" resultMap="groupAccountMemberResultSet">
+		SELECT GAM.GM_NO, GAM.GA_NO, GAM_AMOUNT, GAM_YN, NAME
+		FROM GROUP_ACCOUNT_MEMBER GAM
+		JOIN GROUP_ACCOUNT GA ON(GAM.GA_NO = GA.GA_NO)
+		JOIN GROUP_MEMBER GM ON(GAM.GM_NO = GM.GM_NO)
+		JOIN MEMBER M ON(GM.GM_ID = M.ID)
+		WHERE G_NO = #{groupNo}
+		AND GAM_DELETE = 'N'
+	</select>
+	
+	<update id="updateSharing" parameterType="string">
+		UPDATE GROUP_ACCOUNT 
+		SET GAS_YN = 'N'
+		WHERE GA_NO = #{gaNo}
+	</update>
 </mapper>
