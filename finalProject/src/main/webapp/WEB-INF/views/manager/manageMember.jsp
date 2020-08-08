@@ -98,7 +98,7 @@
         </div>
         
         <div id="tableArea">
-        	<h5 style="width: 100%; text-align: center;"><b>채팅 가능 을 클릭하면 기능을 정지하거나 해제할 수 있습니다</b></h5>
+        	<h5 style="width: 100%; text-align: center;"><b>'채팅 가능'을 클릭하면 기능을 정지하거나 해제할 수 있습니다</b></h5>
         	<table id="memberTable" align="center">
         		<thead>
         			<tr>
