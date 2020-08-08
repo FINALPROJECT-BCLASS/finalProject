@@ -189,16 +189,23 @@
                         </tr>
                     </table>
                 <br><br>
-                <c:if test="${gInfo.loginUserId eq groupTable.id }">
                 <div class="groubJoinBtn">
-                   <span><button  id="submit">Submit</button>&nbsp;</span>
-                   <span><input type="reset" value="Reset" id="reset"></span>
-                </div>
+                <c:if test="${gInfo.loginUserId eq groupTable.id }">
+                   <span><button  id="submit">Update</button>&nbsp;</span>
+                
                 </c:if>
+                   <span id="reset" onclick="goBack();">Back</span>
+                </div>
             </div>
          </div>
          </div>
-        
+        <!-- 뒤로가기 버튼 -->
+		 <script>
+		 	function goBack(){
+		 		window.history.back();	
+		 	}
+		 	
+		 </script>
              <jsp:include page="../common/footer.jsp"/>	
 </body>
 </html>

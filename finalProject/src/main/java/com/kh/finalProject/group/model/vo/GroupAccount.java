@@ -182,7 +182,7 @@ public class GroupAccount implements Serializable{
 		return "GroupAccount [gaNo=" + gaNo + ", gNo=" + gNo + ", gmNo=" + gmNo + ", gaTitle=" + gaTitle + ", gaDate="
 				+ gaDate + ", gaCon=" + gaCon + ", gaAmount=" + gaAmount + ", gaPro=" + gaPro + ", gaExp=" + gaExp
 				+ ", gaFee=" + gaFee + ", gaDelete=" + gaDelete + ", gasYn=" + gasYn + ", totalAmount=" + totalAmount
-				+ ", color=" + color + ", year=" + year + ", month=" + month + "]";
+				+ ", color=" + color + ", year=" + year + ", month=" + month + "]\n";
 	}
 
 	

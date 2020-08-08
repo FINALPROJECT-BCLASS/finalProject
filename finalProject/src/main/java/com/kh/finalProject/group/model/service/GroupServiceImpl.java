@@ -475,6 +475,21 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.selectTotalGa(gaNo);
 	}
 
+	@Override
+	public ArrayList<GroupAccount> selectCheckList(GroupInfo gInfo) {
+		return gDao.selectCheckList(gInfo);
+	}
+
+	@Override
+	public ArrayList<GroupAccountMember> selectMemberCheckList(GroupInfo gInfo) {
+		return gDao.selectMemberCheckList(gInfo);
+	}
+
+	@Override
+	public int updateSharing(String gaNo) {
+		return gDao.updateSharing(gaNo);
+	}
+
 
 
 
