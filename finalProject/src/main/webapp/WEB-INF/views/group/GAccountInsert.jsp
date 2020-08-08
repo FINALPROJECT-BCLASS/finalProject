@@ -178,7 +178,7 @@
                         	<td>Sharing</td>
                         	<td>
                         		<span class="material-icons annoIcon">check_box_outline_blank</span>
-                        		<input type='hidden' class='annoIn' name='gamsYn' value='N'>
+                        		<input type='hidden' class='annoIn' name='gasYn' value='N'>
                         	</td>
                         </tr>
                     </table>

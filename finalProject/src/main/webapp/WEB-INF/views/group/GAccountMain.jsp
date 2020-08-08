@@ -44,17 +44,16 @@
 	            		})
 	            	}
 	            }],
-	            dateClick: function(info){
-	            	var clickDate = info.dateStr;
-	            	/* alert(clickDate); */
-	            	
-	            	location.href="insertAccountView.do?clickDate="+clickDate;
-		    	 	/* $("#abDate").val(info.dateStr);
-		    	 	
-		    	 	$("#addModal").modal(); */
-		      	},
+	            <c:if test="${gInfo.loginUserId eq groupTable.id}">	
+	            dateClick: 
+	            	function(info){
+		            	var clickDate = info.dateStr;	            	
+		            	location.href="insertAccountView.do?clickDate="+clickDate;
+			      	}
+            	,
+            	</c:if>
 		      	eventClick: function(info) {
-	            	abDetailView(info.event.id);
+		      		location.href="detailAccount.do?gaNo="+info.event.id;
 	            }
 	        });
 	
@@ -154,21 +153,27 @@
         
         .total{
         	display:inline-block;
-        	
         	width:150px;
+        	color:#484848;
+        	font-size:17px;
+        	font-weight:400;
         }
         .totalBox, #groupWrite{
         	display:inline-block;
         	width:30%;
         }
         
-        .proBox{color:}
-        
+       
          .join-form-area{padding-top:150px !important;position:relative; float: right;display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 40px; width: 81%; background: #F3F3F3; }
          
          #calendar{margin:0 auto;}
          
-         .itemBox{    margin-left: 200px; width:70%;}
+         .itemBox{ margin-left: 200px; width:70%;}
+         
+         .alert{font-size:14px; color:gray; margin-top:-20px;}
+         .proText{color:#2860E1; font-size:18px; font-weight:600;}
+         .expText{color:#dc3545; font-size:18px; font-weight:600;}
+         .feeText{color:#FBD14B; font-size:18px; font-weight:600;}
     </style>
 </head>
 
@@ -192,15 +197,16 @@
          <div class="itemBox" style="width:70%">
          <h1 align="center">Group Diary</h1>
         <h4 align="center">Account</h4><br>
-        
+        <h6 align="center" class="alert">Group Account는 그룹 관리자만 작성할 수 있습니다.</h6>
+         <br>
          
    
                 <table id="total">
                     <tr>
                     	<td>
-                    		<div class="totalBox">Profit : <div class="total pro"> </div></div>
-                    		<div class="totalBox">Expense : <div class="total exp"> </div></div>
-                    		<div class="totalBox">Fee : <div class="total fee"> </div></div>
+                    		<div class="totalBox proText">Profit : <div class="total pro"> </div></div>
+                    		<div class="totalBox expText">Expense : <div class="total exp"> </div></div>
+                    		<div class="totalBox feeText">Fee : <div class="total fee"> </div></div>
                     		<div id="groupWrite"  ><span class="material-icons writeBtn">create</span></div>
                     	</td>
                     </tr>
@@ -218,6 +224,7 @@
 
     <jsp:include page="../common/footer.jsp"/>	
 
+	<!-- 전체 금액  -->
     <script>	
 		function sumView(calendarDate) {
         	
@@ -247,9 +254,8 @@
                    }   
        		})
 	    }
-		
-		
     </script>
+    
     
 </body>
 </html>

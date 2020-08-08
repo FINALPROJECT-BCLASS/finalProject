@@ -395,6 +395,18 @@ public class GroupDao {
 		return sqlSessionTemplate.insert("groupMapper.insertAccountMember", gamList);		
 	}
 
+	public GroupAccount selectGa(String gaNo) {
+		return sqlSessionTemplate.selectOne("groupMapper.selectGa", gaNo);		
+	}
+
+	public ArrayList<GroupAccountMember> selectGam(String gaNo) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectGam",gaNo);		
+	}
+
+	public int selectTotalGa(String gaNo) {
+		return sqlSessionTemplate.selectOne("groupMapper.selectTotalGa", gaNo);		
+	}
+
 	
 	
 	

@@ -1973,43 +1973,57 @@ public class GroupController {
 		@RequestMapping(value = "accountInsert.do", method = RequestMethod.POST)
 		public ModelAndView accountInsert(ModelAndView mv, HttpSession session, 
 				GroupAccount ga, GroupAccountMember gam,
+				@RequestParam(value = "gasYn", required = false) String gasYn,
 				@RequestParam(value = "gmNo", required = false) String gmNo,
 				@RequestParam(value = "gamAmount", required = false) String amount) {
 			Member loginUser = (Member) session.getAttribute("loginUser");
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			System.out.println("작성 ga : " + ga);
 			ga.setgNo(gInfo.getGroupNo());
 			ga.setGmNo(gInfo.getGmNo());
-			int result = gService.insertAccount(ga);
-			System.out.println(" 작성 result : " + result);
 			
+			int result = gService.insertAccount(ga);
 			int gaCurrval = gService.gaCurrval();
-			System.out.println("작성 currval : " + gaCurrval);
 			
 			String[] gmNos = gmNo.split(",");
 			String[] amounts = amount.split(",");
 			ArrayList<GroupAccountMember> gamList = new ArrayList<>();
 			for (int i = 0; i < gmNos.length; i++) {
-				System.out.println("amounts : " + amounts);
 				gam = new GroupAccountMember();
 				
 				gam.setgNo(gInfo.getGroupNo());
-				
 				gam.setGaNo(gaCurrval);
 				gam.setGamAmount(Integer.valueOf(amounts[i]));
 				gam.setGmNo(Integer.valueOf(gmNos[i]));
 				gam.setGamDelete("N");
 				gam.setGamYn("N");
+
 				gamList.add(gam);
 			}
-			System.out.println("gamList : " + gamList);
+			int memberResult = gService.insertAccountMember(gamList);			
+
+			mv.setViewName("redirect:accountMain.do");
+			return mv;
+		}
+		
+		// 가계부 상세
+		@RequestMapping(value = "detailAccount.do", method = RequestMethod.GET)
+		public ModelAndView accountInsert(ModelAndView mv, HttpSession session, 
+				GroupAccount ga, GroupAccountMember gam,
+				@RequestParam(value = "gaNo", required = false) String gaNo) {
+			Member loginUser = (Member) session.getAttribute("loginUser");
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			GroupTable gt = gService.selectOneGroup(gInfo);
+			GroupAccount gaList = gService.selectGa(gaNo);
+			ArrayList<GroupAccountMember> gamList = gService.selectGam(gaNo);
+			int totalAmount = gService.selectTotalGa(gaNo);
 			
-			System.out.println("작성 gam : " + gam);
-			int memberResult = gService.insertAccountMember(gamList);
-			System.out.println("memberResult : " + memberResult);
 			mv.addObject("gInfo", gInfo);
-			
-			
-			mv.setViewName("group/GAccountMain");
+			mv.addObject("totalAmount", totalAmount);
+			mv.addObject("groupTable", gt);
+			mv.addObject("gaList", gaList);
+			mv.addObject("gamList", gamList);
+			mv.setViewName("group/GAccountDetail");
 			return mv;
 		}
 }

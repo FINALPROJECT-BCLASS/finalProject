@@ -142,6 +142,7 @@
 		<id property="gaNo" column="GA_NO"/>
 		<result property="gNo" column="G_NO"/>
 		<result property="gmNo" column="GM_NO"/>
+		<result property="gaTitle" column="GA_TITLE"/>
 		<result property="gaDate" column="GA_DATE"/>
 		<result property="gaCon" column="GA_CON"/>
 		<result property="gaAmount" column="GA_AMOUNT"/>
@@ -165,6 +166,8 @@
 		<result property="gamAmount" column="GAM_AMOUNT"/>
 		<result property="gamDelete" column="GAM_DELETE"/>
 		<result property="gamYn" column="GAM_YN"/>
+		
+		<result property="name" column="NAME"/>
 		
 	</resultMap>
 	<!-- resultMap end -->
@@ -946,4 +949,24 @@
 		</foreach>
 		)M
 	</insert>
+	
+	<select id="selectGa" parameterType="string" resultMap="groupAccountResultSet">
+		SELECT GA_NO, G_NO, GM_NO, GA_TITLE,TO_CHAR(TO_DATE(GA_DATE),'YYYY-MM-DD') AS GA_DATE, GA_CON, GA_AMOUNT, GA_PRO, GA_EXP, GA_FEE, GA_DELETE, GAS_YN
+		FROM GROUP_ACCOUNT
+		WHERE GA_NO = #{gaNo}
+	</select>
+	
+	<select id="selectGam" parameterType="string" resultMap="groupAccountMemberResultSet">
+		SELECT GAM_NO, GAM.G_NO, GAM.GM_NO, GA_NO, GAM_AMOUNT, GAM_DELETE, GAM_YN, NAME
+		FROM GROUP_ACCOUNT_MEMBER GAM
+		JOIN GROUP_MEMBER GM ON(GAM.GM_NO = GM.GM_NO)
+		JOIN MEMBER M ON(GM.GM_ID = M.ID)
+		WHERE GA_NO = #{gaNo}
+	</select>
+	
+	<select id="selectTotalGa" parameterType="string" resultType="_int">
+		SELECT SUM(GAM_AMOUNT)
+		FROM GROUP_ACCOUNT_MEMBER
+		WHERE GA_NO = #{gaNo}
+	</select>
 </mapper>

@@ -460,6 +460,22 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.insertAccountMember(gamList);
 	}
 
+	@Override
+	public GroupAccount selectGa(String gaNo) {
+		return gDao.selectGa(gaNo);
+	}
+
+	@Override
+	public ArrayList<GroupAccountMember> selectGam(String gaNo) {
+		return gDao.selectGam(gaNo);
+	}
+
+	@Override
+	public int selectTotalGa(String gaNo) {
+		return gDao.selectTotalGa(gaNo);
+	}
+
+
 
 
 

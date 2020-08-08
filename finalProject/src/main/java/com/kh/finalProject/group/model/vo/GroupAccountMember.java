@@ -17,7 +17,7 @@ public class GroupAccountMember implements Serializable{
 	private String gamDelete;
 	private String gamYn;
 	
-	
+	private String name;
 	
 	
 	public GroupAccountMember() {
@@ -25,9 +25,8 @@ public class GroupAccountMember implements Serializable{
 	}
 
 
-
-
-	public GroupAccountMember(int gamNo, int gNo, int gmNo, int gaNo, int gamAmount, String gamDelete, String gamYn) {
+	public GroupAccountMember(int gamNo, int gNo, int gmNo, int gaNo, int gamAmount, String gamDelete, String gamYn,
+			String name) {
 		super();
 		this.gamNo = gamNo;
 		this.gNo = gNo;
@@ -36,9 +35,8 @@ public class GroupAccountMember implements Serializable{
 		this.gamAmount = gamAmount;
 		this.gamDelete = gamDelete;
 		this.gamYn = gamYn;
+		this.name = name;
 	}
-
-
 
 
 	public final int getGamNo() {
@@ -46,13 +44,9 @@ public class GroupAccountMember implements Serializable{
 	}
 
 
-
-
 	public final void setGamNo(int gamNo) {
 		this.gamNo = gamNo;
 	}
-
-
 
 
 	public final int getgNo() {
@@ -60,13 +54,9 @@ public class GroupAccountMember implements Serializable{
 	}
 
 
-
-
 	public final void setgNo(int gNo) {
 		this.gNo = gNo;
 	}
-
-
 
 
 	public final int getGmNo() {
@@ -74,13 +64,9 @@ public class GroupAccountMember implements Serializable{
 	}
 
 
-
-
 	public final void setGmNo(int gmNo) {
 		this.gmNo = gmNo;
 	}
-
-
 
 
 	public final int getGaNo() {
@@ -88,13 +74,9 @@ public class GroupAccountMember implements Serializable{
 	}
 
 
-
-
 	public final void setGaNo(int gaNo) {
 		this.gaNo = gaNo;
 	}
-
-
 
 
 	public final int getGamAmount() {
@@ -102,13 +84,9 @@ public class GroupAccountMember implements Serializable{
 	}
 
 
-
-
 	public final void setGamAmount(int gamAmount) {
 		this.gamAmount = gamAmount;
 	}
-
-
 
 
 	public final String getGamDelete() {
@@ -116,13 +94,9 @@ public class GroupAccountMember implements Serializable{
 	}
 
 
-
-
 	public final void setGamDelete(String gamDelete) {
 		this.gamDelete = gamDelete;
 	}
-
-
 
 
 	public final String getGamYn() {
@@ -130,13 +104,19 @@ public class GroupAccountMember implements Serializable{
 	}
 
 
-
-
 	public final void setGamYn(String gamYn) {
 		this.gamYn = gamYn;
 	}
 
 
+	public final String getName() {
+		return name;
+	}
+
+
+	public final void setName(String name) {
+		this.name = name;
+	}
 
 
 	public static final long getSerialversionuid() {
@@ -144,13 +124,13 @@ public class GroupAccountMember implements Serializable{
 	}
 
 
-
-
 	@Override
 	public String toString() {
 		return "GroupAccountMember [gamNo=" + gamNo + ", gNo=" + gNo + ", gmNo=" + gmNo + ", gaNo=" + gaNo
-				+ ", gamAmount=" + gamAmount + ", gamDelete=" + gamDelete + ", gamYn=" + gamYn + "]\n";
+				+ ", gamAmount=" + gamAmount + ", gamDelete=" + gamDelete + ", gamYn=" + gamYn + ", name=" + name + "]\n";
 	}
+
+
 
 
 	
