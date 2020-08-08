@@ -872,26 +872,29 @@
 		FROM GROUP_ACCOUNT
 		WHERE G_NO = #{gNo}
 		    AND EXTRACT(YEAR FROM GA_DATE)= #{year}
+            AND EXTRACT(MONTH FROM GA_DATE)= #{month}
             AND GA_PRO = 'Y'
 		    AND GA_DELETE='N'
 		GROUP BY EXTRACT(MONTH FROM GA_DATE)
 	</select>
 	
 	<select id="selectTotalExeList" parameterType="GroupAccount" resultMap="groupAccountResultSet">
-	 	SELECT EXTRACT(MONTH FROM GA_DATE) AS GA_MONTH ,SUM(GA_AMOUNT) AS GA_TOTAL
+	 		SELECT EXTRACT(MONTH FROM GA_DATE) AS GA_MONTH ,SUM(GA_AMOUNT) AS GA_TOTAL
 		FROM GROUP_ACCOUNT
 		WHERE G_NO = #{gNo}
 		    AND EXTRACT(YEAR FROM GA_DATE)= #{year}
+            AND EXTRACT(MONTH FROM GA_DATE)= #{month}
             AND GA_EXP = 'Y'
 		    AND GA_DELETE='N'
 		GROUP BY EXTRACT(MONTH FROM GA_DATE)
 	</select>
 	
 	<select id="selectTotalFeeList" parameterType="GroupAccount" resultMap="groupAccountResultSet">
-	 	SELECT EXTRACT(MONTH FROM GA_DATE) AS GA_MONTH ,SUM(GA_AMOUNT) AS GA_TOTAL
+	 		SELECT EXTRACT(MONTH FROM GA_DATE) AS GA_MONTH ,SUM(GA_AMOUNT) AS GA_TOTAL
 		FROM GROUP_ACCOUNT
 		WHERE G_NO = #{gNo}
 		    AND EXTRACT(YEAR FROM GA_DATE)= #{year}
+            AND EXTRACT(MONTH FROM GA_DATE)= #{month}
             AND GA_FEE = 'Y'
 		    AND GA_DELETE='N'
 		GROUP BY EXTRACT(MONTH FROM GA_DATE)

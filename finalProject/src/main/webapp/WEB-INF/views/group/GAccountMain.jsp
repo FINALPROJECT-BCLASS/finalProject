@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+ 
 <!DOCTYPE html>
 <html>
 <head>
@@ -177,9 +178,9 @@
                 <table id="total">
                     <tr>
                     	<td>
-                    		<div class="total pro">Profit : </div>
-                    		<div class="total exp">Expense : </div>
-                    		<div class="total fee">Fee : </div>
+                    		<div class="totalBox">Profit : <div class="total pro"> </div></div>
+                    		<div class="totalBox">Expense : <div class="total exp"> </div></div>
+                    		<div class="totalBox">Fee : <div class="total fee"> </div></div>
                     	</td>
                     </tr>
                 </table>
@@ -410,11 +411,19 @@
        			data: {gaDate:calendarDate},
        			dataType: 'json',
        			success: function(data) {
-       				$("#proSum").html("");
-       				$("#expSum").html("");
+
+       				console.log(data);
+       				$(".pro").html("");
+       				$(".exp").html("");
+       				$(".fee").html("");
+
+       				$(".pro").html(data.totalPro[0].totalPro);
+       				$(".exp").html(data.totalExp[0].totalExp);
+       				$(".fee").html(data.totalFee[0].totalFee);
+	       				
+	       			
+       					
        				
-       				$("#proSum").html(data.pSum);
-       				$("#expSum").html(data.eSum);
        			},
        			error:function(request, status, errorData){
                        alert("error code: " + request.status + "\n"
@@ -423,6 +432,8 @@
                    }   
        		})
 	    }
+		
+		
     </script>
     
 </body>

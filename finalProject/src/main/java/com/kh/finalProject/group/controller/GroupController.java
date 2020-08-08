@@ -1893,72 +1893,79 @@ public class GroupController {
 		public void totalAccountList(HttpSession session, HttpServletResponse response,
 				GroupAccount ga) throws IOException {
 			response.setContentType("application/json;charset=utf-8");
-//			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
-//			System.out.println("ga : " + ga);
-//			
-//			String year = ga.getGaDate().substring(0, 4);
-//			String month = ga.getGaDate().substring(5);
-//			
-//			ga.setYear(year);
-//			ga.setMonth(month);
-//			ga.setgNo(gInfo.getGroupNo());
-//			ga.setGmNo(gInfo.getGmNo());
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			
+			String year = ga.getGaDate().substring(0, 4);
+			String month = ga.getGaDate().substring(5);
+			System.out.println("year : " + year);
+			ga.setYear(year);
+			ga.setMonth(month);
+			ga.setgNo(gInfo.getGroupNo());
+			ga.setGmNo(gInfo.getGmNo());
 //			
 			
+			System.out.println("ga : " + ga);
 			
-//			ArrayList<GroupAccount> proTotalList = gService.selectTotalProList(ga);
-//			ArrayList<GroupAccount> expTotalList = gService.selectTotalExeList(ga);
-//			ArrayList<GroupAccount> feeTotalList = gService.selectTotalFeeList(ga);
-////			
-//			System.out.println("proTotalList : " + proTotalList);
-//			System.out.println("expTotalList : " + expTotalList);
-//			System.out.println("feeTotalList : " + feeTotalList);
-			JSONArray jArr = new JSONArray();
+			ArrayList<GroupAccount> proTotalList = gService.selectTotalProList(ga);
+			ArrayList<GroupAccount> expTotalList = gService.selectTotalExeList(ga);
+			ArrayList<GroupAccount> feeTotalList = gService.selectTotalFeeList(ga);
 			
-			int pSum = 0;
-//			for(int i = 0; i < proTotalList.size(); i++) {
-//				pSum += 
-//				JSONObject jObj = new JSONObject();
-//				
-////				String formatSum = String.format("%,d", p.getSum());
-//				jObj.put("eventTitle", p.getTotalAmount());
-//				jObj.put("date", p.getGaDate());
-//				jObj.put("color", "blue");
-//				jObj.put("type", "profit");
-//				
-//				jArr.add(jObj);
-//			}
-//			
-//			for(GroupAccount p : expTotalList) {
-//				JSONObject jObj = new JSONObject();
-//				
-////				String formatSum = String.format("%,d", e.getSum());
-//				jObj.put("eventTitle", p.getTotalAmount());
-//				jObj.put("date", p.getGaDate());
-//				jObj.put("color", "blue");
-//				jObj.put("type", "profit");
-//				
-//				jArr.add(jObj);
-//			}
-//			
-//			for(GroupAccount p : feeTotalList) {
-//				JSONObject jObj = new JSONObject();
-//				
-////				String formatSum = String.format("%,d", e.getSum());
-//				jObj.put("eventTitle", p.getTotalAmount());
-//				jObj.put("date", p.getGaDate());
-//				jObj.put("color", "blue");
-//				jObj.put("type", "profit");
-//				
-//				jArr.add(jObj);
-//			}
-//			
-//			JSONObject sendJson = new JSONObject();
-//			sendJson.put("sumList", jArr);
-//			
-//			PrintWriter out = response.getWriter();
-//			out.print(sendJson);
-//			out.flush();
-//			out.close();
-		}	
+				
+			
+			System.out.println("proTotalList : " + proTotalList);
+			System.out.println("expTotalList : " + expTotalList);
+			System.out.println("feeTotalList : " + feeTotalList);
+
+			JSONArray pArr = new JSONArray();
+			JSONArray eArr = new JSONArray();
+			JSONArray fArr = new JSONArray();
+			
+			for(GroupAccount p : proTotalList) {
+				JSONObject jObj = new JSONObject();
+				
+				if(proTotalList.isEmpty()) {
+					p.setTotalAmount("0");
+				} 
+				
+//				String formatSum = String.format("%,d", p.getTotalAmount());
+				jObj.put("totalPro", p.getTotalAmount());
+				
+				pArr.add(jObj);
+			}
+			
+			for(GroupAccount p : expTotalList) {
+				JSONObject jObj = new JSONObject();
+				
+				if(expTotalList.isEmpty()) {
+					p.setTotalAmount("0");
+				}
+				
+				jObj.put("totalExp", p.getTotalAmount());
+				
+				eArr.add(jObj);
+			}
+			
+			for(GroupAccount p : feeTotalList) {
+				JSONObject jObj = new JSONObject();
+				
+				if(feeTotalList.isEmpty()) {
+					p.setTotalAmount("0");
+				}
+				
+//				String formatSum = String.format("%,d", p.getGaAmount());
+				jObj.put("totalFee", p.getTotalAmount());
+				
+				fArr.add(jObj);
+			}
+
+			JSONObject sendJson = new JSONObject();
+			sendJson.put("totalPro", pArr);
+			sendJson.put("totalExp", eArr);
+			sendJson.put("totalFee", fArr);
+			
+			PrintWriter out = response.getWriter();
+			out.print(sendJson);
+			out.flush();
+			out.close();
+		}
 }
