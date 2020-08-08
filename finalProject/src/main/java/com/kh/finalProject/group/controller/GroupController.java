@@ -47,7 +47,7 @@ import com.kh.finalProject.member.model.vo.Member;
 @Controller
 public class GroupController {
 
-	@Autowired
+	@Autowired 
 	GroupService gService;
 
 	@Autowired
