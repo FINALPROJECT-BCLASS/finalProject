@@ -46,9 +46,14 @@
 		<typeAlias type="com.kh.finalProject.account.model.vo.ExpCategory" alias="ExpCategory"/>			<!-- 예지 -->
 
 		<typeAlias type="com.kh.finalProject.chat.model.vo.Chat" alias="Chat"/>
+		<typeAlias type="com.kh.finalProject.chat.model.vo.openChat" alias="openChat"/>
 		
 		<typeAlias type="com.kh.finalProject.memo.model.vo.Memo" alias="Memo"/>	<!-- 예지 -->
-
+		
+		<typeAlias type="com.kh.finalProject.manager.model.vo.Report" alias="Report"/>			<!-- 예지 -->
+		<typeAlias type="com.kh.finalProject.manager.model.vo.RPageInfo" alias="RPageInfo"/>	<!-- 예지 -->
+		
+		<typeAlias type="com.kh.finalProject.daily.model.vo.Bookmark" alias="Bookmark"/>
 	</typeAliases>
 
 	<mappers>
@@ -60,6 +65,7 @@
 		<mapper resource="/mappers/chat-mapper.xml"/>
 		<mapper resource="/mappers/account-mapper.xml"/>	<!-- 예지 -->
 		<mapper resource="/mappers/memo-mapper.xml"/>		<!-- 예지 -->
+		<mapper resource="/mappers/manager-mapper.xml"/>	<!-- 예지 -->
 	</mappers>
 	
 </configuration>

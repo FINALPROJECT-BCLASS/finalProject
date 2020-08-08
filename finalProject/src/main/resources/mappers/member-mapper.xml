@@ -14,11 +14,8 @@
 		<result property="main_no" column="MAIN_NO"/>
 		<result property="original_file" column="ORIGINAL_FILE"/>
 		<result property="rename_file" column="RENAME_FILE"/>
-		<result property="out_yn" column="OUT_YN"/>
-		
+		<result property="out_yn" column="OUT_YN"/>	
 	</resultMap>
-
-	
 
 	<select id="selectOne" parameterType="Member" resultMap="memberResultSet">
 		SELECT *
@@ -36,7 +33,7 @@
 	<insert id="insertMember" parameterType="Member">
 		INSERT INTO MEMBER
 		VALUES(#{id}, #{name}, #{nickname}, #{pwd}, #{email}, #{phone},
-				#{birthday}, #{address}, #{main_no}, #{original_file}, #{rename_file}, SYSDATE, DEFAULT)
+				#{birthday}, #{address}, #{main_no}, #{original_file}, #{rename_file}, SYSDATE, DEFAULT, DEFAULT, DEFAULT)
 	</insert>
 	
 	<update id="updateMember" parameterType="Member">

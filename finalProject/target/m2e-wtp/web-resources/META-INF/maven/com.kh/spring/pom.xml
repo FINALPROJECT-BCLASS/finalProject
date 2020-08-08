@@ -13,15 +13,15 @@
 		<org.aspectj-version>1.6.10</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
-	
-	<!-- ojdbc6 -->
+	        
+	<!-- ojdbc6  -->
 	<repositories>
 	      <repository>
 	         <id>Datanucleus</id>
 	         <url>http://www.datanucleus.org/downloads/maven2/</url>
 	      </repository>
    </repositories>
-
+   
 	<dependencies>
 		<!-- Spring -->
 		<dependency>
