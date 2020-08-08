@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.kh.finalProject.group.common.PageInfo;
 import com.kh.finalProject.group.model.dao.GroupDao;
 import com.kh.finalProject.group.model.vo.GroupAccount;
+import com.kh.finalProject.group.model.vo.GroupAccountMember;
 import com.kh.finalProject.group.model.vo.GroupBoard;
 import com.kh.finalProject.group.model.vo.GroupBoardPhoto;
 import com.kh.finalProject.group.model.vo.GroupInfo;
@@ -447,6 +448,16 @@ public class GroupServiceImpl implements GroupService{
 	@Override
 	public int insertAccount(GroupAccount ga) {
 		return gDao.insertAccount(ga);
+	}
+
+	@Override
+	public int gaCurrval() {
+		return gDao.gaCurrval();
+	}
+
+	@Override
+	public int insertAccountMember(ArrayList<GroupAccountMember> gamList) {
+		return gDao.insertAccountMember(gamList);
 	}
 
 

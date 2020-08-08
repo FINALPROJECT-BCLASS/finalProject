@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.finalProject.group.common.PageInfo;
 import com.kh.finalProject.group.model.vo.GroupAccount;
+import com.kh.finalProject.group.model.vo.GroupAccountMember;
 import com.kh.finalProject.group.model.vo.GroupBoard;
 import com.kh.finalProject.group.model.vo.GroupBoardPhoto;
 import com.kh.finalProject.group.model.vo.GroupInfo;
@@ -384,6 +385,14 @@ public class GroupDao {
 
 	public int insertAccount(GroupAccount ga) {
 		return sqlSessionTemplate.insert("groupMapper.insertAccount", ga);		
+	}
+
+	public int gaCurrval() {
+		return sqlSessionTemplate.selectOne("groupMapper.gaCurrval");		
+	}
+
+	public int insertAccountMember(ArrayList<GroupAccountMember> gamList) {
+		return sqlSessionTemplate.insert("groupMapper.insertAccountMember", gamList);		
 	}
 
 	

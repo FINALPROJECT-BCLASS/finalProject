@@ -75,6 +75,8 @@
     .comment{color:grey; display: inline-block; font-size: medium;}
 	.textTitle{font-weight:800;}
     .groubJoinBtn{text-align: center;}
+    .annoIcon{cursor:pointer;}
+    
     #submit{background:none; border:none; color:#2860E1; font-weight: 600; font-size: 20px; }
     #reset{background:none; border:none; color:#484848; font-weight: 600; font-size: 20px; width:100px;}
 
@@ -84,6 +86,7 @@
             font-weight: 600;
             font-size: 16px;
         }
+        
   </style>
 
 </head>
@@ -134,13 +137,6 @@
                                 
                             </td>
                         </tr>
-                        <tr><td></td><td align="center"  class="textTitle">FEE</td></tr>
-                        <tr>
-                            <td class="groupTbTd"><div class="amount">Fee Amount&nbsp;</div></td>
-                            <td>
-                                <div class="backgroundWhite"><span class="material-icons">add</span><input type="text" name="gaAmount" class="amount"></div>
-                            </td>
-                        </tr>
                         <tr>
                             <td class="groupTbTd">Content&nbsp;</td>
                             <td>
@@ -171,6 +167,20 @@
                                 </div>
                             </td>
                         </tr>
+                        <tr><td></td><td align="center"  class="textTitle">FEE</td></tr>
+                        <tr>
+                            <td class="groupTbTd"><div class="amount">Fee Total Amount&nbsp;</div></td>
+                            <td>
+                                <div class="backgroundWhite"><span class="material-icons">add</span><input type="text" name="gaAmount" class="amount"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                        	<td>Sharing</td>
+                        	<td>
+                        		<span class="material-icons annoIcon">check_box_outline_blank</span>
+                        		<input type='hidden' class='annoIn' name='gamsYn' value='N'>
+                        	</td>
+                        </tr>
                     </table>
                 </form>
                 <br><br>
@@ -181,7 +191,34 @@
             </div>
          </div>
          </div>
+         <!-- 합계 -->
+         <script>
+         	$(document).on("keyup",".amountBox",function(){
+         		var sum = 0;
+         		$('.amountBox').each(function(){
+         		    sum += parseFloat(this.value);
+         		});
+         		console.log(sum);
+         		$(".amount").val(sum);
+         	})
+         </script>
          
+         <!-- Sharing -->
+         <script>
+	         // 공유 체크
+	         $(".annoIcon").click(function(){
+	          if($(this).text() == "check_box_outline_blank"){
+	            $(this).text("check_box");
+	            $(".annoIn").val("Y");
+	          } else{
+	            $(this).text("check_box_outline_blank");
+	            $(".annoIn").val("N");
+	          }
+	
+	         })
+         </script>
+         
+         <!-- submit -->
          <script>
          	$("#submit").click(function(){
          		$("#accountForm").submit();
@@ -197,7 +234,7 @@
 	                 $(".amount").text("");
 	              
 	                 $(".textTitle").text("FEE");
-	                 $(".amount").text("Fee Amount");
+	                 $(".amount").text("Fee Total Amount");
 	                 $("#typeFee").attr("value","Y");
 	                 $("#typePro").attr("value","N");
 	                 $("#typeExp").attr("value","N");
@@ -208,7 +245,7 @@
 	                 $(".amount").text("");
 	                
 	                 $(".textTitle").text("PROFIT");
-	                 $(".amount").text("Profit Amount");
+	                 $(".amount").text("Profit Total Amount");
 	                 $("#typeFee").attr("value","N");
 	                 $("#typePro").attr("value","Y");
 	                 $("#typeExp").attr("value","N");
@@ -219,7 +256,7 @@
 	            	 $(".amount").text("");
 	                 
 	                 $(".textTitle").text("EXPENSE");
-	                 $(".amount").text("Expense Amount");
+	                 $(".amount").text("Expense Total Amount");
 	                 $("#typeFee").attr("value","N");
 	                 $("#typePro").attr("value","N");
 	                 $("#typeExp").attr("value","Y");
@@ -230,13 +267,16 @@
          
          <!-- 멤버검색 script -->
          <script>
-
             // 클릭한 이름 삽입
             
            	 $(document).on("click",".searchClick",function(){
                 var $searchName = $(this).children().html();
+                var $gmNo = $(this).children().next().next().val();
                 var $searchNameAfter = $(".searchNameAfter");
-                var $searchNameBox = " <button type='button' class='searchNameBox'><div class='amountName'>"+$searchName+"</div><input type='text' class='amountBox' placeholder='Enter the amount here'><input type='hidden' value='"+$searchName+"' ></button>";
+                var $searchNameBox = " <button type='button' class='searchNameBox'>" +
+                "<div class='amountName'>"+$searchName+"</div>" +
+                "<input type='text' class='amountBox' name='gamAmount' placeholder='Enter the amount here'>"+
+                "<input type='hidden' name='gmNo' value='"+$gmNo+"' ></button>";
                 
                 $searchNameAfter.append($searchNameBox);
 				$(this).remove();
@@ -272,8 +312,8 @@
 	         					var $searchList = $(".searchList");
 	         					var $searchClick = $("<div>").attr("class","searchClick");
 	         					var $searchName = $("<div>").text(data[i].name).attr("class","searchName");
-	         					var $searchId = $("<span>").text(data[i].id).attr("class","searchId");
-	         					var $gmNo = $(' <input type="hidden" class="gmNo" value="'+data[i].gmNo+'">');
+	         					var $searchId = $("<span>").text(data[i].gmId).attr("class","searchId");
+	         					var $gmNo = $(' <input type="hidden" class="gmNo" value="'+data[i].gmNO+'">');
        						
 	         					
 	         					$searchList.append($searchClick);

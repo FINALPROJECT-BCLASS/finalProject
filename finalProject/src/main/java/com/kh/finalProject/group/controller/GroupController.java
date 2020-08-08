@@ -24,11 +24,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
-import com.kh.finalProject.account.model.vo.Sum;
 import com.kh.finalProject.group.common.PageInfo;
 import com.kh.finalProject.group.common.Pagination;
 import com.kh.finalProject.group.model.service.GroupService;
 import com.kh.finalProject.group.model.vo.GroupAccount;
+import com.kh.finalProject.group.model.vo.GroupAccountMember;
 import com.kh.finalProject.group.model.vo.GroupBoard;
 import com.kh.finalProject.group.model.vo.GroupBoardPhoto;
 import com.kh.finalProject.group.model.vo.GroupInfo;
@@ -1972,13 +1972,40 @@ public class GroupController {
 		// 가계부 작성
 		@RequestMapping(value = "accountInsert.do", method = RequestMethod.POST)
 		public ModelAndView accountInsert(ModelAndView mv, HttpSession session, 
-				GroupAccount ga) {
+				GroupAccount ga, GroupAccountMember gam,
+				@RequestParam(value = "gmNo", required = false) String gmNo,
+				@RequestParam(value = "gamAmount", required = false) String amount) {
 			Member loginUser = (Member) session.getAttribute("loginUser");
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 			ga.setgNo(gInfo.getGroupNo());
 			ga.setGmNo(gInfo.getGmNo());
 			int result = gService.insertAccount(ga);
 			System.out.println(" 작성 result : " + result);
+			
+			int gaCurrval = gService.gaCurrval();
+			System.out.println("작성 currval : " + gaCurrval);
+			
+			String[] gmNos = gmNo.split(",");
+			String[] amounts = amount.split(",");
+			ArrayList<GroupAccountMember> gamList = new ArrayList<>();
+			for (int i = 0; i < gmNos.length; i++) {
+				System.out.println("amounts : " + amounts);
+				gam = new GroupAccountMember();
+				
+				gam.setgNo(gInfo.getGroupNo());
+				
+				gam.setGaNo(gaCurrval);
+				gam.setGamAmount(Integer.valueOf(amounts[i]));
+				gam.setGmNo(Integer.valueOf(gmNos[i]));
+				gam.setGamDelete("N");
+				gam.setGamYn("N");
+				gamList.add(gam);
+			}
+			System.out.println("gamList : " + gamList);
+			
+			System.out.println("작성 gam : " + gam);
+			int memberResult = gService.insertAccountMember(gamList);
+			System.out.println("memberResult : " + memberResult);
 			mv.addObject("gInfo", gInfo);
 			
 			
