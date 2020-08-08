@@ -208,6 +208,18 @@
 		 	
 		 </script>
 		 
+		  <!-- 수정버튼 -->
+		 <script>
+		 	$("#submit").click(function(){
+		 		var gaNo = $(this).parent().next().next().val();
+	
+		 			location.href="accountUpdate.do?gaNo="+gaNo;
+		 		
+		 	})
+		 	
+		 </script>
+		 
+		 
 		 <!-- 삭제버튼 -->
 		 <script>
 		 	$("#delete").click(function(){
