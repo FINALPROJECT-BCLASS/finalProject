@@ -8,7 +8,7 @@
 <title>Insert title here</title>
  <style>
     html, body { height:100%;}
-
+ 
     h1, h4{margin-top:20px; text-align:center;}
 
     .join-form-area{float: right;display: flex;justify-content: center; flex-direction: column; align-items: center; padding: 65px; width: 75%;background: #F3F3F3;}
