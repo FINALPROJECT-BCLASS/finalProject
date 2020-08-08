@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="groupMapper">
- 
+  
 	<!-- resultMap   -->
 	<resultMap id="groupTableResultSet" type="GroupTable">
 		<id property="gNo" column="G_NO"/>
@@ -136,7 +136,24 @@
 		<result property="voteN" column="VOTE_N"/>
 		<result property="voteYName" column="VOATE_Y_NAME"/>
 		<result property="voteNName" column="VOATE_N_NAME"/>
+	</resultMap>
+	
+	<resultMap id="groupAccountResultSet" type="GroupAccount">
+		<id property="gaNo" column="GA_NO"/>
+		<result property="gNo" column="G_NO"/>
+		<result property="gmNo" column="GM_NO"/>
+		<result property="gaDate" column="GA_DATE"/>
+		<result property="gaCon" column="GA_CON"/>
+		<result property="gaAmount" column="GA_AMOUNT"/>
+		<result property="gaPro" column="GA_PRO"/>
+		<result property="gaExp" column="GA_EXP"/>
+		<result property="gaFee" column="GA_FEE"/>
+		<result property="gaDelete" column="GA_DELETE"/>
 		
+		<result property="year" column="GA_YEAR"/>
+		<result property="month" column="GA_MONTH"/>
+		
+		<result property="totalAmount" column="GA_TOTAL"/>
 	</resultMap>
 	<!-- resultMap end -->
 	
@@ -158,11 +175,21 @@
 	</select> 
 
 	<select id="searchNameList" parameterType="GroupSearchName" resultMap="memberResultSet">
-		SELECT ID, NAME
+		
+	  SELECT ID, NAME
+      FROM MEMBER
+      WHERE ID NOT IN(SELECT GM.GM_ID
+                   FROM GROUP_MEMBER GM
+                  WHERE GM.G_NO= #{gNo})
+       AND NAME LIKE '%' || #{searchName} || '%' 
+       AND ID NOT IN  #{loginUserId}
+       AND OUT_YN = 'N'
+		
+		<!-- SELECT ID, NAME
 		FROM MEMBER
 		WHERE NAME LIKE '%' || #{searchName} || '%' 
 		AND ID NOT IN  #{loginUserId}
-		AND OUT_YN = 'N'
+		AND OUT_YN = 'N' -->
 	</select>
 	
 	<insert id="groupInsert" parameterType="GroupTable">
@@ -816,4 +843,57 @@
 		AND OUT_YN = 'N'
 	</select>
 	
+	<select id="selectProList" parameterType="GroupInfo" resultMap="groupAccountResultSet">
+		SELECT GA_NO, G_NO, GM_NO, TO_CHAR(TO_DATE(GA_DATE),'YYYY-MM-DD') AS GA_DATE, GA_CON, GA_AMOUNT, GA_PRO, GA_EXP, GA_FEE, GA_DELETE
+		FROM GROUP_ACCOUNT
+		WHERE G_NO = #{groupNo}
+		AND GA_PRO = 'Y'
+		AND GA_DELETE = 'N'
+	</select>
+	
+	<select id="selectExeList" parameterType="GroupInfo" resultMap="groupAccountResultSet">
+		SELECT GA_NO, G_NO, GM_NO, TO_CHAR(TO_DATE(GA_DATE),'YYYY-MM-DD') AS GA_DATE, GA_CON, GA_AMOUNT, GA_PRO, GA_EXP, GA_FEE, GA_DELETE
+		FROM GROUP_ACCOUNT
+		WHERE G_NO = #{groupNo}
+		AND GA_EXP = 'Y'
+		AND GA_DELETE = 'N'
+	</select>
+	
+	<select id="selectFeeList" parameterType="GroupInfo" resultMap="groupAccountResultSet">
+		SELECT GA_NO, G_NO, GM_NO, TO_CHAR(TO_DATE(GA_DATE),'YYYY-MM-DD') AS GA_DATE, GA_CON, GA_AMOUNT, GA_PRO, GA_EXP, GA_FEE, GA_DELETE
+		FROM GROUP_ACCOUNT
+		WHERE G_NO = #{groupNo}
+		AND GA_FEE = 'Y'
+		AND GA_DELETE = 'N'
+	</select>
+	
+	<select id="selectTotalProList" parameterType="GroupAccount" resultMap="groupAccountResultSet">
+	 	SELECT EXTRACT(MONTH FROM GA_DATE) AS GA_MONTH ,SUM(GA_AMOUNT) AS GA_TOTAL
+		FROM GROUP_ACCOUNT
+		WHERE G_NO = #{gNo}
+		    AND EXTRACT(YEAR FROM GA_DATE)= #{year}
+            AND GA_PRO = 'Y'
+		    AND GA_DELETE='N'
+		GROUP BY EXTRACT(MONTH FROM GA_DATE)
+	</select>
+	
+	<select id="selectTotalExeList" parameterType="GroupAccount" resultMap="groupAccountResultSet">
+	 	SELECT EXTRACT(MONTH FROM GA_DATE) AS GA_MONTH ,SUM(GA_AMOUNT) AS GA_TOTAL
+		FROM GROUP_ACCOUNT
+		WHERE G_NO = #{gNo}
+		    AND EXTRACT(YEAR FROM GA_DATE)= #{year}
+            AND GA_EXP = 'Y'
+		    AND GA_DELETE='N'
+		GROUP BY EXTRACT(MONTH FROM GA_DATE)
+	</select>
+	
+	<select id="selectTotalFeeList" parameterType="GroupAccount" resultMap="groupAccountResultSet">
+	 	SELECT EXTRACT(MONTH FROM GA_DATE) AS GA_MONTH ,SUM(GA_AMOUNT) AS GA_TOTAL
+		FROM GROUP_ACCOUNT
+		WHERE G_NO = #{gNo}
+		    AND EXTRACT(YEAR FROM GA_DATE)= #{year}
+            AND GA_FEE = 'Y'
+		    AND GA_DELETE='N'
+		GROUP BY EXTRACT(MONTH FROM GA_DATE)
+	</select>
 </mapper>
