@@ -21,6 +21,8 @@ public interface ManagerService {
 
 	int updateRpCount(String id);
 
-	int updateChatYn(String id);
+	int updateChatN(String selectID);
+
+	int updateChatY(String selectID);
 
 }
