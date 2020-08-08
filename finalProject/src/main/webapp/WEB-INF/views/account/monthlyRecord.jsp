@@ -48,6 +48,8 @@
 		      	},
 		      	eventClick: function(info) {
 	            	abDetailView(info.event.id);
+
+	            	
 	            }
 	        });
 	

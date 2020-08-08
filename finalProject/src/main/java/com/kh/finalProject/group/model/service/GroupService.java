@@ -194,6 +194,12 @@ public interface GroupService {
 
 	int insertAccountMember(ArrayList<GroupAccountMember> gamList);
 
+	GroupAccount selectGa(String gaNo);
+
+	ArrayList<GroupAccountMember> selectGam(String gaNo);
+
+	int selectTotalGa(String gaNo);
+
 
 	
 
