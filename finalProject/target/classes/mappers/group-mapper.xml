@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="groupMapper">
- 
+  
 	<!-- resultMap   -->
 	<resultMap id="groupTableResultSet" type="GroupTable">
 		<id property="gNo" column="G_NO"/>
@@ -136,6 +136,38 @@
 		<result property="voteN" column="VOTE_N"/>
 		<result property="voteYName" column="VOATE_Y_NAME"/>
 		<result property="voteNName" column="VOATE_N_NAME"/>
+	</resultMap>
+	
+	<resultMap id="groupAccountResultSet" type="GroupAccount">
+		<id property="gaNo" column="GA_NO"/>
+		<result property="gNo" column="G_NO"/>
+		<result property="gmNo" column="GM_NO"/>
+		<result property="gaTitle" column="GA_TITLE"/>
+		<result property="gaDate" column="GA_DATE"/>
+		<result property="gaCon" column="GA_CON"/>
+		<result property="gaAmount" column="GA_AMOUNT"/>
+		<result property="gaPro" column="GA_PRO"/>
+		<result property="gaExp" column="GA_EXP"/>
+		<result property="gaFee" column="GA_FEE"/>
+		<result property="gaDelete" column="GA_DELETE"/>
+		<result property="gasYn" column="GAS_YN"/>
+		
+		<result property="year" column="GA_YEAR"/>
+		<result property="month" column="GA_MONTH"/>
+		
+		<result property="totalAmount" column="GA_TOTAL"/>
+	</resultMap>
+	
+	<resultMap id="groupAccountMemberResultSet" type="GroupAccountMember">
+		<id property="gamNo" column="GAM_NO"/>
+		<result property="gNo" column="G_NO"/>
+		<result property="gmNo" column="GM_NO"/>
+		<result property="gaNo" column="GA_NO"/>
+		<result property="gamAmount" column="GAM_AMOUNT"/>
+		<result property="gamDelete" column="GAM_DELETE"/>
+		<result property="gamYn" column="GAM_YN"/>
+		
+		<result property="name" column="NAME"/>
 		
 	</resultMap>
 	<!-- resultMap end -->
@@ -158,11 +190,21 @@
 	</select> 
 
 	<select id="searchNameList" parameterType="GroupSearchName" resultMap="memberResultSet">
-		SELECT ID, NAME
+		
+	  SELECT ID, NAME
+      FROM MEMBER
+      WHERE ID NOT IN(SELECT GM.GM_ID
+                   FROM GROUP_MEMBER GM
+                  WHERE GM.G_NO= #{gNo})
+       AND NAME LIKE '%' || #{searchName} || '%' 
+       AND ID NOT IN  #{loginUserId}
+       AND OUT_YN = 'N'
+		
+		<!-- SELECT ID, NAME
 		FROM MEMBER
 		WHERE NAME LIKE '%' || #{searchName} || '%' 
 		AND ID NOT IN  #{loginUserId}
-		AND OUT_YN = 'N'
+		AND OUT_YN = 'N' -->
 	</select>
 	
 	<insert id="groupInsert" parameterType="GroupTable">
@@ -685,7 +727,7 @@
         FROM GROUP_VOTE GV
         full JOIN GROUP_VOTE_ITEM GVI ON(GV.GV_NO = GVI.GV_NO)
         FULL JOIN GROUP_VOTE_MEMBER GVM ON(GVI.GVI_NO = GVM.GVI_NO)
-       WHERE GV.GV_NO = #{gvNo}
+        WHERE GV.GV_NO = #{gvNo}
         AND GV_DELETE = 'N'
         GROUP BY GV.GV_NO, GV.G_NO, GVI_ITEM, GVI.GVI_NO
         ORDER BY GVI_NO  
@@ -807,8 +849,8 @@
 	</select>
 	
 	<!-- 가계부 -->
-	<select id="searchNameAccount" parameterType="GroupSearchName" resultMap="memberResultSet">
-		SELECT ID, NAME, GM_NO
+	<select id="searchNameAccount" parameterType="GroupSearchName" resultMap="groupMemberResultSet">
+		SELECT GM_ID, NAME, GM_NO
 		FROM MEMBER M
         JOIN GROUP_MEMBER GM ON(GM.GM_ID = M.ID)
 		WHERE NAME LIKE '%' || #{searchName} || '%' 
@@ -816,4 +858,115 @@
 		AND OUT_YN = 'N'
 	</select>
 	
+	<select id="selectProList" parameterType="GroupInfo" resultMap="groupAccountResultSet">
+		SELECT GA_NO, G_NO, GM_NO, TO_CHAR(TO_DATE(GA_DATE),'YYYY-MM-DD') AS GA_DATE, GA_CON, GA_AMOUNT, GA_PRO, GA_EXP, GA_FEE, GA_DELETE
+		FROM GROUP_ACCOUNT
+		WHERE G_NO = #{groupNo}
+		AND GA_PRO = 'Y'
+		AND GA_DELETE = 'N'
+	</select>
+	
+	<select id="selectExeList" parameterType="GroupInfo" resultMap="groupAccountResultSet">
+		SELECT GA_NO, G_NO, GM_NO, TO_CHAR(TO_DATE(GA_DATE),'YYYY-MM-DD') AS GA_DATE, GA_CON, GA_AMOUNT, GA_PRO, GA_EXP, GA_FEE, GA_DELETE
+		FROM GROUP_ACCOUNT
+		WHERE G_NO = #{groupNo}
+		AND GA_EXP = 'Y'
+		AND GA_DELETE = 'N'
+	</select>
+	
+	<select id="selectFeeList" parameterType="GroupInfo" resultMap="groupAccountResultSet">
+		SELECT GA_NO, G_NO, GM_NO, TO_CHAR(TO_DATE(GA_DATE),'YYYY-MM-DD') AS GA_DATE, GA_CON, GA_AMOUNT, GA_PRO, GA_EXP, GA_FEE, GA_DELETE
+		FROM GROUP_ACCOUNT
+		WHERE G_NO = #{groupNo}
+		AND GA_FEE = 'Y'
+		AND GA_DELETE = 'N'
+	</select>
+	
+	<select id="selectTotalProList" parameterType="GroupAccount" resultMap="groupAccountResultSet">
+	 	SELECT EXTRACT(MONTH FROM GA_DATE) AS GA_MONTH ,SUM(GA_AMOUNT) AS GA_TOTAL
+		FROM GROUP_ACCOUNT
+		WHERE G_NO = #{gNo}
+		    AND EXTRACT(YEAR FROM GA_DATE)= #{year}
+            AND EXTRACT(MONTH FROM GA_DATE)= #{month}
+            AND GA_PRO = 'Y'
+		    AND GA_DELETE='N'
+		GROUP BY EXTRACT(MONTH FROM GA_DATE)
+	</select>
+	
+	<select id="selectTotalExeList" parameterType="GroupAccount" resultMap="groupAccountResultSet">
+	 		SELECT EXTRACT(MONTH FROM GA_DATE) AS GA_MONTH ,SUM(GA_AMOUNT) AS GA_TOTAL
+		FROM GROUP_ACCOUNT
+		WHERE G_NO = #{gNo}
+		    AND EXTRACT(YEAR FROM GA_DATE)= #{year}
+            AND EXTRACT(MONTH FROM GA_DATE)= #{month}
+            AND GA_EXP = 'Y'
+		    AND GA_DELETE='N'
+		GROUP BY EXTRACT(MONTH FROM GA_DATE)
+	</select>
+	
+	<select id="selectTotalFeeList" parameterType="GroupAccount" resultMap="groupAccountResultSet">
+	 		SELECT EXTRACT(MONTH FROM GA_DATE) AS GA_MONTH ,SUM(GA_AMOUNT) AS GA_TOTAL
+		FROM GROUP_ACCOUNT
+		WHERE G_NO = #{gNo}
+		    AND EXTRACT(YEAR FROM GA_DATE)= #{year}
+            AND EXTRACT(MONTH FROM GA_DATE)= #{month}
+            AND GA_FEE = 'Y'
+		    AND GA_DELETE='N'
+		GROUP BY EXTRACT(MONTH FROM GA_DATE)
+	</select>
+	
+	<insert id="insertAccount" parameterType="GroupAccount">
+		INSERT INTO GROUP_ACCOUNT
+		VALUES(
+			SEQ_GA.NEXTVAL,
+			#{gNo},
+			#{gmNo},
+			#{gaTitle},
+			#{gaDate},
+			#{gaCon},
+			#{gaAmount},
+			#{gaPro},
+			#{gaExp},
+			#{gaFee},
+			#{gaDelete},
+			#{gasYn}
+		)
+	</insert>
+	
+	<select id="gaCurrval" resultType="_int">
+		SELECT SEQ_GA.CURRVAL
+		FROM DUAL
+	</select>
+	
+	<insert id="insertAccountMember" parameterType="arraylist">
+		INSERT INTO GROUP_ACCOUNT_MEMBER(GAM_NO, G_NO, GM_NO, GA_NO, GAM_AMOUNT, GAM_DELETE, GAM_YN)
+		SELECT SEQ_GAM.NEXTVAL , M.*
+		FROM (
+		<foreach collection="list" item="gamList" index="ix" separator="UNION ALL">
+			SELECT #{gamList.gNo} AS G_NO, #{gamList.gmNo} AS GM_NO , #{gamList.gaNo} AS GA_NO ,
+			#{gamList.gamAmount} AS GAM_AMOUNT ,#{gamList.gamDelete} AS GAM_DELETE ,#{gamList.gamYn} AS GAM_YN 
+			FROM DUAL 
+		</foreach>
+		)M
+	</insert>
+	
+	<select id="selectGa" parameterType="string" resultMap="groupAccountResultSet">
+		SELECT GA_NO, G_NO, GM_NO, GA_TITLE,TO_CHAR(TO_DATE(GA_DATE),'YYYY-MM-DD') AS GA_DATE, GA_CON, GA_AMOUNT, GA_PRO, GA_EXP, GA_FEE, GA_DELETE, GAS_YN
+		FROM GROUP_ACCOUNT
+		WHERE GA_NO = #{gaNo}
+	</select>
+	
+	<select id="selectGam" parameterType="string" resultMap="groupAccountMemberResultSet">
+		SELECT GAM_NO, GAM.G_NO, GAM.GM_NO, GA_NO, GAM_AMOUNT, GAM_DELETE, GAM_YN, NAME
+		FROM GROUP_ACCOUNT_MEMBER GAM
+		JOIN GROUP_MEMBER GM ON(GAM.GM_NO = GM.GM_NO)
+		JOIN MEMBER M ON(GM.GM_ID = M.ID)
+		WHERE GA_NO = #{gaNo}
+	</select>
+	
+	<select id="selectTotalGa" parameterType="string" resultType="_int">
+		SELECT SUM(GAM_AMOUNT)
+		FROM GROUP_ACCOUNT_MEMBER
+		WHERE GA_NO = #{gaNo}
+	</select>
 </mapper>

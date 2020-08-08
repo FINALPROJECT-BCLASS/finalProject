@@ -7,105 +7,184 @@ public class GroupAccount implements Serializable{
 	private int gaNo;
 	private int gNo;
 	private int gmNo;
-	private String gaStart;
-	private String gaEnd;
-	private String gaPost;
-	private String address1;
-	private String address2;
+	private String gaTitle;
+	private String gaDate;
 	private String gaCon;
+	private String gaAmount;
+	private String gaPro;
 	private String gaExp;
+	private String gaFee;
 	private String gaDelete;
+	private String gasYn;
+	
+	private String totalAmount;
+	
+	private String color;
+	private String year;
+	private String month;
+	
 	public GroupAccount() {
 		super();
 	}
-	public GroupAccount(int gaNo, int gNo, int gmNo, String gaStart, String gaEnd, String gaPost, String address1,
-			String address2, String gaCon, String gaExp, String gaDelete) {
+
+	public GroupAccount(int gaNo, int gNo, int gmNo, String gaTitle, String gaDate, String gaCon, String gaAmount,
+			String gaPro, String gaExp, String gaFee, String gaDelete, String gasYn, String totalAmount, String color,
+			String year, String month) {
 		super();
 		this.gaNo = gaNo;
 		this.gNo = gNo;
 		this.gmNo = gmNo;
-		this.gaStart = gaStart;
-		this.gaEnd = gaEnd;
-		this.gaPost = gaPost;
-		this.address1 = address1;
-		this.address2 = address2;
+		this.gaTitle = gaTitle;
+		this.gaDate = gaDate;
 		this.gaCon = gaCon;
+		this.gaAmount = gaAmount;
+		this.gaPro = gaPro;
 		this.gaExp = gaExp;
+		this.gaFee = gaFee;
 		this.gaDelete = gaDelete;
+		this.gasYn = gasYn;
+		this.totalAmount = totalAmount;
+		this.color = color;
+		this.year = year;
+		this.month = month;
 	}
-	public int getGaNo() {
+
+	public final int getGaNo() {
 		return gaNo;
 	}
-	public void setGaNo(int gaNo) {
+
+	public final void setGaNo(int gaNo) {
 		this.gaNo = gaNo;
 	}
-	public int getgNo() {
+
+	public final int getgNo() {
 		return gNo;
 	}
-	public void setgNo(int gNo) {
+
+	public final void setgNo(int gNo) {
 		this.gNo = gNo;
 	}
-	public int getGmNo() {
+
+	public final int getGmNo() {
 		return gmNo;
 	}
-	public void setGmNo(int gmNo) {
+
+	public final void setGmNo(int gmNo) {
 		this.gmNo = gmNo;
 	}
-	public String getGaStart() {
-		return gaStart;
+
+	public final String getGaTitle() {
+		return gaTitle;
 	}
-	public void setGaStart(String gaStart) {
-		this.gaStart = gaStart;
+
+	public final void setGaTitle(String gaTitle) {
+		this.gaTitle = gaTitle;
 	}
-	public String getGaEnd() {
-		return gaEnd;
+
+	public final String getGaDate() {
+		return gaDate;
 	}
-	public void setGaEnd(String gaEnd) {
-		this.gaEnd = gaEnd;
+
+	public final void setGaDate(String gaDate) {
+		this.gaDate = gaDate;
 	}
-	public String getGaPost() {
-		return gaPost;
-	}
-	public void setGaPost(String gaPost) {
-		this.gaPost = gaPost;
-	}
-	public String getAddress1() {
-		return address1;
-	}
-	public void setAddress1(String address1) {
-		this.address1 = address1;
-	}
-	public String getAddress2() {
-		return address2;
-	}
-	public void setAddress2(String address2) {
-		this.address2 = address2;
-	}
-	public String getGaCon() {
+
+	public final String getGaCon() {
 		return gaCon;
 	}
-	public void setGaCon(String gaCon) {
+
+	public final void setGaCon(String gaCon) {
 		this.gaCon = gaCon;
 	}
-	public String getGaExp() {
+
+	public final String getGaAmount() {
+		return gaAmount;
+	}
+
+	public final void setGaAmount(String gaAmount) {
+		this.gaAmount = gaAmount;
+	}
+
+	public final String getGaPro() {
+		return gaPro;
+	}
+
+	public final void setGaPro(String gaPro) {
+		this.gaPro = gaPro;
+	}
+
+	public final String getGaExp() {
 		return gaExp;
 	}
-	public void setGaExp(String gaExp) {
+
+	public final void setGaExp(String gaExp) {
 		this.gaExp = gaExp;
 	}
-	public String getGaDelete() {
+
+	public final String getGaFee() {
+		return gaFee;
+	}
+
+	public final void setGaFee(String gaFee) {
+		this.gaFee = gaFee;
+	}
+
+	public final String getGaDelete() {
 		return gaDelete;
 	}
-	public void setGaDelete(String gaDelete) {
+
+	public final void setGaDelete(String gaDelete) {
 		this.gaDelete = gaDelete;
 	}
+
+	public final String getGasYn() {
+		return gasYn;
+	}
+
+	public final void setGasYn(String gasYn) {
+		this.gasYn = gasYn;
+	}
+
+	public final String getTotalAmount() {
+		return totalAmount;
+	}
+
+	public final void setTotalAmount(String totalAmount) {
+		this.totalAmount = totalAmount;
+	}
+
+	public final String getColor() {
+		return color;
+	}
+
+	public final void setColor(String color) {
+		this.color = color;
+	}
+
+	public final String getYear() {
+		return year;
+	}
+
+	public final void setYear(String year) {
+		this.year = year;
+	}
+
+	public final String getMonth() {
+		return month;
+	}
+
+	public final void setMonth(String month) {
+		this.month = month;
+	}
+
 	@Override
 	public String toString() {
-		return "GroupAccount [gaNo=" + gaNo + ", gNo=" + gNo + ", gmNo=" + gmNo + ", gaStart=" + gaStart + ", gaEnd="
-				+ gaEnd + ", gaPost=" + gaPost + ", address1=" + address1 + ", address2=" + address2 + ", gaCon="
-				+ gaCon + ", gaExp=" + gaExp + ", gaDelete=" + gaDelete + "]\n";
+		return "GroupAccount [gaNo=" + gaNo + ", gNo=" + gNo + ", gmNo=" + gmNo + ", gaTitle=" + gaTitle + ", gaDate="
+				+ gaDate + ", gaCon=" + gaCon + ", gaAmount=" + gaAmount + ", gaPro=" + gaPro + ", gaExp=" + gaExp
+				+ ", gaFee=" + gaFee + ", gaDelete=" + gaDelete + ", gasYn=" + gasYn + ", totalAmount=" + totalAmount
+				+ ", color=" + color + ", year=" + year + ", month=" + month + "]";
 	}
-	
+
 	
 	
 }

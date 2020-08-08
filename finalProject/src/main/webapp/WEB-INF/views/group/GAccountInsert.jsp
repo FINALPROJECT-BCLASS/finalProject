@@ -47,19 +47,19 @@
     .searchNameAfter{background:white; border:none; border-radius: 6px;  height:100px; color:darkgray; height:150px; width:600px; overflow:scroll;  overflow-x:hidden;}
     
     
-    .searchNameBox{margin-left:10px; margin-top:5px;width:95%; height:30px; background:#2860E1;  border:none; border-radius: 6px; display: inline-flex; }
+    .searchNameBox{margin-left:10px; margin-top:5px;width:95%; height:30px; background:#FBD14B;  border:none; border-radius: 6px; display: inline-flex; color:#484848;}
     .searchNameBox:hover{margin-left:10px;margin-top:5px; width:95%; height:30px; background:darkgray; border:none; border-radius: 6px; cursor:pointer; display: inline-flex;}
    
     
     .deleteBtn{width:20px;height:30px; border-radius: 3px; background:red; border:none; text-align: center;}
 
-    .amountName{display: inline-block;width:50%; color:#F3F3F3;}
+    .amountName{display: inline-block;width:50%; color:#484848;}
    
     
-    .amountBox{display: inline-block; width:50%; border:none;height:20px; background:#4273e6; border-radius: 6px; margin-top:3px;}
+    .amountBox{display: inline-block; width:50%; border:none;height:20px; background:#ecba14; border-radius: 6px; margin-top:3px;}
    
 
-    .amountBox::placeholder{color:darkgrey;}
+    .amountBox::placeholder{color:white;}
 
 
     .accountAdmin{width:20px; height:20px; margin-top:10px; margin-right: 10px;}
@@ -73,8 +73,10 @@
     #groupCon{width:100%; border:none; padding-left:10px;}
     .textArea{border:none; border-radius: 6px;  background:white;}
     .comment{color:grey; display: inline-block; font-size: medium;}
-
+	.textTitle{font-weight:800;}
     .groubJoinBtn{text-align: center;}
+    .annoIcon{cursor:pointer;}
+    
     #submit{background:none; border:none; color:#2860E1; font-weight: 600; font-size: 20px; }
     #reset{background:none; border:none; color:#484848; font-weight: 600; font-size: 20px; width:100px;}
 
@@ -84,6 +86,7 @@
             font-weight: 600;
             font-size: 16px;
         }
+        
   </style>
 
 </head>
@@ -100,9 +103,9 @@
 		</c:if>
         <div class="join-form-area">
         <h1>Group Diary</h1>
-        <h4 class="pSubject">Profit & Expense Manage Create</h4><br>
+        <h4 class="pSubject">Account Write</h4><br>
             <div class="groupJoin">
-                <form action="#">
+                <form action="accountInsert.do" method="post" id="accountForm">
                 	<div class="typeForm">
                 	<div class="typeBox">
            				<input type="radio" class="type" name="type" value="fee" id="fee" checked>
@@ -118,20 +121,19 @@
            			</div>
            			</div>
                     <table class="groupTb">
-                    	<tr>
-                    		<td>
-                    			
-                    		</td>
-                    	</tr>
+                    	<input type="hidden" id="typeFee" name="gaFee" value="Y">
+                    	<input type="hidden" id="typePro" name="gaPro" value="N">
+                    	<input type="hidden" id="typeExp" name="gaExp" value="N">
+                    	<input type="hidden" id="deleteYn" name="gaDelete" value="N">
                         <tr>
                             <td class="groupTbTd">Title&nbsp;</td>
-                            <td><input type="text" id="title" placeholder="  제목 입력"></td>
+                            <td><input type="text" name="gaTitle" id="title" placeholder="  제목 입력"></td>
                         </tr>
                         <tr>
                             <td class="groupTbTd">Date&nbsp;</td>
                             <td>
-                                <input type="date" class="date" value="${clickDate }"> 
-                                <input type="date" class="date" value="${clickDate }"> 
+                                <input type="date" name="gaDate" class="date" value="${clickDate }"> 
+                                 
                                 
                             </td>
                         </tr>
@@ -140,7 +142,7 @@
                             <td>
                                 <div class="textArea">
                                     <span class="material-icons">article</span> <div class="comment">내용 입력</div>
-                                    <textarea id="groupCon"></textarea>
+                                    <textarea id="groupCon" name="gaCon"></textarea>
                                 </div>
                             </td> 
                         </tr>
@@ -165,92 +167,116 @@
                                 </div>
                             </td>
                         </tr>
-                        <!-- 수입 -->
-                        <tr class="profit"><td></td><td align="center"><b>PROFIT</b></td></tr>
-                        <tr class="profit">
-                            <td class="groupTbTd">Profit Amount&nbsp;</td>
+                        <tr><td></td><td align="center"  class="textTitle">FEE</td></tr>
+                        <tr>
+                            <td class="groupTbTd"><div class="amount">Fee Total Amount&nbsp;</div></td>
                             <td>
-                                <div class="backgroundWhite"><span class="material-icons">add</span><input type="text" class="amount"></div>
+                                <div class="backgroundWhite"><span class="material-icons">add</span><input type="text" name="gaAmount" class="amount"></div>
                             </td>
                         </tr>
-                        
-                        <tr class="profit">
-                            <td class="groupTbTd">Profit Content&nbsp;</td>
-                            <td>
-                               <input type="text" >
-                            </td>
+                        <tr>
+                        	<td>Sharing</td>
+                        	<td>
+                        		<span class="material-icons annoIcon">check_box_outline_blank</span>
+                        		<input type='hidden' class='annoIn' name='gasYn' value='N'>
+                        	</td>
                         </tr>
-                       <!-- 수입 end -->
-                       <!-- 지출 -->
-                        <tr class="expense"><td></td><td align="center"><b>EXPENSE</b></td></tr>
-                        <tr class="expense">
-	                        <td class="groupTbTd">Expense Amount&nbsp;</td>
-	                        <td>
-	                            <div class="backgroundWhite"><span class="material-icons">remove</span><input type="text" class="amount"></div>
-	                        </td>
-                  		</tr>
-	                    <tr class="expense">
-	                        <td class="groupTbTd">Expense Contnet&nbsp;</td>
-	                        <td>
-	                           <input type="text" >
-	                        </td>
-	                    </tr>
-                       <!-- 지출 END --> 
-                       <tr class="fee"><td></td><td align="center"><b>FEE</b></td></tr>
-                        <tr class="fee">
-                            <td class="groupTbTd">Fee Amount&nbsp;</td>
-                            <td>
-                                <div class="backgroundWhite"><span class="material-icons">add</span><input type="text" class="amount"></div>
-                            </td>
-                        </tr>
-                        <tr class="fee">
-                            <td class="groupTbTd">Fee Content&nbsp;</td>
-                            <td>
-                               <input type="text" >
-                            </td>
-                        </tr>       
                     </table>
                 </form>
                 <br><br>
                 <div class="groubJoinBtn">
-                   <span><button id="submit">Submit</button>&nbsp;</span>
+                   <span><button  id="submit">Submit</button>&nbsp;</span>
                    <span><input type="reset" value="Reset" id="reset"></span>
                 </div>
             </div>
          </div>
          </div>
+         <!-- 합계 -->
+         <script>
+         	$(document).on("keyup",".amountBox",function(){
+         		var sum = 0;
+         		$('.amountBox').each(function(){
+         		    sum += parseFloat(this.value);
+         		});
+         		console.log(sum);
+         		$(".amount").val(sum);
+         	})
+         </script>
+         
+         <!-- Sharing -->
+         <script>
+	         // 공유 체크
+	         $(".annoIcon").click(function(){
+	          if($(this).text() == "check_box_outline_blank"){
+	            $(this).text("check_box");
+	            $(".annoIn").val("Y");
+	          } else{
+	            $(this).text("check_box_outline_blank");
+	            $(".annoIn").val("N");
+	          }
+	
+	         })
+         </script>
+         
+         <!-- submit -->
+         <script>
+         	$("#submit").click(function(){
+         		$("#accountForm").submit();
+         	})
+         </script>
          
          <!-- 라디오 박스 선택 -->
          <script>
 	         $(".type").change(function(){
 	             if($("#fee").is(":checked")){
-	                 alert("fee");
-	                 $(".fee").css("display","block");
-	                 $(".expense").css("display","none");
-	                 $(".profit").css("display","none");
+	                 
+	                 $(".textTitle").text("");
+	                 $(".amount").text("");
+	              
+	                 $(".textTitle").text("FEE");
+	                 $(".amount").text("Fee Total Amount");
+	                 $("#typeFee").attr("value","Y");
+	                 $("#typePro").attr("value","N");
+	                 $("#typeExp").attr("value","N");
+	              
 	             }else if($("#profit").is(":checked")){
-	                 alert("profit");
-	                 $(".fee").css("display","none");
-	                 $(".expense").css("display","none");
-	                 $(".profit").css("display","block");
+	                 
+	                 $(".textTitle").text("");
+	                 $(".amount").text("");
+	                
+	                 $(".textTitle").text("PROFIT");
+	                 $(".amount").text("Profit Total Amount");
+	                 $("#typeFee").attr("value","N");
+	                 $("#typePro").attr("value","Y");
+	                 $("#typeExp").attr("value","N");
+	                 
 	             }else if($("#expense").is(":checked")){
-	            	 alert("expense");
-	            	 $(".fee").css("display","none");
-	                 $(".expense").css("display","block");
-	                 $(".profit").css("display","none");
+	            	 
+	            	 $(".textTitle").text("");
+	            	 $(".amount").text("");
+	                 
+	                 $(".textTitle").text("EXPENSE");
+	                 $(".amount").text("Expense Total Amount");
+	                 $("#typeFee").attr("value","N");
+	                 $("#typePro").attr("value","N");
+	                 $("#typeExp").attr("value","Y");
+	                 
 	             }
 	         });
          </script>
          
          <!-- 멤버검색 script -->
          <script>
-
             // 클릭한 이름 삽입
             
            	 $(document).on("click",".searchClick",function(){
                 var $searchName = $(this).children().html();
+                var $gmNo = $(this).children().next().next().val();
                 var $searchNameAfter = $(".searchNameAfter");
-                var $searchNameBox = " <button type='button' class='searchNameBox'><div class='amountName'>"+$searchName+"</div><input type='text' class='amountBox' placeholder='Enter the amount here'><input type='hidden' value='"+$searchName+"' ></button>";
+                var $searchNameBox = " <button type='button' class='searchNameBox'>" +
+                "<div class='amountName'>"+$searchName+"</div>" +
+                "<input type='text' class='amountBox' name='gamAmount' placeholder='Enter the amount here'>"+
+                "<input type='hidden' name='gmNo' value='"+$gmNo+"' ></button>";
                 
                 $searchNameAfter.append($searchNameBox);
 				$(this).remove();
@@ -286,8 +312,8 @@
 	         					var $searchList = $(".searchList");
 	         					var $searchClick = $("<div>").attr("class","searchClick");
 	         					var $searchName = $("<div>").text(data[i].name).attr("class","searchName");
-	         					var $searchId = $("<span>").text(data[i].id).attr("class","searchId");
-	         					var $gmNo = $(' <input type="hidden" class="gmNo" value="'+data[i].gmNo+'">');
+	         					var $searchId = $("<span>").text(data[i].gmId).attr("class","searchId");
+	         					var $gmNo = $(' <input type="hidden" class="gmNo" value="'+data[i].gmNO+'">');
        						
 	         					
 	         					$searchList.append($searchClick);

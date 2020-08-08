@@ -32,6 +32,8 @@
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupReply" alias="GroupReply"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupReReply" alias="GroupReReply"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupVote" alias="GroupVote"/>
+		<typeAlias type="com.kh.finalProject.group.model.vo.GroupAccount" alias="GroupAccount"/>
+		<typeAlias type="com.kh.finalProject.group.model.vo.GroupAccountMember" alias="GroupAccountMember"/>
 
 		<typeAlias type="com.kh.finalProject.daily.model.vo.Habit" alias="Habit"/>
 		<typeAlias type="com.kh.finalProject.daily.model.vo.HabitRecord" alias="HabitRecord"/>

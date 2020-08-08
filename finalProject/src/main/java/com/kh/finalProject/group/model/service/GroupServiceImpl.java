@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.kh.finalProject.group.common.PageInfo;
 import com.kh.finalProject.group.model.dao.GroupDao;
+import com.kh.finalProject.group.model.vo.GroupAccount;
+import com.kh.finalProject.group.model.vo.GroupAccountMember;
 import com.kh.finalProject.group.model.vo.GroupBoard;
 import com.kh.finalProject.group.model.vo.GroupBoardPhoto;
 import com.kh.finalProject.group.model.vo.GroupInfo;
@@ -412,6 +414,67 @@ public class GroupServiceImpl implements GroupService{
 	public ArrayList<Member> searchNameAccount(GroupSearchName gSearch) {
 		return gDao.searchNameAccount(gSearch);
 	}
+
+	@Override
+	public ArrayList<GroupAccount> selectProList(GroupInfo gInfo) {
+		return gDao.selectProList(gInfo);
+	}
+
+	@Override
+	public ArrayList<GroupAccount> selectExeList(GroupInfo gInfo) {
+		return gDao.selectExeList(gInfo);
+	}
+
+	@Override
+	public ArrayList<GroupAccount> selectFeeList(GroupInfo gInfo) {
+		return gDao.selectFeeList(gInfo);
+	}
+
+	@Override
+	public ArrayList<GroupAccount> selectTotalProList(GroupAccount ga) {
+		return gDao.selectTotalProList(ga);
+	}
+
+	@Override
+	public ArrayList<GroupAccount> selectTotalExeList(GroupAccount ga) {
+		return gDao.selectTotalExeList(ga);
+	}
+
+	@Override
+	public ArrayList<GroupAccount> selectTotalFeeList(GroupAccount ga) {
+		return gDao.selectTotalFeeList(ga);
+	}
+
+	@Override
+	public int insertAccount(GroupAccount ga) {
+		return gDao.insertAccount(ga);
+	}
+
+	@Override
+	public int gaCurrval() {
+		return gDao.gaCurrval();
+	}
+
+	@Override
+	public int insertAccountMember(ArrayList<GroupAccountMember> gamList) {
+		return gDao.insertAccountMember(gamList);
+	}
+
+	@Override
+	public GroupAccount selectGa(String gaNo) {
+		return gDao.selectGa(gaNo);
+	}
+
+	@Override
+	public ArrayList<GroupAccountMember> selectGam(String gaNo) {
+		return gDao.selectGam(gaNo);
+	}
+
+	@Override
+	public int selectTotalGa(String gaNo) {
+		return gDao.selectTotalGa(gaNo);
+	}
+
 
 
 

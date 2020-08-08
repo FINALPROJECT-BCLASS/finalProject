@@ -1,5 +1,5 @@
 package com.kh.finalProject.group.controller;
-
+ 
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -27,6 +27,8 @@ import com.google.gson.JsonIOException;
 import com.kh.finalProject.group.common.PageInfo;
 import com.kh.finalProject.group.common.Pagination;
 import com.kh.finalProject.group.model.service.GroupService;
+import com.kh.finalProject.group.model.vo.GroupAccount;
+import com.kh.finalProject.group.model.vo.GroupAccountMember;
 import com.kh.finalProject.group.model.vo.GroupBoard;
 import com.kh.finalProject.group.model.vo.GroupBoardPhoto;
 import com.kh.finalProject.group.model.vo.GroupInfo;
@@ -41,12 +43,11 @@ import com.kh.finalProject.group.model.vo.GroupSearchName;
 import com.kh.finalProject.group.model.vo.GroupTable;
 import com.kh.finalProject.group.model.vo.GroupVote;
 import com.kh.finalProject.member.model.vo.Member;
-import com.kh.finalProject.plan.model.vo.MPlan;
 
 @Controller
 public class GroupController {
 
-	@Autowired
+	@Autowired 
 	GroupService gService;
 
 	@Autowired
@@ -1784,7 +1785,7 @@ public class GroupController {
 			mv.addObject("noticeList", noticeList);
 			mv.addObject("gInfo", gInfo);
 			mv.addObject("groupTable", gt);
-
+ 
 			mv.setViewName("group/GAccountMain");
 			return mv;
 
@@ -1825,42 +1826,204 @@ public class GroupController {
 
 		}
 		
-		// 캘린더 목록
-//		@RequestMapping("selectPlan.do")
-//		public void selectPlan(HttpSession session, HttpServletResponse response) throws IOException {
-//			Member loginUser = (Member) session.getAttribute("loginUser");
-//			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
-//			response.setContentType("application/json;charset=utf-8");
-//			
-//			ArrayList<GroupPlan> planList = gService.selectPlanList(gInfo);
-//			System.out.println("캘린더 : " + planList);
-//			JSONArray jArr = new JSONArray();
-//			
-//			for(GroupPlan p : planList) {
-//				JSONObject jObj = new JSONObject();
-//				jObj.put("gpNo", p.getGpNo());
-//				jObj.put("gNo", p.getgNo());
-//				jObj.put("gmNo", p.getGmNo());
-//				jObj.put("gpTitle", p.getGpTitle());
-//				jObj.put("gpCon", p.getGpCon());
-//				jObj.put("gpStart", p.getGpStart());
-//				jObj.put("gpEnd", p.getGpEnd());
-//				jObj.put("address1", p.getAddress1());
-//				jObj.put("address2", p.getAddress2());
-//				jObj.put("color", p.getColor());
-//				jObj.put("gpDelete", p.getGpDelete());
-//				
-//				jArr.add(jObj);
-//			}
-//			
-//			JSONObject sendJson = new JSONObject();
-//			sendJson.put("planList", jArr);
-//			
-//			PrintWriter out = response.getWriter();
-//			out.print(sendJson);
-//			out.flush();
-//			out.close();
-//		}
+		@RequestMapping("accountList.do")
+		public void accountList(HttpSession session, HttpServletResponse response) throws IOException {
+			response.setContentType("application/json;charset=utf-8");
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			
+			ArrayList<GroupAccount> proList = gService.selectProList(gInfo);
+			ArrayList<GroupAccount> expList = gService.selectExeList(gInfo);
+			ArrayList<GroupAccount> feeList = gService.selectFeeList(gInfo);
+			
+			System.out.println("proList : " + proList);
+			System.out.println("expList : " + expList);
+			System.out.println("feeList : " + feeList);
+			JSONArray jArr = new JSONArray();
+			
+			for(GroupAccount p : proList) {
+				JSONObject jObj = new JSONObject();
+				 
+//				String formatSum = String.format("%,d", p.getGaAmount());
+				jObj.put("eventTitle", p.getGaAmount());
+				jObj.put("date", p.getGaDate());
+				jObj.put("color", "#2860E1");
+				jObj.put("type", "profit");
+				jObj.put("gaNo", p.getGaNo());
+				
+				jArr.add(jObj);
+			}
+			
+			for(GroupAccount p : expList) {
+				JSONObject jObj = new JSONObject();
+				
+//				String formatSum = String.format("%,d", p.getGaAmount());
+				jObj.put("eventTitle", p.getGaAmount());
+				jObj.put("date", p.getGaDate());
+				jObj.put("color", "#ee1212d0");
+				jObj.put("type", "expense");
+				jObj.put("gaNo", p.getGaNo());
+				
+				jArr.add(jObj);
+			}
+			
+			for(GroupAccount p : feeList) {
+				JSONObject jObj = new JSONObject();
+				
+//				String formatSum = String.format("%,d", p.getGaAmount());
+				jObj.put("eventTitle", p.getGaAmount());
+				jObj.put("date", p.getGaDate());
+				jObj.put("color", "#FBD14B");
+				jObj.put("type", "fee");
+				jObj.put("gaNo", p.getGaNo());
+				
+				jArr.add(jObj);
+			}
+
+			JSONObject sendJson = new JSONObject();
+			sendJson.put("accountList", jArr);
+			
+			PrintWriter out = response.getWriter();
+			out.print(sendJson);
+			out.flush();
+			out.close();
+		}
 		
+		// 가계부 합계
+		@RequestMapping("totalAccountList.do")
+		public void totalAccountList(HttpSession session, HttpServletResponse response,
+				GroupAccount ga) throws IOException {
+			response.setContentType("application/json;charset=utf-8");
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			
+			String year = ga.getGaDate().substring(0, 4);
+			String month = ga.getGaDate().substring(5);
+			System.out.println("year : " + year);
+			ga.setYear(year);
+			ga.setMonth(month);
+			ga.setgNo(gInfo.getGroupNo());
+			ga.setGmNo(gInfo.getGmNo());
+//			
+			
+			System.out.println("ga : " + ga);
+			
+			ArrayList<GroupAccount> proTotalList = gService.selectTotalProList(ga);
+			ArrayList<GroupAccount> expTotalList = gService.selectTotalExeList(ga);
+			ArrayList<GroupAccount> feeTotalList = gService.selectTotalFeeList(ga);
+			
+				
+			
+			System.out.println("proTotalList : " + proTotalList);
+			System.out.println("expTotalList : " + expTotalList);
+			System.out.println("feeTotalList : " + feeTotalList);
+
+			JSONArray pArr = new JSONArray();
+			JSONArray eArr = new JSONArray();
+			JSONArray fArr = new JSONArray();
+			
+			for(GroupAccount p : proTotalList) {
+				JSONObject jObj = new JSONObject();
+				
+				if(proTotalList.isEmpty()) {
+					p.setTotalAmount("0");
+				} 
+				
+//				String formatSum = String.format("%,d", p.getTotalAmount());
+				jObj.put("totalPro", p.getTotalAmount());
+				
+				pArr.add(jObj);
+			}
+			
+			for(GroupAccount p : expTotalList) {
+				JSONObject jObj = new JSONObject();
+				
+				if(expTotalList.isEmpty()) {
+					p.setTotalAmount("0");
+				}
+				
+				jObj.put("totalExp", p.getTotalAmount());
+				
+				eArr.add(jObj);
+			}
+			
+			for(GroupAccount p : feeTotalList) {
+				JSONObject jObj = new JSONObject();
+				
+				if(feeTotalList.isEmpty()) {
+					p.setTotalAmount("0");
+				}
+				
+//				String formatSum = String.format("%,d", p.getGaAmount());
+				jObj.put("totalFee", p.getTotalAmount());
+				
+				fArr.add(jObj);
+			}
+
+			JSONObject sendJson = new JSONObject();
+			sendJson.put("totalPro", pArr);
+			sendJson.put("totalExp", eArr);
+			sendJson.put("totalFee", fArr);
+			
+			PrintWriter out = response.getWriter();
+			out.print(sendJson);
+			out.flush();
+			out.close();
+		}
 		
+		// 가계부 작성
+		@RequestMapping(value = "accountInsert.do", method = RequestMethod.POST)
+		public ModelAndView accountInsert(ModelAndView mv, HttpSession session, 
+				GroupAccount ga, GroupAccountMember gam,
+				@RequestParam(value = "gasYn", required = false) String gasYn,
+				@RequestParam(value = "gmNo", required = false) String gmNo,
+				@RequestParam(value = "gamAmount", required = false) String amount) {
+			Member loginUser = (Member) session.getAttribute("loginUser");
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			System.out.println("작성 ga : " + ga);
+			ga.setgNo(gInfo.getGroupNo());
+			ga.setGmNo(gInfo.getGmNo());
+			
+			int result = gService.insertAccount(ga);
+			int gaCurrval = gService.gaCurrval();
+			
+			String[] gmNos = gmNo.split(",");
+			String[] amounts = amount.split(",");
+			ArrayList<GroupAccountMember> gamList = new ArrayList<>();
+			for (int i = 0; i < gmNos.length; i++) {
+				gam = new GroupAccountMember();
+				
+				gam.setgNo(gInfo.getGroupNo());
+				gam.setGaNo(gaCurrval);
+				gam.setGamAmount(Integer.valueOf(amounts[i]));
+				gam.setGmNo(Integer.valueOf(gmNos[i]));
+				gam.setGamDelete("N");
+				gam.setGamYn("N");
+
+				gamList.add(gam);
+			}
+			int memberResult = gService.insertAccountMember(gamList);			
+
+			mv.setViewName("redirect:accountMain.do");
+			return mv;
+		}
+		
+		// 가계부 상세
+		@RequestMapping(value = "detailAccount.do", method = RequestMethod.GET)
+		public ModelAndView accountInsert(ModelAndView mv, HttpSession session, 
+				GroupAccount ga, GroupAccountMember gam,
+				@RequestParam(value = "gaNo", required = false) String gaNo) {
+			Member loginUser = (Member) session.getAttribute("loginUser");
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			GroupTable gt = gService.selectOneGroup(gInfo);
+			GroupAccount gaList = gService.selectGa(gaNo);
+			ArrayList<GroupAccountMember> gamList = gService.selectGam(gaNo);
+			int totalAmount = gService.selectTotalGa(gaNo);
+			
+			mv.addObject("gInfo", gInfo);
+			mv.addObject("totalAmount", totalAmount);
+			mv.addObject("groupTable", gt);
+			mv.addObject("gaList", gaList);
+			mv.addObject("gamList", gamList);
+			mv.setViewName("group/GAccountDetail");
+			return mv;
+		}
 }
