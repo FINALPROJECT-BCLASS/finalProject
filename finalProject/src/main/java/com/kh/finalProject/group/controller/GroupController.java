@@ -1785,7 +1785,7 @@ public class GroupController {
 			mv.addObject("noticeList", noticeList);
 			mv.addObject("gInfo", gInfo);
 			mv.addObject("groupTable", gt);
-
+ 
 			mv.setViewName("group/GAccountMain");
 			return mv;
 
