@@ -170,4 +170,9 @@ public class DailyDao {
 		return sqlSessionTemplate.selectOne("dailyMapper.selectBookmarkMap", bm);
 	}
 
+	public int updateBookmarkMap(BookmarkMap bm) {
+
+		return sqlSessionTemplate.update("dailyMapper.updateBookmarkMap", bm);
+	}
+
 }

@@ -615,6 +615,15 @@
 				
 				if('${blNum}'){
 					$(".${blNum}").next().trigger("click");
+					
+					// 왜 안 됨?
+					if('${mbNum}'){
+						
+						/* $("#${mbNum}").click(); */
+						/* $("#${mbNum}").trigger("click"); */
+					/* 	$(document).on("click", '#${mbNum}'); */
+					}
+					
 				}
 				
 			});
@@ -642,16 +651,26 @@
 				
 				var bl_no = $(".clicked").prev().val();
 				var bl_type = $(".clicked").prev().prev().val();
-				
 				var mb_no = $(".select").find(".mb_no").val();
-				console.log("지도 북마크 번호 : " + mb_no);
 				
-				/if(bl_no == "map") {
+				console.log("북마크 번호 : " + mb_no);
+				console.log("북마크 타입 : " + bl_type);
+				
+				if(mb_no != undefined) {
 					
+					if(bl_type == "map") {
+						
+						location.href='editBookmarkMapView.do?mb_no='+ mb_no;
+						
+					} else {
+						
+						/* location.href='editBookmarkUrlView.do?mb_no='+ mb_no; */
+						
+					}
+				
+				}else {
 					
-					
-				} else {
-					
+					alert("수정할 북마크를 선택해 주세요.");
 					
 				}
 				
@@ -708,7 +727,7 @@
 								
 								console.log(data.mbl[i]);
 							
-		   						var item = "<div class='map-item'>";
+		   						var item = "<div class='map-item' id='"+ data.mbl[i].mb_no +"'>";
 		   						var name = "<span>" + data.mbl[i].mb_title + "</span>";
 		   						var phone = "<span>" + data.mbl[i].mb_phone + "</span>"
 		   						var no = "<input type = 'hidden' class='mb_no' value='" + data.mbl[i].mb_no + "'>";

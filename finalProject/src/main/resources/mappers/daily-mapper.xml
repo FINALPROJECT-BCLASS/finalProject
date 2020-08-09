@@ -370,5 +370,17 @@
 		AND MB_DELETE = 'N'
 	</select>
 	
+	<update id="updateBookmarkMap" parameterType="BookmarkMap">
+		UPDATE MAP_BOOKMARK
+		SET MB_TITLE = #{mb_title}
+			, MB_PHONE = #{mb_phone}
+			, MB_TIME = #{mb_time}
+			, MB_MEMO = #{mb_memo}
+			, MB_ADDRESS = #{mb_address}
+		WHERE MB_NO = #{mb_no}
+		AND ID = #{id}
+		AND MB_DELETE = 'N'
+	</update>
+	
 	
 </mapper>

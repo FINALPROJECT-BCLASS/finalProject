@@ -69,6 +69,8 @@ public interface DailyService {
 
 	BookmarkMap selectBookmarkMap(BookmarkMap bm);
 
+	int updateBookmarkMap(BookmarkMap bm);
+
 
 
 }

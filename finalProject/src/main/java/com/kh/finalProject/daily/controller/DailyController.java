@@ -718,7 +718,8 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 	// 북마크 리스트 불러오기
 	@RequestMapping("bookmarkView.do")
 	public ModelAndView bookmarkView(ModelAndView mv, HttpServletRequest request, HttpServletResponse response,
-									@RequestParam(value="bl_no", required=false) String blNum) {
+									@RequestParam(value="bl_no", required=false) String blNum,
+									@RequestParam(value="mb_no", required=false) String mbNum) {
 		
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
@@ -732,6 +733,7 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		
 		if(bookmark != null) {
 			
+			mv.addObject("mbNum", mbNum);
 			mv.addObject("blNum", blNum);
 			mv.addObject("bm", bookmark);
 			mv.setViewName("daily/bookmarkList");
@@ -1089,8 +1091,8 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 	
 	// 지도 북마크 리스트
 	@RequestMapping("selectBookmarkMap.do")
-	public void SelectBookmarkMap(Model model,
-			HttpServletRequest request, HttpServletResponse response, String mb_no) throws IOException {
+	public void selectBookmarkMap(HttpServletRequest request, HttpServletResponse response,
+									String mb_no) throws IOException {
 		
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
@@ -1127,5 +1129,78 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		
 		
 	}
+	
+	
+	// 지도 북마크 리스트
+	@RequestMapping("editBookmarkMapView.do")
+	public String editBookmarkMapView(Model model,
+					HttpServletRequest request, HttpServletResponse response,
+					String mb_no) throws IOException {
+		
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		BookmarkMap bm = new BookmarkMap();
+		bm.setMb_no(mb_no);
+		bm.setId(id);
+		
+		BookmarkMap bmMap = dailyService.selectBookmarkMap(bm);
+		
+		if(bmMap != null) {
+			
+			model.addAttribute("bmMap", bmMap);
+			
+			return "daily/bookmarkMapEdit";
+			
+		}else {
+			
+			model.addAttribute("msg","오류 발생, 다시 시도해 주세요.");
+            model.addAttribute("url","/bookmarkView.do");
+			
+			return "common/redirect";
+			
+		}
+		
+	}
+	
+	
+	// 지도 북마크 수정
+	@RequestMapping("editBookmarkMap.do")
+	public String editBookmarkMap(Model model, HttpServletRequest request, HttpServletResponse response,
+									RedirectAttributes redirectAttributes, BookmarkMap bm,
+									@RequestParam(value="mainAddress", required=false) String mainAddress,
+									@RequestParam(value="subAddress", required=false) String subAddress) throws IOException {
+		
+
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		bm.setId(id);
+		bm.setMb_address(mainAddress + "_" + subAddress);
+		
+		int result = dailyService.updateBookmarkMap(bm);
+		
+		if(result > 0) {
+			
+			redirectAttributes.addAttribute("bl_no", bm.getBl_no());
+			redirectAttributes.addAttribute("mb_no", bm.getMb_no());
+			return "redirect:bookmarkView.do";
+			
+		}else {
+
+			model.addAttribute("msg","오류 발생, 다시 시도해 주세요.");
+            model.addAttribute("url","/bookmarkView.do");
+			
+			return "common/redirect";
+		}
+		
+		
+	}
+	
 	
 }
