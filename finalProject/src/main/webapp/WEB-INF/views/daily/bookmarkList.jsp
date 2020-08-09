@@ -627,12 +627,15 @@
 				}
 				
 			});
-		
+			
+			var bl_no;
+			var bl_type;
+			
 			// 북마크 그룹 내의 add 버튼 클릭시 실행되는 함수
 			function addBookmark_m_u() {
 				
-				var bl_no = $(".clicked").prev().val();
-				var bl_type = $(".clicked").prev().prev().val();
+				bl_no = $(".clicked").prev().val();
+				bl_type = $(".clicked").prev().prev().val();
 				
 				if(bl_type == "map") {
 					
@@ -646,11 +649,66 @@
 			}
 			
 			
+			// 북마크 그룹 내의 delete 버튼 클릭시 실행되는 함수
+			function deleteBookmark_m_u() {
+				
+				bl_no = $(".clicked").prev().val();
+				bl_type = $(".clicked").prev().prev().val();
+				
+				var mb_no = $(".select").find(".mb_no").val();
+				
+				if(mb_no != undefined) {
+					
+					if(bl_type == "map") {
+						
+						if(!confirm('정말 삭제하시겠습니까?')){
+							return false;
+						}else{
+							
+							$.ajax({
+					    	    method: 'POST',
+					    	    url: 'deleteBookmarkMap.do',
+					    	    data: {'bl_no':bl_no, 'mb_no':mb_no},
+					    	    success : function(data) {
+										
+					    	    	if(data == "success"){
+					    	    		$("."+bl_no).next().trigger("click");
+					    	    	}else {
+					    	    		alert("삭제 실패, 다시 시도해 주세요."); 
+					    	    	}
+					    	    	
+					    	    },
+					    	    error:function(request, status, errorData){
+			                        alert("error code: " + request.status + "\n"
+			                              +"message: " + request.responseText
+			                              +"error: " + errorData);
+			             		} 
+					    	 
+					    	});	
+							
+						}
+							
+							/* location.href='deleteBookmarkMap.do?mb_no='+ mb_no +'&bl_no='+bl_no; */
+						} else {
+						
+						/* location.href='editBookmarkUrlView.do?mb_no='+ mb_no; */
+						
+					}
+				
+				}else {
+					
+					alert("삭제할 북마크를 선택해 주세요.");
+					
+				}
+				
+			}
 			
+			// 북마크 그룹 내의 edit 버튼 클릭시 실행되는 함수
 			function editBookmark_m_u() {
 				
-				var bl_no = $(".clicked").prev().val();
-				var bl_type = $(".clicked").prev().prev().val();
+				bl_no = $(".clicked").prev().val();
+				bl_type = $(".clicked").prev().prev().val();
+				
 				var mb_no = $(".select").find(".mb_no").val();
 				
 				console.log("북마크 번호 : " + mb_no);
@@ -674,8 +732,8 @@
 					
 				}
 				
-				
 			}
+			
 		
 		
 			$(".content-box").hide();
@@ -688,8 +746,10 @@
 			target.on("click", function() {
 				
 				target.not($(this)).removeClass("clicked");
+				
 				$(this).addClass("clicked");
 				$(".content-box-2").hide();
+				
 				var bl_title = $(".clicked").find(".bl_title").html();
 				var bl_con = $(".clicked").prev().prev().prev().val();
 				
@@ -796,7 +856,7 @@
 				
 			});
 			
-			
+			// 선택한 북마크 내용 가져오기
 			function selectBookmarkMap(mb_no) {
 				
 				$.ajax({

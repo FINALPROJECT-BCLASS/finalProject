@@ -382,5 +382,13 @@
 		AND MB_DELETE = 'N'
 	</update>
 	
+	<update id="deleteBookmarkMap" parameterType="BookmarkMap">
+		UPDATE MAP_BOOKMARK
+		SET MB_DELETE = 'Y'
+		WHERE MB_NO = #{mb_no}
+		AND ID = #{id}
+		AND MB_DELETE = 'N'
+	</update>
+	
 	
 </mapper>

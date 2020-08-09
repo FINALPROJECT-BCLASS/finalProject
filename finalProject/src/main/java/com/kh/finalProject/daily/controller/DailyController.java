@@ -1202,5 +1202,35 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		
 	}
 	
+	// 지도 북마크 삭제
+	@RequestMapping("deleteBookmarkMap.do")
+	public void deleteBookmarkMap(Model model, HttpServletRequest request, HttpServletResponse response,
+									RedirectAttributes redirectAttributes, BookmarkMap bm) throws IOException{
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		bm.setId(id);
+		
+//		System.out.println("bm : " + bm);
+		
+		int result = dailyService.deleteBookmarkMap(bm);
+		
+		System.out.println(result);
+		 
+		if(result > 0) {
+	    	out.print("success");
+	    	out.flush();
+	    	out.close();
+	    } else {
+	    	out.print("failed");
+	    	out.flush();
+	    	out.close();
+	    }
+	}
 	
 }

@@ -175,4 +175,9 @@ public class DailyDao {
 		return sqlSessionTemplate.update("dailyMapper.updateBookmarkMap", bm);
 	}
 
+	public int deleteBookmarkMap(BookmarkMap bm) {
+
+		return sqlSessionTemplate.update("dailyMapper.deleteBookmarkMap", bm);
+	}
+
 }

@@ -207,6 +207,12 @@ public class DailyServiceImpl implements DailyService {
 		return dailyDao.updateBookmarkMap(bm);
 	}
 
+	@Override
+	public int deleteBookmarkMap(BookmarkMap bm) {
+
+		return dailyDao.deleteBookmarkMap(bm);
+	}
+
 
 
 	

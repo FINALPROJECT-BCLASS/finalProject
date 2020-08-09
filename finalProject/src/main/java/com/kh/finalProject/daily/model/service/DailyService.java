@@ -71,6 +71,8 @@ public interface DailyService {
 
 	int updateBookmarkMap(BookmarkMap bm);
 
+	int deleteBookmarkMap(BookmarkMap bm);
+
 
 
 }
