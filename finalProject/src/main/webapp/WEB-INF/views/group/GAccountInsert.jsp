@@ -174,7 +174,7 @@
                                 <div class="backgroundWhite"><span class="material-icons">add</span><input type="text" name="gaAmount" class="amount"></div>
                             </td>
                         </tr>
-                        <tr>
+                        <tr  class="checkSharing">
                         	<td>Sharing</td>
                         	<td>
                         		<span class="material-icons annoIcon">check_box_outline_blank</span>
@@ -238,7 +238,7 @@
 	                 $("#typeFee").attr("value","Y");
 	                 $("#typePro").attr("value","N");
 	                 $("#typeExp").attr("value","N");
-	              
+	              	 $(".checkSharing").show();
 	             }else if($("#profit").is(":checked")){
 	                 
 	                 $(".textTitle").text("");
@@ -249,7 +249,7 @@
 	                 $("#typeFee").attr("value","N");
 	                 $("#typePro").attr("value","Y");
 	                 $("#typeExp").attr("value","N");
-	                 
+	                 $(".checkSharing").hide();
 	             }else if($("#expense").is(":checked")){
 	            	 
 	            	 $(".textTitle").text("");
@@ -260,7 +260,7 @@
 	                 $("#typeFee").attr("value","N");
 	                 $("#typePro").attr("value","N");
 	                 $("#typeExp").attr("value","Y");
-	                 
+	                 $(".checkSharing").hide();
 	             }
 	         });
          </script>

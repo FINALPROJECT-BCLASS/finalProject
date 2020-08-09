@@ -1531,7 +1531,7 @@ public class GroupController {
 			GroupVote voteTotalList = gService.selectTotalItem(gv);
 	
 			ArrayList<GroupVote> memberList = gService.selectMemberList(gv);
-			
+			System.out.println("투표 상세 memberList : " + memberList);
 			mv.addObject("gvNo", gv.getGvNo());
 			mv.addObject("noticeList", noticeList);
 			mv.addObject("gInfo", gInfo);
@@ -1780,12 +1780,16 @@ public class GroupController {
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 			GroupTable gt = gService.selectOneGroup(gInfo);
 			GroupNotice noticeList = gService.selectNoticeOne(gInfo);
+			ArrayList<GroupAccount> checkList = gService.selectCheckList(gInfo);
+			ArrayList<GroupAccountMember> checkMemberList = gService.selectMemberCheckList(gInfo);
 			
-			System.out.println("메인 gInfo :  " + gInfo);
+			System.out.println("checkList : " + checkList);
+			System.out.println("checkMemberList : " + checkMemberList);
+			mv.addObject("checkList", checkList);
+			mv.addObject("checkMemberList", checkMemberList);
 			mv.addObject("noticeList", noticeList);
 			mv.addObject("gInfo", gInfo);
 			mv.addObject("groupTable", gt);
- 
 			mv.setViewName("group/GAccountMain");
 			return mv;
 
@@ -2024,6 +2028,52 @@ public class GroupController {
 			mv.addObject("gaList", gaList);
 			mv.addObject("gamList", gamList);
 			mv.setViewName("group/GAccountDetail");
+			return mv;
+		}
+		
+		// 가계부 상세
+		@RequestMapping(value = "cansleSharing.do", method = RequestMethod.GET)
+		public ModelAndView cansleSharing(ModelAndView mv, HttpSession session, 
+				@RequestParam(value = "gaNo", required = false) String gaNo) {
+			Member loginUser = (Member) session.getAttribute("loginUser");
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			GroupTable gt = gService.selectOneGroup(gInfo);
+			System.out.println("삭제 gaNo : " + gaNo);
+			
+			int result = gService.updateSharing(gaNo);
+			mv.setViewName("redirect:accountMain.do");
+					return mv;
+				}
+		
+		// 가계부 이름 체크
+		@RequestMapping(value = "gamCheckYn.do", method = RequestMethod.GET)
+		public void gamCheckYn(HttpSession session, HttpServletResponse response, GroupAccountMember gam)
+				throws JsonIOException, IOException {
+			Member loginUser = (Member) session.getAttribute("loginUser");
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			System.out.println("체크 gam : " + gam);
+			
+			int result = gService.checkGam(gam);
+			
+			response.setContentType("application/json;charset=utf-8");
+
+			Gson gson = new GsonBuilder().setDateFormat("yyyy년 MM월 dd일").create();
+			gson.toJson("체크성공", response.getWriter());
+
+		}
+		
+		// 가계부 삭제
+		@RequestMapping(value = "accountDelete.do", method = RequestMethod.GET)
+		public ModelAndView accountDelete(ModelAndView mv, HttpSession session, 
+				@RequestParam(value = "gaNo", required = false) String gaNo) {
+			Member loginUser = (Member) session.getAttribute("loginUser");
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			GroupTable gt = gService.selectOneGroup(gInfo);
+			System.out.println("삭제 gaNo : " + gaNo);
+			
+			int result = gService.deleteAccount(gaNo);
+			mv.setViewName("redirect:accountMain.do");
+				
 			return mv;
 		}
 }

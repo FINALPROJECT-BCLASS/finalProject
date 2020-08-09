@@ -174,6 +174,13 @@
          .proText{color:#2860E1; font-size:18px; font-weight:600;}
          .expText{color:#dc3545; font-size:18px; font-weight:600;}
          .feeText{color:#FBD14B; font-size:18px; font-weight:600;}
+         
+         .bodyBox{width:100%; margin:0 auto;}
+         .itemBox{width:65%; display:inline-block;}
+         .memoBox{width:10%; display:inline-block; margin:0 auto;  }
+         .shareMemo{border-radius:6px;margin-bottom: 10px;padding:20px; background:#FBD14B; margin-left:-60px; width:300px; height:300px;}
+         .memberCheck{width: 17px; height:17px;}
+         .cansle{text-align:right; cursor:pointer; color:gray; font-weight:600;}
     </style>
 </head>
 
@@ -194,6 +201,7 @@
            <!-- <div class="join-form-area"> -->
     
    <%--  <jsp:include page="../common/groupNoticeHeader.jsp"/> --%>
+   		<div class="bodyBox">
          <div class="itemBox" style="width:70%">
          <h1 align="center">Group Diary</h1>
         <h4 align="center">Account</h4><br>
@@ -214,16 +222,106 @@
                   <div id='calendar'></div>
                 <!--    <div id='calendar'></div> -->
                    <!-- </div> -->
-    </div>
-     <div>
-     	<div style="width:30%; height:300px; background:block;">
-     	
-     	</div>
+   				 </div>
+     <div class="memoBox">
+     	<c:forEach var="c" items="${checkList }">
+	     	<div class="shareMemo">
+	     		<c:if test="${gInfo.loginUserId eq groupTable.id }">
+	     			<div class="cansle">x</div>
+	     		</c:if>
+	     		<table>
+	     			<input type="hidden" class="gaNo" value="${c.gaNo }">
+	     			
+	     			<tr>
+	     				<td style="font-weight:600;">Title : </td>
+	     				<td colspan="2">${c.gaTitle }</td>
+	     			</tr>
+	     			<tr>
+	     				<td style="font-weight:600;">Date : </td>
+	     				<td colspan="2">${c.gaDate }</td>
+	     			</tr>
+	     			<c:if test="${gInfo.loginUserId eq groupTable.id }">
+	     			<c:forEach var="m" items="${checkMemberList }">
+	     			<c:if test="${c.gaNo eq m.gaNo }">
+	     				<tr>
+	     					<input type="hidden" class="gamNo" value="${m.gamNo }">
+	     					<c:if test="${m.gamYn eq 'Y'}">
+	     						<td>
+	     							<input type="checkBox" class="memberCheck" checked>
+	     							<input type="hidden" class="checkYn"  name="gamYn" value="Y">
+	     						</td>
+	     					</c:if>
+	     					<c:if test="${m.gamYn eq 'N'}">
+	     						<td>
+	     							<input type="checkBox" class="memberCheck" >
+	     							<input type="hidden" class="checkYn" name="gamYn" value="N">
+	     						</td>
+	     					</c:if>
+	     					<td>${m.name } : </td>
+	     					<td>${m.gamAmount }</td>
+	     				</tr>
+	     			</c:if>
+	     			</c:forEach>
+	     			</c:if>
+	     			<c:if test="${gInfo.loginUserId ne groupTable.id }">
+	     			<c:forEach var="m" items="${checkMemberList }">
+	     			<c:if test="${c.gaNo eq m.gaNo }">
+	     				<tr>
+	     					<input type="hidden" class="gamNo" value="${m.gamNo }">
+	     					<c:if test="${m.gamYn eq 'Y'}">
+	     						<td>
+	     							<input type="checkBox" class="memberCheck" checked disabled>
+	     							<input type="hidden" class="checkYn"  name="gamYn" value="Y">
+	     						</td>
+	     					</c:if>
+	     					<c:if test="${m.gamYn eq 'N'}">
+	     						<td>
+	     							<input type="checkBox" class="memberCheck" disabled>
+	     							<input type="hidden" class="checkYn" name="gamYn" value="N">
+	     						</td>
+	     					</c:if>
+	     					<td>${m.name } : </td>
+	     					<td>${m.gamAmount }</td>
+	     				</tr>
+	     			</c:if>
+	     			</c:forEach>
+	     			</c:if>
+	     		</table>
+	     	</div>
+     	</c:forEach>
      </div>       
-
+	</div>
 
     <jsp:include page="../common/footer.jsp"/>	
+	
+	<!-- 메모 체크 -->
+	<script>
+		$(document).on("change",".memberCheck",function(){
+			if($(this).is(":checked") == true){
+				$(".checkYn").val("Y");
+			}else if($(this).is(":checked") == false){
+				$(".checkYn").val("N");
+				
+			}
+			var gamNo = $(this).parent().prev().val();
+			var gamYn = $(this).next().val();
+			$.ajax({
+       			url: 'gamCheckYn.do',
+       			data: {gamYn:gamYn,gamNo:gamNo},
+       			dataType: 'json',
+       			success: function(data) {
+					console.log(data);
 
+       			},
+       			error:function(request, status, errorData){
+                       alert("error code: " + request.status + "\n"
+                             +"message: " + request.responseText
+                             +"error: " + errorData);
+                   }   
+       		})
+		})
+	</script>
+	
 	<!-- 전체 금액  -->
     <script>	
 		function sumView(calendarDate) {
@@ -256,6 +354,17 @@
 	    }
     </script>
     
+    <script>
+    	$(document).on("click",".cansle",function(){
+		 		var deleteConfirm = confirm("공유를 취소하시겠습니까?");
+		 		if(deleteConfirm){
+		 			alert("공유를 취소하였습니다.");
+		 			var gaNo = $(this).next().children().val();
+		 			location.href="cansleSharing.do?gaNo="+gaNo;
+		 		}
+		 		
+    	})
+    </script>
     
 </body>
 </html>

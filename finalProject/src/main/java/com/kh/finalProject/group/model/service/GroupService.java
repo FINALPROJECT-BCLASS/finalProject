@@ -200,6 +200,16 @@ public interface GroupService {
 
 	int selectTotalGa(String gaNo);
 
+	ArrayList<GroupAccount> selectCheckList(GroupInfo gInfo);
+
+	ArrayList<GroupAccountMember> selectMemberCheckList(GroupInfo gInfo);
+
+	int updateSharing(String gaNo);
+
+	int checkGam(GroupAccountMember gam);
+
+	int deleteAccount(String gaNo);
+
 
 	
 

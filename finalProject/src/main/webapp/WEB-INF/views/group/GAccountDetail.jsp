@@ -8,7 +8,7 @@
 <title>Insert title here</title>
  <style>
     html, body { height:100%;}
-
+ 
     h1, h4{margin-top:20px; text-align:center;}
 
     .join-form-area{float: right;display: flex;justify-content: center; flex-direction: column; align-items: center; padding: 65px; width: 75%;background: #F3F3F3;}
@@ -79,7 +79,7 @@
     
     #submit{background:none; border:none; color:#2860E1; font-weight: 600; font-size: 20px; }
     #reset{background:none; border:none; color:#484848; font-weight: 600; font-size: 20px; width:100px;}
-
+	#delete{background:none; border:none; color:#ee1212d0; font-weight: 600; margin-right:10px; font-size: 20px; width:100px; cursor:pointer;
     tr > td:nth-child(1) {
             color: #484848;
             text-align: left;
@@ -175,6 +175,7 @@
                                 <div class="backgroundWhite"><span class="material-icons">add</span><input type="text" name="gaAmount" class="amount" value="${totalAmount }"></div>
                             </td>
                         </tr>
+                        <c:if test="${!empty gaList.gasYn }">
                         <tr>
                         	<td>Sharing</td>
                         	<td>
@@ -187,18 +188,53 @@
                         		<input type='hidden' class='annoIn' name='gasYn' value='N'>
                         	</td>
                         </tr>
+                        </c:if>
                     </table>
                 <br><br>
-                <c:if test="${gInfo.loginUserId eq groupTable.id }">
                 <div class="groubJoinBtn">
-                   <span><button  id="submit">Submit</button>&nbsp;</span>
-                   <span><input type="reset" value="Reset" id="reset"></span>
-                </div>
+                <c:if test="${gInfo.loginUserId eq groupTable.id }">
+                   <span><button  id="submit">Update</button>&nbsp;</span>
+                   <span id="delete"  >Delete</span>
+                   <input type="hidden" id="gaNo" value="${gaList.gaNo}">
                 </c:if>
+                   <span id="reset" onclick="goBack();">Back</span>
+                </div>
             </div>
          </div>
          </div>
-        
+        <!-- 뒤로가기 버튼 -->
+		 <script>
+		 	function goBack(){
+		 		window.history.back();	
+		 	}
+		 	
+		 </script>
+		 
+		  <!-- 수정버튼 -->
+		 <script>
+		 	$("#submit").click(function(){
+		 		var gaNo = $(this).parent().next().next().val();
+	
+		 			location.href="accountUpdate.do?gaNo="+gaNo;
+		 		
+		 	})
+		 	
+		 </script>
+		 
+		 
+		 <!-- 삭제버튼 -->
+		 <script>
+		 	$("#delete").click(function(){
+		 		var gaNo = $(this).next().val();
+		 		var deleteConfirm = confirm("가계부를 삭제하시겠습니까?");
+		 		if(deleteConfirm){
+		 			
+					alert("가계부를 삭제하였습니다.");		 		
+		 			location.href="accountDelete.do?gaNo="+gaNo;
+		 		}
+		 	})
+		 	
+		 </script>
              <jsp:include page="../common/footer.jsp"/>	
 </body>
 </html>

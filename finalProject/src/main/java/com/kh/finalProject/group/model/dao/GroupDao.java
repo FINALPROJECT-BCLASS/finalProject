@@ -407,6 +407,26 @@ public class GroupDao {
 		return sqlSessionTemplate.selectOne("groupMapper.selectTotalGa", gaNo);		
 	}
 
+	public ArrayList<GroupAccount> selectCheckList(GroupInfo gInfo) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectCheckList",gInfo);		
+	}
+
+	public ArrayList<GroupAccountMember> selectMemberCheckList(GroupInfo gInfo) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectMemberCheckList",gInfo);		
+	}
+
+	public int updateSharing(String gaNo) {
+		return sqlSessionTemplate.update("groupMapper.updateSharing", gaNo);		
+	}
+
+	public int checkGam(GroupAccountMember gam) {
+		return sqlSessionTemplate.update("groupMapper.checkGam", gam);		
+	}
+
+	public int deleteAccount(String gaNo) {
+		return sqlSessionTemplate.update("groupMapper.deleteAccount", gaNo);		
+	}
+
 	
 	
 	
