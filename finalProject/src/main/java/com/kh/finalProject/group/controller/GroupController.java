@@ -1531,7 +1531,7 @@ public class GroupController {
 			GroupVote voteTotalList = gService.selectTotalItem(gv);
 	
 			ArrayList<GroupVote> memberList = gService.selectMemberList(gv);
-			
+			System.out.println("투표 상세 memberList : " + memberList);
 			mv.addObject("gvNo", gv.getGvNo());
 			mv.addObject("noticeList", noticeList);
 			mv.addObject("gInfo", gInfo);

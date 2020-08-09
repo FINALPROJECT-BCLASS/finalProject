@@ -843,12 +843,13 @@
 	</insert>
 	
 	<select id="selectMemberList" parameterType="GroupVote" resultMap="groupVoteResultSet" >
-	    SELECT GVM.GVI_NO, GVM.GM_NO, NAME
+	     SELECT GVM.GVI_NO, GVM.GM_NO, NAME
         FROM GROUP_VOTE_MEMBER GVM
         FULL JOIN GROUP_VOTE_ITEM GVI ON(GvM.G_NO = GVI.G_NO)
         JOIN GROUP_MEMBER GM ON(GVM.GM_NO = GM.GM_NO)
         JOIN MEMBER M ON (GM.GM_ID = M.ID)
         WHERE GVM.GV_NO = #{gvNo}
+        GROUP BY GVM.GVI_NO, GVM.GM_NO, NAME
 	</select>
 	
 	<!-- 가계부 -->

@@ -178,7 +178,7 @@
          .bodyBox{width:100%; margin:0 auto;}
          .itemBox{width:65%; display:inline-block;}
          .memoBox{width:10%; display:inline-block; margin:0 auto;  }
-         .shareMemo{margin-bottom: 10px;padding:20px; background:#FBD14B; margin-left:-60px; width:300px; height:300px;}
+         .shareMemo{border-radius:6px;margin-bottom: 10px;padding:20px; background:#FBD14B; margin-left:-60px; width:300px; height:300px;}
          
          .cansle{text-align:right; cursor:pointer; color:gray; font-weight:600;}
     </style>

@@ -175,6 +175,7 @@
                                 <div class="backgroundWhite"><span class="material-icons">add</span><input type="text" name="gaAmount" class="amount" value="${totalAmount }"></div>
                             </td>
                         </tr>
+                        <c:if test="${!empty gaList.gasYn }">
                         <tr>
                         	<td>Sharing</td>
                         	<td>
@@ -187,6 +188,7 @@
                         		<input type='hidden' class='annoIn' name='gasYn' value='N'>
                         	</td>
                         </tr>
+                        </c:if>
                     </table>
                 <br><br>
                 <div class="groubJoinBtn">
