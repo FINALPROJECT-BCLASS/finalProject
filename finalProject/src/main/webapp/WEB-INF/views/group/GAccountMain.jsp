@@ -179,7 +179,7 @@
          .itemBox{width:65%; display:inline-block;}
          .memoBox{width:10%; display:inline-block; margin:0 auto;  }
          .shareMemo{border-radius:6px;margin-bottom: 10px;padding:20px; background:#FBD14B; margin-left:-60px; width:300px; height:300px;}
-         
+         .memberCheck{width: 17px; height:17px;}
          .cansle{text-align:right; cursor:pointer; color:gray; font-weight:600;}
     </style>
 </head>
@@ -240,6 +240,7 @@
 	     				<td style="font-weight:600;">Date : </td>
 	     				<td colspan="2">${c.gaDate }</td>
 	     			</tr>
+	     			<c:if test="${gInfo.loginUserId eq groupTable.id }">
 	     			<c:forEach var="m" items="${checkMemberList }">
 	     			<c:if test="${c.gaNo eq m.gaNo }">
 	     				<tr>
@@ -261,6 +262,30 @@
 	     				</tr>
 	     			</c:if>
 	     			</c:forEach>
+	     			</c:if>
+	     			<c:if test="${gInfo.loginUserId ne groupTable.id }">
+	     			<c:forEach var="m" items="${checkMemberList }">
+	     			<c:if test="${c.gaNo eq m.gaNo }">
+	     				<tr>
+	     					<input type="hidden" class="gamNo" value="${m.gamNo }">
+	     					<c:if test="${m.gamYn eq 'Y'}">
+	     						<td>
+	     							<input type="checkBox" class="memberCheck" checked disabled>
+	     							<input type="hidden" class="checkYn"  name="gamYn" value="Y">
+	     						</td>
+	     					</c:if>
+	     					<c:if test="${m.gamYn eq 'N'}">
+	     						<td>
+	     							<input type="checkBox" class="memberCheck" disabled>
+	     							<input type="hidden" class="checkYn" name="gamYn" value="N">
+	     						</td>
+	     					</c:if>
+	     					<td>${m.name } : </td>
+	     					<td>${m.gamAmount }</td>
+	     				</tr>
+	     			</c:if>
+	     			</c:forEach>
+	     			</c:if>
 	     		</table>
 	     	</div>
      	</c:forEach>
