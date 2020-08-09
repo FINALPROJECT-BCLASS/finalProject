@@ -59,7 +59,7 @@
 		<id property="mb_no" column="MB_NO"/>
 		<result property="id" column="ID"/>
 		<result property="bl_no" column="BL_NO"/>
-		<result property="mb_title" column="MB_CON"/>
+		<result property="mb_title" column="MB_TITLE"/>
 		<result property="mb_phone" column="MB_PHONE"/>
 	</resultMap>
 	

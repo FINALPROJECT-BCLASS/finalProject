@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.finalProject.daily.model.service.DailyService;
 import com.kh.finalProject.daily.model.vo.Bookmark;
@@ -716,7 +717,8 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 	
 	// 북마크 리스트 불러오기
 	@RequestMapping("bookmarkView.do")
-	public ModelAndView bookmarkView(ModelAndView mv, HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView bookmarkView(ModelAndView mv, HttpServletRequest request, HttpServletResponse response,
+									@RequestParam(value="bl_no", required=false) String blNum) {
 		
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
@@ -729,6 +731,8 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		System.out.println("잘 불러옵니까?" + bookmark);
 		
 		if(bookmark != null) {
+			
+			mv.addObject("blNum", blNum);
 			mv.addObject("bm", bookmark);
 			mv.setViewName("daily/bookmarkList");
 		} else {
@@ -967,6 +971,7 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 	@RequestMapping("addBookmarkMap.do")
 	public String addBookrmarkMap(BookmarkMap bmm, Model model,
 									HttpServletRequest request, HttpServletResponse response,
+									RedirectAttributes redirectAttributes,
 									@RequestParam(value="mainAddress", required=true) String mainAddress,
 									@RequestParam(value="subAddress", required=false) String subAddress) {
 		
@@ -985,6 +990,7 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		
 		if(result > 0) {
 			
+			redirectAttributes.addAttribute("bl_no", bmm.getBl_no());
 			return "redirect:bookmarkView.do";
 		}else {
 			
@@ -1048,9 +1054,27 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		
 		ArrayList<BookmarkMap> mblist = dailyService.selectBookmarkMapList(bm);
 		
-		out.print(mblist);
-		out.flush();
-		out.close();
+		
+		JSONArray mbList = new JSONArray();
+			
+			// 이번 주로 조회한 습관 기록 배열에 담기
+			for(BookmarkMap mb : mblist) {
+				
+				JSONObject jObj = new JSONObject();
+				jObj.put("mb_title", mb.getMb_title());
+				jObj.put("mb_phone", mb.getMb_phone());
+				
+				mbList.add(jObj);
+				
+			}
+			
+			JSONObject mbl = new JSONObject();
+			
+			mbl.put("mbl", mbList);
+			
+			out.print(mbl);
+			out.flush();
+			out.close();
 		
 		
 	}

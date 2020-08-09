@@ -213,7 +213,6 @@
         }
 
         .title-area > span {
-            width: 100px;
             font-size: 18px;
             font-weight: 700;
             display: flex;
@@ -464,7 +463,7 @@
 					<c:forEach var="bm" items="${bm }">
 						<input id="bl_con" type="hidden" name="bl_con" value="${bm.bl_con }">
 						<input id="bl_type" type="hidden" name="bl_type" value="${bm.bl_type }">
-						<input id="bl_no" type="hidden" name="bl_no" value="${bm.bl_no }">
+						<input class="${bm.bl_no }" id="bl_no" type="hidden" name="bl_no" value="${bm.bl_no }">
 						<div class="carousel-cell" style="background:${bm.bl_color }">
 				  			<div class="image-area">
 				  				<c:if test="${empty bm.bl_rename }">
@@ -511,7 +510,7 @@
 		            <button>Delete</button>
     			</div> 
 	            <div class="content-box map-list">
-	                <div class="map-item">
+	                <div class="map-item"> <!-- 맵 -->
 	                    <span>노원 황소곱창</span>
 	                    <span>02-1234-1234</span>
 	                </div>
@@ -534,6 +533,14 @@
         </div>
 		
 		<script>
+		
+			$(document).ready(function(){
+				
+				if('${blNum}' != null){
+					$(".${blNum}").next().trigger("click");
+				}
+				
+			});
 		
 			// 북마크 그룹 내의 add 버튼 클릭시 실행되는 함수
 			function addBookmark_m_u() {
@@ -585,8 +592,28 @@
 		    	    method: 'POST',
 		    	    url: 'selectBookmarkMapList.do',
 		    	    data: {'bl_no':bl_no},
+		    	    dataType:"json",
 		    	    success : function(data) {
 						console.log("data : " + data);
+	   						
+	   						$divBody = $(".map-list");
+							$divBody.html("");
+	   						
+	   						var $div;
+	   						
+							for(var i in data.mbl){
+								
+								console.log(data.mbl[i]);
+							
+		   						var item = "<div class='map-item'>";
+		   						var name = "<span>" + data.mbl[i].mb_title + "</span>";
+		   						var phone = "<span>" + data.mbl[i].mb_phone + "</span>"
+		   						var end = "</div>"
+		   						
+		   						$div = item + name + phone + end;
+		   						
+								$divBody.append($div);
+							}
 		    	    },
 		    	    error:function(request, status, errorData){
                         alert("error code: " + request.status + "\n"
