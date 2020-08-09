@@ -28,6 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.kh.finalProject.daily.model.service.DailyService;
 import com.kh.finalProject.daily.model.vo.Bookmark;
 import com.kh.finalProject.daily.model.vo.BookmarkMap;
+import com.kh.finalProject.daily.model.vo.BookmarkUrl;
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
 import com.kh.finalProject.daily.model.vo.HabitSum;
@@ -1011,26 +1012,23 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 	
 	// 링크 북마크 추가
 	@RequestMapping("addBookmarkUrl.do")
-	public String addBookrmarkUrl(BookmarkMap bmm, Model model,
+	public String addBookrmarkUrl(BookmarkUrl ub, Model model,
 									HttpServletRequest request,
-									@RequestParam(value="mainAddress", required=true) String mainAddress,
-									@RequestParam(value="subAddress", required=false) String subAddress) {
+									RedirectAttributes redirectAttributes) {
 		
 		HttpSession session = request.getSession();
 		Member member = (Member) session.getAttribute("loginUser");
 		String id = member.getId();
 		
-		bmm.setId(id);
-		bmm.setMb_address(mainAddress+"_"+subAddress);
+		ub.setId(id);
 		
-		System.out.println("값 어떻게 들어오나? :" + bmm);
+//		System.out.println("ub 값 어떻게 들어오나? :" + ub);
 		
-		
-		int result = dailyService.insertBookmarkMap(bmm);
-		
+		int result = dailyService.insertBookmarkUrl(ub);
 		
 		if(result > 0) {
 			
+			redirectAttributes.addAttribute("bl_no", ub.getBl_no());
 			return "redirect:bookmarkView.do";
 		}else {
 			
@@ -1043,7 +1041,7 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		
 	}
 	
-	// 지도 북마크 리스트
+	// 지도 북마크 리스트 뿌려주기
 	@RequestMapping("selectBookmarkMapList.do")
 	public void SelectBookmarkMapList(Model model,
 			HttpServletRequest request, HttpServletResponse response, String bl_no) throws IOException {
@@ -1061,7 +1059,7 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		
 		ArrayList<BookmarkMap> mblist = dailyService.selectBookmarkMapList(bm);
 		
-		System.out.println("널인지?" + mblist);
+//		System.out.println("널인지?" + mblist);
 		
 		JSONArray mbList = new JSONArray();
 			
@@ -1231,6 +1229,50 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 	    	out.flush();
 	    	out.close();
 	    }
+	}
+	
+	
+	@RequestMapping("selectBookmarkUrlList.do")
+	public void SelectBookmarkUrlList(Model model,
+			HttpServletRequest request, HttpServletResponse response, String bl_no) throws IOException {
+		
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		BookmarkUrl bu = new BookmarkUrl();
+		bu.setBl_no(bl_no);
+		bu.setId(id);
+		
+		ArrayList<BookmarkUrl> ublist = dailyService.selectBookmarkUrlList(bu);
+		
+		System.out.println("ublist? : " +ublist);
+		
+		JSONArray ubList = new JSONArray();
+			
+			for(BookmarkUrl ub : ublist) {
+				
+				JSONObject jObj = new JSONObject();
+				jObj.put("ub_no", ub.getUb_no());
+				jObj.put("ub_title", ub.getUb_title());
+				jObj.put("ub_con", ub.getUb_con());
+				jObj.put("ub_url", ub.getUb_url());
+				
+				ubList.add(jObj);
+				
+			}
+			
+			JSONObject ubl = new JSONObject();
+			
+			ubl.put("ubl", ubList);
+			
+			out.print(ubl);
+			out.flush();
+			out.close();
+		
 	}
 	
 }

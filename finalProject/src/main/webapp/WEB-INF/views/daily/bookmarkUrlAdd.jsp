@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Add Bookmark</title>
+<title>Add Bookmark URL</title>
 <style>
         html, body {
             height: 100%;
@@ -118,9 +118,16 @@
         
     	}
     	
-    	.map-area {
-            display: none;
-        }
+        
+        input::placeholder {
+		  color: #cecece;
+		  font-size: 13px;
+		}
+		
+		textarea::placeholder {
+		  color: #cecece;
+		  font-size: 13px;
+		}
 
     </style>
 </head>
@@ -129,49 +136,39 @@
 	<jsp:include page="../common/sidenaviDaily.jsp"/>
     <div class="right-area">
         <div>
-            <form action="#">
-                <span class="pSubject">Add Bookmark</span>
+            <form action="addBookmarkUrl.do" id="insertUrl">
+                <span class="pSubject">Add Bookmark URL</span>
+                <input type="hidden" id="bl_no" name="bl_no" value="${bl_no }">
                 <table cellpadding="6px">
                     <tr>
                         <td>Title</td>
-                        <td><input type="text"></td>
+                        <td><input type="text" name="ub_title" id="ub_title" placeholder="저장할 링크의 제목을 입력하세요."></td>
                     </tr>
                     <tr>
-                        <td>Content</td>
-                        <td><textarea class="b-content"></textarea></td>
+                        <td>Memo</td>
+                        <td><textarea class="b-content" name="ub_con" id="ub_con"></textarea></td>
                     </tr>
                     <tr>
                         <td>Url</td>
-                        <td><input type="text"></td>
+                        <td><input type="text" name="ub_url" id="ub_url" placeholder="저장할 링크의 주소를 입력하세요."></td>
                     </tr>
                 </table>
                 <div class="button-area">
-                    <button>Back</button>
-                    <button>Save</button>
+                    <button type="button" onclick="history.go(-1)">Back</button>
+                    <button type="button" onclick="url_submit()">Add</button>
                 </div>
             </form>
         </div>
     </div>
 
     <script>
-        /* 파일 업로드 */
-        $(document).ready(function(){
-        	
-        	var fileTarget = $('#file');
-        	
-        	fileTarget.on('change', function(){
-        		if(window.FileReader){
-        			var filename = $(this)[0].files[0].name;
-        		} else { 
-        			var filename = $(this).val().split('/').pop().split('\\').pop();
-        		}
-        		
-        		$(this).siblings('.upload-name').val(filename);
-        		
-        		$(".upload-file").attr("style", "display:inline-block");
-        		
-        	});	
-        });
+
+    	function url_submit() {
+    		
+    		$("#insertUrl").submit();
+    		
+    	}
+    
     </script>
     <jsp:include page="../common/footer.jsp"/>
 </body>

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kh.finalProject.daily.model.dao.DailyDao;
 import com.kh.finalProject.daily.model.vo.Bookmark;
 import com.kh.finalProject.daily.model.vo.BookmarkMap;
+import com.kh.finalProject.daily.model.vo.BookmarkUrl;
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
 import com.kh.finalProject.daily.model.vo.HabitSum;
@@ -211,6 +212,18 @@ public class DailyServiceImpl implements DailyService {
 	public int deleteBookmarkMap(BookmarkMap bm) {
 
 		return dailyDao.deleteBookmarkMap(bm);
+	}
+
+	@Override
+	public ArrayList<BookmarkUrl> selectBookmarkUrlList(BookmarkUrl bu) {
+
+		return dailyDao.selectBookmarkUrl(bu);
+	}
+
+	@Override
+	public int insertBookmarkUrl(BookmarkUrl ub) {
+
+		return dailyDao.insertBookmarkUrl(ub);
 	}
 
 

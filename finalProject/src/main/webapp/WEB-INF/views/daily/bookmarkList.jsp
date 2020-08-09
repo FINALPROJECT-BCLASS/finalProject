@@ -202,7 +202,7 @@
             outline:none;
         }
 
-        /* 북마크 세부 제목 */
+        /* 세부 제목 */
 
         .title-area {
             display: flex;
@@ -239,8 +239,6 @@
 		    display: none; 
         	
         }
-        
-        
 
         .map-item {
             display: flex;
@@ -275,33 +273,61 @@
             margin-right: 0;
         }
         
-        /* url 세부목록 */
+        
+        /* 북마크 링크 세부 목록 */
 
-        .url {
-            /* display: inline-block; */
-            display: none;
-            width: 825px;
-            height: 250px;
-            margin-bottom: 0;
+        .url-list {
+        	height: 210px;
+            overflow-y: scroll;
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 15px;
             padding: 0;
-            overflow-x: scroll;
-            white-space: nowrap;
-            border: 10px solid #f3f3f3;
+            border: 15px solid white;
+        }
+        
+        .url-list::-webkit-scrollbar {
+		    display: none; 
+        	
         }
 
-        .url > div {
-            display: inline-block;
-            margin-right: 15px !important;
-            width: 200px;
-            height: 100%;
-            background-color: white;
-            border-radius: 8px;
+        .url-item {
+            display: flex;
+		    flex-direction: column;
+		    justify-content: center;
+		    width: 320px;
+		    height: 155px;
+		    margin-right: 15px;
+		    margin-bottom: 15px;
+		    background: white;
+		    border: 1px solid #f3f3f3;
+		    border-top: 3px solid #d5d5d5;
+		    align-items: start;
+		    padding-left: 18px;
+        }
+
+        .url-info {
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        .url-item > span:nth-child(1) {
+            font-weight: 700;
+    		font-size: 15px;
         }
         
-        hr {
-        	width: 97%;
+        .url-item > span:nth-child(2) {
+    		font-size: 14px;
+        }
+
+        .url-list > div:nth-child(3n) {
+            margin-right: 0;
         }
         
+        
+        
+        
+       
         /* external css: flickity.css */
 
 		* { box-sizing: border-box; }
@@ -588,6 +614,13 @@
 	                    <span></span>
 	                </div>
 	            </div>
+	            <div class="content-box url-list">
+	                <div class="url-item">
+	                    <span>제목?</span>
+	                    <span>내용?</span>
+	                    <span>링크?</span>
+	                </div>
+	            </div>
             </div>
             <div class="content-box-2 map-info">
                 <div class="content-area">
@@ -618,10 +651,9 @@
 					
 					// 왜 안 됨?
 					if('${mbNum}'){
-						
 						/* $("#${mbNum}").click(); */
 						/* $("#${mbNum}").trigger("click"); */
-					/* 	$(document).on("click", '#${mbNum}'); */
+						/* 	$(document).on("click", '#${mbNum}'); */
 					}
 					
 				}
@@ -664,7 +696,6 @@
 						if(!confirm('정말 삭제하시겠습니까?')){
 							return false;
 						}else{
-							
 							$.ajax({
 					    	    method: 'POST',
 					    	    url: 'deleteBookmarkMap.do',
@@ -683,15 +714,12 @@
 			                              +"message: " + request.responseText
 			                              +"error: " + errorData);
 			             		} 
-					    	 
 					    	});	
-							
 						}
-							
-							/* location.href='deleteBookmarkMap.do?mb_no='+ mb_no +'&bl_no='+bl_no; */
-						} else {
 						
-						/* location.href='editBookmarkUrlView.do?mb_no='+ mb_no; */
+					} else {
+					
+					/* location.href='editBookmarkUrlView.do?mb_no='+ mb_no; */
 						
 					}
 				
@@ -757,15 +785,96 @@
 				$(".title-area > span:nth-child(1)").html(bl_title);
 				$(".title-content").html(bl_con);
 				
-				// 지도 북마크 리스트 불러오기
-				showBoookmarkMapList();
+				var bl_type = $(".clicked").prev().prev().val();
+				console.log("bl_type : " + bl_type);
+				
+			 	if(bl_type == "map") {
+					// 지도 북마크 리스트 불러오기
+					showBoookmarkMapList();
+			 	}else {
+			 		// 링크 북마크 리스트 불러오기
+			 		showBookmarkUrlList();
+			 	}
 				
 			});
+			
+			// 링크 북마크 리스트 불러오기
+			function showBookmarkUrlList() {
+				
+				$(".map-list").hide();
+				var bl_no = $(".clicked").prev().val();
+				
+				$.ajax({
+		    	    method: 'POST',
+		    	    url: 'selectBookmarkUrlList.do',
+		    	    data: {'bl_no':bl_no},
+		    	    dataType:"json",
+		    	    success : function(data) {
+							console.log("data : " + data.ubl);
+							
+							$(".tri").remove();	
+							$(".message").remove();
+							
+	   						$divBody = $(".url-list");
+							$divBody.html("");
+	   						
+	   						var $div;
+	   						
+							for(var i in data.ubl){
+								
+								console.log(data.ubl[i]);
+							
+		   						var item = "<div class='url-item' id='"+ data.ubl[i].ub_no +"'>";
+		   						var name = "<span>" + data.ubl[i].ub_title + "</span>";
+		   						var con = "<span>" + data.ubl[i].ub_con + "</span>";
+		   						var url = "<a href='"+data.ubl[i].ub_url+"'>" + data.ubl[i].ub_url + "</a>";
+		   						var no = "<input type = 'hidden' class='mb_no' value='" + data.ubl[i].ub_no + "'>";
+		   						var end = "</div>"
+		   						
+		   						$div = item + name + con + url + no + end;
+		   						
+								$divBody.append($div);
+								
+							}
+							
+							if(data.ubl.length < 4) {
+								
+								$(".url-list").css("height", "205px");
+								
+							}else {
+								
+								$(".url-list").css("height", "420px");
+							}
+							
+							if(data.ubl == "") {
+							
+								$(".map-list").hide();
+								$(".url-list").hide();
+								$(".intro").attr("style", "padding-bottom:15px;");
+								$(".title-area").append("<div class='tri' style='padding:0;'></div><div class='message'>"+ "북마크를 추가해 주세요." +"</div>");
+							
+							}else {
+								$(".url-list").show();
+								$(".message").remove();
+								$(".tri").remove();
+								
+							}
+							
+		    	    },
+		    	    error:function(request, status, errorData){
+                        alert("error code: " + request.status + "\n"
+                              +"message: " + request.responseText
+                              +"error: " + errorData);
+             		} 
+		    	 
+		    	});	
+				
+			}
 			
 			
 			// 지도 북마크 리스트 불러오기
 			function showBoookmarkMapList() {
-				
+				$(".url-list").hide();
 				var bl_no = $(".clicked").prev().val();
 				
 				$.ajax({

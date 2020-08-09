@@ -66,6 +66,15 @@
 		<result property="mb_address" column="MB_ADDRESS"/>
 	</resultMap>
 	
+	<resultMap type="BookmarkUrl" id="BookmarkUrlResultSet">
+		<id property="ub_no" column="UB_NO"/>
+		<result property="id" column="ID"/>
+		<result property="bl_no" column="BL_NO"/>
+		<result property="ub_title" column="UB_TITLE"/>
+		<result property="ub_con" column="UB_CON"/>
+		<result property="ub_url" column="UB_URL"/>
+	</resultMap>
+	
 	<insert id="insertHabit" parameterType="Habit">
 		INSERT INTO HABIT_TRACKER
 		VALUES(SEQ_HT.NEXTVAL, #{id}, #{ht_title}, #{ht_type}, #{ht_goal}, #{ht_unit}, #{ht_cycle}, SYSDATE,
@@ -390,5 +399,27 @@
 		AND MB_DELETE = 'N'
 	</update>
 	
+	<select id="selectBookmarkUrlList" parameterType="BookmarkUrl" resultMap="BookmarkUrlResultSet">
+		SELECT *
+		FROM URL_BOOKMARK
+		WHERE BL_NO = #{bl_no}
+		AND ID = #{id}
+		AND UB_DELETE = 'N'
+		ORDER BY UB_NO DESC
+	</select>
+	
+	<insert id="insertBookmarkUrl" parameterType="BookmarkUrl">
+		INSERT INTO URL_BOOKMARK
+		VALUES (SEQ_UB.NEXTVAL
+				, #{id}
+				, #{bl_no}
+				, #{ub_title}
+				, #{ub_con}
+				, #{ub_url}
+				, SYSDATE
+				, DEFAULT
+				, 0
+				, 'N')
+	</insert>
 	
 </mapper>

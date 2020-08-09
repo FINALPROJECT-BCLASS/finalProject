@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.finalProject.daily.model.vo.Bookmark;
 import com.kh.finalProject.daily.model.vo.BookmarkMap;
+import com.kh.finalProject.daily.model.vo.BookmarkUrl;
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
 import com.kh.finalProject.daily.model.vo.HabitSum;
@@ -178,6 +179,16 @@ public class DailyDao {
 	public int deleteBookmarkMap(BookmarkMap bm) {
 
 		return sqlSessionTemplate.update("dailyMapper.deleteBookmarkMap", bm);
+	}
+
+	public ArrayList<BookmarkUrl> selectBookmarkUrl(BookmarkUrl bu) {
+
+		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectBookmarkUrlList", bu);
+	}
+
+	public int insertBookmarkUrl(BookmarkUrl ub) {
+
+		return sqlSessionTemplate.insert("dailyMapper.insertBookmarkUrl", ub);
 	}
 
 }
