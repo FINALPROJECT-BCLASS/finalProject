@@ -18,18 +18,21 @@
             margin: 0;
             padding: 0;
         }
+        
+        /* body::-webkit-scrollbar {
+  		  	display: none; 
+		} */
 
         .right-area {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            float: right;
-            width: 81%;
-            background-color: #f7f7f7;
-            color: #484848;
-            text-align: center;
-            padding: 50px;
+		    flex-direction: column;
+		    justify-content: center;
+		    float: right;
+		    width: 81%;
+		    background-color: #f7f7f7;
+		    color: #484848;
+		    text-align: center;
+		    padding: 88px 50px;
         }
 
         .pSubject {
@@ -196,6 +199,7 @@
             font-size: 23px;
             font-weight: 700;
             color: #484848;
+            outline:none;
         }
 
         /* 북마크 세부 제목 */
@@ -466,6 +470,53 @@
 		  color: #cecece;
 		  font-size: 13px;
 		}
+		
+		.message {
+			position: absolute;
+		    top: 57px;
+		    right: 100px;
+		    border: 1px solid #f8dbdb;
+		    background: rgb(255 247 247);
+		    width: 500px;
+		    height: 56px;
+		    display: flex;
+		    border-radius: 10px;
+		    justify-content: center;
+		    align-items: center;
+		}
+		
+		.tri {
+			position: absolute;
+		    background: #fff7f7;
+		    right: 163px;
+		    top: 50px;
+		    width: 15px;
+		    height: 15px;
+		    transform: rotate(45deg);
+		    border-left: 1px solid #f9dfdf;
+		    border-top: 1px solid #f9dfdf;
+		    z-index: 1;
+		}
+		
+		.tri {
+	    animation: fadein 0.7s;
+	    -webkit-animation: fadein 0.7s; /* Safari and Chrome */
+		}
+		
+		.message {
+		 animation: fadein 0.7s;
+	    -webkit-animation: fadein 0.7s; /* Safari and Chrome */
+		}
+		
+		@-webkit-keyframes fadein { /* Safari and Chrome */
+		    from {
+		        opacity:0;
+		    }
+		    to {
+		        opacity:1;
+		    }
+		}
+		
 	
 
 
@@ -482,7 +533,7 @@
             <div style="width: 100%">
 	            <div class="carousel" data-flickity='{ "draggable": true }' style="width: 100%">
 					<c:forEach var="bm" items="${bm }">
-						<input id="bl_color" type="hidden" name="bl_con" value="${bm.bl_color }">
+						<input class="bl_color" id="bl_color" type="hidden" name="bl_con" value="${bm.bl_color }">
 						<input id="bl_con" type="hidden" name="bl_con" value="${bm.bl_con }">
 						<input id="bl_type" type="hidden" name="bl_type" value="${bm.bl_type }">
 						<input class="${bm.bl_no }" id="bl_no" type="hidden" name="bl_no" value="${bm.bl_no }">
@@ -514,8 +565,8 @@
             <!-- Button Start-->
             <div class="button-area">
                 <button type = "button" onclick="location.href='addBookmarkView.do'">Add</button>
-                <button type = "button" onclick="editBookmark()">Edit</button>
-                <button type = "button" onclick="deleteBookmark()">Delete</button>
+                <button type = "button" onclick="editBookmark();">Edit</button>
+                <button type = "button" onclick="deleteBookmark();">Delete</button>
                 <!-- <button type = "button" data-toggle="modal" data-target="#select-type">Add</button> -->
             </div>
             <!-- Button End-->
@@ -527,12 +578,12 @@
                     <div class="title-content">: 맛집 리스트 모음</div>
                 </div>
                 <div class="small-button-area">
-        			<button type="button" onclick="addBookmark_m_u()">Add</button>
-		            <button>Edit</button>
-		            <button>Delete</button>
+        			<button type="button" onclick="addBookmark_m_u();">Add</button>
+		            <button type="button" onclick="editBookmark_m_u();">Edit</button>
+		            <button type="button" onclick="deleteBookmark_m_u();">Delete</button>
     			</div> 
 	            <div class="content-box map-list">
-	                <div class="map-item"> <!-- 맵 -->
+	                <div class="map-item">
 	                    <span></span>
 	                    <span></span>
 	                </div>
@@ -584,6 +635,28 @@
 				}
 				
 			}
+			
+			
+			
+			function editBookmark_m_u() {
+				
+				var bl_no = $(".clicked").prev().val();
+				var bl_type = $(".clicked").prev().prev().val();
+				
+				var mb_no = $(".select").find(".mb_no").val();
+				console.log("지도 북마크 번호 : " + mb_no);
+				
+				/if(bl_no == "map") {
+					
+					
+					
+				} else {
+					
+					
+				}
+				
+				
+			}
 		
 		
 			$(".content-box").hide();
@@ -597,7 +670,7 @@
 				
 				target.not($(this)).removeClass("clicked");
 				$(this).addClass("clicked");
-				
+				$(".content-box-2").hide();
 				var bl_title = $(".clicked").find(".bl_title").html();
 				var bl_con = $(".clicked").prev().prev().prev().val();
 				
@@ -607,7 +680,6 @@
 				
 				// 지도 북마크 리스트 불러오기
 				showBoookmarkMapList();
-				
 				
 			});
 			
@@ -623,8 +695,10 @@
 		    	    data: {'bl_no':bl_no},
 		    	    dataType:"json",
 		    	    success : function(data) {
-						console.log("data : " + data);
-	   						
+							console.log("data : " + data);
+							$(".tri").remove();	
+							$(".message").remove();
+							
 	   						$divBody = $(".map-list");
 							$divBody.html("");
 	   						
@@ -643,7 +717,31 @@
 		   						$div = item + name + phone + no + end;
 		   						
 								$divBody.append($div);
+								
 							}
+							
+							if(data.mbl.length < 6) {
+								
+								$(".map-list").css("height", "130px");
+								
+							}else {
+								
+								$(".map-list").css("height", "210px");
+							}
+							
+							if(data.mbl == "") {
+								
+								$(".map-list").hide();
+								$(".intro").attr("style", "padding-bottom:15px;");
+								$(".title-area").append("<div class='tri' style='padding:0;'></div><div class='message'>"+ "북마크를 추가해 주세요." +"</div>");
+							
+							}else {
+								$(".map-list").show();
+								$(".message").remove();
+								$(".tri").remove();
+								
+							}
+							
 		    	    },
 		    	    error:function(request, status, errorData){
                         alert("error code: " + request.status + "\n"
@@ -658,8 +756,11 @@
 			// 지도 북마크 클릭시
 			$(document).on('click', '.map-item', function(){ // 에이작스로 불러온 값에 click 이벤트가 먹지 않으면 이 형태로 사용
 				
+				
 				var mb_no = $(this).find(".mb_no").val();
-				var color = $(".clicked").siblings("#bl_color").val();
+				var color = $(".clicked").prev().prev().prev().prev().val();
+				
+				console.log("find : " + color);
 				
 				// 선택된 북마크의 왼쪽 테두리 색 변경
 				$(this).css("border-left", "3px solid" + color);

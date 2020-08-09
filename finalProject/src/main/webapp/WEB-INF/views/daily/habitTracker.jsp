@@ -31,8 +31,12 @@
             background-color: #f7f7f7;
             color: #484848;
             text-align: center;
-            padding: 50px;
+            padding: 60px 50px;
         }
+        
+        /* body::-webkit-scrollbar {
+  		  	display: none; 
+		} */
 
         .pSubject {
             font-size: 30px;

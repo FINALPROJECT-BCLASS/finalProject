@@ -1059,6 +1059,7 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		
 		ArrayList<BookmarkMap> mblist = dailyService.selectBookmarkMapList(bm);
 		
+		System.out.println("널인지?" + mblist);
 		
 		JSONArray mbList = new JSONArray();
 			
