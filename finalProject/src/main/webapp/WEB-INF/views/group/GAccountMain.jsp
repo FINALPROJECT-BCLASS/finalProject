@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
  
 <!DOCTYPE html>
 <html>
@@ -257,7 +258,8 @@
 	     						</td>
 	     					</c:if>
 	     					<td>${m.name } : </td>
-	     					<td>${m.gamAmount }</td>
+	     					<c:set var="amount" value="${m.gamAmount }"/>
+	     					<td><fmt:formatNumber value="${amount }" groupingUsed="true"/></td>
 	     				</tr>
 	     			</c:if>
 	     			</c:forEach>
@@ -308,17 +310,15 @@
        			success: function(data) {
 
        				console.log(data);
+       				console.log(data.proTotalList);
        				$(".pro").html("");
        				$(".exp").html("");
        				$(".fee").html("");
 
-       				$(".pro").html(data.totalPro[0].totalPro);
-       				$(".exp").html(data.totalExp[0].totalExp);
-       				$(".fee").html(data.totalFee[0].totalFee);
-	       				
-	       			
-       					
-       				
+       				$(".pro").html(data.proTotalList);
+       				$(".exp").html(data.expTotalList);
+       				$(".fee").html(data.feeTotalList);
+
        			},
        			error:function(request, status, errorData){
                        alert("error code: " + request.status + "\n"

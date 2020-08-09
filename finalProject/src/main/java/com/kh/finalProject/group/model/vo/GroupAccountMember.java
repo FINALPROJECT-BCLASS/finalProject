@@ -16,7 +16,7 @@ public class GroupAccountMember implements Serializable{
 	private int gNo;
 	private int gmNo;
 	private int gaNo;
-	private int gamAmount;
+	private String gamAmount;
 	private String gamDelete;
 	private String gamYn;
 	
@@ -28,7 +28,7 @@ public class GroupAccountMember implements Serializable{
 	}
 
 
-	public GroupAccountMember(String gaTitle, String gaDate, int gamNo, int gNo, int gmNo, int gaNo, int gamAmount,
+	public GroupAccountMember(String gaTitle, String gaDate, int gamNo, int gNo, int gmNo, int gaNo, String gamAmount,
 			String gamDelete, String gamYn, String name) {
 		super();
 		this.gaTitle = gaTitle;
@@ -104,12 +104,12 @@ public class GroupAccountMember implements Serializable{
 	}
 
 
-	public final int getGamAmount() {
+	public final String getGamAmount() {
 		return gamAmount;
 	}
 
 
-	public final void setGamAmount(int gamAmount) {
+	public final void setGamAmount(String gamAmount) {
 		this.gamAmount = gamAmount;
 	}
 
@@ -157,6 +157,5 @@ public class GroupAccountMember implements Serializable{
 	}
 
 
-	
-	
+		
 }

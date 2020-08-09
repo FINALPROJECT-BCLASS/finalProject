@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -162,7 +163,8 @@
                                     <c:forEach var="gam" items="${gamList }">
                                     <button type='button' class='searchNameBox'>
                                     	<div class='amountName'>${gam.name }</div>
-                						<input type='text' class='amountBox' name='gamAmount' value="${gam.gamAmount }">
+                                    	<c:set var="amount" value="${gam.gamAmount }"/>
+                						<input type='text' class='amountBox' name='gamAmount' value="<fmt:formatNumber value="${amount }" groupingUsed="true"/>">
                 					</button>
                 					</c:forEach>
                 
@@ -172,7 +174,8 @@
                         <tr>
                             <td class="groupTbTd"><div class="amount">Total Amount&nbsp;</div></td>
                             <td>
-                                <div class="backgroundWhite"><span class="material-icons">add</span><input type="text" name="gaAmount" class="amount" value="${totalAmount }"></div>
+                            	<c:set var="totalAmount" value="${totalAmount }"/>
+                                <div class="backgroundWhite"><span class="material-icons">add</span><input type="text" name="gaAmount" class="amount" value="<fmt:formatNumber value="${totalAmount }" groupingUsed="true"/>"></div>
                             </td>
                         </tr>
                         <c:if test="${!empty gaList.gasYn }">
