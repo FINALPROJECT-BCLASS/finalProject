@@ -6,11 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Bookmark List</title>
-<!-- 카카오 지도 관련 -->
-<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
-<script type="text/javascript" src="dapi.kakao.com/v2/maps/sdk.js?appkey=a5165e87a2b10b900ab474145bc13247"></script>
-<!-- services와 clusterer, drawing 라이브러리 불러오기 -->
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a5165e87a2b10b900ab474145bc13247&libraries=services,clusterer,drawing"></script>
 <!-- CSS -->
 <link rel="stylesheet" href="resources/css/flickity/flickity.css">
 <!-- JavaScript -->
@@ -122,14 +117,15 @@
 
         .content-item {
             font-size: 14px;
-            display: flex;
-            vertical-align: center;
-            padding:10px;
-            height: 40px;
-            margin-bottom: 10px;
-            width: 292px;
-            background-color: #f3f3f3;
-            border-radius: 5px;
+		    display: flex;
+		    justify-content: flex-start;
+		    align-items: flex-start;
+		    padding: 10px;
+		    height: 40px;
+		    margin-bottom: 10px;
+		    width: 292px;
+		    background-color: #f3f3f3;
+		    border-radius: 5px;
         }
 
         .map-area {
@@ -148,7 +144,7 @@
         }
 
         .time {
-            height: 60px;
+            height: 80px;
         }
 
         .comment {
@@ -226,13 +222,21 @@
         /* 북마크 맵 세부 목록 */
 
         .map-list {
-            overflow: auto;
+        	height: 210px;
+            overflow-y: scroll;
             display: flex;
             flex-wrap: wrap;
             margin-top: 15px;
             padding: 0;
             border: 15px solid white;
         }
+        
+        .map-list::-webkit-scrollbar {
+		    display: none; 
+        	
+        }
+        
+        
 
         .map-item {
             display: flex;
@@ -244,7 +248,7 @@
 		    margin-bottom: 15px;
 		    background: white;
 		    border: 1px solid #f3f3f3;
-		    border-left: 3px solid #FBD14B;
+		    border-left: 3px solid #d5d5d5;
 		    align-items: start;
 		    padding-left: 18px;
         }
@@ -444,7 +448,24 @@
         	display:none;
         }
         
+        .select {
+        	
+        }
         
+        .mb_address_d {
+        	overflow-y: scroll;
+       	    text-align: left;
+        }
+        
+        .mb_address_d::-webkit-scrollbar {
+        	display:none;
+        }
+        
+        input::placeholder,
+        textarea::placeholder {
+		  color: #cecece;
+		  font-size: 13px;
+		}
 	
 
 
@@ -461,6 +482,7 @@
             <div style="width: 100%">
 	            <div class="carousel" data-flickity='{ "draggable": true }' style="width: 100%">
 					<c:forEach var="bm" items="${bm }">
+						<input id="bl_color" type="hidden" name="bl_con" value="${bm.bl_color }">
 						<input id="bl_con" type="hidden" name="bl_con" value="${bm.bl_con }">
 						<input id="bl_type" type="hidden" name="bl_type" value="${bm.bl_type }">
 						<input class="${bm.bl_no }" id="bl_no" type="hidden" name="bl_no" value="${bm.bl_no }">
@@ -491,10 +513,10 @@
 
             <!-- Button Start-->
             <div class="button-area">
+                <button type = "button" onclick="location.href='addBookmarkView.do'">Add</button>
                 <button type = "button" onclick="editBookmark()">Edit</button>
                 <button type = "button" onclick="deleteBookmark()">Delete</button>
                 <!-- <button type = "button" data-toggle="modal" data-target="#select-type">Add</button> -->
-                <button type = "button" onclick="location.href='addBookmarkView.do'">Add</button>
             </div>
             <!-- Button End-->
 
@@ -511,32 +533,36 @@
     			</div> 
 	            <div class="content-box map-list">
 	                <div class="map-item"> <!-- 맵 -->
-	                    <span>노원 황소곱창</span>
-	                    <span>02-1234-1234</span>
+	                    <span></span>
+	                    <span></span>
 	                </div>
 	            </div>
             </div>
             <div class="content-box-2 map-info">
                 <div class="content-area">
-                    <span class="content-item">노원 황소곱창</span>
-                    <span class="content-item">02-0000-0000</span>
-                    <span class="content-item time">주소입력란</span>
-                    <textarea class="content-item time" readonly>평일 - 오전 9:00 ~ 오후 10:00
-브레이크 타임 - 오후 3:00 ~ 오후 5:00</textarea>
-                    <textarea class="content-item comment" readonly>글을 씁시다.글 쓴다구여어어어어어ㅓ엉 글써여</textarea>
+                    <span class="content-item mb_title_d"></span>
+                    <span class="content-item mb_phone_d"></span>
+                    <span class="content-item mb_address_d"></span>
+                    <textarea class="content-item time mb_time_d" readonly placeholder="Time"></textarea>
+                    <textarea class="content-item comment mb_comment_d" readonly placeholder="Memo"></textarea>
                 </div>
                 <div class="map-area">
-                    <div id="map">
-                    </div>
+                    <div id="map"></div>
                 </div>
             </div>
         </div>
 		
+		
+		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a5165e87a2b10b900ab474145bc13247&libraries=services"></script>
 		<script>
+			
+		
+		
+		
 		
 			$(document).ready(function(){
 				
-				if('${blNum}' != null){
+				if('${blNum}'){
 					$(".${blNum}").next().trigger("click");
 				}
 				
@@ -566,8 +592,10 @@
 			
 			var target = $(".carousel-cell");
 			
+			// 북마크 그룹 클릭시 실행
 			target.on("click", function() {
 				
+				target.not($(this)).removeClass("clicked");
 				$(this).addClass("clicked");
 				
 				var bl_title = $(".clicked").find(".bl_title").html();
@@ -577,13 +605,14 @@
 				$(".title-area > span:nth-child(1)").html(bl_title);
 				$(".title-content").html(bl_con);
 				
+				// 지도 북마크 리스트 불러오기
 				showBoookmarkMapList();
 				
-				target.not($(this)).removeClass("clicked");
 				
 			});
 			
-			// 지도 북마크 
+			
+			// 지도 북마크 리스트 불러오기
 			function showBoookmarkMapList() {
 				
 				var bl_no = $(".clicked").prev().val();
@@ -608,9 +637,10 @@
 		   						var item = "<div class='map-item'>";
 		   						var name = "<span>" + data.mbl[i].mb_title + "</span>";
 		   						var phone = "<span>" + data.mbl[i].mb_phone + "</span>"
+		   						var no = "<input type = 'hidden' class='mb_no' value='" + data.mbl[i].mb_no + "'>";
 		   						var end = "</div>"
 		   						
-		   						$div = item + name + phone + end;
+		   						$div = item + name + phone + no + end;
 		   						
 								$divBody.append($div);
 							}
@@ -625,8 +655,102 @@
 				
 			}
 			
+			// 지도 북마크 클릭시
+			$(document).on('click', '.map-item', function(){ // 에이작스로 불러온 값에 click 이벤트가 먹지 않으면 이 형태로 사용
+				
+				var mb_no = $(this).find(".mb_no").val();
+				var color = $(".clicked").siblings("#bl_color").val();
+				
+				// 선택된 북마크의 왼쪽 테두리 색 변경
+				$(this).css("border-left", "3px solid" + color);
+				$(this).addClass("select");
+					
+				$(".content-box-2").show();
+				
+				selectBookmarkMap(mb_no);
+				
+				
+				// 선택된 태그가 지금 선택된 것이 아닐시 색상 초기화 / select 클래스명 제거
+				$(".map-item").not($(this)).css("border-left", "3px solid #d5d5d5");
+				$(".map-item").not($(this)).removeClass("select");
+				
+			});
 			
-	        // 북마크 그룹 삭제
+			
+			function selectBookmarkMap(mb_no) {
+				
+				$.ajax({
+		    	    method: 'POST',
+		    	    url: 'selectBookmarkMap.do',
+		    	    data: {'mb_no':mb_no},
+		    	    dataType:"json",
+		    	    success : function(data) {
+						console.log("data : " + data);
+						
+						var add = data.mb_address;
+						var address = add.split("_");
+						
+						/* console.log("1 : " + address[0]+ " 2 : " + address[1]); */
+						
+						$(".mb_title_d").html(data.mb_title);
+						$(".mb_phone_d").html(data.mb_phone);
+						$(".mb_comment_d").html(data.mb_memo);
+						$(".mb_time_d").html(data.mb_time);
+						$(".mb_address_d").html(address[0] + ", " + address[1]);
+						
+						var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+					    mapOption = {
+					        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+					        level: 3 // 지도의 확대 레벨
+					    };
+						
+
+						// 지도를 생성합니다    
+						var map = new kakao.maps.Map(mapContainer, mapOption); 
+					
+						// 주소-좌표 변환 객체를 생성합니다
+						var geocoder = new kakao.maps.services.Geocoder();
+					
+						// 주소로 좌표를 검색합니다
+						geocoder.addressSearch(address[0] , function(result, status) {
+					
+						    // 정상적으로 검색이 완료됐으면 
+						     if (status === kakao.maps.services.Status.OK) {
+					
+						        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+					
+						        // 결과값으로 받은 위치를 마커로 표시합니다
+						        var marker = new kakao.maps.Marker({
+						            map: map,
+						            position: coords
+						        });
+					
+						        // 인포윈도우로 장소에 대한 설명을 표시합니다
+						        var infowindow = new kakao.maps.InfoWindow({
+						            content: '<div class="ma" style="width:150px; text-align:center; font-size:13px;">' + data.mb_title + '</div>'
+						        });
+						        
+						        infowindow.open(map, marker);
+					
+						        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+						        map.setCenter(coords);
+						    } 
+						});
+		    	    },
+		    	    error:function(request, status, errorData){
+                        alert("error code: " + request.status + "\n"
+                              +"message: " + request.responseText
+                              +"error: " + errorData);
+             		} 
+		    	 
+		    	});	
+				
+			}
+			
+			
+			
+			
+	        // 북마크 그룹 삭제 버튼 클릭시 실행
 	        function deleteBookmark() {
 	        	
 	        	var bl_no = $(".clicked").prev().val();
@@ -634,14 +758,13 @@
 	        	
 	        }
 	        
-	        // 북마크 그룹 편집
+	        // 북마크 그룹 편집 버튼 클릭시 실행 
 	        function editBookmark() {
 	        	
 				var bl_no = $(".clicked").prev().val();
 	        	location.href="editBookmarkView.do?bl_no="+ bl_no;
 	        	
 	        }
-	        
 	        
 	        
 	        $(function(){

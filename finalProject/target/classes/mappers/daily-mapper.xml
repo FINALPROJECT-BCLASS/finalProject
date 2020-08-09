@@ -61,6 +61,9 @@
 		<result property="bl_no" column="BL_NO"/>
 		<result property="mb_title" column="MB_TITLE"/>
 		<result property="mb_phone" column="MB_PHONE"/>
+		<result property="mb_time" column="MB_TIME"/>
+		<result property="mb_memo" column="MB_MEMO"/>
+		<result property="mb_address" column="MB_ADDRESS"/>
 	</resultMap>
 	
 	<insert id="insertHabit" parameterType="Habit">
@@ -351,11 +354,21 @@
 	</insert>
 	
 	<select id="selectBookmarkMapList" parameterType="BookmarkMap" resultMap="BookmarkMapResultSet">
-		SELECT *
+		SELECT MB_NO, BL_NO, MB_TITLE, MB_PHONE
 		FROM MAP_BOOKMARK
 		WHERE BL_NO = #{bl_no}
 		AND ID = #{id}
 		AND MB_DELETE = 'N'
+		ORDER BY MB_NO DESC
 	</select>
+	
+	<select id="selectBookmarkMap" parameterType="BookmarkMap" resultMap="BookmarkMapResultSet">
+		SELECT *
+		FROM MAP_BOOKMARK
+		WHERE MB_NO = #{mb_no}
+		AND ID = #{id}
+		AND MB_DELETE = 'N'
+	</select>
+	
 	
 </mapper>

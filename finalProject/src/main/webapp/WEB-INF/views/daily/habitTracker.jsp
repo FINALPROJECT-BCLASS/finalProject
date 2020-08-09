@@ -845,7 +845,8 @@
 		    
 		    var target=$('.habitItem');
 		    
-		    target.on("click", function(){
+		    target.off("click").on("click", function(){
+		    	target.not($(this)).removeClass("clicked");
 		    	$(this).addClass("clicked");
 		    	$(".content").show();
 		    	
@@ -882,7 +883,7 @@
 					}
                 	
                 	// 이전, 이후 버튼 눌렀을 때 이벤트 클래스 제거하고 새로 추가
-                	$(".btn-next").on("click", function(){
+                	$(".btn-next").off("click").on("click", function(){
                 		$(".event").removeClass("event");
                 		for(var i in data.hrclist) {
      	   					eventDates.push(data.hrclist[i].htr_date);
@@ -890,7 +891,7 @@
     					}
                 	})
                 	
-                	$(".btn-prev").on("click", function(){
+                	$(".btn-prev").off("click").on("click", function(){
                 		$(".event").removeClass("event");
                 		for(var i in data.hrclist) {
      	   					eventDates.push(data.hrclist[i].htr_date);
@@ -1334,7 +1335,7 @@
    				})
 		    	 
 		    	
-		    	target.not($(this)).removeClass("clicked");
+		    	
 		    	
 		    	
 		    });

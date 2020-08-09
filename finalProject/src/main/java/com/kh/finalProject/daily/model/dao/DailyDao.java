@@ -165,4 +165,9 @@ public class DailyDao {
 		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectBookmarkMapList", bm);
 	}
 
+	public BookmarkMap selectBookmarkMap(BookmarkMap bm) {
+
+		return sqlSessionTemplate.selectOne("dailyMapper.selectBookmarkMap", bm);
+	}
+
 }
