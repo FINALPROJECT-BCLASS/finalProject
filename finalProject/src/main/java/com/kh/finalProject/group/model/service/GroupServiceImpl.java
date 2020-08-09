@@ -431,17 +431,17 @@ public class GroupServiceImpl implements GroupService{
 	}
 
 	@Override
-	public ArrayList<GroupAccount> selectTotalProList(GroupAccount ga) {
+	public GroupAccount selectTotalProList(GroupAccount ga) {
 		return gDao.selectTotalProList(ga);
 	}
 
 	@Override
-	public ArrayList<GroupAccount> selectTotalExeList(GroupAccount ga) {
+	public GroupAccount selectTotalExeList(GroupAccount ga) {
 		return gDao.selectTotalExeList(ga);
 	}
 
 	@Override
-	public ArrayList<GroupAccount> selectTotalFeeList(GroupAccount ga) {
+	public GroupAccount selectTotalFeeList(GroupAccount ga) {
 		return gDao.selectTotalFeeList(ga);
 	}
 

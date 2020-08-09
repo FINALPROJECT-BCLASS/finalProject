@@ -910,8 +910,8 @@
 	
 	<select id="selectTotalFeeList" parameterType="GroupAccount" resultMap="groupAccountResultSet">
 	 		SELECT EXTRACT(MONTH FROM GA_DATE) AS GA_MONTH ,SUM(GA_AMOUNT) AS GA_TOTAL
-		FROM GROUP_ACCOUNT
-		WHERE G_NO = #{gNo}
+			FROM GROUP_ACCOUNT
+			WHERE G_NO = #{gNo}
 		    AND EXTRACT(YEAR FROM GA_DATE)= #{year}
             AND EXTRACT(MONTH FROM GA_DATE)= #{month}
             AND GA_FEE = 'Y'
@@ -975,7 +975,7 @@
 	</select>
 	
 	<select id="selectCheckList" parameterType="GroupInfo" resultMap="groupAccountResultSet">
-	SELECT GA_TITLE, GA_DATE , GA_NO
+	SELECT GA_TITLE, TO_CHAR(TO_DATE(GA_DATE),'YYYY/MM/DD') AS GA_DATE , GA_NO
 		FROM GROUP_ACCOUNT
 		WHERE G_NO = #{groupNo}
 		AND GA_FEE = 'Y'

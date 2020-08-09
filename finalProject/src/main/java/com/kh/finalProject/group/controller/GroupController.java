@@ -3,6 +3,7 @@ package com.kh.finalProject.group.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -1782,7 +1783,7 @@ public class GroupController {
 			GroupNotice noticeList = gService.selectNoticeOne(gInfo);
 			ArrayList<GroupAccount> checkList = gService.selectCheckList(gInfo);
 			ArrayList<GroupAccountMember> checkMemberList = gService.selectMemberCheckList(gInfo);
-			
+
 			System.out.println("checkList : " + checkList);
 			System.out.println("checkMemberList : " + checkMemberList);
 			mv.addObject("checkList", checkList);
@@ -1830,11 +1831,12 @@ public class GroupController {
 
 		}
 		
+		// 가계부 메인 금액
 		@RequestMapping("accountList.do")
 		public void accountList(HttpSession session, HttpServletResponse response) throws IOException {
 			response.setContentType("application/json;charset=utf-8");
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
-			
+			DecimalFormat formatter = new DecimalFormat("###,###");
 			ArrayList<GroupAccount> proList = gService.selectProList(gInfo);
 			ArrayList<GroupAccount> expList = gService.selectExeList(gInfo);
 			ArrayList<GroupAccount> feeList = gService.selectFeeList(gInfo);
@@ -1846,9 +1848,9 @@ public class GroupController {
 			
 			for(GroupAccount p : proList) {
 				JSONObject jObj = new JSONObject();
-				 
-//				String formatSum = String.format("%,d", p.getGaAmount());
-				jObj.put("eventTitle", p.getGaAmount());
+				String gaAmount = formatter.format(p.getGaAmount());
+
+				jObj.put("eventTitle",gaAmount);
 				jObj.put("date", p.getGaDate());
 				jObj.put("color", "#2860E1");
 				jObj.put("type", "profit");
@@ -1859,9 +1861,9 @@ public class GroupController {
 			
 			for(GroupAccount p : expList) {
 				JSONObject jObj = new JSONObject();
-				
-//				String formatSum = String.format("%,d", p.getGaAmount());
-				jObj.put("eventTitle", p.getGaAmount());
+				String gaAmount = formatter.format(p.getGaAmount());
+
+				jObj.put("eventTitle",gaAmount);
 				jObj.put("date", p.getGaDate());
 				jObj.put("color", "#ee1212d0");
 				jObj.put("type", "expense");
@@ -1872,9 +1874,9 @@ public class GroupController {
 			
 			for(GroupAccount p : feeList) {
 				JSONObject jObj = new JSONObject();
-				
-//				String formatSum = String.format("%,d", p.getGaAmount());
-				jObj.put("eventTitle", p.getGaAmount());
+				String gaAmount = formatter.format(p.getGaAmount());
+
+				jObj.put("eventTitle",gaAmount);
 				jObj.put("date", p.getGaDate());
 				jObj.put("color", "#FBD14B");
 				jObj.put("type", "fee");
@@ -1898,6 +1900,7 @@ public class GroupController {
 				GroupAccount ga) throws IOException {
 			response.setContentType("application/json;charset=utf-8");
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			DecimalFormat formatter = new DecimalFormat("###,###");
 			
 			String year = ga.getGaDate().substring(0, 4);
 			String month = ga.getGaDate().substring(5);
@@ -1910,9 +1913,9 @@ public class GroupController {
 			
 			System.out.println("ga : " + ga);
 			
-			ArrayList<GroupAccount> proTotalList = gService.selectTotalProList(ga);
-			ArrayList<GroupAccount> expTotalList = gService.selectTotalExeList(ga);
-			ArrayList<GroupAccount> feeTotalList = gService.selectTotalFeeList(ga);
+			GroupAccount proTotalList = gService.selectTotalProList(ga);
+			GroupAccount expTotalList = gService.selectTotalExeList(ga);
+			GroupAccount feeTotalList = gService.selectTotalFeeList(ga);
 			
 				
 			
@@ -1920,53 +1923,96 @@ public class GroupController {
 			System.out.println("expTotalList : " + expTotalList);
 			System.out.println("feeTotalList : " + feeTotalList);
 
-			JSONArray pArr = new JSONArray();
-			JSONArray eArr = new JSONArray();
-			JSONArray fArr = new JSONArray();
-			
-			for(GroupAccount p : proTotalList) {
-				JSONObject jObj = new JSONObject();
-				
-				if(proTotalList.isEmpty()) {
-					p.setTotalAmount("0");
-				} 
-				
-//				String formatSum = String.format("%,d", p.getTotalAmount());
-				jObj.put("totalPro", p.getTotalAmount());
-				
-				pArr.add(jObj);
-			}
-			
-			for(GroupAccount p : expTotalList) {
-				JSONObject jObj = new JSONObject();
-				
-				if(expTotalList.isEmpty()) {
-					p.setTotalAmount("0");
-				}
-				
-				jObj.put("totalExp", p.getTotalAmount());
-				
-				eArr.add(jObj);
-			}
-			
-			for(GroupAccount p : feeTotalList) {
-				JSONObject jObj = new JSONObject();
-				
-				if(feeTotalList.isEmpty()) {
-					p.setTotalAmount("0");
-				}
-				
-//				String formatSum = String.format("%,d", p.getGaAmount());
-				jObj.put("totalFee", p.getTotalAmount());
-				
-				fArr.add(jObj);
-			}
+			response.setContentType("application/json;charset=utf-8");
 
-			JSONObject sendJson = new JSONObject();
-			sendJson.put("totalPro", pArr);
-			sendJson.put("totalExp", eArr);
-			sendJson.put("totalFee", fArr);
 			
+
+			
+			JSONObject sendJson = new JSONObject();
+			
+			
+			
+			if(proTotalList != null) {
+			String gaAmount = formatter.format(proTotalList.getTotalAmount());
+			sendJson.put("proTotalList", gaAmount);
+			}else {
+				int defaultZero = 0;
+				sendJson.put("proTotalList", defaultZero);
+			}
+			
+			if(expTotalList != null) {
+				String gaAmount = formatter.format(expTotalList.getTotalAmount());
+				sendJson.put("expTotalList",  gaAmount);
+				}else if(expTotalList == null) {
+					int defaultZero = 0;
+					sendJson.put("expTotalList", defaultZero);
+				}
+			
+			if(proTotalList != null) {
+				String gaAmount = formatter.format(feeTotalList.getTotalAmount());
+				sendJson.put("feeTotalList", gaAmount);
+				}else {
+					int defaultZero = 0;
+					sendJson.put("feeTotalList", defaultZero);
+				}
+			
+			
+//			for(GroupAccount p : proTotalList) {
+//				JSONObject jObj = new JSONObject();
+//				
+//				if(p.getGaAmount() == 0) {
+//					p.setTotalAmount(0);
+//				}else {
+//				
+//				String gaAmount = formatter.format(p.getGaAmount());
+//
+//				jObj.put("totalPro",gaAmount);
+//				System.out.println("totalPro :" + gaAmount);
+////				jObj.put("totalPro", p.getTotalAmount());
+//				
+//				pArr.add(jObj);
+//				}
+//			}
+//			
+//			for(GroupAccount p : expTotalList) {
+//				JSONObject jObj = new JSONObject();
+//				
+//				if(expTotalList.isEmpty()) {
+//					p.setTotalAmount(0);
+//				}else {
+//				
+//				String gaAmount = formatter.format(p.getGaAmount());
+//
+//				jObj.put("totalExp",gaAmount);
+//
+////				jObj.put("totalExp", p.getTotalAmount());
+//				
+//				eArr.add(jObj);
+//				}
+//			}
+//			
+//			for(GroupAccount p : feeTotalList) {
+//				JSONObject jObj = new JSONObject();
+//				
+//				if(feeTotalList.isEmpty()) {
+//					p.setTotalAmount(0);
+//				}else {
+//				
+//				String gaAmount = formatter.format(p.getGaAmount());
+//
+//				jObj.put("totalFee",gaAmount);
+//
+////				jObj.put("totalFee", p.getTotalAmount());
+//				
+//				fArr.add(jObj);
+//				}
+//			}
+//
+//			JSONObject sendJson = new JSONObject();
+//			sendJson.put("totalPro", pArr);
+//			sendJson.put("totalExp", eArr);
+//			sendJson.put("totalFee", fArr);
+//			
 			PrintWriter out = response.getWriter();
 			out.print(sendJson);
 			out.flush();
@@ -1997,7 +2043,7 @@ public class GroupController {
 				
 				gam.setgNo(gInfo.getGroupNo());
 				gam.setGaNo(gaCurrval);
-				gam.setGamAmount(Integer.valueOf(amounts[i]));
+				gam.setGamAmount(amounts[i]);
 				gam.setGmNo(Integer.valueOf(gmNos[i]));
 				gam.setGamDelete("N");
 				gam.setGamYn("N");
@@ -2031,7 +2077,7 @@ public class GroupController {
 			return mv;
 		}
 		
-		// 가계부 상세
+		// 가계부 메인 메모 삭제
 		@RequestMapping(value = "cansleSharing.do", method = RequestMethod.GET)
 		public ModelAndView cansleSharing(ModelAndView mv, HttpSession session, 
 				@RequestParam(value = "gaNo", required = false) String gaNo) {

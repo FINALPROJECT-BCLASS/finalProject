@@ -10,14 +10,14 @@ public class GroupAccount implements Serializable{
 	private String gaTitle;
 	private String gaDate;
 	private String gaCon;
-	private String gaAmount;
+	private int gaAmount;
 	private String gaPro;
 	private String gaExp;
 	private String gaFee;
 	private String gaDelete;
 	private String gasYn;
 	
-	private String totalAmount;
+	private int totalAmount;
 	
 	private String color;
 	private String year;
@@ -27,8 +27,8 @@ public class GroupAccount implements Serializable{
 		super();
 	}
 
-	public GroupAccount(int gaNo, int gNo, int gmNo, String gaTitle, String gaDate, String gaCon, String gaAmount,
-			String gaPro, String gaExp, String gaFee, String gaDelete, String gasYn, String totalAmount, String color,
+	public GroupAccount(int gaNo, int gNo, int gmNo, String gaTitle, String gaDate, String gaCon, int gaAmount,
+			String gaPro, String gaExp, String gaFee, String gaDelete, String gasYn, int totalAmount, String color,
 			String year, String month) {
 		super();
 		this.gaNo = gaNo;
@@ -49,131 +49,132 @@ public class GroupAccount implements Serializable{
 		this.month = month;
 	}
 
-	public final int getGaNo() {
+
+	public int getGaNo() {
 		return gaNo;
 	}
 
-	public final void setGaNo(int gaNo) {
+	public void setGaNo(int gaNo) {
 		this.gaNo = gaNo;
 	}
 
-	public final int getgNo() {
+	public int getgNo() {
 		return gNo;
 	}
 
-	public final void setgNo(int gNo) {
+	public void setgNo(int gNo) {
 		this.gNo = gNo;
 	}
 
-	public final int getGmNo() {
+	public int getGmNo() {
 		return gmNo;
 	}
 
-	public final void setGmNo(int gmNo) {
+	public void setGmNo(int gmNo) {
 		this.gmNo = gmNo;
 	}
 
-	public final String getGaTitle() {
+	public String getGaTitle() {
 		return gaTitle;
 	}
 
-	public final void setGaTitle(String gaTitle) {
+	public void setGaTitle(String gaTitle) {
 		this.gaTitle = gaTitle;
 	}
 
-	public final String getGaDate() {
+	public String getGaDate() {
 		return gaDate;
 	}
 
-	public final void setGaDate(String gaDate) {
+	public void setGaDate(String gaDate) {
 		this.gaDate = gaDate;
 	}
 
-	public final String getGaCon() {
+	public String getGaCon() {
 		return gaCon;
 	}
 
-	public final void setGaCon(String gaCon) {
+	public void setGaCon(String gaCon) {
 		this.gaCon = gaCon;
 	}
 
-	public final String getGaAmount() {
+	public int getGaAmount() {
 		return gaAmount;
 	}
 
-	public final void setGaAmount(String gaAmount) {
+	public void setGaAmount(int gaAmount) {
 		this.gaAmount = gaAmount;
 	}
 
-	public final String getGaPro() {
+	public String getGaPro() {
 		return gaPro;
 	}
 
-	public final void setGaPro(String gaPro) {
+	public void setGaPro(String gaPro) {
 		this.gaPro = gaPro;
 	}
 
-	public final String getGaExp() {
+	public String getGaExp() {
 		return gaExp;
 	}
 
-	public final void setGaExp(String gaExp) {
+	public void setGaExp(String gaExp) {
 		this.gaExp = gaExp;
 	}
 
-	public final String getGaFee() {
+	public String getGaFee() {
 		return gaFee;
 	}
 
-	public final void setGaFee(String gaFee) {
+	public void setGaFee(String gaFee) {
 		this.gaFee = gaFee;
 	}
 
-	public final String getGaDelete() {
+	public String getGaDelete() {
 		return gaDelete;
 	}
 
-	public final void setGaDelete(String gaDelete) {
+	public void setGaDelete(String gaDelete) {
 		this.gaDelete = gaDelete;
 	}
 
-	public final String getGasYn() {
+	public String getGasYn() {
 		return gasYn;
 	}
 
-	public final void setGasYn(String gasYn) {
+	public void setGasYn(String gasYn) {
 		this.gasYn = gasYn;
 	}
 
-	public final String getTotalAmount() {
+	public int getTotalAmount() {
 		return totalAmount;
 	}
 
-	public final void setTotalAmount(String totalAmount) {
+	public void setTotalAmount(int totalAmount) {
 		this.totalAmount = totalAmount;
 	}
 
-	public final String getColor() {
+	public String getColor() {
 		return color;
 	}
 
-	public final void setColor(String color) {
+	public void setColor(String color) {
 		this.color = color;
 	}
 
-	public final String getYear() {
+	public String getYear() {
 		return year;
 	}
 
-	public final void setYear(String year) {
+	public void setYear(String year) {
 		this.year = year;
 	}
 
-	public final String getMonth() {
+	public String getMonth() {
 		return month;
 	}
 
-	public final void setMonth(String month) {
+	public void setMonth(String month) {
 		this.month = month;
 	}
 
@@ -185,6 +186,6 @@ public class GroupAccount implements Serializable{
 				+ ", color=" + color + ", year=" + year + ", month=" + month + "]\n";
 	}
 
-	
+		
 	
 }
