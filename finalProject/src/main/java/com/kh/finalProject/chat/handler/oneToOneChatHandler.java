@@ -41,6 +41,8 @@ public class oneToOneChatHandler extends TextWebSocketHandler {
 			System.out.println("session uri? : "+ session.toString());
 			Map<String,Object> sessionmap = session.getAttributes();
 			
+			Member m = (Member)sessionmap.get("loginUser");
+			
 			//co_no가져오기
 			String co_no = String.valueOf(sessionmap.get("co_no"));
 			System.out.println("co_no 에욱 :" + co_no);
@@ -49,7 +51,13 @@ public class oneToOneChatHandler extends TextWebSocketHandler {
 			  map.put("co_no",co_no);
 			  map.put("session", session);
 			  
-			  System.out.println("session 접속 : " + session.getId());
+			  Map<String,Object> map2 = new HashMap<String, Object>();
+			  map2.put("co_no",co_no);
+			  map2.put("id", m.getId());
+			  
+			  int result = cService.chatReadCheck(map2);
+			  
+			  System.out.println("session 접속 : " + sessionList);
 			  
 			  sessionList.add(map);
 				logger.info("{} 연결됨", session.getId()); 
@@ -65,9 +73,43 @@ public class oneToOneChatHandler extends TextWebSocketHandler {
 			   ObjectMapper objectMapper = new ObjectMapper();
 			   Map<String, String> mapReceive = objectMapper.readValue(message.getPayload(), Map.class);
 			   
-			   Map<String, Object> map = new HashMap<String, Object>();
+			   //이거 왜넣었을까?
+			   HashMap<String, Object> map = new HashMap<String, Object>();
 			   map.put("co_no", mapReceive.get("co_no"));
-			   map.put("session", session);//세션을 httpsession의 로그인아이디 로 교체 작업도중 끝
+			   map.put("session", session);
+			   
+			   //같은방 인원수 체크
+			   int count = 0;
+			   for(int i=0;i<sessionList.size();i++) {
+				   Map<String, Object> mapSessionList = sessionList.get(i);
+				   String co_no = String.valueOf(mapSessionList.get("co_no"));
+					WebSocketSession sess = (WebSocketSession)mapSessionList.get("session");
+				   
+					if(co_no.equals(mapReceive.get("co_no"))) {
+						count++;
+					}
+			   }
+			   String yn = "";
+			   //메세지전송 (Y,N)체크해주기위한 IF문
+			  if(count == 2) {
+				  yn = "Y";
+			  }else {
+				  yn ="N";
+			  }
+			  
+			  //db에 저장 준비
+			  Map<String,Object> userIdmap = session.getAttributes();
+				Member m = (Member)userIdmap.get("loginUser"); //세션 교체
+				String loginid = m.getId();
+			
+			  map.put("yn", yn);
+			  map.put("id", loginid);
+			  map.put("message",String.valueOf(mapReceive.get("msg")));
+			
+			  int result = cService.insertChatmsg(map);//db저장
+			  
+			  System.out.println("sessionList 확인...:" + sessionList);
+			  //메세지 뿌려주기
 			   for(int i=0; i<sessionList.size(); i++) {
 					Map<String, Object> mapSessionList = sessionList.get(i);
 					
@@ -77,36 +119,22 @@ public class oneToOneChatHandler extends TextWebSocketHandler {
 					System.out.println("sess : " + sess.getId()); //확인1 .
 					System.out.println("session확인2 :" +  mapSessionList.get("session"));
 					System.out.println("co_no" + co_no);
+					
 					//만약 Map값을 불러왔는데 방번호가 같다면?
 					if(co_no.equals(mapReceive.get("co_no"))) {
 						
-						Map<String,Object> userIdmap = session.getAttributes();
-						Member m = (Member)userIdmap.get("loginUser"); //세션 교체
-						
-						String loginid = m.getId();
 						System.out.println("msg : " + mapReceive.get("msg"));
-						HashMap<String,Object> dbmap = new HashMap<String,Object>();
-						dbmap.put("co_no", co_no);
-						dbmap.put("id", loginid);
-						dbmap.put("message",String.valueOf(mapReceive.get("msg")));
+						String name = m.getName();
 						
-						int result = cService.insertChatmsg(dbmap);//db저장
-						//int result =1;
-						if( result >0) {
-						
-						String jsonStr2 = co_no + "|" +loginid+ "|" + mapReceive.get("msg");						
+						String jsonStr2 = co_no + "|" +name+ "|" + mapReceive.get("msg")+"|" +mapReceive.get("img");						
 
 						System.out.println("확인 에욱" + jsonStr2);
 						sess.sendMessage(new TextMessage(jsonStr2)); //여기잠깐바꿈
 						
-						}else {
-							String jsonStr2 = co_no + "|" +loginid+ "|" + mapReceive.get("msg");						
-
-							System.out.println("db저장 실패");
-							sess.sendMessage(new TextMessage(jsonStr2));
-						}
 					}
 			   }
+			
+			 
 		   }
 		
 		@Override

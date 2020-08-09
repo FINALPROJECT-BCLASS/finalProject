@@ -10,11 +10,18 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
 </head>
 <style>
+	body {
+		background: aliceblue !important;
+	}
+
 	#message{
 	    height: 70%;
 	    width: 71%;
 	    border-radius: 5px;
 	    border: none;
+	    resize: none;
+	    padding: 15px;
+	    
 	}
 	
 	.send-area {
@@ -33,35 +40,53 @@
 	.default-btn {
 		margin-left: 20px;
     	height: 70% !important;
+    	background: #ffed95;
 	}
 	
 	.tri-left {
-	    width: 0px;
-	    height: 0px;
-	    border-top: 7px solid transparent;
-	    border-left: 10px solid yellow;
-	    border-bottom: 7px solid transparent;
+	    height: 11px;
+	    width: 11px;
+	    background: #ffed95;
+	    border-top: 1px solid #e8e8e8;
+	    border-right: 1px solid #e8e8e8;
+	    position: absolute;
+	    transform: rotate(45deg);
+	    right: 84px;
 	}
 	
 	.tri-right {
-	    width: 0px;
-	    height: 0px;
-	    border-top: 7px solid transparent;
-	    border-right: 10px solid yellow;
-	    border-bottom: 7px solid transparent;
+	    height: 11px;
+	    width: 11px;
+	    background: white;
+	    border-bottom: 1px solid #e8e8e8;
+	    border-left: 1px solid #e8e8e8;
+	    position: absolute;
+	    transform: rotate(45deg);
+	    left: 85px;
 	}
 	
 	.text-con {
-		width: 70%;
-	    height: 60%;
-	    background: yellow;
+		width: 50%;
+	    background: #ffed95;
 	    border-radius: 10px;
+	    padding: 12px;
+	    font-size: 14px;
+	    border: 1px solid #e8e8e8;
+	    
+	}
+	/*이게머지?*/
+	.text-con-someone {
+		width: 100%;
+	    background: white;
+	    border-radius: 10px;
+	    padding: 12px;
+	    font-size: 14px;
+	    border: 1px solid #e8e8e8;
 	}
 	
 	.chat-area {
-		height: 70%;
-		background: #f3f3f3;
-		overflow-y:scroll;
+	height: 100%;
+    background: aliceblue;
 	}
 	
 	.chat-area::-webkit-scrollbar {
@@ -69,45 +94,190 @@
     }
 	
 	#chatdata {
-		display: flex;
+	    display: flex;
 	    align-items: center;
 	    justify-content: flex-end;
-	    height: 100px;
+	    margin-top: 10px;
+	    position: relative;
 	}
 	
 	.profile-img {
 		width: 50px;
 	    height: 50px;
-	    background: gray;
 	    border-radius: 50%;
 	    margin: 0 20px;
+	    overflow: hidden;
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
 	}
 	
 	.left{
 		justify-content: flex-start !important;
 	}
 	
+	.roomtitle{
+        font-size: 17px;
+	    padding: 10px;
+	    font-weight: 600;
+	}
+	
+	.title-area {
+		background: white;
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    border-bottom: 1px solid #ececec;
+	    border-top: 1px solid #ececec;
+	    position: relative;
+	}
+	
+	.title-area > div:nth-child(1) {
+	    position: absolute;
+	    left: 4%;
+	    font-weight: 900;
+	    font-size: 25px;
+	    margin-top: -6px;
+	}
+	
+	.member-count {
+		    font-size: 14px;
+    position: absolute;
+    right: 4%;
+    display: flex;
+    align-items: center;
+    top: 2%;
+    width: 44px;
+    height: 44px;
+	}
+	
+	.profile-img > img {
+		height: 100%;
+	}
+	
+	.member-list {
+	   	position: absolute;
+	    right: 20px;
+	    top: 43px;
+	    padding-left: 0;
+	    background: lightblue;
+	    align-items: center;
+	    z-index: 1;
+	    list-style: none;
+	    font-size: 14px;
+	    box-shadow: 1px 1px 14px -6px #808080;
+	    opacity:0;
+
+	}
+	
+	.member-count-area:hover > .member-list {
+		opacity:1;
+	}
+	
+	.member-count-area:hover li {
+		height:100%;
+	}
+	
+	.member-list li {
+		padding: 5px 10px;
+	    background: white;
+	    margin-top: -1px;
+	    border: 1px solid #ececec;
+	    height: 0;
+
+	}
+	
+	.member-list li:hover {
+		background: #FBD14B;
+		
+
+	}
+	
+	.big-area {
+        border-bottom: 10px solid aliceblue;
+	    height: 61%;
+	    position: relative;
+	    display: flex;
+	    flex-direction: column;
+	    overflow-y: scroll;
+	    background: aliceblue;
+	}
+	
+	.big-area::-webkit-scrollbar {
+    	display:none;
+    }
+    
+    .text-con-area {
+   	    width: 50%;
+    }
+    
+    .text-con-area > div:nth-child(1) {
+   	    font-size: 13px;
+	    color: gray;
+	    font-weight: 600;
+    }
+	
 </style>
 <body>
 	<jsp:include page="../common/chatheader.jsp"/>
-	<div class="chat-area">
-		<div id="chatdata">
-			<div class="text-con"></div>
-			<div class="tri-left"></div>
-			<div class="profile-img"></div>
-		</div>
-		
-		<div id="chatdata" class="left">	<!--  받는사람한테 class="left" 추가 -->
-			<div class="profile-img"></div>
-			<div class="tri-right"></div>
-			<div class="text-con"></div>
+	
+	<div class="title-area">
+		<div class="Toback">
+			<
+		</div>	
+		<div class="roomtitle ble">
+		 	${friendName }
+		 <input type="hidden" name="friendid" value="${friendid }" class="friendid" id="friendid">
 		</div>
 	</div>
+	
+<div class="big-area">
+	<div class="chat-area">
+	<c:forEach var="cl" items="${chlist }">
+		<c:if test="${cl.id eq loginUser.id }">
+			<div id="chatdata">
+				<div class="text-con"><span>${cl.ol_cont }</span></div>
+				<div class="tri-left"></div>
+				<div class="profile-img">
+				<c:if test="${!empty loginUser.rename_file }">
+				<img src='resources/muploadFiles/${loginUser.rename_file}'>
+				</c:if>
+				
+				<c:if test="${empty loginUser.rename_file }">
+				<img src='resources/images/icons/profile_white.png'>
+				</c:if>
+				</div>
+			</div>
+		</c:if>
+		<c:if test="${cl.id ne loginUser.id }">
+		<div id="chatdata" class="left">	<!--  받는사람한테 class="left" 추가 -->
+			<div class="profile-img">
+			<c:if test="${empty cl.rename_file }">
+				<img src='resources/images/icons/profile_white.png'>
+			</c:if>
+			<c:if test="${!empty cl.rename_file }">
+				<img src='resources/muploadFiles/${cl.rename_file}'>
+			</c:if>
+			</div>
+			<div class="tri-right"></div>
+			<div class="text-con-area">
+				<div>${cl.name }</div>
+				<div class="text-con-someone">${cl.ol_cont}</div>
+			</div>
+		</div>
+		
+		</c:if>
+	</c:forEach>
+	
+		
+	</div>
+</div>
+
 	<div class="send-area">
-		<input type="text" id="message" />
-		<input type="button" id="sendBtn" class="default-btn b-yell" value="전송"/>
-			<input type="hidden" value="${loginUser.id }" id="loginuser">
-			<input type="hidden" value="${ch.co_no }" id="co_no">
+		<textarea id="message"></textarea>
+		<input type="button" id="sendBtn" class="default-btn" value="전송"/>
+			<input type="hidden" value="${loginUser.name }" id="loginuser">
+			<input type="hidden" value="${co_no }" id="co_no">
 	</div>
 </body>
 
@@ -116,33 +286,71 @@
 
 	let sock = new SockJS("<c:url value="/echo"/>"); 	//웹소켓 연결 - sevlet-context에서 웹소켓 핸들러
 	
+	//WebSocket하고 연결될떄 실행됨
+	//sock.onopen = onOpen;
 	//websocket 에서 메세지를 받을떄 실행되는 메소드
 	sock.onmessage = onMessage;
 	//websocket 과 연결이 끊길때 실행하는 메소드
 	sock.onclose = onClose;
 	
-	//메세지 전송버튼 클릭 메소드
-	$(function(){
-		$("#sendBtn").click(function(){
-	        sendMessage();
-			console.log('send message...');
-			$("#message").val('');
-	    });
-	});
-	        
-	//메세지 전송 메소드
-	function sendMessage(){     
+	let sock2 = new SockJS("<c:url value="/echolist"/>");
+	
+	sock2.onmessage = onMessage;
+	sock.onclose = onClose;
+	
+	//연결될시 시작되는 메소드
+ 	/*function onOpen(){
 		var msgData = {
-				user_id : $("#loginuser").val(),
+				user_id : "${loginUser.nickname}",
 				co_no : $("#co_no").val(),
-				msg : $("#message").val()
+				msg : "입장하셨습니다.",
+				join : "join",
 		};
 		
 		//websocket으로 메시지를 보내겠다.
 		var jsonData = JSON.stringify(msgData);//JSON.stringify란 자바스크립트의 값을 JSON 문자열로 변환한다. 
 		sock.send(jsonData);    
-	}
-	           
+	} */
+	
+	//메세지 전송버튼 클릭 메소드
+	$("#message").keypress(function(event) {
+		if (event.which == 13) {
+			$("#sendBtn").click();
+			return false;
+		}
+	});
+
+	$("#sendBtn").click(function() {
+		sendMessage();
+		console.log('send message...');
+		$("#message").val('');
+	});
+	        
+	//메세지 전송 메소드
+	function sendMessage() {
+		var friendid = $("#friendid").val();
+		console.log("친구아이디 :" +friendid);
+		var user = $("#loginuser").val();
+		
+		var msgData = {
+			user_id : $("#loginuser").val(),
+			co_no : $("#co_no").val(),
+			msg : $("#message").val(),
+			img : "${loginUser.rename_file}"
+		};
+		
+		var msgData2 ={
+				friendid : $("#friendid").val(),
+				co_no : $("#co_no").val(),
+				msg : $("#message").val(),
+				
+		};
+		var jsonData = JSON.stringify(msgData);//JSON.stringify란 자바스크립트의 값을 JSON 문자열로 변환한다. 
+		var jsonData2 = JSON.stringify(msgData2);
+		sock.send(jsonData);
+		sock2.send(jsonData2);
+	
+	}          
 	
 	//evt 파라미터는 websocket이 보내준 데이터다.
 	function onMessage(evt){  //변수 안에 function자체를 넣음.
@@ -150,6 +358,7 @@
 		var sessionid = null;
 		var message = null;
 		var co_no = null;
+		console.log("확인용 : " + evt.data);
 		
 		//문자열을 splite//
 		 var strArray = data.split('|'); 
@@ -168,32 +377,69 @@
 		co_no = strArray[0];
 		sessionid = strArray[1]; //현재 메세지를 보낸 사람의 세션 등록//
 		message = strArray[2]; //현재 메세지를 저장//
+		img = strArray[3];	//이미지
 		var $printHTML;
 		//나와 상대방이 보낸 메세지를 구분하여 영역을 나눈다.//
 		if(sessionid == currentuser_session){
-			printHTML =  "<div id='chatdata'>"
-							 + "<div class='text-con'>"+message+"</div>"
-							 + "<div class='tri-left'></div>"
-							 + "<div class='profile-img'><img src='resources/muploadFiles/${loginUser.rename_file}'>"+"</div>"
-							 + "</div>";
+			var check ="${loginUser.rename_file}";
+			if(check == ""){
+				printHTML = "<div id='chatdata'>"
+					+ "<div class='text-con'><span>"
+					+ message
+					+ "</span></div>"
+					+ "<div class='tri-left'></div>"
+					+ "<div class='profile-img'><img src='resources/images/icons/profile_white.png'>"
+					+ "</div>" + "</div>";
+			}else{
+				printHTML = "<div id='chatdata'>"
+					+ "<div class='text-con'><span>"
+					+ message
+					+ "</span></div>"
+					+ "<div class='tri-left'></div>"
+					+ "<div class='profile-img'><img src='resources/muploadFiles/${loginUser.rename_file}'>"
+					+ "</div>" + "</div>";
+				
+				
+			}
 			$(".chat-area").append(printHTML);
 		} else{
-			printHTML = "<div id='chatdata' class='left'>"
-							+"<div class='profile-img'></div>"
-							+"<div class='tri-right'></div>"
-							+"<div class='text-con'>"+message+"</div>";
-							+"</div>"		
+			if(img ==""){
+				printHTML = "<div id='chatdata' class='left'>"
+					+ "<div class='profile-img'><img src='resources/images/icons/profile_white.png'></div>"
+					+ "<div class='tri-right'></div>"
+					+"<div class='text-con-area'>"
+					+"<div>" + sessionid+"</div>"
+					+"<div class='text-con-someone'>"+message+"</div>";
+					+"</div>";
+				
+			}else{
+				printHTML = "<div id='chatdata' class='left'>"
+					+ "<div class='profile-img'><img src='resources/muploadFiles/"+img+"'></div>"
+					+ "<div class='tri-right'></div>"
+					+"<div class='text-con-area'>"
+					+"<div>" + sessionid+"</div>"
+					+"<div class='text-con-someone'>"+message+"</div>";
+					+"</div>";
+				
+			}
 			$(".chat-area").append(printHTML);
 		}
 		
 		console.log('chatting data: ' + data);
-		
+		$(".big-area").scrollTop($(".big-area")[0].scrollHeight);
 	  	/* sock.close(); */
 	}
 	    
+	
 	function onClose(evt){
 		$("#data").append("연결 끊김");
 	}  
+	
+	$(function() {
+		$(".Toback").click(function() {
+			location.href = "chatroom.do";
+		})
+	})
 </script>
 
 </html>

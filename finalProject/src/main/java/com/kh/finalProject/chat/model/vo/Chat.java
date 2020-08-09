@@ -15,6 +15,11 @@ public class Chat implements Serializable{
 	private String id2; 			//id2
 	private String ol_cont;			//OL_CONT
 	private String ol_date;			//OL_DATE
+
+	private String rename_file;		//이미지
+	private String name;			//이름
+	private int count;				//안읽은 갯수
+	
 	public Chat() {
 	}
 	public Chat(int co_no, int ol_no, String id, String id2, String ol_cont, String ol_date) {
@@ -24,6 +29,26 @@ public class Chat implements Serializable{
 		this.id2 = id2;
 		this.ol_cont = ol_cont;
 		this.ol_date = ol_date;
+	}
+	
+	
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getRename_file() {
+		return rename_file;
+	}
+	public void setRename_file(String rename_file) {
+		this.rename_file = rename_file;
 	}
 	public int getCo_no() {
 		return co_no;
@@ -67,8 +92,11 @@ public class Chat implements Serializable{
 	@Override
 	public String toString() {
 		return "Chat [co_no=" + co_no + ", ol_no=" + ol_no + ", id=" + id + ", id2=" + id2 + ", ol_cont=" + ol_cont
-				+ ", ol_date=" + ol_date + "]";
+				+ ", ol_date=" + ol_date + ", rename_file=" + rename_file + ", name=" + name + ", count=" + count + "]";
 	}
+
 	
+	
+
 	
 }

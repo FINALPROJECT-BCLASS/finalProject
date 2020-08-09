@@ -112,17 +112,19 @@ public class ChatController {
 		}
 		
 	}
-	
+	//수정사항으로 매핑이름이 조금 이상함..
 	@RequestMapping("ChatOneToOneView.do")
-	public ModelAndView ChatOneToOneView(HttpSession session, ModelAndView mv,
+	public String ChatOneToOneView(HttpSession session,
 											@RequestParam(value="id") String id) {
-		
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		
+		int co_no =0;
 		HashMap<String, String> map = new HashMap<>();
 		map.put("id",loginUser.getId());
 		map.put("friendId", id);
+		String friendName = cService.selectfriendName(id);
 		
+		System.out.println("friendName : " +friendName);
 		Chat ch1 = new Chat();
 			ch1 = cService.selectChatOnetoOne(map);
 			System.out.println("검색결과 " + ch1);
@@ -130,25 +132,29 @@ public class ChatController {
 		if( ch1 == null) {
 			int result = cService.insertChatOnetoTOne(map);
 			
-			ch1 = cService.selectChatOnetoOne(map);
+			ch1 = cService.selectChatOnetoOne(map);//채팅번호 가져오기
+			
 				if(result >0) {
-					session.setAttribute("co_no", ch1.getCo_no());
-					mv.addObject("ch", ch1).setViewName("chat/chatOneToOne");
-				}//else문 추가해주기?
+					co_no = ch1.getCo_no();
+				}
 				
 		}else {
-			session.setAttribute("co_no", ch1.getCo_no());
-			mv.addObject("ch", ch1).setViewName("chat/chatOneToOne");
+			co_no = ch1.getCo_no();// 번호
+
 		}
 		
+		//채팅 리스트 가져오기
+		ArrayList<Chat> chatlist = new ArrayList<Chat>();
 		
-		
+		chatlist = cService.selectOneToOnechatlist(ch1.getCo_no());
+		System.out.println("chatlist : " + chatlist);
+//		mv.addObject("chlist", chatlist).addObject("friendName", friendName);
 		/*
 		 * System.out.println("받아온 아이디" +id); System.out.println("본인 아이디" +
 		 * loginUser.getId());
 		 */
 		
-		return mv;
+		return "redirect:chatroomdetail.do?co_no="+co_no+"&friendid="+id;
 		
 	}
 	
@@ -158,20 +164,64 @@ public class ChatController {
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		
 		
-		ArrayList<Chat> ch = cService.selectchatroom(loginUser.getId());
+		ArrayList<Chat> ch = new ArrayList<Chat>();
+				ch = cService.selectchatroom(loginUser.getId());
+		ArrayList<Chat> ch2 = new ArrayList<Chat>();
+		ch2 = cService.selectchatroom2(loginUser.getId());
+		
+		ArrayList<Chat> count = new ArrayList<Chat>();
+		count = cService.selectcount();
+		System.out.println("count : " + count);
+		
+		if(ch != null && ch2 != null && count != null) {
+		for(int i=0; i<ch.size();i++) {
+			Chat temporarychat = ch.get(i);
+			
+			for(int j=0; j<count.size();j++) {
+				Chat temporarycount = count.get(j);
+				if(temporarychat.getCo_no() == temporarycount.getCo_no()) {
+					ch.get(i).setCount(temporarycount.getCount());
+				}
+			}
+		}
+		
+		for(int i=0; i<ch2.size();i++) {
+			Chat temporarychat = ch.get(i);
+			
+			for(int j=0; j<count.size();j++) {
+				Chat temporarycount = count.get(j);
+				if(temporarychat.getCo_no() == temporarycount.getCo_no()) {
+					ch2.get(i).setCount(temporarycount.getCount());
+				}
+			}
+		}
+		}
 		System.out.println("ch : " + ch);
-		mv.addObject("chroomlist", ch).setViewName("chat/chatroomlist");
+		System.out.println("ch2 : " + ch2);
+		mv.addObject("chroomlist2", ch2).addObject("chroomlist", ch).setViewName("chat/chatroomlist");
 		return mv;
 	}
 	
 	@RequestMapping("chatroomdetail.do")
 	public ModelAndView chatroomdetail(ModelAndView mv,HttpSession session,
-										@RequestParam(value="co_no") String co_no) {
+										@RequestParam(value="co_no") int co_no,
+										@RequestParam(value="friendid")String friendid) {
+		System.out.println("friendid : " + friendid);
+		System.out.println("co_no :" + co_no);
 		
-		Chat ch = cService.selectchatroomdetail(co_no); //임시
-		System.out.println("ch : " + ch);
+		String friendName = cService.selectfriendName(friendid);
+		
+		
+		//채팅 리스트 뿌려줘야함.
+		//Chat ch = cService.selectchatroomdetail(co_no); //임시
+		
+		ArrayList<Chat> chatlist = new ArrayList<Chat>();
+		
+		chatlist = cService.selectOneToOnechatlist(co_no);
+		System.out.println("chatlist : " + chatlist);
+		
 		session.setAttribute("co_no", co_no);
-		mv.addObject("ch", ch).setViewName("chat/chatOneToOne");
+		mv.addObject("friendid", friendid).addObject("co_no", co_no).addObject("friendName", friendName).addObject("chlist",chatlist ).setViewName("chat/chatOneToOne");
 		
 		return mv;
 	}
@@ -300,4 +350,42 @@ public class ChatController {
 		
 	}
 	
+	@RequestMapping("recommendList.do")
+	public void recommendList(HttpSession session,HttpServletResponse response) throws IOException {
+		response.setContentType("application/json;charset=utf-8");
+		
+		Member m =(Member)session.getAttribute("loginUser");
+		
+		String id = m.getId();
+		System.out.println("아이디 : " + id);
+		//어레이리스트로 작업하기
+		ArrayList<Member> recommendinformation = new ArrayList<Member>();
+		
+		recommendinformation = cService.recommendList(id);
+		
+		System.out.println("recommendinformation : " + recommendinformation);
+		
+		JSONArray jarr = new JSONArray();
+		
+		for(Member fi : recommendinformation) {
+			JSONObject jMember = new JSONObject();
+			
+			jMember.put("name", fi.getName());
+			jMember.put("Rename_file", fi.getRename_file());
+			jMember.put("nickname", fi.getNickname());
+			jMember.put("id", fi.getId());
+			
+			jarr.add(jMember);
+		}
+		
+		JSONObject sendJson = new JSONObject();
+		
+		sendJson.put("list",jarr);
+		
+		PrintWriter out = response.getWriter();
+		
+		out.print(sendJson);
+		out.flush();
+		out.close();
+	}
 }

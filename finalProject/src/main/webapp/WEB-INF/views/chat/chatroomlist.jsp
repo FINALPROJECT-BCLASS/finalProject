@@ -6,6 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>chatroomlist</title>
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
 <style type="text/css">
 	.chatroom {
 	    display: flex;
@@ -111,21 +113,56 @@
 </head>
 <body>
 	<jsp:include page="../common/chatheader.jsp"/>
-	
+
 	<div class="cahtroomlist">	
 		<c:forEach var="cl" items="${chroomlist}">
 			<div class="chatroom chat">
 				<input type="hidden" name="co_no" value="${cl.co_no }" class="co_no" id="co_no">
+				<input type="hidden" name="friendid" value="${cl.id2 }" class="friendid" id="friendid">
 				<div class="profile-img">
+				<c:if test="${empty cl.rename_file }">
 					<img src='resources/images/icons/profile_white.png'>
+				</c:if>
+				<c:if test="${!empty cl.rename_file }">
+					<img src='resources/muploadFiles/${cl.rename_file}'>
+				</c:if>
 				</div>
 				<div class="chatroom-con">
-					<div>${cl.id2 }</div>
-					<div><p>여기에는 내용을 써야합니다. 알겠냐?</p></div>
+					<div>${cl.name }</div>
+					<div class="number${cl.co_no }"><p>${cl.ol_cont }</p></div>
 					<div class="chatroom-count">
-						<span>3</span>
+					<c:if test="${ cl.count ne 0 }">
+						<span>${cl.count }</span>
+					</c:if>
+					<c:if test="${cl.count eq 0}">
+					</c:if>
 					</div>
 				</div>
+			</div>
+		</c:forEach>
+		<c:forEach var="cl" items="${chroomlist2 }">
+			<div class="chatroom chat">
+					<input type="hidden" name="co_no" value="${cl.co_no }" class="co_no" id="co_no">
+					<input type="hidden" name="friendid" value="${cl.id }" class="friendid" id="friendid">
+					<div class="profile-img">
+						<c:if test="${empty cl.rename_file }">
+							<img src='resources/images/icons/profile_white.png'>
+						</c:if>
+						<c:if test="${!empty cl.rename_file }">
+							<img src='resources/muploadFiles/${cl.rename_file}'>
+						</c:if>
+					</div>
+					<div class="chatroom-con">
+						<div>${cl.name }</div>
+						<div class="number${cl.co_no }"><p>${cl.ol_cont }</p></div>
+						<div class="chatroom-count">
+							<c:if test="${ cl.count ne 0 }">
+								<span>${cl.count }</span>
+							</c:if>
+							<c:if test="${cl.count eq 0}">
+							</c:if>
+						</div>
+					</div>
 			</div>
 		</c:forEach>
 	</div>
@@ -135,14 +172,43 @@
 
 $(function(){
 $(".chat").click(function(){
-	var co_no = $(this).siblings(".co_no").val();
+	var co_no = $(this).find(".co_no").val();
+	var friendid = $(this).find(".friendid").val();
 	
-	console.log("제발 " + co_no);
+	console.log("제발 " + co_no + " " + friendid);
 	
-	/* location.href="chatroomdetail.do?co_no="+co_no; */
+	location.href="chatroomdetail.do?co_no="+co_no+"&friendid=" + friendid; 
 })
 	
 })
+
+//		http://localhost:8421/spring/echolist
+let sock = new SockJS("<c:url value="/echolist"/>");
+	sock.onmessage = onMessage;
+	
+	function onMessage(evt){
+		var data = evt.data;
+		var message = null;
+		var co_no = null;
+		
+		console.log("확인 :" + data);
+		
+		var strArray = data.split('|');
+		
+		for(var i=0; i<strArray.length; i++){
+			console.log('str['+i+']: ' + strArray[i]);
+		}
+		
+		co_no = strArray[0];
+		message = strArray[1];
+		
+		var $pringHTML;
+		
+		printHTML = "<p>"+message+"</p>";
+		$(".number"+co_no).html(printHTML);
+		
+	}
+	
 </script>
 
 </html>
