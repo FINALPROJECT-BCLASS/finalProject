@@ -56,9 +56,14 @@ public class ManagerDao {
 		return sqlSessionTemplate.update("managerMapper.updateRpCount", id);
 	}
 
-	public int updateChatYn(String id) {
+	public int updateChatN(String id) {
 		
-		return sqlSessionTemplate.update("managerMapper.updateChatYn", id);
+		return sqlSessionTemplate.update("managerMapper.updateChatN", id);
+	}
+
+	public int updateChatY(String id) {
+		
+		return sqlSessionTemplate.update("managerMapper.updateChatY", id);
 	}
 
 }

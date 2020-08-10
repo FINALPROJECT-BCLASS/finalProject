@@ -74,6 +74,10 @@
 		    width: 80px;
 		    background-color: #2860E1;
 		}
+		
+		.chat_yn_td:hover {
+			cursor: pointer;
+		}
         
     </style>
 </head>
@@ -94,6 +98,7 @@
         </div>
         
         <div id="tableArea">
+        	<h5 style="width: 100%; text-align: center;"><b>'채팅 가능'을 클릭하면 기능을 정지하거나 해제할 수 있습니다</b></h5>
         	<table id="memberTable" align="center">
         		<thead>
         			<tr>
@@ -112,7 +117,10 @@
         		<tbody>
         		<c:forEach var="m" items="${mlist }">
         			<tr>
-        				<td style="width: 100px;">${m.id }</td>
+        				<td style="width: 100px;">
+        					<input type="hidden" class="id" value="${m.id }">
+        					${m.id }
+        				</td>
         				<td style="width: 100px;">${m.name }</td>
         				<td style="width: 100px;">${m.nickname }</td>
         				<td style="width: 200px;">${m.email }</td>
@@ -120,7 +128,10 @@
         				<td style="width: 100px;">${m.birthday }</td>
         				<td style="width: 300px;">${m.address }</td>
         				<td style="width: 100px;">${m.join_date }</td>
-        				<td style="width: 80px;">${m.chat_yn }</td>
+        				<td style="width: 80px;" class="chat_yn_td">
+        					<input type="hidden" class="chat_yn" value="${m.chat_yn }">
+        					${m.chat_yn }
+        				</td>
         				<td style="width: 80px;">${m.out_yn }</td>
         			</tr>
         		</c:forEach>
@@ -181,6 +192,30 @@
     			var searchID = $("#searchID").val();
     			
     			location.href="memberlist.do?id="+searchID;
+    		})
+    		
+    		$(".chat_yn_td").click(function(){
+    			var selectID = $(this).parent().find(".id").val();
+    			var chatYN = $(this).find(".chat_yn").val();
+    			
+    			if(chatYN == 'Y') {
+	    			var deleteCheck = confirm("해당 사용자의 채팅 기능을 정지하시겠습니까?");
+	    			if(deleteCheck == true){
+	    				location.href="updatechatn.do?selectID="+selectID;
+	    			}
+	    			else if(deleteCheck == false){
+	    				console.log("작업을 취소합니다.");
+	    			}    				    				
+    			} else {
+    				var deleteCheck = confirm("해당 사용자의 채팅 기능 정지를 해제하시겠습니까?");
+	    			if(deleteCheck == true){
+	    				location.href="updatechaty.do?selectID="+selectID;
+	    			}
+	    			else if(deleteCheck == false){
+	    				console.log("작업을 취소합니다.");
+	    			}  
+    			}
+    			
     		})
     	})
     </script>	

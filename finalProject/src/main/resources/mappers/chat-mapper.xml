@@ -24,6 +24,9 @@
 		<result property="ol_no" column="OL_NO"/>
 		<result property="ol_cont" column="OL_CONT"/>
 		<result property="ol_date" column="OL_DATE"/>
+		<result property="rename_file" column="RENAME_FILE"/>
+		<result property="name" column="NAME"/>
+		<result property="count" column="COUNT"/>
 		
 	</resultMap>
 	
@@ -42,6 +45,11 @@
 			<result property="rename_file" column="RENAME_FILE"/>
 			<result property="nickname" column="NICKNAME"/>
 	</resultMap>
+<select id="selectfriendName" parameterType="string" resultType="string">
+	SELECT NAME
+	FROM MEMBER
+	WHERE ID=#{id}
+</select>
 
 <select id="selectMember" parameterType="map" resultMap="memberResultSet">
 <!-- 
@@ -96,14 +104,40 @@ INSERT INTO CHAT_ONETOONE
 				,#{co_no}
 				,#{id}
 				,#{message}
-				,SYSDATE)
+				,SYSDATE
+				,#{yn})
 </insert>
-
+<select id="selectcount" resultMap="chatResultSet">
+    SELECT CO_NO,COUNT(OL_YN) COUNT
+    FROM ONETOONE_LIST
+    WHERE OL_YN='N'
+    GROUP BY CO_NO
+</select>
 <select id="selectchatroom" parameterType="string" resultMap="chatResultSet">
-	SELECT *
-	FROM CHAT_ONETOONE
-	WHERE ID = #{id}
-			OR ID2 = #{id}
+		
+		    SELECT CO.CO_NO ,CO.ID2 ,M.RENAME_FILE,M.NAME, OL.OL_CONT
+			FROM CHAT_ONETOONE CO
+		    JOIN MEMBER M ON(CO.ID2 = M.ID)
+             JOIN ONETOONE_LIST OL ON(OL.CO_NO = CO.CO_NO)
+			WHERE CO.ID = #{id} AND OL.OL_NO IN(
+                                                SELECT MAX(OL_NO)
+                                                FROM ONETOONE_LIST
+                                                GROUP BY CO_NO
+                                                )
+    ORDER BY CO.CO_NO
+</select>
+
+<select id="selectchatroom2" parameterType="string" resultMap="chatResultSet">
+	 SELECT CO.CO_NO ,CO.ID ,M.RENAME_FILE,M.NAME, OL.OL_CONT
+	FROM CHAT_ONETOONE CO
+    JOIN MEMBER M ON(CO.ID = M.ID)
+    JOIN ONETOONE_LIST OL ON(OL.CO_NO = CO.CO_NO)
+	WHERE CO.ID2 = #{id} AND OL.OL_NO IN(
+                                                SELECT MAX(OL_NO)
+                                                FROM ONETOONE_LIST
+                                                GROUP BY CO_NO
+                                                )
+    ORDER BY CO.CO_NO
 </select>
 
 <select id="selectOnechatroom" parameterType="string" resultMap="chatResultSet">
@@ -187,5 +221,45 @@ INSERT INTO CHAT_ONETOONE
 		 AND FL_ID=#{friendid}
 
 </delete>
+
+<select id="recommendList" parameterType="string" resultMap="memberResultSet">
+	SELECT  M.*
+	FROM FRIEND_LIST FL
+	JOIN MEMBER M ON (FL.ID = M.ID)
+	WHERE  FL.FL_ID = #{id}
+	     AND FL.ID NOT IN (SELECT FL_ID
+	                        FROM FRIEND_LIST
+	                        WHERE ID=#{id}
+	        )
+
+</select>
+
+<update id="chatReadCheck" parameterType="map">
+	UPDATE ONETOONE_LIST
+	SET OL_YN = 'Y'
+	WHERE CO_NO= #{co_no}
+			AND OL_YN = 'N'
+			 AND ID != #{id}
+</update>
+<select id="selectOneToOnechatlist" parameterType="int" resultMap="chatResultSet">
+		SELECT OL.OL_NO, OL.CO_NO, OL.ID, OL.OL_CONT, OL.OL_DATE, OL.OL_YN, M.RENAME_FILE,M.NAME
+		FROM ONETOONE_LIST OL
+		JOIN MEMBER M ON(OL.ID = M.ID)
+		WHERE CO_NO=#{co_no}
+		ORDER BY OL_DATE
+</select>
+
+<select id="selectMyChatRoomNo" parameterType="string" resultMap="chatResultSet">
+    SELECT CO_NO, ID
+    FROM CHAT_ONETOONE
+    WHERE ID=#{loginUserid}
+    
+     UNION ALL
+     
+    SELECT CO_NO, ID2
+    FROM CHAT_ONETOONE
+    WHERE ID2=#{loginUserid}
+
+</select>
 </mapper>
 

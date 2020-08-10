@@ -44,7 +44,7 @@
 		<typeAlias type="com.kh.finalProject.account.model.vo.Condition" alias="Condition"/>				<!-- 예지 -->
 		<typeAlias type="com.kh.finalProject.account.model.vo.MonthlySum" alias="MonthlySum"/>				<!-- 예지 -->
 		<typeAlias type="com.kh.finalProject.account.model.vo.MSumCondition" alias="MSumCondition"/>		<!-- 예지 -->
-		<typeAlias type="com.kh.finalProject.account.model.vo.ExpCategory" alias="ExpCategory"/>			<!-- 예지 -->
+		<typeAlias type="com.kh.finalProject.account.model.vo.AccountCategory" alias="AccountCategory"/>	<!-- 예지 -->
 
 		<typeAlias type="com.kh.finalProject.chat.model.vo.Chat" alias="Chat"/>
 		<typeAlias type="com.kh.finalProject.chat.model.vo.openChat" alias="openChat"/>

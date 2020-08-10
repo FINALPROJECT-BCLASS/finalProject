@@ -18,12 +18,14 @@
         
 	        <c:url var="mrview" value="mrview.do"/>
 	        <c:url var="ysview" value="ysview.do"/>
-	        <c:url var="msview" value="msview.do"/>
+	        <c:url var="esview" value="esview.do"/>
+	        <c:url var="psview" value="psview.do"/>
 	        
             <span>Plan</span>
             <ul>
                 <li><a href="${mrview }">Monthly Record</a></li>
-                <li><a href="${msview }">Monthly Statistics</a></li>
+                <li><a href="${psview }">Profit Statistics</a></li>
+                <li><a href="${esview }">Expenditure Statistics</a></li>
                 <li class="l-last-line"><a href="${ysview }">Yearly Statistics</a></li>
             </ul>
         </nav>

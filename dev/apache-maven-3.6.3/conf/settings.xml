@@ -53,7 +53,8 @@ under the License.
   <localRepository>/path/to/local/repo</localRepository>
 
   -->
-<localRepository>/Users/samee/Desktop/kh_sammy/finalProject/finalProject/dev/apache-maven-3.6.3/repository</localRepository>
+
+<localRepository>C:\Users\tytnt\Desktop\finalProject\workspace\dev\apache-maven-3.6.3\repository</localRepository>
 
 
   <!-- interactiveMode
