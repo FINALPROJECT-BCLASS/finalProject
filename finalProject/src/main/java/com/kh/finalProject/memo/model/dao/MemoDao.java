@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.finalProject.account.model.vo.AccountBook;
 import com.kh.finalProject.memo.model.vo.Memo;
 import com.kh.finalProject.plan.model.vo.MPlan;
 
@@ -53,6 +54,16 @@ public class MemoDao {
 	public int updateMpEnd(Memo m) {
 	
 		return sqlSessionTemplate.update("memoMapper.updateMpEnd", m);
+	}
+
+	public int insertABook(AccountBook ab) {
+		
+		return sqlSessionTemplate.insert("memoMapper.insertABook", ab);
+	}
+
+	public int addABook(Memo m) {
+		
+		return sqlSessionTemplate.update("memoMapper.addABook", m);
 	}
 
 }

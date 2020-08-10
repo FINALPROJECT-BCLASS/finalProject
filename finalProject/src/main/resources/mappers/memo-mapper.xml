@@ -23,6 +23,11 @@
 		<result property="mpMain" column="MP_MAIN"/>
 		<result property="mpSub" column="MP_SUB"/>
 		<result property="mpMemo" column="MP_MEMO"/>
+		<result property="abDate" column="AB_DATE"/>
+		<result property="apcTitle" column="APC_TITLE"/>
+		<result property="aecTitle" column="AEC_TITLE"/>
+		<result property="abAmount" column="AB_AMOUNT"/>
+		<result property="abMemo" column="AB_MEMO"/>
 	</resultMap>
 
 	<insert id="insertMemo" parameterType="Memo">
@@ -66,20 +71,27 @@
 		SELECT MEMO_NO, TO_CHAR(MEMO_DATE, 'YYYY-MM-DD')"MEMO_DATE", MAIN_NO
 		FROM MEMO
 		WHERE ID=#{id}
-			AND MEMO_DELETE='N' 
+			AND MEMO_DELETE='N'
+		ORDER BY MEMO.MEMO_NO ASC
 	</select>
 	
 	<select id="selectMemo" parameterType="Memo" resultMap="totalResultSet">
+			SELECT MEMO.MEMO_NO, TO_CHAR(MEMO_DATE, 'YYYY-MM-DD') "MEMO_DATE", MEMO_CON, MAIN_NO
 		<if test="mainNo == 0">
-			SELECT MEMO_NO, TO_CHAR(MEMO_DATE, 'YYYY-MM-DD') "MEMO_DATE", MEMO_CON, MAIN_NO
 			FROM MEMO
 		</if>
 		<if test="mainNo == 1">
-			SELECT MEMO.MEMO_NO, TO_CHAR(MEMO_DATE, 'YYYY-MM-DD') "MEMO_DATE", MAIN_NO,
-			    MP_TITLE, TO_CHAR(MP_START, 'YYYY-MM-DD') "MP_START",
-			    TO_CHAR(MP_END, 'YYYY-MM-DD') "MP_END", MP_TIME, MP_MAIN, MP_SUB, MP_MEMO
+			    , MP_TITLE, TO_CHAR(MP_START, 'YYYY-MM-DD') "MP_START"
+			    , TO_CHAR(MP_END, 'YYYY-MM-DD') "MP_END", MP_TIME, MP_MAIN, MP_SUB, MP_MEMO
 			FROM MEMO
-			JOIN MONTHLY_PLAN MP ON (MEMO.MEMO_NO=MP.MEMO_NO)
+			JOIN MONTHLY_PLAN MP ON(MEMO.MEMO_NO=MP.MEMO_NO)
+		</if>
+		<if test="mainNo == 9">
+				, TO_CHAR(AB_DATE, 'YYYY-MM-DD') "AB_DATE", APC_TITLE, AEC_TITLE, AB_AMOUNT, AB_MEMO
+			FROM MEMO
+			JOIN ACCOUNT_BOOK AB ON(MEMO.MEMO_NO=AB.MEMO_NO)
+			LEFT JOIN A_PROFIT_CATEGORY AP ON(AB.APC_NO=AP.APC_NO)
+			LEFT JOIN A_EXPENDITURE_CATEGORY AE ON(AB.AEC_NO=AE.AEC_NO)
 		</if>
 			WHERE MEMO.MEMO_NO=#{memoNo}
 	</select>
@@ -99,6 +111,26 @@
 	<update id="updateMpEnd" parameterType="Memo">
 		UPDATE MONTHLY_PLAN
 		SET MP_END=MP_END+1
+		WHERE MEMO_NO=#{memoNo}
+	</update>
+	
+	<insert id="insertABook" parameterType="AccountBook">
+		INSERT INTO ACCOUNT_BOOK
+		VALUES(SEQ_AB.NEXTVAL
+			, #{id}
+			, #{abDate}
+			, #{apcNo}
+			, #{aecNo}
+			, #{abAmount}
+			, #{abMemo}
+			, DEFAULT
+			, #{memoNo}
+			, 'N')
+	</insert>
+	
+	<update id="addABook" parameterType="Memo">
+		UPDATE ACCOUNT_BOOK
+		SET AB_VIEW='Y'
 		WHERE MEMO_NO=#{memoNo}
 	</update>
 

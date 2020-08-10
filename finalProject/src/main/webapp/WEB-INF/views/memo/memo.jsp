@@ -68,6 +68,10 @@
         	background-color: #a1e6d9;
         }
         
+        .account {
+        	background-color: #ffc5ef;
+        }
+        
         .dBtnArea {
         	width: 100%;
         	text-align: right;
@@ -120,7 +124,11 @@
 			background-color: #fde392;
 		}
 		
-		/* pink:#ffc5ef sky:#c5d2ef */
+		#accountColor {
+			background-color: #ffc5ef;
+		}
+		
+		/* sky:#c5d2ef */
     </style>
 </head>
 
@@ -136,6 +144,7 @@
             <div id="colorArea">
             	<div class="circle" id="planColor"></div>&nbsp;<b>Monthly Planner</b>&nbsp;&nbsp;
             	<div class="circle" id="bookmarkColor"></div>&nbsp;<b>Bookmark</b>&nbsp;&nbsp;
+            	<div class="circle" id="accountColor"></div>&nbsp;<b>Account Book</b>&nbsp;&nbsp;
             	<div class="circle" id="etcColor"></div>&nbsp;<b>Etc</b>
             </div>
         </div>
@@ -220,7 +229,11 @@
     	   						$locationTr2 = $("<tr>");
     	   						$locationTd2 = $("<td colspan='2'>").html("<br>");    	   							
     	   						if(data.memoList[i].mpMain != null) {
-	    	   						$locationTd2 = $("<td colspan='2'>").html(data.memoList[i].mpMain + " " + data.memoList[i].mpSub);    	   							
+    	   							if(data.memoList[i].mpSub != null) {
+		    	   						$locationTd2 = $("<td colspan='2'>").html(data.memoList[i].mpMain + " " + data.memoList[i].mpSub);    	   							    	   								
+    	   							}else {
+    	   								$locationTd2 = $("<td colspan='2'>").html(data.memoList[i].mpMain);
+    	   							}
     	   						}
     	   						
     	   						
@@ -234,7 +247,7 @@
     	   						}
     	   						
     	   						$aBtnDiv = $("<div class='aBtnArea'>");
-    	   						$addBtn = $("<button type='button' class='addBtn'>").text("Add");
+    	   						$addBtn = $("<button type='button' class='addBtn planAddBtn'>").text("Add");
     	   						
     	   						$aBtnDiv.append($addBtn);
     	   						
@@ -261,6 +274,77 @@
     	   						$div.append($dBtnDiv).append($no).append($table).append($aBtnDiv);
     	   						
     	   						$("#memoArea").append($div);
+    	   					} else if(data.memoList[i].main == 9) {
+    	   						$div = $("<div class='memo-size account'>");
+								
+								$dBtnDiv = $("<div class='dBtnArea'>");
+    	   						$deleteBtn = $("<button type='button' class='deleteBtn'>").text("X");
+    	   						
+    	   						$dBtnDiv.append($deleteBtn);
+    	   						
+    	   						$no = $("<input type='hidden' class='memoNo' value='" + data.memoList[i].no + "'>");
+    	   						
+    	   						$table = $("<table class='memo-table'>");
+    	   						
+    	   						$dateTr = $("<tr>");
+    	   						$dateTd1 = $("<th>").html("Date");
+    	   						$dateTd2 = $("<td>").html(data.memoList[i].date);
+    	   						
+    	   						if(data.memoList[i].apcTitle != "해당없음") {
+	    	   						$titleTr = $("<tr>");
+	    	   						$titleTd1 = $("<th>").html("Category");
+	    	   						$titleTd2 = $("<td>").html(data.memoList[i].apcTitle);    	   							
+    	   						}
+    	   						
+    	   						if(data.memoList[i].aecTitle != "해당없음") {
+	    	   						$titleTr = $("<tr>");
+	    	   						$titleTd1 = $("<th>").html("Category");
+	    	   						$titleTd2 = $("<td>").html(data.memoList[i].aecTitle);    	   							
+    	   						}
+    	   						
+    	   						$budgetTr = $("<tr>");
+    	   						$budgetTd1 = $("<th>").html("Budget Date");
+    	   						if(data.memoList[i].abDate != null) {
+    	   							$budgetTd2 = $("<td>").html(data.memoList[i].abDate);    	   							
+    	   						} else {
+    	   							$budgetTd2 = $("<td>").html("미정");
+    	   						}
+    	   						
+    	   						$amountTr = $("<tr>");
+    	   						$amountTd1 = $("<th>").html("Amount");
+    	   						$amountTd2 = $("<td>").html(data.memoList[i].abAmount);
+    	   						
+    	   						$memoTr1 = $("<tr>");
+    	   						$memoTd1 = $("<th colspan='2'>").html("Memo");
+    	   						
+    	   						$memoTr2 = $("<tr>");
+    	   						$memoTd2 = $("<td colspan='2'>").html("<br>");    	   							
+    	   						if(data.memoList[i].abMemo != null) {
+    	   							$memoTd2 = $("<td colspan='2'>").html(data.memoList[i].abMemo);	   							
+    	   						}
+    	   						
+    	   						$aBtnDiv = $("<div class='aBtnArea'>");
+    	   						$addBtn = $("<button type='button' class='addBtn accountAddBtn'>").text("Add");
+    	   						
+    	   						$aBtnDiv.append($addBtn);
+    	   						
+    	   						$dateTr.append($dateTd1).append($dateTd2);
+    	   						
+    	   						$titleTr.append($titleTd1).append($titleTd2);
+    	   						
+    	   						$budgetTr.append($budgetTd1).append($budgetTd2);
+    	   						
+    	   						$amountTr.append($amountTd1).append($amountTd2);
+    	   						
+								$memoTr1.append($memoTd1);
+    	   						
+    	   						$memoTr2.append($memoTd2);
+    	   						
+    	   						$table.append($dateTr).append($titleTr).append($budgetTr).append($amountTr).append($memoTr1).append($memoTr2);
+    	   						
+    	   						$div.append($dBtnDiv).append($no).append($table).append($aBtnDiv);
+    	   						
+    	   						$("#memoArea").append($div);
     	   					}
     	   				};
         			},
@@ -283,6 +367,8 @@
                     	<button type="button" class="select-btn" data-toggle="modal" data-target="#plannerModal">Planner</button>
                     	<br><br>
                     	<button type="button" class="select-btn" data-toggle="modal" data-target="#bookmarkModal">Bookmark</button>
+                    	<br><br>
+                    	<button type="button" class="select-btn" data-toggle="modal" data-target="#accountModal">Account</button>
                     	<br><br>
                     	<button type="button" class="select-btn" data-toggle="modal" data-target="#etcModal">Etc</button>
                     </div>
@@ -347,6 +433,85 @@
             </div>
         </div>
         
+        <div class="modal fade" id="accountModal" role="dialog">
+	        <div class="modal-dialog">
+	            <div class="modal-content">
+	                <div class="modal-header">
+	                    <button type="button" class="close" data-dismiss="modal">×</button>
+	                </div>
+	                <div class="modal-body" align="center">
+	                    <form action="mminsert.do" method="post">
+	                    	<input type="hidden" name="id" value="${loginUser.id }">
+                        	<input type="hidden" name="mainNo" value="9">
+	                        <table id="addTable">
+	                        	<tr>
+	                         	<td>
+	                         		<input type="radio" id="profit" name="type" value="profit" checked>
+	                         		<label for="profit"><b>Profit</b></label>
+	                         	</td>
+	                         	<td>
+	                         		&nbsp;<input type="radio" id="expenditure" name="type" value="expenditure">
+	                         		<label for="expenditure"><b>Expenditure</b></label>
+	                         	</td>
+	                        	</tr>
+	                            <tr>
+	                                <th>Category</th>
+	                                <td>
+	                                	<select id="apcNo" name="apcNo" style="width: 230px;">
+	                                		<option value="1">월급</option>
+	                                		<option value="2">주급</option>
+	                                		<option value="3">일급</option>
+	                                		<option value="4">용돈</option>
+	                                		<option value="5">이월</option>
+	                                		<option value="6">자산인출</option>
+	                                		<option value="7">기타</option>
+	                                	</select>
+	                                	<select id="aecNo" name="aecNo" style="width: 230px; display: none;">
+	                                		<option value="1">식비</option>
+	                                		<option value="2">교통비</option>
+	                                		<option value="3">문화생활</option>
+	                                		<option value="4">생필품</option>
+	                                		<option value="5">의류</option>
+	                                		<option value="6">미용</option>
+	                                		<option value="7">의료</option>
+	                                		<option value="8">교육</option>
+	                                		<option value="9">통신비</option>
+	                                		<option value="10">회비</option>
+	                                		<option value="11">경조사</option>
+	                                		<option value="12">저축</option>
+	                                		<option value="13">가전</option>
+	                                		<option value="14">공과금</option>
+	                                		<option value="15">카드대금</option>
+	                                		<option value="16">기타</option>
+	                                	</select>
+	                                </td>
+	                            </tr>
+	                            <tr>
+	                                <th>Date</th>
+	                                <td>
+	                                	<input type="date" name="abDate" id="abDate" style="width: 230px;">
+	                                </td>
+	                            </tr>
+	                            <tr>
+	                                <th>Amount</th>
+	                                <td><input type="number" name="abAmount" style="width: 230px;"></td>
+	                            </tr>
+	                            <tr>
+	                                <th colspan="2">Memo</th>
+	                            </tr>
+	                            <tr>
+	                                <td colspan="2">
+	                                    <textarea name="abMemo" cols="40" rows="5"></textarea>
+	                                </td>
+	                            </tr>
+	                        </table>
+	                        <button type="submit" class="default-btn">Add</button>
+	                    </form>
+	                </div>
+	            </div>
+	        </div>
+	    </div>   
+        
         <div class="modal fade" id="etcModal" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -378,6 +543,18 @@
     <jsp:include page="../common/footer.jsp"/>
     
     <script>
+    	$(function(){
+    		$("#profit").click(function(){
+    			$("#apcNo").css("display", "block");
+    			$("#aecNo").css("display", "none");
+    		})
+    		
+    		$("#expenditure").click(function(){
+    			$("#aecNo").css("display", "block");
+    			$("#apcNo").css("display", "none");			
+    		})
+    	})
+    
 	    function searchAddress() {
 	        new daum.Postcode({
 	            oncomplete: function(data) {
@@ -442,7 +619,7 @@
 			}
 		});
 	    
-	    $(document).on("click",".addBtn",function(){
+	    $(document).on("click",".planAddBtn",function(){
 			var memoNo = $(this).parent().parent().find(".memoNo").val();
 
 	    	var deleteCheck = confirm("일정에 추가하시겠습니까?");
@@ -451,6 +628,18 @@
 			}
 			else if(deleteCheck == false){
 				console.log("일정 추가를 취소합니다.");
+			}
+		});
+	    
+	    $(document).on("click",".accountAddBtn",function(){
+			var memoNo = $(this).parent().parent().find(".memoNo").val();
+
+	    	var deleteCheck = confirm("가계부에 추가하시겠습니까?");
+			if(deleteCheck == true){
+				location.href="abadd.do?memoNo="+memoNo;
+			}
+			else if(deleteCheck == false){
+				console.log("가계부 추가를 취소합니다.");
 			}
 		});
     </script>	
