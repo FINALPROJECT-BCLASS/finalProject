@@ -2065,4 +2065,19 @@ public class GroupController {
 				
 			return mv;
 		}
+		
+		//------------------------------------------------ 가계부 end ---------------------------------------
+		// 사다리
+		@RequestMapping(value = "ladderMain.do", method = RequestMethod.GET)
+		public ModelAndView ladderMain(ModelAndView mv, HttpSession session, 
+				@RequestParam(value = "gaNo", required = false) String gaNo) {
+			Member loginUser = (Member) session.getAttribute("loginUser");
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			GroupTable gt = gService.selectOneGroup(gInfo);
+			mv.addObject("gInfo",gInfo);
+			mv.addObject("groupTable",gt);
+			mv.setViewName("group/GLadderMain");
+				
+			return mv;
+		}
 }
