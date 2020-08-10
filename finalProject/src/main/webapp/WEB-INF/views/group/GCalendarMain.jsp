@@ -671,7 +671,11 @@
 	    				     if (status === kakao.maps.services.Status.OK) {
 	    				
 	    				        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-	    				
+	    				        var coordsY = new kakao.maps.LatLng(result[0].y);
+	    				        var coordsX = new kakao.maps.LatLng(result[0].x);
+	    						console.log("위도 경도 : " +  coords);
+	    						console.log("위도 Y : " +  coordsY);
+	    						console.log("위도 X : " +  coordsX);
 	    				        // 결과값으로 받은 위치를 마커로 표시합니다
 	    				        var marker = new kakao.maps.Marker({
 	    				            map: map,
