@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.kh.finalProject.daily.model.dao.DailyDao;
 import com.kh.finalProject.daily.model.vo.Bookmark;
+import com.kh.finalProject.daily.model.vo.BookmarkMap;
+import com.kh.finalProject.daily.model.vo.BookmarkUrl;
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
 import com.kh.finalProject.daily.model.vo.HabitSum;
@@ -180,6 +182,48 @@ public class DailyServiceImpl implements DailyService {
 	public int updateBookmarkGroup(Bookmark bm) {
 
 		return dailyDao.updateBookmark(bm);
+	}
+
+	@Override
+	public int insertBookmarkMap(BookmarkMap bmm) {
+
+		return dailyDao.insertBookmarkMap(bmm);
+	}
+
+	@Override
+	public ArrayList<BookmarkMap> selectBookmarkMapList(BookmarkMap bm) {
+
+		return dailyDao.selectBookmarkMapList(bm);
+	}
+
+	@Override
+	public BookmarkMap selectBookmarkMap(BookmarkMap bm) {
+
+		return dailyDao.selectBookmarkMap(bm);
+	}
+
+	@Override
+	public int updateBookmarkMap(BookmarkMap bm) {
+
+		return dailyDao.updateBookmarkMap(bm);
+	}
+
+	@Override
+	public int deleteBookmarkMap(BookmarkMap bm) {
+
+		return dailyDao.deleteBookmarkMap(bm);
+	}
+
+	@Override
+	public ArrayList<BookmarkUrl> selectBookmarkUrlList(BookmarkUrl bu) {
+
+		return dailyDao.selectBookmarkUrl(bu);
+	}
+
+	@Override
+	public int insertBookmarkUrl(BookmarkUrl ub) {
+
+		return dailyDao.insertBookmarkUrl(ub);
 	}
 
 

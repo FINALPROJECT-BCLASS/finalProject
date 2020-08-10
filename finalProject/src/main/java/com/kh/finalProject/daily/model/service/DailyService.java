@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.kh.finalProject.daily.model.vo.Bookmark;
+import com.kh.finalProject.daily.model.vo.BookmarkMap;
+import com.kh.finalProject.daily.model.vo.BookmarkUrl;
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
 import com.kh.finalProject.daily.model.vo.HabitSum;
@@ -61,6 +63,20 @@ public interface DailyService {
 	Bookmark selectBookmark(Bookmark bm);
 
 	int updateBookmarkGroup(Bookmark bm);
+
+	int insertBookmarkMap(BookmarkMap bmm);
+
+	ArrayList<BookmarkMap> selectBookmarkMapList(BookmarkMap bm);
+
+	BookmarkMap selectBookmarkMap(BookmarkMap bm);
+
+	int updateBookmarkMap(BookmarkMap bm);
+
+	int deleteBookmarkMap(BookmarkMap bm);
+
+	ArrayList<BookmarkUrl> selectBookmarkUrlList(BookmarkUrl bu);
+
+	int insertBookmarkUrl(BookmarkUrl ub);
 
 
 

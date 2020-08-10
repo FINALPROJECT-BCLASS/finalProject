@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.kh.finalProject.account.model.dao.AccountDao;
 import com.kh.finalProject.account.model.vo.AccountBook;
+import com.kh.finalProject.account.model.vo.AccountCategory;
 import com.kh.finalProject.account.model.vo.Condition;
-import com.kh.finalProject.account.model.vo.ExpCategory;
 import com.kh.finalProject.account.model.vo.MSumCondition;
 import com.kh.finalProject.account.model.vo.MonthlySum;
 import com.kh.finalProject.account.model.vo.Sum;
@@ -86,7 +86,7 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public ArrayList<ExpCategory> selectECList(Condition condition) {
+	public ArrayList<AccountCategory> selectECList(Condition condition) {
 		
 		return aDao.selectECList(condition);
 	}
@@ -95,6 +95,12 @@ public class AccountServiceImpl implements AccountService {
 	public String getOverrun(Condition condition) {
 		
 		return aDao.getOverrun(condition);
+	}
+
+	@Override
+	public ArrayList<AccountCategory> selectPCList(Condition condition) {
+	
+		return aDao.selectPCList(condition);
 	}
 	
 }

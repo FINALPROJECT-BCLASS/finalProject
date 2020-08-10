@@ -127,7 +127,7 @@ public class ManagerController {
 				result2 = mgService.updateRpCount(rpId);
 				
 				if(rprNo == 3) {
-					result3 = mgService.updateChatYn(rpId);
+					result3 = mgService.updateChatN(rpId);
 				}
 			}
 		}
@@ -137,6 +137,32 @@ public class ManagerController {
 		} else {
 			throw new ManagerException("신고 수정 실패");
 		}
+	}
+	
+	@RequestMapping("updatechatn.do")
+	public String memberUpdateChatN(@RequestParam("selectID") String selectID) throws ManagerException {
+		
+		int result = mgService.updateChatN(selectID);
+		
+		if(result > 0) {
+			return "redirect:memberlist.do";			
+		} else {
+			throw new ManagerException("채팅 여부 처리 실패");
+		}
+		
+	}
+	
+	@RequestMapping("updatechaty.do")
+	public String memberUpdateChatY(@RequestParam("selectID") String selectID) throws ManagerException {
+		
+		int result = mgService.updateChatY(selectID);
+		
+		if(result > 0) {
+			return "redirect:memberlist.do";			
+		} else {
+			throw new ManagerException("채팅 여부 처리 실패");
+		}
+		
 	}
 
 }

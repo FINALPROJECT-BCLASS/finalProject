@@ -86,9 +86,15 @@
 		WHERE ID=#{id}
 	</update>
 	
-	<update id="updateChatYn" parameterType="string">
+	<update id="updateChatN" parameterType="string">
 		UPDATE MEMBER
 		SET CHAT_YN='N'
+		WHERE ID=#{id}
+	</update>
+	
+	<update id="updateChatY" parameterType="string">
+		UPDATE MEMBER
+		SET CHAT_YN='Y'
 		WHERE ID=#{id}
 	</update>
 	

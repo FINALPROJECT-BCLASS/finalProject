@@ -103,7 +103,7 @@
 			margin-bottom: 10px;
 		}
 		
-		.rprNo-btn {
+		.select-btn {
 			font-size: 15px;
 		    font-weight: 700;
 			border-style: none;
@@ -134,14 +134,15 @@
         
         <div id="tableArea">
         	<div id="btnArea">
+        		<button type="button" class="select-btn" onclick="location.href='reportlist.do'">전체 보기</button>&nbsp;
         		<input type="hidden" name="rprNo" value="1">
-	        	<button type="button" class="rprNo-btn">처리 전</button>&nbsp;
+	        	<button type="button" class="select-btn rprNo-btn">처리 전</button>&nbsp;
 	        	<input type="hidden" name="rprNo" value="2">
-	        	<button type="button" class="rprNo-btn">접수 완료</button>&nbsp;
+	        	<button type="button" class="select-btn rprNo-btn">접수 완료</button>&nbsp;
 	        	<input type="hidden" name="rprNo" value="3">
-	        	<button type="button" class="rprNo-btn">계정 정지</button>&nbsp;
+	        	<button type="button" class="select-btn rprNo-btn">계정 정지</button>&nbsp;
 	        	<input type="hidden" name="rprNo" value="4">
-	        	<button type="button" class="rprNo-btn">보류</button><br>
+	        	<button type="button" class="select-btn rprNo-btn">보류</button><br>
 	        </div>
         	<table id="reportTable" align="center">
         		<thead>

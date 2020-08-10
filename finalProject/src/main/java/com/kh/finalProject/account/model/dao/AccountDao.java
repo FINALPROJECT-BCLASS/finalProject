@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.finalProject.account.model.vo.AccountBook;
+import com.kh.finalProject.account.model.vo.AccountCategory;
 import com.kh.finalProject.account.model.vo.Condition;
-import com.kh.finalProject.account.model.vo.ExpCategory;
 import com.kh.finalProject.account.model.vo.MSumCondition;
 import com.kh.finalProject.account.model.vo.MonthlySum;
 import com.kh.finalProject.account.model.vo.Sum;
@@ -74,7 +74,7 @@ public class AccountDao {
 		return (ArrayList)sqlSessionTemplate.selectList("accountMapper.selectMESumList", mc);
 	}
 
-	public ArrayList<ExpCategory> selectECList(Condition condition) {
+	public ArrayList<AccountCategory> selectECList(Condition condition) {
 		
 		return (ArrayList)sqlSessionTemplate.selectList("accountMapper.selectECList", condition);
 	}
@@ -82,6 +82,11 @@ public class AccountDao {
 	public String getOverrun(Condition condition) {
 		
 		return sqlSessionTemplate.selectOne("accountMapper.getOverrun", condition);
+	}
+
+	public ArrayList<AccountCategory> selectPCList(Condition condition) {
+	
+		return (ArrayList)sqlSessionTemplate.selectList("accountMapper.selectPCList", condition);
 	}
 
 }
