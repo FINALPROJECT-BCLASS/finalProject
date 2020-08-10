@@ -2033,7 +2033,7 @@ public class GroupController {
 			mv.setViewName("redirect:accountMain.do");
 					return mv;
 				}
-		
+		 
 		// 가계부 이름 체크
 		@RequestMapping(value = "gamCheckYn.do", method = RequestMethod.GET)
 		public void gamCheckYn(HttpSession session, HttpServletResponse response, GroupAccountMember gam)

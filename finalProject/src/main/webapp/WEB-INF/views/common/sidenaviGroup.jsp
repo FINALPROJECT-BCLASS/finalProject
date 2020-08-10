@@ -24,7 +24,7 @@
                 </li>
                 <li><a href="voteMain.do">Vote</a></li>
                 <li><a href="accountMain.do">Account Book</a></li>
-                <li  class="l-last-line"><a href="#">Ladder Game</a></li>
+                <li  class="l-last-line"><a href="ladderMain.do">Ladder Game</a></li>
 
             </ul>
         </nav>

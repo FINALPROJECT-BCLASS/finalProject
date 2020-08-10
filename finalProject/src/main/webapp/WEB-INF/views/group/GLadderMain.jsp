@@ -343,7 +343,7 @@ var Yl = {
 		<div class="game-area">
 	  <div id="div_step1" style="font-size:12px;">
  
-갯수 선택 &nbsp;
+인원 &nbsp;
 <select id="sel_num">
  <option value="2">2</option>
  <option value="3">3</option>
@@ -378,5 +378,7 @@ var Yl = {
 <div id="div_body" style="width:1000px;height:450px; background:white; border-radius:6px;position:relative;"></div>
     </div>
    </div>
+   
+     <jsp:include page="../common/footer.jsp"/>	 
 </body>
 </html>
