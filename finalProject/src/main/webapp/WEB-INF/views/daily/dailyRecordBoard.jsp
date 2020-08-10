@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -187,13 +188,22 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>1</td>
-                        <td><div class="board-image-area"></div></td>
-                        <td><a href="#">다이어트중?다이어트중?다이어트중?다이어트중?다이어트중?</a></td>
-                        <td>20/07/09</td>
-                    </tr>
+                	<c:forEach var="dr" items="${drlist }">
+	                    <tr>
+	                        <td><input type="checkbox"></td>
+	                        <td>${dr.dr_no }</td>
+	                        <td>
+	                        	<%-- <c:if test="${empty dr.drp_rename }">
+	                        		<div class="board-image-area"></div>
+	                        	</c:if>
+	                        	<c:if test="${!empty dr.drp_rename }">
+	                        		<div class="board-image-area"><img class="image" src="resources/bluploadFiles/${dr.drp_rename }"></div>
+	                        	</c:if> --%>
+	                        </td>
+	                        <td><a href="#">${dr.dr_title }</a></td>
+	                        <td></td>
+	                    </tr>
+	                </c:forEach>
                 </tbody>
             </table>
             <div class="pagination-area">

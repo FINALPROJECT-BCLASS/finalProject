@@ -30,6 +30,7 @@ import com.kh.finalProject.daily.model.vo.Bookmark;
 import com.kh.finalProject.daily.model.vo.BookmarkMap;
 import com.kh.finalProject.daily.model.vo.BookmarkUrl;
 import com.kh.finalProject.daily.model.vo.DailyRecord;
+import com.kh.finalProject.daily.model.vo.DailyRecordPhoto;
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
 import com.kh.finalProject.daily.model.vo.HabitSum;
@@ -1385,18 +1386,42 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 	
 	
 	@RequestMapping("dailyRecordView.do")
-	public String dailyRecordView(Model model, HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView dailyRecordView(ModelAndView mv, HttpServletRequest request, HttpServletResponse response) {
 		
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
 		String id = member.getId();
 		
 		ArrayList<DailyRecord> drlist = dailyService.selectDailyRecordList(id);
+		ArrayList<DailyRecordPhoto> drplist = dailyService.selectDailyRecordPhotoList(id);
 		
-		System.out.println("drlist : " + drlist);
+//		ArrayList<DailyRecordPhoto> drplist_f = new ArrayList<>();
+//		
+//		for(DailyRecord dr : drlist) {
+//			for(DailyRecordPhoto drp : drplist) {
+//				if(drp.getDr_no().equals(dr.getDr_no())) {
+//					drplist_f.add(drp);
+//				}
+//			}
+//		}
+//		
+//		System.out.println("drplist_f : " + drplist_f);
+//		
+//		System.out.println("drlist : " + drlist);
 		
+		if(drlist != null) {
+			
+			mv.addObject("drlist", drlist);
+			mv.setViewName("daily/dailyRecordBoard");
+			
+		}else {
+			
+			mv.addObject("drlist", drlist);
+			mv.setViewName("daily/dailyRecordBoard");
+			
+		}
 		
-		return null;
+		return mv;
 	}
 	
 }

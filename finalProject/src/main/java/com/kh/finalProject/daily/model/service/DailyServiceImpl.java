@@ -11,6 +11,7 @@ import com.kh.finalProject.daily.model.vo.Bookmark;
 import com.kh.finalProject.daily.model.vo.BookmarkMap;
 import com.kh.finalProject.daily.model.vo.BookmarkUrl;
 import com.kh.finalProject.daily.model.vo.DailyRecord;
+import com.kh.finalProject.daily.model.vo.DailyRecordPhoto;
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
 import com.kh.finalProject.daily.model.vo.HabitSum;
@@ -249,6 +250,12 @@ public class DailyServiceImpl implements DailyService {
 	public ArrayList<DailyRecord> selectDailyRecordList(String id) {
 
 		return dailyDao.selectDailyRecordList(id);
+	}
+
+	@Override
+	public ArrayList<DailyRecordPhoto> selectDailyRecordPhotoList(String id) {
+
+		return dailyDao.selectDailyRecordPhotoList(id);
 	}
 
 

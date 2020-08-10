@@ -85,6 +85,13 @@
 		<result property="dr_con" column="DR_CON"/>
 	</resultMap>
 	
+	<resultMap type="DailyRecordPhoto" id="DailyRecordPhotoResultSet">
+		<id property="drp_no" column="DRP_NO"/>
+		<result property="dr_no" column="DR_NO"/>
+		<result property="drp_origin" column="DRP_ORIGIN"/>
+		<result property="drp_rename" column="DRP_RENAME"/>
+	</resultMap>
+	
 	<insert id="insertHabit" parameterType="Habit">
 		INSERT INTO HABIT_TRACKER
 		VALUES(SEQ_HT.NEXTVAL, #{id}, #{ht_title}, #{ht_type}, #{ht_goal}, #{ht_unit}, #{ht_cycle}, SYSDATE,
@@ -458,9 +465,18 @@
 	
 	<select id="selectDailyRecordList" parameterType="String" resultMap="DailyRecordResultSet">
 		SELECT *
-		FROM DAILY_RECORD
-		WHERE ID=#{id}
-		AND DR_DELETE='N'
+		FROM DAILY_RECORD DR
+		JOIN DAILY_RECORD_PHOTO DRP ON (DR.DR_NO = DRP.DR_NO)
+		WHERE DR.ID=#{id}
+		AND DR.DR_DELETE='N'
+	</select>
+	
+	<select id="selectDailyRecordPhotoList" parameterType="String" resultMap="DailyRecordPhotoResultSet">
+		SELECT DRP.*
+		FROM DAILY_RECORD DR
+		JOIN DAILY_RECORD_PHOTO DRP ON (DR.DR_NO = DRP.DR_NO)
+		WHERE DR.ID=#{id}
+		AND DR.DR_DELETE='N'
 	</select>
 	
 	

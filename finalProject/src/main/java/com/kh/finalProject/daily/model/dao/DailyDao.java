@@ -11,6 +11,7 @@ import com.kh.finalProject.daily.model.vo.Bookmark;
 import com.kh.finalProject.daily.model.vo.BookmarkMap;
 import com.kh.finalProject.daily.model.vo.BookmarkUrl;
 import com.kh.finalProject.daily.model.vo.DailyRecord;
+import com.kh.finalProject.daily.model.vo.DailyRecordPhoto;
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
 import com.kh.finalProject.daily.model.vo.HabitSum;
@@ -210,6 +211,11 @@ public class DailyDao {
 	public ArrayList<DailyRecord> selectDailyRecordList(String id) {
 
 		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectDailyRecordList", id);
+	}
+
+	public ArrayList<DailyRecordPhoto> selectDailyRecordPhotoList(String id) {
+
+		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectDailyRecordPhotoList", id);
 	}
 
 }
