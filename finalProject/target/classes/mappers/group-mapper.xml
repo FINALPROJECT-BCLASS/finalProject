@@ -979,7 +979,9 @@
 		FROM GROUP_ACCOUNT
 		WHERE G_NO = #{groupNo}
 		AND GA_FEE = 'Y'
+		AND GA_DELETE = 'N'
 		AND GAS_YN = 'Y'
+		ORDER BY GA_NO DESC
 	</select>
 	
 	<select id="selectMemberCheckList" parameterType="GroupInfo" resultMap="groupAccountMemberResultSet">

@@ -1793,7 +1793,7 @@ public class GroupController {
 			mv.addObject("groupTable", gt);
 			mv.setViewName("group/GAccountMain");
 			return mv;
-
+ 
 		}
 		
 		// 가계부 작성 view
@@ -1905,11 +1905,11 @@ public class GroupController {
 			String year = ga.getGaDate().substring(0, 4);
 			String month = ga.getGaDate().substring(5);
 			System.out.println("year : " + year);
+			System.out.println("month : " + month);
 			ga.setYear(year);
 			ga.setMonth(month);
 			ga.setgNo(gInfo.getGroupNo());
 			ga.setGmNo(gInfo.getGmNo());
-//			
 			
 			System.out.println("ga : " + ga);
 			
@@ -1948,71 +1948,14 @@ public class GroupController {
 					sendJson.put("expTotalList", defaultZero);
 				}
 			
-			if(proTotalList != null) {
+			if(feeTotalList != null) {
 				String gaAmount = formatter.format(feeTotalList.getTotalAmount());
 				sendJson.put("feeTotalList", gaAmount);
 				}else {
 					int defaultZero = 0;
 					sendJson.put("feeTotalList", defaultZero);
 				}
-			
-			
-//			for(GroupAccount p : proTotalList) {
-//				JSONObject jObj = new JSONObject();
-//				
-//				if(p.getGaAmount() == 0) {
-//					p.setTotalAmount(0);
-//				}else {
-//				
-//				String gaAmount = formatter.format(p.getGaAmount());
-//
-//				jObj.put("totalPro",gaAmount);
-//				System.out.println("totalPro :" + gaAmount);
-////				jObj.put("totalPro", p.getTotalAmount());
-//				
-//				pArr.add(jObj);
-//				}
-//			}
-//			
-//			for(GroupAccount p : expTotalList) {
-//				JSONObject jObj = new JSONObject();
-//				
-//				if(expTotalList.isEmpty()) {
-//					p.setTotalAmount(0);
-//				}else {
-//				
-//				String gaAmount = formatter.format(p.getGaAmount());
-//
-//				jObj.put("totalExp",gaAmount);
-//
-////				jObj.put("totalExp", p.getTotalAmount());
-//				
-//				eArr.add(jObj);
-//				}
-//			}
-//			
-//			for(GroupAccount p : feeTotalList) {
-//				JSONObject jObj = new JSONObject();
-//				
-//				if(feeTotalList.isEmpty()) {
-//					p.setTotalAmount(0);
-//				}else {
-//				
-//				String gaAmount = formatter.format(p.getGaAmount());
-//
-//				jObj.put("totalFee",gaAmount);
-//
-////				jObj.put("totalFee", p.getTotalAmount());
-//				
-//				fArr.add(jObj);
-//				}
-//			}
-//
-//			JSONObject sendJson = new JSONObject();
-//			sendJson.put("totalPro", pArr);
-//			sendJson.put("totalExp", eArr);
-//			sendJson.put("totalFee", fArr);
-//			
+	
 			PrintWriter out = response.getWriter();
 			out.print(sendJson);
 			out.flush();

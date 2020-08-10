@@ -196,9 +196,10 @@
          	$(document).on("keyup",".amountBox",function(){
          		var sum = 0;
          		$('.amountBox').each(function(){
-         		    sum += parseFloat(this.value);
+         		    sum += parseInt(this.value);
+         		    
          		});
-         		console.log(sum);
+         		
          		$(".amount").val(sum);
          	})
          </script>
