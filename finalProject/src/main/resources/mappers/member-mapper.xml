@@ -39,7 +39,7 @@
 	<update id="updateMember" parameterType="Member">
 		UPDATE MEMBER
 		SET PWD=#{pwd}, EMAIL=#{email}, PHONE=#{phone}, 
-			BIRTHDAY=#{birthday}, ADDRESS=#{address}, MAIN_NO=#{main_no},
+			BIRTHDAY=#{birthday}, ADDRESS=#{address}, MAIN_NO=#{main_no}, 
 			ORIGINAL_FILE=#{original_file}, RENAME_FILE=#{rename_file}
 		WHERE ID=#{id}
 	</update>

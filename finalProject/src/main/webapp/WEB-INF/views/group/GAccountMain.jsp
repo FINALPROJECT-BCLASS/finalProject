@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
  
 <!DOCTYPE html>
 <html>
@@ -177,7 +178,7 @@
          
          .bodyBox{width:100%; margin:0 auto;}
          .itemBox{width:65%; display:inline-block;}
-         .memoBox{width:10%; display:inline-block; margin:0 auto;  }
+         .memoBox{width:10%; display:inline-block; margin:0 auto;position: absolute;right: 7%;  }
          .shareMemo{border-radius:6px;margin-bottom: 10px;padding:20px; background:#FBD14B; margin-left:-60px; width:300px; height:300px;}
          .memberCheck{width: 17px; height:17px;}
          .cansle{text-align:right; cursor:pointer; color:gray; font-weight:600;}
@@ -258,7 +259,8 @@
 	     						</td>
 	     					</c:if>
 	     					<td>${m.name } : </td>
-	     					<td>${m.gamAmount }</td>
+	     					<c:set var="amount" value="${m.gamAmount }"/>
+	     					<td><fmt:formatNumber value="${amount }" groupingUsed="true"/></td>
 	     				</tr>
 	     			</c:if>
 	     			</c:forEach>
@@ -333,17 +335,15 @@
        			success: function(data) {
 
        				console.log(data);
+       				console.log(data.proTotalList);
        				$(".pro").html("");
        				$(".exp").html("");
        				$(".fee").html("");
 
-       				$(".pro").html(data.totalPro[0].totalPro);
-       				$(".exp").html(data.totalExp[0].totalExp);
-       				$(".fee").html(data.totalFee[0].totalFee);
-	       				
-	       			
-       					
-       				
+       				$(".pro").html(data.proTotalList);
+       				$(".exp").html(data.expTotalList);
+       				$(".fee").html(data.feeTotalList);
+
        			},
        			error:function(request, status, errorData){
                        alert("error code: " + request.status + "\n"

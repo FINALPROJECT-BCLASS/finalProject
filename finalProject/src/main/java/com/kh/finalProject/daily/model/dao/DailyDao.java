@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.finalProject.daily.model.vo.Bookmark;
+import com.kh.finalProject.daily.model.vo.BookmarkMap;
+import com.kh.finalProject.daily.model.vo.BookmarkUrl;
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
 import com.kh.finalProject.daily.model.vo.HabitSum;
@@ -152,6 +154,41 @@ public class DailyDao {
 	public int updateBookmark(Bookmark bm) {
 
 		return sqlSessionTemplate.update("dailyMapper.updateBookmarkGroup", bm);
+	}
+
+	public int insertBookmarkMap(BookmarkMap bmm) {
+
+		return sqlSessionTemplate.insert("dailyMapper.insertBookmarkMap", bmm);
+	}
+
+	public ArrayList<BookmarkMap> selectBookmarkMapList(BookmarkMap bm) {
+
+		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectBookmarkMapList", bm);
+	}
+
+	public BookmarkMap selectBookmarkMap(BookmarkMap bm) {
+
+		return sqlSessionTemplate.selectOne("dailyMapper.selectBookmarkMap", bm);
+	}
+
+	public int updateBookmarkMap(BookmarkMap bm) {
+
+		return sqlSessionTemplate.update("dailyMapper.updateBookmarkMap", bm);
+	}
+
+	public int deleteBookmarkMap(BookmarkMap bm) {
+
+		return sqlSessionTemplate.update("dailyMapper.deleteBookmarkMap", bm);
+	}
+
+	public ArrayList<BookmarkUrl> selectBookmarkUrl(BookmarkUrl bu) {
+
+		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectBookmarkUrlList", bu);
+	}
+
+	public int insertBookmarkUrl(BookmarkUrl ub) {
+
+		return sqlSessionTemplate.insert("dailyMapper.insertBookmarkUrl", ub);
 	}
 
 }

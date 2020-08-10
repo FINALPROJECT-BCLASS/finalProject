@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Add Map</title>
+<title>Edit Bookmark Map</title>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 <style>
@@ -267,25 +267,26 @@
 	<jsp:include page="../common/sidenaviDaily.jsp"/>
     <div class="right-area">
        <div style="width: 70%;">
-            <form id="insertMap" action="addBookmarkMap.do">
+            <form id="updateMap" action="editBookmarkMap.do">
                 <span class="pSubject">Add Map</span>
-                <input type="hidden" id="bl_no" name="bl_no" value="${bl_no }">
+               	<input type="hidden" id="mb_no" name="mb_no" value="${bmMap.mb_no }">
+                <input type="hidden" id="bl_no" name="bl_no" value="${bmMap.bl_no }">
                 <table cellpadding="6px">
                     <tr>
                         <td>Name</td>
-                        <td><input type="text" name="mb_title" id="mb_title" placeholder="저장할 장소의 이름을 입력해 주세요." required></td>
+                        <td><input type="text" name="mb_title" id="mb_title" placeholder="저장할 장소의 이름을 입력해 주세요." required value="${bmMap.mb_title }"></td>
                     </tr>
                     <tr>
                         <td>Tell</td>
-                        <td><input type="text" name="mb_phone" id="mb_phone" placeholder="전화번호를 입력해 주세요."></td>
+                        <td><input type="text" name="mb_phone" id="mb_phone" placeholder="전화번호를 입력해 주세요." value="${bmMap.mb_phone }"></td>
                     </tr>
                     <tr>
                         <td>Time</td>
-                        <td><textarea class="b-content-1" name="mb_time" id="mb_time" placeholder="운영 시간을 입력해 주세요."></textarea></td>
+                        <td><textarea class="b-content-1" name="mb_time" id="mb_time" placeholder="운영 시간을 입력해 주세요.">${bmMap.mb_time }</textarea></td>
                     </tr>
                     <tr>
                         <td>Memo</td>
-                        <td><textarea class="b-content-2" name="mb_memo" id="mb_memo"></textarea></td>
+                        <td><textarea class="b-content-2" name="mb_memo" id="mb_memo">${bmMap.mb_memo}</textarea></td>
                     </tr>
                     <tr>
                         <td>Address</td>
@@ -323,7 +324,7 @@
 			</div>
 			<div class="button-area">
             <button type="button" onclick="history.go(-1)">Back</button>
-            <button type="button" onclick="insertMap();">Save</button>
+            <button type="button" onclick="updateMap();">Edit</button>
         </div>
         </div>
         
@@ -335,21 +336,23 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a5165e87a2b10b900ab474145bc13247&libraries=services"></script>
 
     <script>
+   
+    	
+    	var add = "${bmMap.mb_address}";
+		var address = add.split("_");
+    	
+		$("#mainAddress").val(address[0]);
+		$("#subAddress").val(address[1]);
+		
+		$("#keyword").val(address[0]);
+		
     
-    	function insertMap() {
+    	function updateMap() {
     		
-    		$("#insertMap").submit();
+    		$("#updateMap").submit();
     		
     	}
     
-    
-    	function openMapSearch() {
-    		
-    		$(".map_wrap").show();
-    		
-    	}
-    
-	    
     
 	    function searchAddress() {
 	        new daum.Postcode({
@@ -628,66 +631,8 @@
 	            el.removeChild (el.lastChild);
 	        }
 	    }
-	    
-	    /* function mapshow(addr) {
-	    
-			    var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-		        mapOption = {
-		            center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-		            level: 3 // 지도의 확대 레벨
-		        };  
-		
-				    // 지도를 생성합니다    
-				    var map = new kakao.maps.Map(mapContainer, mapOption); 
-				
-				    // 주소-좌표 변환 객체를 생성합니다
-				    var geocoder = new kakao.maps.services.Geocoder();
-				
-				    // 주소로 좌표를 검색합니다
-				    geocoder.addressSearch(addr, function(result, status) {
-				
-				        // 정상적으로 검색이 완료됐으면 
-				         if (status === kakao.maps.services.Status.OK) {
-		
-		            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-		
-		            // 결과값으로 받은 위치를 마커로 표시합니다
-		            var marker = new kakao.maps.Marker({
-		                map: map,
-		                position: coords
-		            });
-		
-		            // 인포윈도우로 장소에 대한 설명을 표시합니다
-		            var infowindow = new kakao.maps.InfoWindow({
-		                content: '<div style="width:150px;text-align:center;padding:6px 0;">' + $("#mb_title").val() + '</div>'
-		            });
-		            infowindow.open(map, marker);
-		
-		            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-		            map.setCenter(coords);
-		        } 
-		    });
-	    } */
-        
-        /* 파일 업로드 */
-        $(document).ready(function(){
-        	
-        	var fileTarget = $('#file');
-        	
-        	fileTarget.on('change', function(){
-        		if(window.FileReader){
-        			var filename = $(this)[0].files[0].name;
-        		} else { 
-        			var filename = $(this).val().split('/').pop().split('\\').pop();
-        		}
-        		
-        		$(this).siblings('.upload-name').val(filename);
-        		
-        		$(".upload-file").attr("style", "display:inline-block");
-        		
-        	});
-        	
-        });
+	  
+       
     </script>
     <jsp:include page="../common/footer.jsp"/>
 </body>

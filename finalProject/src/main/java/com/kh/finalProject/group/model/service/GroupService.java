@@ -182,11 +182,11 @@ public interface GroupService {
 
 	ArrayList<GroupAccount> selectFeeList(GroupInfo gInfo);
 
-	ArrayList<GroupAccount> selectTotalProList(GroupAccount ga);
+	GroupAccount selectTotalProList(GroupAccount ga);
 
-	ArrayList<GroupAccount> selectTotalExeList(GroupAccount ga);
+	GroupAccount selectTotalExeList(GroupAccount ga);
 
-	ArrayList<GroupAccount> selectTotalFeeList(GroupAccount ga);
+	GroupAccount selectTotalFeeList(GroupAccount ga);
 
 	int insertAccount(GroupAccount ga);
 

@@ -54,7 +54,11 @@
 		<typeAlias type="com.kh.finalProject.manager.model.vo.Report" alias="Report"/>			<!-- 예지 -->
 		<typeAlias type="com.kh.finalProject.manager.model.vo.RPageInfo" alias="RPageInfo"/>	<!-- 예지 -->
 		
+
 		<typeAlias type="com.kh.finalProject.daily.model.vo.Bookmark" alias="Bookmark"/>
+		<typeAlias type="com.kh.finalProject.daily.model.vo.BookmarkMap" alias="BookmarkMap"/>
+		<typeAlias type="com.kh.finalProject.daily.model.vo.BookmarkUrl" alias="BookmarkUrl"/>
+ 
 	</typeAliases>
 
 	<mappers>
