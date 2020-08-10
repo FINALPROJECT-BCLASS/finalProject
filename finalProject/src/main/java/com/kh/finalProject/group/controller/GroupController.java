@@ -2082,4 +2082,22 @@ public class GroupController {
 				
 			return mv;
 		}
+		
+		//------------------------------------------------ 사다리 end ---------------------------------------
+		
+		// 사다리
+		@RequestMapping(value = "footPrintMain.do", method = RequestMethod.GET)
+		public ModelAndView footPrintMain(ModelAndView mv, HttpSession session, 
+				@RequestParam(value = "gaNo", required = false) String gaNo) {
+			Member loginUser = (Member) session.getAttribute("loginUser");
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			GroupTable gt = gService.selectOneGroup(gInfo);
+			GroupNotice noticeList = gService.selectNoticeOne(gInfo);
+			mv.addObject("noticeList",noticeList);
+			mv.addObject("gInfo",gInfo);
+			mv.addObject("groupTable",gt);
+			mv.setViewName("group/GFootPrintMain");
+				
+			return mv;
+		}
 }

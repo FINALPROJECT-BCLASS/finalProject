@@ -18,6 +18,7 @@
             <ul>
             	<li><a href="groupSessionDelete.do">Main</a></li>
                 <li><a href="groupCalendarMain.do">Calendar</a></li>
+                <li><a href="footPrintMain.do">Footprint</a></li>
                 <li>
                 	<a href="noticeMain.do">Sharing</a>
                 </li>
