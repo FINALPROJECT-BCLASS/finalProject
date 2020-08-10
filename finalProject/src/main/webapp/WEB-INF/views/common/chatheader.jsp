@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +14,10 @@
 <link rel="stylesheet" href="resources/css/ChatHeader.css">
 <!-- 구글 아이콘 링크 -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
+
 </head>
 <body>
 
@@ -27,4 +32,6 @@
         </nav>
     </header>
 </body>
+<script>
+</script>
 </html>

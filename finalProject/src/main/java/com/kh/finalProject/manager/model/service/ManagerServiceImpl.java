@@ -54,9 +54,15 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
-	public int updateChatYn(String id) {
+	public int updateChatN(String id) {
 		
-		return mgDao.updateChatYn(id);
+		return mgDao.updateChatN(id);
+	}
+
+	@Override
+	public int updateChatY(String id) {
+		
+		return mgDao.updateChatY(id);
 	}
 
 }

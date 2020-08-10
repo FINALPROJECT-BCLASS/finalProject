@@ -74,7 +74,7 @@
 	    border: 1px solid #e8e8e8;
 	    
 	}
-	
+	/*이게머지?*/
 	.text-con-someone {
 		width: 100%;
 	    background: white;
@@ -445,6 +445,7 @@
 		sock.send(jsonData);
 	}
 
+	
 	function memberList(strArray) {
 		for (var i = 0; i < strArray.length; i++) {
 			console.log('str[' + i + ']: ' + strArray[i]);

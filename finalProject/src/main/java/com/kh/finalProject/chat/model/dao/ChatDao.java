@@ -2,6 +2,7 @@ package com.kh.finalProject.chat.model.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -106,5 +107,40 @@ public class ChatDao {
 	public int deletefriend(HashMap<String, Object> map) {
 	
 		return sqlSessionTemplate.delete("chatMapper.deletefriend", map);
+	}
+
+	public ArrayList<Member> recommendList(String id) {
+
+		return (ArrayList)sqlSessionTemplate.selectList("chatMapper.recommendList", id);
+	}
+
+	public int chatReadCheck(Map<String, Object> map) {
+
+		return sqlSessionTemplate.update("chatMapper.chatReadCheck", map);
+	}
+
+	public ArrayList<Chat> selectOneToOnechatlist(int co_no) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("chatMapper.selectOneToOnechatlist", co_no);
+	}
+
+	public String selectfriendName(String id) {
+	
+		return sqlSessionTemplate.selectOne("chatMapper.selectfriendName", id);
+	}
+
+	public ArrayList<Chat> selectchatroom2(String id) {
+	
+		return (ArrayList)sqlSessionTemplate.selectList("chatMapper.selectchatroom2", id);
+	}
+
+	public List<Chat> selectMyChatRoomNo(String loginUserid) {
+		
+		return (List)sqlSessionTemplate.selectList("chatMapper.selectMyChatRoomNo", loginUserid);
+	}
+
+	public ArrayList<Chat> selectcount() {
+
+		return (ArrayList)sqlSessionTemplate.selectList("chatMapper.selectcount");
 	}
 }

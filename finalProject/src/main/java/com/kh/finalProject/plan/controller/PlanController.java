@@ -425,7 +425,11 @@ public class PlanController {
 		
 		String address = "";
 		if(mp.getMpMain() != null) {
-			address = mp.getMpMain() + " " + mp.getMpSub();
+			if(mp.getMpSub() != null) {
+				address = mp.getMpMain() + " " + mp.getMpSub();				
+			} else {
+				address = mp.getMpMain();
+			}
 		}
 		
 		if(address.length() > 0) {

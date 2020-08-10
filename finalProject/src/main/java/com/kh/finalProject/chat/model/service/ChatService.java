@@ -2,6 +2,7 @@ package com.kh.finalProject.chat.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.kh.finalProject.chat.model.vo.Chat;
@@ -45,5 +46,19 @@ public interface ChatService {
 	int joinchatroom(Map<String, Object> map2);
 
 	int deletefriend(HashMap<String, Object> map);
+
+	ArrayList<Member> recommendList(String id);
+
+	int chatReadCheck(Map<String, Object> map);
+
+	ArrayList<Chat> selectOneToOnechatlist(int co_no);
+
+	String selectfriendName(String id);
+
+	ArrayList<Chat> selectchatroom2(String id);
+
+	List<Chat> selectMyChatRoomNo(String loginUserid);
+
+	ArrayList<Chat> selectcount();
 
 }

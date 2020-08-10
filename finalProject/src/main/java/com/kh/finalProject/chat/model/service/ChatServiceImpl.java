@@ -2,6 +2,7 @@ package com.kh.finalProject.chat.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,6 +125,47 @@ public class ChatServiceImpl implements ChatService{
 	public int deletefriend(HashMap<String, Object> map) {
 	
 		return cDao.deletefriend(map);
+	}
+
+	@Override
+	public ArrayList<Member> recommendList(String id) {
+
+		return cDao.recommendList(id);
+	}
+
+	@Override
+	public int chatReadCheck(Map<String, Object> map) {
+		return cDao.chatReadCheck(map);
+	}
+
+	@Override
+	public ArrayList<Chat> selectOneToOnechatlist(int co_no) {
+		
+		return cDao.selectOneToOnechatlist(co_no);
+	}
+
+	@Override
+	public String selectfriendName(String id) {
+		
+		return cDao.selectfriendName(id);
+	}
+
+	@Override
+	public ArrayList<Chat> selectchatroom2(String id) {
+		
+		return cDao.selectchatroom2(id);
+	}
+
+	@Override
+	public List<Chat> selectMyChatRoomNo(String loginUserid) {
+	
+		return cDao.selectMyChatRoomNo(loginUserid);
+	}
+
+	@Override
+	public ArrayList<Chat> selectcount() {
+
+		return cDao.selectcount();
 	}
 
 	

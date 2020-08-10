@@ -326,6 +326,7 @@
 	        <div>
 	            <form id="edit-bm" action="editBookmark.do" method="post" enctype="multipart/form-data">
 	                <span class="pSubject">Edit Bookmark Group</span>
+	                <input type="hidden" name="bl_type" value="${bm.bl_type }">
 	                <input type="hidden" id="bl_no" name="bl_no" value="${bm.bl_no }">
 	                <input type="hidden" name="bl_origin" value="${bm.bl_origin }">
 	                <input type="hidden" name="bl_rename" value="${bm.bl_rename }">
@@ -334,7 +335,7 @@
 	                        <td>Title</td>
 	                        <td><input type="text" name="bl_title" value="${bm.bl_title }" required></td>
 	                    </tr>
-	                    <tr>
+	                    <!-- <tr>
 	                        <td>Type</td>
 	                        <td class="color b-flex">
 	                            <input type="radio" name="bl_type" id="map" value="map" checked>
@@ -344,7 +345,7 @@
 	                            <label class="b-icons t-icons" style="margin-left:8px !important;" for="url"><div class="b-blue"></div></label>
 	                            <label for="url">URL</label>
 	                        </td>
-	                    </tr>
+	                    </tr> -->
 	                    <tr>
                         <td>Color</td>
                         <td class="color b-flex">
@@ -377,7 +378,12 @@
 	                            </div>
 	                            <div class="file-box"> 
 	                                <input type="file" id="file" name="file" onchange="uploadPhoto(this);"> 
-	                                <input class="upload-name" value="${bm.bl_origin }" readOnly>
+	                                <c:if test="${empty bm.bl_origin }">
+	                                	<input class="upload-name" value="Select file" readOnly>
+	                                </c:if>
+	                                <c:if test="${!empty bm.bl_origin }">
+	                                	<input class="upload-name" value="${bm.bl_origin }" readOnly>
+	                                </c:if>
 	                                <label class="b-yell" for="file">Upload</label> 
 	                            </div>
 	                        </td>

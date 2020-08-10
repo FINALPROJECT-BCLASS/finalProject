@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dailyMapper">
 
 	<resultMap type="Habit" id="habitResultSet">
@@ -55,6 +55,25 @@
 		<result property="bl_color" column="BL_COLOR"/>
 	</resultMap>
 	
+	<resultMap type="BookmarkMap" id="BookmarkMapResultSet">
+		<id property="mb_no" column="MB_NO"/>
+		<result property="id" column="ID"/>
+		<result property="bl_no" column="BL_NO"/>
+		<result property="mb_title" column="MB_TITLE"/>
+		<result property="mb_phone" column="MB_PHONE"/>
+		<result property="mb_time" column="MB_TIME"/>
+		<result property="mb_memo" column="MB_MEMO"/>
+		<result property="mb_address" column="MB_ADDRESS"/>
+	</resultMap>
+	
+	<resultMap type="BookmarkUrl" id="BookmarkUrlResultSet">
+		<id property="ub_no" column="UB_NO"/>
+		<result property="id" column="ID"/>
+		<result property="bl_no" column="BL_NO"/>
+		<result property="ub_title" column="UB_TITLE"/>
+		<result property="ub_con" column="UB_CON"/>
+		<result property="ub_url" column="UB_URL"/>
+	</resultMap>
 	
 	<insert id="insertHabit" parameterType="Habit">
 		INSERT INTO HABIT_TRACKER
@@ -257,8 +276,6 @@
 		AND HT.ID = #{id}
 		AND HTR.HT_NO = #{ht_no}
 		AND TO_CHAR(HTR_DATE, 'YY/MM')= TO_CHAR(TO_DATE(#{today}, 'YY/MM/DD') ,'YY/MM')
-		<!-- AND HTR_DATE BETWEEN TO_CHAR(TRUNC(TO_DATE(#{today}, 'YY-MM-DD'),'iw')  ,'yy-mm-dd')
-                		 AND TO_CHAR(TRUNC(TO_DATE(#{today}, 'YY-MM-DD'),'iw') + 6  ,'yy-mm-dd') -->
 		AND HTR.HTR_DELETE = 'N'
 		AND HT.HT_DELETE = 'N'
 		GROUP BY SUBSTR(HTR.HTR_DATE, 0, 8)
@@ -327,6 +344,106 @@
 		WHERE BL_NO = #{bl_no}
 		AND ID = #{id}
 		AND BL_DELETE = 'N'
+	</update>
+	
+	<insert id="insertBookmarkMap" parameterType="BookmarkMap">
+		INSERT INTO MAP_BOOKMARK
+		VALUES (SEQ_MB.NEXTVAL
+				, #{id}
+				, #{bl_no}
+				, #{mb_title}
+				, #{mb_phone}
+				, #{mb_time}
+				, #{mb_memo}
+				, #{mb_address}
+				, SYSDATE
+				, DEFAULT
+				, 0
+				, 'N')
+	</insert>
+	
+	<select id="selectBookmarkMapList" parameterType="BookmarkMap" resultMap="BookmarkMapResultSet">
+		SELECT MB_NO, BL_NO, MB_TITLE, MB_PHONE
+		FROM MAP_BOOKMARK
+		WHERE BL_NO = #{bl_no}
+		AND ID = #{id}
+		AND MB_DELETE = 'N'
+		ORDER BY MB_NO DESC
+	</select>
+	
+	<select id="selectBookmarkMap" parameterType="BookmarkMap" resultMap="BookmarkMapResultSet">
+		SELECT *
+		FROM MAP_BOOKMARK
+		WHERE MB_NO = #{mb_no}
+		AND ID = #{id}
+		AND MB_DELETE = 'N'
+	</select>
+	
+	<update id="updateBookmarkMap" parameterType="BookmarkMap">
+		UPDATE MAP_BOOKMARK
+		SET MB_TITLE = #{mb_title}
+			, MB_PHONE = #{mb_phone}
+			, MB_TIME = #{mb_time}
+			, MB_MEMO = #{mb_memo}
+			, MB_ADDRESS = #{mb_address}
+		WHERE MB_NO = #{mb_no}
+		AND ID = #{id}
+		AND MB_DELETE = 'N'
+	</update>
+	
+	<update id="deleteBookmarkMap" parameterType="BookmarkMap">
+		UPDATE MAP_BOOKMARK
+		SET MB_DELETE = 'Y'
+		WHERE MB_NO = #{mb_no}
+		AND ID = #{id}
+		AND MB_DELETE = 'N'
+	</update>
+	
+	<select id="selectBookmarkUrlList" parameterType="BookmarkUrl" resultMap="BookmarkUrlResultSet">
+		SELECT *
+		FROM URL_BOOKMARK
+		WHERE BL_NO = #{bl_no}
+		AND ID = #{id}
+		AND UB_DELETE = 'N'
+		ORDER BY UB_NO DESC
+	</select>
+	
+	<insert id="insertBookmarkUrl" parameterType="BookmarkUrl">
+		INSERT INTO URL_BOOKMARK
+		VALUES (SEQ_UB.NEXTVAL
+				, #{id}
+				, #{bl_no}
+				, #{ub_title}
+				, #{ub_con}
+				, #{ub_url}
+				, SYSDATE
+				, DEFAULT
+				, 0
+				, 'N')
+	</insert>
+	
+	<select id="selectBookmarkUrl" parameterType="BookmarkUrl" resultMap="BookmarkUrlResultSet">
+		SELECT *
+		FROM URL_BOOKMARK
+		WHERE ID = #{id}
+		AND UB_NO = #{ub_no}
+		AND UB_DELETE = 'N'
+	</select>
+	
+	<update id="updateBookmarkUrl" parameterType="BookmarkUrl">
+		UPDATE URL_BOOKMARK
+		SET UB_TITLE = #{ub_title}
+			, UB_CON = #{ub_con}
+			, UB_URL = #{ub_url}
+		WHERE ID = #{id}
+		AND UB_NO = #{ub_no}
+	</update>
+	
+	<update id="deleteBookmarkUrl" parameterType="BookmarkUrl">
+		UPDATE URL_BOOKMARK
+		SET UB_DELETE = 'Y'
+		WHERE ID = #{id}
+		AND UB_NO = #{ub_no}
 	</update>
 	
 	

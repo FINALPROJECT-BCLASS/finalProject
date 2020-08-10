@@ -23,9 +23,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.finalProject.daily.model.service.DailyService;
 import com.kh.finalProject.daily.model.vo.Bookmark;
+import com.kh.finalProject.daily.model.vo.BookmarkMap;
+import com.kh.finalProject.daily.model.vo.BookmarkUrl;
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
 import com.kh.finalProject.daily.model.vo.HabitSum;
@@ -715,7 +718,10 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 	
 	// 북마크 리스트 불러오기
 	@RequestMapping("bookmarkView.do")
-	public ModelAndView bookmarkView(ModelAndView mv, HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView bookmarkView(ModelAndView mv, HttpServletRequest request, HttpServletResponse response,
+									@RequestParam(value="bl_no", required=false) String blNum,
+									@RequestParam(value="mb_no", required=false) String mbNum,
+									@RequestParam(value="ub_no", required=false) String ubNum) {
 		
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
@@ -728,6 +734,10 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		System.out.println("잘 불러옵니까?" + bookmark);
 		
 		if(bookmark != null) {
+			
+			mv.addObject("ubNum", ubNum);
+			mv.addObject("mbNum", mbNum);
+			mv.addObject("blNum", blNum);
 			mv.addObject("bm", bookmark);
 			mv.setViewName("daily/bookmarkList");
 		} else {
@@ -854,7 +864,7 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 	// 북마크 그룹 수정 페이지
 	@RequestMapping("editBookmarkView.do")
 	public String editBookmark(HttpServletRequest request, HttpServletResponse response, Model model,
-			 					@RequestParam(value = "bl_no", required = false) String bl_no) {
+			 					@RequestParam(value = "bl_no", required = false) String bl_no) { // 리다이렉트시 넘어온 값 받기
 		
 	
 		HttpSession session = request.getSession();
@@ -948,17 +958,428 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		}
 		
 	}
-		
+	
+	// 지도 북마크 폼으로 이동
 	@RequestMapping("addBookmarkMapView.do")
-	public String addMapView() {
+	public String addMapView(Model model, @RequestParam(value="bl_no", required=true) String bl_no) {
 		
+		model.addAttribute("bl_no", bl_no);
 		return "daily/bookmarkMapAdd";
 	}
 	
-	@RequestMapping("addBookmarkMap.do")
-	public String addBookrmarkMap() {
+	// 링크 북마크 폼으로 이동
+	@RequestMapping("addBookmarkUrlView.do")
+	public String addUrlView(Model model, @RequestParam(value="bl_no", required=true) String bl_no) {
 		
-		return null;
+		model.addAttribute("bl_no", bl_no);
+		return "daily/bookmarkUrlAdd";
+	}
+	
+	// 지도 북마크 추가
+	@RequestMapping("addBookmarkMap.do")
+	public String addBookrmarkMap(BookmarkMap bmm, Model model,
+									HttpServletRequest request, HttpServletResponse response,
+									RedirectAttributes redirectAttributes,
+									@RequestParam(value="mainAddress", required=true) String mainAddress,
+									@RequestParam(value="subAddress", required=false) String subAddress) {
+		
+		HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		bmm.setId(id);
+		bmm.setMb_address(mainAddress+"_"+subAddress);
+		
+		System.out.println("값 어떻게 들어오나? :" + bmm);
+		
+		
+		int result = dailyService.insertBookmarkMap(bmm);
+		
+		
+		if(result > 0) {
+			
+			redirectAttributes.addAttribute("bl_no", bmm.getBl_no()); // 리다이렉트시 값 넘기기
+			return "redirect:bookmarkView.do";
+		}else {
+			
+			model.addAttribute("msg","지도 북마크 등록 실패, 다시 시도해 주세요.");
+            model.addAttribute("url","/addBookmarkMapView.do");
+			
+			return "common/redirect";
+			
+		}
+		
+	
+	}
+	
+	// 링크 북마크 추가
+	@RequestMapping("addBookmarkUrl.do")
+	public String addBookrmarkUrl(BookmarkUrl ub, Model model,
+									HttpServletRequest request,
+									RedirectAttributes redirectAttributes) {
+		
+		HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		ub.setId(id);
+		
+//		System.out.println("ub 값 어떻게 들어오나? :" + ub);
+		
+		int result = dailyService.insertBookmarkUrl(ub);
+		
+		if(result > 0) {
+			
+			redirectAttributes.addAttribute("bl_no", ub.getBl_no());
+			return "redirect:bookmarkView.do";
+		}else {
+			
+			model.addAttribute("msg","지도 북마크 등록 실패, 다시 시도해 주세요.");
+            model.addAttribute("url","/addBookmarkMapView.do");
+			
+			return "common/redirect";
+			
+		}
+		
+	}
+	
+	// 지도 북마크 리스트 뿌려주기
+	@RequestMapping("selectBookmarkMapList.do")
+	public void SelectBookmarkMapList(Model model,
+			HttpServletRequest request, HttpServletResponse response, String bl_no) throws IOException {
+		
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		BookmarkMap bm = new BookmarkMap();
+		bm.setBl_no(bl_no);
+		bm.setId(id);
+		
+		ArrayList<BookmarkMap> mblist = dailyService.selectBookmarkMapList(bm);
+		
+//		System.out.println("널인지?" + mblist);
+		
+		JSONArray mbList = new JSONArray();
+			
+			// 이번 주로 조회한 습관 기록 배열에 담기
+			for(BookmarkMap mb : mblist) {
+				
+				JSONObject jObj = new JSONObject();
+				jObj.put("mb_title", mb.getMb_title());
+				jObj.put("mb_phone", mb.getMb_phone());
+				jObj.put("mb_no", mb.getMb_no());
+				
+				mbList.add(jObj);
+				
+			}
+			
+			JSONObject mbl = new JSONObject();
+			
+			mbl.put("mbl", mbList);
+			
+			out.print(mbl);
+			out.flush();
+			out.close();
+		
+		
+	}
+	
+	
+	// 지도 북마크 리스트
+	@RequestMapping("selectBookmarkMap.do")
+	public void selectBookmarkMap(HttpServletRequest request, HttpServletResponse response,
+									String mb_no) throws IOException {
+		
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		BookmarkMap bm = new BookmarkMap();
+		bm.setMb_no(mb_no);
+		bm.setId(id);
+		
+		BookmarkMap bmMap = dailyService.selectBookmarkMap(bm);
+		
+//		String mb_address[] = bmMap.getMb_address().split("_");
+//        
+//        for(int i=0 ; i<mb_address.length ; i++) {
+//            System.out.println("mb_address["+i+"] : "+mb_address[i]);
+//        }
+		
+		
+		JSONObject jObj = new JSONObject();
+		
+		jObj.put("mb_title", bmMap.getMb_title());
+		jObj.put("mb_phone", bmMap.getMb_phone());
+		jObj.put("mb_no", bmMap.getMb_no());
+		jObj.put("mb_address", bmMap.getMb_address());
+		jObj.put("mb_time", bmMap.getMb_time());
+		jObj.put("mb_memo", bmMap.getMb_memo());
+
+		out.print(jObj);
+		out.flush();
+		out.close();
+		
+		
+	}
+	
+	
+	// 지도 북마크 수정 폼
+	@RequestMapping("editBookmarkMapView.do")
+	public String editBookmarkMapView(Model model,
+					HttpServletRequest request, HttpServletResponse response,
+					String mb_no) throws IOException {
+		
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		BookmarkMap bm = new BookmarkMap();
+		bm.setMb_no(mb_no);
+		bm.setId(id);
+		
+		BookmarkMap bmMap = dailyService.selectBookmarkMap(bm);
+		
+		if(bmMap != null) {
+			
+			model.addAttribute("bmMap", bmMap);
+			
+			return "daily/bookmarkMapEdit";
+			
+		}else {
+			
+			model.addAttribute("msg","오류 발생, 다시 시도해 주세요.");
+            model.addAttribute("url","/bookmarkView.do");
+			
+			return "common/redirect";
+			
+		}
+		
+	}
+	
+	
+	// 지도 북마크 수정
+	@RequestMapping("editBookmarkMap.do")
+	public String editBookmarkMap(Model model, HttpServletRequest request, HttpServletResponse response,
+									RedirectAttributes redirectAttributes, BookmarkMap bm,
+									@RequestParam(value="mainAddress", required=false) String mainAddress,
+									@RequestParam(value="subAddress", required=false) String subAddress) throws IOException {
+		
+
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		bm.setId(id);
+		bm.setMb_address(mainAddress + "_" + subAddress);
+		
+		int result = dailyService.updateBookmarkMap(bm);
+		
+		if(result > 0) {
+			
+			redirectAttributes.addAttribute("bl_no", bm.getBl_no());
+			redirectAttributes.addAttribute("mb_no", bm.getMb_no());
+			return "redirect:bookmarkView.do";
+			
+		}else {
+
+			model.addAttribute("msg","오류 발생, 다시 시도해 주세요.");
+            model.addAttribute("url","/bookmarkView.do");
+			
+			return "common/redirect";
+		}
+		
+		
+	}
+	
+	// 지도 북마크 삭제
+	@RequestMapping("deleteBookmarkMap.do")
+	public void deleteBookmarkMap(Model model, HttpServletRequest request, HttpServletResponse response,
+									RedirectAttributes redirectAttributes, BookmarkMap bm) throws IOException{
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		bm.setId(id);
+		
+//		System.out.println("bm : " + bm);
+		
+		int result = dailyService.deleteBookmarkMap(bm);
+		
+		System.out.println(result);
+		 
+		if(result > 0) {
+	    	out.print("success");
+	    	out.flush();
+	    	out.close();
+	    } else {
+	    	out.print("failed");
+	    	out.flush();
+	    	out.close();
+	    }
+	}
+	
+	
+	
+	
+	@RequestMapping("selectBookmarkUrlList.do")
+	public void SelectBookmarkUrlList(Model model,
+			HttpServletRequest request, HttpServletResponse response, String bl_no) throws IOException {
+		
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		BookmarkUrl bu = new BookmarkUrl();
+		bu.setBl_no(bl_no);
+		bu.setId(id);
+		
+		ArrayList<BookmarkUrl> ublist = dailyService.selectBookmarkUrlList(bu);
+		
+		System.out.println("ublist? : " +ublist);
+		
+		JSONArray ubList = new JSONArray();
+			
+			for(BookmarkUrl ub : ublist) {
+				
+				JSONObject jObj = new JSONObject();
+				jObj.put("ub_no", ub.getUb_no());
+				jObj.put("ub_title", ub.getUb_title());
+				jObj.put("ub_con", ub.getUb_con());
+				jObj.put("ub_url", ub.getUb_url());
+				
+				ubList.add(jObj);
+				
+			}
+			
+			JSONObject ubl = new JSONObject();
+			
+			ubl.put("ubl", ubList);
+			
+			out.print(ubl);
+			out.flush();
+			out.close();
+		
+	}
+	
+	// 지도 북마크 수정 폼
+	@RequestMapping("editBookmarkUrlView.do")
+	public String editBookmarkUrlView(Model model,
+					HttpServletRequest request, HttpServletResponse response,
+					String ub_no) throws IOException {
+		
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		BookmarkUrl bu = new BookmarkUrl();
+		bu.setUb_no(ub_no);
+		bu.setId(id);
+		
+		BookmarkUrl bmUrl = dailyService.selectBookmarkUrl(bu);
+		
+		if(bmUrl != null) {
+			
+			model.addAttribute("bmUrl", bmUrl);
+			
+			return "daily/bookmarkUrlEdit";
+			
+		}else {
+			
+			model.addAttribute("msg","오류 발생, 다시 시도해 주세요.");
+            model.addAttribute("url","/bookmarkView.do");
+			
+			return "common/redirect";
+			
+		}
+		
+	}
+	
+	
+	// 지도 북마크 수정
+	@RequestMapping("editBookmarkUrl.do")
+	public String editBookmarkUrl(Model model, HttpServletRequest request, HttpServletResponse response,
+									RedirectAttributes redirectAttributes, BookmarkUrl bu) throws IOException {
+		
+
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		bu.setId(id);
+		
+		System.out.println("북마크 링크 편집 : " + bu);
+		
+		
+		int result = dailyService.updateBookmarkUrl(bu);
+		
+		if(result > 0) {
+			
+			redirectAttributes.addAttribute("bl_no", bu.getBl_no());
+			redirectAttributes.addAttribute("ub_no", bu.getUb_no());
+			return "redirect:bookmarkView.do";
+			
+		}else {
+
+			model.addAttribute("msg","오류 발생, 다시 시도해 주세요.");
+            model.addAttribute("url","/editBookmarkUrlView.do");
+			
+			return "common/redirect";
+		}
+		
+		
+	}
+	
+	
+	// 지도 북마크 삭제
+	@RequestMapping("deleteBookmarkUrl.do")
+	public void deleteBookmarkUrl(Model model, HttpServletRequest request, HttpServletResponse response,
+									RedirectAttributes redirectAttributes, BookmarkUrl bu) throws IOException{
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		bu.setId(id);
+		
+		System.out.println("bu : " + bu);
+		
+		int result = dailyService.deleteBookmarkUrl(bu);
+		
+		System.out.println(result);
+		 
+		if(result > 0) {
+	    	out.print("success");
+	    	out.flush();
+	    	out.close();
+	    } else {
+	    	out.print("failed");
+	    	out.flush();
+	    	out.close();
+	    }
 	}
 	
 }

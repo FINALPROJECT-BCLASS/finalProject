@@ -6,11 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Bookmark List</title>
-<!-- 카카오 지도 관련 -->
-<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
-<script type="text/javascript" src="dapi.kakao.com/v2/maps/sdk.js?appkey=a5165e87a2b10b900ab474145bc13247"></script>
-<!-- services와 clusterer, drawing 라이브러리 불러오기 -->
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=APIKEY&libraries=services,clusterer,drawing"></script>
 <!-- CSS -->
 <link rel="stylesheet" href="resources/css/flickity/flickity.css">
 <!-- JavaScript -->
@@ -23,18 +18,21 @@
             margin: 0;
             padding: 0;
         }
+        
+        /* body::-webkit-scrollbar {
+  		  	display: none; 
+		} */
 
         .right-area {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            float: right;
-            width: 81%;
-            background-color: #f7f7f7;
-            color: #484848;
-            text-align: center;
-            padding: 50px;
+		    flex-direction: column;
+		    justify-content: center;
+		    float: right;
+		    width: 81%;
+		    background-color: #f7f7f7;
+		    color: #484848;
+		    text-align: center;
+		    padding: 88px 50px;
         }
 
         .pSubject {
@@ -115,32 +113,35 @@
         }
 
         .content-area {
-            float: left;
-            display: flex;
-            flex-direction: column;
+        	width: 28.4%;
+		    float: left;
+		    display: flex;
+		    flex-direction: column;
         }
 
         .content-item {
             font-size: 14px;
-            display: flex;
-            vertical-align: center;
-            padding:10px;
-            height: 40px;
-            margin-bottom: 10px;
-            width: 292px;
-            background-color: #f3f3f3;
-            border-radius: 5px;
+		    display: flex;
+		    justify-content: flex-start;
+		    align-items: flex-start;
+		    padding: 10px;
+		    height: 40px;
+		    margin-bottom: 10px;
+		    width: 100%;
+		    background-color: #f3f3f3;
+		    border-radius: 5px;
         }
 
         .map-area {
             float: right;
             display: flex;
+            width: 70%;
             flex-direction: column;
         }
 
         .map-area > div {
             height: 370px;
-            width: 717px;
+            width: 100%;
             padding:10px;
             border-radius: 5px;
             background-color: #f3f3f3;
@@ -148,7 +149,7 @@
         }
 
         .time {
-            height: 60px;
+            height: 80px;
         }
 
         .comment {
@@ -200,9 +201,10 @@
             font-size: 23px;
             font-weight: 700;
             color: #484848;
+            outline:none;
         }
 
-        /* 북마크 세부 제목 */
+        /* 세부 제목 */
 
         .title-area {
             display: flex;
@@ -213,7 +215,6 @@
         }
 
         .title-area > span {
-            width: 100px;
             font-size: 18px;
             font-weight: 700;
             display: flex;
@@ -227,12 +228,18 @@
         /* 북마크 맵 세부 목록 */
 
         .map-list {
-            overflow: auto;
+        	height: 210px;
+            overflow-y: scroll;
             display: flex;
             flex-wrap: wrap;
             margin-top: 15px;
             padding: 0;
             border: 15px solid white;
+        }
+        
+        .map-list::-webkit-scrollbar {
+		    display: none; 
+        	
         }
 
         .map-item {
@@ -245,7 +252,7 @@
 		    margin-bottom: 15px;
 		    background: white;
 		    border: 1px solid #f3f3f3;
-		    border-left: 3px solid #FBD14B;
+		    border-left: 3px solid #d5d5d5;
 		    align-items: start;
 		    padding-left: 18px;
         }
@@ -268,33 +275,85 @@
             margin-right: 0;
         }
         
-        /* url 세부목록 */
+        
+        /* 북마크 링크 세부 목록 */
 
-        .url {
-            /* display: inline-block; */
-            display: none;
-            width: 825px;
-            height: 250px;
-            margin-bottom: 0;
+        .url-list {
+        	height: 210px;
+            overflow-y: scroll;
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 15px;
             padding: 0;
-            overflow-x: scroll;
-            white-space: nowrap;
-            border: 10px solid #f3f3f3;
+            border: 15px solid white;
+        }
+        
+        .url-list::-webkit-scrollbar {
+		    display: none; 
+        	
         }
 
-        .url > div {
-            display: inline-block;
-            margin-right: 15px !important;
-            width: 200px;
-            height: 100%;
-            background-color: white;
-            border-radius: 8px;
+        .url-item {
+            display: flex;
+		    flex-direction: column;
+		    justify-content: center;
+		    width: 32%;
+		    margin-right: 15px;
+		    margin-bottom: 15px;
+		    background: white;
+		    border: 1px solid #f3f3f3;
+		    border-top: 3px solid #d5d5d5;
+		    align-items: start;
+		    padding: 18px;
         }
         
-        hr {
-        	width: 97%;
+        .url-item > * {
+            word-break: break-all;
+		    word-wrap: break-word;
+		    text-align: left;
+		    width: 91%;
+		    font-size: 14px;
+        }
+
+        .url-info {
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        .url-item > span:nth-child(1) {
+            font-weight: 700;
+    		font-size: 15px;
         }
         
+        .url-item > span:nth-child(2) {
+   		   	font-size: 14px;
+		    width: 100%;
+		    height: 90px;
+		    /* height: 45%; */
+		    margin: 10px 0;
+		    border-radius: 8px;
+		    background: #f3f3f3;
+		    overflow-y: scroll;
+		    border: 10px solid #f3f3f3;
+        }
+        
+        .url-item > span:nth-child(2)::-webkit-scrollbar {
+  		  	display: none; 
+		}
+        
+        .url-item > span:nth-child(3) {
+       	    display: flex;
+    		align-items: center;
+        }
+
+        .url-list > div:nth-child(3n) {
+            margin-right: 0;
+        }
+        
+        
+        
+        
+       
         /* external css: flickity.css */
 
 		* { box-sizing: border-box; }
@@ -445,7 +504,79 @@
         	display:none;
         }
         
+        .select {
+        	
+        }
         
+        .mb_address_d {
+        	overflow-y: scroll;
+       	    text-align: left;
+        }
+        
+        .mb_address_d::-webkit-scrollbar {
+        	display:none;
+        }
+        
+        input::placeholder,
+        textarea::placeholder {
+		  color: #cecece;
+		  font-size: 13px;
+		}
+		
+		.message {
+			position: absolute;
+		    top: 57px;
+		    right: 100px;
+		    border: 1px solid #f8dbdb;
+		    background: rgb(255 247 247);
+		    width: 500px;
+		    height: 56px;
+		    display: flex;
+		    border-radius: 10px;
+		    justify-content: center;
+		    align-items: center;
+		}
+		
+		.tri {
+			position: absolute;
+		    background: #fff7f7;
+		    right: 163px;
+		    top: 50px;
+		    width: 15px;
+		    height: 15px;
+		    transform: rotate(45deg);
+		    border-left: 1px solid #f9dfdf;
+		    border-top: 1px solid #f9dfdf;
+		    z-index: 1;
+		}
+		
+		.tri {
+	    animation: fadein 0.7s;
+	    -webkit-animation: fadein 0.7s; /* Safari and Chrome */
+		}
+		
+		.message {
+		 animation: fadein 0.7s;
+	    -webkit-animation: fadein 0.7s; /* Safari and Chrome */
+		}
+		
+		@-webkit-keyframes fadein { /* Safari and Chrome */
+		    from {
+		        opacity:0;
+		    }
+		    to {
+		        opacity:1;
+		    }
+		}
+		
+		.select-url {
+		
+		}
+		
+		.de {
+			font-size:15px !important;
+			margin-right: 8px;
+		}
 	
 
 
@@ -462,7 +593,10 @@
             <div style="width: 100%">
 	            <div class="carousel" data-flickity='{ "draggable": true }' style="width: 100%">
 					<c:forEach var="bm" items="${bm }">
-						<input type="hidden" name="bl_no" value="${bm.bl_no }">
+						<input class="bl_color" id="bl_color" type="hidden" name="bl_con" value="${bm.bl_color }">
+						<input id="bl_con" type="hidden" name="bl_con" value="${bm.bl_con }">
+						<input id="bl_type" type="hidden" name="bl_type" value="${bm.bl_type }">
+						<input class="${bm.bl_no }" id="bl_no" type="hidden" name="bl_no" value="${bm.bl_no }">
 						<div class="carousel-cell" style="background:${bm.bl_color }">
 				  			<div class="image-area">
 				  				<c:if test="${empty bm.bl_rename }">
@@ -477,7 +611,7 @@
 			                   		<img class="image" src="resources/bluploadFiles/${bm.bl_rename }">
 			                   	</c:if>
 			                </div>
-							<div>
+							<div class="bl_title">
 								${bm.bl_title }
 							</div>
 							<div>
@@ -490,10 +624,10 @@
 
             <!-- Button Start-->
             <div class="button-area">
-                <button type = "button" onclick="editBookmark()">Edit</button>
-                <button type = "button" onclick="deleteBookmark()">Delete</button>
-                <!-- <button type = "button" data-toggle="modal" data-target="#select-type">Add</button> -->
                 <button type = "button" onclick="location.href='addBookmarkView.do'">Add</button>
+                <button type = "button" onclick="editBookmark();">Edit</button>
+                <button type = "button" onclick="deleteBookmark();">Delete</button>
+                <!-- <button type = "button" data-toggle="modal" data-target="#select-type">Add</button> -->
             </div>
             <!-- Button End-->
 
@@ -504,59 +638,498 @@
                     <div class="title-content">: 맛집 리스트 모음</div>
                 </div>
                 <div class="small-button-area">
-        			<button type="button" onclick="location.href='addBookmarkMapView.do'">Add</button>
-		            <button>Edit</button>
-		            <button>Delete</button>
+        			<button type="button" onclick="addBookmark_m_u();">Add</button>
+		            <button type="button" onclick="editBookmark_m_u();">Edit</button>
+		            <button type="button" onclick="deleteBookmark_m_u();">Delete</button>
     			</div> 
 	            <div class="content-box map-list">
 	                <div class="map-item">
-	                    <span>노원 황소곱창</span>
-	                    <span>02-1234-1234</span>
+	                    <span></span>
+	                    <span></span>
+	                </div>
+	            </div>
+	            <div class="content-box url-list">
+	                <div class="url-item">
+	                    <span></span>
+	                    <span></span>
+	                    <span></span>
 	                </div>
 	            </div>
             </div>
             <div class="content-box-2 map-info">
                 <div class="content-area">
-                    <span class="content-item">노원 황소곱창</span>
-                    <span class="content-item">02-0000-0000</span>
-                    <span class="content-item time">주소입력란</span>
-                    <textarea class="content-item time" readonly>평일 - 오전 9:00 ~ 오후 10:00
-브레이크 타임 - 오후 3:00 ~ 오후 5:00</textarea>
-                    <textarea class="content-item comment" readonly>글을 씁시다.글 쓴다구여어어어어어ㅓ엉 글써여</textarea>
+                    <span class="content-item mb_title_d"></span>
+                    <span class="content-item mb_phone_d"></span>
+                    <span class="content-item mb_address_d"></span>
+                    <textarea class="content-item time mb_time_d" readonly placeholder="Time"></textarea>
+                    <textarea class="content-item comment mb_comment_d" readonly placeholder="Memo"></textarea>
                 </div>
                 <div class="map-area">
-                    <div id="map">
-                    </div>
+                    <div id="map"></div>
                 </div>
             </div>
         </div>
 		
+		
+		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a5165e87a2b10b900ab474145bc13247&libraries=services"></script>
 		<script>
+			
+		
+		
+		
+		
+			$(document).ready(function(){
+				
+				if('${blNum}'){
+					$(".${blNum}").next().trigger("click");
+					
+					// 왜 안 됨?
+					if('${mbNum}'){
+						/* $("#${mbNum}").click(); */
+						$("#${mbNum}").trigger("click");
+						/* 	$(document).on("click", '#${mbNum}'); */
+					}else if('${ubNum}'){
+						$("#${ubNum}").trigger("click");
+						
+					}
+					
+				}
+				
+				
+				
+			});
+			
+			var bl_no;
+			var bl_type;
+			
+			// 북마크 그룹 내의 add 버튼 클릭시 실행되는 함수
+			function addBookmark_m_u() {
+				
+				bl_no = $(".clicked").prev().val();
+				bl_type = $(".clicked").prev().prev().val();
+				
+				if(bl_type == "map") {
+					
+					location.href='addBookmarkMapView.do?bl_no='+ bl_no;
+					
+				}else {
+					
+					location.href='addBookmarkUrlView.do?bl_no='+ bl_no;
+				}
+				
+			}
+			
+			
+			// 북마크 그룹 내의 delete 버튼 클릭시 실행되는 함수
+			function deleteBookmark_m_u() {
+				
+				bl_no = $(".clicked").prev().val();
+				bl_type = $(".clicked").prev().prev().val();
+				
+				var mb_no = $(".select").find(".mb_no").val();
+				var ub_no = $(".select-url").find(".ub_no").val();
+				
+				if(mb_no != undefined || ub_no != undefined) {
+					
+					if(bl_type == "map") {
+						
+						if(!confirm('정말 삭제하시겠습니까?')){
+							return false;
+						}else{
+							$.ajax({
+					    	    method: 'POST',
+					    	    url: 'deleteBookmarkMap.do',
+					    	    data: {'bl_no':bl_no, 'mb_no':mb_no},
+					    	    success : function(data) {
+										
+					    	    	if(data == "success"){
+					    	    		$("."+bl_no).next().trigger("click");
+					    	    	}else {
+					    	    		alert("삭제 실패, 다시 시도해 주세요."); 
+					    	    	}
+					    	    	
+					    	    },
+					    	    error:function(request, status, errorData){
+			                        alert("error code: " + request.status + "\n"
+			                              +"message: " + request.responseText
+			                              +"error: " + errorData);
+			             		} 
+					    	});	
+						}
+						
+					} else {
+					
+						if(!confirm('정말 삭제하시겠습니까?')){
+							return false;
+						}else{
+							$.ajax({
+					    	    method: 'POST',
+					    	    url: 'deleteBookmarkUrl.do',
+					    	    data: {'bl_no':bl_no, 'ub_no':ub_no},
+					    	    success : function(data) {
+										
+					    	    	if(data == "success"){
+					    	    		$("."+bl_no).next().trigger("click");
+					    	    	}else {
+					    	    		alert("삭제 실패, 다시 시도해 주세요."); 
+					    	    	}
+					    	    	
+					    	    },
+					    	    error:function(request, status, errorData){
+			                        alert("error code: " + request.status + "\n"
+			                              +"message: " + request.responseText
+			                              +"error: " + errorData);
+			             		} 
+					    	});	
+						}
+						
+					}
+				
+				}else {
+					
+					alert("삭제할 북마크를 선택해 주세요.");
+					
+				}
+				
+			}
+			
+			// 북마크 그룹 내의 edit 버튼 클릭시 실행되는 함수
+			function editBookmark_m_u() {
+				
+				bl_no = $(".clicked").prev().val();
+				bl_type = $(".clicked").prev().prev().val();
+				
+				var mb_no = $(".select").find(".mb_no").val();
+				var ub_no = $(".select-url").find(".ub_no").val();
+				
+				console.log("북마크 번호 : " + mb_no);
+				console.log("북마크 타입 : " + bl_type);
+				
+				if(mb_no != undefined || ub_no != undefined) {
+					
+					if(bl_type == "map") {
+						
+						location.href='editBookmarkMapView.do?mb_no='+ mb_no;
+						
+					} else {
+						
+						location.href='editBookmarkUrlView.do?ub_no='+ ub_no;
+						
+					}
+				
+				}else {
+					
+					alert("수정할 북마크를 선택해 주세요.");
+					
+				}
+				
+			}
+			
+		
+		
 			$(".content-box").hide();
 			$(".content-box-2").hide();
 			
 			
 			var target = $(".carousel-cell");
 			
+			// 북마크 그룹 클릭시 실행
 			target.on("click", function() {
-				
-				$(this).addClass("clicked");
-				
-				$(".content-box").show();
 				
 				target.not($(this)).removeClass("clicked");
 				
+				$(this).addClass("clicked");
+				$(".content-box-2").hide();
+				
+				var bl_title = $(".clicked").find(".bl_title").html();
+				var bl_con = $(".clicked").prev().prev().prev().val();
+				
+				$(".content-box").show();
+				$(".title-area > span:nth-child(1)").html(bl_title);
+				$(".title-content").html(bl_con);
+				
+				var bl_type = $(".clicked").prev().prev().val();
+				console.log("bl_type : " + bl_type);
+				
+			 	if(bl_type == "map") {
+					// 지도 북마크 리스트 불러오기
+					showBoookmarkMapList();
+			 	}else {
+			 		// 링크 북마크 리스트 불러오기
+			 		showBookmarkUrlList();
+			 	}
+				
 			});
 			
-	        
+			// 링크 북마크 리스트 불러오기
+			function showBookmarkUrlList() {
+				
+				$(".map-list").hide();
+				var bl_no = $(".clicked").prev().val();
+				
+				$.ajax({
+		    	    method: 'POST',
+		    	    url: 'selectBookmarkUrlList.do',
+		    	    data: {'bl_no':bl_no},
+		    	    dataType:"json",
+		    	    success : function(data) {
+							console.log("data : " + data.ubl);
+							
+							$(".tri").remove();	
+							$(".message").remove();
+							
+	   						$divBody = $(".url-list");
+							$divBody.html("");
+	   						
+	   						var $div;
+	   						
+							for(var i in data.ubl){
+								
+								console.log(data.ubl[i]);
+							
+		   						var item = "<div class='url-item' id='"+ data.ubl[i].ub_no +"'>";
+		   						var name = "<span>" + data.ubl[i].ub_title + "</span>";
+		   						var con = "<span>" + data.ubl[i].ub_con + "</span>";
+		   						var url = "<span><span class='material-icons de'>link</span> <a class='link' href='"+data.ubl[i].ub_url+"'>" + data.ubl[i].ub_url + "</a><div class='message'></div></span>";
+		   						var no = "<input type = 'hidden' class='ub_no' value='" + data.ubl[i].ub_no + "'>";
+		   						var end = "</div>"
+		   						
+		   						$div = item + name + con + url + no + end;
+		   						
+								$divBody.append($div);
+								
+							}
+							
+							if(data.ubl.length < 4) {
+								
+								$(".url-list").css("height", "205px");
+								
+							}else {
+								
+								$(".url-list").css("height", "435px");
+							}
+							
+							if(data.ubl == "") {
+							
+								$(".map-list").hide();
+								$(".url-list").hide();
+								$(".intro").attr("style", "padding-bottom:15px;");
+								$(".title-area").append("<div class='tri' style='padding:0;'></div><div class='message'>"+ "북마크를 추가해 주세요." +"</div>");
+							
+							}else {
+								$(".url-list").show();
+								$(".message").remove();
+								$(".tri").remove();
+								
+							}
+							
+		    	    },
+		    	    error:function(request, status, errorData){
+                        alert("error code: " + request.status + "\n"
+                              +"message: " + request.responseText
+                              +"error: " + errorData);
+             		} 
+		    	 
+		    	});	
+				
+			}
+			
+			
+			// 지도 북마크 리스트 불러오기
+			function showBoookmarkMapList() {
+				$(".url-list").hide();
+				var bl_no = $(".clicked").prev().val();
+				
+				$.ajax({
+		    	    method: 'POST',
+		    	    url: 'selectBookmarkMapList.do',
+		    	    data: {'bl_no':bl_no},
+		    	    dataType:"json",
+		    	    success : function(data) {
+							console.log("data : " + data);
+							$(".tri").remove();
+							$(".message").remove();
+							
+	   						$divBody = $(".map-list");
+							$divBody.html("");
+	   						
+	   						var $div;
+	   						
+							for(var i in data.mbl){
+								
+								console.log(data.mbl[i]);
+							
+		   						var item = "<div class='map-item' id='"+ data.mbl[i].mb_no +"'>";
+		   						var name = "<span>" + data.mbl[i].mb_title + "</span>";
+		   						var phone = "<span>" + data.mbl[i].mb_phone + "</span>"
+		   						var no = "<input type = 'hidden' class='mb_no' value='" + data.mbl[i].mb_no + "'>";
+		   						var end = "</div>"
+		   						
+		   						$div = item + name + phone + no + end;
+		   						
+								$divBody.append($div);
+								
+							}
+							
+							if(data.mbl.length < 6) {
+								
+								$(".map-list").css("height", "130px");
+								
+							}else {
+								
+								$(".map-list").css("height", "210px");
+							}
+							
+							if(data.mbl == "") {
+								
+								$(".map-list").hide();
+								$(".intro").attr("style", "padding-bottom:15px;");
+								$(".title-area").append("<div class='tri' style='padding:0;'></div><div class='message'>"+ "북마크를 추가해 주세요." +"</div>");
+							
+							}else {
+								$(".map-list").show();
+								$(".message").remove();
+								$(".tri").remove();
+								
+							}
+							
+		    	    },
+		    	    error:function(request, status, errorData){
+                        alert("error code: " + request.status + "\n"
+                              +"message: " + request.responseText
+                              +"error: " + errorData);
+             		} 
+		    	 
+		    	});	
+				
+			}
+			
+			var mb_no;
+			var color;
+			
+			// 지도 북마크 클릭시
+			$(document).on('click', '.url-item', function(){
+				
+				mb_no = $(this).find(".mb_no").val();
+				color = $(".clicked").prev().prev().prev().prev().val();
+				
+				$(this).css("border-top", "3px solid" + color);
+				$(this).addClass("select-url");
+				
+				// 선택된 태그가 지금 선택된 것이 아닐시 색상 초기화 / select 클래스명 제거
+				$(".url-item").not($(this)).css("border-top", "3px solid #d5d5d5");
+				$(".url-item").not($(this)).removeClass("select-url");
+				
+				
+			});
+			
+			// 지도 북마크 클릭시
+			$(document).on('click', '.map-item', function(){ // 에이작스로 불러온 값에 click 이벤트가 먹지 않으면 이 형태로 사용
+				
+				
+				mb_no = $(this).find(".mb_no").val();
+				color = $(".clicked").prev().prev().prev().prev().val();
+				
+				console.log("find : " + color);
+				
+				// 선택된 북마크의 왼쪽 테두리 색 변경
+				$(this).css("border-left", "3px solid" + color);
+				$(this).addClass("select");
+					
+				$(".content-box-2").show();
+				
+				selectBookmarkMap(mb_no);
+				
+				
+				// 선택된 태그가 지금 선택된 것이 아닐시 색상 초기화 / select 클래스명 제거
+				$(".map-item").not($(this)).css("border-left", "3px solid #d5d5d5");
+				$(".map-item").not($(this)).removeClass("select");
+				
+			});
+			
+			// 선택한 북마크 내용 가져오기
+			function selectBookmarkMap(mb_no) {
+				
+				$.ajax({
+		    	    method: 'POST',
+		    	    url: 'selectBookmarkMap.do',
+		    	    data: {'mb_no':mb_no},
+		    	    dataType:"json",
+		    	    success : function(data) {
+						console.log("data : " + data);
+						
+						var add = data.mb_address;
+						var address = add.split("_");
+						
+						/* console.log("1 : " + address[0]+ " 2 : " + address[1]); */
+						
+						$(".mb_title_d").html(data.mb_title);
+						$(".mb_phone_d").html(data.mb_phone);
+						$(".mb_comment_d").html(data.mb_memo);
+						$(".mb_time_d").html(data.mb_time);
+						$(".mb_address_d").html(address[0] + ", " + address[1]);
+						
+						var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+					    mapOption = {
+					        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+					        level: 3 // 지도의 확대 레벨
+					    };
+						
+
+						// 지도를 생성합니다    
+						var map = new kakao.maps.Map(mapContainer, mapOption); 
+					
+						// 주소-좌표 변환 객체를 생성합니다
+						var geocoder = new kakao.maps.services.Geocoder();
+					
+						// 주소로 좌표를 검색합니다
+						geocoder.addressSearch(address[0] , function(result, status) {
+					
+						    // 정상적으로 검색이 완료됐으면 
+						     if (status === kakao.maps.services.Status.OK) {
+					
+						        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+					
+						        // 결과값으로 받은 위치를 마커로 표시합니다
+						        var marker = new kakao.maps.Marker({
+						            map: map,
+						            position: coords
+						        });
+					
+						        // 인포윈도우로 장소에 대한 설명을 표시합니다
+						        var infowindow = new kakao.maps.InfoWindow({
+						            content: '<div class="ma" style="width:150px; text-align:center; font-size:13px;">' + data.mb_title + '</div>'
+						        });
+						        
+						        infowindow.open(map, marker);
+					
+						        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+						        map.setCenter(coords);
+						    } 
+						});
+		    	    },
+		    	    error:function(request, status, errorData){
+                        alert("error code: " + request.status + "\n"
+                              +"message: " + request.responseText
+                              +"error: " + errorData);
+             		} 
+		    	 
+		    	});	
+				
+			}
+			
+			
+			
+			
+	        // 북마크 그룹 삭제 버튼 클릭시 실행
 	        function deleteBookmark() {
 	        	
 	        	var bl_no = $(".clicked").prev().val();
 	        	location.href="deleteBookmark.do?bl_no="+ bl_no;
 	        	
-	        	
 	        }
 	        
+	        // 북마크 그룹 편집 버튼 클릭시 실행 
 	        function editBookmark() {
 	        	
 				var bl_no = $(".clicked").prev().val();
@@ -565,21 +1138,12 @@
 	        }
 	        
 	        
-	        
 	        $(function(){
 				
 		        var responseMessage = "<c:out value="${message}" />";
 		        if (responseMessage != ""){alert(responseMessage)}
 		   
 		    });
-
-            // var container = document.getElementById('map');
-            // var options = {
-            //     center: new kakao.maps.LatLng(33.450701, 126.570667),
-            //     level: 3
-            // };
-
-            // var map = new kakao.maps.Map(container, options);
             
         </script>
         <jsp:include page="../common/footer.jsp"/>

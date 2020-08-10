@@ -239,7 +239,7 @@
    	   							$("#"+j+"half").find(".timeNo").val(no);
     	   					}
    	   						
-    	   					if(endMinute >= 30) {
+    	   					if(endMinute >= 31) {
     	   						$("#"+endHour).append("<input type='hidden' class='timeNo'>").css("background-color", data.ttList[i].color)
     	   									.css("border-top", "1px solid"+data.ttList[i].color).css("border-bottom", "1px solid"+data.ttList[i].color);
     	   						$("#"+endHour+"half").append("<input type='hidden' class='timeNo'>").css("background-color", data.ttList[i].color)
@@ -735,7 +735,7 @@
    	   							$("#"+j+"half").find(".timeNo").val(no);
     	   					}
    	   						
-    	   					if(endMinute >= 30) {
+    	   					if(endMinute >= 31) {
     	   						$("#"+endHour).append("<input type='hidden' class='timeNo'>").css("background-color", data.ttList[i].color)
     	   									.css("border-top", "1px solid"+data.ttList[i].color).css("border-bottom", "1px solid"+data.ttList[i].color);
     	   						$("#"+endHour+"half").append("<input type='hidden' class='timeNo'>").css("background-color", data.ttList[i].color)
@@ -817,6 +817,11 @@
     				$(this).next().val("N");
     			}
     		})
+    		
+    		$(".b-icons").click(function(){
+        		var color = $(this).prev().val();
+        		$("#ttColor").val(color);
+        	})
     	})
     </script>
     

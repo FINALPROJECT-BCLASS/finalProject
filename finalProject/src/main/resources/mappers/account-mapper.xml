@@ -25,10 +25,10 @@
 		<result property="sum" column="ABM_SUM"/>
 	</resultMap>
 	
-	<resultMap type="ExpCategory" id="ecResultSet">
-		<result property="no" column="AEC_NO"/>
-		<result property="title" column="AEC_TITLE"/>
-		<result property="sum" column="AB_SUM"/>
+	<resultMap type="AccountCategory" id="acResultSet">
+		<result property="no" column="NO"/>
+		<result property="title" column="TITLE"/>
+		<result property="sum" column="SUM"/>
 	</resultMap>
 
 	<insert id="insertAccountBook" parameterType="AccountBook">
@@ -143,8 +143,8 @@
 		GROUP BY EXTRACT(MONTH FROM AB_DATE)
 	</select>
 	
-	<select id="selectECList" parameterType="Condition" resultMap="ecResultSet">
-		SELECT B.AEC_NO "AEC_NO", AEC_TITLE, SUM(AB_AMOUNT) "AB_SUM"
+	<select id="selectECList" parameterType="Condition" resultMap="acResultSet">
+		SELECT B.AEC_NO "NO", AEC_TITLE "TITLE", SUM(AB_AMOUNT) "SUM"
 		FROM ACCOUNT_BOOK B
 		JOIN A_EXPENDITURE_CATEGORY E ON(B.AEC_NO=E.AEC_NO)
 		WHERE ID=#{id}
@@ -173,6 +173,19 @@
 				GROUP BY B.AEC_NO, AEC_TITLE
 		        ORDER BY AB_SUM DESC)
 		WHERE ROWNUM=1
+	</select>
+	
+	<select id="selectPCList" parameterType="Condition" resultMap="acResultSet">
+		SELECT B.APC_NO "NO", APC_TITLE "TITLE", SUM(AB_AMOUNT) "SUM"
+		FROM ACCOUNT_BOOK B
+		JOIN A_PROFIT_CATEGORY P ON(B.APC_NO=P.APC_NO)
+		WHERE ID=#{id}
+		    AND B.APC_NO!=0
+		    AND EXTRACT(YEAR FROM AB_DATE)=#{year}
+		    AND EXTRACT(MONTH FROM AB_DATE)=#{month}
+		    AND AB_DELETE='N'
+		    AND AB_VIEW = 'Y'
+		GROUP BY B.APC_NO, APC_TITLE
 	</select>
 
 </mapper>

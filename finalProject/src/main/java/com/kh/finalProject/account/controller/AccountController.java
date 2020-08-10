@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kh.finalProject.account.model.exception.AccountException;
 import com.kh.finalProject.account.model.service.AccountService;
 import com.kh.finalProject.account.model.vo.AccountBook;
+import com.kh.finalProject.account.model.vo.AccountCategory;
 import com.kh.finalProject.account.model.vo.Condition;
-import com.kh.finalProject.account.model.vo.ExpCategory;
 import com.kh.finalProject.account.model.vo.MSumCondition;
 import com.kh.finalProject.account.model.vo.MonthlySum;
 import com.kh.finalProject.account.model.vo.Sum;
@@ -308,10 +308,10 @@ public class AccountController {
 		
 	}
 	
-	@RequestMapping("msview.do")
+	@RequestMapping("esview.do")
 	public String MonthlyStatisticsView() {
 		
-		return "account/monthlyStatistics";
+		return "account/expenditureStatistics";
 	}
 	
 	@RequestMapping("eclist.do")
@@ -355,11 +355,11 @@ public class AccountController {
 			gap = "minus";
 		}
 		
-		ArrayList<ExpCategory> ecList = aService.selectECList(condition);
+		ArrayList<AccountCategory> ecList = aService.selectECList(condition);
 		
 		JSONArray jArr = new JSONArray();
 		
-		for(ExpCategory e : ecList) {
+		for(AccountCategory e : ecList) {
 			JSONObject jObj = new JSONObject();
 
 			jObj.put("year", condition.getYear());
@@ -402,6 +402,104 @@ public class AccountController {
 		sendJson.put("formatESum", formatESum);
 		
 		sendJson.put("ecList", jArr);
+		sendJson.put("maxExp", maxExp);
+		sendJson.put("gap", gap);
+		
+		String formatGap = String.format("%,d", gapAmount);
+		sendJson.put("gapAmount", formatGap);
+		
+		PrintWriter out = response.getWriter();
+		out.print(sendJson);
+		out.flush();
+		out.close();
+		
+	}
+	
+	@RequestMapping("psview.do")
+	public String ProfitStatisticsView() {
+		
+		return "account/profitStatistics";
+	}
+	
+	@RequestMapping("pclist.do")
+	public void proCategoryList(HttpSession session, HttpServletResponse response, String date) throws IOException {
+		response.setContentType("application/json;charset=utf-8");
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String id = loginUser.getId();
+		
+		String year = date.substring(0, 4);
+		String month = date.substring(5);
+		
+		condition.setId(id);
+		condition.setYear(year);
+		condition.setMonth(month);
+		
+		ArrayList<AccountBook> abPNoList = aService.selectAbPNoList(condition);
+		
+		ArrayList<AccountBook> abENoList = aService.selectAbENoList(condition);
+		
+		int pSum = 0;
+		for(int i = 0; i < abPNoList.size(); i++) {
+			pSum += aService.selectAbAmount(abPNoList.get(i).getAbNo());
+		}
+		
+		int eSum = 0;
+		for(int i = 0; i < abENoList.size(); i++) {
+			eSum += aService.selectAbAmount(abENoList.get(i).getAbNo());
+		}
+		
+		String maxExp = "";
+		if(eSum > pSum) {
+			maxExp = aService.getOverrun(condition);			
+		}
+		
+		int gapAmount = pSum - eSum;
+		String gap = "";
+		if(gapAmount > 0) {
+			gap = "plus";
+		} else {
+			gap = "minus";
+		}
+		
+		ArrayList<AccountCategory> pcList = aService.selectPCList(condition);
+		
+		JSONArray jArr = new JSONArray();
+		
+		for(AccountCategory p : pcList) {
+			JSONObject jObj = new JSONObject();
+
+			jObj.put("year", condition.getYear());
+			jObj.put("month", condition.getMonth());
+			
+			switch(p.getNo()) {
+				case 1: jObj.put("category", "monthly"); break;
+				case 2: jObj.put("category", "weekly"); break;
+				case 3: jObj.put("category", "daily"); break;
+				case 4: jObj.put("category", "allowance"); break;
+				case 5: jObj.put("category", "over"); break;
+				case 6: jObj.put("category", "withdrawal"); break;
+				case 7: jObj.put("category", "etc"); break;
+				default: System.out.println("해당 사항 없음"); break;
+			}
+			
+			jObj.put("title", p.getTitle());
+			jObj.put("amount", p.getSum());
+			
+			jArr.add(jObj);
+		}
+		
+		JSONObject sendJson = new JSONObject();
+		
+		String formatPSum = String.format("%,d", pSum);
+		sendJson.put("pSum", pSum);
+		sendJson.put("formatPSum", formatPSum);
+		
+		String formatESum = String.format("%,d", eSum);
+		sendJson.put("eSum", eSum);
+		sendJson.put("formatESum", formatESum);
+		
+		sendJson.put("pcList", jArr);
 		sendJson.put("maxExp", maxExp);
 		sendJson.put("gap", gap);
 		

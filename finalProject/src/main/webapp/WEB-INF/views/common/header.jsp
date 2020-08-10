@@ -51,7 +51,8 @@
 	                <li>Account
 	                	<ul class="sub-navi">
 	                        <li><a href="${loginView}">Monthly Record</a></li>
-	                        <li><a href="${loginView}">Monthly Statistics</a></li>
+	                        <li><a href="${loginView}">Profit Statistics</a></li>
+	                        <li><a href="${loginView}" style="padding: 15px 5px;">Expenditure Statistics</a></li>
 	                        <li class="b-radius"><a href="${loginView}">Yealy Statistics</a></li>
 	                    </ul>
 	                </li>
@@ -99,8 +100,10 @@
 		                	<ul class="sub-navi">
 		                    	<c:url var="mrview" value="mrview.do"/>		
 		                        <li><a href="${mrview }">Monthly Record</a></li>
-		                        <c:url var="msview" value="msview.do"/>
-		                        <li><a href="${msview }">Monthly Statistics</a></li>
+		                        <c:url var="psview" value="psview.do"/>
+		                        <li><a href="${psview }">Profit Statistics</a></li>
+		                        <c:url var="esview" value="esview.do"/>
+		                        <li><a href="${esview }" style="padding: 15px 5px;">Expenditure Statistics</a></li>
 		                        <c:url var="ysview" value="ysview.do"/>
 		                        <li class="b-radius"><a href="${ysview }">Yealy Statistics</a></li>
 		                    </ul>

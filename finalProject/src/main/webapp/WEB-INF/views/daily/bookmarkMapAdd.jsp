@@ -267,12 +267,13 @@
 	<jsp:include page="../common/sidenaviDaily.jsp"/>
     <div class="right-area">
        <div style="width: 70%;">
-            <form action="addBookmarkMap.do">
+            <form id="insertMap" action="addBookmarkMap.do">
                 <span class="pSubject">Add Map</span>
+                <input type="hidden" id="bl_no" name="bl_no" value="${bl_no }">
                 <table cellpadding="6px">
                     <tr>
                         <td>Name</td>
-                        <td><input type="text" name="mb_title" id="mb_title" placeholder="저장할 장소의 이름을 입력해 주세요."></td>
+                        <td><input type="text" name="mb_title" id="mb_title" placeholder="저장할 장소의 이름을 입력해 주세요." required></td>
                     </tr>
                     <tr>
                         <td>Tell</td>
@@ -290,7 +291,7 @@
                         <td>Address</td>
                         <td>
                         	<input type="hidden" name="postcode" id="postcode" style="margin-bottom: 13px;" >
-                            <input type="text" name="mainAddress" id="mainAddress" style="margin-bottom: 13px;" >
+                            <input type="text" name="mainAddress" id="mainAddress" style="margin-bottom: 13px;" required>
                             <input type="text" name="subAddress" id="subAddress" style="margin-right: 5px; width: 74%;" >
                             <button type="button" class="default-btn b-yell" onclick="searchAddress();">Search</button><br> 
                           
@@ -316,14 +317,13 @@
 	                		</form>
 		        		</div>
 		    		</div>
-		     		<hr>
 		        	<ul id="placesList"></ul>
 		        	<div id="pagination"></div>
 		    	</div>
 			</div>
 			<div class="button-area">
             <button type="button" onclick="history.go(-1)">Back</button>
-            <button type="button" onclick="">Save</button>
+            <button type="button" onclick="insertMap();">Save</button>
         </div>
         </div>
         
@@ -335,6 +335,12 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a5165e87a2b10b900ab474145bc13247&libraries=services"></script>
 
     <script>
+    
+    	function insertMap() {
+    		
+    		$("#insertMap").submit();
+    		
+    	}
     
     
     	function openMapSearch() {
@@ -389,6 +395,8 @@
 	                document.getElementById("mainAddress").value = addr;
 	                // 커서를 상세주소 필드로 이동한다.
 	                document.getElementById("subAddress").focus();
+	                
+	                
 
 	                
 	            }
@@ -490,17 +498,17 @@
 	                    displayInfowindow(marker, title);
 	                });
 
-	                kakao.maps.event.addListener(marker, 'mouseout', function() {
+	                kakao.maps.event.addListener(marker, 'click', function() {
 	                    infowindow.close();
 	                });
 
-	                itemEl.onmouseover =  function () {
+	                itemEl.onclick =  function () {
 	                    displayInfowindow(marker, title);
 	                };
 
-	                itemEl.onmouseout =  function () {
+	                /* itemEl.onmouseout =  function () {
 	                    infowindow.close();
-	                };
+	                }; */
 	            })(marker, places[i]);//ㅗ
 
 	            fragment.appendChild(itemEl);
@@ -606,6 +614,9 @@
 	        console.log("주소" + title.address_name);
 	        
 	        $("#mainAddress").val(title.address_name);
+	        $("#subAddress").val(title.place_name);
+	        $("#mb_phone").val(title.phone);
+	        
 	        
 	        infowindow.setContent(content);
 	        infowindow.open(map, marker);
