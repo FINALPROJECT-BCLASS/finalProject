@@ -78,6 +78,12 @@ public interface DailyService {
 
 	int insertBookmarkUrl(BookmarkUrl ub);
 
+	BookmarkUrl selectBookmarkUrl(BookmarkUrl bu);
+
+	int updateBookmarkUrl(BookmarkUrl bu);
+
+	int deleteBookmarkUrl(BookmarkUrl bu);
+
 
 
 }

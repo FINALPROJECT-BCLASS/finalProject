@@ -113,9 +113,10 @@
         }
 
         .content-area {
-            float: left;
-            display: flex;
-            flex-direction: column;
+        	width: 28.4%;
+		    float: left;
+		    display: flex;
+		    flex-direction: column;
         }
 
         .content-item {
@@ -126,7 +127,7 @@
 		    padding: 10px;
 		    height: 40px;
 		    margin-bottom: 10px;
-		    width: 292px;
+		    width: 100%;
 		    background-color: #f3f3f3;
 		    border-radius: 5px;
         }
@@ -134,12 +135,13 @@
         .map-area {
             float: right;
             display: flex;
+            width: 70%;
             flex-direction: column;
         }
 
         .map-area > div {
             height: 370px;
-            width: 717px;
+            width: 100%;
             padding:10px;
             border-radius: 5px;
             background-color: #f3f3f3;
@@ -295,15 +297,22 @@
             display: flex;
 		    flex-direction: column;
 		    justify-content: center;
-		    width: 320px;
-		    height: 155px;
+		    width: 32%;
 		    margin-right: 15px;
 		    margin-bottom: 15px;
 		    background: white;
 		    border: 1px solid #f3f3f3;
 		    border-top: 3px solid #d5d5d5;
 		    align-items: start;
-		    padding-left: 18px;
+		    padding: 18px;
+        }
+        
+        .url-item > * {
+            word-break: break-all;
+		    word-wrap: break-word;
+		    text-align: left;
+		    width: 91%;
+		    font-size: 14px;
         }
 
         .url-info {
@@ -317,7 +326,24 @@
         }
         
         .url-item > span:nth-child(2) {
-    		font-size: 14px;
+   		   	font-size: 14px;
+		    width: 100%;
+		    height: 90px;
+		    /* height: 45%; */
+		    margin: 10px 0;
+		    border-radius: 8px;
+		    background: #f3f3f3;
+		    overflow-y: scroll;
+		    border: 10px solid #f3f3f3;
+        }
+        
+        .url-item > span:nth-child(2)::-webkit-scrollbar {
+  		  	display: none; 
+		}
+        
+        .url-item > span:nth-child(3) {
+       	    display: flex;
+    		align-items: center;
         }
 
         .url-list > div:nth-child(3n) {
@@ -543,6 +569,14 @@
 		    }
 		}
 		
+		.select-url {
+		
+		}
+		
+		.de {
+			font-size:15px !important;
+			margin-right: 8px;
+		}
 	
 
 
@@ -616,9 +650,9 @@
 	            </div>
 	            <div class="content-box url-list">
 	                <div class="url-item">
-	                    <span>제목?</span>
-	                    <span>내용?</span>
-	                    <span>링크?</span>
+	                    <span></span>
+	                    <span></span>
+	                    <span></span>
 	                </div>
 	            </div>
             </div>
@@ -652,11 +686,16 @@
 					// 왜 안 됨?
 					if('${mbNum}'){
 						/* $("#${mbNum}").click(); */
-						/* $("#${mbNum}").trigger("click"); */
+						$("#${mbNum}").trigger("click");
 						/* 	$(document).on("click", '#${mbNum}'); */
+					}else if('${ubNum}'){
+						$("#${ubNum}").trigger("click");
+						
 					}
 					
 				}
+				
+				
 				
 			});
 			
@@ -688,8 +727,9 @@
 				bl_type = $(".clicked").prev().prev().val();
 				
 				var mb_no = $(".select").find(".mb_no").val();
+				var ub_no = $(".select-url").find(".ub_no").val();
 				
-				if(mb_no != undefined) {
+				if(mb_no != undefined || ub_no != undefined) {
 					
 					if(bl_type == "map") {
 						
@@ -719,7 +759,29 @@
 						
 					} else {
 					
-					/* location.href='editBookmarkUrlView.do?mb_no='+ mb_no; */
+						if(!confirm('정말 삭제하시겠습니까?')){
+							return false;
+						}else{
+							$.ajax({
+					    	    method: 'POST',
+					    	    url: 'deleteBookmarkUrl.do',
+					    	    data: {'bl_no':bl_no, 'ub_no':ub_no},
+					    	    success : function(data) {
+										
+					    	    	if(data == "success"){
+					    	    		$("."+bl_no).next().trigger("click");
+					    	    	}else {
+					    	    		alert("삭제 실패, 다시 시도해 주세요."); 
+					    	    	}
+					    	    	
+					    	    },
+					    	    error:function(request, status, errorData){
+			                        alert("error code: " + request.status + "\n"
+			                              +"message: " + request.responseText
+			                              +"error: " + errorData);
+			             		} 
+					    	});	
+						}
 						
 					}
 				
@@ -738,11 +800,12 @@
 				bl_type = $(".clicked").prev().prev().val();
 				
 				var mb_no = $(".select").find(".mb_no").val();
+				var ub_no = $(".select-url").find(".ub_no").val();
 				
 				console.log("북마크 번호 : " + mb_no);
 				console.log("북마크 타입 : " + bl_type);
 				
-				if(mb_no != undefined) {
+				if(mb_no != undefined || ub_no != undefined) {
 					
 					if(bl_type == "map") {
 						
@@ -750,7 +813,7 @@
 						
 					} else {
 						
-						/* location.href='editBookmarkUrlView.do?mb_no='+ mb_no; */
+						location.href='editBookmarkUrlView.do?ub_no='+ ub_no;
 						
 					}
 				
@@ -827,8 +890,8 @@
 		   						var item = "<div class='url-item' id='"+ data.ubl[i].ub_no +"'>";
 		   						var name = "<span>" + data.ubl[i].ub_title + "</span>";
 		   						var con = "<span>" + data.ubl[i].ub_con + "</span>";
-		   						var url = "<a href='"+data.ubl[i].ub_url+"'>" + data.ubl[i].ub_url + "</a>";
-		   						var no = "<input type = 'hidden' class='mb_no' value='" + data.ubl[i].ub_no + "'>";
+		   						var url = "<span><span class='material-icons de'>link</span> <a class='link' href='"+data.ubl[i].ub_url+"'>" + data.ubl[i].ub_url + "</a><div class='message'></div></span>";
+		   						var no = "<input type = 'hidden' class='ub_no' value='" + data.ubl[i].ub_no + "'>";
 		   						var end = "</div>"
 		   						
 		   						$div = item + name + con + url + no + end;
@@ -843,7 +906,7 @@
 								
 							}else {
 								
-								$(".url-list").css("height", "420px");
+								$(".url-list").css("height", "435px");
 							}
 							
 							if(data.ubl == "") {
@@ -884,7 +947,7 @@
 		    	    dataType:"json",
 		    	    success : function(data) {
 							console.log("data : " + data);
-							$(".tri").remove();	
+							$(".tri").remove();
 							$(".message").remove();
 							
 	   						$divBody = $(".map-list");
@@ -941,12 +1004,31 @@
 				
 			}
 			
+			var mb_no;
+			var color;
+			
+			// 지도 북마크 클릭시
+			$(document).on('click', '.url-item', function(){
+				
+				mb_no = $(this).find(".mb_no").val();
+				color = $(".clicked").prev().prev().prev().prev().val();
+				
+				$(this).css("border-top", "3px solid" + color);
+				$(this).addClass("select-url");
+				
+				// 선택된 태그가 지금 선택된 것이 아닐시 색상 초기화 / select 클래스명 제거
+				$(".url-item").not($(this)).css("border-top", "3px solid #d5d5d5");
+				$(".url-item").not($(this)).removeClass("select-url");
+				
+				
+			});
+			
 			// 지도 북마크 클릭시
 			$(document).on('click', '.map-item', function(){ // 에이작스로 불러온 값에 click 이벤트가 먹지 않으면 이 형태로 사용
 				
 				
-				var mb_no = $(this).find(".mb_no").val();
-				var color = $(".clicked").prev().prev().prev().prev().val();
+				mb_no = $(this).find(".mb_no").val();
+				color = $(".clicked").prev().prev().prev().prev().val();
 				
 				console.log("find : " + color);
 				

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dailyMapper">
 
 	<resultMap type="Habit" id="habitResultSet">
@@ -421,5 +421,30 @@
 				, 0
 				, 'N')
 	</insert>
+	
+	<select id="selectBookmarkUrl" parameterType="BookmarkUrl" resultMap="BookmarkUrlResultSet">
+		SELECT *
+		FROM URL_BOOKMARK
+		WHERE ID = #{id}
+		AND UB_NO = #{ub_no}
+		AND UB_DELETE = 'N'
+	</select>
+	
+	<update id="updateBookmarkUrl" parameterType="BookmarkUrl">
+		UPDATE URL_BOOKMARK
+		SET UB_TITLE = #{ub_title}
+			, UB_CON = #{ub_con}
+			, UB_URL = #{ub_url}
+		WHERE ID = #{id}
+		AND UB_NO = #{ub_no}
+	</update>
+	
+	<update id="deleteBookmarkUrl" parameterType="BookmarkUrl">
+		UPDATE URL_BOOKMARK
+		SET UB_DELETE = 'Y'
+		WHERE ID = #{id}
+		AND UB_NO = #{ub_no}
+	</update>
+	
 	
 </mapper>

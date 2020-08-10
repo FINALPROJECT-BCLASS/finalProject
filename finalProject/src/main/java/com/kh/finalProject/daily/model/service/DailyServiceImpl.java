@@ -217,7 +217,7 @@ public class DailyServiceImpl implements DailyService {
 	@Override
 	public ArrayList<BookmarkUrl> selectBookmarkUrlList(BookmarkUrl bu) {
 
-		return dailyDao.selectBookmarkUrl(bu);
+		return dailyDao.selectBookmarkUrlList(bu);
 	}
 
 	@Override
@@ -225,6 +225,25 @@ public class DailyServiceImpl implements DailyService {
 
 		return dailyDao.insertBookmarkUrl(ub);
 	}
+
+	@Override
+	public BookmarkUrl selectBookmarkUrl(BookmarkUrl bu) {
+
+		return dailyDao.selectBookmarkUrl(bu);
+	}
+
+	@Override
+	public int updateBookmarkUrl(BookmarkUrl bu) {
+
+		return dailyDao.updateBookmarkUrl(bu);
+	}
+
+	@Override
+	public int deleteBookmarkUrl(BookmarkUrl bu) {
+
+		return dailyDao.deleteBookmarkUrl(bu);
+	}
+
 
 
 
