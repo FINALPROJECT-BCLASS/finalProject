@@ -62,10 +62,10 @@
             <c:if test="${!empty sessionScope.loginUser }">
             	<c:if test="${sessionScope.loginUser.id eq 'admin' }">
             		<ul class = "navi-area">
-            			<c:url var="managemview" value="managemview.do"/>
-		                <li><a href="${managemview }">Member</a></li>
-		                <c:url var="managerview" value="managerview.do"/>
-		                <li><a href="${managerview }">Report</a></li>
+            			<c:url var="memberlist" value="memberlist.do"/>
+		                <li><a href="${memberlist }">Member</a></li>
+		                <c:url var="reportlist" value="reportlist.do"/>
+		                <li><a href="${reportlist }">Report</a></li>
 		            </ul>
             	</c:if>
 	            <c:if test="${sessionScope.loginUser.id ne 'admin' }">
@@ -82,10 +82,11 @@
 		                </li>
 		                <li>Daily
 		                    <ul class="sub-navi">
-		                    	<c:url var="htlist" value="htList.do"/>
 			                    <li><a href="#">Daily Record</a></li>
-			                    <li><a href="${htlist }">Habit Tracker</a></li>
-			                    <li class="b-radius"><a href="#">Bookmark</a></li>
+		                    	<c:url var="htview" value="htList.do"/>
+			                    <li><a href="${htview }">Habit Tracker</a></li>
+		                    	<c:url var="bmview" value="bookmarkView.do"/>
+			                    <li class="b-radius"><a href="${bmview }">Bookmark</a></li>
 		                    </ul>
 		                </li>
 		                <li>Diet

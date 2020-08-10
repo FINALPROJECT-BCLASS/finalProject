@@ -3,6 +3,8 @@ package com.kh.finalProject.group.model.service;
 import java.util.ArrayList;
 
 import com.kh.finalProject.group.common.PageInfo;
+import com.kh.finalProject.group.model.vo.GroupAccount;
+import com.kh.finalProject.group.model.vo.GroupAccountMember;
 import com.kh.finalProject.group.model.vo.GroupBoard;
 import com.kh.finalProject.group.model.vo.GroupBoardPhoto;
 import com.kh.finalProject.group.model.vo.GroupInfo;
@@ -173,6 +175,40 @@ public interface GroupService {
 	int planDelete(GroupPlan gp);
 
 	ArrayList<Member> searchNameAccount(GroupSearchName gSearch);
+
+	ArrayList<GroupAccount> selectProList(GroupInfo gInfo);
+
+	ArrayList<GroupAccount> selectExeList(GroupInfo gInfo);
+
+	ArrayList<GroupAccount> selectFeeList(GroupInfo gInfo);
+
+	GroupAccount selectTotalProList(GroupAccount ga);
+
+	GroupAccount selectTotalExeList(GroupAccount ga);
+
+	GroupAccount selectTotalFeeList(GroupAccount ga);
+
+	int insertAccount(GroupAccount ga);
+
+	int gaCurrval();
+
+	int insertAccountMember(ArrayList<GroupAccountMember> gamList);
+
+	GroupAccount selectGa(String gaNo);
+
+	ArrayList<GroupAccountMember> selectGam(String gaNo);
+
+	int selectTotalGa(String gaNo);
+
+	ArrayList<GroupAccount> selectCheckList(GroupInfo gInfo);
+
+	ArrayList<GroupAccountMember> selectMemberCheckList(GroupInfo gInfo);
+
+	int updateSharing(String gaNo);
+
+	int checkGam(GroupAccountMember gam);
+
+	int deleteAccount(String gaNo);
 
 
 	

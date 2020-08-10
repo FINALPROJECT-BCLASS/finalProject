@@ -32,6 +32,8 @@
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupReply" alias="GroupReply"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupReReply" alias="GroupReReply"/>
 		<typeAlias type="com.kh.finalProject.group.model.vo.GroupVote" alias="GroupVote"/>
+		<typeAlias type="com.kh.finalProject.group.model.vo.GroupAccount" alias="GroupAccount"/>
+		<typeAlias type="com.kh.finalProject.group.model.vo.GroupAccountMember" alias="GroupAccountMember"/>
 
 		<typeAlias type="com.kh.finalProject.daily.model.vo.Habit" alias="Habit"/>
 		<typeAlias type="com.kh.finalProject.daily.model.vo.HabitRecord" alias="HabitRecord"/>
@@ -48,8 +50,11 @@
 		<typeAlias type="com.kh.finalProject.chat.model.vo.openChat" alias="openChat"/>
 		
 		<typeAlias type="com.kh.finalProject.memo.model.vo.Memo" alias="Memo"/>	<!-- 예지 -->
-
-
+		
+		<typeAlias type="com.kh.finalProject.manager.model.vo.Report" alias="Report"/>			<!-- 예지 -->
+		<typeAlias type="com.kh.finalProject.manager.model.vo.RPageInfo" alias="RPageInfo"/>	<!-- 예지 -->
+		
+		<typeAlias type="com.kh.finalProject.daily.model.vo.Bookmark" alias="Bookmark"/>
 	</typeAliases>
 
 	<mappers>
@@ -61,6 +66,7 @@
 		<mapper resource="/mappers/chat-mapper.xml"/>
 		<mapper resource="/mappers/account-mapper.xml"/>	<!-- 예지 -->
 		<mapper resource="/mappers/memo-mapper.xml"/>		<!-- 예지 -->
+		<mapper resource="/mappers/manager-mapper.xml"/>	<!-- 예지 -->
 	</mappers>
 	
 </configuration>
