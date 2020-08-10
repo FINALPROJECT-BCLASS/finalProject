@@ -11,6 +11,7 @@
     <script src="resources/js/ladder/jquery-2.1.3.min.js"></script>
 <title>Insert title here</title>
 <meta http-equiv="Content-Type" content="text/html; charset=euc-kr">
+
 <script language="javascript" type="text/javascript">
 var Yl = {
  getEl : function(strId){
@@ -28,10 +29,10 @@ var Yl = {
   return d;
  }
  ,arrColor : [
-  '#FBD14B','#ffd571','#bbd196','#56556e','#3c2946'
-  ,'#00a0c2','#8d3901','#8f0197','#156200','#9ca53b'
-  ,'#c9a601','#d6006d','#01b6de','#80adaf','#a44201'
-  ,'#e0b800','#ec0078','#0021b0','#92b7d7','#013add'
+  '#ffd571','#838383','#cee397','#d291bc','#c7b198'
+  ,'#ffb6b6','#d8b9c3','#8f0197','#ffd3b6','#93b5e1'
+  ,'#f7e7bd','#dddddd','#d9adad','#c3aed6','#848ccf'
+  ,'#e0b800','#93b5e1','#0021b0','#92b7d7','#827397'
   ]  
  ,arrVerDiv : [] //수직 선 div
  ,arrHorDiv : [] //수평 선 div
@@ -42,7 +43,7 @@ var Yl = {
   
  ,nMaxWidth : 1000 //최고 넓이
  ,nWidth : 0 //사다리 넓이
- ,nHeight : 500 //사다리 높이
+ ,nHeight : 300 //사다리 높이
  
  ,nNum : 0
  
@@ -62,16 +63,17 @@ var Yl = {
  
    this.arrTopDiv[i] = this.getDiv(this.nWidth+"px", "50px", "");
    this.arrBotDiv[i] = this.getDiv(this.nWidth+"px", "50px", "");
-   this.arrGoDiv[i] = this.getDiv(this.nWidth+"px", "30px", "");
+   this.arrGoDiv[i] = this.getDiv(this.nWidth+"px", "50px", "");
                      
    this.arrTopDiv[i].style.left = (i*this.nWidth)+"px";
-   this.arrTopDiv[i].style.top = "20px";
+   this.arrTopDiv[i].style.top = "50px";
+   
    
    this.arrBotDiv[i].style.left = (i*this.nWidth)+"px";
    this.arrBotDiv[i].style.top = "410px";
    
    this.arrGoDiv[i].style.left = (i*this.nWidth)+"px";
-   this.arrGoDiv[i].style.top = "70px";
+   this.arrGoDiv[i].style.top = "50px";
    
    this.arrTopDiv[i].style.fontSize="12px";
    this.arrBotDiv[i].style.fontSize="12px";
@@ -82,8 +84,8 @@ var Yl = {
    this.arrTopDiv[i].align = "center";
    this.arrBotDiv[i].align = "center";
    this.arrGoDiv[i].align = "center";
-   this.arrTopDiv[i].innerHTML = (i+1)+'<br><input type="text" id="inp_top_'+i+'" value="" style="width:90%" tabindex="'+(i+1)+'" />';
-   this.arrBotDiv[i].innerHTML = '<input type="text" id="inp_bot_'+i+'" value="" style="width:90%" tabindex="'+((i+1)+50)+'" />';
+   this.arrTopDiv[i].innerHTML = (i+1)+'<br><input type="text" id="inp_top_'+i+'" class="noBottom" value="" style="width:90%" tabindex="'+(i+1)+'" />';
+   this.arrBotDiv[i].innerHTML = '<input type="text" id="inp_bot_'+i+'" class="inp_bot" value="" style="width:90%" tabindex="'+((i+1)+50)+'" />';
    this.getEl("div_body").appendChild(this.arrTopDiv[i]);  
    this.getEl("div_body").appendChild(this.arrBotDiv[i]);
    this.getEl("div_body").appendChild(this.arrGoDiv[i]);  
@@ -108,7 +110,7 @@ var Yl = {
    
    this.arrTopDiv[i].innerHTML = (i+1)+"<br>"+this.getEl("inp_top_"+i).value;
    this.arrBotDiv[i].innerHTML = this.getEl("inp_bot_"+i).value;
-   this.arrGoDiv[i].innerHTML = '<input type="button" value="GO" onClick="Yl.start('+i+')">';
+   this.arrGoDiv[i].innerHTML = '<input type="button" class="goBtn" value="Start" onClick="Yl.start('+i+')">';
       
    this.arrTopDiv[i].style.overflow = "auto";
    this.arrBotDiv[i].style.overflow = "auto";
@@ -132,7 +134,7 @@ var Yl = {
    this.getEl("div_body").appendChild(this.arrHorDiv[nLen]);    
   }
   
-  this.getEl("div_step2").innerHTML = "GO 버튼을 눌러 주세요.";
+  this.getEl("div_step2").innerHTML = "Start 버튼을 눌러 주세요.";
   
  }
  ,sRndTop : ""
@@ -292,7 +294,7 @@ var Yl = {
       
       this.arrBotDiv[i].innerHTML = "<b>"+(pno+1)+"</b><br>"+this.arrBotDiv[i].innerHTML;
             
-      this.arrGoDiv[pno].innerHTML = '<input type="button" value="확인" onClick="Yl.start('+pno+')">';
+      this.arrGoDiv[pno].innerHTML = '<input type="button" value="Check" class="goBtn" onClick="Yl.start('+pno+')">';
       
       break;
      }
@@ -302,7 +304,7 @@ var Yl = {
  }
 };
 //F5 새로고침 막기
-document.onkeydown = function(e){
+ document.onkeydown = function(e){
  if(!e) e = window.event;
  if (e.keyCode == 116){
   if( confirm("새로 고침 하시겠습니까?") ){
@@ -311,12 +313,19 @@ document.onkeydown = function(e){
    return false;
   }
  }
-}
+} 
 </script>
 <style>
-	.game-area{
-	margin-left:300px;
-	}
+	.join-form-area{padding-top:150px !important;position:relative; float: right;display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 40px; width: 81%; background: #F3F3F3; }
+	.inp_bot{background: #F3F3F3; border-radius:6px; height:35px;  border-bottom:none !important;}
+	.goBtn{width:100px; border-radius:6px; padding:0px !important;  height:35px; color:gray;  border-bottom:none !important;}
+	.goBtn:hover{width:100px; border-radius:6px; background:#FBD14B; padding:0px !important;  height:35px; color:gray;  border-bottom:none !important;}
+	.game-area{	}
+	.startBtn{ display:inline-block; border-radius:6px; margin:10px 0px 10px 0px; background:#FBD14B; border:none; color:white; font-size:15px;}
+	#div_step2{margin-bottom:10px; color:gray;}
+	#div_step1{color:gray;}
+	#sel_num{width:50px; height:35px; border-radius:6px; color:gray;}
+	.noBottom{border:none !important;}
 </style>
 </head>
 <body>
@@ -329,10 +338,12 @@ document.onkeydown = function(e){
 			<jsp:include page="../common/sidenaviGroup.jsp"/>
 		</c:if>
 		
+		 <div class="join-form-area">
+			<jsp:include page="../common/groupNoticeHeader.jsp"/>
 		<div class="game-area">
 	  <div id="div_step1" style="font-size:12px;">
  
-갯수 선택
+갯수 선택 &nbsp;
 <select id="sel_num">
  <option value="2">2</option>
  <option value="3">3</option>
@@ -354,16 +365,18 @@ document.onkeydown = function(e){
  <option value="19">19</option>
  <option value="20">20</option>
 </select>
-개
-<input type="button" value="만들기" onclick="Yl.init();">
+<br>
+<input type="button" value="Create" class="startBtn" onclick="Yl.init();">
 </div>
 
 <div id="div_step2" style="font-size:12px;display:none;">
- 입력후 게임 시작 <input type="button" value="시작" onclick="Yl.create();">
+ 입력 후 'Start'을 눌러주세요 <br>
+<input type="button" class="startBtn" value="Start" onclick="Yl.create();">
+
 </div>
  
-<div id="div_body" style="width:1000px;height:450px;border:1px solid #CCCCCC;position:relative;"></div>
+<div id="div_body" style="width:1000px;height:450px; background:white; border-radius:6px;position:relative;"></div>
     </div>
-   
+   </div>
 </body>
 </html>

@@ -2074,6 +2074,8 @@ public class GroupController {
 			Member loginUser = (Member) session.getAttribute("loginUser");
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 			GroupTable gt = gService.selectOneGroup(gInfo);
+			GroupNotice noticeList = gService.selectNoticeOne(gInfo);
+			mv.addObject("noticeList",noticeList);
 			mv.addObject("gInfo",gInfo);
 			mv.addObject("groupTable",gt);
 			mv.setViewName("group/GLadderMain");
