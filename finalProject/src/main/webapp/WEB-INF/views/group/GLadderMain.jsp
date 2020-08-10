@@ -365,7 +365,7 @@ var Yl = {
  <option value="19">19</option>
  <option value="20">20</option>
 </select>
-<br>
+<br> 
 <input type="button" value="Create" class="startBtn" onclick="Yl.init();">
 </div>
 
