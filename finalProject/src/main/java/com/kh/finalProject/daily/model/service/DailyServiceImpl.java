@@ -10,6 +10,7 @@ import com.kh.finalProject.daily.model.dao.DailyDao;
 import com.kh.finalProject.daily.model.vo.Bookmark;
 import com.kh.finalProject.daily.model.vo.BookmarkMap;
 import com.kh.finalProject.daily.model.vo.BookmarkUrl;
+import com.kh.finalProject.daily.model.vo.DailyRecord;
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
 import com.kh.finalProject.daily.model.vo.HabitSum;
@@ -242,6 +243,12 @@ public class DailyServiceImpl implements DailyService {
 	public int deleteBookmarkUrl(BookmarkUrl bu) {
 
 		return dailyDao.deleteBookmarkUrl(bu);
+	}
+
+	@Override
+	public ArrayList<DailyRecord> selectDailyRecordList(String id) {
+
+		return dailyDao.selectDailyRecordList(id);
 	}
 
 

@@ -29,6 +29,7 @@ import com.kh.finalProject.daily.model.service.DailyService;
 import com.kh.finalProject.daily.model.vo.Bookmark;
 import com.kh.finalProject.daily.model.vo.BookmarkMap;
 import com.kh.finalProject.daily.model.vo.BookmarkUrl;
+import com.kh.finalProject.daily.model.vo.DailyRecord;
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
 import com.kh.finalProject.daily.model.vo.HabitSum;
@@ -1380,6 +1381,22 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 	    	out.flush();
 	    	out.close();
 	    }
+	}
+	
+	
+	@RequestMapping("dailyRecordView.do")
+	public String dailyRecordView(Model model, HttpServletRequest request, HttpServletResponse response) {
+		
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		ArrayList<DailyRecord> drlist = dailyService.selectDailyRecordList(id);
+		
+		System.out.println("drlist : " + drlist);
+		
+		
+		return null;
 	}
 	
 }

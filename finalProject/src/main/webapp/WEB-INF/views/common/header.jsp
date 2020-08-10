@@ -83,7 +83,8 @@
 		                </li>
 		                <li>Daily
 		                    <ul class="sub-navi">
-			                    <li><a href="#">Daily Record</a></li>
+		                    	<c:url var="drview" value="dailyRecordView.do"/>
+			                    <li><a href="${drview }">Daily Record</a></li>
 		                    	<c:url var="htview" value="htList.do"/>
 			                    <li><a href="${htview }">Habit Tracker</a></li>
 		                    	<c:url var="bmview" value="bookmarkView.do"/>

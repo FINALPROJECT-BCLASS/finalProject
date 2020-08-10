@@ -22,7 +22,7 @@
         /* Table */
 
         .board-table {
-            margin: 30px auto;
+            margin: 9px auto;
             margin-bottom: 50px;
             width: 700px;
             border-top: 1px solid #484848;
@@ -149,6 +149,20 @@
             display: inline-block;
             vertical-align: middle;
         }
+        
+        .button-area {
+            display: flex;
+            justify-content: flex-end;
+	    }
+	    
+	    .button-area > button {
+            border: none;
+            height: 40px;
+            background: none;
+            font-size: 23px;
+            font-weight: 700;
+            color: #484848;
+        }
 
     </style>
 </head>
@@ -158,6 +172,10 @@
     <div class="right-area">
         <div class="daily-record-area">
             <span class="pSubject">Daily Record</span>
+            <div class="button-area">
+                    <button>Add</button>
+                    <button>Delete</button>
+             </div>
             <table class="board-table" cellpadding="8px">
                 <thead>
                     <tr>
@@ -169,20 +187,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>1</td>
-                        <td><div class="board-image-area"></div></td>
-                        <td><a href="#">다이어트중?다이어트중?다이어트중?다이어트중?다이어트중?</a></td>
-                        <td>20/07/09</td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>1</td>
-                        <td><div class="board-image-area"></div></td>
-                        <td><a href="#">다이어트중?다이어트중?다이어트중?다이어트중?다이어트중?</a></td>
-                        <td>20/07/09</td>
-                    </tr>
                     <tr>
                         <td><input type="checkbox"></td>
                         <td>1</td>

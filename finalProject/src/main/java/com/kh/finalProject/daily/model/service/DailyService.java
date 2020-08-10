@@ -6,6 +6,7 @@ import java.util.HashMap;
 import com.kh.finalProject.daily.model.vo.Bookmark;
 import com.kh.finalProject.daily.model.vo.BookmarkMap;
 import com.kh.finalProject.daily.model.vo.BookmarkUrl;
+import com.kh.finalProject.daily.model.vo.DailyRecord;
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
 import com.kh.finalProject.daily.model.vo.HabitSum;
@@ -83,6 +84,8 @@ public interface DailyService {
 	int updateBookmarkUrl(BookmarkUrl bu);
 
 	int deleteBookmarkUrl(BookmarkUrl bu);
+
+	ArrayList<DailyRecord> selectDailyRecordList(String id);
 
 
 

@@ -75,6 +75,16 @@
 		<result property="ub_url" column="UB_URL"/>
 	</resultMap>
 	
+	<resultMap type="DailyRecord" id="DailyRecordResultSet">
+		<id property="dr_no" column="DR_NO"/>
+		<result property="id" column="ID"/>
+		<result property="dr_title" column="DR_TITLE"/>
+		<result property="dr_date" column="DR_DATE"/>
+		<result property="dr_weather" column="DR_WEATHER"/>
+		<result property="dr_emotion" column="DR_EMOTION"/>
+		<result property="dr_con" column="DR_CON"/>
+	</resultMap>
+	
 	<insert id="insertHabit" parameterType="Habit">
 		INSERT INTO HABIT_TRACKER
 		VALUES(SEQ_HT.NEXTVAL, #{id}, #{ht_title}, #{ht_type}, #{ht_goal}, #{ht_unit}, #{ht_cycle}, SYSDATE,
@@ -445,6 +455,13 @@
 		WHERE ID = #{id}
 		AND UB_NO = #{ub_no}
 	</update>
+	
+	<select id="selectDailyRecordList" parameterType="String" resultMap="DailyRecordResultSet">
+		SELECT *
+		FROM DAILY_RECORD
+		WHERE ID=#{id}
+		AND DR_DELETE='N'
+	</select>
 	
 	
 </mapper>

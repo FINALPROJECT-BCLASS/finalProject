@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.finalProject.daily.model.vo.Bookmark;
 import com.kh.finalProject.daily.model.vo.BookmarkMap;
 import com.kh.finalProject.daily.model.vo.BookmarkUrl;
+import com.kh.finalProject.daily.model.vo.DailyRecord;
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
 import com.kh.finalProject.daily.model.vo.HabitSum;
@@ -204,6 +205,11 @@ public class DailyDao {
 	public int deleteBookmarkUrl(BookmarkUrl bu) {
 
 		return sqlSessionTemplate.delete("dailyMapper.deleteBookmarkUrl", bu);
+	}
+
+	public ArrayList<DailyRecord> selectDailyRecordList(String id) {
+
+		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectDailyRecordList", id);
 	}
 
 }
