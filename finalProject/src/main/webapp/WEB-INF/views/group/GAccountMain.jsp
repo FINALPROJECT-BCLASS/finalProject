@@ -178,8 +178,8 @@
          
          .bodyBox{width:100%; margin:0 auto;}
          .itemBox{width:65%; display:inline-block;}
-         .memoBox{width:10%; display:inline-block; margin:0 auto;position: absolute;right: 7%;  }
-         .shareMemo{border-radius:6px;margin-bottom: 10px;padding:20px; background:#FBD14B; margin-left:-60px; width:300px; height:300px;}
+         .memoBox{width:10%; display:inline-block; margin:0 auto;position: absolute;right: 0%; overflow-y:scroll; height:980px;width:280px;  }
+         .shareMemo{border-radius:6px;margin-bottom: 10px;padding:20px; background:#FBD14B; width:250px; height:250px; margin: 10px; overflow-y: scroll;}
          .memberCheck{width: 17px; height:17px;}
          .cansle{text-align:right; cursor:pointer; color:gray; font-weight:600;}
     </style>
