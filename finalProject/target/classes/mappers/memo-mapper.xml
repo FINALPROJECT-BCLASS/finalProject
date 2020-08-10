@@ -29,6 +29,12 @@
 		<result property="abAmount" column="AB_AMOUNT"/>
 		<result property="abMemo" column="AB_MEMO"/>
 	</resultMap>
+	
+	<resultMap type="Bookmark" id="bmResultSet">
+		<id property="bl_no" column="BL_NO"/>
+		<result property="bl_title" column="BL_TITLE"/>
+		<result property="bl_type" column="BL_TYPE"/>
+	</resultMap>
 
 	<insert id="insertMemo" parameterType="Memo">
 		INSERT INTO MEMO
@@ -133,5 +139,12 @@
 		SET AB_VIEW='Y'
 		WHERE MEMO_NO=#{memoNo}
 	</update>
+	
+	<select id="selectBmList" parameterType="string" resultMap="bmResultSet">
+		SELECT BL_NO, BL_TITLE, BL_TYPE
+		FROM BOOKMARK_LIST
+		WHERE ID=#{id}
+			AND BL_DELETE='N'
+	</select>
 
 </mapper>

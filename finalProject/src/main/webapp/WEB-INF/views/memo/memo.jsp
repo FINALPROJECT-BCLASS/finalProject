@@ -510,7 +510,88 @@
 	                </div>
 	            </div>
 	        </div>
-	    </div>   
+	    </div>
+	    
+	    <div class="modal fade" id="bookmarkModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                    </div>
+                    <div class="modal-body" align="center">
+                        <form action="mminsert.do" method="post">
+                        	<input type="hidden" name="id" value="${loginUser.id }">
+                        	<input type="hidden" name="mainNo" value="6">
+                            <table id="addTable">
+                                <tr>
+                                    <th>Bookmark</th>
+                                    <td>
+                                    	<select id="bl_no" name="bl_no">
+                                   		<c:forEach var="b" items="${bmList }">
+                                   			<option class="bl_no" value="${b.bl_no }">${b.bl_title }</option>
+                                   			<input type="hidden" value="${b.bl_type }">
+                                   		</c:forEach>
+                                    	</select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Title</th>
+                                    <td>
+                                    	<input type="text" class="map" name="mb_title" size="42">
+                                    	<input type="text" class="url" name="ub_title" size="42">
+                                    </td>
+                                </tr>
+                                <tr class="map">
+                                    <th>Phone</th>
+                                    <td>
+                                    	<input type="text" name="mb_phone" size="42">
+                                    </td>
+                                </tr>
+                                <tr class="map">
+                                    <th>Time</th>
+                                    <td>
+                                    	<input type="text" name="mb_time" size="42">
+                                    </td>
+                                </tr>
+                                <tr class="url">
+                                    <th>Content</th>
+                                    <td>
+                                    	<input type="text" name="ub_con" size="42">
+                                    </td>
+                                </tr>
+                                <tr class="url">
+                                    <th>Url</th>
+                                    <td>
+                                    	<input type="text" name="ub_url" size="42">
+                                    </td>
+                                </tr>
+                                <tr class="map">
+                                    <td colspan="2">
+                                    	<b>Location</b>&nbsp;
+                                    	<button type="button" class="default-btn b-lightgray" onclick="searchAddress()">Search</button>
+                                    </td>
+                                </tr>
+                                <tr class="map">
+                                    <td colspan="2"><input type="text" name="mb_main" class="mainAddress" size="49"></td>
+                                </tr>
+                                <tr class="map">
+                                    <td colspan="2"><input type="text" name="mb_sub" class="subAddress" size="49"></td>
+                                </tr>
+                                <tr class="map">
+                                    <th colspan="2">Memo</th>
+                                </tr>
+                                <tr class="map">
+                                    <td colspan="2">
+                                        <textarea name="mb_memo" cols="52" rows="5"></textarea>
+                                    </td>
+                                </tr>
+                            </table>
+                            <button type="submit" class="default-btn">Add</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>   
         
         <div class="modal fade" id="etcModal" role="dialog">
             <div class="modal-dialog">
@@ -552,6 +633,18 @@
     		$("#expenditure").click(function(){
     			$("#aecNo").css("display", "block");
     			$("#apcNo").css("display", "none");			
+    		})
+    		
+    		$(".bl_no").change(function(){
+				var type = $(this).next().val();
+    			
+    			if(type == "map") {
+    				$(".map").show();
+    				$(".url").hide();
+    			} else {
+    				$(".map").hide();
+    				$(".url").show();
+    			}
     		})
     	})
     

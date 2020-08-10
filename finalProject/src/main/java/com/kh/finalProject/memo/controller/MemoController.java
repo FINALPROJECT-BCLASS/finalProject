@@ -11,10 +11,12 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.finalProject.account.model.vo.AccountBook;
+import com.kh.finalProject.daily.model.vo.Bookmark;
 import com.kh.finalProject.member.model.vo.Member;
 import com.kh.finalProject.memo.model.exception.MemoException;
 import com.kh.finalProject.memo.model.service.MemoService;
@@ -31,7 +33,16 @@ public class MemoController {
 	MPlan mp;
 	
 	@RequestMapping("mmview.do")
-	public String memoView() {
+	public String memoView(HttpSession session, Model model) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String id = loginUser.getId();
+		
+		ArrayList<Bookmark> bmList = mmService.selectBmList(id);
+		for(int i = 0; i < bmList.size(); i++) {
+			System.out.println(bmList.get(i));
+		}
+		
+		model.addAttribute("bmList", bmList);
 		
 		return "memo/memo";
 	}
@@ -92,7 +103,6 @@ public class MemoController {
 		
 		for(Memo m : totalList) {
 			JSONObject jObj = new JSONObject();
-			System.out.println(m);
 			
 			jObj.put("main", m.getMainNo());
 			jObj.put("no", m.getMemoNo());
