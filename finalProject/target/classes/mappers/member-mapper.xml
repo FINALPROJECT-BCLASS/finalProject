@@ -14,8 +14,7 @@
 		<result property="main_no" column="MAIN_NO"/>
 		<result property="original_file" column="ORIGINAL_FILE"/>
 		<result property="rename_file" column="RENAME_FILE"/>
-		<result property="out_yn" column="OUT_YN"/>
-		
+		<result property="out_yn" column="OUT_YN"/>	
 	</resultMap>
 
 	<select id="selectOne" parameterType="Member" resultMap="memberResultSet">
