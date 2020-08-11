@@ -41,7 +41,8 @@
 		<result property="gpCon" column="GP_CON"/>
 		<result property="gpStart" column="GP_START"/>
 		<result property="gpEnd" column="GP_END"/>
-		<result property="gpPost" column="GP_POST"/>
+		<result property="gpCoordY" column="GP_COORDY"/>
+		<result property="gpCoordX" column="GP_COORDX"/>
 		<result property="address1" column="GP_ADDRESS1"/>
 		<result property="address2" column="GP_ADDRESS2"/>
 		<result property="color" column="GP_COLOR"/>
@@ -321,7 +322,8 @@
 			#{gpCon},
 			#{gpStart},
 			#{gpEnd},
-			#{gpPost},
+			#{gpCoordY},
+			#{gpCoordX},
 			#{address1},
 			#{address2},
 			#{color},
@@ -331,7 +333,7 @@
 	</insert>
 	
 	<select id="selectPlanList" parameterType="GroupInfo" resultMap="groupPlanResultSet">
-		SELECT GP_NO, G_NO, GM_NO, GP_TITLE, GP_CON, GP_START, GP_END, GP_POST, GP_ADDRESS1, GP_ADDRESS2, GP_COLOR
+		SELECT GP_NO, G_NO, GM_NO, GP_TITLE, GP_CON, GP_START, GP_END, GP_COORDY, GP_COORDX, GP_ADDRESS1, GP_ADDRESS2, GP_COLOR
 		FROM GROUP_PLAN
 		WHERE G_NO = #{groupNo}
 		AND GP_DELETE = 'N'

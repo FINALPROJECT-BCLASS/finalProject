@@ -365,11 +365,11 @@
                                         <tr>
                                             <td colspan="2">
                                             	Location&nbsp;
-                                            	<button type="button" class="default-btn b-lightgray" onclick="searchAddress()">Search</button>
+                                            	<button type="button" id="searchBtn" class="default-btn b-lightgray" onclick="searchAddress()">Search</button>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2"><input type="text" name="address1" class="mainAddress textBox" size="49"></td>
+                                            <td colspan="2"><input type="text" id="insertAddress" name="address1" class="mainAddress textBox" size="49"></td>
                                         </tr>
                                         <tr>
                                             <td colspan="2"><input type="text" name="address2" class="subAddress textBox" size="49"></td>
@@ -383,7 +383,10 @@
                                             </td>
                                         </tr>
                                     </table>
-                                    <button type="button" id="insertBtn" class="default-btn b-yell">Add</button>
+                                    <input type="hidden" id="coordY" name="coordX" value="">
+                                    <input type="hidden" id="coordX" name="coordY" value="">
+                                    <button type="button" id="add" class="default-btn b-yell">Add</button>
+                                    <button type="button" id="insertBtn" class="default-btn b-yell">Insert</button>
                                 </form>
                             </div>
                         </div>
@@ -447,7 +450,6 @@
 	                       <div id="map" style="width:300px;height:200px;"></div>
 	                       <br><br>
 	                       <div class="btnBox"></div>
-	                      
 	                   </form>
 	               </div>
 	           </div>
@@ -527,13 +529,69 @@
     <jsp:include page="../common/footer.jsp"/>	
 	
 	<script>
+	$("#searchBtn").click(function(){
+		if($("#insertAddress").val() != ""){
+		alert("하이");
+			
+		}
+	})
+	
 		
-			$(document).on("click","#insertBtn",function(){
+	</script>
+	
+	
+	<script>
+		
+			$(document).on("click","#add",function(){
 			if($("#addTitle").val() == ""){
 				alert("제목을 입력해주세요");
 			}else if($("#addTitle").val() != ""){
-				$("#insertForm").submit();
-			}
+					if($("#insertAddress").val() != ""){
+						alert("값없이");
+						var address1 = $("#insertAddress").val();
+						console.log("address1 : " + address1);
+			    		var geocoder = new kakao.maps.services.Geocoder();
+			    		var coordX = document.getElementById("coordX");
+			    		var coordY = document.getElementById("coordY");
+						// 주소로 좌표를 검색합니다
+						geocoder.addressSearch(address1, function(result, status) {
+						
+						    // 정상적으로 검색이 완료됐으면 
+						     if (status === kakao.maps.services.Status.OK) {
+						
+						        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+						       	xx = result[0].x;
+						       	yy = result[0].y;
+						        /* mapCoords = coords;
+						        coordsY = new kakao.maps.LatLng(result[0].y);
+						        coordsX = new kakao.maps.LatLng(result[0].x);
+								 */
+
+						        // 결과값으로 받은 위치를 마커로 표시합니다
+						        var marker = new kakao.maps.Marker({
+						            map: map,
+						            position: coords
+						        });
+						
+						        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+						        map.setCenter(coords);
+						        
+						        resizeMap(coords);
+						        coordX.value = xx;
+						        coordY.value = yy;
+								alert(xx+","+yy);
+						    } 
+						});
+					}
+					
+				
+				
+				} 
+			
+		})
+		
+		$("#insertBtn").click(function(){
+			   $("#insertForm").submit(); 
 		})
 	</script>
 	
@@ -673,9 +731,7 @@
 	    				        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 	    				        var coordsY = new kakao.maps.LatLng(result[0].y);
 	    				        var coordsX = new kakao.maps.LatLng(result[0].x);
-	    						console.log("위도 경도 : " +  coords);
-	    						console.log("위도 Y : " +  coordsY);
-	    						console.log("위도 X : " +  coordsX);
+	    						
 	    				        // 결과값으로 받은 위치를 마커로 표시합니다
 	    				        var marker = new kakao.maps.Marker({
 	    				            map: map,

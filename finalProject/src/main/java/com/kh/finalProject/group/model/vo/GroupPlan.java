@@ -16,11 +16,13 @@ public class GroupPlan  implements Serializable{
 	private String gpCon;
 	private String gpStart;
 	private String gpEnd;
-	private String gpPost;
+	private String gpCoordY;	// 위도/경도
+	private String gpCoordX;	// 위도/경도
 	private String address1;
 	private String address2;
 	private String color;
 	private String gpDelete;
+
 	
 	private String name;
 	
@@ -31,7 +33,8 @@ public class GroupPlan  implements Serializable{
 
 
 	public GroupPlan(String gpNo, String gNo, String gmNo, String gpTitle, String gpCon, String gpStart, String gpEnd,
-			String gpPost, String address1, String address2, String color, String gpDelete, String name) {
+			String gpCoordX, String gpCoordY, String address1, String address2, String color, String gpDelete,
+			String name) {
 		super();
 		this.gpNo = gpNo;
 		this.gNo = gNo;
@@ -40,7 +43,8 @@ public class GroupPlan  implements Serializable{
 		this.gpCon = gpCon;
 		this.gpStart = gpStart;
 		this.gpEnd = gpEnd;
-		this.gpPost = gpPost;
+		this.gpCoordX = gpCoordX;
+		this.gpCoordY = gpCoordY;
 		this.address1 = address1;
 		this.address2 = address2;
 		this.color = color;
@@ -119,13 +123,23 @@ public class GroupPlan  implements Serializable{
 	}
 
 
-	public String getGpPost() {
-		return gpPost;
+	public String getGpCoordX() {
+		return gpCoordX;
 	}
 
 
-	public void setGpPost(String gpPost) {
-		this.gpPost = gpPost;
+	public void setGpCoordX(String gpCoordX) {
+		this.gpCoordX = gpCoordX;
+	}
+
+
+	public String getGpCoordY() {
+		return gpCoordY;
+	}
+
+
+	public void setGpCoordY(String gpCoordY) {
+		this.gpCoordY = gpCoordY;
 	}
 
 
@@ -187,10 +201,10 @@ public class GroupPlan  implements Serializable{
 	@Override
 	public String toString() {
 		return "GroupPlan [gpNo=" + gpNo + ", gNo=" + gNo + ", gmNo=" + gmNo + ", gpTitle=" + gpTitle + ", gpCon="
-				+ gpCon + ", gpStart=" + gpStart + ", gpEnd=" + gpEnd + ", gpPost=" + gpPost + ", address1=" + address1
-				+ ", address2=" + address2 + ", color=" + color + ", gpDelete=" + gpDelete + ", name=" + name + "]\n";
+				+ gpCon + ", gpStart=" + gpStart + ", gpEnd=" + gpEnd + ", gpCoordX=" + gpCoordX + ", gpCoordY="
+				+ gpCoordY + ", address1=" + address1 + ", address2=" + address2 + ", color=" + color + ", gpDelete="
+				+ gpDelete + ", name=" + name + "]\n";
 	}
-
 
 
 	

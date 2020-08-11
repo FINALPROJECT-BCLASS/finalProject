@@ -399,11 +399,19 @@ public class GroupController {
 		
 	// 캘린더 작성
 	@RequestMapping(value = "insertPlan.do", method = RequestMethod.POST)
-	public ModelAndView insertPlan(ModelAndView mv, HttpSession session, GroupPlan gp) {
+	public ModelAndView insertPlan(ModelAndView mv, HttpSession session, GroupPlan gp,
+			 @RequestParam(value="coordY", required = false ) String coordY,
+			 @RequestParam(value="coordX", required = false ) String coordX){
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
-
+		
+		
+		System.out.println("coordY : " + coordY );
+		System.out.println("coordX : " + coordX );
+		
 		System.out.println("gp : " + gp);
+		gp.setGpCoordY(coordY);
+		gp.setGpCoordX(coordX);
 		int result = gService.planInsert(gp);
 		System.out.println("캘린더 result : " + result);
 		mv.setViewName("redirect:groupCalendarMain.do");
@@ -2085,7 +2093,7 @@ public class GroupController {
 		
 		//------------------------------------------------ 사다리 end ---------------------------------------
 		
-		// 사다리
+		// 발자취
 		@RequestMapping(value = "footPrintMain.do", method = RequestMethod.GET)
 		public ModelAndView footPrintMain(ModelAndView mv, HttpSession session, 
 				@RequestParam(value = "gaNo", required = false) String gaNo) {
@@ -2093,6 +2101,11 @@ public class GroupController {
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 			GroupTable gt = gService.selectOneGroup(gInfo);
 			GroupNotice noticeList = gService.selectNoticeOne(gInfo);
+			ArrayList<GroupPlan> planList = gService.selectPlanList(gInfo);
+			System.out.println("planList : " + planList);
+			
+			
+			mv.addObject("planList",planList);
 			mv.addObject("noticeList",noticeList);
 			mv.addObject("gInfo",gInfo);
 			mv.addObject("groupTable",gt);
