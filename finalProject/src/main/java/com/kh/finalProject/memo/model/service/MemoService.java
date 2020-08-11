@@ -37,4 +37,6 @@ public interface MemoService {
 
 	int insertBUrl(BookmarkUrl bu);
 
+	int addBookmark(Memo m);
+
 }

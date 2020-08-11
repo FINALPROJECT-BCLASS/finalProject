@@ -97,4 +97,10 @@ public class MemoServiceImpl implements MemoService {
 		return mmDao.insertBUrl(bu);
 	}
 
+	@Override
+	public int addBookmark(Memo m) {
+		
+		return mmDao.addBookmark(m);
+	}
+
 }

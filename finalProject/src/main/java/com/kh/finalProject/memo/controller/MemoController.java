@@ -40,9 +40,6 @@ public class MemoController {
 		String id = loginUser.getId();
 		
 		ArrayList<Bookmark> bmList = mmService.selectBmList(id);
-		for(int i = 0; i < bmList.size(); i++) {
-			System.out.println(bmList.get(i));
-		}
 		
 		model.addAttribute("bmList", bmList);
 		
@@ -52,6 +49,8 @@ public class MemoController {
 	@RequestMapping("mminsert.do")
 	public String memoInsert(Memo m, MPlan mp, AccountBook ab, Bookmark b, BookmarkMap bm, BookmarkUrl bu,
 							@RequestParam("mainNo") int mainNo,
+							@RequestParam(value="mb_main", required=false) String mbMain,
+							@RequestParam(value="mb_sub", required=false) String mbSub,
 							@RequestParam(value="type", required=false) String type) throws MemoException {
 		
 		int result1 = mmService.insertMemo(m);
@@ -80,8 +79,11 @@ public class MemoController {
 		} else if(result1 > 0 && m.getMainNo() == 6) {
 			int memoNo = mmService.selectMemoNo(m);
 			
-			if(b.getBl_type().equals("map")) {
+			if(m.getMemoType().equals("map")) {
+				String address = mbMain + " " + mbSub;
+
 				bm.setMemo_no(memoNo);
+				bm.setMb_address(address);
 				
 				result2 = mmService.insertBMap(bm);
 			} else {
@@ -110,9 +112,7 @@ public class MemoController {
 		
 		ArrayList<Memo> totalList = new ArrayList<>();
 		for(int i = 0; i < memoList.size(); i++) {
-			System.out.println("memoList.get(i) : " + memoList.get(i));
 			Memo m = mmService.selectMemo(memoList.get(i));
-			System.out.println("memo : " + m);
 			
 			totalList.add(m);
 		}
@@ -147,6 +147,22 @@ public class MemoController {
 				jObj.put("abAmount", formatAmount);
 				
 				jObj.put("abMemo",m.getAbMemo());
+			}
+			
+			if(m.getMainNo() == 6) {
+				jObj.put("blTitle", m.getBlTitle());
+				
+				if(m.getMemoType().equals("map")) {
+					jObj.put("mbTitle", m.getMbTitle());
+					jObj.put("mbPhone", m.getMbPhone());
+					jObj.put("mbTime", m.getMbTime());
+					jObj.put("mbMemo", m.getMbMemo());
+					jObj.put("mbAddress", m.getMbAddress());
+				} else {
+					jObj.put("ubTitle", m.getUbTitle());
+					jObj.put("ubCon", m.getUbCon());
+					jObj.put("ubUrl", m.getUbUrl());
+				}
 			}
 			
 			jArr.add(jObj);
@@ -209,6 +225,23 @@ public class MemoController {
 			return "memo/memo";
 		} else {
 			throw new MemoException("가계부에 추가 실패");
+		}
+	}
+	
+	@RequestMapping("bmadd.do")
+	public String bookmarkAdd(Memo m) throws MemoException {
+		
+		int result1 = mmService.addBookmark(m);
+		
+		int result2 = 0;
+		if(result1 > 0) {
+			result2 = mmService.deleteMemo(m);
+		}
+		
+		if(result2 > 0) {
+			return "memo/memo";
+		} else {
+			throw new MemoException("북마크에 추가 실패");
 		}
 	}
 

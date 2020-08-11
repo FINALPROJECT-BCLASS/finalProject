@@ -84,4 +84,9 @@ public class MemoDao {
 		return sqlSessionTemplate.insert("memoMapper.insertBUrl", bu);
 	}
 
+	public int addBookmark(Memo m) {
+		
+		return sqlSessionTemplate.update("memoMapper.addBookmark", m);
+	}
+
 }

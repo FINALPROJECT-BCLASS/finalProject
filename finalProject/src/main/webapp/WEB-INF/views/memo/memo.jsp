@@ -346,6 +346,8 @@
     	   						
     	   						$no = $("<input type='hidden' class='memoNo' value='" + data.memoList[i].no + "'>");
     	   						
+    	   						$type = $("<input type='hidden' class='memoType' value='" + data.memoList[i].type + "'>");
+    	   						
     	   						$table = $("<table class='memo-table'>");
     	   						
     	   						$dateTr = $("<tr>");
@@ -358,7 +360,7 @@
 
     	   						$titleTr = $("<tr>");
     	   						$titleTd1 = $("<th>").html("Title");
-    	   						$titleTd2 = $("<td>").html(data.memoList[i].mbTitle);    	   							
+    	   						$titleTd2 = $("<td>").html(data.memoList[i].mbTitle);
     	   						
     	   						$phoneTr = $("<tr>");
     	   						$phoneTd1 = $("<th>").html("Phone");
@@ -373,8 +375,8 @@
     	   						
     	   						$locationTr2 = $("<tr>");
     	   						$locationTd2 = $("<td colspan='2'>").html("<br>");    	   							
-    	   						if(data.memoList[i].mpMain != null) {
-    	   							$locationTd2 = $("<td colspan='2'>").html(data.memoList[i].bmAddress);
+    	   						if(data.memoList[i].mbAddress != null) {
+    	   							$locationTd2 = $("<td colspan='2'>").html(data.memoList[i].mbAddress);
     	   						}
     	   						
     	   						$memoTr1 = $("<tr>");
@@ -387,13 +389,13 @@
     	   						}
     	   						
     	   						$aBtnDiv = $("<div class='aBtnArea'>");
-    	   						$addBtn = $("<button type='button' class='addBtn accountAddBtn'>").text("Add");
+    	   						$addBtn = $("<button type='button' class='addBtn bookmarkAddBtn'>").text("Add");
     	   						
     	   						$aBtnDiv.append($addBtn);
     	   						
     	   						$dateTr.append($dateTd1).append($dateTd2);
     	   						
-    	   						$bookmarkTr.append($bookmarkT21).append($bookmarkTd2)
+    	   						$bookmarkTr.append($bookmarkTd1).append($bookmarkTd2)
     	   						
     	   						$phoneTr.append($phoneTd1).append($phoneTd2);
     	   						
@@ -409,7 +411,7 @@
     	   						
     	   						$table.append($dateTr).append($bookmarkTr).append($titleTr).append($phoneTr).append($timeTr).append($locationTr1).append($locationTr2).append($memoTr1).append($memoTr2);
     	   						
-    	   						$div.append($dBtnDiv).append($no).append($table).append($aBtnDiv);
+    	   						$div.append($dBtnDiv).append($no).append($type).append($table).append($aBtnDiv);
     	   						
     	   						$("#memoArea").append($div);
     	   					} else if(data.memoList[i].main ==6 && data.memoList[i].type == "url") {
@@ -422,6 +424,8 @@
     	   						
     	   						$no = $("<input type='hidden' class='memoNo' value='" + data.memoList[i].no + "'>");
     	   						
+    	   						$type = $("<input type='hidden' class='memoType' value='" + data.memoList[i].type + "'>");
+    	   						
     	   						$table = $("<table class='memo-table'>");
     	   						
     	   						$dateTr = $("<tr>");
@@ -430,7 +434,7 @@
 
     	   						$bookmarkTr = $("<tr>");
     	   						$bookmarkTd1 = $("<th>").html("Bookmark");
-    	   						$bookmarkTd2 = $("<td>").html(data.memoList[i].blTitle);    	   							
+    	   						$bookmarkTd2 = $("<td>").html(data.memoList[i].blTitle);
 
     	   						$titleTr = $("<tr>");
     	   						$titleTd1 = $("<th>").html("Title");
@@ -447,12 +451,12 @@
     	   						
     	   						$memoTr2 = $("<tr>");
     	   						$memoTd2 = $("<td colspan='2'>").html("<br>");    	   							
-    	   						if(data.memoList[i].abMemo != null) {
-    	   							$memoTd2 = $("<td colspan='2'>").html(data.memoList[i].ubMemo);	   							
+    	   						if(data.memoList[i].ubCon != null) {
+    	   							$memoTd2 = $("<td colspan='2'>").html(data.memoList[i].ubCon);	   							
     	   						}
     	   						
     	   						$aBtnDiv = $("<div class='aBtnArea'>");
-    	   						$addBtn = $("<button type='button' class='addBtn accountAddBtn'>").text("Add");
+    	   						$addBtn = $("<button type='button' class='addBtn bookmarkAddBtn'>").text("Add");
     	   						
     	   						$aBtnDiv.append($addBtn);
     	   						
@@ -472,7 +476,7 @@
     	   						
     	   						$table.append($dateTr).append($bookmarkTr).append($titleTr).append($urlTr1).append($urlTr2).append($memoTr1).append($memoTr2);
     	   						
-    	   						$div.append($dBtnDiv).append($no).append($table).append($aBtnDiv);
+    	   						$div.append($dBtnDiv).append($no).append($type).append($table).append($aBtnDiv);
     	   						
     	   						$("#memoArea").append($div);
     	   					}
@@ -653,7 +657,6 @@
                         	<input type="hidden" name="id" value="${loginUser.id }">
                         	<input type="hidden" name="mainNo" value="6">
                         	<input type="hidden" id="memoType" name="memoType">
-                        	<input type="hidden" name="memoType">
                             <table id="addTable">
                                 <tr>
                                     <th>Bookmark</th>
@@ -854,11 +857,11 @@
 	    $(document).on("click",".planAddBtn",function(){
 			var memoNo = $(this).parent().parent().find(".memoNo").val();
 
-	    	var deleteCheck = confirm("일정에 추가하시겠습니까?");
-			if(deleteCheck == true){
+	    	var addCheck = confirm("일정에 추가하시겠습니까?");
+			if(addCheck == true){
 				location.href="mpadd.do?memoNo="+memoNo;
 			}
-			else if(deleteCheck == false){
+			else if(addCheck == false){
 				console.log("일정 추가를 취소합니다.");
 			}
 		});
@@ -866,11 +869,24 @@
 	    $(document).on("click",".accountAddBtn",function(){
 			var memoNo = $(this).parent().parent().find(".memoNo").val();
 
-	    	var deleteCheck = confirm("가계부에 추가하시겠습니까?");
-			if(deleteCheck == true){
+	    	var addCheck = confirm("가계부에 추가하시겠습니까?");
+			if(addCheck == true){
 				location.href="abadd.do?memoNo="+memoNo;
 			}
-			else if(deleteCheck == false){
+			else if(addCheck == false){
+				console.log("가계부 추가를 취소합니다.");
+			}
+		});
+	    
+	    $(document).on("click",".bookmarkAddBtn",function(){
+			var memoNo = $(this).parent().parent().find(".memoNo").val();
+			var memoType = $(this).parent().parent().find(".memoType").val();
+
+	    	var addCheck = confirm("북마크에 추가하시겠습니까?");
+			if(addCheck == true){
+				location.href="bmadd.do?memoNo="+memoNo+"&memoType="+memoType;
+			}
+			else if(addCheck == false){
 				console.log("가계부 추가를 취소합니다.");
 			}
 		});

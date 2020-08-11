@@ -113,13 +113,13 @@
 		</if>
 		<if test="mainNo == 6">
 		<if test="memoType == 'map'">
-				, BL_TITLE, MB_TITLE, MB_PHONE, MB_TIME, MB_MEMO, MB_ADDRESS
+				, BL_TITLE, MB_TITLE, MB_PHONE, MB_TIME, MB_MEMO, MB_ADDRESS, MEMO_TYPE
 			FROM MEMO
 			JOIN MAP_BOOKMARK MB ON(MEMO.MEMO_NO=MB.MEMO_NO)
 			JOIN BOOKMARK_LIST BL ON(MB.BL_NO=BL.BL_NO)
 		</if>
 		<if test="memoType == 'url'">
-				, BL_TITLE, UB_TITLE, UB_CON, UB_URL
+				, BL_TITLE, UB_TITLE, UB_CON, UB_URL, MEMO_TYPE
 			FROM MEMO
 			JOIN URL_BOOKMARK UB ON(MEMO.MEMO_NO=UB.MEMO_NO)
 			JOIN BOOKMARK_LIST BL ON(UB.BL_NO=BL.BL_NO)
@@ -202,5 +202,17 @@
 				, #{memo_no}
 				, 'N')
 	</insert>
+	
+	<update id="addBookmark" parameterType="Memo">
+		<if test="memoType == 'map'">
+		UPDATE MAP_BOOKMARK
+		SET MB_VIEW='Y'
+		</if>
+		<if test="memoType == 'url'">
+		UPDATE URL_BOOKMARK
+		SET UB_VIEW='Y'
+		</if>
+		WHERE MEMO_NO=#{memoNo}
+	</update>
 
 </mapper>
