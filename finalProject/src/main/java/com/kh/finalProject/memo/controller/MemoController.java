@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.finalProject.account.model.vo.AccountBook;
 import com.kh.finalProject.daily.model.vo.Bookmark;
+import com.kh.finalProject.daily.model.vo.BookmarkMap;
+import com.kh.finalProject.daily.model.vo.BookmarkUrl;
 import com.kh.finalProject.member.model.vo.Member;
 import com.kh.finalProject.memo.model.exception.MemoException;
 import com.kh.finalProject.memo.model.service.MemoService;
@@ -48,7 +50,7 @@ public class MemoController {
 	}
 	
 	@RequestMapping("mminsert.do")
-	public String memoInsert(Memo m, MPlan mp, AccountBook ab,
+	public String memoInsert(Memo m, MPlan mp, AccountBook ab, Bookmark b, BookmarkMap bm, BookmarkUrl bu,
 							@RequestParam("mainNo") int mainNo,
 							@RequestParam(value="type", required=false) String type) throws MemoException {
 		
@@ -61,6 +63,7 @@ public class MemoController {
 			mp.setMemoNo(memoNo);
 			
 			result2 = mmService.insertMPlan(mp);
+			
 		} else if(result1 > 0 && m.getMainNo() == 9) {
 			int memoNo = mmService.selectMemoNo(m);
 			
@@ -73,6 +76,19 @@ public class MemoController {
 			}
 			
 			result2 = mmService.insertABook(ab);
+			
+		} else if(result1 > 0 && m.getMainNo() == 6) {
+			int memoNo = mmService.selectMemoNo(m);
+			
+			if(b.getBl_type().equals("map")) {
+				bm.setMemo_no(memoNo);
+				
+				result2 = mmService.insertBMap(bm);
+			} else {
+				bu.setMemo_no(memoNo);
+				
+				result2 = mmService.insertBUrl(bu);
+			}
 		}
 		
 		if(result1 > 0) {
@@ -94,7 +110,9 @@ public class MemoController {
 		
 		ArrayList<Memo> totalList = new ArrayList<>();
 		for(int i = 0; i < memoList.size(); i++) {
+			System.out.println("memoList.get(i) : " + memoList.get(i));
 			Memo m = mmService.selectMemo(memoList.get(i));
+			System.out.println("memo : " + m);
 			
 			totalList.add(m);
 		}
@@ -108,6 +126,7 @@ public class MemoController {
 			jObj.put("no", m.getMemoNo());
 			jObj.put("date", m.getMemoDate());
 			jObj.put("content", m.getMemoCon());
+			jObj.put("type", m.getMemoType());
 			
 			if(m.getMainNo() == 1) {
 				jObj.put("mpTitle", m.getMpTitle());

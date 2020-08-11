@@ -359,7 +359,7 @@
 				, SYSDATE
 				, DEFAULT
 				, 0
-				, 'N')
+				, 'Y')
 	</insert>
 	
 	<select id="selectBookmarkMapList" parameterType="BookmarkMap" resultMap="BookmarkMapResultSet">
@@ -368,6 +368,7 @@
 		WHERE BL_NO = #{bl_no}
 		AND ID = #{id}
 		AND MB_DELETE = 'N'
+		AND MB_VIEW = 'Y'
 		ORDER BY MB_NO DESC
 	</select>
 	
@@ -405,6 +406,7 @@
 		WHERE BL_NO = #{bl_no}
 		AND ID = #{id}
 		AND UB_DELETE = 'N'
+		AND UB_VIEW = 'Y'
 		ORDER BY UB_NO DESC
 	</select>
 	
@@ -419,7 +421,7 @@
 				, SYSDATE
 				, DEFAULT
 				, 0
-				, 'N')
+				, 'Y')
 	</insert>
 	
 	<select id="selectBookmarkUrl" parameterType="BookmarkUrl" resultMap="BookmarkUrlResultSet">

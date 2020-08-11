@@ -8,6 +8,7 @@
 		<result property="memoDate" column="MEMO_DATE"/>
 		<result property="memoCon" column="MEMO_CON"/>
 		<result property="mainNo" column="MAIN_NO"/>
+		<result property="memoType" column="MEMO_TYPE"/>
 		<result property="memoDelete" column="MEMO_DELETE"/>
 	</resultMap>
 	
@@ -16,6 +17,7 @@
 		<result property="memoDate" column="MEMO_DATE"/>
 		<result property="memoCon" column="MEMO_CON"/>
 		<result property="mainNo" column="MAIN_NO"/>
+		<result property="memoType" column="MEMO_TYPE"/>
 		<result property="mpTitle" column="MP_TITLE"/>
 		<result property="mpStart" column="MP_START"/>
 		<result property="mpEnd" column="MP_END"/>
@@ -28,6 +30,15 @@
 		<result property="aecTitle" column="AEC_TITLE"/>
 		<result property="abAmount" column="AB_AMOUNT"/>
 		<result property="abMemo" column="AB_MEMO"/>
+		<result property="blTitle" column="BL_TITLE"/>
+		<result property="mbTitle" column="MB_TITLE"/>
+		<result property="mbPhone" column="MB_PHONE"/>
+		<result property="mbTime" column="MB_TIME"/>
+		<result property="mbMemo" column="MB_MEMO"/>
+		<result property="mbAddress" column="MB_ADDRESS"/>
+		<result property="ubTitle" column="UB_TITLE"/>
+		<result property="ubCon" column="UB_CON"/>
+		<result property="ubUrl" column="UB_URL"/>
 	</resultMap>
 	
 	<resultMap type="Bookmark" id="bmResultSet">
@@ -43,6 +54,7 @@
 			, SYSDATE
 			, #{memoCon}
 			, #{mainNo}
+			, #{memoType}
 			, DEFAULT)
 	</insert>
 	
@@ -74,7 +86,7 @@
 	</insert>
 	
 	<select id="selectMemoList" parameterType="string" resultMap="memoResultSet">
-		SELECT MEMO_NO, TO_CHAR(MEMO_DATE, 'YYYY-MM-DD')"MEMO_DATE", MAIN_NO
+		SELECT MEMO_NO, TO_CHAR(MEMO_DATE, 'YYYY-MM-DD')"MEMO_DATE", MAIN_NO, MEMO_TYPE
 		FROM MEMO
 		WHERE ID=#{id}
 			AND MEMO_DELETE='N'
@@ -82,7 +94,7 @@
 	</select>
 	
 	<select id="selectMemo" parameterType="Memo" resultMap="totalResultSet">
-			SELECT MEMO.MEMO_NO, TO_CHAR(MEMO_DATE, 'YYYY-MM-DD') "MEMO_DATE", MEMO_CON, MAIN_NO
+			SELECT MEMO.MEMO_NO, TO_CHAR(MEMO_DATE, 'YYYY-MM-DD') "MEMO_DATE", MEMO_CON, MAIN_NO, MEMO_TYPE
 		<if test="mainNo == 0">
 			FROM MEMO
 		</if>
@@ -98,6 +110,20 @@
 			JOIN ACCOUNT_BOOK AB ON(MEMO.MEMO_NO=AB.MEMO_NO)
 			LEFT JOIN A_PROFIT_CATEGORY AP ON(AB.APC_NO=AP.APC_NO)
 			LEFT JOIN A_EXPENDITURE_CATEGORY AE ON(AB.AEC_NO=AE.AEC_NO)
+		</if>
+		<if test="mainNo == 6">
+		<if test="memoType == 'map'">
+				, BL_TITLE, MB_TITLE, MB_PHONE, MB_TIME, MB_MEMO, MB_ADDRESS
+			FROM MEMO
+			JOIN MAP_BOOKMARK MB ON(MEMO.MEMO_NO=MB.MEMO_NO)
+			JOIN BOOKMARK_LIST BL ON(MB.BL_NO=BL.BL_NO)
+		</if>
+		<if test="memoType == 'url'">
+				, BL_TITLE, UB_TITLE, UB_CON, UB_URL
+			FROM MEMO
+			JOIN URL_BOOKMARK UB ON(MEMO.MEMO_NO=UB.MEMO_NO)
+			JOIN BOOKMARK_LIST BL ON(UB.BL_NO=BL.BL_NO)
+		</if>
 		</if>
 			WHERE MEMO.MEMO_NO=#{memoNo}
 	</select>
@@ -146,5 +172,35 @@
 		WHERE ID=#{id}
 			AND BL_DELETE='N'
 	</select>
+	
+	<insert id="insertBMap" parameterType="BookmarkMap">
+		INSERT INTO MAP_BOOKMARK
+		VALUES (SEQ_MB.NEXTVAL
+				, #{id}
+				, #{bl_no}
+				, #{mb_title}
+				, #{mb_phone}
+				, #{mb_time}
+				, #{mb_memo}
+				, #{mb_address}
+				, SYSDATE
+				, DEFAULT
+				, #{memo_no}
+				, 'N')
+	</insert>
+	
+	<insert id="insertBUrl" parameterType="BookmarkUrl">
+		INSERT INTO URL_BOOKMARK
+		VALUES (SEQ_UB.NEXTVAL
+				, #{id}
+				, #{bl_no}
+				, #{ub_title}
+				, #{ub_con}
+				, #{ub_url}
+				, SYSDATE
+				, DEFAULT
+				, #{memo_no}
+				, 'N')
+	</insert>
 
 </mapper>
