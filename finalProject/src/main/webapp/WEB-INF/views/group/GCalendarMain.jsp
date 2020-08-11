@@ -320,7 +320,7 @@
     	  <div class="join-form-area">
     <jsp:include page="../common/groupNoticeHeader.jsp"/>
     	  <h1 align="center">Group Diary</h1>
-        <h4 align="center">Plan</h4><br>
+        <h4 align="center">Calendar</h4><br>
         
         <br><br>
        
