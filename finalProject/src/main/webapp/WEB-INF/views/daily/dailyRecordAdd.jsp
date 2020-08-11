@@ -163,61 +163,88 @@
         background-color: #FBD14B;
         
     }
+    
+    .preview-wrap {
+    	width: 100%;
+	    background: white;
+	    border-radius: 8px;
+	    display: flex;
+	    align-items: center;
+	    color: #cecece;
+	    font-size: 14px;
+	    border: 10px solid white;
+	    overflow: hidden;
+	    flex-wrap: wrap;
+    }
+    
+    
+    .preview-wrap > a > img {
+    	height: 130px;
+    	margin: 5px;
+    	
+    }
+    
+    .preview-wrap > div {
+    	width: 100%;
+    	text-align:center;
+    }
 
     </style>
+    
+    
 </head>
 <body>
 	<jsp:include page="../common/header.jsp"/>
 	<jsp:include page="../common/sidenaviDaily.jsp"/>
     <div class="right-area">
         <div>
-            <form action="#">
+            <form action="addDailyRecord.do" name="record" method="post" enctype="multipart/form-data">
                 <span class="pSubject">New Record</span>
                 <table cellpadding="6px">
                     <tr>
                         <td>Title</td>
-                        <td><input type="text" id="id"></td>
+                        <td><input type="text" id="dr_title" name="dr_title"></td>
                     </tr>
                     <tr>
                         <td>Date</td>
-                        <td><input type="date" id="name"></td>
+                        <td><input type="date" id="dr_date" name="dr_date"></td>
                     </tr>
                     <tr>
                         <td>Weather</td>
-                        <td class="b-flex">
-                                <input type="radio" id="sunny" name="weather" checked>
+                        <td class="b-flex weather-area">
+                                <input type="radio" id="sunny" name="weather" value="sunny" checked>
                                 <label class="b-icons" for="sunny"><img src="resources/images/icons/sunny.png"></label>
                         
-                                <input type="radio" id="rainy" name="weather">
+                                <input type="radio" id="rainy" name="weather" value="rainy">
                                 <label class="b-icons" for="rainy"><img src="resources/images/icons/rainy.png"></label>
                           
-                                <input type="radio" id="cloudy" for name="weather">
+                                <input type="radio" id="cloudy" for name="weather" value="cloudy">
                                 <label class="b-icons" for="cloudy"><img src="resources/images/icons/cloudy.png"></label>
                             
-                                <input type="radio" id="snowy" name="weather">
+                                <input type="radio" id="snowy" name="weather" value="snowy">
                                 <label class="b-icons" for="snowy"><img src="resources/images/icons/snowy.png"></label>
-                            
                         </td>
+                        <input type="hidden" name="dr_weather" id="dr_weather" value="sunny">
                     </tr>
                     <tr>
                         <td>Emotion</td>
-                        <td class="b-flex">
-                            <input type="radio" id="love" name="emotion" checked>
+                        <td class="b-flex emotion-area">
+                            <input type="radio" id="love" name="emotion" value="love" checked>
                             <label for="love" class="b-icons"><img src="resources/images/icons/love.png"></label>
 
-                            <input type="radio" id="smile" name="emotion">
+                            <input type="radio" id="smile" name="emotion" value="smile">
                             <label for="smile" class="b-icons"><img src="resources/images/icons/smile.png"></label>
 
-                            <input type="radio" id="soso" name="emotion">
+                            <input type="radio" id="soso" name="emotion" value="soso">
                             <label for="soso" class="b-icons"><img src="resources/images/icons/soso.png"></label>
 
-                            <input type="radio" id="bad" name="emotion">
+                            <input type="radio" id="bad" name="emotion" value="bad">
                             <label for="bad" class="b-icons"><img src="resources/images/icons/bad.png"></label>
 
-                            <input type="radio" id="sad" name="emotion">
+                            <input type="radio" id="sad" name="emotion" value="sad">
                             <label for="sad" class="b-icons"><img src="resources/images/icons/sad.png"></label>
-
                         </td>
+                        <input type="hidden" name="dr_emotion" id="dr_emotion" value="love">
                     </tr>
                     <tr>
                         <td>Content</td>
@@ -227,21 +254,43 @@
                         <td>Photos</td>
                         <td>
                           <div class="file-box"> 
-                             <input type="file" id="file"> 
+                             <input type="file" id="file" name="file" multiple/> 
                              <input class="upload-name" value="Select file">
                              <label class="b-yell" for="file">Upload</label> 
-                           </div></td>
+                           </div>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td></td>
+                    	<td class="preview-area">
+                    		<div class="preview-wrap">
+                    			<div>사진 미리보기</div>
+                    		</div>
+                    	</td>
                     </tr>
                 </table>
                 <div class="button-area">
                     <button>Back</button>
-                    <button>Save</button>
+                    <button type="submit">Save</button>
                 </div>
             </form>
         </div>
     </div>
 
     <script>
+    
+	 // 라디오 버튼 히든 태그
+		// 색상
+		$(".weather-area > input").click(function(){
+			var value = $(this).val();
+			$("#dr_weather").val(value);
+		});
+		
+		// 타입
+		$(".emotion-area > input").click(function(){
+			var value = $(this).val();
+			$("#dr_emotion").val(value);
+		});
         
         /* 파일 업로드 */
         $(document).ready(function(){
@@ -249,6 +298,7 @@
         	var fileTarget = $('#file');
         	
         	fileTarget.on('change', function(){
+        		
         		if(window.FileReader){
         			var filename = $(this)[0].files[0].name;
         		} else { 
@@ -259,10 +309,76 @@
         		
         		$(".upload-file").attr("style", "display:inline-block");
         		
+        		
+        		
         	});
         	
         });
+        
+        $(document).ready(function(){
+        
+			$("#file").on("change", handleImgFileSelect);
+        	
+        });
+        
+        function handleImgFileSelect(e) {
+        	
+        	// 이미지 정보 초기화
+    		sel_files = [];
+    		$(".preview-wrap").empty();
+    		
+    		var files = e.target.files;
+    		var filesArr = Array.prototype.slice.call(files);
+    		
+    		var index = 0;
+    		
+    		filesArr.forEach(function(f) {
+    			if(!f.type.match("image.*")) {
+    				
+    				alert("이미지 확장자만 업로드 가능합니다.");
+    				return;
+    				
+    			}
+    			
+    			sel_files.push(f);
+    			
+    			var reader = new FileReader();
+    			reader.onload = function(e) {
+    				var html = "<a href='javascript:void(0);' onclick= 'deleteImageAction("+index+")' id='img_id_"+index+"'><img src='" + e.target.result + "' data-file='"+f.name+"' class='selProductFile' title='Click to remove'></a>";
+    				$(".preview-wrap").append(html);
+    				index++;
+    			}
+    			reader.readAsDataURL(f);
+    			
+    		});
+        	
+        }
+        
+        function deleteImageAction(index) {
+        	
+        	console.log("index : " + index);
+        	sel_files.splice(index, 1);
+        	
+        	var img_id = "#img_id_" + index;
+        	$(img_id).remove();
+        	
+        	console.log(sel_files);
+        	
+        }
     </script>
     <jsp:include page="../common/footer.jsp"/>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+

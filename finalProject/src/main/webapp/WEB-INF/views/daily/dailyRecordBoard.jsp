@@ -174,8 +174,8 @@
         <div class="daily-record-area">
             <span class="pSubject">Daily Record</span>
             <div class="button-area">
-                    <button>Add</button>
-                    <button>Delete</button>
+                    <button type="button" onclick = "location.href='addDailyRecordView.do'">Add</button>
+                    <button type="button">Delete</button>
              </div>
             <table class="board-table" cellpadding="8px">
                 <thead>
@@ -193,10 +193,10 @@
 	                        <td><input type="checkbox"></td>
 	                        <td>${dr.dr_no }</td>
 	                        <td>
-	                        	<%-- <c:if test="${empty dr.drp_rename }">
+	                        	<%-- <c:if test="${empty dr.dr_thumbnail }"> --%>
 	                        		<div class="board-image-area"></div>
-	                        	</c:if>
-	                        	<c:if test="${!empty dr.drp_rename }">
+	                        	<%-- </c:if> --%>
+	                        	<%-- <c:if test="${!empty dr.dr_thumbnail }">
 	                        		<div class="board-image-area"><img class="image" src="resources/bluploadFiles/${dr.drp_rename }"></div>
 	                        	</c:if> --%>
 	                        </td>

@@ -90,6 +90,8 @@ public interface DailyService {
 
 	ArrayList<DailyRecordPhoto> selectDailyRecordPhotoList(String id);
 
+	int insertDailyRecord(DailyRecord dr);
+
 
 
 }

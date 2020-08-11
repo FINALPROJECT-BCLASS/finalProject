@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -777,7 +778,7 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 			bm.setBl_origin(file.getOriginalFilename());
 			bm.setBl_rename(renameFile);
 			
-			System.out.println("새로 세팅한 bm :" + bm);
+//			System.out.println("새로 세팅한 bm :" + bm);
 		}
 		
 		int result = dailyService.insertBookmarkGroup(bm);
@@ -1393,7 +1394,7 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		String id = member.getId();
 		
 		ArrayList<DailyRecord> drlist = dailyService.selectDailyRecordList(id);
-		ArrayList<DailyRecordPhoto> drplist = dailyService.selectDailyRecordPhotoList(id);
+//		ArrayList<DailyRecordPhoto> drplist = dailyService.selectDailyRecordPhotoList(id);
 		
 //		ArrayList<DailyRecordPhoto> drplist_f = new ArrayList<>();
 //		
@@ -1422,6 +1423,69 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		}
 		
 		return mv;
+	}
+	
+	
+	@RequestMapping("addDailyRecordView.do")
+	public String addDailyRecordView() {
+		
+		return "daily/dailyRecordAdd";
+	}
+	
+	
+	@RequestMapping("addDailyRecord.do")
+	public String addDailyRecord(HttpServletRequest request, DailyRecord dr
+								, @RequestParam(value="file", required=false) List<MultipartFile> file) {
+		
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		String id = member.getId();
+		
+//		System.out.println("dr : " + dr);
+//		System.out.println("file : " + file);
+		
+		dr.setId(id);
+		
+		int result = dailyService.insertDailyRecord(dr);
+		
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		
+		String savePath = root + "/druploadFiles/";
+		
+		File folder = new File(savePath);
+		
+		if(!folder.exists()) {
+			folder.mkdirs();
+		}
+		
+		// 업로드 시간을 기준으로 파일명 변경
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		
+		ArrayList<DailyRecordPhoto> drplist = new ArrayList<>();
+		
+		for(MultipartFile mf : file) {
+			
+			String originFileName = mf.getOriginalFilename();
+			
+			// 파일명 앞에 '사용자 아이디_' 추가
+			String renameFileName = id + "_" + sdf.format(new java.sql.Date(System.currentTimeMillis()))
+										+"."+originFileName.substring(originFileName.lastIndexOf(".")+1);
+			
+			String filePath = folder + "/" + renameFileName;
+		
+			DailyRecordPhoto drp = new DailyRecordPhoto();
+			drp.setDrp_origin(originFileName);
+			drp.setDrp_rename(renameFileName);
+			
+//			System.out.println("drp : " + drp);
+			
+			
+			
+		}
+		
+		
+		return null;
+		
 	}
 	
 }

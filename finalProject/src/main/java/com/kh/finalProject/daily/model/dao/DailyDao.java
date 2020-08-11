@@ -218,4 +218,9 @@ public class DailyDao {
 		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectDailyRecordPhotoList", id);
 	}
 
+	public int insertDailyRecord(DailyRecord dr) {
+
+		return sqlSessionTemplate.insert("dailyMapper.insertDailyRecord", dr);
+	}
+
 }

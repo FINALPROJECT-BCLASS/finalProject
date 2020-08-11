@@ -83,6 +83,7 @@
 		<result property="dr_weather" column="DR_WEATHER"/>
 		<result property="dr_emotion" column="DR_EMOTION"/>
 		<result property="dr_con" column="DR_CON"/>
+		<result property="dr_thumbnail" column="DR_THUMBNAIL"/>
 	</resultMap>
 	
 	<resultMap type="DailyRecordPhoto" id="DailyRecordPhotoResultSet">
@@ -465,10 +466,9 @@
 	
 	<select id="selectDailyRecordList" parameterType="String" resultMap="DailyRecordResultSet">
 		SELECT *
-		FROM DAILY_RECORD DR
-		JOIN DAILY_RECORD_PHOTO DRP ON (DR.DR_NO = DRP.DR_NO)
-		WHERE DR.ID=#{id}
-		AND DR.DR_DELETE='N'
+		FROM DAILY_RECORD
+		WHERE ID=#{id}
+		AND DR_DELETE='N'
 	</select>
 	
 	<select id="selectDailyRecordPhotoList" parameterType="String" resultMap="DailyRecordPhotoResultSet">
@@ -478,6 +478,19 @@
 		WHERE DR.ID=#{id}
 		AND DR.DR_DELETE='N'
 	</select>
+	
+	<insert id="insertDailyRecord" parameterType="DailyRecord">
+		INSERT INTO DAILY_RECORD
+		VALUES (SEQ_DR.NEXTVAL
+				, #{id}
+				, #{dr_title}
+				, #{dr_date}
+				, #{dr_weather}
+				, #{dr_emotion}
+				, #{dr_con}
+				, DEFAULT
+				, '')
+	</insert>
 	
 	
 </mapper>
