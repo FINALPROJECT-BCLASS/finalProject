@@ -202,9 +202,12 @@
         }
 
         #calendar {
-            max-width: 900px;
+        	width:90%;
+            /* max-width: 900px; */
             margin: 0 auto;
             /* z-index: 0; */
+            background:white;
+            border-radisu:6px;
         }
 
         .fc-today-button{
@@ -290,8 +293,12 @@
             font-weight: 600;
             font-size: 16px;
         }
-        
-        
+         .writeBtn{color:#aeaeae !important; font-size:50px !important; cursor:pointer; padding:0 !important;}
+         .writeBtn:hover{color:#2860E1 !important; font-size:50px !important; cursor:pointer; padding:0 !important;}
+         .join-form-area{top:-40px; padding-top:150px !important;position:relative; float: right;display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 40px; width: 81%; background: #F3F3F3; }
+         #groupWrite{width:100%; text-align:right; margin-right:100px;margin-top: -100px;display: flex;justify-content: flex-end;align-items: center;}
+		 
+		 .footImg{width:40px; height:40px; cursor:pointer;vertical-align: middle;margin-left: 10px;}
     </style>
 </head>
 
@@ -310,15 +317,20 @@
 		
 	
     	<br><br>
-    <%-- <jsp:include page="../common/groupNoticeHeader.jsp"/> --%>
+    	  <div class="join-form-area">
+    <jsp:include page="../common/groupNoticeHeader.jsp"/>
     	  <h1 align="center">Group Diary</h1>
         <h4 align="center">Plan</h4><br>
         
         <br><br>
-        <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-10">
-                <button class="default-btn" type="button" data-toggle="modal" data-target="#addModal">Add</button>
+       
+            	
+           		<div id="groupWrite"  >
+           			<span class="material-icons writeBtn" data-toggle="modal" data-target="#addModal">create</span>
+           			<img class="footImg" src="resources/images/icons/grayFoot.png" onclick="location.href='footPrintMain.do'">
+           		</div>
+           		<br>
+                
                 <div class="modal fade" id="addModal" role="dialog">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -393,11 +405,10 @@
                     </div>
                 </div>
                 <div id='calendar'></div>
-            </div>
-
-        </div>
+   			</div>
+   			
        <br><br><br><br><br>
-       
+     
        <div class="modal fade" id="detailModal" role="dialog">
 	       <div class="modal-dialog">
 	           <div class="modal-content">
@@ -528,18 +539,17 @@
 
     <jsp:include page="../common/footer.jsp"/>	
 	
-	<script>
-	$("#searchBtn").click(function(){
-		if($("#insertAddress").val() != ""){
-		alert("하이");
-			
-		}
-	})
 	
-		
-	</script>
-	
-	
+	<!-- 발바닥 색 변경 -->
+  	<script>
+      		$(".footImg").mouseover(function(){
+      			$(this).attr("src","resources/images/icons/yellowFoot.png");
+      		})
+      		$(".footImg").mouseleave(function(){
+      			$(this).attr("src","resources/images/icons/grayFoot.png");
+      		})
+    </script>
+
 	<script>
 		
 			$(document).on("click","#add",function(){
