@@ -1427,29 +1427,34 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 	
 	
 	@RequestMapping("addDailyRecordView.do")
-	public String addDailyRecordView() {
+	public String addDailyRecordView(Model model, @RequestParam(value="dr_no", required=false) String dr_no) {
 		
+		model.addAttribute("dr_no", dr_no);
 		return "daily/dailyRecordAdd";
 	}
 	
 	
 	@RequestMapping("addDailyRecord.do")
-	public String addDailyRecord(HttpServletRequest request, DailyRecord dr
-								, @RequestParam(value="file", required=false) List<MultipartFile> file) {
+	public String addDailyRecord(Model model, HttpServletRequest request, DailyRecord dr
+								, @RequestParam(value="file", required=false) List<MultipartFile> file
+								, @RequestParam(value="dr_no", required=false) String dr_no_before) {
 		
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
 		String id = member.getId();
 		
-//		System.out.println("dr : " + dr);
+		System.out.println("dr : " + dr);
 //		System.out.println("file : " + file);
 		
 		dr.setId(id);
 		
+		
 		int result = dailyService.insertDailyRecord(dr);
 		
-		String root = request.getSession().getServletContext().getRealPath("resources");
+		int dr_no_after = Integer.parseInt(dr_no_before) + 1;
+		String dr_no = Integer.toString(dr_no_after);
 		
+		String root = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "/druploadFiles/";
 		
 		File folder = new File(savePath);
@@ -1458,34 +1463,54 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 			folder.mkdirs();
 		}
 		
-		// 업로드 시간을 기준으로 파일명 변경
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		if(result > 0) {
 		
-		ArrayList<DailyRecordPhoto> drplist = new ArrayList<>();
+			if(!file.isEmpty()) {
+				// 업로드 시간을 기준으로 파일명 변경
+//				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+				
+				for(MultipartFile mf : file) {
+					
+					String originFileName = mf.getOriginalFilename();
+					
+					// 파일명 앞에 '사용자 아이디_' 추가
+					String renameFileName = id + "_" + System.currentTimeMillis()
+												+"."+originFileName.substring(originFileName.lastIndexOf(".")+1);
+					
+					String filePath = folder + "/" + renameFileName;
+				
+					if(!originFileName.isEmpty()) {
+					
+						DailyRecordPhoto drp = new DailyRecordPhoto();
+						drp.setDrp_origin(originFileName);
+						drp.setDrp_rename(renameFileName);
+						drp.setDr_no(dr_no);
+						
+						System.out.println("drp : "  + drp);
+						
+						int result_drp = dailyService.insertDailyRecordPhoto(drp);
+						
+						try {
+							mf.transferTo(new File(filePath));
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				}
+				
+				return "redirect:dailyRecordView.do";
+			
+			}
+			
+		} else {
 		
-		for(MultipartFile mf : file) {
+			model.addAttribute("msg","오류 발생, 다시 시도해 주세요.");
+            model.addAttribute("url","/addDailyRecordView.do");
 			
-			String originFileName = mf.getOriginalFilename();
-			
-			// 파일명 앞에 '사용자 아이디_' 추가
-			String renameFileName = id + "_" + sdf.format(new java.sql.Date(System.currentTimeMillis()))
-										+"."+originFileName.substring(originFileName.lastIndexOf(".")+1);
-			
-			String filePath = folder + "/" + renameFileName;
-		
-			DailyRecordPhoto drp = new DailyRecordPhoto();
-			drp.setDrp_origin(originFileName);
-			drp.setDrp_rename(renameFileName);
-			
-//			System.out.println("drp : " + drp);
-			
-			
-			
+			return "common/redirect";
 		}
 		
-		
-		return null;
-		
+		return "redirect:dailyRecordView.do";
 	}
 	
 }

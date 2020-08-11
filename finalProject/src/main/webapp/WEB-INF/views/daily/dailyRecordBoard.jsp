@@ -174,7 +174,7 @@
         <div class="daily-record-area">
             <span class="pSubject">Daily Record</span>
             <div class="button-area">
-                    <button type="button" onclick = "location.href='addDailyRecordView.do'">Add</button>
+                    <button type="button" onclick = "dailyRecordAdd()">Add</button>
                     <button type="button">Delete</button>
              </div>
             <table class="board-table" cellpadding="8px">
@@ -187,7 +187,7 @@
                         <th>Date.</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="table-body">
                 	<c:forEach var="dr" items="${drlist }">
 	                    <tr>
 	                        <td><input type="checkbox"></td>
@@ -201,7 +201,7 @@
 	                        	</c:if> --%>
 	                        </td>
 	                        <td><a href="#">${dr.dr_title }</a></td>
-	                        <td></td>
+	                        <td>${dr.dr_date }</td>
 	                    </tr>
 	                </c:forEach>
                 </tbody>
@@ -229,4 +229,28 @@
     </div>
     <jsp:include page="../common/footer.jsp"/>
 </body>
+<script>
+
+	function dailyRecordAdd() {
+		
+		var dr_no = $(".table-body > tr:nth-child(1) > td:nth-child(2)").html();
+		console.log("dr_no : " + dr_no);
+		
+		location.href='addDailyRecordView.do?dr_no='+ dr_no;
+	}
+
+</script>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+

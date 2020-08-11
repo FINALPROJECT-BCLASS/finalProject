@@ -469,6 +469,7 @@
 		FROM DAILY_RECORD
 		WHERE ID=#{id}
 		AND DR_DELETE='N'
+		ORDER BY DR_NO DESC
 	</select>
 	
 	<select id="selectDailyRecordPhotoList" parameterType="String" resultMap="DailyRecordPhotoResultSet">
@@ -490,6 +491,14 @@
 				, #{dr_con}
 				, DEFAULT
 				, '')
+	</insert>
+	
+	<insert id="insertDailyRecordPhoto" parameterType="DailyRecordPhoto">
+		INSERT INTO DAILY_RECORD_PHOTO
+		VALUES (SEQ_DRP.NEXTVAL
+				, #{dr_no}
+				, #{drp_origin}
+				, #{drp_rename})
 	</insert>
 	
 	

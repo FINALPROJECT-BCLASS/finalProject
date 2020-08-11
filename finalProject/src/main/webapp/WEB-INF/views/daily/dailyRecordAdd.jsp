@@ -200,6 +200,7 @@
         <div>
             <form action="addDailyRecord.do" name="record" method="post" enctype="multipart/form-data">
                 <span class="pSubject">New Record</span>
+                <input type="text" name="dr_no" value="${dr_no }">
                 <table cellpadding="6px">
                     <tr>
                         <td>Title</td>
@@ -248,7 +249,7 @@
                     </tr>
                     <tr>
                         <td>Content</td>
-                        <td><textarea class="b-content"></textarea></td>
+                        <td><textarea class="b-content" name="dr_con"></textarea></td>
                     </tr>
                     <tr>
                         <td>Photos</td>
@@ -278,6 +279,8 @@
     </div>
 
     <script>
+    
+    	console.log("으음 ? : ${dr_no}");
     
 	 // 라디오 버튼 히든 태그
 		// 색상

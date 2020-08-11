@@ -92,6 +92,8 @@ public interface DailyService {
 
 	int insertDailyRecord(DailyRecord dr);
 
+	int insertDailyRecordPhoto(DailyRecordPhoto drp);
+
 
 
 }

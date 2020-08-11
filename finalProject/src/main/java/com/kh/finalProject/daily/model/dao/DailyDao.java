@@ -223,4 +223,14 @@ public class DailyDao {
 		return sqlSessionTemplate.insert("dailyMapper.insertDailyRecord", dr);
 	}
 
+	public String selectDailyRecordNo(DailyRecord dr) {
+
+		return sqlSessionTemplate.selectOne("dailyMapper.selectDailyRecordNo", dr);
+	}
+
+	public int insertDailyRecordPhoto(DailyRecordPhoto drp) {
+
+		return sqlSessionTemplate.insert("dailyMapper.insertDailyRecordPhoto", drp);
+	}
+
 }

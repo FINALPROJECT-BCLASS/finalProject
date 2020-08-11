@@ -264,6 +264,13 @@ public class DailyServiceImpl implements DailyService {
 		return dailyDao.insertDailyRecord(dr);
 	}
 
+	@Override
+	public int insertDailyRecordPhoto(DailyRecordPhoto drp) {
+
+		return dailyDao.insertDailyRecordPhoto(drp);
+	}
+
+
 	
 
 
