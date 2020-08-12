@@ -17,7 +17,6 @@
             align-items: center;
             justify-content: center;
             float: right;
-            height: 125%;
             width: 81%;
             background-color: #f7f7f7;
             color: #484848;
@@ -194,7 +193,63 @@
     	width: 100%;
     	text-align:center;
     }
-
+    
+    .photos {
+    	vertical-align: top;
+   	    padding-top: 14px;
+    }
+    
+    .photos-wrap {
+    	position: relative;
+    	min-height: 50px;
+    	width: 100%;
+	    background: white;
+	    border-radius: 8px;
+	    display: flex;
+	    align-items: center;
+	    color: #cecece;
+	    font-size: 14px;
+	    border: 10px solid white;
+	    overflow: hidden;
+	    flex-wrap: wrap;
+    }
+    
+     .photos-wrap > img {
+    	height: 130px;
+    	margin: 5px;
+    	
+    }
+    
+    .photos-wrap > div {
+    	width: 100%;
+    	text-align:center;
+    }
+    
+    .img-item {
+    	cursor: pointer;
+    }
+    
+    .remove-item {
+    	display: none;
+    }
+    
+    .photo-reset-btn {
+    	position: absolute;
+	    right: 0;
+	    bottom: 0;
+	    border-radius: 50%;
+	    width: 30px !important;
+	    height: 30px;
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    cursor: pointer;
+    }
+    
+    .photo-reset-btn > span {
+    	color: #484848;
+    }
+	
     </style>
     
     
@@ -204,9 +259,10 @@
 	<jsp:include page="../common/sidenaviDaily.jsp"/>
     <div class="right-area">
         <div>
-            <form action="addDailyRecord.do" name="record" method="post" enctype="multipart/form-data">
-                <span class="pSubject">New Record</span>
-                <input type="hidden" name="dr_no" value="${dr_no }">
+            <form action="editDailyRecord.do" name="record" method="post" enctype="multipart/form-data">
+                <span class="pSubject">Edit My Record : No.${dr.dr_no }</span>
+                <input type="hidden" name="dr_no" value="${dr.dr_no }">
+                <input type="hidden" name="dr_thumbnail" value="${dr.dr_thumbnail }">
                 <table cellpadding="6px">
                     <tr>
                         <td>Title</td>
@@ -231,7 +287,7 @@
                                 <input type="radio" id="snowy" name="weather" value="snowy">
                                 <label class="b-icons" for="snowy"><img src="resources/images/icons/snowy.png"></label>
                         </td>
-                        <input type="hidden" name="dr_weather" id="dr_weather" value="sunny">
+                        <input type="hidden" name="dr_weather" id="dr_weather" value="${dr.dr_weather }">
                     </tr>
                     <tr>
                         <td>Emotion</td>
@@ -251,7 +307,7 @@
                             <input type="radio" id="sad" name="emotion" value="sad">
                             <label for="sad" class="b-icons"><img src="resources/images/icons/sad.png"></label>
                         </td>
-                        <input type="hidden" name="dr_emotion" id="dr_emotion" value="love">
+                        <input type="hidden" name="dr_emotion" id="dr_emotion" value="${dr.dr_emotion }">
                     </tr>
                     <tr>
                         <td>Content</td>
@@ -259,6 +315,16 @@
                     </tr>
                     <tr>
                         <td>Photos</td>
+                        <td class="photos-area">
+                    		<div class="photos-wrap">
+                    			<div class="photo-reset-btn">
+                    				<span class="material-icons">replay</span>
+                    			</div>
+                    		</div>
+                    	</td>
+                    </tr>
+                    <tr>
+                        <td>New Photos</td>
                         <td>
                           <div class="file-box"> 
                              <input type="file" id="file" name="file" multiple/> 
@@ -271,13 +337,14 @@
                     	<td></td>
                     	<td class="preview-area">
                     		<div class="preview-wrap">
+                    			<div>사진 미리보기</div>
                     		</div>
                     	</td>
                     </tr>
                 </table>
                 <div class="button-area">
-                    <button>Back</button>
-                    <button type="submit">Save</button>
+                    <button type="button" onclick="history.go(-1)">Back</button>
+                    <button type="button" onclick="submit_btn()">Save</button>
                 </div>
             </form>
         </div>
@@ -285,15 +352,65 @@
 
     <script>
     
-    console.log("으음 ? : ${drp}");
+    	/* 기존 이미지 추가 / 수정 / 삭제 작업 */
     
-	    var drpSplit = "${drp}".split(',');
-	    for ( var i in drpSplit ) {	
-	      $(".preview-wrap").append("<img src='resources/druploadFiles/"+drpSplit[i]+"'>");
-	      console.log(drpSplit[i]);
+	    /* console.log("drp_rename : ${drp_rename}");
+	    console.log("drp_no : ${drp_no}") */
+    
+	    var drpRenameSplit = "${drp_rename}".split(',');
+	    var drpNoSplit = "${drp_no}".split(',');
+	    
+	    // 이미지 추가
+	    for ( var i in drpRenameSplit ) {	
+	      $(".photos-wrap").append("<img class='img-item' src='resources/druploadFiles/"+drpRenameSplit[i]+"' title='Click to remove'><input type='hidden' value='"+drpNoSplit[i]+"'>");
 	    }
+	    
+	    var remove_no = new Array();
+	    
+	    // 이미지 클릭시 화면에서 삭제
+	    $(".img-item").on("click", function(){
+	    	$(this).addClass("remove-item");
+	    	
+	    	var drp_no = $(this).next().val();
+	    	remove_no.push(drp_no);
+	    	
+	    });
+	    
+	    // 삭제된 이미지 되돌리기
+	    $(".photo-reset-btn").on("click", function() {
+	    	
+	    	$(".img-item").removeClass("remove-item");
+	    	remove_no = [];
+	    	
+	    });
+	    
+	    function submit_btn() {
+	    	
+	    	if(remove_no == "") {
+	    		location.href="editDailyRecord.do"
+	    	}else {
+	    		location.href="editDailyRecord.do?remove_no='"+ remove_no +"'";
+	    	}
+	    	
+	    }
+	    
+	    /* 저장된 데이터로 라디오 선택 */
+	    
+	    // 날씨
+	    $("#${dr.dr_weather}").attr("checked", true);
+	    
+	    // 기분
+	    $("#${dr.dr_emotion}").attr("checked", true);
+	    
+	    
+	    /* 삭제된 기존 사진 넘버 받아서 넘기기 */
+	    
+	    console.log("받아와 : " + remove_no);
+	    
+	    
+	    /* 인풋 태그에 값 저장 */
     
-	 // 라디오 버튼 히든 태그
+	 	// 라디오 버튼 히든 태그
 		// 색상
 		$(".weather-area > input").click(function(){
 			var value = $(this).val();
@@ -326,6 +443,8 @@
         	});
         	
         });
+        
+        /* 파일 업로드 미리보기 / 삭제 */
         
         $(document).ready(function(){
         

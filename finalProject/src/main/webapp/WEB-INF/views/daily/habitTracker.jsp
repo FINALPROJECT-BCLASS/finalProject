@@ -1356,7 +1356,7 @@
 		    	var htr_con = $("#htr_con").val();
 		    	var htr_date = $("#period > a").html();
 		    	
-		    	console.log("오늘날짜 찍히는지" + htr_date);
+		    	/* console.log("오늘날짜 찍히는지" + htr_date); */
 		    	
 		    	var htr = [ht_no, htr_now, htr_con, htr_date];
 		    	 

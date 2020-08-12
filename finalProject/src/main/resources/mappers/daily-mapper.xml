@@ -476,6 +476,7 @@
 		SELECT *
 		FROM DAILY_RECORD_PHOTO
 		WHERE DR_NO = #{dr_no}
+		AND DRP_DELETE = 'N'
 	</select>
 	
 	<insert id="insertDailyRecord" parameterType="DailyRecord">
@@ -496,7 +497,8 @@
 		VALUES (SEQ_DRP.NEXTVAL
 				, #{dr_no}
 				, #{drp_origin}
-				, #{drp_rename})
+				, #{drp_rename}
+				, DEFAULT)
 	</insert>
 	
 	<select id="selectDailyRecord" parameterType="hashmap" resultMap="DailyRecordResultSet">

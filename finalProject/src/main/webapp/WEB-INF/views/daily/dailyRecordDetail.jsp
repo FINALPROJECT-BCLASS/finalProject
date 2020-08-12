@@ -259,7 +259,8 @@
             <form action="editDailyRecordView.do" id="record" name="record" method="post" enctype="multipart/form-data">
             	<span class="pSubject">My Record : No.${dr.dr_no }</span>
                 <input type="hidden" name="dr_no" value="${dr.dr_no }">
-                <table cellpadding="6px">
+                <input type="hidden" name="dr_thumbnail" value="${dr.dr_thumbnail }">
+                <table cellpadding="6px"> 
                     <tr>
                         <td>Date</td>
                         <td>
@@ -301,7 +302,8 @@
 		                       		<div class="photos-wrap">
 			                        	<c:forEach var="drp" items="${drplist }">
 			                       			<img src="resources/druploadFiles/${drp.drp_rename }">
-			                       			<input type="text" name="drp_rename" value="${drp.drp_rename }">
+			                       			<input type="hidden" name="drp_no" value="${drp.drp_no }">
+			                       			<input type="hidden" name="drp_rename" value="${drp.drp_rename }">
 			                        	</c:forEach>
 		                       		</div>
 	                       		</div>

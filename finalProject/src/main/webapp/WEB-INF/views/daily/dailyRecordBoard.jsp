@@ -190,6 +190,7 @@
                     <button type="button" onclick = "dailyRecordAdd()">Add</button>
                     <button type="button">Delete</button>
              </div>
+             <input type="hidden" name="dr_thumbnail" value="${dr.dr_thumbnail }">
             <table class="board-table" cellpadding="3px">
                 <thead>
                     <tr>
