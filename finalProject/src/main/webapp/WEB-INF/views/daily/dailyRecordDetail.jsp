@@ -280,7 +280,7 @@
 
     <script>
     
-    console.log("으음 ? : ${dr_no}");
+    	/* console.log("으음 ? : ${dr_no}"); */
     
 	 // 라디오 버튼 히든 태그
 		// 색상

@@ -88,11 +88,15 @@ public interface DailyService {
 
 	ArrayList<DailyRecord> selectDailyRecordList(String id);
 
-	ArrayList<DailyRecordPhoto> selectDailyRecordPhotoList(String id);
+	ArrayList<DailyRecordPhoto> selectDailyRecordPhotoList(String dr_no);
 
 	int insertDailyRecord(DailyRecord dr);
 
 	int insertDailyRecordPhoto(DailyRecordPhoto drp);
+
+	DailyRecord selectDailyRecord(HashMap<String, String> map);
+
+	int updateDailyRecordThumbnail(DailyRecordPhoto drp);
 
 
 

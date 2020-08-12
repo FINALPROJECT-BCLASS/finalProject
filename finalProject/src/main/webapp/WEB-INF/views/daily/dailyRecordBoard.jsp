@@ -23,12 +23,17 @@
         /* Table */
 
         .board-table {
+        	width:100%;
             margin: 9px auto;
             margin-bottom: 50px;
-            width: 700px;
             border-top: 1px solid #484848;
             border-bottom: 1px solid #484848;
 
+        }
+        
+        .board-table > tr:nth-child(1) {
+        
+        	background:white;
         }
 
         tr {
@@ -46,12 +51,12 @@
         }
 
         th:nth-child(4) {
-            width: 300px;
+            width: 50%;
         }
         
         tr > td:nth-child(4) {
             text-align: left;
-            width: 300px;
+            width: 50%;
             height: 57px;
         }
 
@@ -61,7 +66,15 @@
             border-radius: 50%;
             background-color: white;
             margin: 0 auto;
+			display: flex;
+            justify-content : center;
+            align-items : center;
+            overflow : hidden;
         }
+        
+        .board-image-area > img {
+ 			 height:110%;
+		}
 
         td > a {
             display: inline-block;
@@ -69,7 +82,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            width: 280px;
+            width: 80%;
         }
 
         /* pagination */
@@ -89,10 +102,6 @@
         .page-bnf {
             margin: 0 6px;
             font-size: 19px;
-            /* width: 30px;
-            height: 30px;
-            border-style: none;
-            border-radius: 50%; */
         }
 
         .p-num {
@@ -164,6 +173,10 @@
             font-weight: 700;
             color: #484848;
         }
+        
+        .daily-record-area {
+        	width: 77%;
+        }
 
     </style>
 </head>
@@ -177,7 +190,7 @@
                     <button type="button" onclick = "dailyRecordAdd()">Add</button>
                     <button type="button">Delete</button>
              </div>
-            <table class="board-table" cellpadding="8px">
+            <table class="board-table" cellpadding="3px">
                 <thead>
                     <tr>
                         <th><input type="checkbox"></th>
@@ -193,14 +206,15 @@
 	                        <td><input type="checkbox"></td>
 	                        <td>${dr.dr_no }</td>
 	                        <td>
-	                        	<%-- <c:if test="${empty dr.dr_thumbnail }"> --%>
+	                        	<c:if test="${empty dr.dr_thumbnail }">
 	                        		<div class="board-image-area"></div>
-	                        	<%-- </c:if> --%>
-	                        	<%-- <c:if test="${!empty dr.dr_thumbnail }">
-	                        		<div class="board-image-area"><img class="image" src="resources/bluploadFiles/${dr.drp_rename }"></div>
-	                        	</c:if> --%>
+	                        	</c:if>
+	                        	<c:if test="${!empty dr.dr_thumbnail }">
+	                        		<div class="board-image-area"><img class="image" src="resources/druploadFiles/${dr.dr_thumbnail }"></div>
+	                        	</c:if>
 	                        </td>
-	                        <td><a href="#">${dr.dr_title }</a></td>
+	                        <c:url var="drview" value="dailyRecordDetailview.do?dr_no=${dr.dr_no }" />
+	                        <td><a href="${drview }">${dr.dr_title }</a></td>
 	                        <td>${dr.dr_date }</td>
 	                    </tr>
 	                </c:forEach>

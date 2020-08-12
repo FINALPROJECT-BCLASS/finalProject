@@ -473,11 +473,9 @@
 	</select>
 	
 	<select id="selectDailyRecordPhotoList" parameterType="String" resultMap="DailyRecordPhotoResultSet">
-		SELECT DRP.*
-		FROM DAILY_RECORD DR
-		JOIN DAILY_RECORD_PHOTO DRP ON (DR.DR_NO = DRP.DR_NO)
-		WHERE DR.ID=#{id}
-		AND DR.DR_DELETE='N'
+		SELECT *
+		FROM DAILY_RECORD_PHOTO
+		WHERE DR_NO = #{dr_no}
 	</select>
 	
 	<insert id="insertDailyRecord" parameterType="DailyRecord">
@@ -500,6 +498,13 @@
 				, #{drp_origin}
 				, #{drp_rename})
 	</insert>
+	
+	<update id="updateDailyRecordThumbnail" parameterType="DailyRecordPhoto">
+		UPDATE DAILY_RECORD
+		SET DR_THUMBNAIL = #{drp_rename}
+		WHERE DR_NO = #{dr_no}
+		AND DR_DELETE = 'N'
+	</update>
 	
 	
 </mapper>

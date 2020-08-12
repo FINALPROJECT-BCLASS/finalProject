@@ -253,9 +253,9 @@ public class DailyServiceImpl implements DailyService {
 	}
 
 	@Override
-	public ArrayList<DailyRecordPhoto> selectDailyRecordPhotoList(String id) {
+	public ArrayList<DailyRecordPhoto> selectDailyRecordPhotoList(String dr_no) {
 
-		return dailyDao.selectDailyRecordPhotoList(id);
+		return dailyDao.selectDailyRecordPhotoList(dr_no);
 	}
 
 	@Override
@@ -268,6 +268,18 @@ public class DailyServiceImpl implements DailyService {
 	public int insertDailyRecordPhoto(DailyRecordPhoto drp) {
 
 		return dailyDao.insertDailyRecordPhoto(drp);
+	}
+
+	@Override
+	public DailyRecord selectDailyRecord(HashMap<String, String> map) {
+		
+		return dailyDao.selectDailyRecord(map);
+	}
+
+	@Override
+	public int updateDailyRecordThumbnail(DailyRecordPhoto drp) {
+
+		return dailyDao.updateDailyRecordThumbnail(drp);
 	}
 
 

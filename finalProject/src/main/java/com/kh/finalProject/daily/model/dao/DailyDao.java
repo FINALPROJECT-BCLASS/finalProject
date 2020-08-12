@@ -213,9 +213,9 @@ public class DailyDao {
 		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectDailyRecordList", id);
 	}
 
-	public ArrayList<DailyRecordPhoto> selectDailyRecordPhotoList(String id) {
+	public ArrayList<DailyRecordPhoto> selectDailyRecordPhotoList(String dr_no) {
 
-		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectDailyRecordPhotoList", id);
+		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectDailyRecordPhotoList", dr_no);
 	}
 
 	public int insertDailyRecord(DailyRecord dr) {
@@ -231,6 +231,16 @@ public class DailyDao {
 	public int insertDailyRecordPhoto(DailyRecordPhoto drp) {
 
 		return sqlSessionTemplate.insert("dailyMapper.insertDailyRecordPhoto", drp);
+	}
+
+	public DailyRecord selectDailyRecord(HashMap<String, String> map) {
+
+		return sqlSessionTemplate.selectOne("dailyMapper.selectDailyRecord", map);
+	}
+
+	public int updateDailyRecordThumbnail(DailyRecordPhoto drp) {
+
+		return sqlSessionTemplate.update("dailyMapper.updateDailyRecordThumbnail", drp);
 	}
 
 }
