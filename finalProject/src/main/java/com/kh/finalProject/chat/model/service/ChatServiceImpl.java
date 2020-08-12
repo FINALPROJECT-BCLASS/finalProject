@@ -168,5 +168,35 @@ public class ChatServiceImpl implements ChatService{
 		return cDao.selectcount();
 	}
 
+	@Override
+	public int insertreport(HashMap<String, Object> map) {
+
+		return cDao.insertreport(map);
+	}
+
+	@Override
+	public int deleteopenchatroom(String cm_no) {
+	
+		return cDao.deleteopenchatroom(cm_no);
+	}
+
+	@Override
+	public int deleteopenchatlist(String cm_no) {
+
+		return cDao.deleteopenchatlist(cm_no);
+	}
+
+	@Override
+	public Chat selectmanagerchat(String user) {
+	
+		return cDao.selectmanagerchat(user);
+	}
+
+	@Override
+	public int insertmanagerchat(String user) {
+
+		return cDao.insertmanagerchat(user);
+	}
+
 	
 }

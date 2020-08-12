@@ -66,7 +66,7 @@
 	}
 	
 	.text-con {
-		width: 50%;
+	    max-width: 50%;
 	    background: #ffed95;
 	    border-radius: 10px;
 	    padding: 12px;
@@ -208,7 +208,7 @@
     }
     
     .text-con-area {
-   	    width: 50%;
+   	        max-width: 50%;
     }
     
     .text-con-area > div:nth-child(1) {
@@ -216,7 +216,133 @@
 	    color: gray;
 	    font-weight: 600;
     }
+    
+    
+    /*모달*/
+	.modal {
+		padding-right:0 !important;
+	}
+	 .modal-content{
+	 	height: 325px;
+	    width: 85% !important;
+		position: auto;
+		top:50%;
+		left:50%;
+		transform:translate(-52%,50%);
+	    display: flex;
+	    align-items: center;
+	    padding: 40px; 
+	}
+	.modal-nickname{
+		text-align: center;
+    	margin-top: 10px;
+	}
+	.modal-profile{
+		width: 150px;
+	    height: 150px;
+	    border-radius: 10%;
+	    overflow: hidden;
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+		}
+	.report{
+		margin-left: 0;
+	    height: 40px !important;
+	    background: #ffed95;
+	    margin-top: 10px;
+	}
+	.comunication{
+		margin-left: 0;
+	    height: 40px !important;
+	    background: #ffed95;
+	    margin-top: 10px;
+	}
+	.report-content{
+		height: 380px;
+	    width: 85% !important;
+	    position: auto;
+	    top: 25%;
+	    left: 50%;
+	    transform: translate(-52%,22%);
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    padding: 35px;
 	
+	}
+	
+	.report-table {
+		color:#484848;
+		font-size:14px;
+	}
+	
+	.report-table td {
+		padding:5px;
+	}
+	
+	.report-table tr td:nth-child(1) {
+		font-size:14px;
+		font-weight:bold;
+	    width: 90px;
+	}
+	
+	.report-table tr td:nth-child(2) {
+		padding-left:24px;
+		width: 230px;
+	}
+	
+	.reportoption5 {
+	    resize: none;
+	    border: 1px solid gray;
+	    background: #f3f3f3;
+	    border-radius: 8px;
+	    width: 200px;
+	    height: 100px;
+	}
+	
+	.reportoption {
+	    height: 33px;
+	    border: 1px solid gray;
+	    background: #f3f3f3;
+	    border-radius: 8px;
+	    font-size: 14px;
+	    color:#484848;
+	}
+	.modal-area{
+		height: 325px;
+	    width: 65% !important;
+	    position: auto;
+	    top: 50%;
+	    left: 50%;
+	    transform: translate(-52%,50%);
+	    display: flex;
+	    align-items: center;
+	    padding: 40px;
+	}
+	.reportsubmit{
+		margin-left: 0;
+	    height: 40px !important;
+	    background: #ffed95;
+	    margin-top: 10px;
+	}
+	.delete{
+		color: crimson;
+	    font-size: 22px;
+	    position: absolute;
+	    right: 0%;
+	    display: flex;
+	    align-items: center;
+	    top: 22%;
+	    width: 44px;
+	    height: 44px;
+	}
+	.delete-area:hover{
+	 	cursor: Pointer;
+	}
+	.admin{
+		right:10% !important;
+	}
 </style>
 <body>
 	
@@ -226,7 +352,7 @@
 			<
 		</div>	
 		<div class="roomtitle ble">
-			${openchat.cm_title}
+			${openchat.cm_title}                 
 		</div>
 		<div class="member-count-area">
 			<div class="member-count">
@@ -235,6 +361,13 @@
 			<ul class="member-list">
 			</ul>
 		</div>
+		<c:if test="${loginUser.id eq openchat.cm_id }">
+			<div class="delete-area">
+			<span class="material-icons delete">
+				cancel
+			</span>
+			</div>
+		</c:if>
 	</div>
 	
 	<div class="big-area">
@@ -267,8 +400,9 @@
 				</div>
 					<div class="tri-right"></div>
 				<div class="text-con-area">
-					<div>${cl.nickname }</div>
+					<div class="text-nickname">${cl.nickname }</div>
 					<div class="text-con-someone">${cl.ml_cont }</div>
+					<input type="hidden" value="${cl.id }" name="chatid" class="chatid">
 				</div>
 			</div>
 			</c:if>
@@ -278,13 +412,73 @@
 		<div class="send-area">
 			<textarea id="message"></textarea>
 			<input type="button" id="sendBtn" class="default-btn" value="전송"/>
-				<input type="hidden" value="${loginUser.nickname }" id="loginuser">
+				<input type="hidden" value="${loginUser.nickname }" id="loginusernickname">
 				<input type="hidden" value="${cm_no }" id="cm_no">
+				<input type="hidden" value="${loginUser.id }" id="loginuser">
 		</div>
+
+<div class="modal fade" id="modal">
+	<div class="modal-dialog">
+	 	<div class="modal-content modal-area">
+			<div class="modal-profile">
+				<img id="modal-img" height="110%">
+			</div>
+				<div class="modal-nickname"></div>
+			<div class="button-area">
+				<button class="default-btn b-yell report">신고하기</button>
+<!-- 				<button class="default-btn b-yell comunication">대화하기</button> -->
+			</div>
+	 	</div>
+	</div>
+</div>
+
+<div class="modal fade" id="report-modal">
+	<div class="modal-dialog">
+		<div class="modal-content report-content">
+		<table class="report-table" cellpadding="5">
+			<tr>
+			<td>신고자</td>
+				<td>${loginUser.id }</td>
+			</tr>
+			<tr>
+				<td>신고대상자</td>
+				<td class="reporteduser"></td>
+			</tr>
+			<tr>
+				<td>내용</td>
+				<td class="reportcontent"></td>
+			</tr>
+			<tr>
+				<td>신고항목</td>
+				<td><select id="reportoption" name="reportoption" class="reportoption" onchange="CheckText(this.options[this.selectedIndex].value);">
+                   <option class="reportoption" value="욕설/비방">욕설/비방</option>
+                   <option class="reportoption" value="음란물 유포">음란물 유포</option>
+                   <option class="reportoption" value="금전요구">금전요구</option>
+                   <option class="reportoption" value="성희롱">성희롱</option>
+                   <option class="reportoption" value="기타">기타</option>
+              </select></td>
+             </tr>
+            <tr id="text-area">
+			</tr>
+		</table>
+			<button class="default-btn b-yell reportsubmit">신고하기</button>
+			
+	</div>
+</div>
+
 </body>
 
 
+
 <script type="text/javascript">
+//방장일시 css 수정
+$(document).ready(function(){
+	var loginUser = "${loginUser.id}";
+	var cm_id = "${openchat.cm_id}";
+	if(loginUser == cm_id){
+		$(".member-count").addClass("admin");
+	}
+})
 
 
 	//웹소켓 연결 - sevlet-context에서 웹소켓 핸들러
@@ -335,13 +529,6 @@
 			msg : $("#message").val(),
 			img : "${loginUser.rename_file}"
 		};
-
-		/* 	if(login == "존재합니다"){
-				console.log("재밌넹");
-			}else{
-				location.href=login;
-			 }*/
-
 		//websocket으로 메시지를 보내겠다.
 		var jsonData = JSON.stringify(msgData);//JSON.stringify란 자바스크립트의 값을 JSON 문자열로 변환한다. 
 		sock.send(jsonData);
@@ -358,6 +545,11 @@
 		//문자열을 splite//
 		var strArray = data.split('|');
 
+		if(strArray.length ==1){
+			getout(strArray);
+			return;
+		}
+		
 		if (strArray.length == 5) {
 			memberList(strArray);
 			return;
@@ -368,7 +560,7 @@
 		}
 
 		//current session id//
-		var currentuser_session = $("#loginuser").val();
+		var currentuser_session = $("#loginusernickname").val();
 		console.log('loginuser id: ' + currentuser_session);
 		var current_cm_no = $("#cm_no").val();
 		console.log("current_cm_no : " + current_cm_no);
@@ -492,8 +684,104 @@
 
 	$(function() {
 		$(".Toback").click(function() {
-			location.href = "openchatroom.do";
+	//어쩌징..
+			var cm_no = $("#cm_no").val()
+			location.href = "openchatroomout.do?cm_no=" + cm_no;
 		})
 	})
+	
+	//신고 옵션 기타일떄 텍스트 띄우기
+	function CheckText(name){
+		
+		if(name == "기타"){//<textarea class="reportoption5" rows="" cols=""></textarea>
+			
+			document.getElementById("text-area").innerHTML="<td>내용입력 : </td><td><textarea class='reportoption5'></textarea></td>";
+		}else{
+			document.getElementById("text-area").innerHTML="";
+		}
+	}
+	
+	//스크롤 위치 고정
+	$(document).ready(function(){
+		$(".big-area").scrollTop($(".big-area")[0].scrollHeight);
+	})
+	
+	//모달
+	
+		$(document).on("click",".profile-img",function(){
+			var src =$(this).find("img").attr('src');
+			$("#modal-img").attr("src", src);
+			
+			var nickname = $(this).siblings(".text-con-area").find(".text-nickname").html();
+			$(".modal-nickname").html(nickname);
+			
+			var content =$(this).siblings(".text-con-area").find(".text-con-someone").html();
+			console.log("내용 : " + content);
+			
+			var chatid = $(this).siblings(".text-con-area").find("input[name='chatid']").val();
+			console.log("chatid : " + chatid);
+			$("#modal").modal();
+			
+			//신고버튼 누를시..모달교체
+			$(".report").click(function(){
+				console.log("nickname : " + nickname);
+				
+				console.log("내용 : " + content);
+				$(".reporteduser").html(nickname);
+				$(".reportcontent").html(content);
+				$("#modal").modal('toggle');
+				$("#report-modal").modal();
+			})
+			
+			//신고 접수
+			$(".reportsubmit").click(function(){
+				var option = $(".reportoption").val();
+				console.log("option : " + option);
+				
+				if(option == "기타"){
+					option =$(".reportoption5").val();
+				}
+				console.log("옵션 : " +option);
+				$.ajax({
+					url:"report.do",
+					data:{chatid:chatid,content:content,option:option},
+					success:function(data){
+						alert(data);
+					},
+		            error:function(request, status, errorData){
+		                alert("error code: " + request.status + "\n"
+		                      +"message: " + request.responseText
+		                      +"error: " + errorData);
+		           } 
+				}) 
+				$("#report-modal").modal('toggle');
+			})
+			
+		})
+	
+	
+
+	$(function(){
+		$(".delete").click(function(){
+			var cm_no=$("#cm_no").val();
+			
+			var msgData = {
+					cm_no : $("#cm_no").val(),
+					deletemsg : "openchatroom.do"
+				};
+				//websocket으로 메시지를 보내겠다.
+				var jsonData = JSON.stringify(msgData);//JSON.stringify란 자바스크립트의 값을 JSON 문자열로 변환한다. 
+				sock.send(jsonData);		
+			
+		})
+	})
+	
+	function getout(data){
+		var cm_no=$("#cm_no").val();
+		console.log("data : " +data);
+		location.href="openchatroomdelete.do?cm_no="+cm_no;
+	}
+
+	
 </script>
 </html>
