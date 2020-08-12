@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +30,8 @@ import com.kh.finalProject.daily.model.service.DailyService;
 import com.kh.finalProject.daily.model.vo.Bookmark;
 import com.kh.finalProject.daily.model.vo.BookmarkMap;
 import com.kh.finalProject.daily.model.vo.BookmarkUrl;
+import com.kh.finalProject.daily.model.vo.DailyRecord;
+import com.kh.finalProject.daily.model.vo.DailyRecordPhoto;
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
 import com.kh.finalProject.daily.model.vo.HabitSum;
@@ -775,7 +778,7 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 			bm.setBl_origin(file.getOriginalFilename());
 			bm.setBl_rename(renameFile);
 			
-			System.out.println("새로 세팅한 bm :" + bm);
+//			System.out.println("새로 세팅한 bm :" + bm);
 		}
 		
 		int result = dailyService.insertBookmarkGroup(bm);
@@ -1380,6 +1383,163 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 	    	out.flush();
 	    	out.close();
 	    }
+	}
+	
+	
+	@RequestMapping("dailyRecordView.do")
+	public ModelAndView dailyRecordView(ModelAndView mv, HttpServletRequest request, HttpServletResponse response) {
+		
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		ArrayList<DailyRecord> drlist = dailyService.selectDailyRecordList(id);
+//		ArrayList<DailyRecordPhoto> drplist = dailyService.selectDailyRecordPhotoList(id);
+		
+//		ArrayList<DailyRecordPhoto> drplist_f = new ArrayList<>();
+//		
+//		for(DailyRecord dr : drlist) {
+//			for(DailyRecordPhoto drp : drplist) {
+//				if(drp.getDr_no().equals(dr.getDr_no())) {
+//					drplist_f.add(drp);
+//				}
+//			}
+//		}
+//		
+//		System.out.println("drplist_f : " + drplist_f);
+//		
+//		System.out.println("drlist : " + drlist);
+		
+		if(drlist != null) {
+			
+			mv.addObject("drlist", drlist);
+			mv.setViewName("daily/dailyRecordBoard");
+			
+		}else {
+			
+			mv.addObject("drlist", drlist);
+			mv.setViewName("daily/dailyRecordBoard");
+			
+		}
+		
+		return mv;
+	}
+	
+	
+	@RequestMapping("addDailyRecordView.do")
+	public String addDailyRecordView(Model model, @RequestParam(value="dr_no", required=false) String dr_no) {
+		
+		model.addAttribute("dr_no", dr_no);
+		return "daily/dailyRecordAdd";
+	}
+	
+	
+	@RequestMapping("addDailyRecord.do")
+	public String addDailyRecord(Model model, HttpServletRequest request, DailyRecord dr
+								, @RequestParam(value="file", required=false) List<MultipartFile> file
+								, @RequestParam(value="dr_no", required=false) String dr_no_before) {
+		
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		System.out.println("dr : " + dr);
+//		System.out.println("file : " + file);
+		
+		dr.setId(id);
+		
+		
+		int result = dailyService.insertDailyRecord(dr);
+		
+		int dr_no_after = Integer.parseInt(dr_no_before) + 1;
+		String dr_no = Integer.toString(dr_no_after);
+		
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "/druploadFiles/";
+		
+		File folder = new File(savePath);
+		
+		if(!folder.exists()) {
+			folder.mkdirs();
+		}
+		
+		ArrayList<DailyRecordPhoto> drplist  = new ArrayList<>();
+		
+		
+		if(result > 0) {
+		
+			if(!file.isEmpty()) {
+				
+				for(MultipartFile mf : file) {
+					
+					String originFileName = mf.getOriginalFilename();
+					
+					// 파일명 앞에 '사용자 아이디_' 추가
+					String renameFileName = id + "_" + System.currentTimeMillis()
+												+"."+originFileName.substring(originFileName.lastIndexOf(".")+1);
+					
+					String filePath = folder + "/" + renameFileName;
+					
+					DailyRecordPhoto drp = new DailyRecordPhoto();
+					drp.setDrp_origin(originFileName);
+					drp.setDrp_rename(renameFileName);
+					drp.setDr_no(dr_no);
+					
+//					System.out.println("drp : "  + drp);
+					
+					int result_drp = dailyService.insertDailyRecordPhoto(drp);
+					
+					try {
+						mf.transferTo(new File(filePath));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
+					drplist.add(drp);
+				}
+				
+				int pResult = dailyService.updateDailyRecordThumbnail(drplist.get(0));
+				
+				
+				return "redirect:dailyRecordView.do";
+			
+			}
+			
+		} else {
+		
+			model.addAttribute("msg","글쓰기 실패, 다시 시도해 주세요.");
+            model.addAttribute("url","/addDailyRecordView.do");
+			
+			return "common/redirect";
+		}
+		
+		return "redirect:dailyRecordView.do";
+	}
+	
+	@RequestMapping("dailyRecordDetailview.do")
+	public String dailyRecordDetailView(Model model, HttpServletRequest request
+										, @RequestParam(value="dr_no", required=true) String dr_no) {
+		
+		HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("loginUser");
+		
+		String id = member.getId();
+		
+		//map으로 가져가서 확인해주자
+		HashMap<String, String> map = new HashMap<>();
+		map.put("id", id);
+		map.put("dr_no", dr_no);
+		
+		DailyRecord dr = dailyService.selectDailyRecord(map);
+		ArrayList<DailyRecordPhoto> drplist = dailyService.selectDailyRecordPhotoList(dr_no);
+		
+		System.out.println(drplist);
+		
+//		
+//		model.addAttribute("dr_no", dr_no);
+//		return "daily/dailyRecordDetail";
+		
+		return null;
 	}
 	
 }
