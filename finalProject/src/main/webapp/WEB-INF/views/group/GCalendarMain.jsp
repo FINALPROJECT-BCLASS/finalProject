@@ -323,7 +323,7 @@
         <h4 align="center">Calendar</h4><br>
         
         <br><br>
-       
+         
             	
            		<div id="groupWrite"  >
            			<span class="material-icons writeBtn" data-toggle="modal" data-target="#addModal">create</span>
