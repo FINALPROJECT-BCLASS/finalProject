@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.finalProject.account.model.vo.AccountBook;
 import com.kh.finalProject.memo.model.dao.MemoDao;
 import com.kh.finalProject.memo.model.vo.Memo;
 import com.kh.finalProject.plan.model.vo.MPlan;
@@ -61,6 +62,18 @@ public class MemoServiceImpl implements MemoService {
 	public int updateMpEnd(Memo m) {
 		
 		return mmDao.updateMpEnd(m);
+	}
+
+	@Override
+	public int insertABook(AccountBook ab) {
+		
+		return mmDao.insertABook(ab);
+	}
+
+	@Override
+	public int addABook(Memo m) {
+	
+		return mmDao.addABook(m);
 	}
 
 }

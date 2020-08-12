@@ -720,7 +720,8 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 	@RequestMapping("bookmarkView.do")
 	public ModelAndView bookmarkView(ModelAndView mv, HttpServletRequest request, HttpServletResponse response,
 									@RequestParam(value="bl_no", required=false) String blNum,
-									@RequestParam(value="mb_no", required=false) String mbNum) {
+									@RequestParam(value="mb_no", required=false) String mbNum,
+									@RequestParam(value="ub_no", required=false) String ubNum) {
 		
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
@@ -734,6 +735,7 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		
 		if(bookmark != null) {
 			
+			mv.addObject("ubNum", ubNum);
 			mv.addObject("mbNum", mbNum);
 			mv.addObject("blNum", blNum);
 			mv.addObject("bm", bookmark);
@@ -1129,7 +1131,7 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 	}
 	
 	
-	// 지도 북마크 리스트
+	// 지도 북마크 수정 폼
 	@RequestMapping("editBookmarkMapView.do")
 	public String editBookmarkMapView(Model model,
 					HttpServletRequest request, HttpServletResponse response,
@@ -1232,6 +1234,8 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 	}
 	
 	
+	
+	
 	@RequestMapping("selectBookmarkUrlList.do")
 	public void SelectBookmarkUrlList(Model model,
 			HttpServletRequest request, HttpServletResponse response, String bl_no) throws IOException {
@@ -1273,6 +1277,109 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 			out.flush();
 			out.close();
 		
+	}
+	
+	// 지도 북마크 수정 폼
+	@RequestMapping("editBookmarkUrlView.do")
+	public String editBookmarkUrlView(Model model,
+					HttpServletRequest request, HttpServletResponse response,
+					String ub_no) throws IOException {
+		
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		BookmarkUrl bu = new BookmarkUrl();
+		bu.setUb_no(ub_no);
+		bu.setId(id);
+		
+		BookmarkUrl bmUrl = dailyService.selectBookmarkUrl(bu);
+		
+		if(bmUrl != null) {
+			
+			model.addAttribute("bmUrl", bmUrl);
+			
+			return "daily/bookmarkUrlEdit";
+			
+		}else {
+			
+			model.addAttribute("msg","오류 발생, 다시 시도해 주세요.");
+            model.addAttribute("url","/bookmarkView.do");
+			
+			return "common/redirect";
+			
+		}
+		
+	}
+	
+	
+	// 지도 북마크 수정
+	@RequestMapping("editBookmarkUrl.do")
+	public String editBookmarkUrl(Model model, HttpServletRequest request, HttpServletResponse response,
+									RedirectAttributes redirectAttributes, BookmarkUrl bu) throws IOException {
+		
+
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		bu.setId(id);
+		
+		System.out.println("북마크 링크 편집 : " + bu);
+		
+		
+		int result = dailyService.updateBookmarkUrl(bu);
+		
+		if(result > 0) {
+			
+			redirectAttributes.addAttribute("bl_no", bu.getBl_no());
+			redirectAttributes.addAttribute("ub_no", bu.getUb_no());
+			return "redirect:bookmarkView.do";
+			
+		}else {
+
+			model.addAttribute("msg","오류 발생, 다시 시도해 주세요.");
+            model.addAttribute("url","/editBookmarkUrlView.do");
+			
+			return "common/redirect";
+		}
+		
+		
+	}
+	
+	
+	// 지도 북마크 삭제
+	@RequestMapping("deleteBookmarkUrl.do")
+	public void deleteBookmarkUrl(Model model, HttpServletRequest request, HttpServletResponse response,
+									RedirectAttributes redirectAttributes, BookmarkUrl bu) throws IOException{
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		bu.setId(id);
+		
+		System.out.println("bu : " + bu);
+		
+		int result = dailyService.deleteBookmarkUrl(bu);
+		
+		System.out.println(result);
+		 
+		if(result > 0) {
+	    	out.print("success");
+	    	out.flush();
+	    	out.close();
+	    } else {
+	    	out.print("failed");
+	    	out.flush();
+	    	out.close();
+	    }
 	}
 	
 }

@@ -25,11 +25,21 @@ public class Memo implements Serializable {
 	private String mpSub;
 	private String mpMemo;
 	
+	// ACCOUNT_BOOK (mainNo == 9)
+	private String abDate;
+	private int apcNo;
+	private String apcTitle;
+	private int aecNo;
+	private String aecTitle;
+	private int abAmount;
+	private String abMemo;
+	
 	public Memo() {
 	}
 
 	public Memo(int memoNo, String id, String memoDate, String memoCon, int mainNo, String memoDelete, String mpTitle,
-			String mpStart, String mpEnd, String mpTime, String mpMain, String mpSub, String mpMemo) {
+			String mpStart, String mpEnd, String mpTime, String mpMain, String mpSub, String mpMemo, String abDate,
+			int apcNo, String apcTitle, int aecNo, String aecTitle, int abAmount, String abMemo) {
 		this.memoNo = memoNo;
 		this.id = id;
 		this.memoDate = memoDate;
@@ -43,6 +53,13 @@ public class Memo implements Serializable {
 		this.mpMain = mpMain;
 		this.mpSub = mpSub;
 		this.mpMemo = mpMemo;
+		this.abDate = abDate;
+		this.apcNo = apcNo;
+		this.apcTitle = apcTitle;
+		this.aecNo = aecNo;
+		this.aecTitle = aecTitle;
+		this.abAmount = abAmount;
+		this.abMemo = abMemo;
 	}
 
 	public int getMemoNo() {
@@ -149,11 +166,69 @@ public class Memo implements Serializable {
 		this.mpMemo = mpMemo;
 	}
 
+	public String getAbDate() {
+		return abDate;
+	}
+
+	public void setAbDate(String abDate) {
+		this.abDate = abDate;
+	}
+
+	public int getApcNo() {
+		return apcNo;
+	}
+
+	public void setApcNo(int apcNo) {
+		this.apcNo = apcNo;
+	}
+
+	public String getApcTitle() {
+		return apcTitle;
+	}
+
+	public void setApcTitle(String apcTitle) {
+		this.apcTitle = apcTitle;
+	}
+
+	public int getAecNo() {
+		return aecNo;
+	}
+
+	public void setAecNo(int aecNo) {
+		this.aecNo = aecNo;
+	}
+
+	public String getAecTitle() {
+		return aecTitle;
+	}
+
+	public void setAecTitle(String aecTitle) {
+		this.aecTitle = aecTitle;
+	}
+
+	public int getAbAmount() {
+		return abAmount;
+	}
+
+	public void setAbAmount(int abAmount) {
+		this.abAmount = abAmount;
+	}
+
+	public String getAbMemo() {
+		return abMemo;
+	}
+
+	public void setAbMemo(String abMemo) {
+		this.abMemo = abMemo;
+	}
+
 	@Override
 	public String toString() {
 		return "Memo [memoNo=" + memoNo + ", id=" + id + ", memoDate=" + memoDate + ", memoCon=" + memoCon + ", mainNo="
 				+ mainNo + ", memoDelete=" + memoDelete + ", mpTitle=" + mpTitle + ", mpStart=" + mpStart + ", mpEnd="
-				+ mpEnd + ", mpTime=" + mpTime + ", mpMain=" + mpMain + ", mpSub=" + mpSub + ", mpMemo=" + mpMemo + "]";
+				+ mpEnd + ", mpTime=" + mpTime + ", mpMain=" + mpMain + ", mpSub=" + mpSub + ", mpMemo=" + mpMemo
+				+ ", abDate=" + abDate + ", apcNo=" + apcNo + ", apcTitle=" + apcTitle + ", aecNo=" + aecNo
+				+ ", aecTitle=" + aecTitle + ", abAmount=" + abAmount + ", abMemo=" + abMemo + "]";
 	}
 
 }

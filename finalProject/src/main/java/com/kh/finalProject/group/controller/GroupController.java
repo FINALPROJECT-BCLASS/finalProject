@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
+import com.kh.finalProject.group.common.BoardPagination;
 import com.kh.finalProject.group.common.PageInfo;
 import com.kh.finalProject.group.common.Pagination;
 import com.kh.finalProject.group.model.service.GroupService;
@@ -68,6 +69,7 @@ public class GroupController {
 
 	@Autowired
 	GroupLike gl;
+	
 
 	// 그룹 번호 세션 삭제
 	@RequestMapping(value = "groupSessionDelete.do", method = RequestMethod.GET)
@@ -399,11 +401,19 @@ public class GroupController {
 		
 	// 캘린더 작성
 	@RequestMapping(value = "insertPlan.do", method = RequestMethod.POST)
-	public ModelAndView insertPlan(ModelAndView mv, HttpSession session, GroupPlan gp) {
+	public ModelAndView insertPlan(ModelAndView mv, HttpSession session, GroupPlan gp,
+			 @RequestParam(value="coordY", required = false ) String coordY,
+			 @RequestParam(value="coordX", required = false ) String coordX){
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
-
+		
+		
+		System.out.println("coordY : " + coordY );
+		System.out.println("coordX : " + coordX );
+		
 		System.out.println("gp : " + gp);
+		gp.setGpCoordY(coordY);
+		gp.setGpCoordX(coordX);
 		int result = gService.planInsert(gp);
 		System.out.println("캘린더 result : " + result);
 		mv.setViewName("redirect:groupCalendarMain.do");
@@ -662,21 +672,46 @@ public class GroupController {
 	// 게시판 메인
 	@RequestMapping(value = "boardMain.do", method = RequestMethod.GET)
 	public ModelAndView boardMain(HttpSession session, ModelAndView mv,
-			@RequestParam(value = "page", required = false) String page) {
+			@RequestParam(value = "page", required = false) String page, GroupBoard gb,
+			@RequestParam(value = "searchKind", required = false) String searchKind,
+			@RequestParam(value = "searchCon", required = false) String searchCon) {
 		GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
-		System.out.println("게시판 메인 gInfo : " + gInfo);
 		GroupNotice noticeList = gService.selectNoticeOne(gInfo);
 		GroupTable gt = gService.selectOneGroup(gInfo);
+		
+		System.out.println("게시판 메인 gInfo : " + gInfo);
+		System.out.println("게시판 메인 searchKind : " + searchKind);
+		System.out.println("게시판 메인 searchCon : " + searchCon);
+		
 		int currentPage = 1;
 		if (page != null) {
 			int Cpage = Integer.parseInt(page);
 			currentPage = Cpage;
 		}
-
-		int listCount = gService.boardGetListCount(gInfo.getGroupNo());
-
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
-
+		
+		String kind = "";
+		if(searchKind != null) {
+			kind = searchKind;
+			gb.setSearchKind(kind);
+			
+		}
+		
+		String content = "";
+		if(searchCon != null) {
+			content = searchCon;
+			gb.setSearchCon(content);
+		}
+		
+		gb.setCurrentGmNo(gInfo.getGmNo());
+		gb.setCurrentGroupNo(gInfo.getGroupNo());
+		System.out.println("메인 gb : " + gb);
+		int listCount = gService.boardGetListCount(gb);
+		
+		System.out.println("listCount : " + listCount);
+		PageInfo pi = BoardPagination.getPageInfo(currentPage, listCount, searchCon);
+		pi.setSearchCon(content);
+		
+		mv.addObject("searchCon", content);
 		mv.addObject("gInfo", gInfo);
 		mv.addObject("groupTable", gt);
 		mv.addObject("noticeList", noticeList);
@@ -688,8 +723,10 @@ public class GroupController {
 
 	// 게시판 메인 ajax
 	@RequestMapping(value = "boardMainAjax.do", method = RequestMethod.GET)
-	public void boardMainAjax(HttpServletResponse response, HttpSession session,
-			@RequestParam(value = "page", required = false) String page) throws IOException {
+	public void boardMainAjax(HttpServletResponse response, HttpSession session,GroupBoard gb,
+			@RequestParam(value = "page", required = false) String page,
+			@RequestParam(value = "searchKind", required = false) String searchKind,
+			@RequestParam(value = "searchCon", required = false) String searchCon) throws IOException {
 		GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		int currentPage = 1;
@@ -697,18 +734,35 @@ public class GroupController {
 			int Cpage = Integer.parseInt(page);
 			currentPage = Cpage;
 		}
-
-		int listCount = gService.boardGetListCount(gInfo.getGroupNo());
-
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
-
+		
+		gb.setCurrentGmNo(gInfo.getGmNo());
+		gb.setCurrentGroupNo(gInfo.getGroupNo());
+		String kind = "";
+		if(searchKind != null) {
+			kind = searchKind;
+			gb.setSearchKind(kind);
+			
+		}
+		
+		String content = "";
+		if(searchCon != null) {
+			content = searchCon;
+			gb.setSearchKind(content);
+		}
+		
+		int listCount = gService.boardGetListCount(gb);
+		PageInfo pi = BoardPagination.getPageInfo(currentPage, listCount, searchCon);
+		
 		pi.setLoginUserId(gInfo.getLoginUserId());
 		pi.setGroupNo(gInfo.getGroupNo());
 		pi.setGmNo(gInfo.getGmNo());
-
+		pi.setSearchCon(content);
+		
+		System.out.println("pi : " + pi);
 		// 게시판 목록
 		ArrayList<GroupBoard> boardList = gService.selectBoardList(pi);
 		
+		System.out.println("boardList : " + boardList);
 		// 사진 목록
 		ArrayList<GroupBoardPhoto> photoList = gService.selectPhotoList(pi);
 
@@ -855,7 +909,6 @@ public class GroupController {
 		GroupLike likeList = gService.selectLikeList(gl);
 
 		ArrayList<GroupReply> replyList = gService.selectReplyList(gbNo);
-		System.out.println("게시판 메인 : " + replyList);
 		ArrayList<GroupReReply> reReplyList = gService.selectReReplyList(gbNo);
 
 		int totalReply = gService.totalReplyList(gbNo);
@@ -1125,11 +1178,7 @@ public class GroupController {
 		// 게시판 작성
 		@RequestMapping(value = "boardInsert.do", method = RequestMethod.POST)
 		public String boardInsert(HttpSession session, GroupBoard gb, HttpServletRequest request,
-				@RequestParam(name = "uploadFile1", required = false) MultipartFile uploadFile1,
-				@RequestParam(name = "uploadFile2", required = false) MultipartFile uploadFile2,
-				@RequestParam(name = "uploadFile3", required = false) MultipartFile uploadFile3,
-				@RequestParam(name = "uploadFile4", required = false) MultipartFile uploadFile4,
-				@RequestParam(name = "uploadFile5", required = false) MultipartFile uploadFile5
+				@RequestParam(name = "uploadFile1", required = false) MultipartFile uploadFile1
 				) {
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 			
@@ -1158,65 +1207,9 @@ public class GroupController {
 					gbp.setGbpRename(uploadFile1.getOriginalFilename());
 					
 					photoList.add(gbp);
-				}
-			}
-			
-			if (!uploadFile2.getOriginalFilename().contentEquals("")) { // 빈파일이 아니라면
-				String savePath = boardSaveFile(uploadFile2, request);
-				if (savePath != null) { // 파일이 잘 저장된 경우
-					GroupBoardPhoto gbp = new GroupBoardPhoto();
-					gbp.setGbNo(gbNo);
-					gbp.setGmNo(gInfo.getGmNo());
-					gbp.setgNo(gInfo.getGroupNo());
-					gbp.setGbpOrigin(uploadFile2.getOriginalFilename());
-					gbp.setGbpRename(uploadFile2.getOriginalFilename());
-					
-					photoList.add(gbp);
-				}
-			}
-			
-			if (!uploadFile3.getOriginalFilename().contentEquals("")) { // 빈파일이 아니라면
-				String savePath = boardSaveFile(uploadFile3, request);
-				if (savePath != null) { // 파일이 잘 저장된 경우
-					GroupBoardPhoto gbp = new GroupBoardPhoto();
-					gbp.setGbNo(gbNo);
-					gbp.setGmNo(gInfo.getGmNo());
-					gbp.setgNo(gInfo.getGroupNo());
-					gbp.setGbpOrigin(uploadFile3.getOriginalFilename());
-					gbp.setGbpRename(uploadFile3.getOriginalFilename());
-					
-					photoList.add(gbp);
-				}
-			}
-			
-			if (!uploadFile4.getOriginalFilename().contentEquals("")) { // 빈파일이 아니라면
-				String savePath = boardSaveFile(uploadFile4, request);
-				if (savePath != null) { // 파일이 잘 저장된 경우
-					GroupBoardPhoto gbp = new GroupBoardPhoto();
-					gbp.setGbNo(gbNo);
-					gbp.setGmNo(gInfo.getGmNo());
-					gbp.setgNo(gInfo.getGroupNo());
-					gbp.setGbpOrigin(uploadFile4.getOriginalFilename());
-					gbp.setGbpRename(uploadFile4.getOriginalFilename());
-					
-					photoList.add(gbp);
-				}
-			}
-			
-			if (!uploadFile5.getOriginalFilename().contentEquals("")) { // 빈파일이 아니라면
-				String savePath = boardSaveFile(uploadFile5, request);
-				if (savePath != null) { // 파일이 잘 저장된 경우
-					GroupBoardPhoto gbp = new GroupBoardPhoto();
-					gbp.setGbNo(gbNo);
-					gbp.setGmNo(gInfo.getGmNo());
-					gbp.setgNo(gInfo.getGroupNo());
-					gbp.setGbpOrigin(uploadFile5.getOriginalFilename());
-					gbp.setGbpRename(uploadFile5.getOriginalFilename());
 
-					photoList.add(gbp);
 				}
 			}
-			
 			System.out.println("게시판 생성 photoList: " +photoList);
 			int boardPhotoInsert = gService.insertBoardPhoto(photoList);
 			System.out.println("게시판 생성 boardPhotoInsert : " + boardPhotoInsert);
@@ -1793,7 +1786,7 @@ public class GroupController {
 			mv.addObject("groupTable", gt);
 			mv.setViewName("group/GAccountMain");
 			return mv;
-
+ 
 		}
 		
 		// 가계부 작성 view
@@ -1905,11 +1898,11 @@ public class GroupController {
 			String year = ga.getGaDate().substring(0, 4);
 			String month = ga.getGaDate().substring(5);
 			System.out.println("year : " + year);
+			System.out.println("month : " + month);
 			ga.setYear(year);
 			ga.setMonth(month);
 			ga.setgNo(gInfo.getGroupNo());
 			ga.setGmNo(gInfo.getGmNo());
-//			
 			
 			System.out.println("ga : " + ga);
 			
@@ -1948,71 +1941,14 @@ public class GroupController {
 					sendJson.put("expTotalList", defaultZero);
 				}
 			
-			if(proTotalList != null) {
+			if(feeTotalList != null) {
 				String gaAmount = formatter.format(feeTotalList.getTotalAmount());
 				sendJson.put("feeTotalList", gaAmount);
 				}else {
 					int defaultZero = 0;
 					sendJson.put("feeTotalList", defaultZero);
 				}
-			
-			
-//			for(GroupAccount p : proTotalList) {
-//				JSONObject jObj = new JSONObject();
-//				
-//				if(p.getGaAmount() == 0) {
-//					p.setTotalAmount(0);
-//				}else {
-//				
-//				String gaAmount = formatter.format(p.getGaAmount());
-//
-//				jObj.put("totalPro",gaAmount);
-//				System.out.println("totalPro :" + gaAmount);
-////				jObj.put("totalPro", p.getTotalAmount());
-//				
-//				pArr.add(jObj);
-//				}
-//			}
-//			
-//			for(GroupAccount p : expTotalList) {
-//				JSONObject jObj = new JSONObject();
-//				
-//				if(expTotalList.isEmpty()) {
-//					p.setTotalAmount(0);
-//				}else {
-//				
-//				String gaAmount = formatter.format(p.getGaAmount());
-//
-//				jObj.put("totalExp",gaAmount);
-//
-////				jObj.put("totalExp", p.getTotalAmount());
-//				
-//				eArr.add(jObj);
-//				}
-//			}
-//			
-//			for(GroupAccount p : feeTotalList) {
-//				JSONObject jObj = new JSONObject();
-//				
-//				if(feeTotalList.isEmpty()) {
-//					p.setTotalAmount(0);
-//				}else {
-//				
-//				String gaAmount = formatter.format(p.getGaAmount());
-//
-//				jObj.put("totalFee",gaAmount);
-//
-////				jObj.put("totalFee", p.getTotalAmount());
-//				
-//				fArr.add(jObj);
-//				}
-//			}
-//
-//			JSONObject sendJson = new JSONObject();
-//			sendJson.put("totalPro", pArr);
-//			sendJson.put("totalExp", eArr);
-//			sendJson.put("totalFee", fArr);
-//			
+	
 			PrintWriter out = response.getWriter();
 			out.print(sendJson);
 			out.flush();
@@ -2090,7 +2026,7 @@ public class GroupController {
 			mv.setViewName("redirect:accountMain.do");
 					return mv;
 				}
-		
+		 
 		// 가계부 이름 체크
 		@RequestMapping(value = "gamCheckYn.do", method = RequestMethod.GET)
 		public void gamCheckYn(HttpSession session, HttpServletResponse response, GroupAccountMember gam)
@@ -2119,6 +2055,46 @@ public class GroupController {
 			
 			int result = gService.deleteAccount(gaNo);
 			mv.setViewName("redirect:accountMain.do");
+				
+			return mv;
+		}
+		
+		//------------------------------------------------ 가계부 end ---------------------------------------
+		// 사다리
+		@RequestMapping(value = "ladderMain.do", method = RequestMethod.GET)
+		public ModelAndView ladderMain(ModelAndView mv, HttpSession session, 
+				@RequestParam(value = "gaNo", required = false) String gaNo) {
+			Member loginUser = (Member) session.getAttribute("loginUser");
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			GroupTable gt = gService.selectOneGroup(gInfo);
+			GroupNotice noticeList = gService.selectNoticeOne(gInfo);
+			mv.addObject("noticeList",noticeList);
+			mv.addObject("gInfo",gInfo);
+			mv.addObject("groupTable",gt);
+			mv.setViewName("group/GLadderMain");
+				
+			return mv;
+		}
+		
+		//------------------------------------------------ 사다리 end ---------------------------------------
+		
+		// 발자취
+		@RequestMapping(value = "footPrintMain.do", method = RequestMethod.GET)
+		public ModelAndView footPrintMain(ModelAndView mv, HttpSession session, 
+				@RequestParam(value = "gaNo", required = false) String gaNo) {
+			Member loginUser = (Member) session.getAttribute("loginUser");
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			GroupTable gt = gService.selectOneGroup(gInfo);
+			GroupNotice noticeList = gService.selectNoticeOne(gInfo);
+			ArrayList<GroupPlan> planList = gService.selectPlanList(gInfo);
+			System.out.println("planList : " + planList);
+			
+			
+			mv.addObject("planList",planList);
+			mv.addObject("noticeList",noticeList);
+			mv.addObject("gInfo",gInfo);
+			mv.addObject("groupTable",gt);
+			mv.setViewName("group/GFootPrintMain");
 				
 			return mv;
 		}

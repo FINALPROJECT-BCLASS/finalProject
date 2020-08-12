@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
+
 <html>
 <head>
 	<title>Home</title>
@@ -42,7 +42,7 @@
    
 	
 	/* 글쓰기 버튼 */
-	#groupWrite {text-align:right; width:100%; height: 50px; margin-right:40px; margin-bottom:10px; border:none;}
+	#groupWrite {display:flex; justify-content: center; align-items:center;text-align:right; width:100%; height: 50px; margin-right:40px; margin-bottom:10px; border:none;}
     .groupWrite {width:50 px; height:40px; cursor: pointer; border-radius: 5px;} 
     button {margin-bottom: 10px; margin-right:40px; background:none; border:0;}
 	.writeBtn{color:#2860E1 !important; font-size:60px !important;  text-shadow: 1.5px 1.5px 1.5px gray !important; cursor:pointer;}
@@ -80,6 +80,12 @@
         font-size: 16px;
         width:40px;
     }
+    
+    #searchForm{display:flex; }
+    .searchBox{margin-right:250px;}
+    .search{margin-right:5px;margin-left:400px;width:70px; height:40px; border-radius:6px; border:none;}
+    .searchCon{width:300px; height:40px; border:none; border-radius:6px;display:inline-block;margin-right:5px;}
+    .searchBtn{display:inline-block; height:40px !important; margin:0 !important; }
   </style>
   
 
@@ -114,7 +120,31 @@
     	</div>
      	
      	<br>
-      	<div id="groupWrite"  ><span class="material-icons writeBtn">create</span></div>
+      	<div id="groupWrite"  >
+      		<span class="searchBox">
+      		 <c:if test="${empty searchCon }">
+      		<form id="searchForm" action="boardMain.do" method="get">
+      			<select class="search" name="searchKind">
+      				<option value="GB_TITLE">Title</option>
+      			</select>
+      			<input type="text" id="searchCon" class="searchCon" name="searchCon">
+      			<button class="searchBtn detailBtn">Search</button>
+      		</form>
+      		</c:if>
+      		 <c:if test="${!empty searchCon }">
+      		<form id="searchForm" action="boardMain.do" method="get">
+      			<select class="search" name="searchKind">
+      				
+      				<option value="GB_TITLE">Title</option>
+      			</select>
+      			<input type="text" class="searchCon">
+      			<input type="hidden" id="searchCon" class="searchCon" name="searchCon" value="${searchCon }" >
+      			<button class="searchBtn detailBtn">Search</button>
+      		</form>
+      		</c:if>
+      		</span>
+      		<span class="material-icons writeBtn">create</span>
+      	</div>
         <br>
         <br>
         
@@ -128,7 +158,12 @@
           </div>
 		</div>
 
-
+	  <!-- 검색 버튼 -->
+	  <script>
+	  	$(".searchBtn").click(function(){
+	  		$("#searchForm").submit();
+	  	})
+	  </script>
 	
 	  <!-- 스크롤 게시판 -->
 	  <script>
@@ -157,12 +192,12 @@
            if(isEnd == true){
                return;
            }
-        
+        	var searchCon = $("#searchCon").val();
            $.ajax({
                url:"boardMainAjax.do",
                type: "GET",
                dataType: "json",
-               data:{page:pagePlus},
+               data:{page:pagePlus, searchCon:searchCon},
                success: function(data){
             	   if(data.boardList[0] == null){
       					$(".groupNotice").text("게시글이 없습니다.").css({"text-align":"center","padding-top":"200px","font-weight":"600","color":"gray"});

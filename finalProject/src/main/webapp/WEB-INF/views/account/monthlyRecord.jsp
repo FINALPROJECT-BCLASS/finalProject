@@ -200,7 +200,7 @@
                                             		<option value="7">기타</option>
                                             	</select>
                                             	<select id="aecNo" name="aecNo" style="width: 230px; display: none;">
-                                            		<option value="1" selected>식비</option>
+                                            		<option value="1">식비</option>
                                             		<option value="2">교통비</option>
                                             		<option value="3">문화생활</option>
                                             		<option value="4">생필품</option>

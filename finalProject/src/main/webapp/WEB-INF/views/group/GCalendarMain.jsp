@@ -202,9 +202,9 @@
         }
 
         #calendar {
-            max-width: 900px;
+        	width:90%;
             margin: 0 auto;
-            /* z-index: 0; */
+            border-radisu:6px;
         }
 
         .fc-today-button{
@@ -290,8 +290,12 @@
             font-weight: 600;
             font-size: 16px;
         }
-        
-        
+         .writeBtn{color:#aeaeae !important; font-size:50px !important; cursor:pointer; padding:0 !important;}
+         .writeBtn:hover{color:#2860E1 !important; font-size:50px !important; cursor:pointer; padding:0 !important;}
+         .join-form-area{top:-40px; padding-top:150px !important;position:relative; float: right;display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 40px; width: 81%; background: #F3F3F3; }
+         #groupWrite{width:100%; text-align:right; margin-right:100px;margin-top: -100px;display: flex;justify-content: flex-end;align-items: center;}
+		 
+		 .footImg{width:40px; height:40px; cursor:pointer;vertical-align: middle;margin-left: 10px;}
     </style>
 </head>
 
@@ -310,15 +314,20 @@
 		
 	
     	<br><br>
-    <%-- <jsp:include page="../common/groupNoticeHeader.jsp"/> --%>
+    	  <div class="join-form-area">
+    <jsp:include page="../common/groupNoticeHeader.jsp"/>
     	  <h1 align="center">Group Diary</h1>
-        <h4 align="center">Plan</h4><br>
+        <h4 align="center">Calendar</h4><br>
         
         <br><br>
-        <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-10">
-                <button class="default-btn" type="button" data-toggle="modal" data-target="#addModal">Add</button>
+         
+            	
+           		<div id="groupWrite"  >
+           			<span class="material-icons writeBtn" data-toggle="modal" data-target="#addModal">create</span>
+           			<img class="footImg" src="resources/images/icons/grayFoot.png" onclick="location.href='footPrintMain.do'">
+           		</div>
+           		<br>
+                
                 <div class="modal fade" id="addModal" role="dialog">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -365,11 +374,11 @@
                                         <tr>
                                             <td colspan="2">
                                             	Location&nbsp;
-                                            	<button type="button" class="default-btn b-lightgray" onclick="searchAddress()">Search</button>
+                                            	<button type="button" id="searchBtn" class="default-btn b-lightgray" onclick="searchAddress()">Search</button>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2"><input type="text" name="address1" class="mainAddress textBox" size="49"></td>
+                                            <td colspan="2"><input type="text" id="insertAddress" name="address1" class="mainAddress textBox" size="49"></td>
                                         </tr>
                                         <tr>
                                             <td colspan="2"><input type="text" name="address2" class="subAddress textBox" size="49"></td>
@@ -383,18 +392,20 @@
                                             </td>
                                         </tr>
                                     </table>
-                                    <button type="button" id="insertBtn" class="default-btn b-yell">Add</button>
+                                    <input type="hidden" id="coordY" name="coordX" value="">
+                                    <input type="hidden" id="coordX" name="coordY" value="">
+                                    <button type="button" id="add" class="default-btn b-yell">Add</button>
+                                    <button type="button" id="insertBtn" class="default-btn b-yell">Insert</button>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div id='calendar'></div>
-            </div>
-
-        </div>
+   			</div>
+   			
        <br><br><br><br><br>
-       
+     
        <div class="modal fade" id="detailModal" role="dialog">
 	       <div class="modal-dialog">
 	           <div class="modal-content">
@@ -447,7 +458,6 @@
 	                       <div id="map" style="width:300px;height:200px;"></div>
 	                       <br><br>
 	                       <div class="btnBox"></div>
-	                      
 	                   </form>
 	               </div>
 	           </div>
@@ -526,14 +536,69 @@
 
     <jsp:include page="../common/footer.jsp"/>	
 	
+	
+	<!-- 발바닥 색 변경 -->
+  	<script>
+      		$(".footImg").mouseover(function(){
+      			$(this).attr("src","resources/images/icons/yellowFoot.png");
+      		})
+      		$(".footImg").mouseleave(function(){
+      			$(this).attr("src","resources/images/icons/grayFoot.png");
+      		})
+    </script>
+
 	<script>
 		
-			$(document).on("click","#insertBtn",function(){
+			$(document).on("click","#add",function(){
 			if($("#addTitle").val() == ""){
 				alert("제목을 입력해주세요");
 			}else if($("#addTitle").val() != ""){
-				$("#insertForm").submit();
-			}
+					if($("#insertAddress").val() != ""){
+						alert("값없이");
+						var address1 = $("#insertAddress").val();
+						console.log("address1 : " + address1);
+			    		var geocoder = new kakao.maps.services.Geocoder();
+			    		var coordX = document.getElementById("coordX");
+			    		var coordY = document.getElementById("coordY");
+						// 주소로 좌표를 검색합니다
+						geocoder.addressSearch(address1, function(result, status) {
+						
+						    // 정상적으로 검색이 완료됐으면 
+						     if (status === kakao.maps.services.Status.OK) {
+						
+						        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+						       	xx = result[0].x;
+						       	yy = result[0].y;
+						        /* mapCoords = coords;
+						        coordsY = new kakao.maps.LatLng(result[0].y);
+						        coordsX = new kakao.maps.LatLng(result[0].x);
+								 */
+
+						        // 결과값으로 받은 위치를 마커로 표시합니다
+						        var marker = new kakao.maps.Marker({
+						            map: map,
+						            position: coords
+						        });
+						
+						        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+						        map.setCenter(coords);
+						        
+						        resizeMap(coords);
+						        coordX.value = xx;
+						        coordY.value = yy;
+								alert(xx+","+yy);
+						    } 
+						});
+					}
+					
+				
+				
+				} 
+			
+		})
+		
+		$("#insertBtn").click(function(){
+			   $("#insertForm").submit(); 
 		})
 	</script>
 	
@@ -671,7 +736,9 @@
 	    				     if (status === kakao.maps.services.Status.OK) {
 	    				
 	    				        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-	    				
+	    				        var coordsY = new kakao.maps.LatLng(result[0].y);
+	    				        var coordsX = new kakao.maps.LatLng(result[0].x);
+	    						
 	    				        // 결과값으로 받은 위치를 마커로 표시합니다
 	    				        var marker = new kakao.maps.Marker({
 	    				            map: map,

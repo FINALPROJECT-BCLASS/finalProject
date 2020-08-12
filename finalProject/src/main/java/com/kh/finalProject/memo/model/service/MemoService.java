@@ -2,6 +2,7 @@ package com.kh.finalProject.memo.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.finalProject.account.model.vo.AccountBook;
 import com.kh.finalProject.memo.model.vo.Memo;
 import com.kh.finalProject.plan.model.vo.MPlan;
 
@@ -22,5 +23,9 @@ public interface MemoService {
 	int addMPlan(Memo m);
 
 	int updateMpEnd(Memo m);
+
+	int insertABook(AccountBook ab);
+
+	int addABook(Memo m);
 
 }

@@ -46,7 +46,7 @@ public interface GroupService {
 
 	GroupNotice selectNoticeOne(GroupInfo gInfo);
 
-	int boardGetListCount(int groupNo);
+	int boardGetListCount(GroupBoard gb);
 
 	ArrayList<GroupBoard> selectBoardList(PageInfo pi);
 

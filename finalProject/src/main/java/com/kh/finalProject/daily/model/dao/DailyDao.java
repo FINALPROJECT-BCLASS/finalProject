@@ -181,7 +181,7 @@ public class DailyDao {
 		return sqlSessionTemplate.update("dailyMapper.deleteBookmarkMap", bm);
 	}
 
-	public ArrayList<BookmarkUrl> selectBookmarkUrl(BookmarkUrl bu) {
+	public ArrayList<BookmarkUrl> selectBookmarkUrlList(BookmarkUrl bu) {
 
 		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectBookmarkUrlList", bu);
 	}
@@ -189,6 +189,21 @@ public class DailyDao {
 	public int insertBookmarkUrl(BookmarkUrl ub) {
 
 		return sqlSessionTemplate.insert("dailyMapper.insertBookmarkUrl", ub);
+	}
+
+	public BookmarkUrl selectBookmarkUrl(BookmarkUrl bu) {
+
+		return sqlSessionTemplate.selectOne("dailyMapper.selectBookmarkUrl", bu);
+	}
+
+	public int updateBookmarkUrl(BookmarkUrl bu) {
+
+		return sqlSessionTemplate.update("dailyMapper.updateBookmarkUrl", bu);
+	}
+
+	public int deleteBookmarkUrl(BookmarkUrl bu) {
+
+		return sqlSessionTemplate.delete("dailyMapper.deleteBookmarkUrl", bu);
 	}
 
 }
