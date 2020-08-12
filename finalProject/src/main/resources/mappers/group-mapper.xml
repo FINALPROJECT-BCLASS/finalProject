@@ -41,7 +41,8 @@
 		<result property="gpCon" column="GP_CON"/>
 		<result property="gpStart" column="GP_START"/>
 		<result property="gpEnd" column="GP_END"/>
-		<result property="gpPost" column="GP_POST"/>
+		<result property="gpCoordY" column="GP_COORDY"/>
+		<result property="gpCoordX" column="GP_COORDX"/>
 		<result property="address1" column="GP_ADDRESS1"/>
 		<result property="address2" column="GP_ADDRESS2"/>
 		<result property="color" column="GP_COLOR"/>
@@ -321,7 +322,8 @@
 			#{gpCon},
 			#{gpStart},
 			#{gpEnd},
-			#{gpPost},
+			#{gpCoordY},
+			#{gpCoordX},
 			#{address1},
 			#{address2},
 			#{color},
@@ -331,14 +333,14 @@
 	</insert>
 	
 	<select id="selectPlanList" parameterType="GroupInfo" resultMap="groupPlanResultSet">
-		SELECT GP_NO, G_NO, GM_NO, GP_TITLE, GP_CON, GP_START, GP_END, GP_POST, GP_ADDRESS1, GP_ADDRESS2, GP_COLOR
+		SELECT GP_NO, G_NO, GM_NO, GP_TITLE, GP_CON, GP_START, GP_END, GP_COORDY, GP_COORDX, GP_ADDRESS1, GP_ADDRESS2, GP_COLOR
 		FROM GROUP_PLAN
 		WHERE G_NO = #{groupNo}
 		AND GP_DELETE = 'N'
 	</select>
 	
 	<select id="detailPlan" parameterType="GroupPlan" resultMap="groupPlanResultSet">
-		SELECT GP_NO, GP.G_NO, GP.GM_NO, GP_TITLE, GP_CON, GP_START, GP_END, GP_POST, GP_ADDRESS1, GP_ADDRESS2, GP_COLOR, NAME
+		SELECT GP_NO, GP.G_NO, GP.GM_NO, GP_TITLE, GP_CON, GP_START, GP_END, GP_ADDRESS1, GP_ADDRESS2, GP_COLOR, NAME
 		FROM GROUP_PLAN GP
         JOIN GROUP_MEMBER GM ON(GP.GM_NO = GM.GM_NO)
         JOIN MEMBER M ON(GM.GM_ID = M.ID)
@@ -422,19 +424,21 @@
 		WHERE ROWNUM =1
 	</select>
 
-	<select id="boardGetListCount" resultType="_int">
+	<select id="boardGetListCount" parameterType="GroupBoard" resultType="_int">
 		SELECT COUNT(*)
 		FROM GROUP_BOARD
-		WHERE G_NO = #{groupNo}
-		AND GB_DELETE = 'N'
+		WHERE G_NO = #{currentGroupNo}
+		      AND GB_TITLE LIKE '%' || #{searchCon} || '%'   
+	    AND GB_DELETE = 'N'
 	</select>
 	
-	<select id="selectBoardList" parameterType="GroupInfo" resultMap="groupBoardResultSet">
+	<select id="selectBoardList"  resultMap="groupBoardResultSet">
 		SELECT GB_NO, GB.GM_NO AS GM_NO, GB.G_NO AS G_NO, GB_TITLE, GB_CON, GB_DATE, GB_DELETE, GB_COUNT, NAME, RENAME_FILE
 		FROM GROUP_BOARD GB
 		JOIN GROUP_MEMBER GM ON(GB.GM_NO = GM.GM_NO)
         JOIN MEMBER M ON (GM.GM_ID = M.ID)
         WHERE GB.G_NO = #{groupNo}
+        AND GB_TITLE LIKE '%' || #{searchCon} || '%'    
         AND GB_DELETE = 'N'
 		ORDER BY GB_NO DESC
 	</select>
@@ -979,7 +983,9 @@
 		FROM GROUP_ACCOUNT
 		WHERE G_NO = #{groupNo}
 		AND GA_FEE = 'Y'
+		AND GA_DELETE = 'N'
 		AND GAS_YN = 'Y'
+		ORDER BY GA_NO DESC
 	</select>
 	
 	<select id="selectMemberCheckList" parameterType="GroupInfo" resultMap="groupAccountMemberResultSet">
