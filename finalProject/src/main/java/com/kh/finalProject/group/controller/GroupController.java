@@ -688,7 +688,7 @@ public class GroupController {
 			int Cpage = Integer.parseInt(page);
 			currentPage = Cpage;
 		}
-		
+		  
 		String kind = "";
 		if(searchKind != null) {
 			kind = searchKind;
