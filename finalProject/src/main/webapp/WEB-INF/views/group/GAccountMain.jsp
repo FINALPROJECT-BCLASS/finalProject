@@ -129,10 +129,16 @@
             width: 1000px !important;
         }
 
+		.calBox{
+			width:70%;
+			margin-left:-200px;
+		}
+		
         #calendar {
-            max-width: 900px;
+            /* max-width: 900px; */
+            width:100%%;
             margin: 0 auto;
-            margin-left: 300px;
+            
             /* z-index: 0 !important; */
         }
 
@@ -148,8 +154,8 @@
         	display: none !important;
         }
         #total{
-        	margin-left:100px;
-        	width:90%;
+        	
+        	width:100%;
         }
         
         .total{
@@ -163,14 +169,9 @@
         	display:inline-block;
         	width:30%;
         }
-        
        
-         .join-form-area{padding-top:150px !important;position:relative; float: right;display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 40px; width: 81%; background: #F3F3F3; }
-         
-         #calendar{margin:0 auto;}
-         
-         .itemBox{ margin-left: 200px; width:70%;}
-         
+         .join-form-area{top:-40px; padding-top:150px !important;position:relative; float: right;display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 40px; width: 81%; background: #F3F3F3; }
+
          .alert{font-size:14px; color:gray; margin-top:-20px;}
          .proText{color:#2860E1; font-size:18px; font-weight:600;}
          .expText{color:#dc3545; font-size:18px; font-weight:600;}
@@ -199,16 +200,17 @@
 		</c:if>
         
         <br><br>
-           <!-- <div class="join-form-area"> -->
+           <div class="join-form-area">
     
-   <%--  <jsp:include page="../common/groupNoticeHeader.jsp"/> --%>
-   		<div class="bodyBox">
-         <div class="itemBox" style="width:70%">
+   <jsp:include page="../common/groupNoticeHeader.jsp"/>
+   		
+         
          <h1 align="center">Group Diary</h1>
         <h4 align="center">Account</h4><br>
         <h6 align="center" class="alert">Group Account는 그룹 관리자만 작성할 수 있습니다.</h6>
          <br>
          
+                <div class="calBox">
    
                 <table id="total">
                     <tr>
@@ -221,9 +223,8 @@
                     </tr>
                 </table>
                   <div id='calendar'></div>
-                <!--    <div id='calendar'></div> -->
-                   <!-- </div> -->
-   				 </div>
+                 </div>  
+   				 
      <div class="memoBox">
      	<c:forEach var="c" items="${checkList }">
 	     	<div class="shareMemo">

@@ -84,15 +84,15 @@ public class GroupDao {
 		return sqlSessionTemplate.selectOne("groupMapper.selectNoticeOne", gInfo);
 	}
 
-	public int boardGetListCount(int groupNo) {
-		return sqlSessionTemplate.selectOne("groupMapper.boardGetListCount", groupNo);
+	public int boardGetListCount(GroupBoard gb) {
+		return sqlSessionTemplate.selectOne("groupMapper.boardGetListCount", gb);
 	}
 
 	public ArrayList<GroupBoard> selectBoardList(PageInfo pi) {
 		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		
+		String searchCon = pi.getSearchCon();
 		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectBoardList",pi, rowBounds);
 		
 	}

@@ -75,6 +75,24 @@
 		<result property="ub_url" column="UB_URL"/>
 	</resultMap>
 	
+	<resultMap type="DailyRecord" id="DailyRecordResultSet">
+		<id property="dr_no" column="DR_NO"/>
+		<result property="id" column="ID"/>
+		<result property="dr_title" column="DR_TITLE"/>
+		<result property="dr_date" column="DR_DATE"/>
+		<result property="dr_weather" column="DR_WEATHER"/>
+		<result property="dr_emotion" column="DR_EMOTION"/>
+		<result property="dr_con" column="DR_CON"/>
+		<result property="dr_thumbnail" column="DR_THUMBNAIL"/>
+	</resultMap>
+	
+	<resultMap type="DailyRecordPhoto" id="DailyRecordPhotoResultSet">
+		<id property="drp_no" column="DRP_NO"/>
+		<result property="dr_no" column="DR_NO"/>
+		<result property="drp_origin" column="DRP_ORIGIN"/>
+		<result property="drp_rename" column="DRP_RENAME"/>
+	</resultMap>
+	
 	<insert id="insertHabit" parameterType="Habit">
 		INSERT INTO HABIT_TRACKER
 		VALUES(SEQ_HT.NEXTVAL, #{id}, #{ht_title}, #{ht_type}, #{ht_goal}, #{ht_unit}, #{ht_cycle}, SYSDATE,
@@ -446,6 +464,48 @@
 		SET UB_DELETE = 'Y'
 		WHERE ID = #{id}
 		AND UB_NO = #{ub_no}
+	</update>
+	
+	<select id="selectDailyRecordList" parameterType="String" resultMap="DailyRecordResultSet">
+		SELECT *
+		FROM DAILY_RECORD
+		WHERE ID=#{id}
+		AND DR_DELETE='N'
+		ORDER BY DR_NO DESC
+	</select>
+	
+	<select id="selectDailyRecordPhotoList" parameterType="String" resultMap="DailyRecordPhotoResultSet">
+		SELECT *
+		FROM DAILY_RECORD_PHOTO
+		WHERE DR_NO = #{dr_no}
+	</select>
+	
+	<insert id="insertDailyRecord" parameterType="DailyRecord">
+		INSERT INTO DAILY_RECORD
+		VALUES (SEQ_DR.NEXTVAL
+				, #{id}
+				, #{dr_title}
+				, #{dr_date}
+				, #{dr_weather}
+				, #{dr_emotion}
+				, #{dr_con}
+				, DEFAULT
+				, '')
+	</insert>
+	
+	<insert id="insertDailyRecordPhoto" parameterType="DailyRecordPhoto">
+		INSERT INTO DAILY_RECORD_PHOTO
+		VALUES (SEQ_DRP.NEXTVAL
+				, #{dr_no}
+				, #{drp_origin}
+				, #{drp_rename})
+	</insert>
+	
+	<update id="updateDailyRecordThumbnail" parameterType="DailyRecordPhoto">
+		UPDATE DAILY_RECORD
+		SET DR_THUMBNAIL = #{drp_rename}
+		WHERE DR_NO = #{dr_no}
+		AND DR_DELETE = 'N'
 	</update>
 	
 	

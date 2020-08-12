@@ -10,6 +10,8 @@ import com.kh.finalProject.daily.model.dao.DailyDao;
 import com.kh.finalProject.daily.model.vo.Bookmark;
 import com.kh.finalProject.daily.model.vo.BookmarkMap;
 import com.kh.finalProject.daily.model.vo.BookmarkUrl;
+import com.kh.finalProject.daily.model.vo.DailyRecord;
+import com.kh.finalProject.daily.model.vo.DailyRecordPhoto;
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
 import com.kh.finalProject.daily.model.vo.HabitSum;
@@ -244,7 +246,44 @@ public class DailyServiceImpl implements DailyService {
 		return dailyDao.deleteBookmarkUrl(bu);
 	}
 
+	@Override
+	public ArrayList<DailyRecord> selectDailyRecordList(String id) {
 
+		return dailyDao.selectDailyRecordList(id);
+	}
+
+	@Override
+	public ArrayList<DailyRecordPhoto> selectDailyRecordPhotoList(String dr_no) {
+
+		return dailyDao.selectDailyRecordPhotoList(dr_no);
+	}
+
+	@Override
+	public int insertDailyRecord(DailyRecord dr) {
+
+		return dailyDao.insertDailyRecord(dr);
+	}
+
+	@Override
+	public int insertDailyRecordPhoto(DailyRecordPhoto drp) {
+
+		return dailyDao.insertDailyRecordPhoto(drp);
+	}
+
+	@Override
+	public DailyRecord selectDailyRecord(HashMap<String, String> map) {
+		
+		return dailyDao.selectDailyRecord(map);
+	}
+
+	@Override
+	public int updateDailyRecordThumbnail(DailyRecordPhoto drp) {
+
+		return dailyDao.updateDailyRecordThumbnail(drp);
+	}
+
+
+	
 
 
 	

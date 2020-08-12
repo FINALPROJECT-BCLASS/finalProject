@@ -143,4 +143,29 @@ public class ChatDao {
 
 		return (ArrayList)sqlSessionTemplate.selectList("chatMapper.selectcount");
 	}
+
+	public int insertreport(HashMap<String, Object> map) {
+		
+		return sqlSessionTemplate.insert("chatMapper.insertreport",map);
+	}
+
+	public int deleteopenchatroom(String cm_no) {
+		
+		return sqlSessionTemplate.delete("chatMapper.deleteopenchatroom", cm_no);
+	}
+
+	public int deleteopenchatlist(String cm_no) {
+		
+		return sqlSessionTemplate.delete("chatMapper.deleteopenchatlist",cm_no);
+	}
+
+	public Chat selectmanagerchat(String user) {
+		
+		return sqlSessionTemplate.selectOne("chatMapper.selectmanagerchat", user);
+	}
+
+	public int insertmanagerchat(String user) {
+		
+		return sqlSessionTemplate.insert("chatMapper.insertmanagerchat", user);
+	}
 }

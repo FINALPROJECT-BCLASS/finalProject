@@ -14,7 +14,7 @@
     button {float:right; margin-bottom: 10px; margin-right:40px; background:none; border:0;}
 
     .groupTb {border-spacing: 20px; border-collapse: separate;}
-    .groupTb td{padding:20px; margin:20px; border:2px solid lightgrey; border-radius: 7px; background:white;}
+    .groupTb td{padding:20px; margin:20px; border:1px solid lightgrey; border-radius: 7px; background:white;}
     
     #gropTbForm{margin-bottom:70px;}
     

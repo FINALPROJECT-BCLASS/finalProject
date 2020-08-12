@@ -126,12 +126,56 @@ public class openChatHandler extends TextWebSocketHandler {
 
 			return;
 		}
+		//채팅방 삭제시 모두 방나가게하기
+		if(mapReceive.containsKey("deletemsg")) {
+			
+			for (int i = 0; i < sessionList.size(); i++) {
+				Map<String, Object> mapSessionList = sessionList.get(i);
+
+				// sessionList에 담긴 Map에 값 가져옴
+				String cm_no = String.valueOf(mapSessionList.get("cm_no")); // 세션리스트에 담긴번호
+				WebSocketSession sess = (WebSocketSession)mapSessionList.get("session"); // 세션리스트에 담긴 세션
+				System.out.println("sess : " + sess.getId()); // 확인1 .
+				System.out.println("session확인2 :" + mapSessionList.get("session"));
+				System.out.println("cm_no" + cm_no);
+				// 만약 Map값을 불러왔는데 방번호가 같다면?
+				if (cm_no.equals(mapReceive.get("cm_no"))) {
+
+					//Map<String, Object> userIdmap = session.getAttributes();
+					//Member m = (Member) userIdmap.get("loginUser"); // 세션 교체
+
+					//String nickname = m.getNickname();
+
+					String jsonStr2 = mapReceive.get("deletemsg");
+
+					System.out.println("확인 에욱" + jsonStr2);
+					sess.sendMessage(new TextMessage(jsonStr2)); // 여기잠깐바꿈
+
+				}
+			}
+
+			return;
+			
+			
+		}
 
 		//채팅 메세지 보내기
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("cm_no", mapReceive.get("cm_no"));
 		map.put("session", session);// 세션을 httpsession의 로그인아이디 로 교체 작업도중 끝
+		
+		
+		//내아이디.
+		Map<String, Object> userIdmap = session.getAttributes();
+		Member m = (Member) userIdmap.get("loginUser"); // 세션 교체
 
+		String loginid = m.getId();
+		
+		HashMap<String, Object> dbmap = new HashMap<String, Object>();
+		dbmap.put("cm_no", mapReceive.get("cm_no"));
+		dbmap.put("id", loginid);
+		dbmap.put("message", String.valueOf(mapReceive.get("msg")));
+		int result = cService.insertOpenChatmsg(dbmap);// db저장
 		for (int i = 0; i < sessionList.size(); i++) {
 			Map<String, Object> mapSessionList = sessionList.get(i);
 
@@ -143,18 +187,8 @@ public class openChatHandler extends TextWebSocketHandler {
 			System.out.println("cm_no" + cm_no);
 			// 만약 Map값을 불러왔는데 방번호가 같다면?
 			if (cm_no.equals(mapReceive.get("cm_no"))) {
-
-				Map<String, Object> userIdmap = session.getAttributes();
-				Member m = (Member) userIdmap.get("loginUser"); // 세션 교체
-
-				String loginid = m.getId();
 				System.out.println("msg : " + mapReceive.get("msg"));
-				HashMap<String, Object> dbmap = new HashMap<String, Object>();
-				dbmap.put("cm_no", cm_no);
-				dbmap.put("id", loginid);
-				dbmap.put("message", String.valueOf(mapReceive.get("msg")));
-
-				int result = cService.insertOpenChatmsg(dbmap);// db저장
+				
 				// int result =1;
 				if (result > 0) {
 
@@ -193,9 +227,7 @@ public class openChatHandler extends TextWebSocketHandler {
 			WebSocketSession sess = (WebSocketSession)map.get("session");
 			String userid = String.valueOf(map2.get("id"));
 			
-			if (session.equals(sess)) {
-				
-				int result = cService.openchatroomOut(map2);
+			if (session.equals(sess)) {	
 				
 				sessionList.remove(map);
 				connectUserList.remove(map2);

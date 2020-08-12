@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 import com.kh.finalProject.daily.model.vo.Bookmark;
 import com.kh.finalProject.daily.model.vo.BookmarkMap;
 import com.kh.finalProject.daily.model.vo.BookmarkUrl;
+import com.kh.finalProject.daily.model.vo.DailyRecord;
+import com.kh.finalProject.daily.model.vo.DailyRecordPhoto;
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
 import com.kh.finalProject.daily.model.vo.HabitSum;
@@ -204,6 +206,41 @@ public class DailyDao {
 	public int deleteBookmarkUrl(BookmarkUrl bu) {
 
 		return sqlSessionTemplate.delete("dailyMapper.deleteBookmarkUrl", bu);
+	}
+
+	public ArrayList<DailyRecord> selectDailyRecordList(String id) {
+
+		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectDailyRecordList", id);
+	}
+
+	public ArrayList<DailyRecordPhoto> selectDailyRecordPhotoList(String dr_no) {
+
+		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectDailyRecordPhotoList", dr_no);
+	}
+
+	public int insertDailyRecord(DailyRecord dr) {
+
+		return sqlSessionTemplate.insert("dailyMapper.insertDailyRecord", dr);
+	}
+
+	public String selectDailyRecordNo(DailyRecord dr) {
+
+		return sqlSessionTemplate.selectOne("dailyMapper.selectDailyRecordNo", dr);
+	}
+
+	public int insertDailyRecordPhoto(DailyRecordPhoto drp) {
+
+		return sqlSessionTemplate.insert("dailyMapper.insertDailyRecordPhoto", drp);
+	}
+
+	public DailyRecord selectDailyRecord(HashMap<String, String> map) {
+
+		return sqlSessionTemplate.selectOne("dailyMapper.selectDailyRecord", map);
+	}
+
+	public int updateDailyRecordThumbnail(DailyRecordPhoto drp) {
+
+		return sqlSessionTemplate.update("dailyMapper.updateDailyRecordThumbnail", drp);
 	}
 
 }

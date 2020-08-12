@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,12 +23,17 @@
         /* Table */
 
         .board-table {
-            margin: 30px auto;
+        	width:100%;
+            margin: 9px auto;
             margin-bottom: 50px;
-            width: 700px;
             border-top: 1px solid #484848;
             border-bottom: 1px solid #484848;
 
+        }
+        
+        .board-table > tr:nth-child(1) {
+        
+        	background:white;
         }
 
         tr {
@@ -45,12 +51,12 @@
         }
 
         th:nth-child(4) {
-            width: 300px;
+            width: 50%;
         }
         
         tr > td:nth-child(4) {
             text-align: left;
-            width: 300px;
+            width: 50%;
             height: 57px;
         }
 
@@ -60,7 +66,15 @@
             border-radius: 50%;
             background-color: white;
             margin: 0 auto;
+			display: flex;
+            justify-content : center;
+            align-items : center;
+            overflow : hidden;
         }
+        
+        .board-image-area > img {
+ 			 height:110%;
+		}
 
         td > a {
             display: inline-block;
@@ -68,7 +82,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            width: 280px;
+            width: 80%;
         }
 
         /* pagination */
@@ -88,10 +102,6 @@
         .page-bnf {
             margin: 0 6px;
             font-size: 19px;
-            /* width: 30px;
-            height: 30px;
-            border-style: none;
-            border-radius: 50%; */
         }
 
         .p-num {
@@ -149,6 +159,24 @@
             display: inline-block;
             vertical-align: middle;
         }
+        
+        .button-area {
+            display: flex;
+            justify-content: flex-end;
+	    }
+	    
+	    .button-area > button {
+            border: none;
+            height: 40px;
+            background: none;
+            font-size: 23px;
+            font-weight: 700;
+            color: #484848;
+        }
+        
+        .daily-record-area {
+        	width: 77%;
+        }
 
     </style>
 </head>
@@ -158,7 +186,11 @@
     <div class="right-area">
         <div class="daily-record-area">
             <span class="pSubject">Daily Record</span>
-            <table class="board-table" cellpadding="8px">
+            <div class="button-area">
+                    <button type="button" onclick = "dailyRecordAdd()">Add</button>
+                    <button type="button">Delete</button>
+             </div>
+            <table class="board-table" cellpadding="3px">
                 <thead>
                     <tr>
                         <th><input type="checkbox"></th>
@@ -168,28 +200,24 @@
                         <th>Date.</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>1</td>
-                        <td><div class="board-image-area"></div></td>
-                        <td><a href="#">다이어트중?다이어트중?다이어트중?다이어트중?다이어트중?</a></td>
-                        <td>20/07/09</td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>1</td>
-                        <td><div class="board-image-area"></div></td>
-                        <td><a href="#">다이어트중?다이어트중?다이어트중?다이어트중?다이어트중?</a></td>
-                        <td>20/07/09</td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>1</td>
-                        <td><div class="board-image-area"></div></td>
-                        <td><a href="#">다이어트중?다이어트중?다이어트중?다이어트중?다이어트중?</a></td>
-                        <td>20/07/09</td>
-                    </tr>
+                <tbody class="table-body">
+                	<c:forEach var="dr" items="${drlist }">
+	                    <tr>
+	                        <td><input type="checkbox"></td>
+	                        <td>${dr.dr_no }</td>
+	                        <td>
+	                        	<c:if test="${empty dr.dr_thumbnail }">
+	                        		<div class="board-image-area"></div>
+	                        	</c:if>
+	                        	<c:if test="${!empty dr.dr_thumbnail }">
+	                        		<div class="board-image-area"><img class="image" src="resources/druploadFiles/${dr.dr_thumbnail }"></div>
+	                        	</c:if>
+	                        </td>
+	                        <c:url var="drview" value="dailyRecordDetailview.do?dr_no=${dr.dr_no }" />
+	                        <td><a href="${drview }">${dr.dr_title }</a></td>
+	                        <td>${dr.dr_date }</td>
+	                    </tr>
+	                </c:forEach>
                 </tbody>
             </table>
             <div class="pagination-area">
@@ -215,4 +243,28 @@
     </div>
     <jsp:include page="../common/footer.jsp"/>
 </body>
+<script>
+
+	function dailyRecordAdd() {
+		
+		var dr_no = $(".table-body > tr:nth-child(1) > td:nth-child(2)").html();
+		console.log("dr_no : " + dr_no);
+		
+		location.href='addDailyRecordView.do?dr_no='+ dr_no;
+	}
+
+</script>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+

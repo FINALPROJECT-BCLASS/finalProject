@@ -9,6 +9,7 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=282ad558d1e7ac4bd914010bf579f327&libraries=services"></script> <!-- 지도 api -->
 <style>
 	.join-form-area{padding-top:150px !important;position:relative; float: right;display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 40px; width: 81%; background: #F3F3F3; }
+	#map{border-radius:10px;}
 </style>
 </head>
 <body>
@@ -24,14 +25,18 @@
 		 <div class="join-form-area">
 			<jsp:include page="../common/groupNoticeHeader.jsp"/>
 			
-			<div id="map" style="width:50%;height:1000px;"></div>
+			 <h1>Group Diary</h1>
+			 <h4>FootPrint</h4>
+			 <h6 style="color:gray; ">"Follow in our footsteps "</h6>
+			 <br>
+			<div id="map" style="width:80%;height:800px;"></div>
 
 			
 			<script>
 			var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
 			    mapOption = { 
 			        center: new kakao.maps.LatLng(36.6423128599305, 128.068037365551), // 지도의 중심좌표
-			        level: 13 // 지도의 확대 레벨
+			        level: 12 // 지도의 확대 레벨
 			    };
 			
 			var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다

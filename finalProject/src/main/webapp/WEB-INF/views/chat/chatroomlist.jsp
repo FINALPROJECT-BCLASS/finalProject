@@ -131,7 +131,7 @@
 					<div>${cl.name }</div>
 					<div class="number${cl.co_no }"><p>${cl.ol_cont }</p></div>
 					<div class="chatroom-count">
-					<c:if test="${ cl.count ne 0 }">
+					<c:if test="${ cl.count ne 0}">
 						<span>${cl.count }</span>
 					</c:if>
 					<c:if test="${cl.count eq 0}">
@@ -207,6 +207,15 @@ let sock = new SockJS("<c:url value="/echolist"/>");
 		printHTML = "<p>"+message+"</p>";
 		$(".number"+co_no).html(printHTML);
 		
+		var count= $(".number"+co_no).next(".chatroom-count").text();
+		console.log("count : " +count );
+		
+		count++;
+		console.log("올라씬?" + count);
+		
+		var $countHTML;
+		countHTML = "<span>"+count+"</span>";
+		$(".number"+co_no).next(".chatroom-count").html(countHTML);
 	}
 	
 </script>
