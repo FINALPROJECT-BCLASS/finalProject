@@ -1439,20 +1439,11 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 								, @RequestParam(value="file", required=false) List<MultipartFile> file
 								, @RequestParam(value="dr_no", required=false) String dr_no_before) {
 		
+		System.out.println("dr_no ?? :" + dr_no_before);
+		
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
 		String id = member.getId();
-		
-		System.out.println("dr : " + dr);
-//		System.out.println("file : " + file);
-		
-		dr.setId(id);
-		
-		
-		int result = dailyService.insertDailyRecord(dr);
-		
-		int dr_no_after = Integer.parseInt(dr_no_before) + 1;
-		String dr_no = Integer.toString(dr_no_after);
 		
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "/druploadFiles/";
@@ -1462,6 +1453,25 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		if(!folder.exists()) {
 			folder.mkdirs();
 		}
+		
+		System.out.println("dr : " + dr);
+		
+		dr.setId(id);
+		
+		String dr_no = "";
+		
+		if(dr_no_before.equals("undefined")) {
+			
+			dr_no = "0";
+			
+		}else {
+			
+			int dr_no_after = Integer.parseInt(dr_no_before) + 1;
+			dr_no = Integer.toString(dr_no_after);
+			
+		}
+		
+		int result = dailyService.insertDailyRecord(dr);
 		
 		ArrayList<DailyRecordPhoto> drplist  = new ArrayList<>();
 		
@@ -1516,9 +1526,12 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		return "redirect:dailyRecordView.do";
 	}
 	
+	
 	@RequestMapping("dailyRecordDetailview.do")
-	public String dailyRecordDetailView(Model model, HttpServletRequest request
+	public ModelAndView dailyRecordDetailView(ModelAndView mv, HttpServletRequest request
 										, @RequestParam(value="dr_no", required=true) String dr_no) {
+		
+		System.out.println(dr_no);
 		
 		HttpSession session = request.getSession();
 		Member member = (Member) session.getAttribute("loginUser");
@@ -1533,13 +1546,15 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		DailyRecord dr = dailyService.selectDailyRecord(map);
 		ArrayList<DailyRecordPhoto> drplist = dailyService.selectDailyRecordPhotoList(dr_no);
 		
-		System.out.println(drplist);
+		System.out.println("dr : " + dr);
+		System.out.println("drplist : " + drplist);
 		
-//		
-//		model.addAttribute("dr_no", dr_no);
-//		return "daily/dailyRecordDetail";
 		
-		return null;
+		mv.addObject("drplist", drplist);
+		mv.addObject("dr", dr);
+		mv.setViewName("daily/dailyRecordDetail");
+		
+		return mv;
 	}
 	
 }

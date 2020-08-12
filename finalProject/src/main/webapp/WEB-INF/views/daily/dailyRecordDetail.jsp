@@ -1,11 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>New Record</title>
 <style>
+
+		*{
+			color:#484848;
+		}
+
         html, body {
             height: 100%;
             margin: 0;
@@ -17,12 +23,11 @@
             align-items: center;
             justify-content: center;
             float: right;
-            height: 125%;
             width: 81%;
             background-color: #f7f7f7;
             color: #484848;
             text-align: center;
-            padding: 50px;
+            padding: 80px 50px;
         }
 
         .pSubject {
@@ -56,7 +61,7 @@
         input[type="date"] {
             border-style: none;
             border-radius: 8px;
-            background: white;
+            background: none;
             color: #484848;
             height: 40px;
             width: 580px;
@@ -71,6 +76,8 @@
             height: 300px;
             width: 580px;
             padding: 10px;
+            color: #484848;
+            margin-left: -9px;
         }
 
         .b-icons {
@@ -85,7 +92,7 @@
             cursor: pointer;
         }
 
-        .b-icons > img {
+        .icons_ {
             width: 35px;
             height: 35px;
         }
@@ -97,6 +104,7 @@
         .button-area {
             display: flex;
             justify-content: flex-end;
+            margin: 10px 0;
 	    }
 	
         .button-area > button {
@@ -159,10 +167,37 @@
             display: none;
         }
 
-        input[type="radio"]:checked + label{
+  /*       input[type="radio"]:checked + label{
         background-color: #FBD14B;
         
+    } */
+    
+    .photos-wrap {
+    	width: 101.5%;
+	    background: white;
+	    border-radius: 8px;
+	    display: flex;
+	    align-items: center;
+	    color: #cecece;
+	    font-size: 14px;
+	    border: 10px solid white;
+	    overflow: hidden;
+	    flex-wrap: wrap;
+	    margin-left: -9px;
     }
+    
+     .photos-wrap > img {
+    	height: 130px;
+    	margin: 5px;
+    	
+    }
+    
+    .photos-wrap > div {
+    	width: 100%;
+    	text-align:center;
+    }
+    
+    
     
     .preview-wrap {
     	width: 100%;
@@ -188,6 +223,26 @@
     	width: 100%;
     	text-align:center;
     }
+    
+    input, button, textarea {
+    	outline: none;
+    }
+    
+    td {
+    	height: 50px;
+    }
+    
+    .content {
+    	vertical-align: top;
+   	    padding-top: 14px;
+    }
+    
+    
+    
+    .photos {
+    	vertical-align: top;
+   	    padding-top: 14px;
+    }
 
     </style>
     
@@ -199,38 +254,33 @@
     <div class="right-area">
         <div>
             <form action="addDailyRecord.do" name="record" method="post" enctype="multipart/form-data">
-                <span class="pSubject">New Record</span>
-                <input type="hidden" name="dr_no" value="${dr_no }">
+            	<span class="pSubject">My Record : No.${dr.dr_no }</span>
+                <input type="hidden" name="dr_no" value="${dr.dr_no }">
                 <table cellpadding="6px">
                     <tr>
-                        <td>Title</td>
-                        <td><input type="text" id="dr_title" name="dr_title"></td>
-                    </tr>
-                    <tr>
                         <td>Date</td>
-                        <td><input type="date" id="dr_date" name="dr_date"></td>
+                        <td>${dr.dr_date }</td>
                     </tr>
                     <tr>
                         <td>Weather</td>
                         <td class="b-flex weather-area">
-                                <input type="radio" id="sunny" name="weather" value="sunny" checked>
+                                <!-- <input type="radio" id="sunny" name="weather" value="sunny" checked>
                                 <label class="b-icons" for="sunny"><img src="resources/images/icons/sunny.png"></label>
                         
                                 <input type="radio" id="rainy" name="weather" value="rainy">
                                 <label class="b-icons" for="rainy"><img src="resources/images/icons/rainy.png"></label>
                           
                                 <input type="radio" id="cloudy" for name="weather" value="cloudy">
-                                <label class="b-icons" for="cloudy"><img src="resources/images/icons/cloudy.png"></label>
-                            
-                                <input type="radio" id="snowy" name="weather" value="snowy">
-                                <label class="b-icons" for="snowy"><img src="resources/images/icons/snowy.png"></label>
+                                <label class="b-icons" for="cloudy"><img src="resources/images/icons/cloudy.png"></label> -->
+                                
+                            <img class="icons_" src="resources/images/icons/${dr.dr_weather }.png">
                         </td>
                         <input type="hidden" name="dr_weather" id="dr_weather" value="sunny">
                     </tr>
                     <tr>
                         <td>Emotion</td>
                         <td class="b-flex emotion-area">
-                            <input type="radio" id="love" name="emotion" value="love" checked>
+                           	<!-- <input type="radio" id="love" name="emotion" value="love" checked>
                             <label for="love" class="b-icons"><img src="resources/images/icons/love.png"></label>
 
                             <input type="radio" id="smile" name="emotion" value="smile">
@@ -242,45 +292,46 @@
                             <input type="radio" id="bad" name="emotion" value="bad">
                             <label for="bad" class="b-icons"><img src="resources/images/icons/bad.png"></label>
 
-                            <input type="radio" id="sad" name="emotion" value="sad">
-                            <label for="sad" class="b-icons"><img src="resources/images/icons/sad.png"></label>
+                            <input type="radio" id="sad" name="emotion" value="sad"> -->
+                            <img class="icons_" src="resources/images/icons/${dr.dr_emotion }.png">
                         </td>
                         <input type="hidden" name="dr_emotion" id="dr_emotion" value="love">
                     </tr>
                     <tr>
-                        <td>Content</td>
-                        <td><textarea class="b-content" name="dr_con"></textarea></td>
+                        <td>Title</td>
+                        <td>${dr.dr_title }</td>
                     </tr>
                     <tr>
-                        <td>Photos</td>
+                        <td class="content">Content</td>
                         <td>
-                          <div class="file-box"> 
-                             <input type="file" id="file" name="file" multiple/> 
-                             <input class="upload-name" value="Select file">
-                             <label class="b-yell" for="file">Upload</label> 
-                           </div>
+                        	<textarea class="b-content" name="dr_con" readonly>${dr.dr_con }</textarea>
                         </td>
                     </tr>
                     <tr>
-                    	<td></td>
-                    	<td class="preview-area">
-                    		<div class="preview-wrap">
-                    			<div class="preview-text">사진 미리보기</div>
-                    		</div>
+                    	<td class="photos">Photos</td>
+                    	<td>
+                    		<c:if test = "${!empty drplist }">
+		                    	<div class="photos-area">
+		                       		<div class="photos-wrap">
+			                        	<c:forEach var="drp" items="${drplist }">
+					                       			<img src="resources/druploadFiles/${drp.drp_rename }">
+			                        	</c:forEach>
+		                       		</div>
+	                       		</div>
+                       		</c:if>
                     	</td>
                     </tr>
                 </table>
                 <div class="button-area">
-                    <button>Back</button>
-                    <button type="submit">Save</button>
+                    <button type="button" onclick="history.go(-1)" >Back</button>
+                    <button type="button">Edit</button>
+                    <button type="button">Delete</button>
                 </div>
             </form>
         </div>
     </div>
 
     <script>
-    
-    	/* console.log("으음 ? : ${dr_no}"); */
     
 	 // 라디오 버튼 히든 태그
 		// 색상

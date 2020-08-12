@@ -499,6 +499,14 @@
 				, #{drp_rename})
 	</insert>
 	
+	<select id="selectDailyRecord" parameterType="hashmap" resultMap="DailyRecordResultSet">
+		SELECT *
+		FROM DAILY_RECORD
+		WHERE DR_NO = #{dr_no}
+		AND ID = #{id}
+		AND DR_DELETE = 'N'
+	</select>
+	
 	<update id="updateDailyRecordThumbnail" parameterType="DailyRecordPhoto">
 		UPDATE DAILY_RECORD
 		SET DR_THUMBNAIL = #{drp_rename}
