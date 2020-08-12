@@ -45,7 +45,9 @@
 	#groupWrite {display:flex; justify-content: center; align-items:center;text-align:right; width:100%; height: 50px; margin-right:40px; margin-bottom:10px; border:none;}
     .groupWrite {width:50 px; height:40px; cursor: pointer; border-radius: 5px;} 
     button {margin-bottom: 10px; margin-right:40px; background:none; border:0;}
-	.writeBtn{color:#2860E1 !important; font-size:60px !important;  text-shadow: 1.5px 1.5px 1.5px gray !important; cursor:pointer;}
+    
+    .writeBtn{color:gray !important; font-size:45px !important;  padding:0 !important; cursor:pointer;}
+	.writeBtn:hover{color:#2860E1 !important; font-size:45px !important;  padding:0 !important; cursor:pointer;}
 	
 	.groupListCount{width:99%; margin-bottom:10px; text-align:right;}
 	.emptyNoticeList{margin-top:100px; text-align:center; font-size:20px; font-weight:600;}
@@ -82,10 +84,16 @@
     }
     
     #searchForm{display:flex; }
-    .searchBox{margin-right:250px;}
-    .search{margin-right:5px;margin-left:400px;width:70px; height:40px; border-radius:6px; border:none;}
+    .searchBox{margin-left:300px; margin-right:180px;}
+    .search{margin-right:5px;margin-left:10px;width:70px; height:40px; border-radius:6px; border:none;}
     .searchCon{width:300px; height:40px; border:none; border-radius:6px;display:inline-block;margin-right:5px;}
     .searchBtn{display:inline-block; height:40px !important; margin:0 !important; }
+    
+    .orderByBtn{background:#F3F3F3; border:0.5px solid #F3F3F3; width:70px; border:0.5px solid lightgray; margin-right:-1px;}
+    .orderByBtn:hover{background:#FBD14B; border:0.5px solid #F3F3F3; width:70px;margin-right:-1px;}
+    .likeBtn{    border-radius: 6px 0px 0px 6px;}
+    .countBtn{    border-radius: 0px 6px 6px 0px;}
+    .boardCount{padding:0 !important; vertical-align: middle; color:gray;}
   </style>
   
 
@@ -122,10 +130,18 @@
      	<br>
       	<div id="groupWrite"  >
       		<span class="searchBox">
+      		
       		 <c:if test="${empty searchCon }">
       		<form id="searchForm" action="boardMain.do" method="get">
+      			
+	      			<button class="orderByBtn likeBtn">Like</button>
+		      		<button class="orderByBtn">Reply</button>
+		      		<button class="orderByBtn countBtn">Count</button>
+	      		
       			<select class="search" name="searchKind">
+      				<option value="">-</option>
       				<option value="GB_TITLE">Title</option>
+      				<option value="GB_CON">Content</option>
       			</select>
       			<input type="text" id="searchCon" class="searchCon" name="searchCon">
       			<button class="searchBtn detailBtn">Search</button>
@@ -133,9 +149,15 @@
       		</c:if>
       		 <c:if test="${!empty searchCon }">
       		<form id="searchForm" action="boardMain.do" method="get">
+      		
+	      		<button class="orderByBtn likeBtn">Like</button>
+	      		<button class="orderByBtn">Reply</button>
+	      		<button class="orderByBtn countBtn">Count</button>
+	      		
+	      		
       			<select class="search" name="searchKind">
-      				
       				<option value="GB_TITLE">Title</option>
+      				<option value="GB_CON">Content</option>
       			</select>
       			<input type="text" class="searchCon">
       			<input type="hidden" id="searchCon" class="searchCon" name="searchCon" value="${searchCon }" >
@@ -145,10 +167,11 @@
       		</span>
       		<span class="material-icons writeBtn">create</span>
       	</div>
-        <br>
-        <br>
-        
-        <div class="groupListCount">총 게시판 : ${pi.listCount }</div>
+
+        <div class="groupListCount">
+        <span class="material-icons boardCount">assignment</span>
+        	 ${pi.listCount }
+        </div>
 		<div style="clear:both"></div>
      	
 		 <div class="groupNotice">
@@ -192,12 +215,21 @@
            if(isEnd == true){
                return;
            }
+           var searchKind = $(".search").val();
         	var searchCon = $("#searchCon").val();
+        	if(searchKind == ""){
+        		searchKind = 'null';
+        	}
+        	if(searchCon == ""){
+        		searchCon = 'null'
+        	}
+           console.log("searchKind : " + searchKind);
+           console.log("searchKind : " + searchCon);
            $.ajax({
                url:"boardMainAjax.do",
                type: "GET",
                dataType: "json",
-               data:{page:pagePlus, searchCon:searchCon},
+               data:{page:pagePlus, searchCon:searchCon, searchKind:searchKind},
                success: function(data){
             	   if(data.boardList[0] == null){
       					$(".groupNotice").text("게시글이 없습니다.").css({"text-align":"center","padding-top":"200px","font-weight":"600","color":"gray"});

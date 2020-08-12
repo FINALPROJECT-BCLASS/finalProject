@@ -1,7 +1,7 @@
 package com.kh.finalProject.group.common;
 
 public class BoardPagination {
-	public static PageInfo getPageInfo(int currentPage, int listCount, String searchCon) {
+	public static PageInfo getPageInfo(int currentPage, int listCount, String searchKind, String searchCon ) {
 		PageInfo pi = null;
 		
 		// 한번에 뿌려줄 page 수
@@ -23,7 +23,7 @@ public class BoardPagination {
 			endPage = maxPage;
 		}
 		
-		pi = new PageInfo(currentPage, listCount, pageLimit, maxPage, startPage, endPage, boardLimit, searchCon);
+		pi = new PageInfo(currentPage, listCount, pageLimit, maxPage, startPage, endPage, boardLimit, searchKind, searchCon);
 		
 		return pi;
 		

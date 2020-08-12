@@ -428,17 +428,21 @@
 		SELECT COUNT(*)
 		FROM GROUP_BOARD
 		WHERE G_NO = #{currentGroupNo}
-		      AND GB_TITLE LIKE '%' || #{searchCon} || '%'   
+		<if test="searchKind.equals(' ') ">
+		</if>
+		<if test="searchKind.equals('GB_TITLE')">
+			AND GB_TITLE LIKE '%' || #{searchCon} || '%'
+		</if>
 	    AND GB_DELETE = 'N'
 	</select>
 	
-	<select id="selectBoardList"  resultMap="groupBoardResultSet">
+	<select id="selectBoardList" parameterType="GroupBoard"  resultMap="groupBoardResultSet">
 		SELECT GB_NO, GB.GM_NO AS GM_NO, GB.G_NO AS G_NO, GB_TITLE, GB_CON, GB_DATE, GB_DELETE, GB_COUNT, NAME, RENAME_FILE
 		FROM GROUP_BOARD GB
 		JOIN GROUP_MEMBER GM ON(GB.GM_NO = GM.GM_NO)
         JOIN MEMBER M ON (GM.GM_ID = M.ID)
         WHERE GB.G_NO = #{groupNo}
-        AND GB_TITLE LIKE '%' || #{searchCon} || '%'    
+        AND #{searchKind} LIKE '%' || #{searchCon} || '%'    
         AND GB_DELETE = 'N'
 		ORDER BY GB_NO DESC
 	</select>

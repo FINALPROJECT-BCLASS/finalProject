@@ -27,7 +27,7 @@
 			
 			 <h1>Group Diary</h1>
 			 <h4>FootPrint</h4>
-			 <h6 style="color:gray; ">"Follow in our footsteps "</h6>
+			 <h6 style="color:gray; ">" Let's find out where we've been "</h6>
 			 <br>
 			<div id="map" style="width:80%;height:800px;"></div>
 

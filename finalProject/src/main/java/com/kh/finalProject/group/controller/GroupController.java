@@ -694,12 +694,16 @@ public class GroupController {
 			kind = searchKind;
 			gb.setSearchKind(kind);
 			
+		}else {
+			kind = " ";
 		}
 		
 		String content = "";
 		if(searchCon != null) {
 			content = searchCon;
 			gb.setSearchCon(content);
+		}else {
+			content = " ";
 		}
 		
 		gb.setCurrentGmNo(gInfo.getGmNo());
@@ -708,9 +712,11 @@ public class GroupController {
 		int listCount = gService.boardGetListCount(gb);
 		
 		System.out.println("listCount : " + listCount);
-		PageInfo pi = BoardPagination.getPageInfo(currentPage, listCount, searchCon);
+		PageInfo pi = BoardPagination.getPageInfo(currentPage, listCount,searchKind, searchCon);
+		pi.setSearchKind(kind);
 		pi.setSearchCon(content);
 		
+		mv.addObject("searchKind", kind);
 		mv.addObject("searchCon", content);
 		mv.addObject("gInfo", gInfo);
 		mv.addObject("groupTable", gt);
@@ -727,6 +733,9 @@ public class GroupController {
 			@RequestParam(value = "page", required = false) String page,
 			@RequestParam(value = "searchKind", required = false) String searchKind,
 			@RequestParam(value = "searchCon", required = false) String searchCon) throws IOException {
+		System.out.println("게시판 메인  ajax searchKind : " + searchKind);
+		System.out.println("게시판 메인  ajax searchCon : " + searchCon);
+		
 		GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		int currentPage = 1;
@@ -751,12 +760,14 @@ public class GroupController {
 		}
 		
 		int listCount = gService.boardGetListCount(gb);
-		PageInfo pi = BoardPagination.getPageInfo(currentPage, listCount, searchCon);
+		System.out.println("board ajax listCount : " + listCount);
+		PageInfo pi = BoardPagination.getPageInfo(currentPage, listCount, searchKind, searchCon);
 		
 		pi.setLoginUserId(gInfo.getLoginUserId());
 		pi.setGroupNo(gInfo.getGroupNo());
 		pi.setGmNo(gInfo.getGmNo());
 		pi.setSearchCon(content);
+		pi.setSearchKind(kind);
 		
 		System.out.println("pi : " + pi);
 		// 게시판 목록
@@ -1190,29 +1201,29 @@ public class GroupController {
 			int gbInsertResult = gService.insertBoard(gb);
 			
 			System.out.println("게시판 생성 gbInsertResult : " + gbInsertResult);
-			ArrayList<GroupBoardPhoto> photoList = new ArrayList<>();
+//			ArrayList<GroupBoardPhoto> photoList = new ArrayList<>();
 			
 			// 최근 게시판 시퀀스 조회
 			int gbNo = gService.selectGbNo();
 			System.out.println("게시판 작성 gbNo : " + gbNo);
 			// 게시판 사진 파일 저장 
-			if (!uploadFile1.getOriginalFilename().contentEquals("")) { // 빈파일이 아니라면
-				String savePath = boardSaveFile(uploadFile1, request);
-				if (savePath != null) { // 파일이 잘 저장된 경우
-					GroupBoardPhoto gbp = new GroupBoardPhoto(); 
-					gbp.setGbNo(gbNo);
-					gbp.setGmNo(gInfo.getGmNo());
-					gbp.setgNo(gInfo.getGroupNo());
-					gbp.setGbpOrigin(uploadFile1.getOriginalFilename());
-					gbp.setGbpRename(uploadFile1.getOriginalFilename());
-					
-					photoList.add(gbp);
-
-				}
-			}
-			System.out.println("게시판 생성 photoList: " +photoList);
-			int boardPhotoInsert = gService.insertBoardPhoto(photoList);
-			System.out.println("게시판 생성 boardPhotoInsert : " + boardPhotoInsert);
+//			if (!uploadFile1.getOriginalFilename().contentEquals("")) { // 빈파일이 아니라면
+//				String savePath = boardSaveFile(uploadFile1, request);
+//				if (savePath != null) { // 파일이 잘 저장된 경우
+//					GroupBoardPhoto gbp = new GroupBoardPhoto(); 
+//					gbp.setGbNo(gbNo);
+//					gbp.setGmNo(gInfo.getGmNo());
+//					gbp.setgNo(gInfo.getGroupNo());
+//					gbp.setGbpOrigin(uploadFile1.getOriginalFilename());
+//					gbp.setGbpRename(uploadFile1.getOriginalFilename());
+//					
+//					photoList.add(gbp);
+//
+//				}
+//			}
+//			System.out.println("게시판 생성 photoList: " +photoList);
+//			int boardPhotoInsert = gService.insertBoardPhoto(photoList);
+//			System.out.println("게시판 생성 boardPhotoInsert : " + boardPhotoInsert);
 			
 			
 			return "redirect:boardMain.do";

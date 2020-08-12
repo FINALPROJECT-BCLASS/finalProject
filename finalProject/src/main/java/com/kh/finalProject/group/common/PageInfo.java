@@ -5,35 +5,34 @@ import java.io.Serializable;
 import org.springframework.stereotype.Component;
 
 @Component("pi")
-public class PageInfo implements Serializable{	
+public class PageInfo implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	//	GroupInfo class
+	// GroupInfo class
 	private String loginUserId;
 	private int groupNo;
 	private int gmNo;
-	
+
 	private int currentPage;
 	private int listCount;
 	private int pageLimit;
 	private int maxPage;
 	private int startPage;
 	private int endPage;
-	
+
 	private int boardLimit;
-	
+
+	private String searchKind;
 	private String searchCon;
-	 
+
 	public PageInfo() {
 		super();
 	}
 
-	
-	
 	public PageInfo(int currentPage, int listCount, int pageLimit, int maxPage, int startPage, int endPage,
 			int boardLimit) {
 		super();
@@ -46,25 +45,8 @@ public class PageInfo implements Serializable{
 		this.boardLimit = boardLimit;
 	}
 
-
-
-	public PageInfo(int currentPage, int listCount, int pageLimit, int maxPage, int startPage, int endPage,
-			int boardLimit, String searchCon) {
-		super();
-		this.currentPage = currentPage;
-		this.listCount = listCount;
-		this.pageLimit = pageLimit;
-		this.maxPage = maxPage;
-		this.startPage = startPage;
-		this.endPage = endPage;
-		this.boardLimit = boardLimit;
-		this.searchCon = searchCon;
-	}
-
-
-
 	public PageInfo(String loginUserId, int groupNo, int gmNo, int currentPage, int listCount, int pageLimit,
-			int maxPage, int startPage, int endPage, int boardLimit, String searchCon) {
+			int maxPage, int startPage, int endPage, int boardLimit, String searchKind, String searchCon) {
 		super();
 		this.loginUserId = loginUserId;
 		this.groupNo = groupNo;
@@ -76,6 +58,21 @@ public class PageInfo implements Serializable{
 		this.startPage = startPage;
 		this.endPage = endPage;
 		this.boardLimit = boardLimit;
+		this.searchKind = searchKind;
+		this.searchCon = searchCon;
+	}
+
+	public PageInfo(int currentPage, int listCount, int pageLimit, int maxPage, int startPage, int endPage,
+			int boardLimit, String searchKind, String searchCon) {
+		super();
+		this.currentPage = currentPage;
+		this.listCount = listCount;
+		this.pageLimit = pageLimit;
+		this.maxPage = maxPage;
+		this.startPage = startPage;
+		this.endPage = endPage;
+		this.boardLimit = boardLimit;
+		this.searchKind = searchKind;
 		this.searchCon = searchCon;
 	}
 
@@ -159,6 +156,14 @@ public class PageInfo implements Serializable{
 		this.boardLimit = boardLimit;
 	}
 
+	public String getSearchKind() {
+		return searchKind;
+	}
+
+	public void setSearchKind(String searchKind) {
+		this.searchKind = searchKind;
+	}
+
 	public String getSearchCon() {
 		return searchCon;
 	}
@@ -175,10 +180,10 @@ public class PageInfo implements Serializable{
 	public String toString() {
 		return "PageInfo [loginUserId=" + loginUserId + ", groupNo=" + groupNo + ", gmNo=" + gmNo + ", currentPage="
 				+ currentPage + ", listCount=" + listCount + ", pageLimit=" + pageLimit + ", maxPage=" + maxPage
-				+ ", startPage=" + startPage + ", endPage=" + endPage + ", boardLimit=" + boardLimit + ", searchCon="
-				+ searchCon + "]\n";
+				+ ", startPage=" + startPage + ", endPage=" + endPage + ", boardLimit=" + boardLimit + ", searchKind="
+				+ searchKind + ", searchCon=" + searchCon + "]\n";
 	}
-
+	
 	
 	
 }
