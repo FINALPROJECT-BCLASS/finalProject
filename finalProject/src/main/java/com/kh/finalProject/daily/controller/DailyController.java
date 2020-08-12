@@ -1554,7 +1554,7 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		mv.addObject("dr", dr);
 		mv.setViewName("daily/dailyRecordDetail");
 		
-		return mv;
+		return mv; 
 	}
 	
 	
