@@ -214,5 +214,11 @@
 		</if>
 		WHERE MEMO_NO=#{memoNo}
 	</update>
+	
+	<update id="updateAbDate" parameterType="AccountBook">
+		UPDATE ACCOUNT_BOOK
+		SET AB_DATE=#{abDate}
+		WHERE MEMO_NO=#{memoNo}
+	</update>
 
 </mapper>

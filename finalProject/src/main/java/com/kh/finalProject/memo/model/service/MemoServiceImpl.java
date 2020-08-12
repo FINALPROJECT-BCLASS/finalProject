@@ -103,4 +103,10 @@ public class MemoServiceImpl implements MemoService {
 		return mmDao.addBookmark(m);
 	}
 
+	@Override
+	public int updateAbDate(AccountBook a) {
+		
+		return mmDao.updateAbDate(a);
+	}
+
 }

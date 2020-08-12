@@ -212,9 +212,19 @@ public class MemoController {
 	}
 	
 	@RequestMapping("abadd.do")
-	public String aBookAdd(Memo m) throws MemoException {
+	public String aBookAdd(Memo m, AccountBook a) throws MemoException {
+		System.out.println(a);
 		
-		int result1 = mmService.addABook(m);
+		int result1 = 0;
+		if(m.getMemoType().equals("noDate")) {
+			int result = mmService.updateAbDate(a);
+			
+			if(result > 0) {
+				result1 = mmService.addABook(m);
+			}
+		} else {
+			result1 = mmService.addABook(m);
+		}
 		
 		int result2 = 0;
 		if(result1 > 0) {

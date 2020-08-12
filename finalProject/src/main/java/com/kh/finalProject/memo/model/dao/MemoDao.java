@@ -89,4 +89,9 @@ public class MemoDao {
 		return sqlSessionTemplate.update("memoMapper.addBookmark", m);
 	}
 
+	public int updateAbDate(AccountBook a) {
+		
+		return sqlSessionTemplate.update("memoMapper.updateAbDate", a);
+	}
+
 }

@@ -296,9 +296,13 @@
     	   						$budgetTr = $("<tr>");
     	   						$budgetTd1 = $("<th>").html("Budget Date");
     	   						if(data.memoList[i].abDate != null) {
-    	   							$budgetTd2 = $("<td>").html(data.memoList[i].abDate);    	   							
+    	   							$budgetTd2 = $("<td>").html(data.memoList[i].abDate);
+    	   							
+    	   							$addBtn = $("<button type='button' class='addBtn accountAddBtn'>").text("Add");
     	   						} else {
     	   							$budgetTd2 = $("<td>").html("미정");
+    	   							
+    	   							$addBtn = $("<button type='button' class='addBtn noDateBtn'>").text("Add");
     	   						}
     	   						
     	   						$amountTr = $("<tr>");
@@ -315,7 +319,6 @@
     	   						}
     	   						
     	   						$aBtnDiv = $("<div class='aBtnArea'>");
-    	   						$addBtn = $("<button type='button' class='addBtn accountAddBtn'>").text("Add");
     	   						
     	   						$aBtnDiv.append($addBtn);
     	   						
@@ -747,7 +750,28 @@
                     </div>
                 </div>
             </div>
-        </div>      
+        </div>
+        
+        <div class="modal fade" id="dateModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content" style="width: 300px;">
+                    <div class="modal-header">
+                    	날짜를 입력해주세요
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                    </div>
+                    <div class="modal-body" align="center">
+                        <form action="abadd.do" method="post">
+                        	<input type="hidden" id="updateMemoNo" name="memoNo">
+                        	<input type="date" name="abDate">
+                        	<input type="hidden" name="memoType" value="noDate">
+                        	<br><br>
+                            <button type="submit" class="default-btn">Add</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div> 
+              
     </section>
 
     <jsp:include page="../common/footer.jsp"/>
@@ -872,6 +896,20 @@
 	    	var addCheck = confirm("가계부에 추가하시겠습니까?");
 			if(addCheck == true){
 				location.href="abadd.do?memoNo="+memoNo;
+			}
+			else if(addCheck == false){
+				console.log("가계부 추가를 취소합니다.");
+			}
+		});
+	    
+	    $(document).on("click",".noDateBtn",function(){
+			var memoNo = $(this).parent().parent().find(".memoNo").val();
+			
+			$("#updateMemoNo").val(memoNo);
+
+	    	var addCheck = confirm("가계부에 추가하시겠습니까?");
+			if(addCheck == true){
+				$("#dateModal").modal();
 			}
 			else if(addCheck == false){
 				console.log("가계부 추가를 취소합니다.");

@@ -39,4 +39,6 @@ public interface MemoService {
 
 	int addBookmark(Memo m);
 
+	int updateAbDate(AccountBook a);
+
 }
