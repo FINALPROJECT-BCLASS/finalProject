@@ -678,7 +678,7 @@ public class GroupController {
 		GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 		GroupNotice noticeList = gService.selectNoticeOne(gInfo);
 		GroupTable gt = gService.selectOneGroup(gInfo);
-		
+		 
 		System.out.println("게시판 메인 gInfo : " + gInfo);
 		System.out.println("게시판 메인 searchKind : " + searchKind);
 		System.out.println("게시판 메인 searchCon : " + searchCon);
