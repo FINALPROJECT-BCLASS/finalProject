@@ -213,7 +213,7 @@
 	                        		<div class="board-image-area"><img class="image" src="resources/druploadFiles/${dr.dr_thumbnail }"></div>
 	                        	</c:if>
 	                        </td>
-	                        <c:url var="drview" value="dailyRecordDetailview.do?dr_no=${dr.dr_no }" />
+	                        <c:url var="drview" value="dailyRecordDetailView.do?dr_no=${dr.dr_no }" />
 	                        <td><a href="${drview }">${dr.dr_title }</a></td>
 	                        <td>${dr.dr_date }</td>
 	                    </tr>

@@ -47,9 +47,11 @@
         }
 
         tr > td:nth-child(2) {
-            color: #484848;
-            text-align: left;
-            padding-left: 46px;
+            color: #848484;
+		    text-align: left;
+		    padding-left: 46px;
+		    font-weight: 600;
+		    font-size: 16px;
         }
 
         input[type="checkbox"] {
@@ -78,6 +80,7 @@
             padding: 10px;
             color: #484848;
             margin-left: -9px;
+            font-size: 15px;
         }
 
         .b-icons {
@@ -225,7 +228,7 @@
     }
     
     input, button, textarea {
-    	outline: none;
+    	outline: none !important;
     }
     
     td {
@@ -253,53 +256,36 @@
 	<jsp:include page="../common/sidenaviDaily.jsp"/>
     <div class="right-area">
         <div>
-            <form action="addDailyRecord.do" name="record" method="post" enctype="multipart/form-data">
+            <form action="editDailyRecordView.do" id="record" name="record" method="post" enctype="multipart/form-data">
             	<span class="pSubject">My Record : No.${dr.dr_no }</span>
                 <input type="hidden" name="dr_no" value="${dr.dr_no }">
                 <table cellpadding="6px">
                     <tr>
                         <td>Date</td>
-                        <td>${dr.dr_date }</td>
+                        <td>
+                        	${dr.dr_date }
+                        	<input type="hidden" name="dr_date" value="${dr.dr_date }">
+                        </td>
                     </tr>
                     <tr>
                         <td>Weather</td>
                         <td class="b-flex weather-area">
-                                <!-- <input type="radio" id="sunny" name="weather" value="sunny" checked>
-                                <label class="b-icons" for="sunny"><img src="resources/images/icons/sunny.png"></label>
-                        
-                                <input type="radio" id="rainy" name="weather" value="rainy">
-                                <label class="b-icons" for="rainy"><img src="resources/images/icons/rainy.png"></label>
-                          
-                                <input type="radio" id="cloudy" for name="weather" value="cloudy">
-                                <label class="b-icons" for="cloudy"><img src="resources/images/icons/cloudy.png"></label> -->
-                                
                             <img class="icons_" src="resources/images/icons/${dr.dr_weather }.png">
                         </td>
-                        <input type="hidden" name="dr_weather" id="dr_weather" value="sunny">
+                        <input type="hidden" name="dr_weather" id="dr_weather" value="${dr.dr_weather }">
                     </tr>
                     <tr>
                         <td>Emotion</td>
                         <td class="b-flex emotion-area">
-                           	<!-- <input type="radio" id="love" name="emotion" value="love" checked>
-                            <label for="love" class="b-icons"><img src="resources/images/icons/love.png"></label>
-
-                            <input type="radio" id="smile" name="emotion" value="smile">
-                            <label for="smile" class="b-icons"><img src="resources/images/icons/smile.png"></label>
-
-                            <input type="radio" id="soso" name="emotion" value="soso">
-                            <label for="soso" class="b-icons"><img src="resources/images/icons/soso.png"></label>
-
-                            <input type="radio" id="bad" name="emotion" value="bad">
-                            <label for="bad" class="b-icons"><img src="resources/images/icons/bad.png"></label>
-
-                            <input type="radio" id="sad" name="emotion" value="sad"> -->
                             <img class="icons_" src="resources/images/icons/${dr.dr_emotion }.png">
                         </td>
-                        <input type="hidden" name="dr_emotion" id="dr_emotion" value="love">
+                        <input type="hidden" name="dr_emotion" id="dr_emotion" value="${dr.dr_emotion }">
                     </tr>
                     <tr>
                         <td>Title</td>
-                        <td>${dr.dr_title }</td>
+                        <td>${dr.dr_title }
+                        	<input type="hidden" name="dr_title" value="${dr.dr_title }">
+                        </td>
                     </tr>
                     <tr>
                         <td class="content">Content</td>
@@ -314,7 +300,8 @@
 		                    	<div class="photos-area">
 		                       		<div class="photos-wrap">
 			                        	<c:forEach var="drp" items="${drplist }">
-					                       			<img src="resources/druploadFiles/${drp.drp_rename }">
+			                       			<img src="resources/druploadFiles/${drp.drp_rename }">
+			                       			<input type="text" name="drp_rename" value="${drp.drp_rename }">
 			                        	</c:forEach>
 		                       		</div>
 	                       		</div>
@@ -324,7 +311,7 @@
                 </table>
                 <div class="button-area">
                     <button type="button" onclick="history.go(-1)" >Back</button>
-                    <button type="button">Edit</button>
+                    <button type="button" onclick="editDailyRecordView()">Edit</button>
                     <button type="button">Delete</button>
                 </div>
             </form>
@@ -333,92 +320,12 @@
 
     <script>
     
-	 // 라디오 버튼 히든 태그
-		// 색상
-		$(".weather-area > input").click(function(){
-			var value = $(this).val();
-			$("#dr_weather").val(value);
-		});
-		
-		// 타입
-		$(".emotion-area > input").click(function(){
-			var value = $(this).val();
-			$("#dr_emotion").val(value);
-		});
-        
-        /* 파일 업로드 */
-        $(document).ready(function(){
-        	
-        	var fileTarget = $('#file');
-        	
-        	fileTarget.on('change', function(){
-        		
-        		if(window.FileReader){
-        			var filename = $(this)[0].files[0].name;
-        		} else { 
-        			var filename = $(this).val().split('/').pop().split('\\').pop();
-        		}
-        		
-        		$(this).siblings('.upload-name').val(filename);
-        		
-        		$(".upload-file").attr("style", "display:inline-block");
-        		
-        	});
-        	
-        });
-        
-        $(document).ready(function(){
-        
-			$("#file").on("change", handleImgFileSelect);
-        	
-        });
-        
-        function handleImgFileSelect(e) {
-        	
-        	// 이미지 정보 초기화
-    		sel_files = [];
-        	
-        	/* $(".preview-text").empty(); */
-    		$(".preview-wrap").empty();
+    	function editDailyRecordView() {
     		
-    		var files = e.target.files;
-    		var filesArr = Array.prototype.slice.call(files);
+    		$("#record").submit();
     		
-    		var index = 0;
-    		
-    		filesArr.forEach(function(f) {
-    			if(!f.type.match("image.*")) {
-    				
-    				alert("이미지 확장자만 업로드 가능합니다.");
-    				return;
-    				
-    			}
-    			
-    			sel_files.push(f);
-    			
-    			var reader = new FileReader();
-    			reader.onload = function(e) {
-    				var html = "<a href='javascript:void(0);' onclick= 'deleteImageAction("+index+")' id='img_id_"+index+"'><img src='" + e.target.result + "' data-file='"+f.name+"' class='selProductFile' title='Click to remove'></a>";
-    				$(".preview-wrap").append(html);
-    				index++;
-    			}
-    			reader.readAsDataURL(f);
-    			
-    		});
-        	
-        }
-        
-        function deleteImageAction(index) {
-        	
-        	console.log("index : " + index);
-        	sel_files.splice(index, 1);
-        	
-        	var img_id = "#img_id_" + index;
-        	$(img_id).remove();
-        	
-        	console.log(sel_files);
-        	
-        }
+    	}
+    
     </script>
     <jsp:include page="../common/footer.jsp"/>
 </body>

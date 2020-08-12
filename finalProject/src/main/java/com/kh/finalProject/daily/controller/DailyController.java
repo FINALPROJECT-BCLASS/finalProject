@@ -1527,7 +1527,7 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 	}
 	
 	
-	@RequestMapping("dailyRecordDetailview.do")
+	@RequestMapping("dailyRecordDetailView.do")
 	public ModelAndView dailyRecordDetailView(ModelAndView mv, HttpServletRequest request
 										, @RequestParam(value="dr_no", required=true) String dr_no) {
 		
@@ -1546,13 +1546,44 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		DailyRecord dr = dailyService.selectDailyRecord(map);
 		ArrayList<DailyRecordPhoto> drplist = dailyService.selectDailyRecordPhotoList(dr_no);
 		
-		System.out.println("dr : " + dr);
-		System.out.println("drplist : " + drplist);
+//		System.out.println("dr : " + dr);
+//		System.out.println("drplist : " + drplist);
 		
 		
 		mv.addObject("drplist", drplist);
 		mv.addObject("dr", dr);
 		mv.setViewName("daily/dailyRecordDetail");
+		
+		return mv;
+	}
+	
+	
+	@RequestMapping("editDailyRecordView.do")
+	public ModelAndView EditdailyRecordView(ModelAndView mv, HttpServletRequest request
+										, DailyRecord dr, @RequestParam(value="drp_rename", required=false) String drp) {
+		
+		System.out.println("drp" + drp);
+		
+		HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("loginUser");
+		
+		String id = member.getId();
+		
+		//map으로 가져가서 확인해주자
+		HashMap<String, String> map = new HashMap<>();
+		map.put("id", id);
+//		map.put("dr_no", dr_no);
+		
+//		DailyRecord dr = dailyService.selectDailyRecord(map);
+//		ArrayList<DailyRecordPhoto> drplist = dailyService.selectDailyRecordPhotoList(dr_no);
+//		
+//		System.out.println("dr : " + dr);
+//		System.out.println("drplist : " + drplist);
+//		
+//		
+		mv.addObject("drp", drp);
+		mv.addObject("dr", dr);
+		mv.setViewName("daily/dailyRecordEdit");
 		
 		return mv;
 	}
