@@ -1448,7 +1448,7 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		
 		dr.setId(id);
 		
-		
+		 
 		int result = dailyService.insertDailyRecord(dr);
 		
 		int dr_no_after = Integer.parseInt(dr_no_before) + 1;
