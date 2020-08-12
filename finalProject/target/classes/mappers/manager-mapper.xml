@@ -21,9 +21,11 @@
 	
 	<resultMap type="Report" id="reportResultSet">
 		<id property="rpNo" column="RP_NO"/>
-		<result property="id" column="ID"/>
+		<result property="reportId" column="REPORT_ID"/>
+		<result property="reportedId" column="REPORTED_ID"/>
 		<result property="rpDate" column="RP_DATE"/>
 		<result property="rpCon" column="RP_CON"/>
+		<result property="rpChat" column="RP_CHAT"/>
 		<result property="rprNo" column="RPR_NO"/>
 		<result property="rpRDate" column="RP_RDATE"/>
 		<result property="rpCount" column="RP_COUNT"/>
@@ -48,17 +50,17 @@
 	<select id="getReportCount" parameterType="string" resultType="_int">
 		SELECT COUNT(*)
 		FROM REPORT
-		WHERE ID LIKE '%'||#{id}||'%'
-			AND ID!='admin'	
+		WHERE REPORTED_ID LIKE '%'||#{reportedId}||'%'
+			AND REPORTED_ID!='admin'	
 	</select>
 	
 	<select id="selectRList" parameterType="RPageInfo" resultMap="reportResultSet">
-		SELECT RP_NO, R.ID, TO_CHAR(RP_DATE, 'YYYY-MM-DD') "RP_DATE", RP_CON,
-			R.RPR_NO, TO_CHAR(RP_RDATE, 'YYYY-MM-DD') "RP_RDATE", M.RP_COUNT
+		SELECT RP_NO, REPORT_ID, REPORTED_ID, TO_CHAR(RP_DATE, 'YYYY-MM-DD') "RP_DATE", RP_CON,
+			RP_CHAT, R.RPR_NO, TO_CHAR(RP_RDATE, 'YYYY-MM-DD') "RP_RDATE", M.RP_COUNT
 		FROM REPORT R
-		JOIN MEMBER M ON(R.ID=M.ID)
-		WHERE R.ID LIKE '%'||#{id}||'%'
-			AND R.ID!='admin'
+		JOIN MEMBER M ON(REPORTED_ID=ID)
+		WHERE REPORTED_ID LIKE '%'||#{id}||'%'
+			AND REPORTED_ID!='admin'
 		<if test="rprNo == 1">
 			AND R.RPR_NO=1
 		</if>
