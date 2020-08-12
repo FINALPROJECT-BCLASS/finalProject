@@ -26,6 +26,8 @@ public class PageInfo implements Serializable{
 	
 	private int boardLimit;
 	
+	private String searchCon;
+	 
 	public PageInfo() {
 		super();
 	}
@@ -46,8 +48,23 @@ public class PageInfo implements Serializable{
 
 
 
+	public PageInfo(int currentPage, int listCount, int pageLimit, int maxPage, int startPage, int endPage,
+			int boardLimit, String searchCon) {
+		super();
+		this.currentPage = currentPage;
+		this.listCount = listCount;
+		this.pageLimit = pageLimit;
+		this.maxPage = maxPage;
+		this.startPage = startPage;
+		this.endPage = endPage;
+		this.boardLimit = boardLimit;
+		this.searchCon = searchCon;
+	}
+
+
+
 	public PageInfo(String loginUserId, int groupNo, int gmNo, int currentPage, int listCount, int pageLimit,
-			int maxPage, int startPage, int endPage, int boardLimit) {
+			int maxPage, int startPage, int endPage, int boardLimit, String searchCon) {
 		super();
 		this.loginUserId = loginUserId;
 		this.groupNo = groupNo;
@@ -59,6 +76,7 @@ public class PageInfo implements Serializable{
 		this.startPage = startPage;
 		this.endPage = endPage;
 		this.boardLimit = boardLimit;
+		this.searchCon = searchCon;
 	}
 
 	public String getLoginUserId() {
@@ -141,6 +159,14 @@ public class PageInfo implements Serializable{
 		this.boardLimit = boardLimit;
 	}
 
+	public String getSearchCon() {
+		return searchCon;
+	}
+
+	public void setSearchCon(String searchCon) {
+		this.searchCon = searchCon;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -149,7 +175,8 @@ public class PageInfo implements Serializable{
 	public String toString() {
 		return "PageInfo [loginUserId=" + loginUserId + ", groupNo=" + groupNo + ", gmNo=" + gmNo + ", currentPage="
 				+ currentPage + ", listCount=" + listCount + ", pageLimit=" + pageLimit + ", maxPage=" + maxPage
-				+ ", startPage=" + startPage + ", endPage=" + endPage + ", boardLimit=" + boardLimit + "]\n";
+				+ ", startPage=" + startPage + ", endPage=" + endPage + ", boardLimit=" + boardLimit + ", searchCon="
+				+ searchCon + "]\n";
 	}
 
 	

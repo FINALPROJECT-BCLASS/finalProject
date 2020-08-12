@@ -203,10 +203,7 @@
 
         #calendar {
         	width:90%;
-            /* max-width: 900px; */
             margin: 0 auto;
-            /* z-index: 0; */
-            background:white;
             border-radisu:6px;
         }
 

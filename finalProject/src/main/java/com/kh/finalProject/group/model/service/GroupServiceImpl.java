@@ -91,8 +91,8 @@ public class GroupServiceImpl implements GroupService{
 	}
 
 	@Override
-	public int boardGetListCount(int groupNo) {
-		return gDao.boardGetListCount(groupNo);
+	public int boardGetListCount(GroupBoard gb) {
+		return gDao.boardGetListCount(gb);
 	}
 
 	@Override
