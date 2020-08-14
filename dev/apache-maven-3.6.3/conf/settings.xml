@@ -53,8 +53,13 @@ under the License.
   <localRepository>/path/to/local/repo</localRepository>
 
   -->
+<<<<<<< HEAD
 
 <localRepository>C:\Users\rudtj\Desktop\finalProject\finalProject\dev\apache-maven-3.6.3\repository</localRepository>
+=======
+
+<localRepository>C:\Users\tytnt\Desktop\finalProject\workspace\dev\apache-maven-3.6.3\repository</localRepository>
+>>>>>>> refs/remotes/origin/master
 
   <!-- interactiveMode
    | This will determine whether maven prompts you when it needs input. If set to false,

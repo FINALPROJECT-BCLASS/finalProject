@@ -142,7 +142,49 @@ public class MemberController {
 		
 			if(bcryptPasswordEncoder.matches(m.getPwd(), user.getPwd())) {
 				model.addAttribute("loginUser", user);
-				return "home";
+				
+				int main_no = user.getMain_no();
+				
+				switch(main_no){
+					case 1: return "redirect:mpview.do";
+					
+					case 2: return "redirect:ttview.do";
+							
+					
+					case 3: return "redirect:mcview.do";
+							
+					
+					case 4: return "redirect:dailyRecordView.do";
+							
+					
+					case 5: return "redirect:htList.do";
+							
+					
+					case 6: return "redirect:bookmarkView.do";
+							
+					
+					case 7: return "redirect:DietCalendarView.do";
+							
+					
+					case 8: return "redirect:DietGraphView.do";
+							
+					
+					case 9: return "redirect:mrview.do";
+							
+					
+					case 10: return "redirect:psview.do";
+							
+				
+					case 11: return "redirect:esview.do";
+							
+				
+					case 12: return "redirect:ysview.do";
+							
+				
+					default: return "home";
+							
+						
+				}	
 			
 			} else {
 				

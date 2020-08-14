@@ -41,7 +41,8 @@
                 <li>Account
                     <ul>
                         <li><a href="#">Monthly Record</a></li>
-                        <li><a href="#">Monthly Statistics</a></li>
+                        <li><a href="#">Profit Statistics</a></li>
+                        <li><a href="#">Expenditure Statistics</a></li>
                         <li><a href="#">Yealy Statistics</a></li>
                     </ul>
                 </li>

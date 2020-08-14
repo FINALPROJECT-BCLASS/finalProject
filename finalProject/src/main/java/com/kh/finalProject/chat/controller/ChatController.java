@@ -448,7 +448,7 @@ public class ChatController {
 		 System.out.println("여기까지오나?");
 		return "redirect:openchatroom.do";
 	}
-	
+	//뒤로가기시 채팅방인원 -1
 	@RequestMapping("openchatroomout.do")
 	public String openchatroomot(HttpSession session,String cm_no ) {
 		
@@ -543,5 +543,21 @@ public class ChatController {
 		}
 		
 		return renameFileName;	
+	}
+	
+	@RequestMapping("reportcheck.do")
+	public void reportcheck(HttpSession session,HttpServletResponse response) throws IOException {
+		response.setContentType("text/html;charset=utf-8");
+		Member m = (Member)session.getAttribute("loginUser");
+		String user = m.getId();
+		
+		//Y 가능 N이면 안됨
+		String reportYN = cService.selectreportchk(user);
+		
+		 PrintWriter out = response.getWriter();
+		 
+		  out.print(reportYN);
+		  out.flush();
+		  out.close();
 	}
 }

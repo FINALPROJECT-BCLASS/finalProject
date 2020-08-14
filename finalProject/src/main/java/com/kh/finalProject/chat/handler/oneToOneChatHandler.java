@@ -118,9 +118,11 @@ public class oneToOneChatHandler extends TextWebSocketHandler {
 			  map.put("message",String.valueOf(mapReceive.get("msg")));
 			  if(mapReceive.containsKey("filename")) {
 				  map.put("img",String.valueOf(mapReceive.get("filename")));
+				  int result = cService.insertChatmsg2(map);//db저장
+				  
+			  }else {
+				  int result = cService.insertChatmsg(map);//db저장
 			  }
-			  //여기서 db저장하는데 img에대해서 내일 가서 물어보기.ㅎ.ㅎ
-			  int result = cService.insertChatmsg(map);//db저장
 			  
 			  System.out.println("sessionList 확인...:" + sessionList);
 			  

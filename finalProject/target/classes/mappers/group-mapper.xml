@@ -428,7 +428,7 @@
 		SELECT COUNT(*)
 		FROM GROUP_BOARD
 		WHERE G_NO = #{currentGroupNo}
-		      AND GB_TITLE LIKE '%' || #{searchCon} || '%'   
+		      <!-- AND GB_TITLE LIKE '%' || #{searchCon} || '%'    -->
 	    AND GB_DELETE = 'N'
 	</select>
 	
@@ -438,7 +438,7 @@
 		JOIN GROUP_MEMBER GM ON(GB.GM_NO = GM.GM_NO)
         JOIN MEMBER M ON (GM.GM_ID = M.ID)
         WHERE GB.G_NO = #{groupNo}
-        AND GB_TITLE LIKE '%' || #{searchCon} || '%'    
+        <!-- AND GB_TITLE LIKE '%' || #{searchCon} || '%'     -->
         AND GB_DELETE = 'N'
 		ORDER BY GB_NO DESC
 	</select>

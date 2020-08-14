@@ -26,12 +26,50 @@
         <nav class="chatNav">
             <ul class = "navi-area">
                 <li><a href="chatview.do">친구목록</a></li>
-                <li><a href="chatroom.do">채팅창</a></li>
-                <li><a href="openchatroom.do">오픈채팅</a></li>
+                <li><a onclick="chatroom()">채팅창</a></li>
+                <li><a onclick="openchatroom()">오픈채팅</a></li>
                 <li><a href="managerchat.do">관리자문의</a></li>
         </nav>
     </header>
 </body>
 <script>
+	function chatroom(){
+ 		$.ajax({
+ 			url:"reportcheck.do",
+ 			success:function(data){
+ 				console.log("체크 : " + data);
+ 				if(data == 'Y'){
+ 					location.href="chatroom.do";
+ 				}else{
+ 					alert("신고된 아이디입니다. 채팅에 접속 할 수 없습니다.");
+ 				}
+ 			},
+            error:function(request, status, errorData){
+                alert("error code: " + request.status + "\n"
+                      +"message: " + request.responseText
+                      +"error: " + errorData);
+           } 
+ 		})
+	}
+	function openchatroom(){
+		
+		$.ajax({
+ 			url:"reportcheck.do",
+ 			success:function(data){
+ 				console.log("체크 : " + data);
+ 				if(data == 'Y'){
+ 					location.href="openchatroom.do";
+ 				}else{
+ 					alert("신고된 아이디입니다. 채팅에 접속 할 수 없습니다.");
+ 				}
+ 			},
+            error:function(request, status, errorData){
+                alert("error code: " + request.status + "\n"
+                      +"message: " + request.responseText
+                      +"error: " + errorData);
+           } 
+ 		})
+		
+	}
 </script>
 </html>

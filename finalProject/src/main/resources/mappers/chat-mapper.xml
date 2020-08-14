@@ -28,6 +28,7 @@
 		<result property="name" column="NAME"/>
 		<result property="count" column="COUNT"/>
 		<result property="ol_yn" column="OL_YN"/>
+		<result property="ol_img" column="OL_IMG"/>
 	</resultMap>
 	
 	<resultMap type="openChat" id="openChatRoomResultSet">
@@ -105,7 +106,18 @@ INSERT INTO CHAT_ONETOONE
 				,#{id}
 				,#{message}
 				,SYSDATE
-				,#{yn})
+				,#{yn}
+				,NULL)
+</insert>
+<insert id="insertChatmsg2" parameterType="hashmap">
+	INSERT INTO ONETOONE_LIST
+		VALUES(SEQ_OL.NEXTVAL
+				,#{co_no}
+				,#{id}
+				,#{message}
+				,SYSDATE
+				,#{yn}
+				,#{img})
 </insert>
 <select id="selectcount" resultMap="chatResultSet">
     SELECT ID ,CO_NO,COUNT(OL_YN) COUNT
@@ -243,7 +255,7 @@ INSERT INTO CHAT_ONETOONE
 			  AND ID != #{id}
 </update>
 <select id="selectOneToOnechatlist" parameterType="int" resultMap="chatResultSet">
-		SELECT OL.OL_NO, OL.CO_NO, OL.ID, OL.OL_CONT, OL.OL_DATE, OL.OL_YN, M.RENAME_FILE,M.NAME,OL.OL_YN
+		SELECT OL.OL_NO, OL.CO_NO, OL.ID, OL.OL_CONT, OL.OL_DATE, OL.OL_YN, M.RENAME_FILE,M.NAME,OL.OL_YN,OL.OL_IMG
 		FROM ONETOONE_LIST OL
 		JOIN MEMBER M ON(OL.ID = M.ID)
 		WHERE CO_NO=#{co_no}
@@ -298,5 +310,11 @@ INSERT INTO CHAT_ONETOONE
 			   ,#{user}
 			   ,'admin')
 </insert>
+
+<select id="selectreportchk" parameterType="string" resultType="string">
+SELECT CHAT_YN
+FROM MEMBER
+WHERE ID=#{user}
+</select>
 </mapper>
 

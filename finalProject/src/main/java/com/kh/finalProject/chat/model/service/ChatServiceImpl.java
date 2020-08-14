@@ -198,5 +198,17 @@ public class ChatServiceImpl implements ChatService{
 		return cDao.insertmanagerchat(user);
 	}
 
+	@Override
+	public int insertChatmsg2(HashMap<String, Object> map) {
+
+		return cDao.insertChatmsg2(map);
+	}
+
+	@Override
+	public String selectreportchk(String user) {
+
+		return cDao.selectreportchk(user);
+	}
+
 	
 }

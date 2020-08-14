@@ -301,13 +301,17 @@
 	<c:forEach var="cl" items="${chlist }">
 		<c:if test="${cl.id eq loginUser.id }">
 			<div id="chatdata">
-				<div class="text-con"><span>${cl.ol_cont }</span></div>
+				<c:if test="${cl.ol_cont eq '이미지 입니다.' }">
+					<div class="text-con"><img src='resources/cuploadFiles/${cl.ol_img }' class='img-message'></div>
+				</c:if>
+				<c:if test="${cl.ol_cont ne '이미지 입니다.' }">
+					<div class="text-con"><span>${cl.ol_cont }</span></div>
+				</c:if>
 				<div class="tri-left"></div>
 				<div class="profile-img">
 				<c:if test="${!empty loginUser.rename_file }">
 				<img src='resources/muploadFiles/${loginUser.rename_file}'>
 				</c:if>
-				
 				<c:if test="${empty loginUser.rename_file }">
 				<img src='resources/images/icons/profile_white.png'>
 				</c:if>
@@ -331,7 +335,14 @@
 			<div class="tri-right"></div>
 			<div class="text-con-area">
 				<div>${cl.name }</div>
-				<div class="text-con-someone">${cl.ol_cont}</div>
+				<div class="text-con-someone">
+					<c:if test="${cl.ol_cont eq '이미지 입니다.' }">
+						<img src='resources/cuploadFiles/${cl.ol_img }' class='img-message'>
+					</c:if>
+					<c:if test="${cl.ol_cont ne '이미지 입니다.' }">
+						${cl.ol_cont }
+					</c:if>
+				</div>
 			</div>
 		</div>
 		
@@ -667,7 +678,6 @@
 			if(check == ""){
 				printHTML = "<div id='chatdata'>"
 					+ "<div class='text-con'><span>"
-					+ message
 					+ "</span><img src='resources/cuploadFiles/"+filename+"' class='img-message'></div>"
 					+ "<div class='tri-left'></div>"
 					+ "<div class='profile-img'><img src='resources/images/icons/profile_white.png'>"
@@ -675,7 +685,6 @@
 			}else{
 				printHTML = "<div id='chatdata'>"
 					+ "<div class='text-con'><span>"
-					+ message
 					+ "</span><img src='resources/cuploadFiles/"+filename+"' class='img-message'></div>"
 					+ "<div class='tri-left'></div>"
 					+ "<div class='profile-img'><img src='resources/muploadFiles/${loginUser.rename_file}'>"
@@ -691,7 +700,7 @@
 					+ "<div class='tri-right'></div>"
 					+"<div class='text-con-area'>"
 					+"<div>" + sessionid+"</div>"
-					+"<div class='text-con-someone'>"+message
+					+"<div class='text-con-someone'>"
 					+"<img src='resources/cuploadFiles/"+filename+"' class='img-message'></div>"
 					+"</div>";
 				
@@ -701,7 +710,7 @@
 					+ "<div class='tri-right'></div>"
 					+"<div class='text-con-area'>"
 					+"<div>" + sessionid+"</div>"
-					+"<div class='text-con-someone'>"+message
+					+"<div class='text-con-someone'>"
 					+"<img src='resources/cuploadFiles/"+filename+"' class='img-message'></div>"
 					+"</div>";
 				

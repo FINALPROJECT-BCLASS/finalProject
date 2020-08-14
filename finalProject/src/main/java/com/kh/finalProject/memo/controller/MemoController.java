@@ -11,10 +11,14 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.finalProject.account.model.vo.AccountBook;
+import com.kh.finalProject.daily.model.vo.Bookmark;
+import com.kh.finalProject.daily.model.vo.BookmarkMap;
+import com.kh.finalProject.daily.model.vo.BookmarkUrl;
 import com.kh.finalProject.member.model.vo.Member;
 import com.kh.finalProject.memo.model.exception.MemoException;
 import com.kh.finalProject.memo.model.service.MemoService;
@@ -31,14 +35,22 @@ public class MemoController {
 	MPlan mp;
 	
 	@RequestMapping("mmview.do")
-	public String memoView() {
+	public String memoView(HttpSession session, Model model) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String id = loginUser.getId();
+		
+		ArrayList<Bookmark> bmList = mmService.selectBmList(id);
+		
+		model.addAttribute("bmList", bmList);
 		
 		return "memo/memo";
 	}
 	
 	@RequestMapping("mminsert.do")
-	public String memoInsert(Memo m, MPlan mp, AccountBook ab,
+	public String memoInsert(Memo m, MPlan mp, AccountBook ab, Bookmark b, BookmarkMap bm, BookmarkUrl bu,
 							@RequestParam("mainNo") int mainNo,
+							@RequestParam(value="mb_main", required=false) String mbMain,
+							@RequestParam(value="mb_sub", required=false) String mbSub,
 							@RequestParam(value="type", required=false) String type) throws MemoException {
 		
 		int result1 = mmService.insertMemo(m);
@@ -50,6 +62,7 @@ public class MemoController {
 			mp.setMemoNo(memoNo);
 			
 			result2 = mmService.insertMPlan(mp);
+			
 		} else if(result1 > 0 && m.getMainNo() == 9) {
 			int memoNo = mmService.selectMemoNo(m);
 			
@@ -62,6 +75,22 @@ public class MemoController {
 			}
 			
 			result2 = mmService.insertABook(ab);
+			
+		} else if(result1 > 0 && m.getMainNo() == 6) {
+			int memoNo = mmService.selectMemoNo(m);
+			
+			if(m.getMemoType().equals("map")) {
+				String address = mbMain + " " + mbSub;
+
+				bm.setMemo_no(memoNo);
+				bm.setMb_address(address);
+				
+				result2 = mmService.insertBMap(bm);
+			} else {
+				bu.setMemo_no(memoNo);
+				
+				result2 = mmService.insertBUrl(bu);
+			}
 		}
 		
 		if(result1 > 0) {
@@ -92,12 +121,12 @@ public class MemoController {
 		
 		for(Memo m : totalList) {
 			JSONObject jObj = new JSONObject();
-			System.out.println(m);
 			
 			jObj.put("main", m.getMainNo());
 			jObj.put("no", m.getMemoNo());
 			jObj.put("date", m.getMemoDate());
 			jObj.put("content", m.getMemoCon());
+			jObj.put("type", m.getMemoType());
 			
 			if(m.getMainNo() == 1) {
 				jObj.put("mpTitle", m.getMpTitle());
@@ -118,6 +147,22 @@ public class MemoController {
 				jObj.put("abAmount", formatAmount);
 				
 				jObj.put("abMemo",m.getAbMemo());
+			}
+			
+			if(m.getMainNo() == 6) {
+				jObj.put("blTitle", m.getBlTitle());
+				
+				if(m.getMemoType().equals("map")) {
+					jObj.put("mbTitle", m.getMbTitle());
+					jObj.put("mbPhone", m.getMbPhone());
+					jObj.put("mbTime", m.getMbTime());
+					jObj.put("mbMemo", m.getMbMemo());
+					jObj.put("mbAddress", m.getMbAddress());
+				} else {
+					jObj.put("ubTitle", m.getUbTitle());
+					jObj.put("ubCon", m.getUbCon());
+					jObj.put("ubUrl", m.getUbUrl());
+				}
 			}
 			
 			jArr.add(jObj);
@@ -167,9 +212,19 @@ public class MemoController {
 	}
 	
 	@RequestMapping("abadd.do")
-	public String aBookAdd(Memo m) throws MemoException {
+	public String aBookAdd(Memo m, AccountBook a) throws MemoException {
+		System.out.println(a);
 		
-		int result1 = mmService.addABook(m);
+		int result1 = 0;
+		if(m.getMemoType().equals("noDate")) {
+			int result = mmService.updateAbDate(a);
+			
+			if(result > 0) {
+				result1 = mmService.addABook(m);
+			}
+		} else {
+			result1 = mmService.addABook(m);
+		}
 		
 		int result2 = 0;
 		if(result1 > 0) {
@@ -180,6 +235,23 @@ public class MemoController {
 			return "memo/memo";
 		} else {
 			throw new MemoException("가계부에 추가 실패");
+		}
+	}
+	
+	@RequestMapping("bmadd.do")
+	public String bookmarkAdd(Memo m) throws MemoException {
+		
+		int result1 = mmService.addBookmark(m);
+		
+		int result2 = 0;
+		if(result1 > 0) {
+			result2 = mmService.deleteMemo(m);
+		}
+		
+		if(result2 > 0) {
+			return "memo/memo";
+		} else {
+			throw new MemoException("북마크에 추가 실패");
 		}
 	}
 

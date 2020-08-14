@@ -143,7 +143,7 @@
 		                        <li><a onclick="chatview()">Chat</a></li>
 		                        <li><a href="#">Alarm</a></li>
 		                        <li><a href="mmview.do">Memo</a></li>
-		                        <li class="b-radius"><a href="logout.do">Logout</a></li>
+		                        <li class="b-radius"><a onclick="logout()">Logout</a></li>
 		                    </ul>
 		                </div>
 		            </div>
@@ -163,7 +163,7 @@
 		                    <ul class="hide login-sub">
 		                        <li class="t-radius"><a href="${myInfoView }">Info</a></li>
 		                        <li><a onclick="chatview()">Chat</a></li>
-		                        <li class="b-radius"><a href="logout.do">Logout</a></li>
+		                        <li class="b-radius"><a onclick="logout()">Logout</a></li>
 		                    </ul>
 		                </div>
 		            </div>
@@ -172,6 +172,12 @@
         </nav>
     </header>
     <script>
+    
+    	function logout(){
+    		var popup = window.open("close.html","popupName","");
+    		popup.close();
+    		 location.href="logout.do"; 
+    	}
 	 	// 로그인 서브 메뉴
 	    $(document).ready(function(){
 	    $(".login-area>div").click(function(){
@@ -191,7 +197,8 @@
 	    });
 	 	
 	 	function chatview(){
-	 		window.open("chatview.do","_blank","top=50,left=500,width=500, height=600,menubar=no,status=no");
+
+	 		window.open("chatview.do","popupName","top=50,left=500,width=500, height=600,menubar=no,status=no");
 	 	}
     </script>
 </body>
