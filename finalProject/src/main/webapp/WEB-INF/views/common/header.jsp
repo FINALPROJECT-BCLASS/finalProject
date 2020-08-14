@@ -93,8 +93,8 @@
 		                </li>
 		                <li>Diet
 		                    <ul class="sub-navi">
-		                            <li><a href="DietCalendarView.do">Calendar</a></li>
-		                            <li class="b-radius"><a href="DietGraphView.do">Graph</a></li>
+		                            <li><a href="DietCalendarView.do">Diet Calendar</a></li>
+		                            <li class="b-radius"><a href="DietGraphView.do">Inbody Graph</a></li>
 		                    </ul>
 		                </li>
 		                <li>Account
