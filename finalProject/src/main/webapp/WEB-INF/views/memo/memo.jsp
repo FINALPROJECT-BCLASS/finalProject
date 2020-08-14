@@ -204,11 +204,19 @@
     	   						
     	   						$startTr = $("<tr>");
     	   						$startTd1 = $("<th>").html("Start");
-    	   						$startTd2 = $("<td>").html(data.memoList[i].mpStart);
+    	   						if(data.memoList[i].mpStart != null) {
+    	   							$startTd2 = $("<td>").html(data.memoList[i].mpStart);
+    	   						} else {
+    	   							$startTd2 = $("<td>").html("미정");
+    	   						}
     	   						
     	   						$endTr = $("<tr>");
     	   						$endTd1 = $("<th>").html("End");
-    	   						$endTd2 = $("<td>").html(data.memoList[i].mpEnd);
+    	   						if(data.memoList[i].mpEnd != null) {
+    	   							$endTd2 = $("<td>").html(data.memoList[i].mpEnd);
+    	   						} else {
+    	   							$endTd2 = $("<td>").html("미정");
+    	   						}
     	   						
     	   						$timeTr = $("<tr>");
     	   						$timeTd1 = $("<th>").html("Time");
@@ -227,7 +235,6 @@
     	   							}
     	   						}
     	   						
-    	   						
     	   						$memoTr1 = $("<tr>");
     	   						$memoTd1 = $("<th colspan='2'>").html("Memo");
     	   						
@@ -238,7 +245,11 @@
     	   						}
     	   						
     	   						$aBtnDiv = $("<div class='aBtnArea'>");
-    	   						$addBtn = $("<button type='button' class='addBtn planAddBtn'>").text("Add");
+    	   						if(data.memoList[i].mpStart != null && data.memoList[i].mpEnd != null) {
+	    	   						$addBtn = $("<button type='button' class='addBtn planAddBtn'>").text("Add");    	   							
+    	   						} else {
+    	   							$addBtn = $("<button type='button' class='addBtn mpNoDateBtn'>").text("Add");
+    	   						}
     	   						
     	   						$aBtnDiv.append($addBtn);
     	   						
@@ -302,7 +313,7 @@
     	   						} else {
     	   							$budgetTd2 = $("<td>").html("미정");
     	   							
-    	   							$addBtn = $("<button type='button' class='addBtn noDateBtn'>").text("Add");
+    	   							$addBtn = $("<button type='button' class='addBtn abNoDateBtn'>").text("Add");
     	   						}
     	   						
     	   						$amountTr = $("<tr>");
@@ -752,7 +763,7 @@
             </div>
         </div>
         
-        <div class="modal fade" id="dateModal" role="dialog">
+        <div class="modal fade" id="abDateModal" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content" style="width: 300px;">
                     <div class="modal-header">
@@ -761,8 +772,8 @@
                     </div>
                     <div class="modal-body" align="center">
                         <form action="abadd.do" method="post">
-                        	<input type="hidden" id="updateMemoNo" name="memoNo">
-                        	<input type="date" name="abDate">
+                        	<input type="hidden" id="abUpdateMNo" name="memoNo">
+                        	<input type="date" name="abDate" required>
                         	<input type="hidden" name="memoType" value="noDate">
                         	<br><br>
                             <button type="submit" class="default-btn">Add</button>
@@ -770,7 +781,27 @@
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
+        
+        <div class="modal fade" id="mpDateModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content" style="width: 500px;">
+                    <div class="modal-header">
+                    	기간을 입력해주세요
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                    </div>
+                    <div class="modal-body" align="center">
+                        <form action="mpadd.do" method="post">
+                        	<input type="hidden" id="mpUpdateMNo" name="memoNo">
+                        	<input type="date" id="mpUpdateS" name="mpStart" required> - <input type="date" id="mpUpdateE" name="mpEnd" required>
+                        	<input type="hidden" name="memoType" value="noDate">
+                        	<br><br>
+                            <button type="submit" class="default-btn">Add</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>  
               
     </section>
 
@@ -890,6 +921,23 @@
 			}
 		});
 	    
+	    $(document).on("click",".mpNoDateBtn",function(){
+			var memoNo = $(this).parent().parent().find(".memoNo").val();
+			
+			$("#mpUpdateMNo").val(memoNo);
+
+	    	var addCheck = confirm("일정에 추가하시겠습니까?");
+			if(addCheck == true){
+				$("#mpUpdateS").val("");
+				$("#mpUpdateE").val("");
+				
+				$("#mpDateModal").modal();
+			}
+			else if(addCheck == false){
+				console.log("일정에 추가를 취소합니다.");
+			}
+		});
+	    
 	    $(document).on("click",".accountAddBtn",function(){
 			var memoNo = $(this).parent().parent().find(".memoNo").val();
 
@@ -902,14 +950,14 @@
 			}
 		});
 	    
-	    $(document).on("click",".noDateBtn",function(){
+	    $(document).on("click",".abNoDateBtn",function(){
 			var memoNo = $(this).parent().parent().find(".memoNo").val();
 			
-			$("#updateMemoNo").val(memoNo);
+			$("#abUpdateMNo").val(memoNo);
 
 	    	var addCheck = confirm("가계부에 추가하시겠습니까?");
 			if(addCheck == true){
-				$("#dateModal").modal();
+				$("#abDateModal").modal();
 			}
 			else if(addCheck == false){
 				console.log("가계부 추가를 취소합니다.");

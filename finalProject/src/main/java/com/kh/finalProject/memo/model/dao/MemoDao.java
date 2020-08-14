@@ -94,4 +94,9 @@ public class MemoDao {
 		return sqlSessionTemplate.update("memoMapper.updateAbDate", a);
 	}
 
+	public int updateMpDate(MPlan mp) {
+		
+		return sqlSessionTemplate.update("memoMapper.updateMpDate", mp);
+	}
+
 }

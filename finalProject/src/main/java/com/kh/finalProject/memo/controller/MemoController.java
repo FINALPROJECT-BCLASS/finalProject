@@ -190,9 +190,18 @@ public class MemoController {
 	}
 	
 	@RequestMapping("mpadd.do")
-	public String mPlanAdd(Memo m) throws MemoException {
+	public String mPlanAdd(Memo m, MPlan mp) throws MemoException {
 		
-		int result1 = mmService.addMPlan(m);
+		int result1 = 0;
+		if(m.getMemoType() != null && m.getMemoType().equals("noDate")) {
+			int result = mmService.updateMpDate(mp);
+			
+			if(result > 0) {
+				result1 = mmService.addMPlan(m);
+			}
+		} else {
+			result1 = mmService.addMPlan(m);
+		}
 		
 		int result2 = 0;
 		int result3 = 0;
@@ -213,10 +222,9 @@ public class MemoController {
 	
 	@RequestMapping("abadd.do")
 	public String aBookAdd(Memo m, AccountBook a) throws MemoException {
-		System.out.println(a);
 		
 		int result1 = 0;
-		if(m.getMemoType().equals("noDate")) {
+		if(m.getMemoType() != null && m.getMemoType().equals("noDate")) {
 			int result = mmService.updateAbDate(a);
 			
 			if(result > 0) {

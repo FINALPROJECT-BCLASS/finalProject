@@ -41,4 +41,6 @@ public interface MemoService {
 
 	int updateAbDate(AccountBook a);
 
+	int updateMpDate(MPlan mp);
+
 }

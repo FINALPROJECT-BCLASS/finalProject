@@ -220,5 +220,11 @@
 		SET AB_DATE=#{abDate}
 		WHERE MEMO_NO=#{memoNo}
 	</update>
+	
+	<update id="updateMpDate" parameterType="MPlan">
+		UPDATE MONTHLY_PLAN
+		SET MP_START=#{mpStart}, MP_END=#{mpEnd}
+		WHERE MEMO_NO=#{memoNo}
+	</update>
 
 </mapper>

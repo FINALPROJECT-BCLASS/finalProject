@@ -109,4 +109,10 @@ public class MemoServiceImpl implements MemoService {
 		return mmDao.updateAbDate(a);
 	}
 
+	@Override
+	public int updateMpDate(MPlan mp) {
+		
+		return mmDao.updateMpDate(mp);
+	}
+
 }
