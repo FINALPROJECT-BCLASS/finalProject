@@ -31,6 +31,7 @@
 		    	   								,start:data.mpList[i].start
 		    	   								,end:data.mpList[i].end
 		    	   								,color:data.mpList[i].color
+		    	   								,textColor:"#000000"
 		    	   								,id:data.mpList[i].no})
 		    	   				};
 	            				
@@ -262,6 +263,10 @@
             text-align: center;
         }
         
+        .fc-event-title {
+        	font-weight: bold;
+        }
+        
     </style>
 </head>
 
@@ -314,8 +319,8 @@
 						                            <label class="b-icons" for="pink" ><div class="pink"></div></label>
 						                            <input type="radio" name="color" id="purple" value="#C9A8FF">
 						                            <label class="b-icons" for="purple"><div class="light-purple"></div></label>
-						                            <input type="radio" name="color" id="blue" value="#2860E1">
-						                            <label class="b-icons" for="blue" ><div class="sky"></div></label>
+						                            <input type="radio" name="color" id="sky" value="#6B98FF">
+						                            <label class="b-icons" for="sky" ><div class="sky"></div></label>
 						                            <input type="radio" name="color" id="green" value="#50c6b0">
 						                            <label class="b-icons" for="green"><div class="green"></div></label>                                        		
                                         		</div>
@@ -568,8 +573,8 @@
 			                         	<label class="u-icons" for="uPink" ><div class="pink"></div></label>
 			                         	<input type="radio" name="color" id="uPurple" value="#C9A8FF">
 			                         	<label class="u-icons" for="uPurple"><div class="light-purple"></div></label>
-			                         	<input type="radio" name="color" id="uBlue" value="#2860E1">
-			                         	<label class="u-icons" for="uBlue" ><div class="sky"></div></label>
+			                         	<input type="radio" name="color" id="uSky" value="#6B98FF">
+			                         	<label class="u-icons" for="uSky" ><div class="sky"></div></label>
 			                         	<input type="radio" name="color" id="uGreen" value="#50c6b0">
 			                         	<label class="u-icons" for="uGreen"><div class="green"></div></label>                                        		
                                		</div>
