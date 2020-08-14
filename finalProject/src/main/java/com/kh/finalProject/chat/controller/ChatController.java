@@ -1,11 +1,14 @@
 package com.kh.finalProject.chat.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -15,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.finalProject.chat.model.service.ChatService;
@@ -486,5 +490,58 @@ public class ChatController {
 		
 		return mv;
 		
+	}
+	@RequestMapping("filesaves.do")
+	public void filesaves(HttpSession session,HttpServletRequest request,HttpServletResponse response,
+											MultipartFile file ) throws IOException {
+		System.out.println("data : " + file.getOriginalFilename());
+		
+		response.setContentType("text/html;charset=utf-8");
+		 String str ="";
+		 String renameFileName ="";
+		 if(!file.getOriginalFilename().equals("")) {
+			 renameFileName = saveFile(file,request);
+			 
+			 System.out.println("오리진 파일 : " + renameFileName);
+			 
+			 str="파일 저장 성공";
+
+		 }else {
+			 str ="저장실패";
+		 }
+		  PrintWriter out = response.getWriter();
+			 
+		  out.print(renameFileName);
+		  out.flush();
+		  out.close();
+		 
+
+	}
+
+	private String saveFile(MultipartFile file, HttpServletRequest request) {
+		
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		
+		String savePath = root + "\\cuploadFiles"; //경로확인
+		
+		File folder = new File(savePath);
+		
+		if(!folder.exists()) {
+			folder.mkdirs();			
+		}
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		String originFileName= file.getOriginalFilename();
+		String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis())) + "." 	
+				+ originFileName.substring(originFileName.lastIndexOf(".")+1);
+		
+		String filePath = folder + "\\" + renameFileName;
+		
+		try {
+			file.transferTo(new File(filePath));
+		} catch (Exception e) {
+			System.out.println("파일 전송 에러 : " + e.getMessage());
+		}
+		
+		return renameFileName;	
 	}
 }
