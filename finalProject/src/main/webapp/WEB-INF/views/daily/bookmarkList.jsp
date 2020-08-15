@@ -279,7 +279,7 @@
         /* 북마크 링크 세부 목록 */
 
         .url-list {
-        	height: 210px;
+        	height: 230px;
             overflow-y: scroll;
             display: flex;
             flex-wrap: wrap;

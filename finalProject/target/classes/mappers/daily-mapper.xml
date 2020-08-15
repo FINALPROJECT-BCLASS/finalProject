@@ -477,6 +477,7 @@
 		FROM DAILY_RECORD_PHOTO
 		WHERE DR_NO = #{dr_no}
 		AND DRP_DELETE = 'N'
+		ORDER BY DRP_NO DESC
 	</select>
 	
 	<insert id="insertDailyRecord" parameterType="DailyRecord">
@@ -516,5 +517,20 @@
 		AND DR_DELETE = 'N'
 	</update>
 	
+	<update id="updateDailyRecordPhoto" parameterType="String">
+		UPDATE DAILY_RECORD_PHOTO
+		SET DRP_DELETE = 'Y'
+		WHERE DRP_NO = #{drp_no}
+	</update>
 	
 </mapper>
+
+
+
+
+
+
+
+
+
+

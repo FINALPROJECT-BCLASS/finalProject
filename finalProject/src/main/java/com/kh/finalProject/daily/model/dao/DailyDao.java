@@ -243,4 +243,9 @@ public class DailyDao {
 		return sqlSessionTemplate.update("dailyMapper.updateDailyRecordThumbnail", drp);
 	}
 
+	public int updateDailyRecordPhoto(String drp_no) {
+
+		return sqlSessionTemplate.update("dailyMapper.updateDailyRecordPhoto", drp_no);
+	}
+
 }

@@ -165,6 +165,7 @@
     
     .preview-wrap {
     	width: 100%;
+   	    max-width: 580px;
 	    background: white;
 	    border-radius: 8px;
 	    display: flex;
@@ -202,6 +203,7 @@
     .photos-wrap {
     	position: relative;
     	min-height: 50px;
+   	    max-width: 580px;
     	width: 100%;
 	    background: white;
 	    border-radius: 8px;
@@ -238,6 +240,7 @@
 	    right: 0;
 	    bottom: 0;
 	    border-radius: 50%;
+	    background: #ffffff8c;
 	    width: 30px !important;
 	    height: 30px;
 	    display: flex;
@@ -259,7 +262,7 @@
 	<jsp:include page="../common/sidenaviDaily.jsp"/>
     <div class="right-area">
         <div>
-            <form action="editDailyRecord.do" name="record" method="post" enctype="multipart/form-data">
+            <form action="editDailyRecord.do" id="record" name="record" method="post" enctype="multipart/form-data">
                 <span class="pSubject">Edit My Record : No.${dr.dr_no }</span>
                 <input type="hidden" name="dr_no" value="${dr.dr_no }">
                 <input type="hidden" name="dr_thumbnail" value="${dr.dr_thumbnail }">
@@ -346,6 +349,8 @@
                     <button type="button" onclick="history.go(-1)">Back</button>
                     <button type="button" onclick="submit_btn()">Save</button>
                 </div>
+                <input class="remove_no" type="hidden" name="remove_no">
+                <input class="drp_left" type="hidden" name="drp_left">
             </form>
         </div>
     </div>
@@ -362,36 +367,54 @@
 	    
 	    // 이미지 추가
 	    for ( var i in drpRenameSplit ) {	
-	      $(".photos-wrap").append("<img class='img-item' src='resources/druploadFiles/"+drpRenameSplit[i]+"' title='Click to remove'><input type='hidden' value='"+drpNoSplit[i]+"'>");
+	      $(".photos-wrap").append("<img class='img-item left' src='resources/druploadFiles/"+drpRenameSplit[i]+"'><input type='hidden' name='drp_no_all' value='"+drpNoSplit[i]+"'><input type='hidden' value='"+drpRenameSplit[i]+"'>");
 	    }
 	    
 	    var remove_no = new Array();
+	    var left_name = new Array();
 	    
 	    // 이미지 클릭시 화면에서 삭제
 	    $(".img-item").on("click", function(){
+	    	
+	    	left_name = []; // 배열 초기화
+	    	
 	    	$(this).addClass("remove-item");
+	    	$(this).removeClass("left");
 	    	
 	    	var drp_no = $(this).next().val();
 	    	remove_no.push(drp_no);
 	    	
+	    	$(".remove_no").val(remove_no);
+	    	
+	    	// 지우지 않은 파일들 번호 뽑아내기
+	    	$('.left').each(function(){
+	    		  var text = $(this).next().next().val();
+	    		  console.log(text);
+	    		  left_name.push(text);
+	    		  
+	  	  	 });
+	  	  	 
+	  	  	 $(".drp_left").val(left_name); 
+	    	
+	    	
 	    });
+	 
 	    
 	    // 삭제된 이미지 되돌리기
 	    $(".photo-reset-btn").on("click", function() {
-	    	
+	    	$(".img-item").addClass("left"); 
 	    	$(".img-item").removeClass("remove-item");
 	    	remove_no = [];
-	    	
+	    	$(".remove_no").val("");
+	    	$(".drp_rename_b").val("");
 	    });
 	    
 	    function submit_btn() {
 	    	
-	    	if(remove_no == "") {
-	    		location.href="editDailyRecord.do"
-	    	}else {
-	    		location.href="editDailyRecord.do?remove_no='"+ remove_no +"'";
-	    	}
+	    	$(".remove_no").val(remove_no);
+	    	$("#record").submit();
 	    	
+	    
 	    }
 	    
 	    /* 저장된 데이터로 라디오 선택 */
@@ -401,11 +424,6 @@
 	    
 	    // 기분
 	    $("#${dr.dr_emotion}").attr("checked", true);
-	    
-	    
-	    /* 삭제된 기존 사진 넘버 받아서 넘기기 */
-	    
-	    console.log("받아와 : " + remove_no);
 	    
 	    
 	    /* 인풋 태그에 값 저장 */

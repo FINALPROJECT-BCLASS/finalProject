@@ -312,7 +312,7 @@
                     </tr>
                 </table>
                 <div class="button-area">
-                    <button type="button" onclick="history.go(-1)" >Back</button>
+                    <button type="button" onclick="location.href='dailyRecordView.do'">Back</button>
                     <button type="button" onclick="editDailyRecordView()">Edit</button>
                     <button type="button">Delete</button>
                 </div>

@@ -17,7 +17,6 @@
             align-items: center;
             justify-content: center;
             float: right;
-            height: 125%;
             width: 81%;
             background-color: #f7f7f7;
             color: #484848;
@@ -45,6 +44,7 @@
             color: #484848;
             text-align: left;
             padding-left: 46px;
+            max-width: 632px;
         }
 
         input[type="checkbox"] {
@@ -198,7 +198,7 @@
 	<jsp:include page="../common/sidenaviDaily.jsp"/>
     <div class="right-area">
         <div>
-            <form action="addDailyRecord.do" name="record" method="post" enctype="multipart/form-data">
+            <form action="addDailyRecord.do" id="record" name="record" method="post" enctype="multipart/form-data">
                 <span class="pSubject">New Record</span>
                 <input type="hidden" name="dr_no" value="${dr_no }">
                 <table cellpadding="6px">
@@ -271,14 +271,21 @@
                     </tr>
                 </table>
                 <div class="button-area">
-                    <button>Back</button>
-                    <button type="submit">Save</button>
+                    <button type="button">Back</button>
+                    <button type="button" onclick="submit_btn()">Save</button>
                 </div>
+                <input type="text" id="upFile" name="upFile">
             </form>
         </div>
     </div>
 
     <script>
+    
+    	function submit_btn() {
+    		
+    	 $("#record").submit();
+    		
+    	}
     
     console.log("으음 ? : ${dr_no}");
     
@@ -336,6 +343,7 @@
     		var index = 0;
     		
     		filesArr.forEach(function(f) {
+    			
     			if(!f.type.match("image.*")) {
     				
     				alert("이미지 확장자만 업로드 가능합니다.");
@@ -345,12 +353,14 @@
     			
     			sel_files.push(f);
     			
+    			
     			var reader = new FileReader();
     			reader.onload = function(e) {
-    				var html = "<a href='javascript:void(0);' onclick= 'deleteImageAction("+index+")' id='img_id_"+index+"'><img src='" + e.target.result + "' data-file='"+f.name+"' class='selProductFile' title='Click to remove'></a>";
+    				var html = "<a href='javascript:void(0);' id='img_id_"+index+"'><img src='" + e.target.result + "' data-file='"+f.name+"' class='selProductFile'></a>";
     				$(".preview-wrap").append(html);
     				index++;
     			}
+    			
     			reader.readAsDataURL(f);
     			
     		});
@@ -358,16 +368,33 @@
         }
         
         function deleteImageAction(index) {
+        	queryAdd = "";
+        	
         	
         	console.log("index : " + index);
         	sel_files.splice(index, 1);
         	
-        	var img_id = "#img_id_" + index;
-        	$(img_id).remove();
+        	for(var i = 0 ; i < sel_files.length ; i++){
+        		
+        			queryAdd += sel_files[i].name + ",";
+        			
+        	}
         	
-        	console.log(sel_files);
+        	$("#upFile").val(queryAdd);
+        	
+        	/* console.log("queryAdd1 : " + queryAdd); */
+        	
+        	
+        	
+        	/* var img_id = "#img_id_" + index;
+        	$(img_id).remove(); */
         	
         }
+        
+        
+ 
+
+        
     </script>
     <jsp:include page="../common/footer.jsp"/>
 </body>

@@ -282,6 +282,12 @@ public class DailyServiceImpl implements DailyService {
 		return dailyDao.updateDailyRecordThumbnail(drp);
 	}
 
+	@Override
+	public int updateDailyRecordPhoto(String drp_no) {
+
+		return dailyDao.updateDailyRecordPhoto(drp_no);
+	}
+
 
 	
 

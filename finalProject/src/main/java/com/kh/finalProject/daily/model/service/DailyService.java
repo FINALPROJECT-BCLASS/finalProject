@@ -98,6 +98,8 @@ public interface DailyService {
 
 	int updateDailyRecordThumbnail(DailyRecordPhoto drp);
 
+	int updateDailyRecordPhoto(String drp_no);
+
 
 
 }
