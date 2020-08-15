@@ -179,6 +179,10 @@
         .daily-record-area {
         	width: 77%;
         }
+        
+        .thead {
+        	height: 45px;
+        }
 
     </style>
 </head>
@@ -189,14 +193,14 @@
         <div class="daily-record-area">
             <span class="pSubject">Daily Record</span>
             <div class="button-area">
-                    <button type="button" onclick = "dailyRecordAdd()">Add</button>
-                    <button type="button">Delete</button>
+                    <button type="button" onclick="dailyRecordAdd()">Add</button>
+                    <button type="button" onclick="deleteDailyRecord()">Delete</button>
              </div>
              <input type="hidden" name="dr_thumbnail" value="${dr.dr_thumbnail }">
             <table class="board-table" cellpadding="3px">
                 <thead>
-                    <tr>
-                        <th><input type="checkbox"></th>
+                    <tr class="thead">
+                        <th><input id="check_all" name=check type="checkbox"></th>
                         <th>No.</th>
                         <th>Image</th>
                         <th>Title</th>
@@ -206,7 +210,7 @@
                 <tbody class="table-body">
                 	<c:forEach var="dr" items="${drlist }">
 	                    <tr>
-	                        <td><input type="checkbox"></td>
+	                        <td><input class="check_sub" name=check type="checkbox" value="${dr.dr_no }"></td>
 	                        <td>${dr.dr_no }</td>
 	                        <td>
 	                        	<c:if test="${empty dr.dr_thumbnail }">
@@ -279,6 +283,77 @@
     <jsp:include page="../common/footer.jsp"/>
 </body>
 <script>
+
+	
+	// 전체 선택
+	$(function(){
+		// 전체 선택 체크박스를 클릭하면,
+	   $("#check_all").click(function(){
+		   
+	       var chk = $(this).is(":checked");//.attr('checked');
+	        // 하위 체크박스의 상태를 checked로 변경
+	       if(chk){
+	    	   $(".check_sub").prop('checked', true);
+	       } else{
+	    	   $(".check_sub").prop('checked', false);
+	       }
+	    });
+	});
+	
+	
+	var arrayList = '';
+	
+	
+	function deleteDailyRecord(){
+	
+	var checkboxList = $("input[name=check]:checked");
+	
+	arrayList = '';
+	
+	for(var i=0; i<checkboxList.length; i++){
+	
+		// checkbox가 체크 되어있을 때만 실행
+		if($(checkboxList[i]).is(":checked")){
+			// 확인
+			console.log(i);
+			
+			if(i != checkboxList.length-1){
+				arrayList += $(checkboxList[i]).val() + ",";
+			} else{
+				arrayList += $(checkboxList[i]).val();
+			}
+		}
+	}	
+	
+	
+	// 하나도 체크 안했을 시 
+	if(arrayList == ''){
+		alert("하나 이상을 선택해주세요.");
+	}else{
+			if(!confirm('삭제하시겠습니까?')){
+			return false;}
+	
+			// post ajax
+	
+			$.ajax({
+				type: "POST",
+				url: "deleteDailyRecordC.do",
+				data: {dr_no : arrayList},
+				success: function(data){
+					if(data == "success") {
+						
+						console.log("넘어와?");
+						// 현재 페이지 새로고침
+						history.go(0);
+					}else {
+						alert("오류 발생, 다시 시도해 주세요.");
+						
+					}
+				}		
+			});
+		}
+	}
+
 
 	function dailyRecordAdd() {
 		

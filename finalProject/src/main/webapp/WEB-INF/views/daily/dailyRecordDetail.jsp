@@ -296,22 +296,24 @@
                         	<textarea class="b-content" name="dr_con" readonly>${dr.dr_con }</textarea>
                         </td>
                     </tr>
-                    <tr>
-                    	<td class="photos">Photos</td>
-                    	<td>
-                    		<c:if test = "${!empty drplist }">
-		                    	<div class="photos-area">
-		                       		<div class="photos-wrap">
-			                        	<c:forEach var="drp" items="${drplist }">
-			                       			<img src="resources/druploadFiles/${drp.drp_rename }">
-			                       			<input type="hidden" name="drp_no" value="${drp.drp_no }">
-			                       			<input type="hidden" name="drp_rename" value="${drp.drp_rename }">
-			                        	</c:forEach>
+                   	<c:if test= "${!empty drplist }">
+	                    <tr>
+	                    	<td class="photos">Photos</td>
+	                    	<td>
+	                    		<c:if test = "${!empty drplist }">
+			                    	<div class="photos-area">
+			                       		<div class="photos-wrap">
+				                        	<c:forEach var="drp" items="${drplist }">
+				                       			<img src="resources/druploadFiles/${drp.drp_rename }">
+				                       			<input type="hidden" name="drp_no" value="${drp.drp_no }">
+				                       			<input type="hidden" name="drp_rename" value="${drp.drp_rename }">
+				                        	</c:forEach>
+			                       		</div>
 		                       		</div>
-	                       		</div>
-                       		</c:if>
-                    	</td>
-                    </tr>
+	                       		</c:if>
+	                    	</td>
+	                    </tr>
+                    </c:if>
                 </table>
                 <div class="button-area">
                     <button type="button" onclick="location.href='dailyRecordView.do'">Back</button>

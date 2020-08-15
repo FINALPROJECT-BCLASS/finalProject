@@ -1492,45 +1492,44 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		
 		
 		if(result > 0) {
-		
-			if(!file.isEmpty()) {
 				
 				for(MultipartFile mf : file) {
 					
-					System.out.println("dr_no : " + dr_no);
-					
 					String originFileName = mf.getOriginalFilename();
+						
+						if(!mf.getOriginalFilename().equals("")) {
+						
+						// 파일명 앞에 '사용자 아이디_' 추가
+						String renameFileName = id + "_" + System.currentTimeMillis()
+													+"."+originFileName.substring(originFileName.lastIndexOf(".")+1);
+						
+						String filePath = folder + "/" + renameFileName;
+						
+						DailyRecordPhoto drp = new DailyRecordPhoto();
+						drp.setDrp_origin(originFileName);
+						drp.setDrp_rename(renameFileName);
+						drp.setDr_no(dr_no);
+						
+						int result_drp = dailyService.insertDailyRecordPhoto(drp);
+						
+						try {
+							mf.transferTo(new File(filePath));
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						
+						drplist.add(drp);
+						
+						}
 					
-					// 파일명 앞에 '사용자 아이디_' 추가
-					String renameFileName = id + "_" + System.currentTimeMillis()
-												+"."+originFileName.substring(originFileName.lastIndexOf(".")+1);
-					
-					String filePath = folder + "/" + renameFileName;
-					
-					DailyRecordPhoto drp = new DailyRecordPhoto();
-					drp.setDrp_origin(originFileName);
-					drp.setDrp_rename(renameFileName);
-					drp.setDr_no(dr_no);
-					
-					System.out.println("저장 되는지 확인 : "  + drp);
-					
-					int result_drp = dailyService.insertDailyRecordPhoto(drp);
-					
-					try {
-						mf.transferTo(new File(filePath));
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					
-					drplist.add(drp);
 				}
 				
-				int pResult = dailyService.updateDailyRecordThumbnail(drplist.get(drplist.size()-1));
-				
+				if(!drplist.isEmpty()) {
+					int pResult = dailyService.updateDailyRecordThumbnail(drplist.get(drplist.size()-1));
+				}
 				
 				return "redirect:dailyRecordView.do";
 			
-			}
 			
 		} else {
 		
@@ -1539,8 +1538,6 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 			
 			return "common/redirect";
 		}
-		
-		return "redirect:dailyRecordView.do";
 	}
 	
 	
@@ -1754,6 +1751,46 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		}
 		
 		
+	}
+	
+	
+	@RequestMapping("deleteDailyRecordC.do")
+	public void deleteDailyRecordC(HttpServletRequest request, HttpServletResponse response,
+									@RequestParam(value = "dr_no", required = false) String[] dr_no) throws IOException {
+		
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		
+		String id = member.getId();
+		
+//		System.out.println("에이작스 : " + dr_no);
+		
+		int result = 0;
+		
+		for(String dr_no_a : dr_no) {
+			
+			System.out.println("dr_no_a : " + dr_no_a);
+			
+			HashMap<String, String> map = new HashMap<>();
+			map.put("id", id);
+			map.put("dr_no", dr_no_a);
+			
+			result = dailyService.deleteDailyRecord(map);
+			
+		}
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		if(result > 0) {
+			out.print("success");
+			out.flush();
+			out.close();
+		} else {
+			out.print("failed");
+			out.flush();
+			out.close();
+		}
 	}
 	
 }
