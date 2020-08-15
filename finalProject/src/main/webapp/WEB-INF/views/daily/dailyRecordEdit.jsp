@@ -350,12 +350,26 @@
                     <button type="button" onclick="submit_btn()">Save</button>
                 </div>
                 <input class="remove_no" type="hidden" name="remove_no">
-                <input class="drp_left" type="hidden" name="drp_left">
+                <input class="drp_left" type="text" name="drp_left">
             </form>
         </div>
     </div>
 
     <script>
+    
+    	$(document).ready(function(){
+    		
+	    	// 지우지 않은 파일들 번호 뽑아내기
+	    	$('.left').each(function(){
+	    		  var text = $(this).next().next().val();
+	    		  console.log(text);
+	    		  left_name.push(text);
+	    		  
+	  	  	});
+	  	  	 
+	  	    $(".drp_left").val(left_name); 
+    		
+    	});
     
     	/* 기존 이미지 추가 / 수정 / 삭제 작업 */
     
@@ -392,9 +406,9 @@
 	    		  console.log(text);
 	    		  left_name.push(text);
 	    		  
-	  	  	 });
+	  	  	});
 	  	  	 
-	  	  	 $(".drp_left").val(left_name); 
+	  	    $(".drp_left").val(left_name); 
 	    	
 	    	
 	    });
@@ -495,7 +509,7 @@
     			
     			var reader = new FileReader();
     			reader.onload = function(e) {
-    				var html = "<a href='javascript:void(0);' onclick= 'deleteImageAction("+index+")' id='img_id_"+index+"'><img src='" + e.target.result + "' data-file='"+f.name+"' class='selProductFile' title='Click to remove'></a>";
+    				var html = "<a href='javascript:void(0);' id='img_id_"+index+"'><img src='" + e.target.result + "' data-file='"+f.name+"' class='selProductFile' title='Click to remove'></a>";
     				$(".preview-wrap").append(html);
     				index++;
     			}
@@ -505,17 +519,6 @@
         	
         }
         
-        function deleteImageAction(index) {
-        	
-        	console.log("index : " + index);
-        	sel_files.splice(index, 1);
-        	
-        	var img_id = "#img_id_" + index;
-        	$(img_id).remove();
-        	
-        	console.log(sel_files);
-        	
-        }
     </script>
     <jsp:include page="../common/footer.jsp"/>
 </body>

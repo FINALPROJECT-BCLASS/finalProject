@@ -179,6 +179,7 @@
     	width: 101.5%;
 	    background: white;
 	    border-radius: 8px;
+        max-width: 580px;
 	    display: flex;
 	    align-items: center;
 	    color: #cecece;
@@ -205,6 +206,7 @@
     .preview-wrap {
     	width: 100%;
 	    background: white;
+        max-width: 580px;
 	    border-radius: 8px;
 	    display: flex;
 	    align-items: center;
@@ -258,7 +260,7 @@
         <div>
             <form action="editDailyRecordView.do" id="record" name="record" method="post" enctype="multipart/form-data">
             	<span class="pSubject">My Record : No.${dr.dr_no }</span>
-                <input type="hidden" name="dr_no" value="${dr.dr_no }">
+                <input type="hidden" name="dr_no" id="dr_no" value="${dr.dr_no }">
                 <input type="hidden" name="dr_thumbnail" value="${dr.dr_thumbnail }">
                 <table cellpadding="6px"> 
                     <tr>
@@ -314,7 +316,7 @@
                 <div class="button-area">
                     <button type="button" onclick="location.href='dailyRecordView.do'">Back</button>
                     <button type="button" onclick="editDailyRecordView()">Edit</button>
-                    <button type="button">Delete</button>
+                    <button type="button" onclick="deleteDailyRecord()">Delete</button>
                 </div>
             </form>
         </div>
@@ -326,6 +328,17 @@
     		
     		$("#record").submit();
     		
+    	}
+    	
+    	function deleteDailyRecord() {
+    		
+    		var dr_no = $("#dr_no").val();
+    		
+    		if(!confirm('삭제하시겠습니까?')){
+				return false;
+			}else {
+    			location.href='deleteDailyRecord.do?dr_no='+ dr_no;
+			}
     	}
     
     </script>

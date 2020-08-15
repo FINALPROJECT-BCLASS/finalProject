@@ -73,7 +73,7 @@
         }
         
         .board-image-area > img {
- 			 height:110%;
+ 			 height:150%;
 		}
 
         td > a {
@@ -102,7 +102,9 @@
         .page-bnf {
             margin: 0 6px;
             font-size: 19px;
-        }
+            display: inline-block;
+            font-weight: 600;
+      	}
 
         .p-num {
             color: #484848;
@@ -222,11 +224,42 @@
                 </tbody>
             </table>
             <div class="pagination-area">
-                <button type="button" class="page-bnf blue">Prev</button>
-                <button type="button" class="p-num">1</button>
-                <button type="button" class="p-num">2</button>
-                <button type="button" class="p-num">3</button>
-                <button type="button" class="page-bnf blue">Next</button>
+            
+	            <c:if test="${pi.currentPage eq 1 }">
+	            	<p class="page-bnf gray">Prev</p>
+	            </c:if>
+	            <c:if test="${pi.currentPage gt 1 }">
+	            	<c:url var="drlistBack" value="dailyRecordView.do">
+	            		<c:param name="page" value="${pi.currentPage -1 }"/>
+                	</c:url>
+                		<button type="button" class="page-bnf blue" onclick="location.href='${drlistBack }'">Prev</button>
+                </c:if>
+                
+                <c:forEach var="p" begin="${pi.startPage }" end="${pi.endPage }">
+                
+	                <c:if test="${p eq pi.currentPage }">
+						<button class="p-num" color="blue" size="4"><b>${p }</b></button>
+					</c:if>
+                	
+                	<c:if test="${p ne pi.currentPage }">
+                		<c:url var="drlistCheck" value="dailyRecordView.do">
+                			<c:param name="page" value="${p }"/>
+                		</c:url>
+	                	<button type="button" class="p-num"  onclick="location.href='${drlistCheck }'">${p }</button>
+                	</c:if>
+                
+                </c:forEach>
+                
+				 <c:if test="${pi.currentPage eq pi.maxPage }">
+	            	<p class="page-bnf gray">Next</p>
+	            </c:if>
+	            <c:if test="${pi.currentPage lt pi.maxPage }">
+	            	<c:url var="drlistNext" value="dailyRecordView.do">
+	            		<c:param name="page" value="${pi.currentPage +1 }"/>
+                	</c:url>
+		                <button type="button" class="page-bnf blue" onclick="location.href='${drlistNext }'">Next</button>
+                </c:if>
+
             </div>
 
             <div class="search-area">

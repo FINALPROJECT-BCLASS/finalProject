@@ -523,6 +523,38 @@
 		WHERE DRP_NO = #{drp_no}
 	</update>
 	
+	<update id="updateDailyRecord" parameterType="String">
+		UPDATE DAILY_RECORD
+		SET DR_TITLE = #{dr_title}
+			, DR_DATE = #{dr_date}
+			, DR_WEATHER = #{dr_weather}
+			, DR_EMOTION = #{dr_emotion}
+			, DR_CON = #{dr_con}
+		WHERE DR_NO = #{dr_no}
+		AND ID = #{id}
+	</update>
+	
+	<update id="deleteDailyRecord" parameterType="hashmap">
+		UPDATE DAILY_RECORD
+		SET DR_DELETE = 'Y'
+		WHERE DR_NO = #{dr_no}
+		AND ID = #{id}
+	</update>
+	
+	<select id="selectDailyRecordList_a" parameterType="String" resultMap="DailyRecordResultSet">
+		SELECT *
+		FROM DAILY_RECORD
+		WHERE ID=#{id}
+		ORDER BY DR_NO ASC
+	</select>
+	
+	<select id="getListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM DAILY_RECORD
+		WHERE DR_DELETE = 'N'
+	</select>
+	
+	
 </mapper>
 
 
