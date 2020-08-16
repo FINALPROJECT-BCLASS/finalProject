@@ -107,7 +107,11 @@ public interface DailyService {
 
 	ArrayList<DailyRecord> selectDailyRecordList_a(String id);
 
-	int getListCount();
+	int getListCount(String id);
+
+	int getListCountSearch(HashMap<String, String> map);
+
+	ArrayList<DailyRecord> selectDailyRecordSearchList(HashMap<String, String> map, PageInfo pi);
 
 
 

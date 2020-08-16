@@ -25,7 +25,6 @@
         .board-table {
         	width:100%;
             margin: 9px auto;
-            margin-bottom: 50px;
             border-top: 1px solid #484848;
             border-bottom: 1px solid #484848;
 
@@ -112,7 +111,7 @@
 
         /* pagination-end */
 
-        input[type=text] {
+        input[type=text], input[type=date] {
             margin: 0 8px;
             border-style: none;
             border-radius: 8px;
@@ -163,6 +162,7 @@
         }
         
         .button-area {
+        	position: relative;
             display: flex;
             justify-content: flex-end;
 	    }
@@ -183,6 +183,24 @@
         .thead {
         	height: 45px;
         }
+        
+        #date_a {
+        	display: none;
+        }
+        
+        .allpost {
+        	font-size: 15px !important;
+        	color: gray !important;
+        	position: absolute;
+        	left:0;
+        	
+        }
+        
+        .allpost:hover {
+        	color:#2860E1 !important;
+        }
+        
+
 
     </style>
 </head>
@@ -192,7 +210,10 @@
     <div class="right-area">
         <div class="daily-record-area">
             <span class="pSubject">Daily Record</span>
+                    
+           	
             <div class="button-area">
+            		<button class="allpost" type="button" onclick="allPost()">All Post</button>
                     <button type="button" onclick="dailyRecordAdd()">Add</button>
                     <button type="button" onclick="deleteDailyRecord()">Delete</button>
              </div>
@@ -226,7 +247,9 @@
 	                    </tr>
 	                </c:forEach>
                 </tbody>
+                
             </table>
+                 
             <div class="pagination-area">
             
 	            <c:if test="${pi.currentPage eq 1 }">
@@ -268,14 +291,15 @@
 
             <div class="search-area">
                 <div style="position:relative;">
-                    <select>
-                        <option>Title</option>
-                        <option>Date</option>
+                    <select id="select_" name="select_item">
+                        <option id="title_" value="Title">Title</option>
+                        <option id="date_" value="Date">Date</option>
                     </select>
                     <div class="select-arrow"></div>
                 </div>
-                    <input type="text"></input>
-                <button class="default-btn b-yell">Search</button>
+                    <input id="title_a" type="text" name="title">
+                    <input id="date_a" type="date" name="date">
+                <button class="default-btn b-yell" onclick="searchList()">Search</button>
             </div>
         </div>
     </div>
@@ -283,6 +307,50 @@
     <jsp:include page="../common/footer.jsp"/>
 </body>
 <script>
+	
+	window.onkeydown = function(){
+		
+		var kcode = event.keyCode;
+		
+		if(kcode == 116) {
+			
+			/* history.replaceState({}, null, location.pathname); */
+			window.location = window.location.href.split("?")[0];
+			window.location = window.location.pathname;
+			
+		}
+		
+	}
+	
+	 
+	function allPost() {
+		
+		location.href="dailyRecordView.do";
+		
+	}
+
+	function searchList() {
+		
+		var select_item = $("#select_").val();
+		var title = $("#title_a").val();
+		var date = $("#date_a").val();
+		
+		location.href= "searchDailyRecordView.do?select_item=" + select_item + "&title=" + title + "&date=" + date;
+		
+	}
+
+
+	/* 검색 옵션 */
+	$('#select_').change(function() {
+		var state = $('#select_ option:selected').val();
+		if ( state == 'Title' ) {
+			$("#title_a").show();
+			$("#date_a").hide();
+		} else {
+			$("#title_a").hide();
+			$("#date_a").show();
+		}
+	});
 
 	
 	// 전체 선택

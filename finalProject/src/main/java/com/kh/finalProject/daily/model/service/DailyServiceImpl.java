@@ -308,10 +308,25 @@ public class DailyServiceImpl implements DailyService {
 	}
 
 	@Override
-	public int getListCount() {
+	public int getListCount(String id) {
 
-		return dailyDao.getListCount();
+		return dailyDao.getListCount(id);
 	}
+
+	@Override
+	public int getListCountSearch(HashMap<String, String> map) {
+
+		return dailyDao.getListCountSearch(map);
+	}
+
+	@Override
+	public ArrayList<DailyRecord> selectDailyRecordSearchList(HashMap<String, String> map, PageInfo pi) {
+		
+		return dailyDao.selectDailyRecordSearchList(map, pi);
+	}
+	
+
+
 
 
 	

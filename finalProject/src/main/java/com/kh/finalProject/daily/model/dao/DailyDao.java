@@ -269,9 +269,23 @@ public class DailyDao {
 		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectDailyRecordList_a", id);
 	}
 
-	public int getListCount() {
+	public int getListCount(String id) {
 		
-		return sqlSessionTemplate.selectOne("dailyMapper.getListCount");
+		return sqlSessionTemplate.selectOne("dailyMapper.getListCount", id);
+	}
+
+	public int getListCountSearch(HashMap<String, String> map) {
+
+		return sqlSessionTemplate.selectOne("dailyMapper.getListCountSearch", map);
+	}
+
+	public ArrayList<DailyRecord> selectDailyRecordSearchList(HashMap<String, String> map, PageInfo pi) {
+		
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+
+		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectDailyRecordSearchList", map, rowBounds);
 	}
 
 }

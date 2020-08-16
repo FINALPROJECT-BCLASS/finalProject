@@ -1388,7 +1388,7 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 	    }
 	}
 	
-	
+	// 일기 목록
 	@RequestMapping("dailyRecordView.do")
 	public ModelAndView dailyRecordView(ModelAndView mv, HttpServletRequest request, HttpServletResponse response
 							, @RequestParam(value="page", required=false) Integer page) {
@@ -1403,7 +1403,7 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 			currentPage = page;
 		}
 		
-		int listCount = dailyService.getListCount();
+		int listCount = dailyService.getListCount(id);
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 		
@@ -1464,9 +1464,9 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		
 		String dr_no = "";
 		
-		if(dr_no_before.equals("undefined")) {
-			
-			ArrayList<DailyRecord> drlist = dailyService.selectDailyRecordList_a(id);
+		ArrayList<DailyRecord> drlist = dailyService.selectDailyRecordList_a(id);
+
+		if(dr_no_before.equals("undefined")) {	
 			
 			if(!drlist.isEmpty()) {
 				
@@ -1481,7 +1481,7 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 			
 		}else {
 			
-			int dr_no_after = Integer.parseInt(dr_no_before) + 1;
+			int dr_no_after = Integer.parseInt(drlist.get(drlist.size()-1).getDr_no()) + 1;
 			dr_no = Integer.toString(dr_no_after);
 			
 		}
@@ -1793,4 +1793,54 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		}
 	}
 	
+	@RequestMapping("searchDailyRecordView.do")
+	public ModelAndView searchDailyRecordView(ModelAndView mv, HttpServletRequest request
+												, @RequestParam(value="select_item", required=false) String select_item
+												, @RequestParam(value="title", required=false) String title
+												, @RequestParam(value="date", required=false) String date
+												, @RequestParam(value="page", required=false) Integer page) {
+		
+		System.out.println("select_item : " + select_item);
+		System.out.println("title : " + title);
+		System.out.println("date : " + date);
+		
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		int currentPage = 1;
+		
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		HashMap<String, String> map = new HashMap<>();
+		map.put("id", id);
+		map.put("select_item", select_item);
+		map.put("title", title);
+		map.put("date", date);
+		
+		int listCount = dailyService.getListCountSearch(map);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		
+		ArrayList<DailyRecord> drlist = dailyService.selectDailyRecordSearchList(map, pi);
+		
+		System.out.println("1페이지 : " + drlist);
+		
+		if(drlist != null) {
+			
+			mv.addObject("pi", pi);
+			mv.addObject("drlist", drlist);
+			mv.setViewName("daily/dailyRecordBoard");
+			
+		}else {
+			
+//			mv.addObject("drlist", drlist);
+//			mv.setViewName("daily/dailyRecordBoard");
+			
+		}
+		
+		return mv;
+	}
 }
