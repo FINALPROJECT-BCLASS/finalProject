@@ -307,10 +307,10 @@
     <tr>
       <td class="main-section-content p-right">
         <span class="main-section-content-sub">Account Book</span> <br>
-        어디서나 노트를 작성하세요. 더 빠르게 정보를 찾으세요.<br>
-        사람들과 아이디어를 공유하세요. 일정, 그룹 다이어리, 일기 등을<br>
-        작성하면 빈틈 없는 정보 관리가 가능해집니다. 라이프노트가 당신의 삶을 좀 더<br>
-        효율적으로 관리해줍니다.당신의 삶의 주인공이 되기 위해 지금 바로 시작하세요 !<br>
+        당신의 자산을 체계적으로 관리하세요.<br>
+        월별 수익과 지출 통계를 분류별로 제공합니다.<br>
+        연도별 수익과 지출 변화를 한 눈에 확인하세요. <br>
+        불필요한 소비를 피할 수 있습니다.<br>
         <span class="main-section-content-sub blue">Go Account Book &nbsp; ►►</span>
       </td>
       <td class="main-section-image-area">
