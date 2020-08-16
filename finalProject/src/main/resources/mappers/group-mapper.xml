@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="groupMapper">
-  
+   
 	<!-- resultMap   -->
 	<resultMap id="groupTableResultSet" type="GroupTable">
 		<id property="gNo" column="G_NO"/>
@@ -1015,4 +1015,37 @@
 		SET GA_DELETE = 'Y'
 		WHERE GA_NO = #{gaNo}
 	</update>
+	
+	<select id="searchNameAccountUpdate" parameterType="GroupSearchName" resultMap="groupMemberResultSet">	
+		SELECT GM_ID, NAME, GM_NO
+		FROM MEMBER M
+        JOIN GROUP_MEMBER GM ON(GM.GM_ID = M.ID)
+		WHERE GM_NO NOT IN(SELECT GAM.GM_NO
+                   FROM GROUP_ACCOUNT_MEMBER GAM
+                  WHERE GAM.GA_NO=  #{gaNo} )
+        AND NAME LIKE '%' || #{searchName} || '%' 
+		AND G_NO = #{gNo}
+		AND OUT_YN = 'N'
+	</select>
+	
+	<update id="updateAccount" parameterType="GroupAccount">
+		UPDATE GROUP_ACCOUNT
+		SET G_NO = #{gNo},
+			GM_NO =  #{gmNo},
+			GA_TITLE =  #{gaTitle},
+			GA_DATE = #{gaDate},
+			GA_CON =  #{gaCon},
+			GA_AMOUNT =  #{gaAmount},
+			GA_PRO = #{gaPro},
+			GA_EXP = #{gaExp},
+			GA_FEE = #{gaFee},
+			GA_DELETE = #{gaDelete},
+			GAS_YN =  #{gasYn}
+		WHERE GA_NO = #{gaNo}
+	</update>
+	
+	<delete id="deleteAccountMember" parameterType="GroupAccount">
+		DELETE FROM GROUP_ACCOUNT_MEMBER
+		WHERE GA_NO = #{gaNo}
+	</delete>
 </mapper>
