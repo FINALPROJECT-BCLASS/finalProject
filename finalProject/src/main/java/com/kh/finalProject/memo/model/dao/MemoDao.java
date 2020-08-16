@@ -109,4 +109,9 @@ public class MemoDao {
 		return sqlSessionTemplate.update("memoMapper.updateMPlan", mp);
 	}
 
+	public int updateABook(AccountBook ab) {
+		
+		return sqlSessionTemplate.update("memoMapper.updateABook", ab);
+	}
+
 }

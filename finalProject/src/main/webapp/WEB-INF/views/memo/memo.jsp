@@ -317,46 +317,54 @@
     	   						
     	   						$dateTr = $("<tr>");
     	   						$dateTd1 = $("<th>").html("Date");
-    	   						$dateTd2 = $("<td>").html(data.memoList[i].date);
+    	   						$dateTd2 = $("<td class='dateTd2'>").html(data.memoList[i].date);
     	   						
+    	   						$apcNo = $("<input type='hidden' class='apcNo' value='0'>");
     	   						if(data.memoList[i].apcTitle != "해당없음") {
 	    	   						$titleTr = $("<tr>");
 	    	   						$titleTd1 = $("<th>").html("Category");
-	    	   						$titleTd2 = $("<td>").html(data.memoList[i].apcTitle);    	   							
+	    	   						$titleTd2 = $("<td>").html(data.memoList[i].apcTitle);
+	    	   						$apcNo = $("<input type='hidden' class='apcNo' value='" + data.memoList[i].apcNo + "'>");
     	   						}
     	   						
+    	   						$aecNo = $("<input type='hidden' class='aecNo' value='0'>");
     	   						if(data.memoList[i].aecTitle != "해당없음") {
 	    	   						$titleTr = $("<tr>");
 	    	   						$titleTd1 = $("<th>").html("Category");
-	    	   						$titleTd2 = $("<td>").html(data.memoList[i].aecTitle);    	   							
+	    	   						$titleTd2 = $("<td>").html(data.memoList[i].aecTitle);
+	    	   						$aecNo = $("<input type='hidden' class='aecNo' value='" + data.memoList[i].aecNo + "'>");
     	   						}
     	   						
     	   						$budgetTr = $("<tr>");
     	   						$budgetTd1 = $("<th>").html("Budget Date");
     	   						if(data.memoList[i].abDate != null) {
-    	   							$budgetTd2 = $("<td>").html(data.memoList[i].abDate);
+    	   							$budgetTd2 = $("<td class='budgetTd2'>").html(data.memoList[i].abDate);
     	   							
     	   							$addBtn = $("<button type='button' class='addBtn accountAddBtn'>").text("Add");
     	   						} else {
-    	   							$budgetTd2 = $("<td>").html("미정");
+    	   							$budgetTd2 = $("<td class='budgetTd2'>").html("미정");
     	   							
     	   							$addBtn = $("<button type='button' class='addBtn abNoDateBtn'>").text("Add");
     	   						}
     	   						
     	   						$amountTr = $("<tr>");
     	   						$amountTd1 = $("<th>").html("Amount");
-    	   						$amountTd2 = $("<td>").html(data.memoList[i].abAmount);
+    	   						$amountTd2 = $("<td class='amountTd2'>").html(data.memoList[i].abAmount);
     	   						
     	   						$memoTr1 = $("<tr>");
     	   						$memoTd1 = $("<th colspan='2'>").html("Memo");
     	   						
     	   						$memoTr2 = $("<tr>");
-    	   						$memoTd2 = $("<td colspan='2'>").html("<br>");    	   							
+    	   						$memoTd2 = $("<td colspan='2' class='memoTd2'>").html("<br>");    	   							
     	   						if(data.memoList[i].abMemo != null) {
-    	   							$memoTd2 = $("<td colspan='2'>").html(data.memoList[i].abMemo);	   							
+    	   							$memoTd2 = $("<td colspan='2' class='memoTd2'>").html(data.memoList[i].abMemo);	   							
     	   						}
     	   						
+								$editBtn = $("<button type='button' class='editBtn eAccountBtn'>").text("Edit");    	   						
+    	   						
     	   						$aBtnDiv = $("<div class='aBtnArea'>");
+    	   						
+    	   						$aBtnDiv.append($editBtn);
     	   						
     	   						$aBtnDiv.append($addBtn);
     	   						
@@ -374,7 +382,7 @@
     	   						
     	   						$table.append($dateTr).append($titleTr).append($budgetTr).append($amountTr).append($memoTr1).append($memoTr2);
     	   						
-    	   						$div.append($dBtnDiv).append($no).append($table).append($aBtnDiv);
+    	   						$div.append($dBtnDiv).append($no).append($apcNo).append($aecNo).append($table).append($aBtnDiv);
     	   						
     	   						$("#memoArea").append($div);
     	   					} else if(data.memoList[i].main == 6 && data.memoList[i].type == "map") {
@@ -664,8 +672,8 @@
                 </div>
             </div>
         </div>
-        
-        <div class="modal fade" id="accountModal" role="dialog">
+	    
+	    <div class="modal fade" id="accountModal" role="dialog">
 	        <div class="modal-dialog">
 	            <div class="modal-content">
 	                <div class="modal-header">
@@ -738,6 +746,85 @@
 	                            </tr>
 	                        </table>
 	                        <button type="submit" class="default-btn">Add</button>
+	                    </form>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	    
+	    <div class="modal fade" id="uAccountModal" role="dialog">
+	        <div class="modal-dialog">
+	            <div class="modal-content">
+	                <div class="modal-header">
+	                    <button type="button" class="close" data-dismiss="modal">×</button>
+	                </div>
+	                <div class="modal-body" align="center">
+	                    <form action="mmupdate.do" method="post">
+	                    	<input type="hidden" id="abMemoNo" name="memoNo">
+                        	<input type="hidden" name="mainNo" value="9">
+	                        <table id="addTable">
+	                        	<tr>
+	                         	<td>
+	                         		<input type="radio" id="uProfit" name="type" value="profit">
+	                         		<label for="uProfit"><b>Profit</b></label>
+	                         	</td>
+	                         	<td>
+	                         		&nbsp;<input type="radio" id="uExpenditure" name="type" value="expenditure">
+	                         		<label for="uExpenditure"><b>Expenditure</b></label>
+	                         	</td>
+	                        	</tr>
+	                            <tr>
+	                                <th>Category</th>
+	                                <td>
+	                                	<select id="uApcNo" name="apcNo" style="width: 230px;">
+	                                		<option id="profit1" value="1">월급</option>
+	                                		<option id="profit2" value="2">주급</option>
+	                                		<option id="profit3" value="3">일급</option>
+	                                		<option id="profit4" value="4">용돈</option>
+	                                		<option id="profit5" value="5">이월</option>
+	                                		<option id="profit6" value="6">자산인출</option>
+	                                		<option id="profit7" value="7">기타</option>
+	                                	</select>
+	                                	<select id="uAecNo" name="aecNo" style="width: 230px; display: none;">
+	                                		<option id="expenditure1" value="1">식비</option>
+	                                		<option id="expenditure2" value="2">교통비</option>
+	                                		<option id="expenditure3" value="3">문화생활</option>
+	                                		<option id="expenditure4" value="4">생필품</option>
+	                                		<option id="expenditure5" value="5">의류</option>
+	                                		<option id="expenditure6" value="6">미용</option>
+	                                		<option id="expenditure7" value="7">의료</option>
+	                                		<option id="expenditure8" value="8">교육</option>
+	                                		<option id="expenditure9" value="9">통신비</option>
+	                                		<option id="expenditure10" value="10">회비</option>
+	                                		<option id="expenditure11" value="11">경조사</option>
+	                                		<option id="expenditure12" value="12">저축</option>
+	                                		<option id="expenditure13" value="13">가전</option>
+	                                		<option id="expenditure14" value="14">공과금</option>
+	                                		<option id="expenditure15" value="15">카드대금</option>
+	                                		<option id="expenditure16" value="16">기타</option>
+	                                	</select>
+	                                </td>
+	                            </tr>
+	                            <tr>
+	                                <th>Date</th>
+	                                <td>
+	                                	<input type="date" name="abDate" id="uAbDate" style="width: 230px;">
+	                                </td>
+	                            </tr>
+	                            <tr>
+	                                <th>Amount</th>
+	                                <td><input type="number" id="uAbAmount" name="abAmount" style="width: 230px;"></td>
+	                            </tr>
+	                            <tr>
+	                                <th colspan="2">Memo</th>
+	                            </tr>
+	                            <tr>
+	                                <td colspan="2">
+	                                    <textarea id="uAbMemo" name="abMemo" cols="40" rows="5"></textarea>
+	                                </td>
+	                            </tr>
+	                        </table>
+	                        <button type="submit" class="default-btn">Save</button>
 	                    </form>
 	                </div>
 	            </div>
@@ -954,6 +1041,16 @@
     			$(".mainAddress").val("");
         		$(".subAddress").val("");
     		})
+    		
+    		$("#uProfit").click(function(){
+    			$("#uApcNo").css("display", "block");
+    			$("#uAecNo").css("display", "none");
+    		})
+    		
+    		$("#uExpenditure").click(function(){
+    			$("#uAecNo").css("display", "block");
+    			$("#uApcNo").css("display", "none");			
+    		})
     	})
     
 	    function searchAddress() {
@@ -1119,6 +1216,9 @@
 		        var splitLocation = mpLocation.split(', ');
 		        $("#uPlannerModal").find(".mainAddress").val(splitLocation[0]);
 		        $("#uPlannerModal").find(".subAddress").val(splitLocation[1]);	    		
+	    	} else {
+	    		$("#uPlannerModal").find(".mainAddress").val("");
+		        $("#uPlannerModal").find(".subAddress").val("");	  
 	    	}
 	    	
 	    	var mpMemo = $(this).parent().parent().find(".memoTd2").html();
@@ -1126,6 +1226,47 @@
 	    	
 	    	$("#uPlannerModal").modal();
 		});
+	    
+	    $(document).on("click",".eAccountBtn",function(){
+			var memoNo = $(this).parent().parent().find(".memoNo").val();
+			$("#abMemoNo").val(memoNo);
+	    	
+	    	var abDate = $(this).parent().parent().find(".budgetTd2").html();
+	    	$("#uAccountModal").find("#uAbTitle").val(abDate);
+	    	
+	    	var apcNo = $(this).parent().parent().find(".apcNo").val();
+	    	var aecNo = $(this).parent().parent().find(".aecNo").val();
+	    	if(apcNo != 0) {
+	    		$("#uProfit").attr("checked", true);
+	    		$("#uApcNo").show();
+	    		$("#uAecNo").hide();
+	    		$("#profit"+apcNo).attr("selected", true);
+	    	} else {
+	    		$("#uExpenditure").attr("checked", true);
+	    		$("#uApcNo").hide();
+	    		$("#uAecNo").show();
+	    		$("#expenditure"+aecNo).attr("selected", true);
+	    	}
+	    	
+	    	var abAmount = $(this).parent().parent().find(".amountTd2").html();
+	    	var splitAmount = abAmount.split(",");
+	    	var uAbAmount = "";
+	    	for(var i in splitAmount) {
+	    		uAbAmount += splitAmount[i];
+	    	}
+	    	
+	    	$("#uAccountModal").find("#uAbAmount").val(uAbAmount);
+	    
+	    	var mpMemo = $(this).parent().parent().find(".memoTd2").html();
+	    	if(mpMemo != "<br>") {
+		    	$("#uAccountModal").find("#uAbMemo").val(mpMemo);	    		
+	    	} else {
+	    		$("#uAccountModal").find("#uAbMemo").val("");
+	    	}
+	    	
+	    	$("#uAccountModal").modal();
+		});
+	    
     </script>	
     
 </body>

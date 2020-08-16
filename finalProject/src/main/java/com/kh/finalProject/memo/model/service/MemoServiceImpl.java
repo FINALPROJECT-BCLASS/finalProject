@@ -127,4 +127,10 @@ public class MemoServiceImpl implements MemoService {
 		return mmDao.updateMPlan(mp);
 	}
 
+	@Override
+	public int updateABook(AccountBook ab) {
+		
+		return mmDao.updateABook(ab);
+	}
+
 }

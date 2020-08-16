@@ -47,4 +47,6 @@ public interface MemoService {
 
 	int updateMPlan(MPlan mp);
 
+	int updateABook(AccountBook ab);
+
 }

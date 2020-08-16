@@ -26,7 +26,9 @@
 		<result property="mpSub" column="MP_SUB"/>
 		<result property="mpMemo" column="MP_MEMO"/>
 		<result property="abDate" column="AB_DATE"/>
+		<result property="apcNo" column="APC_NO"/>
 		<result property="apcTitle" column="APC_TITLE"/>
+		<result property="aecNo" column="AEC_NO"/>
 		<result property="aecTitle" column="AEC_TITLE"/>
 		<result property="abAmount" column="AB_AMOUNT"/>
 		<result property="abMemo" column="AB_MEMO"/>
@@ -105,7 +107,7 @@
 			JOIN MONTHLY_PLAN MP ON(MEMO.MEMO_NO=MP.MEMO_NO)
 		</if>
 		<if test="mainNo == 9">
-				, TO_CHAR(AB_DATE, 'YYYY-MM-DD') "AB_DATE", APC_TITLE, AEC_TITLE, AB_AMOUNT, AB_MEMO
+				, TO_CHAR(AB_DATE, 'YYYY-MM-DD') "AB_DATE", AB.APC_NO, APC_TITLE, AB.AEC_NO, AEC_TITLE, AB_AMOUNT, AB_MEMO
 			FROM MEMO
 			JOIN ACCOUNT_BOOK AB ON(MEMO.MEMO_NO=AB.MEMO_NO)
 			LEFT JOIN A_PROFIT_CATEGORY AP ON(AB.APC_NO=AP.APC_NO)
@@ -242,6 +244,16 @@
 			, MP_MAIN=#{mpMain}
 			, MP_SUB=#{mpSub}
 			, MP_MEMO=#{mpMemo}
+		WHERE MEMO_NO=#{memoNo}
+	</update>
+	
+	<update id="updateABook" parameterType="AccountBook">
+		UPDATE ACCOUNT_BOOK
+		SET AB_DATE=#{abDate}
+			, APC_NO=#{apcNo}
+			, AEC_NO=#{aecNo}
+			, AB_AMOUNT=#{abAmount}
+			, AB_MEMO=#{abMemo}
 		WHERE MEMO_NO=#{memoNo}
 	</update>
 

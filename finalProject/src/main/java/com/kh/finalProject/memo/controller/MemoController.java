@@ -140,7 +140,9 @@ public class MemoController {
 			
 			if(m.getMainNo() == 9) {
 				jObj.put("abDate", m.getAbDate());
+				jObj.put("apcNo", m.getApcNo());
 				jObj.put("apcTitle", m.getApcTitle());
+				jObj.put("aecNo", m.getAecNo());
 				jObj.put("aecTitle", m.getAecTitle());
 				
 				String formatAmount = String.format("%,d", m.getAbAmount());
@@ -264,13 +266,25 @@ public class MemoController {
 	}
 	
 	@RequestMapping("mmupdate.do")
-	public String memoUpdate(Memo m, MPlan mp) throws MemoException {
+	public String memoUpdate(Memo m, MPlan mp, AccountBook ab,
+							@RequestParam(value="type", required=false) String type) throws MemoException {
+		
+		System.out.println(ab);
 		
 		int result = 0;
 		if(m.getMainNo() == 0) {
 			result = mmService.updateMemo(m);			
 		} else if(m.getMainNo() == 1) {
 			result = mmService.updateMPlan(mp);
+		} else if(m.getMainNo() == 9) {
+			
+			if(type.equals("profit")) {
+				ab.setAecNo(0);
+			} else {
+				ab.setApcNo(0);
+			}
+			
+			result = mmService.updateABook(ab);
 		}
 		
 		if(result > 0) {
