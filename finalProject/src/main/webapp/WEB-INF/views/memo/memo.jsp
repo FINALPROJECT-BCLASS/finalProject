@@ -437,8 +437,12 @@
     	   							$memoTd2 = $("<td colspan='2'>").html(data.memoList[i].bmMemo);	   							
     	   						}
     	   						
+    	   						$editBtn = $("<button type='button' class='editBtn eBookmarkBtn'>").text("Edit");
+    	   						
     	   						$aBtnDiv = $("<div class='aBtnArea'>");
     	   						$addBtn = $("<button type='button' class='addBtn bookmarkAddBtn'>").text("Add");
+    	   						
+    	   						$aBtnDiv.append($editBtn);
     	   						
     	   						$aBtnDiv.append($addBtn);
     	   						
@@ -504,8 +508,12 @@
     	   							$memoTd2 = $("<td colspan='2'>").html(data.memoList[i].ubCon);	   							
     	   						}
     	   						
+    	   						$editBtn = $("<button type='button' class='editBtn eBookmarkBtn'>").text("Edit");
+    	   						
     	   						$aBtnDiv = $("<div class='aBtnArea'>");
     	   						$addBtn = $("<button type='button' class='addBtn bookmarkAddBtn'>").text("Add");
+    	   						
+    	   						$aBtnDiv.append($editBtn);
     	   						
     	   						$aBtnDiv.append($addBtn);
     	   						
@@ -905,6 +913,77 @@
                     </div>
                 </div>
             </div>
+        </div>
+        
+        <div class="modal fade" id="uBookmarkModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                    </div>
+                    <div class="modal-body" align="center">
+                        <form action="mmupdate.do" method="post">
+                        	<input type="hidden" name="mainNo" value="6">
+                        	<input type="hidden" id="memoType" name="memoType">
+                        	<input type="hidden" id="bmMemoNo">
+                        	
+                            <table id="addTable">
+                                <tr>
+                                    <th>Bookmark</th>
+                                    <td id="blTitle"></td>
+                                </tr>
+                                <tr>
+                                    <th>Title</th>
+                                    <td>
+                                    	<input type="text" id="uMapTitle" class="mapInput" name="mb_title" size="37">
+                                    	<input type="text" id="uUrlTitle" class="urlInput" name="ub_title" size="37">
+                                    </td>
+                                </tr>
+                                <tr class="mapInput">
+                                    <th>Phone</th>
+                                    <td>
+                                    	<input type="text" id="uPhone" name="mb_phone" size="37">
+                                    </td>
+                                </tr>
+                                <tr class="mapInput">
+                                    <th>Time</th>
+                                    <td>
+                                    	<input type="text" id="uTime" name="mb_time" size="37">
+                                    </td>
+                                </tr>
+                                <tr class="urlInput">
+                                    <th>Url</th>
+                                    <td>
+                                    	<input type="text" id="uUrl" name="ub_url" size="37">
+                                    </td>
+                                </tr>
+                                <tr class="mapInput">
+                                    <td colspan="2">
+                                    	<b>Location</b>&nbsp;
+                                    	<button type="button" class="default-btn b-lightgray" onclick="searchAddress()">Search</button>
+                                    </td>
+                                </tr>
+                                <tr class="mapInput">
+                                    <td colspan="2"><input type="text" name="mb_main" class="mainAddress" size="49"></td>
+                                </tr>
+                                <tr class="mapInput">
+                                    <td colspan="2"><input type="text" name="mb_sub" class="subAddress" size="49"></td>
+                                </tr>
+                                <tr>
+                                    <th colspan="2">Memo</th>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <textarea id="uMapMemo" class="mapInput" name="mb_memo" cols="52" rows="5"></textarea>
+                                        <textarea id="uUrlMemo" class="urlInput" name="ub_con" cols="52" rows="5"></textarea>
+                                    </td>
+                                </tr>
+                            </table>
+                            <button type="submit" class="default-btn">Add</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>   
         
         <div class="modal fade" id="etcModal" role="dialog">
@@ -1265,6 +1344,38 @@
 	    	}
 	    	
 	    	$("#uAccountModal").modal();
+		});
+	    
+	    $(document).on("click",".eBookmarkBtn",function(){
+			var memoNo = $(this).parent().parent().find(".memoNo").val();
+			$("#bmMemoNo").val(memoNo);
+	    	
+	    	var mpTitle = $(this).parent().parent().find(".titleTd2").html();
+	    	$("#uPlannerModal").find("#mpTitle").val(mpTitle);
+	    	
+	    	var mpStart = $(this).parent().parent().find(".startTd2").html();
+	    	$("#uPlannerModal").find("#mpStart").val(mpStart);
+	    	
+	    	var mpEnd = $(this).parent().parent().find(".endTd2").html();
+	    	$("#uPlannerModal").find("#mpEnd").val(mpEnd);
+	    	
+	    	var mpTime = $(this).parent().parent().find(".timeTd2").html();
+	    	$("#uPlannerModal").find("#mpTime").val(mpTime);
+	    	
+	    	var mpLocation = $(this).parent().parent().find(".locationTd2").html();
+	    	if(mpLocation != "<br>") {
+		        var splitLocation = mpLocation.split(', ');
+		        $("#uPlannerModal").find(".mainAddress").val(splitLocation[0]);
+		        $("#uPlannerModal").find(".subAddress").val(splitLocation[1]);	    		
+	    	} else {
+	    		$("#uPlannerModal").find(".mainAddress").val("");
+		        $("#uPlannerModal").find(".subAddress").val("");	  
+	    	}
+	    	
+	    	var mpMemo = $(this).parent().parent().find(".memoTd2").html();
+	    	$("#uPlannerModal").find("#mpMemo").val(mpMemo);
+	    	
+	    	$("#uPlannerModal").modal();
 		});
 	    
     </script>	
