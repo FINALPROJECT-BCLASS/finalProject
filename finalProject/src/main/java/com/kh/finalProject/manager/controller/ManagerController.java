@@ -112,7 +112,7 @@ public class ManagerController {
 	@RequestMapping("updatereport.do")
 	public String reportUpdate(@RequestParam("rpNo") int rpNo,
 							@RequestParam("rprNo") int rprNo,
-							@RequestParam("rpId") String rpId) throws ManagerException {
+							@RequestParam("rpedId") String rpedId) throws ManagerException {
 		
 		r.setRpNo(rpNo);
 		r.setRprNo(rprNo);
@@ -124,10 +124,10 @@ public class ManagerController {
 		int result3 = 0;
 		if(result1 > 0) {
 			if(rprNo == 2 || rprNo ==3) {
-				result2 = mgService.updateRpCount(rpId);
+				result2 = mgService.updateRpCount(rpedId);
 				
 				if(rprNo == 3) {
-					result3 = mgService.updateChatN(rpId);
+					result3 = mgService.updateChatN(rpedId);
 				}
 			}
 		}

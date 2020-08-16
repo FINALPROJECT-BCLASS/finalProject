@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.finalProject.account.model.vo.AccountBook;
+import com.kh.finalProject.daily.model.vo.Bookmark;
+import com.kh.finalProject.daily.model.vo.BookmarkMap;
+import com.kh.finalProject.daily.model.vo.BookmarkUrl;
 import com.kh.finalProject.memo.model.dao.MemoDao;
 import com.kh.finalProject.memo.model.vo.Memo;
 import com.kh.finalProject.plan.model.vo.MPlan;
@@ -74,6 +77,36 @@ public class MemoServiceImpl implements MemoService {
 	public int addABook(Memo m) {
 	
 		return mmDao.addABook(m);
+	}
+
+	@Override
+	public ArrayList<Bookmark> selectBmList(String id) {
+	
+		return mmDao.selectBmList(id);
+	}
+
+	@Override
+	public int insertBMap(BookmarkMap bm) {
+		
+		return mmDao.insertBMap(bm);
+	}
+
+	@Override
+	public int insertBUrl(BookmarkUrl bu) {
+		
+		return mmDao.insertBUrl(bu);
+	}
+
+	@Override
+	public int addBookmark(Memo m) {
+		
+		return mmDao.addBookmark(m);
+	}
+
+	@Override
+	public int updateAbDate(AccountBook a) {
+		
+		return mmDao.updateAbDate(a);
 	}
 
 }

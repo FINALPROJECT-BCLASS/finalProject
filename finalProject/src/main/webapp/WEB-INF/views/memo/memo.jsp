@@ -38,12 +38,11 @@
         .select-btn{
         	font-size: 20px;
 		    font-weight: 600;
-		    color: white;
 			border-style: none;
 		    border-radius: 8px;
 		    height: 50px;
 		    width: 200px;
-		    background-color: #2860E1;
+		    margin: -5px;
         }
         
         #memoArea {
@@ -62,14 +61,22 @@
         
         .etc {
         	background-color: #fde392;
+        	color: #484848;
         }
         
         .plan {
         	background-color: #a1e6d9;
+        	color: #484848;
         }
         
         .account {
         	background-color: #ffc5ef;
+        	color: #484848;
+        }
+        
+        .bookmark {
+        	background-color: #dfcbff;
+        	color: #484848;
         }
         
         .dBtnArea {
@@ -112,22 +119,6 @@
 			width: 500px;
 		}
 		
-		#planColor {
-			background-color: #a1e6d9;
-		}
-		
-		#bookmarkColor {
-			background-color: #dfcbff;
-		}
-		
-		#etcColor {
-			background-color: #fde392;
-		}
-		
-		#accountColor {
-			background-color: #ffc5ef;
-		}
-		
 		/* sky:#c5d2ef */
     </style>
 </head>
@@ -142,10 +133,10 @@
             &nbsp;&nbsp;&nbsp;&nbsp;
             <button type="button" class="default-btn" data-toggle="modal" data-target="#selectModal">Add</button>
             <div id="colorArea">
-            	<div class="circle" id="planColor"></div>&nbsp;<b>Monthly Planner</b>&nbsp;&nbsp;
-            	<div class="circle" id="bookmarkColor"></div>&nbsp;<b>Bookmark</b>&nbsp;&nbsp;
-            	<div class="circle" id="accountColor"></div>&nbsp;<b>Account Book</b>&nbsp;&nbsp;
-            	<div class="circle" id="etcColor"></div>&nbsp;<b>Etc</b>
+            	<div class="circle plan"></div>&nbsp;<b>Monthly Planner</b>&nbsp;&nbsp;
+            	<div class="circle bookmark"></div>&nbsp;<b>Bookmark</b>&nbsp;&nbsp;
+            	<div class="circle account"></div>&nbsp;<b>Account Book</b>&nbsp;&nbsp;
+            	<div class="circle etc"></div>&nbsp;<b>Etc</b>
             </div>
         </div>
         
@@ -305,9 +296,13 @@
     	   						$budgetTr = $("<tr>");
     	   						$budgetTd1 = $("<th>").html("Budget Date");
     	   						if(data.memoList[i].abDate != null) {
-    	   							$budgetTd2 = $("<td>").html(data.memoList[i].abDate);    	   							
+    	   							$budgetTd2 = $("<td>").html(data.memoList[i].abDate);
+    	   							
+    	   							$addBtn = $("<button type='button' class='addBtn accountAddBtn'>").text("Add");
     	   						} else {
     	   							$budgetTd2 = $("<td>").html("미정");
+    	   							
+    	   							$addBtn = $("<button type='button' class='addBtn noDateBtn'>").text("Add");
     	   						}
     	   						
     	   						$amountTr = $("<tr>");
@@ -324,7 +319,6 @@
     	   						}
     	   						
     	   						$aBtnDiv = $("<div class='aBtnArea'>");
-    	   						$addBtn = $("<button type='button' class='addBtn accountAddBtn'>").text("Add");
     	   						
     	   						$aBtnDiv.append($addBtn);
     	   						
@@ -343,6 +337,149 @@
     	   						$table.append($dateTr).append($titleTr).append($budgetTr).append($amountTr).append($memoTr1).append($memoTr2);
     	   						
     	   						$div.append($dBtnDiv).append($no).append($table).append($aBtnDiv);
+    	   						
+    	   						$("#memoArea").append($div);
+    	   					} else if(data.memoList[i].main == 6 && data.memoList[i].type == "map") {
+								$div = $("<div class='memo-size bookmark'>");
+								
+								$dBtnDiv = $("<div class='dBtnArea'>");
+    	   						$deleteBtn = $("<button type='button' class='deleteBtn'>").text("X");
+    	   						
+    	   						$dBtnDiv.append($deleteBtn);
+    	   						
+    	   						$no = $("<input type='hidden' class='memoNo' value='" + data.memoList[i].no + "'>");
+    	   						
+    	   						$type = $("<input type='hidden' class='memoType' value='" + data.memoList[i].type + "'>");
+    	   						
+    	   						$table = $("<table class='memo-table'>");
+    	   						
+    	   						$dateTr = $("<tr>");
+    	   						$dateTd1 = $("<th>").html("Date");
+    	   						$dateTd2 = $("<td>").html(data.memoList[i].date);
+
+    	   						$bookmarkTr = $("<tr>");
+    	   						$bookmarkTd1 = $("<th>").html("Bookmark");
+    	   						$bookmarkTd2 = $("<td>").html(data.memoList[i].blTitle);    	   							
+
+    	   						$titleTr = $("<tr>");
+    	   						$titleTd1 = $("<th>").html("Title");
+    	   						$titleTd2 = $("<td>").html(data.memoList[i].mbTitle);
+    	   						
+    	   						$phoneTr = $("<tr>");
+    	   						$phoneTd1 = $("<th>").html("Phone");
+    	   						$phoneTd2 = $("<td>").html(data.memoList[i].mbPhone);
+    	   						
+    	   						$timeTr = $("<tr>");
+    	   						$timeTd1 = $("<th>").html("Time");
+    	   						$timeTd2 = $("<td>").html(data.memoList[i].mbTime);
+    	   						
+    	   						$locationTr1 = $("<tr>");
+    	   						$locationTd1 = $("<th colspan='2'>").html("Location");
+    	   						
+    	   						$locationTr2 = $("<tr>");
+    	   						$locationTd2 = $("<td colspan='2'>").html("<br>");    	   							
+    	   						if(data.memoList[i].mbAddress != null) {
+    	   							$locationTd2 = $("<td colspan='2'>").html(data.memoList[i].mbAddress);
+    	   						}
+    	   						
+    	   						$memoTr1 = $("<tr>");
+    	   						$memoTd1 = $("<th colspan='2'>").html("Memo");
+    	   						
+    	   						$memoTr2 = $("<tr>");
+    	   						$memoTd2 = $("<td colspan='2'>").html("<br>");    	   							
+    	   						if(data.memoList[i].abMemo != null) {
+    	   							$memoTd2 = $("<td colspan='2'>").html(data.memoList[i].bmMemo);	   							
+    	   						}
+    	   						
+    	   						$aBtnDiv = $("<div class='aBtnArea'>");
+    	   						$addBtn = $("<button type='button' class='addBtn bookmarkAddBtn'>").text("Add");
+    	   						
+    	   						$aBtnDiv.append($addBtn);
+    	   						
+    	   						$dateTr.append($dateTd1).append($dateTd2);
+    	   						
+    	   						$bookmarkTr.append($bookmarkTd1).append($bookmarkTd2)
+    	   						
+    	   						$phoneTr.append($phoneTd1).append($phoneTd2);
+    	   						
+    	   						$timeTr.append($timeTd1).append($timeTd2);
+    	   						
+								$locationTr1.append($locationTd1);
+    	   						
+    	   						$locationTr2.append($locationTd2);
+    	   						
+								$memoTr1.append($memoTd1);
+    	   						
+    	   						$memoTr2.append($memoTd2);
+    	   						
+    	   						$table.append($dateTr).append($bookmarkTr).append($titleTr).append($phoneTr).append($timeTr).append($locationTr1).append($locationTr2).append($memoTr1).append($memoTr2);
+    	   						
+    	   						$div.append($dBtnDiv).append($no).append($type).append($table).append($aBtnDiv);
+    	   						
+    	   						$("#memoArea").append($div);
+    	   					} else if(data.memoList[i].main ==6 && data.memoList[i].type == "url") {
+								$div = $("<div class='memo-size bookmark'>");
+								
+								$dBtnDiv = $("<div class='dBtnArea'>");
+    	   						$deleteBtn = $("<button type='button' class='deleteBtn'>").text("X");
+    	   						
+    	   						$dBtnDiv.append($deleteBtn);
+    	   						
+    	   						$no = $("<input type='hidden' class='memoNo' value='" + data.memoList[i].no + "'>");
+    	   						
+    	   						$type = $("<input type='hidden' class='memoType' value='" + data.memoList[i].type + "'>");
+    	   						
+    	   						$table = $("<table class='memo-table'>");
+    	   						
+    	   						$dateTr = $("<tr>");
+    	   						$dateTd1 = $("<th>").html("Date");
+    	   						$dateTd2 = $("<td>").html(data.memoList[i].date);
+
+    	   						$bookmarkTr = $("<tr>");
+    	   						$bookmarkTd1 = $("<th>").html("Bookmark");
+    	   						$bookmarkTd2 = $("<td>").html(data.memoList[i].blTitle);
+
+    	   						$titleTr = $("<tr>");
+    	   						$titleTd1 = $("<th>").html("Title");
+    	   						$titleTd2 = $("<td>").html(data.memoList[i].ubTitle);    	   							
+    	   						
+    	   						$urlTr1 = $("<tr>");
+    	   						$urlTd1 = $("<th colspan='2'>").html("Url");
+    	   						
+    	   						$urlTr2 = $("<tr>");
+    	   						$urlTd2 = $("<td colspan='2'>").html(data.memoList[i].ubUrl);    	   							
+    	   						
+    	   						$memoTr1 = $("<tr>");
+    	   						$memoTd1 = $("<th colspan='2'>").html("Memo");
+    	   						
+    	   						$memoTr2 = $("<tr>");
+    	   						$memoTd2 = $("<td colspan='2'>").html("<br>");    	   							
+    	   						if(data.memoList[i].ubCon != null) {
+    	   							$memoTd2 = $("<td colspan='2'>").html(data.memoList[i].ubCon);	   							
+    	   						}
+    	   						
+    	   						$aBtnDiv = $("<div class='aBtnArea'>");
+    	   						$addBtn = $("<button type='button' class='addBtn bookmarkAddBtn'>").text("Add");
+    	   						
+    	   						$aBtnDiv.append($addBtn);
+    	   						
+    	   						$dateTr.append($dateTd1).append($dateTd2);
+    	   						
+    	   						$bookmarkTr.append($bookmarkTd1).append($bookmarkTd2);
+    	   						
+    	   						$titleTr.append($titleTd1).append($titleTd2);
+    	   						
+								$urlTr1.append($urlTd1);
+    	   						
+    	   						$urlTr2.append($urlTd2);
+    	   						
+								$memoTr1.append($memoTd1);
+    	   						
+    	   						$memoTr2.append($memoTd2);
+    	   						
+    	   						$table.append($dateTr).append($bookmarkTr).append($titleTr).append($urlTr1).append($urlTr2).append($memoTr1).append($memoTr2);
+    	   						
+    	   						$div.append($dBtnDiv).append($no).append($type).append($table).append($aBtnDiv);
     	   						
     	   						$("#memoArea").append($div);
     	   					}
@@ -364,13 +501,13 @@
                         <button type="button" class="close" data-dismiss="modal">×</button>
                     </div>
                     <div class="modal-body" align="center">
-                    	<button type="button" class="select-btn" data-toggle="modal" data-target="#plannerModal">Planner</button>
+                    	<button type="button" class="select-btn plan" data-toggle="modal" data-target="#plannerModal">Planner</button>
                     	<br><br>
-                    	<button type="button" class="select-btn" data-toggle="modal" data-target="#bookmarkModal">Bookmark</button>
+                    	<button type="button" class="select-btn bookmark" data-toggle="modal" data-target="#bookmarkModal">Bookmark</button>
                     	<br><br>
-                    	<button type="button" class="select-btn" data-toggle="modal" data-target="#accountModal">Account</button>
+                    	<button type="button" class="select-btn account" data-toggle="modal" data-target="#accountModal">Account</button>
                     	<br><br>
-                    	<button type="button" class="select-btn" data-toggle="modal" data-target="#etcModal">Etc</button>
+                    	<button type="button" class="select-btn etc" data-toggle="modal" data-target="#etcModal">Etc</button>
                     </div>
                 </div>
             </div>
@@ -510,7 +647,83 @@
 	                </div>
 	            </div>
 	        </div>
-	    </div>   
+	    </div>
+	    
+	    <div class="modal fade" id="bookmarkModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                    </div>
+                    <div class="modal-body" align="center">
+                        <form action="mminsert.do" method="post">
+                        	<input type="hidden" name="id" value="${loginUser.id }">
+                        	<input type="hidden" name="mainNo" value="6">
+                        	<input type="hidden" id="memoType" name="memoType">
+                            <table id="addTable">
+                                <tr>
+                                    <th>Bookmark</th>
+                                    <td>
+                                    	<select id="bl_no" name="bl_no">
+                                   		<c:forEach var="b" items="${bmList }">
+                                   			<option class="${b.bl_type }" value="${b.bl_no }">${b.bl_title }</option>
+                                   		</c:forEach>
+                                    	</select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Title</th>
+                                    <td>
+                                    	<input type="text" class="mapInput" name="mb_title" size="37">
+                                    	<input type="text" class="urlInput" name="ub_title" size="37">
+                                    </td>
+                                </tr>
+                                <tr class="mapInput">
+                                    <th>Phone</th>
+                                    <td>
+                                    	<input type="text" name="mb_phone" size="37">
+                                    </td>
+                                </tr>
+                                <tr class="mapInput">
+                                    <th>Time</th>
+                                    <td>
+                                    	<input type="text" name="mb_time" size="37">
+                                    </td>
+                                </tr>
+                                <tr class="urlInput">
+                                    <th>Url</th>
+                                    <td>
+                                    	<input type="text" name="ub_url" size="37">
+                                    </td>
+                                </tr>
+                                <tr class="mapInput">
+                                    <td colspan="2">
+                                    	<b>Location</b>&nbsp;
+                                    	<button type="button" class="default-btn b-lightgray" onclick="searchAddress()">Search</button>
+                                    </td>
+                                </tr>
+                                <tr class="mapInput">
+                                    <td colspan="2"><input type="text" name="mb_main" class="mainAddress" size="49"></td>
+                                </tr>
+                                <tr class="mapInput">
+                                    <td colspan="2"><input type="text" name="mb_sub" class="subAddress" size="49"></td>
+                                </tr>
+                                <tr>
+                                    <th colspan="2">Memo</th>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <textarea class="mapInput" name="mb_memo" cols="52" rows="5"></textarea>
+                                        <textarea class="urlInput" name="ub_con" cols="52" rows="5"></textarea>
+                                    </td>
+                                </tr>
+                            </table>
+                            <button type="submit" class="default-btn">Add</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>   
         
         <div class="modal fade" id="etcModal" role="dialog">
             <div class="modal-dialog">
@@ -537,12 +750,47 @@
                     </div>
                 </div>
             </div>
-        </div>      
+        </div>
+        
+        <div class="modal fade" id="dateModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content" style="width: 300px;">
+                    <div class="modal-header">
+                    	날짜를 입력해주세요
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                    </div>
+                    <div class="modal-body" align="center">
+                        <form action="abadd.do" method="post">
+                        	<input type="hidden" id="updateMemoNo" name="memoNo">
+                        	<input type="date" name="abDate">
+                        	<input type="hidden" name="memoType" value="noDate">
+                        	<br><br>
+                            <button type="submit" class="default-btn">Add</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div> 
+              
     </section>
 
     <jsp:include page="../common/footer.jsp"/>
     
     <script>
+    	function changeType() {
+    		var type = $("option:selected", "#bl_no").attr("class");
+    		
+    		$("#memoType").val(type);
+			
+			if(type == "map") {
+				$(".mapInput").show();
+				$(".urlInput").hide();
+			} else {
+				$(".mapInput").hide();
+				$(".urlInput").show();
+			}
+    	}
+    	
     	$(function(){
     		$("#profit").click(function(){
     			$("#apcNo").css("display", "block");
@@ -552,6 +800,17 @@
     		$("#expenditure").click(function(){
     			$("#aecNo").css("display", "block");
     			$("#apcNo").css("display", "none");			
+    		})
+    		
+    		changeType();
+    		
+    		$("#bl_no").change(function(){
+    			changeType();
+    		})
+    		
+    		$(".select-btn").click(function(){
+    			$(".mainAddress").val("");
+        		$(".subAddress").val("");
     		})
     	})
     
@@ -622,11 +881,11 @@
 	    $(document).on("click",".planAddBtn",function(){
 			var memoNo = $(this).parent().parent().find(".memoNo").val();
 
-	    	var deleteCheck = confirm("일정에 추가하시겠습니까?");
-			if(deleteCheck == true){
+	    	var addCheck = confirm("일정에 추가하시겠습니까?");
+			if(addCheck == true){
 				location.href="mpadd.do?memoNo="+memoNo;
 			}
-			else if(deleteCheck == false){
+			else if(addCheck == false){
 				console.log("일정 추가를 취소합니다.");
 			}
 		});
@@ -634,11 +893,38 @@
 	    $(document).on("click",".accountAddBtn",function(){
 			var memoNo = $(this).parent().parent().find(".memoNo").val();
 
-	    	var deleteCheck = confirm("가계부에 추가하시겠습니까?");
-			if(deleteCheck == true){
+	    	var addCheck = confirm("가계부에 추가하시겠습니까?");
+			if(addCheck == true){
 				location.href="abadd.do?memoNo="+memoNo;
 			}
-			else if(deleteCheck == false){
+			else if(addCheck == false){
+				console.log("가계부 추가를 취소합니다.");
+			}
+		});
+	    
+	    $(document).on("click",".noDateBtn",function(){
+			var memoNo = $(this).parent().parent().find(".memoNo").val();
+			
+			$("#updateMemoNo").val(memoNo);
+
+	    	var addCheck = confirm("가계부에 추가하시겠습니까?");
+			if(addCheck == true){
+				$("#dateModal").modal();
+			}
+			else if(addCheck == false){
+				console.log("가계부 추가를 취소합니다.");
+			}
+		});
+	    
+	    $(document).on("click",".bookmarkAddBtn",function(){
+			var memoNo = $(this).parent().parent().find(".memoNo").val();
+			var memoType = $(this).parent().parent().find(".memoType").val();
+
+	    	var addCheck = confirm("북마크에 추가하시겠습니까?");
+			if(addCheck == true){
+				location.href="bmadd.do?memoNo="+memoNo+"&memoType="+memoType;
+			}
+			else if(addCheck == false){
 				console.log("가계부 추가를 취소합니다.");
 			}
 		});

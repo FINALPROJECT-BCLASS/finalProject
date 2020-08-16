@@ -17,8 +17,6 @@
     .groupTb{margin:auto; width:700px; border-spacing: 5px; border-collapse: separate;}
     .groupTbTd {text-align:end;}
 
-    .date{width:49%;} 
-
     .post{width:40%; margin-right: 10px; }
     .postBtn{width:15%; border:none; border-radius: 6px; background:#FBD14B; height: 40px;}
     .postBtn:hover{width:15%;background:#f8c10d; border:none; border-radius: 6px; height: 40px;}
