@@ -2063,14 +2063,11 @@ public class GroupController {
 			Member loginUser = (Member) session.getAttribute("loginUser");
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 			GroupTable gt = gService.selectOneGroup(gInfo);
-			System.out.println("수정 gaNo : " + gaNo);
 			
 			GroupAccount gaList = gService.selectGa(gaNo);
 			ArrayList<GroupAccountMember> gamList = gService.selectGam(gaNo);
 			int totalAmount = gService.selectTotalGa(gaNo);
-			System.out.println("수정 view gaList :" + gaList);
-			System.out.println("수정 view gamList :" + gamList);
-			System.out.println("수정 view totalAmount :" + totalAmount);
+
 			mv.addObject("gInfo", gInfo);
 			mv.addObject("totalAmount", totalAmount);
 			mv.addObject("groupTable", gt);
@@ -2082,19 +2079,41 @@ public class GroupController {
 		}
 		
 		// 가계부 수정
-		@RequestMapping(value = "accountUpdate.do", method = RequestMethod.GET)
+		@RequestMapping(value = "accountUpdate.do", method = RequestMethod.POST)
 		public ModelAndView accountUpdate(ModelAndView mv, HttpSession session, 
-				@RequestParam(value = "gaNo", required = false) String gaNo) {
+				GroupAccount ga, GroupAccountMember gam,
+				@RequestParam(value = "gasYn", required = false) String gasYn,
+				@RequestParam(value = "gmNo", required = false) String gmNo,
+				@RequestParam(value = "gamAmount", required = false) String amount) {
 			Member loginUser = (Member) session.getAttribute("loginUser");
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
-			GroupTable gt = gService.selectOneGroup(gInfo);
-			System.out.println("수정 gaNo : " + gaNo);
-			
-			
-			
-//					int result = gService.deleteAccount(gaNo);
-//					mv.setViewName("redirect:accountMain.do");
+			ga.setgNo(gInfo.getGroupNo());
+			ga.setGmNo(gInfo.getGmNo());
+			System.out.println("수정 ga : " + ga);
+			int result = gService.updateAccount(ga);
+			System.out.println("수정 result : " + result);
+			int deleteDam = gService.deleteAccountMember(ga);
+			System.out.println("수정 deleteDam : " + deleteDam);
+			String[] gmNos = gmNo.split(",");
+			String[] amounts = amount.split(",");
+			ArrayList<GroupAccountMember> gamList = new ArrayList<>();
+			for (int i = 0; i < gmNos.length; i++) {
+				gam = new GroupAccountMember();
 				
+				gam.setgNo(gInfo.getGroupNo());
+				gam.setGaNo(ga.getGaNo());
+				gam.setGamAmount(amounts[i]);
+				gam.setGmNo(Integer.valueOf(gmNos[i]));
+				gam.setGamDelete("N");
+				gam.setGamYn("N");
+
+				gamList.add(gam);
+			}
+			System.out.println("수정 gamList : "+ gamList);
+			
+			int memberResult = gService.insertAccountMember(gamList);			
+			System.out.println("수정 memberResult : " + memberResult);
+			mv.setViewName("redirect:accountMain.do");
 			return mv;
 		}
 		

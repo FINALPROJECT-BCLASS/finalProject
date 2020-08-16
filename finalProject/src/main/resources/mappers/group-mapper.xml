@@ -1027,4 +1027,25 @@
 		AND G_NO = #{gNo}
 		AND OUT_YN = 'N'
 	</select>
+	
+	<update id="updateAccount" parameterType="GroupAccount">
+		UPDATE GROUP_ACCOUNT
+		SET G_NO = #{gNo},
+			GM_NO =  #{gmNo},
+			GA_TITLE =  #{gaTitle},
+			GA_DATE = #{gaDate},
+			GA_CON =  #{gaCon},
+			GA_AMOUNT =  #{gaAmount},
+			GA_PRO = #{gaPro},
+			GA_EXP = #{gaExp},
+			GA_FEE = #{gaFee},
+			GA_DELETE = #{gaDelete},
+			GAS_YN =  #{gasYn}
+		WHERE GA_NO = #{gaNo}
+	</update>
+	
+	<delete id="deleteAccountMember" parameterType="GroupAccount">
+		DELETE FROM GROUP_ACCOUNT_MEMBER
+		WHERE GA_NO = #{gaNo}
+	</delete>
 </mapper>

@@ -505,6 +505,15 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.searchNameAccountUpdate(gSearch);
 	}
 
+	@Override
+	public int updateAccount(GroupAccount ga) {
+		return gDao.updateAccount(ga);
+	}
+
+	@Override
+	public int deleteAccountMember(GroupAccount ga) {
+		return gDao.deleteAccountMember(ga);
+	}
 
 
 

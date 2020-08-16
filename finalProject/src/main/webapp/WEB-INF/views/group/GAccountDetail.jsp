@@ -18,7 +18,6 @@
     .groupTb{margin:auto; width:700px; border-spacing: 5px; border-collapse: separate;}
     .groupTbTd {text-align:end;}
 
-    .date{width:49%;} 
 
     .post{width:40%; margin-right: 10px; }
     .postBtn{width:15%; border:none; border-radius: 6px; background:#FBD14B; height: 40px;}
@@ -104,7 +103,7 @@
 		</c:if>
         <div class="join-form-area">
         <h1>Group Diary</h1>
-        <h4 class="pSubject">Account Write</h4><br>
+        <h4 class="pSubject">Account Detail</h4><br>
             <div class="groupJoin">
                
                 	<div class="typeForm">

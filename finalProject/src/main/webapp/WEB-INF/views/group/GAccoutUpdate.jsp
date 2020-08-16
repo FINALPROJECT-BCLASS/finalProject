@@ -104,50 +104,53 @@
         <h1>Group Diary</h1>
         <h4 class="pSubject">Account Update</h4><br>
             <div class="groupJoin">
-                <form action="accountInsert.do" method="post" id="accountForm">
-                	<input type="hidden" id="gaNo" value="${gaList.gaNo }">
+                <form action="accountUpdate.do" method="post" id="accountForm">
+                	<input type="hidden" id="gaNo" name="gaNo" value="${gaList.gaNo }">
+                	<input type="hidden" id="gaNo" name="gaDelete" value="N">
                 	<div class="typeForm">
                 	<div class="typeBox">
                 		<c:if test="${gaList.gaFee eq  'Y' }">
-           					<input type="radio" class="type" name="type" value="fee" id="fee" checked readonly>
+           					<input type="radio" class="type" name="updateType"  value="fee" id="fee" checked >
+           					<input type="hidden" class="type" name="gaFee" value="Y" id="typeFee" >
            				</c:if>
            				<c:if test="${gaList.gaFee eq  'N' }">
-           					<input type="radio" class="type" name="type" value="fee" id="fee" readonly>
+           					<input type="radio" class="type"  name="updateType" value="fee" id="fee" >
+           					<input type="hidden" class="type" name="gaFee" value="N" id="typeFee" >
            				</c:if>
            				<label for="fee">Fee</label>
            			</div>
            			<div class="typeBox">
            				<c:if test="${gaList.gaPro eq  'Y' }">
-           					<input type="radio" class="type" name="type"  value="profit" id="profit"  checked readonly>
+           					<input type="radio" class="type"  name="updateType"  value="profit" id="profit"  checked >
+           					<input type="hidden" class="type" name="gaPro" value="Y" id="typePro" >
           				</c:if>
           				<c:if test="${gaList.gaPro eq  'N' }">
-          				<input type="radio" class="type" name="type"  value="profit" id="profit"  readonly>
+          				<input type="radio" class="type"   name="updateType"  value="profit" id="profit"  >
+          				<input type="hidden" class="type" name="gaPro" value="N" id="typePro" >
           				</c:if>
            				<label for="profit">Profit</label>	
            			</div>	
            			<div class="typeBox">
            				<c:if test="${gaList.gaExp eq  'Y' }">
-           					<input type="radio" class="type" name="type"  value="expense" id="expense"  checked readonly>
+           					<input type="radio" class="type" name="updateType"  value="expense" id="expense"  checked >
+           					<input type="hidden" class="type" name="gaExp" value="Y" id="typeExp" >
            				</c:if>
            				<c:if test="${gaList.gaExp eq  'N' }">
-           					<input type="radio" class="type" name="type"  value="expense" id="expense"  readonly>
+           					<input type="radio" class="type" name="updateType" value="expense" id="expense"  >
+           					<input type="hidden" class="type" name="gaExp" value="N" id="typeExp" >
            				</c:if>
            				<label for="expense">Expense</label>
            			</div>
            			</div>
                     <table class="groupTb">
-                    	<input type="hidden" id="typeFee" name="gaFee" value="Y">
-                    	<input type="hidden" id="typePro" name="gaPro" value="N">
-                    	<input type="hidden" id="typeExp" name="gaExp" value="N">
-                    	<input type="hidden" id="deleteYn" name="gaDelete" value="N">
-                        <tr>
+                    	<tr>
                             <td class="groupTbTd">Title&nbsp;</td>
                             <td><input type="text" name="gaTitle" id="title" value="${gaList.gaTitle }" placeholder="  제목 입력"></td>
                         </tr>
                         <tr>
                             <td class="groupTbTd">Date&nbsp;</td>
                             <td>
-                                <input type="date" name="gaDate" class="date" value="${gaList.gaTitle }"> 
+                                <input type="date" name="gaDate" class="date" value="${gaList.gaDate }"> 
                                  
                                 
                             </td>
@@ -181,8 +184,9 @@
                                     <button type='button' class='searchNameBox'>
                                     	<div class='amountName'>${gam.name }</div>
                                     	<c:set var="amount" value="${gam.gamAmount }"/>
-                						<input type='text' class='amountBox' name='gamAmount' value="<fmt:formatNumber value="${amount }" groupingUsed="true"/>">
-                						<input type="hidden" class="gamDelete" value="${gam.gamDelete }">
+                						<input type='text' class='amountBox' name='gamAmount'  name="gamAmount" value="${amount }">
+                						<input type="hidden" class="gamDelete"  value="${gam.gamDelete }">
+                						<input type="hidden" name="gmNo" value="${gam.gmNo }">
                 					</button>
                 					</c:forEach>
                 
@@ -192,8 +196,7 @@
                         <tr>
                             <td class="groupTbTd"><div class="amount">Total Amount&nbsp;</div></td>
                             <td>
-                                <c:set var="totalAmount" value="${totalAmount }"/>
-                                <div class="backgroundWhite"><span class="material-icons">add</span><input type="text" name="gaAmount" class="amount" value="<fmt:formatNumber value="${totalAmount }" groupingUsed="true"/>"></div>
+                                <div class="backgroundWhite"><span class="material-icons">add</span><input type="text" name="gaAmount" class="amount" value="${totalAmount }"></div>
                             </td>
                         </tr>
                         <c:if test="${gaList.gaFee eq 'Y' }">

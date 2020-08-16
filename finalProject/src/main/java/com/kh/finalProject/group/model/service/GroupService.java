@@ -212,6 +212,10 @@ public interface GroupService {
 
 	ArrayList<Member> searchNameAccountUpdate(GroupSearchName gSearch);
 
+	int updateAccount(GroupAccount ga);
+
+	int deleteAccountMember(GroupAccount ga);
+
 
 	
 
