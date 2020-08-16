@@ -554,7 +554,6 @@
 				alert("제목을 입력해주세요");
 			}else if($("#addTitle").val() != ""){
 					if($("#insertAddress").val() != ""){
-						alert("값없이");
 						var address1 = $("#insertAddress").val();
 						console.log("address1 : " + address1);
 			    		var geocoder = new kakao.maps.services.Geocoder();
@@ -586,7 +585,7 @@
 						        resizeMap(coords);
 						        coordX.value = xx;
 						        coordY.value = yy;
-								alert(xx+","+yy);
+								
 						    } 
 						});
 					}

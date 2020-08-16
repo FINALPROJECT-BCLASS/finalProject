@@ -201,8 +201,8 @@ public class GroupDao {
 		return sqlSessionTemplate.selectOne("groupMapper.selectGbNo");
 	}
 
-	public int insertBoardPhoto(ArrayList<GroupBoardPhoto> photoList) {
-		return sqlSessionTemplate.insert("groupMapper.insertBoardPhoto",photoList);
+	public int insertBoardPhoto(GroupBoardPhoto gbp) {
+		return sqlSessionTemplate.insert("groupMapper.insertBoardPhoto",gbp);
 	}
 
 	public int deletePhoto(String gbNo) {

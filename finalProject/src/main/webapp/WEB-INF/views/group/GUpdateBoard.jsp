@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,11 +20,7 @@
     .groupTbTd {text-align:end;}
 
     input{width:100%;height:40px; padding-left: 10px; border:none; border-radius: 6px;}
-    /* .search{border:1px solid grey; background:white; border:none; border-radius: 6px;}
-    .searchImg{width:20px; height:20px;}
-    #search{width:85%; border:none; }
-    .searchName{width:80px; cursor: pointer; padding-left: 20px;padding-bottom: 10px; padding-top: 10px; display:inline-block;}
-    /* .searchName:hover{background:#FBD14B;} */
+   
     .oneSearchBox:hover{width:100%; cursor: pointer; background:#FBD14B;}
     .oneSearchBox{width:100%; cursor: pointer; }
     .searchNameAfter{background:white; border:none; border-radius: 6px; height:100px; color:darkgray; height:150px; width:600px; overflow:scroll;  overflow-x:hidden;} /* width 다시보기*/
@@ -37,7 +34,8 @@
 
     #groupCon{width:100%; height:300px; border:none;  border-radius: 6px; margin-bottom:-10px;}
     .groupPhoto{width:100px; height: 100px;}
-
+	.imgBox{width:100%; text-align:center; background:white;}
+	.boardImg{width:50%;height:40%;}
     .groubJoinBtn{width:1100px; text-align: center;}
     #submit{background:none; border:none; color:#2860E1; font-weight: 600; font-size: 20px; }
     #reset{background:none; border:none; color:#484848; font-weight: 600; font-size: 20px; width:100px;}
@@ -49,70 +47,86 @@
             font-size: 16px;
         }
       
-     /* 샘이언니 파일업로드 */ 
-     .filebox .upload-name {
-	display: inline-block;
-    vertical-align: middle;
-    width: 70%;
-    height: 40px;
-    font-size: 13px;
-    padding: 0 10px;
-    border: 0;
-    border-radius: 8px;
-    margin-right: 5px;
-    background-color: white;
-	}
-	
-	.profile-image-area{
-		text-align:center;
-		width:100%;
-		background:white;
-		padding-bottom:15px;
-	}
-	
-	.profile-image {
-		border-radius:6px;
-		width:80%;
-	    height: 35%;
-	    display:none;
-	    margin: 0 auto;
-	}
-     /* 업로드 버튼 */
-    .filebox label {
-           width:100px;
-       height: 40px;
-       padding:10px 10px 30px 24px;
-       margin-top: 10px;
-       display: inline-block;
-       color: #484848;
-       font-size: inherit;
-       line-height: normal;
-       vertical-align: middle;
-       background-color: #FBD14B;
-       cursor: pointer;
-       border-radius: .25em;
-       -webkit-transition: background-color 0.2s;
-       transition: background-color 0.2s;
-	}
-	
-	.filebox label:hover {
-	  background-color: #f1bc0e;
-	}
-	
-	.filebox label:active {
-	  background-color: #f1bc0e;
-	}
-	
-	.filebox input[type="file"] {
-	  position: absolute;
-	  width: 1px;
-	  height: 1px;
-	  padding: 0;
-	  margin: -1px;
-	  overflow: hidden;
-	  clip: rect(0, 0, 0, 0);
-	  border: 0;
-	}    
+   /* File */
+
+        /* named upload */
+	    .file-box .upload-name {
+            display: inline-block;
+            vertical-align: middle;
+            width: 164px;
+            height: 40px;
+            font-size: 14px;
+            padding: 0 10px;
+            border: 0;
+            border-radius: 8px;
+            margin-right: 5px;
+            background-color: white;
+            color: #cecece;
+        }
+
+        .file-box {
+            display: inline-block;
+        }
+        
+        .file-box input[type="file"] {
+            position: absolute;
+            width: 0;
+            height: 0;
+            padding: 0;
+            overflow: hidden;
+            border: 0;
+        }
+
+        .file-box label {
+            display: inline-block;
+            height: 40px;
+            padding: 7px 20px;
+            color: #484848;
+            font-size: 15px;
+            font-weight: 600;
+            vertical-align: middle;
+            background-color: #FBD14B;
+            cursor: pointer;
+            border-radius: 8px;
+            margin: 0;
+        }
+
+        /* radio select */
+
+        input[type="radio"] {
+            display: none;
+        }
+
+        input[type="radio"]:checked + label{
+        background-color: #FBD14B;
+        
+    }
+    
+    .preview-wrap {
+    	width: 100%;
+	    background: white;
+	    border-radius: 8px;
+	    display: flex;
+	    align-items: center;
+	    color: #cecece;
+	    font-size: 14px;
+	    border: 10px solid white;
+	    overflow: hidden;
+	    flex-wrap: wrap;
+    }
+    
+    
+    .preview-wrap > a > img {
+    	height: 130px;
+    	margin: 5px;
+    	
+    }
+    
+    .preview-wrap > div {
+    	width: 100%;
+    	text-align:center;
+    }
+
   </style>
 </head>
 <body>
@@ -142,61 +156,41 @@
                             <td class="groupTbTd">Content&nbsp;</td>
                             <td>
                                 <textarea id="groupCon" name='gbCon'>${boardList.gbCon }</textarea>
-                                <div class=profile-image-area>
-                        			<img class="profile-image profile-image1" src="">
-                       			</div>
-                       			 <div class=profile-image-area>
-                        			<img class="profile-image profile-image2" src="">
-                       			</div>
-                       			 <div class=profile-image-area>
-                        			<img class="profile-image profile-image3" src="">
-                       			</div>
-                       			 <div class=profile-image-area>
-                        			<img class="profile-image profile-image4" src="">
-                       			</div>
-                       			 <div class=profile-image-area>
-                        			<img class="profile-image profile-image5" src="">
-                       			</div>
-                       			
-                   				<div class="filebox">
-								  <input type="file" id="file1" class="ex_file" name="uploadFile1" onchange="uploadPhoto1(this);">
-								  <input class="upload-name upload-name1" value="${photoList[0].gbpOrigin }">
-								  <label for="file1">Upload</label><!-- &nabsp;<label class="ex_file reset1">Reset</label> -->
-								</div>
-								<div class="filebox">
-								  <input type="file" id="file2" class="ex_file" name="uploadFile2" onchange="uploadPhoto2(this);">
-								  <input class="upload-name upload-name2" value="${photoList[1].gbpOrigin }">
-								  <label for="file2">Upload</label>
-								</div>
-								<div class="filebox">
-								  <input type="file" id="file3" class="ex_file" name="uploadFile3" onchange="uploadPhoto3(this);">
-								  <input class="upload-name upload-name3" value="${photoList[2].gbpOrigin }">
-								  <label for="file3">Upload</label>
-								</div>
-								<div class="filebox">
-								  <input type="file" id="file4" class="ex_file" name="uploadFile4" onchange="uploadPhoto4(this);">
-								  <input class="upload-name upload-name4" value="${photoList[3].gbpOrigin }">
-								  <label for="file4">Upload</label>
-								</div>
-								<div class="filebox">
-								  <input type="file" id="file5" class="ex_file" name="uploadFile5" onchange="uploadPhoto5(this);">
-								  <input class="upload-name upload-name5" value="${photoList[4].gbpOrigin }">
-								  <label for="file5">Upload</label>
-								</div>	
+                                <c:if test="${empty photoList }">
+                                </c:if>
+                                <c:if test="${!empty photoList }">
+	                                <c:forEach var="p" items="${photoList }">
+		                                <c:if test="${ p.gbpOrigin eq null}">
+		                                </c:if>
+		                                <c:if test="${ p.gbpOrigin ne null}">
+		                                <div class="imgBox">
+		                                	<img class="boardImg" src="resources/groupBoardFiles/${p.gbpOrigin }" download>
+		                                	<input type="hidden" name="beforeFile" value="${p.gbpOrigin }">
+		                                </div>
+		                                </c:if>
+	                                </c:forEach>
+                                </c:if>
                             </td> 
                         </tr>
-                       <%--  <c:if test="${empty photoList }">
-						</c:if>
-						<c:if test="${!empty photoList }">
-							<c:forEach var="p" items="${photoList }">
-								<tr>
-									<td>
-									${p.gbpOrigin }
-										<img class="boardImg" src="resources/groupBoardFiles/${p.gbpOrigin }">
-									</td>
-								<tr>
-							</c:forEach>
-						</c:if> --%>
+                        
+		                <tr>
+                        	<td>Photos</td>
+                        	<td>
+                       		  <div class="file-box"> 
+	                             <input type="file" id="file" name="file" multiple/> 
+	                             <input class="upload-name" value="Select file">
+	                             <label class="b-yell" for="file">Upload</label> 
+                          	 </div>
+                        	</td>
+                        </tr>
+                        <tr>
+                    	<td></td>
+                    	<td class="preview-area">
+                    		<div class="preview-wrap">
+                    			<div class="preview-text">사진 미리보기</div>
+                    		</div>
+                    	</td>
+                  	  </tr>
                     </table>
                 </form>
                 <br><br>
@@ -206,146 +200,90 @@
                 </div>
             </div>
          </div>
-         
+
          <!-- submit -->
          <script>
          	$("#submit").click(function(){
          		alert("게시글이 수정되었습니다.");
-         	})
-         </script>
-         
-         
-         <!-- file reset -->
-        <!--  <script>
-         	$(".reset1").click(function(){
-         				$(".upload-name1").val("");
-         	})
-			$(".reset2").click(function(){		
-         				$(".upload-name2").val("");
-			})
-			$(".reset3").click(function(){		
-         				$(".upload-name3").val("");
-			})
-         	$(".reset4").click(function(){
-         				$(".upload-name4").val("");
-         	})
-         	$(".reset5").click(function(){
-         				$(".upload-name5").val("");
-         	})
-         </script> -->
-         <!-- submit -->
-         <script>
-         	$("#submit").click(function(){
          		$("#boardUpdateFrom").submit();
          	})
          </script>
          
-         <script>
+          <script>
          /* 파일 업로드 */
-		 	    
-		 	    function uploadPhoto1(value) {
-		 	    	
-		 			if(value.files && value.files[0]) {
-		 				
-		 				var reader = new FileReader();
-		 			
-		 				reader.onload = function(e) {
-		 					
-		 					$(".profile-image1").attr("src", e.target.result).css("display","block");
-		 					
-		 					var filename = $("#file1").val().split('/').pop().split('\\').pop();
-		 					
-		 					$(".upload-name1").val("");
-		 					$(".upload-name1").val(filename);
-		 				}
-		 				
-		 				reader.readAsDataURL(value.files[0]);
-		 			}
-		 	    }
+         $(document).ready(function(){
+         	
+         	var fileTarget = $('#file');
+         	
+         	fileTarget.on('change', function(){
+         		
+         		if(window.FileReader){
+         			var filename = $(this)[0].files[0].name;
+         		} else { 
+         			var filename = $(this).val().split('/').pop().split('\\').pop();
+         		}
+         		
+         		$(this).siblings('.upload-name').val(filename);
+         		
+         		$(".upload-file").attr("style", "display:inline-block");
+         		
+         	});
+         	
+         });
          
-		 	   function uploadPhoto2(value) {
-		 		  
-		 			if(value.files && value.files[0]) {
-		 				
-		 				var reader = new FileReader();
-		 			
-		 				reader.onload = function(e) {
-		 					
-		 					$(".profile-image2").attr("src", e.target.result).css("display","block");
-		 					
-		 					var filename = $("#file2").val().split('/').pop().split('\\').pop();
-		 					
-		 					$(".upload-name2").val("");
-		 					$(".upload-name2").val(filename);
-		 				}
-		 				
-		 				reader.readAsDataURL(value.files[0]);
-		 			}
-		 	    }
-		 	   
-		 	  function uploadPhoto3(value) {
-		 		 
-		 			if(value.files && value.files[0]) {
-		 				
-		 				var reader = new FileReader();
-		 			
-		 				reader.onload = function(e) {
-		 					
-		 					$(".profile-image3").attr("src", e.target.result).css("display","block");
-		 					
-		 					var filename = $("#file3").val().split('/').pop().split('\\').pop();
-		 					
-		 					$(".upload-name3").val("");
-		 					$(".upload-name3").val(filename);
-		 				}
-		 				
-		 				reader.readAsDataURL(value.files[0]);
-		 			}
-		 	    }
-		 	  
-		 	 function uploadPhoto4(value) {
-		 		
-		 			if(value.files && value.files[0]) {
-		 				
-		 				var reader = new FileReader();
-		 			
-		 				reader.onload = function(e) {
-		 					
-		 					$(".profile-image4").attr("src", e.target.result).css("display","block");
-		 					
-		 					var filename = $("#file4").val().split('/').pop().split('\\').pop();
-		 					
-		 					$(".upload-name4").val("");
-		 					$(".upload-name4").val(filename);
-		 				}
-		 				
-		 				reader.readAsDataURL(value.files[0]);
-		 			}
-		 	    }
-		 	 
-		 	function uploadPhoto5(value) {
-		 		
-	 			if(value.files && value.files[0]) {
-	 				
-	 				var reader = new FileReader();
-	 			
-	 				reader.onload = function(e) {
-	 					
-	 					$(".profile-image5").attr("src", e.target.result);
-	 					$(".profile-image ").css("display","block");
-	 					var filename = $("#file5").val().split('/').pop().split('\\').pop();
-	 					
-	 					$(".upload-name5").val("");
-	 					$(".upload-name5").val(filename);
-	 				}
-	 				
-	 				reader.readAsDataURL(value.files[0]);
-	 			}
-	 	    }
-		 	
- 	   
+         $(document).ready(function(){
+         
+ 			$("#file").on("change", handleImgFileSelect);
+         	
+         });
+         
+         function handleImgFileSelect(e) {
+         	
+         	// 이미지 정보 초기화
+     		sel_files = [];
+         	
+         	/* $(".preview-text").empty(); */
+     		$(".preview-wrap").empty();
+     		
+     		var files = e.target.files;
+     		var filesArr = Array.prototype.slice.call(files);
+     		
+     		var index = 0;
+     		
+     		filesArr.forEach(function(f) {
+     			if(!f.type.match("image.*")) {
+     				
+     				alert("이미지 확장자만 업로드 가능합니다.");
+     				return;
+     				
+     			}
+     			
+     			sel_files.push(f);
+     			
+     			var reader = new FileReader();
+     			reader.onload = function(e) {
+     				var html = "<a href='javascript:void(0);' onclick= 'deleteImageAction("+index+")' id='img_id_"+index+"'><img src='" + e.target.result + "' data-file='"+f.name+"' class='selProductFile' title='Click to remove'></a>";
+     				$(".preview-wrap").append(html);
+     				index++;
+     			}
+     			reader.readAsDataURL(f);
+     			
+     		});
+         	
+         }
+         
+         function deleteImageAction(index) {
+         	
+         	console.log("index : " + index);
+         	sel_files.splice(index, 1);
+         	
+         	var img_id = "#img_id_" + index;
+         	$(img_id).remove();
+         	
+         	console.log(sel_files);
+         	
+         }
          </script>
-         
          
          <script>
          	
