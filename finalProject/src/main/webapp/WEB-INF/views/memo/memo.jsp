@@ -119,6 +119,24 @@
 			width: 500px;
 		}
 		
+		.eBtnArea {
+        	width: 100%;
+        	text-align: center;
+        }
+        
+        .editBtn {
+        	margin-top: 20px;
+        	font-size: 15px;
+		    font-weight: 600;
+		    color: white;
+		    background-color: #484848;
+			border-style: none;
+		    border-radius: 8px;
+		    height: 30px;
+		    width: 60px;
+		    margin-right: 5px;
+		}
+		
 		/* sky:#c5d2ef */
     </style>
 </head>
@@ -169,7 +187,12 @@
     	   						$conTd1 = $("<th colspan='2'>").html("Content");
     	   						
     	   						$conTr2 = $("<tr>");
-    	   						$conTd2 = $("<td colspan='2'>").html(data.memoList[i].content);
+    	   						$conTd2 = $("<td colspan='2' class='conTd2'>").html(data.memoList[i].content);
+    	   						
+    	   						$eBtnDiv = $("<div class='eBtnArea'>");
+    	   						$editBtn = $("<button type='button' class='editBtn eMemoBtn'>").text("Edit");
+    	   						
+    	   						$eBtnDiv.append($editBtn);
     	   						
     	   						$dateTr.append($dateTd1).append($dateTd2);
     	   						
@@ -179,7 +202,7 @@
     	   						
     	   						$table.append($dateTr).append($conTr1).append($conTr2);
     	   						
-    	   						$div.append($dBtnDiv).append($no).append($table);
+    	   						$div.append($dBtnDiv).append($no).append($table).append($eBtnDiv);
     	   						
     	   						$("#memoArea").append($div);
     	   					} else if(data.memoList[i].main == 1) {
@@ -200,38 +223,38 @@
     	   						
     	   						$titleTr = $("<tr>");
     	   						$titleTd1 = $("<th>").html("Title");
-    	   						$titleTd2 = $("<td>").html(data.memoList[i].mpTitle);
+    	   						$titleTd2 = $("<td class='titleTd2'>").html(data.memoList[i].mpTitle);
     	   						
     	   						$startTr = $("<tr>");
     	   						$startTd1 = $("<th>").html("Start");
     	   						if(data.memoList[i].mpStart != null) {
-    	   							$startTd2 = $("<td>").html(data.memoList[i].mpStart);
+    	   							$startTd2 = $("<td class='startTd2'>").html(data.memoList[i].mpStart);
     	   						} else {
-    	   							$startTd2 = $("<td>").html("미정");
+    	   							$startTd2 = $("<td class='startTd2'>").html("미정");
     	   						}
     	   						
     	   						$endTr = $("<tr>");
     	   						$endTd1 = $("<th>").html("End");
     	   						if(data.memoList[i].mpEnd != null) {
-    	   							$endTd2 = $("<td>").html(data.memoList[i].mpEnd);
+    	   							$endTd2 = $("<td class='endTd2'>").html(data.memoList[i].mpEnd);
     	   						} else {
-    	   							$endTd2 = $("<td>").html("미정");
+    	   							$endTd2 = $("<td class='endTd2'>").html("미정");
     	   						}
     	   						
     	   						$timeTr = $("<tr>");
     	   						$timeTd1 = $("<th>").html("Time");
-    	   						$timeTd2 = $("<td>").html(data.memoList[i].mpTime);
+    	   						$timeTd2 = $("<td class='timeTd2'>").html(data.memoList[i].mpTime);
     	   						
     	   						$locationTr1 = $("<tr>");
     	   						$locationTd1 = $("<th colspan='2'>").html("Location");
     	   						
     	   						$locationTr2 = $("<tr>");
-    	   						$locationTd2 = $("<td colspan='2'>").html("<br>");    	   							
+    	   						$locationTd2 = $("<td colspan='2' class='locationTd2'>").html("<br>");    	   							
     	   						if(data.memoList[i].mpMain != null) {
     	   							if(data.memoList[i].mpSub != null) {
-		    	   						$locationTd2 = $("<td colspan='2'>").html(data.memoList[i].mpMain + " " + data.memoList[i].mpSub);    	   							    	   								
+		    	   						$locationTd2 = $("<td colspan='2' class='locationTd2'>").html(data.memoList[i].mpMain + ", " + data.memoList[i].mpSub);    	   							    	   								
     	   							}else {
-    	   								$locationTd2 = $("<td colspan='2'>").html(data.memoList[i].mpMain);
+    	   								$locationTd2 = $("<td colspan='2' class='locationTd2'>").html(data.memoList[i].mpMain);
     	   							}
     	   						}
     	   						
@@ -239,9 +262,9 @@
     	   						$memoTd1 = $("<th colspan='2'>").html("Memo");
     	   						
     	   						$memoTr2 = $("<tr>");
-    	   						$memoTd2 = $("<td colspan='2'>").html("<br>");    	   							
+    	   						$memoTd2 = $("<td colspan='2' class='mpMemo'>").html("<br>");    	   							
     	   						if(data.memoList[i].mpMemo != null) {
-    	   							$memoTd2 = $("<td colspan='2'>").html(data.memoList[i].mpMemo);	   							
+    	   							$memoTd2 = $("<td colspan='2' class='memoTd2'>").html(data.memoList[i].mpMemo);	   							
     	   						}
     	   						
     	   						$aBtnDiv = $("<div class='aBtnArea'>");
@@ -250,6 +273,10 @@
     	   						} else {
     	   							$addBtn = $("<button type='button' class='addBtn mpNoDateBtn'>").text("Add");
     	   						}
+    	   						
+    	   						$editBtn = $("<button type='button' class='editBtn ePlannerBtn'>").text("Edit");
+    	   						
+    	   						$aBtnDiv.append($editBtn);
     	   						
     	   						$aBtnDiv.append($addBtn);
     	   						
@@ -538,19 +565,19 @@
                             <table id="addTable">
                                 <tr>
                                     <th>Title</th>
-                                    <td><input type="text" id="addTitle" name="mpTitle" size="42"></td>
+                                    <td><input type="text" name="mpTitle" size="42"></td>
                                 </tr>
                                 <tr>
                                     <th>Date</th>
                                     <td>
-                                        <input type="date" id="mpStart" name="mpStart"> - 
-                                        <input type="date" id="mpEnd" name="mpEnd">
+                                        <input type="date" name="mpStart"> - 
+                                        <input type="date" name="mpEnd">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>Time</th>
                                     <td>
-                                    	<input type="time" id="addTime" name="mpTime" style="width: 335px;">
+                                    	<input type="time" name="mpTime" style="width: 335px;">
                                     </td>
                                 </tr>
                                 <tr>
@@ -570,11 +597,68 @@
                                 </tr>
                                 <tr>
                                     <td colspan="2">
-                                        <textarea id="addMemo" name="mpMemo" cols="52" rows="5"></textarea>
+                                        <textarea name="mpMemo" cols="52" rows="5"></textarea>
                                     </td>
                                 </tr>
                             </table>
                             <button type="submit" class="default-btn">Add</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal fade" id="uPlannerModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                    </div>
+                    <div class="modal-body" align="center">
+                        <form action="mmupdate.do" method="post">
+                        	<input type="hidden" id="mpMemoNo" name="memoNo">
+                        	<input type="hidden" name="mainNo" value="1">
+                        	<input type="hidden" name="mpColor" value="#FBD14B">
+                            <table id="addTable">
+                                <tr>
+                                    <th>Title</th>
+                                    <td><input type="text" id="mpTitle" name="mpTitle" size="42"></td>
+                                </tr>
+                                <tr>
+                                    <th>Date</th>
+                                    <td>
+                                        <input type="date" id="mpStart" name="mpStart"> - 
+                                        <input type="date" id="mpEnd" name="mpEnd">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Time</th>
+                                    <td>
+                                    	<input type="time" id="mpTime" name="mpTime" style="width: 335px;">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                    	<b>Location</b>&nbsp;
+                                    	<button type="button" class="default-btn b-lightgray" onclick="searchAddress()">Search</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><input type="text" name="mpMain" class="mainAddress" size="49"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><input type="text" name="mpSub" class="subAddress" size="49"></td>
+                                </tr>
+                                <tr>
+                                    <th colspan="2">Memo</th>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <textarea id="mpMemo" name="mpMemo" cols="52" rows="5"></textarea>
+                                    </td>
+                                </tr>
+                            </table>
+                            <button type="submit" class="default-btn">Save</button>
                         </form>
                     </div>
                 </div>
@@ -757,6 +841,33 @@
                                 </tr>
                             </table>
                             <button type="submit" class="default-btn">Add</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal fade" id="uEtcModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                    </div>
+                    <div class="modal-body" align="center">
+                        <form action="mmupdate.do" method="post">
+                        	<input type="hidden" id="eMemoNo" name="memoNo">
+                        	<input type="hidden" name="mainNo" value="0">
+                            <table id="addTable">
+                            	<tr>
+                            		<th>Content</th>
+                            	</tr>
+                                <tr>
+	                                <td>
+	                                	<textarea id="uContent" name="memoCon" rows="5" cols="50"></textarea>
+	                                </td>
+                                </tr>
+                            </table>
+                            <button type="submit" class="default-btn">Save</button>
                         </form>
                     </div>
                 </div>
@@ -975,6 +1086,45 @@
 			else if(addCheck == false){
 				console.log("가계부 추가를 취소합니다.");
 			}
+		});
+	    
+	    $(document).on("click",".eMemoBtn",function(){
+			var memoNo = $(this).parent().parent().find(".memoNo").val();
+			$("#eMemoNo").val(memoNo);
+	    	
+	    	var content = $(this).parent().parent().find(".conTd2").html();
+	    	$("#uEtcModal").find("#uContent").val(content);
+	    	
+	    	$("#uEtcModal").modal();
+		});
+	    
+	    $(document).on("click",".ePlannerBtn",function(){
+			var memoNo = $(this).parent().parent().find(".memoNo").val();
+			$("#mpMemoNo").val(memoNo);
+	    	
+	    	var mpTitle = $(this).parent().parent().find(".titleTd2").html();
+	    	$("#uPlannerModal").find("#mpTitle").val(mpTitle);
+	    	
+	    	var mpStart = $(this).parent().parent().find(".startTd2").html();
+	    	$("#uPlannerModal").find("#mpStart").val(mpStart);
+	    	
+	    	var mpEnd = $(this).parent().parent().find(".endTd2").html();
+	    	$("#uPlannerModal").find("#mpEnd").val(mpEnd);
+	    	
+	    	var mpTime = $(this).parent().parent().find(".timeTd2").html();
+	    	$("#uPlannerModal").find("#mpTime").val(mpTime);
+	    	
+	    	var mpLocation = $(this).parent().parent().find(".locationTd2").html();
+	    	if(mpLocation != "<br>") {
+		        var splitLocation = mpLocation.split(', ');
+		        $("#uPlannerModal").find(".mainAddress").val(splitLocation[0]);
+		        $("#uPlannerModal").find(".subAddress").val(splitLocation[1]);	    		
+	    	}
+	    	
+	    	var mpMemo = $(this).parent().parent().find(".memoTd2").html();
+	    	$("#uPlannerModal").find("#mpMemo").val(mpMemo);
+	    	
+	    	$("#uPlannerModal").modal();
 		});
     </script>	
     

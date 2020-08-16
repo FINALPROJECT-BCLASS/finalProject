@@ -226,5 +226,23 @@
 		SET MP_START=#{mpStart}, MP_END=#{mpEnd}
 		WHERE MEMO_NO=#{memoNo}
 	</update>
+	
+	<update id="updateMemo" parameterType="Memo">
+		UPDATE MEMO
+		SET MEMO_CON=#{memoCon}
+		WHERE MEMO_NO=#{memoNo}
+	</update>
+	
+	<update id="updateMPlan" parameterType="MPlan">
+		UPDATE MONTHLY_PLAN
+		SET MP_TITLE=#{mpTitle}
+			, MP_START=#{mpStart}
+			, MP_END=#{mpEnd}
+			, MP_TIME=#{mpTime}
+			, MP_MAIN=#{mpMain}
+			, MP_SUB=#{mpSub}
+			, MP_MEMO=#{mpMemo}
+		WHERE MEMO_NO=#{memoNo}
+	</update>
 
 </mapper>

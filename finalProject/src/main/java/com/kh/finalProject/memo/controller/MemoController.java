@@ -262,5 +262,22 @@ public class MemoController {
 			throw new MemoException("북마크에 추가 실패");
 		}
 	}
+	
+	@RequestMapping("mmupdate.do")
+	public String memoUpdate(Memo m, MPlan mp) throws MemoException {
+		
+		int result = 0;
+		if(m.getMainNo() == 0) {
+			result = mmService.updateMemo(m);			
+		} else if(m.getMainNo() == 1) {
+			result = mmService.updateMPlan(mp);
+		}
+		
+		if(result > 0) {
+			return "memo/memo";
+		} else {
+			throw new MemoException("메모 수정 실패");
+		}
+	}
 
 }

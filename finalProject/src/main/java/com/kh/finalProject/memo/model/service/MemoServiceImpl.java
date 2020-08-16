@@ -115,4 +115,16 @@ public class MemoServiceImpl implements MemoService {
 		return mmDao.updateMpDate(mp);
 	}
 
+	@Override
+	public int updateMemo(Memo m) {
+	
+		return mmDao.updateMemo(m);
+	}
+
+	@Override
+	public int updateMPlan(MPlan mp) {
+		
+		return mmDao.updateMPlan(mp);
+	}
+
 }

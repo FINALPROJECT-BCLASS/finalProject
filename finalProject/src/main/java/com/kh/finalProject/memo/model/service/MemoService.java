@@ -43,4 +43,8 @@ public interface MemoService {
 
 	int updateMpDate(MPlan mp);
 
+	int updateMemo(Memo m);
+
+	int updateMPlan(MPlan mp);
+
 }
