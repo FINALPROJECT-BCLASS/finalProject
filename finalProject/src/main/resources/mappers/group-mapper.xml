@@ -645,20 +645,15 @@
 		FROM DUAL
 	</select>
 
-	<insert id="insertBoardPhoto" parameterType="arraylist">
-		INSERT INTO GROUP_BOARD_PHOTO(GBP_NO, GB_NO, GM_NO, G_NO, GBP_ORIGIN, GBP_RENAME)
-		SELECT SEQ_GBP.NEXTVAL , P.*
-		FROM (
-		<foreach collection="list" item="photoList" index="ix" separator="UNION ALL">
-			SELECT	 #{photoList.gbNo} AS GB_NO,
-					 #{photoList.gmNo} AS GM_NO,
-					 #{photoList.gNo} AS G_NO ,
-					 #{photoList.gbpOrigin} AS GBP_ORIGIN ,
-					 #{photoList.gbpRename} AS GBP_RENAME
-					 
-			FROM DUAL 
-		</foreach>
-		)P
+	<insert id="insertBoardPhoto" parameterType="GroupBoardPhoto">
+		INSERT INTO GROUP_BOARD_PHOTO
+		VALUES ( SEQ_GBP.NEXTVAL,
+			   #{gbNo},
+			   #{gmNo},
+			   #{gNo},
+			   #{gbpOrigin},
+			   #{gbpRename}
+			   )
 	</insert>
 	
 	<delete id="deletePhoto" parameterType="string">

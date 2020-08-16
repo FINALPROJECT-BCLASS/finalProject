@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
+
 <html>
 <head>
 	<title>Home</title>
@@ -67,7 +67,7 @@
   	.boardPhotoList{width:200px; height:100px; display:inline-block; border-radius:6px;}
   	.imgBox{display:inline-block; margin-left:20px;}
   	.etcBox{padding-left:20px; padding-top:10px; padding-bottom:20px;}
-  	.like, .reply{cursor:pointer; font-size:30px !important;}
+  	.like, .reply{font-size:30px !important;}
   	.totalLike, .totalReply{margin-left:10px; margin-right:20px; margin-bottom:10px; }
   	
  
@@ -171,7 +171,7 @@
             	   
               	 page = data.boardList[0].page;
               	 pagePlus = page + 1;
-              	 
+              	 console.log("pagePlus : " + pagePlus);
                    // 컨트롤러에서 가져온 방명록 리스트는 result.data에 담겨오도록 했다.
                    // 남은 데이터가 5개 이하일 경우 무한 스크롤 종료
               	 let length =  data.boardList.length;
@@ -213,7 +213,8 @@
                   	var $boardDate = $("<div>").text(data.boardList[i].gbDate).attr("class","noticeBoardDate");
                   	var $boardContent = $("<div>").text(data.boardList[i].gbCon).attr("class","noticeBoardContent");
                  	
-                  	var $like = $("<span>").text("favorite_border").attr("class","material-icons like");
+                  	var $like = $("<span>").text("favorite").attr("class","material-icons like");
+                  	/* var $borderlike = $("<span>").text("favorite_border").attr("class","material-icons like"); */
                  	var $reply = $("<span>").text("sms").attr("class","material-icons reply");
                  	
                  	$td1.append($gbNo);
@@ -286,6 +287,7 @@
                   	if(data.photoList.length > 0){
                   
                    		for(j in  data.photoList){
+                   			if(data.photoList[j].gbpOrigin != null){
                    			if(data.boardList[i].gbNo == data.photoList[j].gbNo){
                    				var $img = $("<img src='resources/groupBoardFiles/"+data.photoList[j].gbpOrigin+"' class='boardPhotoList'>");
                    				var $imgBox = $("<div>").attr("class","imgBox");
@@ -296,6 +298,8 @@
                    				$groupBoard.append($boardTb); 
                    			}
                    		}
+                   			
+                   	 }		
                    	}
                   	
                   	$boardTb.append($tr6);
@@ -314,16 +318,6 @@
    
 	    </script>
 		    <!-- 스크롤 게시판 end -->
-    
-	  <!-- 하트 누르기 -->
-	  <script>
-	  $(document).on("click",".like",function(){
-		  
-		  $(this).html($(this).html() == 'favorite_border' ? 'favorite' : 'favorite_border');
- 		})
-	  	 
-  	</script>
-	
 	 
 	<!-- detail 버튼 누르기 -->
 	<script>
