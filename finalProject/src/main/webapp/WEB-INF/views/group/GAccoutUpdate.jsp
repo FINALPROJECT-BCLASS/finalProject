@@ -9,7 +9,7 @@
 <title>Insert title here</title>
  <style>
     html, body { height:100%;}
- 
+
     h1, h4{margin-top:20px; text-align:center;}
 
     .join-form-area{float: right;display: flex;justify-content: center; flex-direction: column; align-items: center; padding: 65px; width: 75%;background: #F3F3F3;}
@@ -17,8 +17,6 @@
     .groupJoin{width:900px;}
     .groupTb{margin:auto; width:700px; border-spacing: 5px; border-collapse: separate;}
     .groupTbTd {text-align:end;}
-
-    .date{width:49%;} 
 
     .post{width:40%; margin-right: 10px; }
     .postBtn{width:15%; border:none; border-radius: 6px; background:#FBD14B; height: 40px;}
@@ -40,7 +38,7 @@
     #search{width:85%; border:none; }
 
     .searchName{display:inline-block;cursor: pointer; padding-left: 20px;padding-bottom: 10px; padding-top: 10px;}
-    
+    .searchClick:hover{background:darkgray; color:#F3F3F3; cursor:pointer;}
     /* .searchName:hover{background:#2860E1; color:#F3F3F3;} */
     
     
@@ -49,7 +47,7 @@
     
     
     .searchNameBox{margin-left:10px; margin-top:5px;width:95%; height:30px; background:#FBD14B;  border:none; border-radius: 6px; display: inline-flex; color:#484848;}
-    
+    .searchNameBox:hover{margin-left:10px;margin-top:5px; width:95%; height:30px; background:darkgray; border:none; border-radius: 6px; cursor:pointer; display: inline-flex;}
    
     
     .deleteBtn{width:20px;height:30px; border-radius: 3px; background:red; border:none; text-align: center;}
@@ -80,7 +78,7 @@
     
     #submit{background:none; border:none; color:#2860E1; font-weight: 600; font-size: 20px; }
     #reset{background:none; border:none; color:#484848; font-weight: 600; font-size: 20px; width:100px;}
-	#delete{background:none; border:none; color:#ee1212d0; font-weight: 600; margin-right:10px; font-size: 20px; width:100px; cursor:pointer;
+
     tr > td:nth-child(1) {
             color: #484848;
             text-align: left;
@@ -104,9 +102,10 @@
 		</c:if>
         <div class="join-form-area">
         <h1>Group Diary</h1>
-        <h4 class="pSubject">Account Write</h4><br>
+        <h4 class="pSubject">Account Update</h4><br>
             <div class="groupJoin">
-               
+                <form action="accountInsert.do" method="post" id="accountForm">
+                	<input type="hidden" id="gaNo" value="${gaList.gaNo }">
                 	<div class="typeForm">
                 	<div class="typeBox">
                 		<c:if test="${gaList.gaFee eq  'Y' }">
@@ -137,14 +136,20 @@
            			</div>
            			</div>
                     <table class="groupTb">
+                    	<input type="hidden" id="typeFee" name="gaFee" value="Y">
+                    	<input type="hidden" id="typePro" name="gaPro" value="N">
+                    	<input type="hidden" id="typeExp" name="gaExp" value="N">
+                    	<input type="hidden" id="deleteYn" name="gaDelete" value="N">
                         <tr>
                             <td class="groupTbTd">Title&nbsp;</td>
-                            <td><input type="text" name="gaTitle" id="title" value="${gaList.gaTitle }" readonly></td>
+                            <td><input type="text" name="gaTitle" id="title" value="${gaList.gaTitle }" placeholder="  제목 입력"></td>
                         </tr>
                         <tr>
                             <td class="groupTbTd">Date&nbsp;</td>
                             <td>
-                                <input type="date" name="gaDate" class="date" value="${gaList.gaDate }" readonly> 
+                                <input type="date" name="gaDate" class="date" value="${gaList.gaTitle }"> 
+                                 
+                                
                             </td>
                         </tr>
                         <tr>
@@ -152,9 +157,21 @@
                             <td>
                                 <div class="textArea">
                                     <span class="material-icons">article</span> <div class="comment">내용 입력</div>
-                                    <textarea id="groupCon" name="gaCon" readonly>${gaList.gaCon }</textarea>
+                                    <textarea id="groupCon" name="gaCon">${gaList.gaCon }</textarea>
                                 </div>
                             </td> 
+                        </tr>
+                        <tr>
+                            <td class="groupTbTd">Member Search&nbsp;</td>
+                            <td>
+                                <div class="search">
+                                     <span class="material-icons">face</span>
+                                    <input type="text" id="search" placeholder="참여명 검색">
+                                    <span class="material-icons">search</span>
+                                    <div class="searchList">
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
                             <td class="groupTbTd">Member</td>
@@ -165,6 +182,7 @@
                                     	<div class='amountName'>${gam.name }</div>
                                     	<c:set var="amount" value="${gam.gamAmount }"/>
                 						<input type='text' class='amountBox' name='gamAmount' value="<fmt:formatNumber value="${amount }" groupingUsed="true"/>">
+                						<input type="hidden" class="gamDelete" value="${gam.gamDelete }">
                 					</button>
                 					</c:forEach>
                 
@@ -174,7 +192,7 @@
                         <tr>
                             <td class="groupTbTd"><div class="amount">Total Amount&nbsp;</div></td>
                             <td>
-                            	<c:set var="totalAmount" value="${totalAmount }"/>
+                                <c:set var="totalAmount" value="${totalAmount }"/>
                                 <div class="backgroundWhite"><span class="material-icons">add</span><input type="text" name="gaAmount" class="amount" value="<fmt:formatNumber value="${totalAmount }" groupingUsed="true"/>"></div>
                             </td>
                         </tr>
@@ -195,51 +213,146 @@
 	                        </c:if>
                         </c:if>
                     </table>
+                </form>
                 <br><br>
                 <div class="groubJoinBtn">
-                <c:if test="${gInfo.loginUserId eq groupTable.id }">
-                   <span><button  id="submit">Update</button>&nbsp;</span>
-                   <span id="delete"  >Delete</span>
-                   <input type="hidden" id="gaNo" value="${gaList.gaNo}">
-                </c:if>
-                   <span id="reset" onclick="goBack();">Back</span>
+                   <span><button  id="submit">Submit</button>&nbsp;</span>
+                   <span><input type="reset" value="Reset" id="reset"></span>
                 </div>
             </div>
          </div>
          </div>
-        <!-- 뒤로가기 버튼 -->
-		 <script>
-		 	function goBack(){
-		 		window.history.back();	
-		 	}
-		 	
-		 </script>
-		 
-		  <!-- 수정버튼 -->
-		 <script>
-		 	$("#submit").click(function(){
-		 		var gaNo = $(this).parent().next().next().val();
+         <!-- 합계 -->
+         <script>
+         	$(document).on("keyup",".amountBox",function(){
+         		var sum = 0;
+         		$('.amountBox').each(function(){
+         		    sum += parseInt(this.value);
+         		    
+         		});
+         		
+         		$(".amount").val(sum);
+         	})
+         </script>
+         
+         <!-- Sharing -->
+         <script>
+	         // 공유 체크
+	         $(".annoIcon").click(function(){
+	          if($(this).text() == "check_box_outline_blank"){
+	            $(this).text("check_box");
+	            $(".annoIn").val("Y");
+	          } else{
+	            $(this).text("check_box_outline_blank");
+	            $(".annoIn").val("N");
+	          }
 	
-		 			location.href="accountUpdateView.do?gaNo="+gaNo;
-		 		
-		 	})
-		 	
-		 </script>
-		 
-		 
-		 <!-- 삭제버튼 -->
-		 <script>
-		 	$("#delete").click(function(){
-		 		var gaNo = $(this).next().val();
-		 		var deleteConfirm = confirm("가계부를 삭제하시겠습니까?");
-		 		if(deleteConfirm){
-		 			
-					alert("가계부를 삭제하였습니다.");		 		
-		 			location.href="accountDelete.do?gaNo="+gaNo;
-		 		}
-		 	})
-		 	
-		 </script>
+	         })
+         </script>
+         
+         <!-- submit -->
+         <script>
+         	$("#submit").click(function(){
+         		$("#accountForm").submit();
+         	})
+         </script>
+         
+         <!-- 라디오 박스 선택 -->
+         <script>
+	         $(".type").change(function(){
+	             if($("#fee").is(":checked")){
+	                 
+	                 $("#typeFee").attr("value","Y");
+	                 $("#typePro").attr("value","N");
+	                 $("#typeExp").attr("value","N");
+	              	 $(".checkSharing").show();
+	             }else if($("#profit").is(":checked")){
+
+	                 $("#typeFee").attr("value","N");
+	                 $("#typePro").attr("value","Y");
+	                 $("#typeExp").attr("value","N");
+	                 $(".checkSharing").hide();
+	             }else if($("#expense").is(":checked")){
+
+	                 $("#typeFee").attr("value","N");
+	                 $("#typePro").attr("value","N");
+	                 $("#typeExp").attr("value","Y");
+	                 $(".checkSharing").hide();
+	             }
+	         });
+         </script>
+         
+         <!-- 멤버검색 script -->
+         <script>
+            // 클릭한 이름 삽입
+            
+           	 $(document).on("click",".searchClick",function(){
+                var $searchName = $(this).children().html();
+                var $gmNo = $(this).children().next().next().val();
+                var $searchNameAfter = $(".searchNameAfter");
+                var $searchNameBox = " <button type='button' class='searchNameBox'>" +
+                "<div class='amountName'>"+$searchName+"</div>" +
+                "<input type='text' class='amountBox' name='gamAmount' placeholder='Enter the amount here'>"+
+                "<input type='hidden' name='gmNo' value='"+$gmNo+"' ></button>";
+                
+                $searchNameAfter.append($searchNameBox);
+				$(this).remove();
+                
+            })
+            //  클릭된 이름 삭제
+             $(document).on("click",".amountName",function(){
+                var who = $(this).parent("button");
+                console.log("who :" + who);
+                who.hide();
+                   })
+         </script>
+         
+          <!-- 이름 검색  -->
+         <script>
+         	$(function(){
+
+         		$("#search").keyup(function(){
+         			$(".searchList").css("display","block");
+         			var searchName = $("#search").val();
+         			var gaNo = $("#gaNo").val();
+         			$.ajax({
+         				url:"searchNameAccountUpdate.do",
+         				data:{searchName:searchName,gaNo:gaNo},
+         				dataType:"json",
+         				success:function(data){
+         					 var $search = $(".searchList");
+         					 $search.empty();
+         					
+         					
+         					for(i in data){
+         						
+	         					var $searchList = $(".searchList");
+	         					var $searchClick = $("<div>").attr("class","searchClick");
+	         					var $searchName = $("<div>").text(data[i].name).attr("class","searchName");
+	         					var $searchId = $("<span>").text(data[i].gmId).attr("class","searchId");
+	         					var $gmNo = $(' <input type="hidden" class="gmNo" value="'+data[i].gmNO+'">');
+       						
+	         					
+	         					$searchList.append($searchClick);
+	         					$searchClick.append($searchName);
+	         					$searchClick.append("&nbsp;");
+	         					$searchClick.append($searchId);
+	         					$searchClick.append($gmNo);
+
+	         				
+	         					}
+         					
+         				},
+         				error:function(request, status, errorData){
+							alert("error code: " + request.status + "\n"
+									+"message: " + request.responseText
+									+"error: " + errorData);
+						}
+         			})
+         		})
+         	})
+         
+         </script>
              <jsp:include page="../common/footer.jsp"/>	
 </body>
 </html>

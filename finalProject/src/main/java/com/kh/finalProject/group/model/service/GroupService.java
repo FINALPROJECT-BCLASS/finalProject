@@ -210,6 +210,8 @@ public interface GroupService {
 
 	int deleteAccount(String gaNo);
 
+	ArrayList<Member> searchNameAccountUpdate(GroupSearchName gSearch);
+
 
 	
 

@@ -228,34 +228,19 @@
          <script>
 	         $(".type").change(function(){
 	             if($("#fee").is(":checked")){
-	                 
-	                 $(".textTitle").text("");
-	                 $(".amount").text("");
-	              
-	                 $(".textTitle").text("FEE");
-	                 $(".amount").text("Fee Total Amount");
+
 	                 $("#typeFee").attr("value","Y");
 	                 $("#typePro").attr("value","N");
 	                 $("#typeExp").attr("value","N");
 	              	 $(".checkSharing").show();
 	             }else if($("#profit").is(":checked")){
-	                 
-	                 $(".textTitle").text("");
-	                 $(".amount").text("");
-	                
-	                 $(".textTitle").text("PROFIT");
-	                 $(".amount").text("Profit Total Amount");
+
 	                 $("#typeFee").attr("value","N");
 	                 $("#typePro").attr("value","Y");
 	                 $("#typeExp").attr("value","N");
 	                 $(".checkSharing").hide();
 	             }else if($("#expense").is(":checked")){
-	            	 
-	            	 $(".textTitle").text("");
-	            	 $(".amount").text("");
-	                 
-	                 $(".textTitle").text("EXPENSE");
-	                 $(".amount").text("Expense Total Amount");
+
 	                 $("#typeFee").attr("value","N");
 	                 $("#typePro").attr("value","N");
 	                 $("#typeExp").attr("value","Y");

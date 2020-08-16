@@ -500,6 +500,11 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.deleteAccount(gaNo);
 	}
 
+	@Override
+	public ArrayList<Member> searchNameAccountUpdate(GroupSearchName gSearch) {
+		return gDao.searchNameAccountUpdate(gSearch);
+	}
+
 
 
 

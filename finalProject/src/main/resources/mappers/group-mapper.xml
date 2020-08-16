@@ -1015,4 +1015,16 @@
 		SET GA_DELETE = 'Y'
 		WHERE GA_NO = #{gaNo}
 	</update>
+	
+	<select id="searchNameAccountUpdate" parameterType="GroupSearchName" resultMap="groupMemberResultSet">	
+		SELECT GM_ID, NAME, GM_NO
+		FROM MEMBER M
+        JOIN GROUP_MEMBER GM ON(GM.GM_ID = M.ID)
+		WHERE GM_NO NOT IN(SELECT GAM.GM_NO
+                   FROM GROUP_ACCOUNT_MEMBER GAM
+                  WHERE GAM.GA_NO=  #{gaNo} )
+        AND NAME LIKE '%' || #{searchName} || '%' 
+		AND G_NO = #{gNo}
+		AND OUT_YN = 'N'
+	</select>
 </mapper>

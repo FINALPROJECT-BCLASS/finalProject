@@ -16,15 +16,18 @@ public class GroupSearchName implements Serializable{
 	private String loginUserId;
 	private int gNo;
 	
+	private String gaNo;
+	
 	public GroupSearchName() {
 		super();
 	}
 
-	public GroupSearchName(String searchName, String loginUserId, int gNo) {
+	public GroupSearchName(String searchName, String loginUserId, int gNo, String gaNo) {
 		super();
 		this.searchName = searchName;
 		this.loginUserId = loginUserId;
 		this.gNo = gNo;
+		this.gaNo = gaNo;
 	}
 
 	public String getSearchName() {
@@ -51,15 +54,25 @@ public class GroupSearchName implements Serializable{
 		this.gNo = gNo;
 	}
 
+	public String getGaNo() {
+		return gaNo;
+	}
+
+	public void setGaNo(String gaNo) {
+		this.gaNo = gaNo;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
 	@Override
 	public String toString() {
-		return "GroupSearchName [searchName=" + searchName + ", loginUserId=" + loginUserId + ", gNo=" + gNo + "]\n";
+		return "GroupSearchName [searchName=" + searchName + ", loginUserId=" + loginUserId + ", gNo=" + gNo + ", gaNo="
+				+ gaNo + "]";
 	}
 
+	
 	
 	
 

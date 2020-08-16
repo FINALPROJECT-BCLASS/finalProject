@@ -427,6 +427,10 @@ public class GroupDao {
 		return sqlSessionTemplate.update("groupMapper.deleteAccount", gaNo);		
 	}
 
+	public ArrayList<Member> searchNameAccountUpdate(GroupSearchName gSearch) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.searchNameAccountUpdate", gSearch);		
+	}
+
 	
 	
 	
