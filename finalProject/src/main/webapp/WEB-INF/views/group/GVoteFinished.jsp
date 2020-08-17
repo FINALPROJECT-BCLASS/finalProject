@@ -116,9 +116,6 @@
     	</div>
      	
      	<br>
-      	<div id="groupWrite"  ><span class="material-icons writeBtn">create</span></div>
-        <br>
-        <br>
         
         <div class="groupListCount">종료된 투표 : ${pi.listCount } 건</div>
 		<div style="clear:both"></div>

@@ -17,7 +17,7 @@
     .groupJoin{width:900px;}
 
     /* 구글 아이콘 */
-    .material-icons{padding-top:12px; padding-left: 10px; text-shadow: 1.5px 1.5px 1.5px gray; }
+    .material-icons{padding-top:12px; padding-left: 10px; }
    .noticeIcon{color:#F3F3F3;}
    
    /* 공지 */
@@ -31,8 +31,9 @@
 	#groupWrite {text-align:right; width:100%; height: 50px; margin-right:40px; margin-bottom:10px; border:none;}
     .groupWrite {width:50 px; height:40px; cursor: pointer; border-radius: 5px;} 
     button {margin-bottom: 10px; margin-right:40px; background:none; border:0;}
-	.writeBtn{color:#2860E1 !important; font-size:60px !important; cursor:pointer;}
-	.groupListCount{width:95%; margin-bottom:10px; text-align:right;}
+	.writeBtn{margin-right:30px;color:#aeaeae !important; font-size:50px !important; cursor:pointer; padding:0 !important;}
+    .writeBtn:hover{margin-right:30px;color:#2860E1 !important; font-size:50px !important; cursor:pointer; padding:0 !important;}
+	.groupListCount{width:95%; margin-bottom:10px; text-align:right; font-weight:600;}
 	
     .emptyNoticeList{color: gray;margin-top:200px; text-align:center; font-size:15px; font-weight:600;}
     /* 공지게시판 */
@@ -134,10 +135,9 @@
     	
       	<br>
       	<div id="groupWrite" ><span class="material-icons writeBtn" id="writeBtn">create</span></div>
+
         <br>
-        <br>
-        
-		<div class="groupListCount">총 공지 : ${pi.listCount }</div>
+		<div class="groupListCount">Total : ${pi.listCount }</div>
 		<div style="clear:both"></div>
 		
             <div class="groupNotice">
