@@ -279,7 +279,7 @@
         /* 북마크 링크 세부 목록 */
 
         .url-list {
-        	height: 210px;
+        	height: 230px;
             overflow-y: scroll;
             display: flex;
             flex-wrap: wrap;
@@ -824,7 +824,6 @@
 				}
 				
 			}
-			
 		
 		
 			$(".content-box").hide();
@@ -902,7 +901,7 @@
 							
 							if(data.ubl.length < 4) {
 								
-								$(".url-list").css("height", "205px");
+								$(".url-list").css("height", "230px");
 								
 							}else {
 								
