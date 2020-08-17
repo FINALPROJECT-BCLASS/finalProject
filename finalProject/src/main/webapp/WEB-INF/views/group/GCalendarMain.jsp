@@ -554,7 +554,6 @@
 				alert("제목을 입력해주세요");
 			}else if($("#addTitle").val() != ""){
 					if($("#insertAddress").val() != ""){
-						alert("값없이");
 						var address1 = $("#insertAddress").val();
 						console.log("address1 : " + address1);
 			    		var geocoder = new kakao.maps.services.Geocoder();
@@ -569,11 +568,7 @@
 						        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 						       	xx = result[0].x;
 						       	yy = result[0].y;
-						        /* mapCoords = coords;
-						        coordsY = new kakao.maps.LatLng(result[0].y);
-						        coordsX = new kakao.maps.LatLng(result[0].x);
-								 */
-
+				
 						        // 결과값으로 받은 위치를 마커로 표시합니다
 						        var marker = new kakao.maps.Marker({
 						            map: map,
@@ -586,7 +581,7 @@
 						        resizeMap(coords);
 						        coordX.value = xx;
 						        coordY.value = yy;
-								alert(xx+","+yy);
+								
 						    } 
 						});
 					}

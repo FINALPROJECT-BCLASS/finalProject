@@ -14,12 +14,14 @@ public class BookmarkUrl implements Serializable {
 	private String ub_title;
 	private String ub_con;
 	private String ub_url;
+	private int memo_no;
 	
 	public BookmarkUrl() {
 		
 	}
-	
-	public BookmarkUrl(String ub_no, String id, String bl_no, String ub_title, String ub_con, String ub_url) {
+
+	public BookmarkUrl(String ub_no, String id, String bl_no, String ub_title, String ub_con, String ub_url,
+			int memo_no) {
 		super();
 		this.ub_no = ub_no;
 		this.id = id;
@@ -27,6 +29,7 @@ public class BookmarkUrl implements Serializable {
 		this.ub_title = ub_title;
 		this.ub_con = ub_con;
 		this.ub_url = ub_url;
+		this.memo_no = memo_no;
 	}
 
 	public String getUb_no() {
@@ -81,12 +84,18 @@ public class BookmarkUrl implements Serializable {
 		return serialVersionUID;
 	}
 
+	public int getMemo_no() {
+		return memo_no;
+	}
+
+	public void setMemo_no(int memo_no) {
+		this.memo_no = memo_no;
+	}
+
 	@Override
 	public String toString() {
 		return "BookmarkUrl [ub_no=" + ub_no + ", id=" + id + ", bl_no=" + bl_no + ", ub_title=" + ub_title
-				+ ", ub_con=" + ub_con + ", ub_url=" + ub_url + "]";
+				+ ", ub_con=" + ub_con + ", ub_url=" + ub_url + ", memo_no=" + memo_no + "]";
 	}
-	
-	
 
 }

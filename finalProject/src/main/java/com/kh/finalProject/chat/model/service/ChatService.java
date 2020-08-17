@@ -61,4 +61,14 @@ public interface ChatService {
 
 	ArrayList<Chat> selectcount();
 
+	int insertreport(HashMap<String, Object> map);
+
+	int deleteopenchatroom(String cm_no);
+
+	int deleteopenchatlist(String cm_no);
+
+	Chat selectmanagerchat(String user);
+
+	int insertmanagerchat(String user);
+
 }

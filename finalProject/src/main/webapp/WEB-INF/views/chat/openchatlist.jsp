@@ -121,7 +121,14 @@
 		color:gray;
 	}
 	
-	
+.custom-menu {
+    z-index:1000;
+    position: absolute;
+    background-color:#C0C0C0;
+    border: 1px solid black;
+    padding: 2px;
+}
+
 	
 </style>
 </head>
@@ -153,11 +160,15 @@
 				<div>방 소개 : ${oc.cm_con }</div>
 				<div>참가인원 : ${oc.cm_cot }</div>
 				<input type="hidden" id="cm_no" value="${oc.cm_no }" name="cm_no">
+				<c:if test="${empty oc.cm_pwd }">
+				<input type="hidden" id="pwdchk" value="비밀번호 없음" name="pwdchk">
+				</c:if>
 			</div>
 			</c:if>
 		</c:forEach>
 
 	</div>	
+
 </body>
 <script>
 
@@ -172,17 +183,21 @@ $(function(){
 $(function(){
 	
 	$(".my-chat-item").click(function(){
-		var cm_no = $(this).find("input[type = hidden]").val();
+		var cm_no = $(this).find("input[name = cm_no]").val();
 		console.log("cm_no : " + cm_no);
+		
 		location.href="openchatview.do?cm_no=" + cm_no;
 	})
 	
 	$(".chat-list-item").click(function(){
-		var cm_no = $(this).find("input[type = hidden]").val();
+		var cm_no = $(this).find("input[name = cm_no]").val();
 		console.log("cm_no : " + cm_no);
+		var pwdchk = $(this).find("input[name = pwdchk]").val();
+		console.log("pwdchk : " + pwdchk);
+		if(pwdchk == null){
 		var result = prompt("패스워드를 입력하세요.");
 		
-		$.ajax({
+		 $.ajax({
 			url:"passwordcheck.do",
 			data:{result:result,cm_no:cm_no},
 			success:function(data){
@@ -195,8 +210,11 @@ $(function(){
                       +"message: " + request.responseText
                       +"error: " + errorData);
            } 
-		})
-		//location.href="openchatview.do?cm_no=" + cm_no;
+		}) 
+		}else{
+			console.log("드러가장");
+			location.href="openchatview.do?cm_no=" + cm_no;
+		}
 	})
 })
 
@@ -208,5 +226,6 @@ function check(data,cm_no){
 		location.href="openchatview.do?cm_no=" + cm_no;
 	}
 }
+	
 </script>
 </html>

@@ -42,12 +42,13 @@
    
 	
 	/* 글쓰기 버튼 */
-	#groupWrite {display:flex; justify-content: center; align-items:center;text-align:right; width:100%; height: 50px; margin-right:40px; margin-bottom:10px; border:none;}
-    .groupWrite {width:50 px; height:40px; cursor: pointer; border-radius: 5px;} 
+	#groupWrite {text-align:right; width:100%; height: 50px; margin-right:40px; margin-bottom:10px; border:none;}
+   .writeBtn{margin-right:30px;color:#aeaeae !important; font-size:50px !important; cursor:pointer; padding:0 !important;}
+    .writeBtn:hover{margin-right:30px;color:#2860E1 !important; font-size:50px !important; cursor:pointer; padding:0 !important;} 
     button {margin-bottom: 10px; margin-right:40px; background:none; border:0;}
-	.writeBtn{color:#2860E1 !important; font-size:60px !important;  text-shadow: 1.5px 1.5px 1.5px gray !important; cursor:pointer;}
 	
-	.groupListCount{width:99%; margin-bottom:10px; text-align:right;}
+	
+	.groupListCount{width:99%; margin-bottom:10px; text-align:right; font-weight:600; margin-right:40px; font-size:16px;}
 	.emptyNoticeList{margin-top:100px; text-align:center; font-size:20px; font-weight:600;}
 	    
     /* 게시판 */
@@ -67,7 +68,7 @@
   	.boardPhotoList{width:200px; height:100px; display:inline-block; border-radius:6px;}
   	.imgBox{display:inline-block; margin-left:20px;}
   	.etcBox{padding-left:20px; padding-top:10px; padding-bottom:20px;}
-  	.like, .reply{cursor:pointer; font-size:30px !important;}
+  	.like, .reply{font-size:30px !important;}
   	.totalLike, .totalReply{margin-left:10px; margin-right:20px; margin-bottom:10px; }
   	
  
@@ -80,12 +81,6 @@
         font-size: 16px;
         width:40px;
     }
-    
-    #searchForm{display:flex; }
-    .searchBox{margin-right:250px;}
-    .search{margin-right:5px;margin-left:400px;width:70px; height:40px; border-radius:6px; border:none;}
-    .searchCon{width:300px; height:40px; border:none; border-radius:6px;display:inline-block;margin-right:5px;}
-    .searchBtn{display:inline-block; height:40px !important; margin:0 !important; }
   </style>
   
 
@@ -107,9 +102,10 @@
 	
       
       <div class="join-form-area">
-	
-  		<jsp:include page="../common/groupNoticeHeader.jsp"/>
-  		
+		
+
+  			<jsp:include page="../common/groupNoticeHeader.jsp"/>
+
   		
         <h1>Group Diary</h1>
         <div class="btnList">
@@ -120,35 +116,11 @@
     	</div>
      	
      	<br>
-      	<div id="groupWrite"  >
-      		<span class="searchBox">
-      		 <c:if test="${empty searchCon }">
-      		<form id="searchForm" action="boardMain.do" method="get">
-      			<select class="search" name="searchKind">
-      				<option value="GB_TITLE">Title</option>
-      			</select>
-      			<input type="text" id="searchCon" class="searchCon" name="searchCon">
-      			<button class="searchBtn detailBtn">Search</button>
-      		</form>
-      		</c:if>
-      		 <c:if test="${!empty searchCon }">
-      		<form id="searchForm" action="boardMain.do" method="get">
-      			<select class="search" name="searchKind">
-      				
-      				<option value="GB_TITLE">Title</option>
-      			</select>
-      			<input type="text" class="searchCon">
-      			<input type="hidden" id="searchCon" class="searchCon" name="searchCon" value="${searchCon }" >
-      			<button class="searchBtn detailBtn">Search</button>
-      		</form>
-      		</c:if>
-      		</span>
-      		<span class="material-icons writeBtn">create</span>
-      	</div>
-        <br>
+      	<div id="groupWrite"  ><span class="material-icons writeBtn">create</span></div>
+
         <br>
         
-        <div class="groupListCount">총 게시판 : ${pi.listCount }</div>
+        <div class="groupListCount">Total : ${pi.listCount }</div>
 		<div style="clear:both"></div>
      	
 		 <div class="groupNotice">
@@ -158,12 +130,7 @@
           </div>
 		</div>
 
-	  <!-- 검색 버튼 -->
-	  <script>
-	  	$(".searchBtn").click(function(){
-	  		$("#searchForm").submit();
-	  	})
-	  </script>
+
 	
 	  <!-- 스크롤 게시판 -->
 	  <script>
@@ -192,12 +159,12 @@
            if(isEnd == true){
                return;
            }
-        	var searchCon = $("#searchCon").val();
+        
            $.ajax({
                url:"boardMainAjax.do",
                type: "GET",
                dataType: "json",
-               data:{page:pagePlus, searchCon:searchCon},
+               data:{page:pagePlus},
                success: function(data){
             	   if(data.boardList[0] == null){
       					$(".groupNotice").text("게시글이 없습니다.").css({"text-align":"center","padding-top":"200px","font-weight":"600","color":"gray"});
@@ -206,7 +173,7 @@
             	   
               	 page = data.boardList[0].page;
               	 pagePlus = page + 1;
-              	 
+              	 console.log("pagePlus : " + pagePlus);
                    // 컨트롤러에서 가져온 방명록 리스트는 result.data에 담겨오도록 했다.
                    // 남은 데이터가 5개 이하일 경우 무한 스크롤 종료
               	 let length =  data.boardList.length;
@@ -248,7 +215,8 @@
                   	var $boardDate = $("<div>").text(data.boardList[i].gbDate).attr("class","noticeBoardDate");
                   	var $boardContent = $("<div>").text(data.boardList[i].gbCon).attr("class","noticeBoardContent");
                  	
-                  	var $like = $("<span>").text("favorite_border").attr("class","material-icons like");
+                  	var $like = $("<span>").text("favorite").attr("class","material-icons like");
+                  	/* var $borderlike = $("<span>").text("favorite_border").attr("class","material-icons like"); */
                  	var $reply = $("<span>").text("sms").attr("class","material-icons reply");
                  	
                  	$td1.append($gbNo);
@@ -321,6 +289,7 @@
                   	if(data.photoList.length > 0){
                   
                    		for(j in  data.photoList){
+                   			if(data.photoList[j].gbpOrigin != null){
                    			if(data.boardList[i].gbNo == data.photoList[j].gbNo){
                    				var $img = $("<img src='resources/groupBoardFiles/"+data.photoList[j].gbpOrigin+"' class='boardPhotoList'>");
                    				var $imgBox = $("<div>").attr("class","imgBox");
@@ -331,6 +300,8 @@
                    				$groupBoard.append($boardTb); 
                    			}
                    		}
+                   			
+                   	 }		
                    	}
                   	
                   	$boardTb.append($tr6);
@@ -349,16 +320,6 @@
    
 	    </script>
 		    <!-- 스크롤 게시판 end -->
-    
-	  <!-- 하트 누르기 -->
-	  <script>
-	  $(document).on("click",".like",function(){
-		  
-		  $(this).html($(this).html() == 'favorite_border' ? 'favorite' : 'favorite_border');
- 		})
-	  	 
-  	</script>
-	
 	 
 	<!-- detail 버튼 누르기 -->
 	<script>

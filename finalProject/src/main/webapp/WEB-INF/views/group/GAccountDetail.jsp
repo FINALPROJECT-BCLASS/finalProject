@@ -18,7 +18,6 @@
     .groupTb{margin:auto; width:700px; border-spacing: 5px; border-collapse: separate;}
     .groupTbTd {text-align:end;}
 
-    .date{width:49%;} 
 
     .post{width:40%; margin-right: 10px; }
     .postBtn{width:15%; border:none; border-radius: 6px; background:#FBD14B; height: 40px;}
@@ -104,7 +103,7 @@
 		</c:if>
         <div class="join-form-area">
         <h1>Group Diary</h1>
-        <h4 class="pSubject">Account Write</h4><br>
+        <h4 class="pSubject">Account Detail</h4><br>
             <div class="groupJoin">
                
                 	<div class="typeForm">
@@ -178,19 +177,21 @@
                                 <div class="backgroundWhite"><span class="material-icons">add</span><input type="text" name="gaAmount" class="amount" value="<fmt:formatNumber value="${totalAmount }" groupingUsed="true"/>"></div>
                             </td>
                         </tr>
-                        <c:if test="${!empty gaList.gasYn }">
-                        <tr>
-                        	<td>Sharing</td>
-                        	<td>
-                        		<c:if test="${gaList.gasYn eq  'Y'}">
-                        			<span class="material-icons annoIcon">check_box</span>
-                        		</c:if>
-                        		<c:if test="${gaList.gasYn eq  'N'}">
-                        			<span class="material-icons annoIcon">check_box_outline_blank</span>
-                        		</c:if>
-                        		<input type='hidden' class='annoIn' name='gasYn' value='N'>
-                        	</td>
-                        </tr>
+                        <c:if test="${gaList.gaFee eq 'Y' }">
+	                        <c:if test="${!empty gaList.gasYn }">
+	                        <tr>
+	                        	<td>Sharing</td>
+	                        	<td>
+	                        		<c:if test="${gaList.gasYn eq  'Y'}">
+	                        			<span class="material-icons annoIcon">check_box</span>
+	                        		</c:if>
+	                        		<c:if test="${gaList.gasYn eq  'N'}">
+	                        			<span class="material-icons annoIcon">check_box_outline_blank</span>
+	                        		</c:if>
+	                        		<input type='hidden' class='annoIn' name='gasYn' value='N'>
+	                        	</td>
+	                        </tr>
+	                        </c:if>
                         </c:if>
                     </table>
                 <br><br>
@@ -218,7 +219,7 @@
 		 	$("#submit").click(function(){
 		 		var gaNo = $(this).parent().next().next().val();
 	
-		 			location.href="accountUpdate.do?gaNo="+gaNo;
+		 			location.href="accountUpdateView.do?gaNo="+gaNo;
 		 		
 		 	})
 		 	

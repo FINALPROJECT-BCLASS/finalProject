@@ -28,7 +28,7 @@
                 <li><a href="chatview.do">친구목록</a></li>
                 <li><a href="chatroom.do">채팅창</a></li>
                 <li><a href="openchatroom.do">오픈채팅</a></li>
-                <li><a href="#">관리자문의</a></li>
+                <li><a href="managerchat.do">관리자문의</a></li>
         </nav>
     </header>
 </body>

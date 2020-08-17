@@ -98,7 +98,7 @@
 		}
 		
 		#btnArea {
-			width: 93%;
+			width: 100%;
 			text-align: right;
 			margin-bottom: 10px;
 		}
@@ -148,9 +148,11 @@
         		<thead>
         			<tr>
         				<th style="width: 80px;">신고 번호</th>
-        				<th style="width: 100px;">ID</th>
+        				<th style="width: 100px;">신고자</th>
+        				<th style="width: 100px;">신고 대상</th>
         				<th style="width: 100px;">신고 날짜</th>
-        				<th style="width: 500px;">신고 내용</th>
+        				<th style="width: 300px;">신고 내용</th>
+        				<th style="width: 300px;">대화 내용</th>
         				<th style="width: 100px;">처리 결과</th>
         				<th style="width: 100px;">처리 날짜</th>
         				<th style="width: 100px;">누적 횟수</th>
@@ -165,11 +167,16 @@
         					${r.rpNo }
         				</td>
         				<td style="width: 100px;">
-        					<input type="hidden" class="rpId" value="${r.id }">
-        					${r.id }
+        					<input type="hidden" class="rpId" value="${r.reportId }">
+        					${r.reportId }
+        				</td>
+        				<td style="width: 100px;">
+        					<input type="hidden" class="rpedId" value="${r.reportedId }">
+        					${r.reportedId }
         				</td>
         				<td style="width: 100px;">${r.rpDate }</td>
-        				<td style="width: 500px;">${r.rpCon }</td>
+        				<td style="width: 300px;">${r.rpCon }</td>
+        				<td style="width: 300px;">${r.rpChat }</td>
         			<c:if test="${r.rprNo eq 1}">
         				<td style="width: 100px;">
         					<select class="rprNo" name="rprNo">
@@ -275,8 +282,8 @@
     <jsp:include page="../common/footer.jsp"/>
     
     <script>
-    	function updateReport(rpNo, rprNo, rpId) {
-    		location.href="updatereport.do?rpNo="+rpNo+"&rprNo="+rprNo+"&rpId="+rpId;
+    	function updateReport(rpNo, rprNo, rpedId) {
+    		location.href="updatereport.do?rpNo="+rpNo+"&rprNo="+rprNo+"&rpedId="+rpedId;
     	}
     	
     	function viewAlert() {
@@ -294,9 +301,9 @@
     		$(".save-btn").click(function(){
     			var rpNo = $(this).parent().parent().find(".rpNo").val();
     			var rprNo = $(this).parent().parent().find(".rprNo").val();
-    			var rpId = $(this).parent().parent().find(".rpId").val();
+    			var rpedId = $(this).parent().parent().find(".rpedId").val();
 
-    			updateReport(rpNo, rprNo, rpId);
+    			updateReport(rpNo, rprNo, rpedId);
     		})
     		
     		$(".rprNo-btn").click(function(){

@@ -102,8 +102,6 @@ public interface GroupService {
 
 	int selectGbNo();
 
-	int insertBoardPhoto(ArrayList<GroupBoardPhoto> photoList);
-
 	int deletePhoto(String gbNo);
 
 	int updateBoard(GroupBoard gb);
@@ -209,6 +207,16 @@ public interface GroupService {
 	int checkGam(GroupAccountMember gam);
 
 	int deleteAccount(String gaNo);
+
+	ArrayList<Member> searchNameAccountUpdate(GroupSearchName gSearch);
+
+	int updateAccount(GroupAccount ga);
+
+	int deleteAccountMember(GroupAccount ga);
+
+	int insertBoardPhoto(GroupBoardPhoto gbp);
+
+	int deleteGroup(String groupNo);
 
 
 	

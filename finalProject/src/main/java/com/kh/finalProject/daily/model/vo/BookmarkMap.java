@@ -17,6 +17,7 @@ public class BookmarkMap implements Serializable{
 	private String mb_time;
 	private String mb_memo;
 	private String mb_address;
+	private int memo_no;
 	
 	public BookmarkMap() {
 	
@@ -42,6 +43,20 @@ public class BookmarkMap implements Serializable{
 		this.mb_time = mb_time;
 		this.mb_memo = mb_memo;
 		this.mb_address = mb_address;
+	}
+
+	public BookmarkMap(String mb_no, String id, String bl_no, String mb_title, String mb_phone, String mb_time,
+			String mb_memo, String mb_address, int memo_no) {
+		super();
+		this.mb_no = mb_no;
+		this.id = id;
+		this.bl_no = bl_no;
+		this.mb_title = mb_title;
+		this.mb_phone = mb_phone;
+		this.mb_time = mb_time;
+		this.mb_memo = mb_memo;
+		this.mb_address = mb_address;
+		this.memo_no = memo_no;
 	}
 
 	public String getMb_no() {
@@ -112,12 +127,19 @@ public class BookmarkMap implements Serializable{
 		return serialVersionUID;
 	}
 
+	public int getMemo_no() {
+		return memo_no;
+	}
+
+	public void setMemo_no(int memo_no) {
+		this.memo_no = memo_no;
+	}
+
 	@Override
 	public String toString() {
 		return "BookmarkMap [mb_no=" + mb_no + ", id=" + id + ", bl_no=" + bl_no + ", mb_title=" + mb_title
 				+ ", mb_phone=" + mb_phone + ", mb_time=" + mb_time + ", mb_memo=" + mb_memo + ", mb_address="
-				+ mb_address + "]";
+				+ mb_address + ", memo_no=" + memo_no + "]";
 	}
-	
 	
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -128,7 +129,7 @@ public class ChatController {
 		Chat ch1 = new Chat();
 			ch1 = cService.selectChatOnetoOne(map);
 			System.out.println("검색결과 " + ch1);
-			
+			//참고 에욱
 		if( ch1 == null) {
 			int result = cService.insertChatOnetoTOne(map);
 			
@@ -167,35 +168,46 @@ public class ChatController {
 		ArrayList<Chat> ch = new ArrayList<Chat>();
 				ch = cService.selectchatroom(loginUser.getId());
 		ArrayList<Chat> ch2 = new ArrayList<Chat>();
-		ch2 = cService.selectchatroom2(loginUser.getId());
+				ch2 = cService.selectchatroom2(loginUser.getId());
 		
 		ArrayList<Chat> count = new ArrayList<Chat>();
-		count = cService.selectcount();
+				count = cService.selectcount();
 		System.out.println("count : " + count);
-		
-		if(ch != null && ch2 != null && count != null) {
+		System.out.println("loginUser id : " + loginUser.getId());
+		//if(ch.isEmpty() && count.isEmpty()) {
 		for(int i=0; i<ch.size();i++) {
-			Chat temporarychat = ch.get(i);
+			Chat temporarychat = new Chat();
+					temporarychat =	ch.get(i);
 			
 			for(int j=0; j<count.size();j++) {
-				Chat temporarycount = count.get(j);
+				Chat temporarycount = new Chat();
+				temporarycount = count.get(j);
 				if(temporarychat.getCo_no() == temporarycount.getCo_no()) {
+					if(!loginUser.getId().equals(temporarycount.getId()) ) {
 					ch.get(i).setCount(temporarycount.getCount());
+					}
 				}
 			}
 		}
+		//}
 		
+		//if(ch2.isEmpty() && count.isEmpty()) {
 		for(int i=0; i<ch2.size();i++) {
-			Chat temporarychat = ch.get(i);
+			Chat temporarychat = new Chat();
+			temporarychat =	ch2.get(i);
 			
 			for(int j=0; j<count.size();j++) {
-				Chat temporarycount = count.get(j);
+				Chat temporarycount = new Chat();
+				temporarycount = count.get(j);
 				if(temporarychat.getCo_no() == temporarycount.getCo_no()) {
+					if(!loginUser.getId().equals(temporarycount.getId())) {
 					ch2.get(i).setCount(temporarycount.getCount());
+					}
 				}
 			}
 		}
-		}
+		//}
+		
 		System.out.println("ch : " + ch);
 		System.out.println("ch2 : " + ch2);
 		mv.addObject("chroomlist2", ch2).addObject("chroomlist", ch).setViewName("chat/chatroomlist");
@@ -219,7 +231,7 @@ public class ChatController {
 		
 		chatlist = cService.selectOneToOnechatlist(co_no);
 		System.out.println("chatlist : " + chatlist);
-		
+		//에욱
 		session.setAttribute("co_no", co_no);
 		mv.addObject("friendid", friendid).addObject("co_no", co_no).addObject("friendName", friendName).addObject("chlist",chatlist ).setViewName("chat/chatOneToOne");
 		
@@ -387,5 +399,92 @@ public class ChatController {
 		out.print(sendJson);
 		out.flush();
 		out.close();
+	}
+	
+	@RequestMapping("report.do")
+	public void report(HttpSession session,HttpServletResponse response,
+						String chatid,String content, String option) throws IOException {
+		response.setContentType("text/html;charset=utf-8");
+		System.out.println("chatid : " + chatid + ",content : " +content + ",option : " +option);
+		
+		Member m =(Member)session.getAttribute("loginUser");
+		
+		String id = m.getId();
+		System.out.println("아이디 : " + id);
+		
+		HashMap<String,Object> map = new HashMap<String, Object>();
+		map.put("chatid", chatid);
+		map.put("content", content);
+		map.put("option", option);
+		map.put("id", id);
+		
+		//신고 인서트
+		int result = cService.insertreport(map);
+		String str="";
+		if(result > 0) {
+			str="신고가 접수되었습니다";
+		}else {
+			str="신고가 접수에 실패하였습니다. 다시시도해주세요";
+		}
+
+		  PrintWriter out = response.getWriter();
+		 
+		  out.print(str);
+		  out.flush();
+		  out.close();
+		
+	}
+	@RequestMapping("openchatroomdelete.do")
+	public String openchatroomdelete(HttpSession session, String cm_no) {
+		System.out.println("ㄴㅁㅇㄴㅁㅇㄴㅁㅇㅁㄴㅇㅁㄴㅇㄴㅁㅇcm_no : " + cm_no);
+		//방에서의 채팅기록 삭제
+		int result = cService.deleteopenchatlist(cm_no);
+		//방삭제
+		int result2 = cService.deleteopenchatroom(cm_no);
+		 System.out.println("여기까지오나?");
+		return "redirect:openchatroom.do";
+	}
+	
+	@RequestMapping("openchatroomout.do")
+	public String openchatroomot(HttpSession session,String cm_no ) {
+		
+		Map<String, Object> map2 = new HashMap<String, Object>();
+		map2.put("cm_no", cm_no);
+		
+		int result = cService.openchatroomOut(map2);
+		
+		return "redirect:openchatroom.do";
+	}
+	
+	@RequestMapping("managerchat.do")
+	public ModelAndView managerchat(HttpSession session,ModelAndView mv) {
+		int co_no = 0;
+		Member m = (Member)session.getAttribute("loginUser");
+		String user = m.getId();
+		
+		Chat ch= cService.selectmanagerchat(user);
+		
+		if(ch == null) {
+			int result = cService.insertmanagerchat(user);
+			ch= cService.selectmanagerchat(user);
+			co_no = ch.getCo_no();
+		}else {
+			co_no = ch.getCo_no();
+		}
+		
+		//대화가있으면 가져오자
+		ArrayList<Chat> chatlist = new ArrayList<Chat>();
+		
+		chatlist = cService.selectOneToOnechatlist(co_no);
+		System.out.println("chatlist : " + chatlist);
+		
+		session.setAttribute("co_no", co_no);
+		
+		String admin ="admin";
+		String adminName = "관리자";
+		mv.addObject("friendid", admin).addObject("co_no", co_no).addObject("friendName", adminName).addObject("chlist",chatlist ).setViewName("chat/chatOneToOne");
+		
+		return mv;
+		
 	}
 }

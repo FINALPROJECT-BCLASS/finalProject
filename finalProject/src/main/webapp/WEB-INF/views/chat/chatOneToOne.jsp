@@ -66,7 +66,7 @@
 	}
 	
 	.text-con {
-		width: 50%;
+		max-width: 50%;
 	    background: #ffed95;
 	    border-radius: 10px;
 	    padding: 12px;
@@ -208,7 +208,7 @@
     }
     
     .text-con-area {
-   	    width: 50%;
+   	       max-width: 50%;
     }
     
     .text-con-area > div:nth-child(1) {
@@ -217,6 +217,15 @@
 	    font-weight: 600;
     }
 	
+	#ol_yn{
+	    width: 100%;
+	    display: flex;	    
+	    align-items: center;
+	    justify-content: center;
+	    font-size: 13px;
+	    background: #f3f3f3;
+	    margin: 10px 0;
+	}
 </style>
 <body>
 	<jsp:include page="../common/chatheader.jsp"/>
@@ -250,7 +259,11 @@
 			</div>
 		</c:if>
 		<c:if test="${cl.id ne loginUser.id }">
+			 <c:if test="${cl.ol_yn eq 'N'}">
+				<div id="ol_yn"></div>
+			 </c:if>
 		<div id="chatdata" class="left">	<!--  받는사람한테 class="left" 추가 -->
+			
 			<div class="profile-img">
 			<c:if test="${empty cl.rename_file }">
 				<img src='resources/images/icons/profile_white.png'>
@@ -268,7 +281,6 @@
 		
 		</c:if>
 	</c:forEach>
-	
 		
 	</div>
 </div>
@@ -283,7 +295,35 @@
 
 
 <script type="text/javascript">
+	//스크롤 위치고정.
+	$(document).ready(function() {
 
+		var $printHTML;
+		
+		printHTML = "<span>여기까지 읽으셨습니다.</span>";
+		
+		$("#ol_yn").append(printHTML);
+		
+		var ol_yn = $("#ol_yn").val();
+		//값이있을시에 위치고정
+		if(ol_yn != null){
+		var offset = $("#ol_yn").offset();
+		var location = $(".big-area").offset();
+		console.log("offset : " + offset);
+		$(".big-area").animate({scrollTop:(offset.top - location.top)},3000);
+		}
+		//없을시에.
+		else{
+			$(".big-area").scrollTop($(".big-area")[0].scrollHeight);
+		}
+		//$(".big-area").scrollTop($(".big-area").find("#ol_yn").scrollHeight);
+		
+		// var location = document.querySelector('.big-area').scrollTop;
+		 //console.log("location : " + location);
+		//$(".big-area").scrollTop($(".big-area").find("input[name=ol_yn]").eq(0).scrollHeight);
+	});
+	
+	
 	let sock = new SockJS("<c:url value="/echo"/>"); 	//웹소켓 연결 - sevlet-context에서 웹소켓 핸들러
 	
 	//WebSocket하고 연결될떄 실행됨
@@ -295,8 +335,6 @@
 	
 	let sock2 = new SockJS("<c:url value="/echolist"/>");
 	
-	sock2.onmessage = onMessage;
-	sock.onclose = onClose;
 	
 	//연결될시 시작되는 메소드
  	/*function onOpen(){

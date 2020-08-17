@@ -201,8 +201,8 @@ public class GroupDao {
 		return sqlSessionTemplate.selectOne("groupMapper.selectGbNo");
 	}
 
-	public int insertBoardPhoto(ArrayList<GroupBoardPhoto> photoList) {
-		return sqlSessionTemplate.insert("groupMapper.insertBoardPhoto",photoList);
+	public int insertBoardPhoto(GroupBoardPhoto gbp) {
+		return sqlSessionTemplate.insert("groupMapper.insertBoardPhoto",gbp);
 	}
 
 	public int deletePhoto(String gbNo) {
@@ -425,6 +425,22 @@ public class GroupDao {
 
 	public int deleteAccount(String gaNo) {
 		return sqlSessionTemplate.update("groupMapper.deleteAccount", gaNo);		
+	}
+
+	public ArrayList<Member> searchNameAccountUpdate(GroupSearchName gSearch) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.searchNameAccountUpdate", gSearch);		
+	}
+
+	public int updateAccount(GroupAccount ga) {
+		return sqlSessionTemplate.update("groupMapper.updateAccount", ga);		
+	}
+
+	public int deleteAccountMember(GroupAccount ga) {
+		return sqlSessionTemplate.delete("groupMapper.deleteAccountMember", ga);		
+	}
+
+	public int deleteGroup(String groupNo) {
+		return sqlSessionTemplate.update("groupMapper.deleteGroup", groupNo);		
 	}
 
 	
