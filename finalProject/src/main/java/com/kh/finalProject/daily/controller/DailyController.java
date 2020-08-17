@@ -1830,7 +1830,6 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		System.out.println("1페이지 : " + drlist);
 		
 		if(drlist != null) {
-			
 			mv.addObject("pi", pi);
 			mv.addObject("drlist", drlist);
 			mv.setViewName("daily/dailyRecordBoard");

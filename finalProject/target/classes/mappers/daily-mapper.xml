@@ -509,7 +509,7 @@
 		FROM DAILY_RECORD
 		WHERE DR_NO = #{dr_no}
 		AND ID = #{id}
-		AND DR_DELETE = 'N'
+		AND DR_DELETE = 'N' 
 	</select>
 	
 	<update id="updateDailyRecordThumbnail" parameterType="DailyRecordPhoto">
