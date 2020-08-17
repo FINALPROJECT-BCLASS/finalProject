@@ -165,9 +165,8 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr><td></td><td align="center"  class="textTitle">FEE</td></tr>
                         <tr>
-                            <td class="groupTbTd"><div class="amount">Fee Total Amount&nbsp;</div></td>
+                            <td class="groupTbTd"><div class="amount">Total Amount&nbsp;</div></td>
                             <td>
                                 <div class="backgroundWhite"><span class="material-icons">add</span><input type="text" name="gaAmount" class="amount"></div>
                             </td>

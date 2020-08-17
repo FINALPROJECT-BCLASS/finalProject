@@ -515,6 +515,11 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.deleteAccountMember(ga);
 	}
 
+	@Override
+	public int deleteGroup(String groupNo) {
+		return gDao.deleteGroup(groupNo);
+	}
+
 	
 
 

@@ -215,21 +215,16 @@ public class GroupController {
 		return filePath;
 	}
 	
-	// 그룹 수정
-	@RequestMapping(value = "voteSettings.do", method = RequestMethod.GET)
-	public ModelAndView voteSettings(ModelAndView mv, HttpSession session) {
+	// 그룹 삭제
+	@RequestMapping(value = "deleteGroup.do", method = RequestMethod.GET)
+	public ModelAndView deleteGroup(ModelAndView mv, HttpSession session,
+			@RequestParam(value="groupNo", required = false ) String groupNo) {
 		GroupInfo gInfo = (GroupInfo)session.getAttribute("gInfo");
+		System.out.println("groupNo : " + groupNo);
 
-		// 원래는 selectOne이었음
-		GroupTable gt = gService.selectOneGroup(gInfo);
-		System.out.println("수정가지전 gt : " + gt);
-		
-		ArrayList<GroupMember> memberList = gService.selectGroupMemberList(gInfo);
-		
-		System.out.println("수정가기전 memberList :" + memberList);
-		mv.addObject("memberList", memberList);
-		mv.addObject("groupTable", gt);
-		mv.setViewName("group/GGroupUpdate");
+		int result = gService.deleteGroup(groupNo);
+		System.out.println("그룹삭제 result : " + result);
+		mv.setViewName("redirect:groupSessionDelete.do");
 		return mv;
 	}
 	
@@ -341,12 +336,6 @@ public class GroupController {
 						int updateResult = gService.updateMember(gm);
 						System.out.println("updateResult : " + updateResult);
 					}
-
-//					System.out.println("그룹 생성 memberList : " + memberList);
-					
-					// GROUP_MEMBER INSERT
-//					int memberResult = gService.groupMemberInsert(memberList);
-//					System.out.println("수정 memberResult : " + memberResult);
 				}
 				return "group/GCalendarMain";
 			} else {
@@ -354,6 +343,24 @@ public class GroupController {
 			}
 		}
 	
+		// 그룹 수정
+		@RequestMapping(value = "voteSettings.do", method = RequestMethod.GET)
+		public ModelAndView voteSettings(ModelAndView mv, HttpSession session) {
+			GroupInfo gInfo = (GroupInfo)session.getAttribute("gInfo");
+
+			// 원래는 selectOne이었음
+			GroupTable gt = gService.selectOneGroup(gInfo);
+			System.out.println("수정가지전 gt : " + gt);
+			
+			ArrayList<GroupMember> memberList = gService.selectGroupMemberList(gInfo);
+			
+			System.out.println("수정가기전 memberList :" + memberList);
+			mv.addObject("gInfo", gInfo);
+			mv.addObject("memberList", memberList);
+			mv.addObject("groupTable", gt);
+			mv.setViewName("group/GGroupUpdate");
+			return mv;
+		}
 		
 	// ---------------------------------- 그룹 메인 & 생성 end// -------------------------------------------
 
@@ -1259,11 +1266,9 @@ public class GroupController {
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 			GroupTable gt = gService.selectOneGroup(gInfo);
 			
-			System.out.println("게시판 수정  gb  :" + gb);
+			
 			int boardUpdateResult = gService.updateBoard(gb);
 			
-			System.out.println("수정 file : " + file);
-			System.out.println("수정 beforeFile : " + beforeFile);
 			
 				String gbNo = gb.getGbNo();
 				ArrayList<GroupBoardPhoto> photoList = gService.selectDetailPhotoList(gbNo);

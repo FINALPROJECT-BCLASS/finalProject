@@ -568,11 +568,7 @@
 						        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 						       	xx = result[0].x;
 						       	yy = result[0].y;
-						        /* mapCoords = coords;
-						        coordsY = new kakao.maps.LatLng(result[0].y);
-						        coordsX = new kakao.maps.LatLng(result[0].x);
-								 */
-
+				
 						        // 결과값으로 받은 위치를 마커로 표시합니다
 						        var marker = new kakao.maps.Marker({
 						            map: map,

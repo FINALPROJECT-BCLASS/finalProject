@@ -439,6 +439,10 @@ public class GroupDao {
 		return sqlSessionTemplate.delete("groupMapper.deleteAccountMember", ga);		
 	}
 
+	public int deleteGroup(String groupNo) {
+		return sqlSessionTemplate.update("groupMapper.deleteGroup", groupNo);		
+	}
+
 	
 	
 	

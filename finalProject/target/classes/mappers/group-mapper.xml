@@ -301,6 +301,13 @@
 			GM_DELETE = #{gmDelete}
 		WHERE GM_NO = #{gmNO}
 	</update>
+	
+	<update id="deleteGroup" parameterType="string">
+		UPDATE GROUP_TABLE 
+		SET G_DELETE = 'Y'
+		WHERE G_NO = #{groupNo} 
+	</update>
+	
 	<!-- 그룹 메인 및 생성 end -->
 	
 	<!-- 그룹 캘린더 -->

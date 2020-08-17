@@ -42,7 +42,7 @@
     .groubJoinBtn{text-align: center;}
     #submit{background:none; border:none; color:#2860E1; font-weight: 600; font-size: 20px; }
     #reset{background:none; border:none; color:#484848; font-weight: 600; font-size: 20px; width:100px;}
-
+	#delete{background:none; border:none; color:#ee1212d0; font-weight: 600; font-size: 20px; width:100px; cursor:pointer; margin-left:15px;}
     tr > td:nth-child(1) {
             color: #484848;
             text-align: left;
@@ -123,7 +123,6 @@
             <div class="groupJoin">
                 <form action="groupUpdate.do" method="post" id="groupUpdateFrom" enctype="Multipart/form-data">
                     <table class="groupTb">
-                    	<%-- <input type="hidden" name="id" value="${loginUser.id }"> --%>
                         <tr>
                             <td class="groupTbTd">Title&nbsp;</td>
                             <td><input type="text" id="title" name="gTitle" placeholder="  그룹명 작성" value="${groupTable.gTitle }" required></td>
@@ -135,12 +134,7 @@
                                     <span class="material-icons">face</span>
                                     <input type="text" id="search" placeholder="참여명 검색">
                                     <span class="material-icons">search</span>
-                                    <div class="searchNameForm">
-                                    	 <!-- <div class="searchName">&nbsp;김혜린</div>
-                                   		 <div class="searchName">&nbsp;김경섭</div> -->
-                                   		 <!-- ★★★ input으로 넘기는 값은 이름만 되도록? group_member는 어떻게 insert할지 생각 ★★★ -->
-                                    </div>
-                             
+                                    <div class="searchNameForm"></div>
                                 </div>
                             </td>
                         </tr>
@@ -224,6 +218,7 @@
                 <br><br>
                 <div class="groubJoinBtn">
                    <span><button id="submit">Submit</button>&nbsp;</span>
+                   <span id="delete"  >Delete</span>
                    <span><button id="reset" onclick="goBack();">Back</button>&nbsp;</span>
                 </div>
             </div>
@@ -262,11 +257,21 @@
          </script>
          
          
-         <script>
- 
-        	 
+          <!-- 삭제 버튼 -->
+		 <script>
+		 
+		 	$("#delete").click(function(){
+		 		var deleteConfirm = confirm("게시글을 삭제하시겠습니까? ");
+		 		if(deleteConfirm){
+		 			alert("게시글이 삭제되었습니다.");
+		 			location.href="deleteGroup.do?groupNo="+${gInfo.groupNo};
+		 		}
+		 		
+		 	})
+		 	
+		 </script>
          
-        
+         <script>
 			// submit
 			$("#submit").click(function(){
 			
@@ -280,6 +285,9 @@
 					}
 				})
 			
+				
+				
+				
             // 클릭한 이름 삽입 
               $(document).on("click", ".oneSearchBox", function(){
             	  $(this).css("display","none");

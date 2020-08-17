@@ -216,6 +216,8 @@ public interface GroupService {
 
 	int insertBoardPhoto(GroupBoardPhoto gbp);
 
+	int deleteGroup(String groupNo);
+
 
 	
 
