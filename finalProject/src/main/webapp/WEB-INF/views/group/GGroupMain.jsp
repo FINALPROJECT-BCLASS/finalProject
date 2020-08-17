@@ -43,7 +43,14 @@
     /* tooltip 색상 변경 css */
     .tooltip .bs-tooltip-bottom .tooltip-inner { background:#2860E1 !important;}
     .tooltip .arrow:before { border-bottom-color:#2860E1 !important; border-top-color:#2860E1 !important; }
+  
+  tr {
+	    display: flex !important;
+	}
+  
   </style>
+  
+  
 </head>
 <body>
 
