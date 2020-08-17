@@ -302,7 +302,7 @@
         }
          .writeBtn{color:#aeaeae !important; font-size:50px !important; cursor:pointer; padding:0 !important;}
          .writeBtn:hover{color:#2860E1 !important; font-size:50px !important; cursor:pointer; padding:0 !important;}
-         .join-form-area{padding: 85px 40px; float: right;display: flex; justify-content: center; flex-direction: column; align-items: center;width: 81%; background: #F3F3F3; }
+         .join-form-area{position:relative;padding: 165px 40px; float: right;display: flex; justify-content: center; flex-direction: column; align-items: center;width: 81%; background: #F3F3F3; }
          #groupWrite{width:100%; text-align:right; margin-right:100px;margin-top: -100px;display: flex;justify-content: flex-end;align-items: center;}
 		 
 		 .footImg{width:40px; height:40px; cursor:pointer;vertical-align: middle;margin-left: 10px;}
@@ -359,7 +359,7 @@
 	
 
     	  <div class="join-form-area">
-    <jsp:include page="../common/groupNoticeHeader.jsp"/>
+    	<jsp:include page="../common/groupNoticeHeader.jsp"/>
     	  <h1 align="center" class="bigTitle">Group Diary</h1>
         <h4 align="center">Calendar</h4><br>
         
@@ -510,9 +510,9 @@
 	   function compareGmNo(gmNo) {
 	   		console.log("compareGmNo : " + gmNo);
 	   		if("${gInfo.gmNo}" == gmNo){
-					$(".btnBox").show();
+					$(".btnBox").css("display","block");
 				}else{
-					$(".btnBox").hide();
+					$(".btnBox").css("display","none");
 				}
 	   	}
 	   </script>
