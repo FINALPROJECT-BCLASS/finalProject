@@ -285,19 +285,11 @@ public class MemoController {
 							@RequestParam(value="mb_main", required=false) String mb_main,
 							@RequestParam(value="mb_sub", required=false) String mb_sub) throws MemoException {
 		
-		System.out.println(m);
-		System.out.println(bu);
-		System.out.println(type);
-		
 		int result = 0;
 		if(m.getMainNo() == 0) {
 			result = mmService.updateMemo(m);			
 		} else if(m.getMainNo() == 1) {
 			result = mmService.updateMPlan(mp);
-			
-			if(result > 0) {
-				int result2 = mmService.updateMpEnd(m);
-			}
 			
 		} else if(m.getMainNo() == 9) {
 			
