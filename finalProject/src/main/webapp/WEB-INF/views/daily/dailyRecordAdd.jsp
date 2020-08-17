@@ -274,7 +274,7 @@
                     <button type="button">Back</button>
                     <button type="button" onclick="submit_btn()">Save</button>
                 </div>
-                <input type="text" id="upFile" name="upFile">
+                <input type="hidden" id="upFile" name="upFile">
             </form>
         </div>
     </div>

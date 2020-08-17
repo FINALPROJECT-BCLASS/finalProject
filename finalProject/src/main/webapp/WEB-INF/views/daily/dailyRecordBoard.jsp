@@ -251,9 +251,10 @@
             </table>
                  
             <div class="pagination-area">
-            
+            	<c:if test="${!empty drlist }">
 	            <c:if test="${pi.currentPage eq 1 }">
 	            	<p class="page-bnf gray">Prev</p>
+	            </c:if>
 	            </c:if>
 	            <c:if test="${pi.currentPage gt 1 }">
 	            	<c:url var="drlistBack" value="dailyRecordView.do">
