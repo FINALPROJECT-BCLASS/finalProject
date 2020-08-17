@@ -17,7 +17,23 @@
 
 <script type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
-
+<style>
+	.allcount{
+		font-weight: 600;
+	    font-size: 15px;
+	    color: white;
+	    width: 18px;
+	    height: 18px;
+	    border-radius: 50%;
+	    background: #f93535;
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+	    position: absolute;
+	    right: 13%;
+	    top: 35%;
+	}
+</style>
 </head>
 <body>
 
@@ -26,13 +42,33 @@
         <nav class="chatNav">
             <ul class = "navi-area">
                 <li><a href="chatview.do">친구목록</a></li>
-                <li><a onclick="chatroom()">채팅창</a></li>
+                <li class="chlist"><a onclick="chatroom()">채팅창</a></li>
                 <li><a onclick="openchatroom()">오픈채팅</a></li>
                 <li><a href="managerchat.do">관리자문의</a></li>
         </nav>
     </header>
 </body>
 <script>
+	let countsock = new SockJS("<c:url value="/allcountecho"/>");
+
+	countsock.onmessage = onMessage2;
+
+	function onMessage2(evt){
+		var data = evt.data;
+		console.log("에우우욱: " +data);
+		
+		
+		var $pringHTML;
+		
+		if(data == 0){
+			return;
+		}else{
+		pringHTML = "<a onclick='chatroom()'>채팅창</a><span class='allcount'>"+data+"</span>";
+		$(".chlist").empty();
+		$(".chlist").append(pringHTML);
+		}
+	}
+	
 	function chatroom(){
  		$.ajax({
  			url:"reportcheck.do",

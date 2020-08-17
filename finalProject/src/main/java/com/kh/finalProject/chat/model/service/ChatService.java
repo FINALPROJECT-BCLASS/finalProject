@@ -75,4 +75,6 @@ public interface ChatService {
 
 	String selectreportchk(String user);
 
+	int unreadcount(String loginUserid);
+
 }

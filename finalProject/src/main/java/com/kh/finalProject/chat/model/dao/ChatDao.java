@@ -178,4 +178,9 @@ public class ChatDao {
 
 		return sqlSessionTemplate.selectOne("chatMapper.selectreportchk", user);
 	}
+
+	public int unreadcount(String loginUserid) {
+		
+		return sqlSessionTemplate.selectOne("chatMapper.unreadcount", loginUserid);
+	}
 }

@@ -210,5 +210,11 @@ public class ChatServiceImpl implements ChatService{
 		return cDao.selectreportchk(user);
 	}
 
+	@Override
+	public int unreadcount(String loginUserid) {
+		
+		return cDao.unreadcount(loginUserid);
+	}
+
 	
 }

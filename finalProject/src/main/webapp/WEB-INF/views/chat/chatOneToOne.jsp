@@ -455,6 +455,8 @@
 	
 	let sock2 = new SockJS("<c:url value="/echolist"/>");
 	
+
+	
 	
 	//연결될시 시작되는 메소드
  	/*function onOpen(){
@@ -505,12 +507,19 @@
 						co_no : $("#co_no").val(),
 						msg : "이미지 입니다.",
 						
+				};		
+				var msgData3 ={
+						friendid : $("#friendid").val(),
+						count : "countup"
 				};
+			
 				
 				var jsonData = JSON.stringify(msgData);//JSON.stringify란 자바스크립트의 값을 JSON 문자열로 변환한다. 
 				var jsonData2 = JSON.stringify(msgData2);
+				var jsonData3 = JSON.stringify(msgData3);
 				sock.send(jsonData);
 				sock2.send(jsonData2);
+				countsock.send(jsonData3);
 			},
             error:function(request, status, errorData){
                 alert("error code: " + request.status + "\n"
@@ -551,17 +560,27 @@
 			img : "${loginUser.rename_file}"
 		};
 		
+		var jsonData = JSON.stringify(msgData);//JSON.stringify란 자바스크립트의 값을 JSON 문자열로 변환한다. 
+		sock.send(jsonData);
 		var msgData2 ={
 				friendid : $("#friendid").val(),
 				co_no : $("#co_no").val(),
 				msg : $("#message").val(),
 				
 		};
-		var jsonData = JSON.stringify(msgData);//JSON.stringify란 자바스크립트의 값을 JSON 문자열로 변환한다. 
+		
 		var jsonData2 = JSON.stringify(msgData2);
-		sock.send(jsonData);
 		sock2.send(jsonData2);
-	
+		
+		var msgData3 ={
+				friendid : $("#friendid").val(),
+				count : "countup"
+		};
+		var jsonData3 = JSON.stringify(msgData3);
+		countsock.send(jsonData3);
+		
+
+		
 	}          
 	
 	//evt 파라미터는 websocket이 보내준 데이터다.

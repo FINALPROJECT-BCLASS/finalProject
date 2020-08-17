@@ -316,5 +316,13 @@ SELECT CHAT_YN
 FROM MEMBER
 WHERE ID=#{user}
 </select>
+
+<select id="unreadcount" parameterType="string" resultType="_int">
+	SELECT COUNT(OL.OL_YN)
+	FROM CHAT_ONETOONE CO
+	JOIN ONETOONE_LIST OL ON( CO.CO_NO = OL.CO_NO)
+	WHERE (CO.ID=#{loginUserid} OR CO.ID2=#{loginUserid} )AND CO.ID2 !='admin' 
+	        AND OL.OL_YN ='N' AND OL.ID != #{loginUserid}
+</select>
 </mapper>
 
