@@ -183,11 +183,19 @@
                 <br><br>
                 <div class="groubJoinBtn">
                    <span><button  id="submit">Submit</button>&nbsp;</span>
-                   <span><input type="reset" value="Reset" id="reset"></span>
+                   <span id="reset" onclick="goBack();">Back</span><span id="reset" onclick="goBack();">Back</span>
                 </div>
             </div>
          </div>
          </div>
+         
+          <!-- 뒤로가기 버튼 -->
+		 <script>
+		 	function goBack(){
+		 		window.history.back();	
+		 	}
+		 	
+		 </script>
          <!-- 합계 -->
          <script>
          	$(document).on("keyup",".amountBox",function(){
