@@ -103,6 +103,8 @@
 	  clip: rect(0, 0, 0, 0);
 	  border: 0;
 	}    
+	
+	
   </style>
 </head>
 <body>
@@ -137,14 +139,12 @@
                             <td style="height:100px;">
                                 <div class="searchNameAfter">
                                     &nbsp;&nbsp;Click and remove it.<br>
-                                    <div class="searchNameAfterIn">
-                                    	<button type="button" class="searchNameBox adminBtn" value="${m.id }">
+                                    <button type="button" class="searchNameBox adminBtn" value="${m.id }">
 		                                    	${m.name }&nbsp;${m.id }
 		                                    <input type="hidden" name="groupName" value="${m.name }">
 		                                    <input type="hidden" class='groupId adminId' name="groupId" value="${m.id }">
 	                                    </button>
-                                    
-                                    </div>
+                                    <div class="searchNameAfterIn"></div>
                                 </div>
                             </td>
                         </tr>
@@ -160,7 +160,7 @@
                             <td class="groupTbTd">Profile Image&nbsp;</td>
                             <td>
                                <div class=profile-image-area>
-                        			<img class="profile-image" src="resources/groupMainFiles/group.png">
+                        			<img class="profile-image" src="resources/groupMainFiles/group1.png">
                        			</div>
                               	<div class="filebox">
 								  <input type="file" id="file" class="ex_file" name="uploadFile" onchange="uploadPhoto(this);">
@@ -214,7 +214,7 @@
 		 </script>
          
          <script>
-         	
+
 			// submit
 			$("#submit").click(function(){
 			
