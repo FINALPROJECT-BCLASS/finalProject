@@ -18,7 +18,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    width: 350px;
+    width: 310px;
     height: 326px;
     padding: 20px;
     margin: 20px;
@@ -46,6 +46,10 @@
   
   tr {
 	    display: flex !important;
+	}
+	
+	.groupMain {
+		padding: 70px 0;
 	}
   
   </style>
