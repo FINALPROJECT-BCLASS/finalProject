@@ -14,13 +14,26 @@
     button {float:right; margin-bottom: 10px; margin-right:40px; background:none; border:0;}
 
     .groupTb {border-spacing: 20px; border-collapse: separate;}
-    .groupTb td{padding:20px; margin:20px; border:1px solid lightgrey; border-radius: 7px; background:white;}
+    .groupTb td{display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 350px;
+    height: 326px;
+    padding: 20px;
+    margin: 20px;
+    border: 1px solid lightgrey;
+    border-radius: 7px;
+    background: white;}
     
     #gropTbForm{margin-bottom:70px;}
     
     a{background: #F3F3F3;}
-    p{text-align:center; margin-top:5px;}
-    .groupImg {width:300px; height:250px; cursor: pointer; border-radius: 6px;}
+    p{/* text-align:center; margin-top:5px; */ margin:0;}
+    .groupImg {    width: 195px;
+    /* height: 250px; */
+    cursor: pointer;
+    border-radius: 6px;}
 
 	/* 글쓰기 버튼 */
 	.writeBtn{margin-right:30px;color:#aeaeae !important; font-size:50px !important; cursor:pointer; padding:0 !important;}
@@ -91,7 +104,7 @@
 						
 		                <a href="${groupCalendar }" data-toggle="tooltip" data-placement="bottom" title="${g.gName }">
 		                	<c:if test="${empty g.gOrigin }">
-		                		<img class="groupImg" src="resources/groupMainFiles/group.png">
+		                		<img class="groupImg" src="resources/groupMainFiles/group1.png">
 		                	</c:if>
 		                	<c:if test="${!empty g.gOrigin  }">
 		                    	 <img class="groupImg" src="resources/groupMainFiles/${g.gOrigin}">
