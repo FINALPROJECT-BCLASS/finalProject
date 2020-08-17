@@ -824,7 +824,6 @@
 				}
 				
 			}
-			
 		
 		
 			$(".content-box").hide();
@@ -902,7 +901,7 @@
 							
 							if(data.ubl.length < 4) {
 								
-								$(".url-list").css("height", "205px");
+								$(".url-list").css("height", "230px");
 								
 							}else {
 								

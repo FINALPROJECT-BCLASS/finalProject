@@ -350,7 +350,7 @@
                     <button type="button" onclick="submit_btn()">Save</button>
                 </div>
                 <input class="remove_no" type="hidden" name="remove_no">
-                <input class="drp_left" type="text" name="drp_left">
+                <input class="drp_left" type="hidden" name="drp_left">
             </form>
         </div>
     </div>

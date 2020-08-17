@@ -409,8 +409,6 @@
 				data: {dr_no : arrayList},
 				success: function(data){
 					if(data == "success") {
-						
-						console.log("넘어와?");
 						// 현재 페이지 새로고침
 						history.go(0);
 					}else {
