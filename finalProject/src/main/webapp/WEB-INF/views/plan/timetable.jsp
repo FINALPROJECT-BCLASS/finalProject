@@ -320,13 +320,13 @@
                                         <tr>
                                             <th>Title</th>
                                             <td>
-                                            	<input type="text" name="ttTitle" size="30">
+                                            	<input type="text" name="ttTitle" size="30" required>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>Date</th>
                                             <td>
-                                            	<input type="date" name="ttDate" id="ttDate" style="width: 250px;">
+                                            	<input type="date" name="ttDate" id="ttDate" style="width: 250px;" required>
                                             </td>
                                         </tr>
                                         <tr>

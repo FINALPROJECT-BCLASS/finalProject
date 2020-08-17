@@ -97,7 +97,7 @@ public class MemoController {
 		}
 		
 		if(result1 > 0) {
-			return "memo/memo";
+			return "redirect:mmview.do";
 		} else {
 			throw new MemoException("메모 추가 실패");
 		}
@@ -189,7 +189,7 @@ public class MemoController {
 		int result = mmService.deleteMemo(m);
 		
 		if(result > 0) {
-			return "memo/memo";
+			return "redirect:mmview.do";
 		} else {
 			throw new MemoException("메모 삭제 실패");
 		}
@@ -220,7 +220,7 @@ public class MemoController {
 		}
 		
 		if(result3 > 0) {
-			return "memo/memo";
+			return "redirect:mmview.do";
 		} else {
 			throw new MemoException("일정에 추가 실패");
 		}
@@ -246,7 +246,7 @@ public class MemoController {
 		}
 		
 		if(result2 > 0) {
-			return "memo/memo";
+			return "redirect:mmview.do";
 		} else {
 			throw new MemoException("가계부에 추가 실패");
 		}
@@ -273,7 +273,7 @@ public class MemoController {
 		}
 		
 		if(result2 > 0) {
-			return "memo/memo";
+			return "redirect:mmview.do";
 		} else {
 			throw new MemoException("북마크에 추가 실패");
 		}
@@ -314,7 +314,7 @@ public class MemoController {
 		}
 		
 		if(result > 0) {
-			return "memo/memo";
+			return "redirect:mmview.do";
 		} else {
 			throw new MemoException("메모 수정 실패");
 		}

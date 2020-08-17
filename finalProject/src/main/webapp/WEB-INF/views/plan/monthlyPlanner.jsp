@@ -294,13 +294,13 @@
                                     <table id="addTable">
                                         <tr>
                                             <th>Title</th>
-                                            <td><input type="text" id="addTitle" name="mpTitle" size="42"></td>
+                                            <td><input type="text" id="addTitle" name="mpTitle" size="42" required></td>
                                         </tr>
                                         <tr>
                                             <th>Date</th>
                                             <td>
-                                                <input type="date" id="mpStart" name="mpStart"> - 
-                                                <input type="date" id="mpEnd" name="mpEnd">
+                                                <input type="date" id="mpStart" name="mpStart" required> - 
+                                                <input type="date" id="mpEnd" name="mpEnd" required>
                                             </td>
                                         </tr>
                                         <tr>
@@ -548,13 +548,13 @@
                            <table id="updateTable">
                                <tr>
                                    <th>Title</th>
-                                   <td><input type="text" name="mpTitle" id="updateTitle" size="42"></td>
+                                   <td><input type="text" name="mpTitle" id="updateTitle" size="42" required></td>
                                </tr>
                                <tr>
                                    <th>Date</th>
                                    <td>
-                                       <input type="date" name="mpStart" id="updateStart"> - 
-                                       <input type="date" name="mpEnd" id="updateEnd">
+                                       <input type="date" name="mpStart" id="updateStart" required> - 
+                                       <input type="date" name="mpEnd" id="updateEnd" required>
                                    </td>
                                </tr>
                                <tr>

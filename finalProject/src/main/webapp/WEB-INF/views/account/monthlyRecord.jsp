@@ -222,19 +222,18 @@
                                         <tr>
                                             <th>Date</th>
                                             <td>
-                                            	<input type="date" name="abDate" id="abDate" style="width: 230px;">
+                                            	<input type="date" name="abDate" id="abDate" style="width: 230px;" required>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>Amount</th>
-                                            <td><input type="number" name="abAmount" style="width: 230px;"></td>
+                                            <td><input type="number" name="abAmount" style="width: 230px;" required></td>
                                         </tr>
                                         <tr>
                                             <th colspan="2">Memo</th>
                                         </tr>
                                         <tr>
                                             <td colspan="2">
-                                                <textarea name="abMemo" cols="40" rows="5"></textarea>
                                             </td>
                                         </tr>
                                     </table>

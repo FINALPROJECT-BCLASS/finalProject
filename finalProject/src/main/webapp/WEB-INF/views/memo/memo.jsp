@@ -583,7 +583,7 @@
                             <table id="addTable">
                                 <tr>
                                     <th>Title</th>
-                                    <td><input type="text" name="mpTitle" size="42"></td>
+                                    <td><input type="text" name="mpTitle" size="42" required></td>
                                 </tr>
                                 <tr>
                                     <th>Date</th>
@@ -640,7 +640,7 @@
                             <table id="addTable">
                                 <tr>
                                     <th>Title</th>
-                                    <td><input type="text" id="mpTitle" name="mpTitle" size="42"></td>
+                                    <td><input type="text" id="mpTitle" name="mpTitle" size="42" required></td>
                                 </tr>
                                 <tr>
                                     <th>Date</th>
@@ -744,7 +744,7 @@
 	                            </tr>
 	                            <tr>
 	                                <th>Amount</th>
-	                                <td><input type="number" name="abAmount" style="width: 230px;"></td>
+	                                <td><input type="number" name="abAmount" style="width: 230px;" required></td>
 	                            </tr>
 	                            <tr>
 	                                <th colspan="2">Memo</th>
@@ -823,7 +823,7 @@
 	                            </tr>
 	                            <tr>
 	                                <th>Amount</th>
-	                                <td><input type="number" id="uAbAmount" name="abAmount" style="width: 230px;"></td>
+	                                <td><input type="number" id="uAbAmount" name="abAmount" style="width: 230px;" required></td>
 	                            </tr>
 	                            <tr>
 	                                <th colspan="2">Memo</th>
@@ -856,7 +856,7 @@
                                 <tr>
                                     <th>Bookmark</th>
                                     <td>
-                                    	<select id="bl_no" name="bl_no">
+                                    	<select id="bl_no" name="bl_no" required>
                                    		<c:forEach var="b" items="${bmList }">
                                    			<option class="${b.bl_type }" value="${b.bl_no }">${b.bl_title }</option>
                                    		</c:forEach>
@@ -1004,7 +1004,7 @@
                             	</tr>
                                 <tr>
 	                                <td>
-	                                	<textarea name="memoCon" rows="5" cols="50"></textarea>
+	                                	<textarea name="memoCon" rows="5" cols="50" required></textarea>
 	                                </td>
                                 </tr>
                             </table>
@@ -1031,7 +1031,7 @@
                             	</tr>
                                 <tr>
 	                                <td>
-	                                	<textarea id="uContent" name="memoCon" rows="5" cols="50"></textarea>
+	                                	<textarea id="uContent" name="memoCon" rows="5" cols="50" required></textarea>
 	                                </td>
                                 </tr>
                             </table>
@@ -1132,6 +1132,7 @@
     			$("#uAecNo").css("display", "block");
     			$("#uApcNo").css("display", "none");			
     		})
+    		
     	})
     
 	    function searchAddress() {
