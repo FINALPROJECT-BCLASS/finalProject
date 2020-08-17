@@ -49,4 +49,12 @@ public interface MemoService {
 
 	int updateABook(AccountBook ab);
 
+	int updateBMap(BookmarkMap bm);
+
+	int updateBUrl(BookmarkUrl bu);
+
+	BookmarkMap selectBMap(Memo m);
+
+	int updateBmAddress(BookmarkMap bm);
+
 }

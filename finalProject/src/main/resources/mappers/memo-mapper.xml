@@ -48,6 +48,11 @@
 		<result property="bl_title" column="BL_TITLE"/>
 		<result property="bl_type" column="BL_TYPE"/>
 	</resultMap>
+	
+	<resultMap type="BookmarkMap" id="mbResultSet">
+		<id property="mb_no" column="MB_NO"/>
+		<result property="mb_address" column="MB_ADDRESS"/>
+	</resultMap>
 
 	<insert id="insertMemo" parameterType="Memo">
 		INSERT INTO MEMO
@@ -255,6 +260,36 @@
 			, AB_AMOUNT=#{abAmount}
 			, AB_MEMO=#{abMemo}
 		WHERE MEMO_NO=#{memoNo}
+	</update>
+	
+	<update id="updateBMap" parameterType="BookmarkMap">
+		UPDATE MAP_BOOKMARK
+		SET MB_TITLE=#{mb_title}
+			, MB_PHONE=#{mb_phone}
+			, MB_TIME=#{mb_time}
+			, MB_MEMO=#{mb_memo}
+			, MB_ADDRESS=#{mb_address}
+		WHERE MEMO_NO=#{memo_no}
+	</update>
+	
+	<update id="updateBUrl" parameterType="BookmarkUrl">
+		UPDATE URL_BOOKMARK
+		SET UB_TITLE=#{ub_title}
+			, UB_CON=#{ub_con}
+			, UB_URL=#{ub_url}
+		WHERE MEMO_NO=#{memo_no}
+	</update>
+	
+	<select id="selectBMap" parameterType="Memo" resultMap="mbResultSet">
+		SELECT MB_NO, MB_ADDRESS
+		FROM MAP_BOOKMARK
+		WHERE MEMO_NO=#{memoNo}
+	</select>
+	
+	<update id="updateBmAddress" parameterType="BookmarkMap">
+		UPDATE MAP_BOOKMARK
+		SET MB_ADDRESS=#{mb_address}
+		WHERE MB_NO=#{mb_no}
 	</update>
 
 </mapper>

@@ -114,4 +114,24 @@ public class MemoDao {
 		return sqlSessionTemplate.update("memoMapper.updateABook", ab);
 	}
 
+	public int updateBMap(BookmarkMap bm) {
+	
+		return sqlSessionTemplate.update("memoMapper.updateBMap", bm);
+	}
+
+	public int updateBUrl(BookmarkUrl bu) {
+		
+		return sqlSessionTemplate.update("memoMapper.updateBUrl", bu);
+	}
+
+	public BookmarkMap selectBMap(Memo m) {
+		
+		return sqlSessionTemplate.selectOne("memoMapper.selectBMap", m);
+	}
+
+	public int updateBmAddress(BookmarkMap bm) {
+	
+		return sqlSessionTemplate.update("memoMapper.updateBmAddress", bm);
+	}
+
 }

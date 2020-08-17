@@ -133,4 +133,28 @@ public class MemoServiceImpl implements MemoService {
 		return mmDao.updateABook(ab);
 	}
 
+	@Override
+	public int updateBMap(BookmarkMap bm) {
+	
+		return mmDao.updateBMap(bm);
+	}
+
+	@Override
+	public int updateBUrl(BookmarkUrl bu) {
+		
+		return mmDao.updateBUrl(bu);
+	}
+
+	@Override
+	public BookmarkMap selectBMap(Memo m) {
+		
+		return mmDao.selectBMap(m);
+	}
+
+	@Override
+	public int updateBmAddress(BookmarkMap bm) {
+		
+		return mmDao.updateBmAddress(bm);
+	}
+
 }

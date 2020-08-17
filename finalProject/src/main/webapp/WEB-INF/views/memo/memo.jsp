@@ -405,36 +405,36 @@
 
     	   						$bookmarkTr = $("<tr>");
     	   						$bookmarkTd1 = $("<th>").html("Bookmark");
-    	   						$bookmarkTd2 = $("<td>").html(data.memoList[i].blTitle);    	   							
+    	   						$bookmarkTd2 = $("<td class='bookmarkTd2'>").html(data.memoList[i].blTitle);    	   							
 
     	   						$titleTr = $("<tr>");
     	   						$titleTd1 = $("<th>").html("Title");
-    	   						$titleTd2 = $("<td>").html(data.memoList[i].mbTitle);
+    	   						$titleTd2 = $("<td class='titleTd2'>").html(data.memoList[i].mbTitle);
     	   						
     	   						$phoneTr = $("<tr>");
     	   						$phoneTd1 = $("<th>").html("Phone");
-    	   						$phoneTd2 = $("<td>").html(data.memoList[i].mbPhone);
+    	   						$phoneTd2 = $("<td class='phoneTd2'>").html(data.memoList[i].mbPhone);
     	   						
     	   						$timeTr = $("<tr>");
     	   						$timeTd1 = $("<th>").html("Time");
-    	   						$timeTd2 = $("<td>").html(data.memoList[i].mbTime);
+    	   						$timeTd2 = $("<td class='timeTd2'>").html(data.memoList[i].mbTime);
     	   						
     	   						$locationTr1 = $("<tr>");
     	   						$locationTd1 = $("<th colspan='2'>").html("Location");
     	   						
     	   						$locationTr2 = $("<tr>");
-    	   						$locationTd2 = $("<td colspan='2'>").html("<br>");    	   							
+    	   						$locationTd2 = $("<td colspan='2' class='locationTd2'>").html("<br>");    	   							
     	   						if(data.memoList[i].mbAddress != null) {
-    	   							$locationTd2 = $("<td colspan='2'>").html(data.memoList[i].mbAddress);
+    	   							$locationTd2 = $("<td colspan='2' class='locationTd2'>").html(data.memoList[i].mbAddress);
     	   						}
     	   						
     	   						$memoTr1 = $("<tr>");
     	   						$memoTd1 = $("<th colspan='2'>").html("Memo");
     	   						
     	   						$memoTr2 = $("<tr>");
-    	   						$memoTd2 = $("<td colspan='2'>").html("<br>");    	   							
-    	   						if(data.memoList[i].abMemo != null) {
-    	   							$memoTd2 = $("<td colspan='2'>").html(data.memoList[i].bmMemo);	   							
+    	   						$memoTd2 = $("<td colspan='2' class='memoTd2'>").html("<br>");    	   							
+    	   						if(data.memoList[i].mbMemo != null) {
+    	   							$memoTd2 = $("<td colspan='2' class='memoTd2'>").html(data.memoList[i].mbMemo);	   							
     	   						}
     	   						
     	   						$editBtn = $("<button type='button' class='editBtn eBookmarkBtn'>").text("Edit");
@@ -448,7 +448,9 @@
     	   						
     	   						$dateTr.append($dateTd1).append($dateTd2);
     	   						
-    	   						$bookmarkTr.append($bookmarkTd1).append($bookmarkTd2)
+    	   						$bookmarkTr.append($bookmarkTd1).append($bookmarkTd2);
+    	   						
+    	   						$titleTr.append($titleTd1).append($titleTd2);
     	   						
     	   						$phoneTr.append($phoneTd1).append($phoneTd2);
     	   						
@@ -487,25 +489,25 @@
 
     	   						$bookmarkTr = $("<tr>");
     	   						$bookmarkTd1 = $("<th>").html("Bookmark");
-    	   						$bookmarkTd2 = $("<td>").html(data.memoList[i].blTitle);
+    	   						$bookmarkTd2 = $("<td class='bookmarkTd2'>").html(data.memoList[i].blTitle);
 
     	   						$titleTr = $("<tr>");
     	   						$titleTd1 = $("<th>").html("Title");
-    	   						$titleTd2 = $("<td>").html(data.memoList[i].ubTitle);    	   							
+    	   						$titleTd2 = $("<td class='titleTd2'>").html(data.memoList[i].ubTitle);    	   							
     	   						
     	   						$urlTr1 = $("<tr>");
     	   						$urlTd1 = $("<th colspan='2'>").html("Url");
     	   						
     	   						$urlTr2 = $("<tr>");
-    	   						$urlTd2 = $("<td colspan='2'>").html(data.memoList[i].ubUrl);    	   							
+    	   						$urlTd2 = $("<td colspan='2' class='urlTd2'>").html(data.memoList[i].ubUrl);    	   							
     	   						
     	   						$memoTr1 = $("<tr>");
     	   						$memoTd1 = $("<th colspan='2'>").html("Memo");
     	   						
     	   						$memoTr2 = $("<tr>");
-    	   						$memoTd2 = $("<td colspan='2'>").html("<br>");    	   							
+    	   						$memoTd2 = $("<td colspan='2' class='memoTd2'>").html("<br>");    	   							
     	   						if(data.memoList[i].ubCon != null) {
-    	   							$memoTd2 = $("<td colspan='2'>").html(data.memoList[i].ubCon);	   							
+    	   							$memoTd2 = $("<td colspan='2' class='memoTd2'>").html(data.memoList[i].ubCon);	   							
     	   						}
     	   						
     	   						$editBtn = $("<button type='button' class='editBtn eBookmarkBtn'>").text("Edit");
@@ -924,8 +926,8 @@
                     <div class="modal-body" align="center">
                         <form action="mmupdate.do" method="post">
                         	<input type="hidden" name="mainNo" value="6">
-                        	<input type="hidden" id="memoType" name="memoType">
-                        	<input type="hidden" id="bmMemoNo">
+                        	<input type="hidden" id="bmMemoNo" name="memoNo">
+                        	<input type="hidden" id="uMemoType" name="memoType">
                         	
                             <table id="addTable">
                                 <tr>
@@ -1349,33 +1351,58 @@
 	    $(document).on("click",".eBookmarkBtn",function(){
 			var memoNo = $(this).parent().parent().find(".memoNo").val();
 			$("#bmMemoNo").val(memoNo);
-	    	
-	    	var mpTitle = $(this).parent().parent().find(".titleTd2").html();
-	    	$("#uPlannerModal").find("#mpTitle").val(mpTitle);
-	    	
-	    	var mpStart = $(this).parent().parent().find(".startTd2").html();
-	    	$("#uPlannerModal").find("#mpStart").val(mpStart);
-	    	
-	    	var mpEnd = $(this).parent().parent().find(".endTd2").html();
-	    	$("#uPlannerModal").find("#mpEnd").val(mpEnd);
-	    	
-	    	var mpTime = $(this).parent().parent().find(".timeTd2").html();
-	    	$("#uPlannerModal").find("#mpTime").val(mpTime);
-	    	
-	    	var mpLocation = $(this).parent().parent().find(".locationTd2").html();
-	    	if(mpLocation != "<br>") {
-		        var splitLocation = mpLocation.split(', ');
-		        $("#uPlannerModal").find(".mainAddress").val(splitLocation[0]);
-		        $("#uPlannerModal").find(".subAddress").val(splitLocation[1]);	    		
-	    	} else {
-	    		$("#uPlannerModal").find(".mainAddress").val("");
-		        $("#uPlannerModal").find(".subAddress").val("");	  
-	    	}
-	    	
-	    	var mpMemo = $(this).parent().parent().find(".memoTd2").html();
-	    	$("#uPlannerModal").find("#mpMemo").val(mpMemo);
-	    	
-	    	$("#uPlannerModal").modal();
+			
+			var type = $(this).parent().parent().find(".memoType").val();
+			$("#uMemoType").val(type);
+			
+			var blTitle = $(this).parent().parent().find(".bookmarkTd2").html();
+			$("#blTitle").empty();
+			$("#blTitle").append(blTitle);
+			
+			if(type == "map") {
+				
+				$(".mapInput").show();
+				$(".urlInput").hide();
+				
+				var mbTitle = $(this).parent().parent().find(".titleTd2").html();
+				$("#uMapTitle").val(mbTitle);
+				
+				var mbPhone = $(this).parent().parent().find(".phoneTd2").html();
+				$("#uPhone").val(mbPhone);
+				
+				var mbTime = $(this).parent().parent().find(".timeTd2").html();
+				$("#uTime").val(mbTime);
+				
+				var mbLocation = $(this).parent().parent().find(".locationTd2").html();
+				if(mbLocation != "<br>") {
+			        var splitLocation = mbLocation.split(', ');
+			        $("#uBookmarkModal").find(".mainAddress").val(splitLocation[0]);
+			        $("#uBookmarkModal").find(".subAddress").val(splitLocation[1]);	    		
+		    	} else {
+		    		$("#uBookmarkModal").find(".mainAddress").val("");
+			        $("#uBookmarkModal").find(".subAddress").val("");	  
+		    	}
+				
+				var mbMemo = $(this).parent().parent().find(".memoTd2").html();
+				$("#uMapMemo").val(mbMemo);
+				
+			} else {
+				
+				$(".mapInput").hide();
+				$(".urlInput").show();
+				
+				var ubTitle = $(this).parent().parent().find(".titleTd2").html();
+				$("#uUrlTitle").val(ubTitle);
+				
+				var ubUrl = $(this).parent().parent().find(".urlTd2").html();
+				$("#uUrl").val(ubUrl);
+				
+				var ubMemo = $(this).parent().parent().find(".memoTd2").html();
+				$("#uUrlMemo").val(ubMemo);
+				
+			}
+			
+			$("#uBookmarkModal").modal();
 		});
 	    
     </script>	

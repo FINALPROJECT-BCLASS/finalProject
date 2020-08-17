@@ -34,6 +34,9 @@ public class MemoController {
 	@Autowired
 	MPlan mp;
 	
+	@Autowired
+	BookmarkMap bm;
+	
 	@RequestMapping("mmview.do")
 	public String memoView(HttpSession session, Model model) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
@@ -80,7 +83,7 @@ public class MemoController {
 			int memoNo = mmService.selectMemoNo(m);
 			
 			if(m.getMemoType().equals("map")) {
-				String address = mbMain + " " + mbSub;
+				String address = mbMain + ", " + mbSub;
 
 				bm.setMemo_no(memoNo);
 				bm.setMb_address(address);
@@ -160,6 +163,7 @@ public class MemoController {
 					jObj.put("mbTime", m.getMbTime());
 					jObj.put("mbMemo", m.getMbMemo());
 					jObj.put("mbAddress", m.getMbAddress());
+
 				} else {
 					jObj.put("ubTitle", m.getUbTitle());
 					jObj.put("ubCon", m.getUbCon());
@@ -251,6 +255,16 @@ public class MemoController {
 	@RequestMapping("bmadd.do")
 	public String bookmarkAdd(Memo m) throws MemoException {
 		
+		if(m.getMemoType().equals("map")) {
+			BookmarkMap bm = mmService.selectBMap(m);
+			
+			String[] addArr = bm.getMb_address().split(",");
+			
+			bm.setMb_address(addArr[0] + addArr[1]);
+			
+			int result = mmService.updateBmAddress(bm);
+		}
+		
 		int result1 = mmService.addBookmark(m);
 		
 		int result2 = 0;
@@ -266,16 +280,25 @@ public class MemoController {
 	}
 	
 	@RequestMapping("mmupdate.do")
-	public String memoUpdate(Memo m, MPlan mp, AccountBook ab,
-							@RequestParam(value="type", required=false) String type) throws MemoException {
+	public String memoUpdate(Memo m, MPlan mp, AccountBook ab, BookmarkMap bm, BookmarkUrl bu,
+							@RequestParam(value="type", required=false) String type,
+							@RequestParam(value="mb_main", required=false) String mb_main,
+							@RequestParam(value="mb_sub", required=false) String mb_sub) throws MemoException {
 		
-		System.out.println(ab);
+		System.out.println(m);
+		System.out.println(bu);
+		System.out.println(type);
 		
 		int result = 0;
 		if(m.getMainNo() == 0) {
 			result = mmService.updateMemo(m);			
 		} else if(m.getMainNo() == 1) {
 			result = mmService.updateMPlan(mp);
+			
+			if(result > 0) {
+				int result2 = mmService.updateMpEnd(m);
+			}
+			
 		} else if(m.getMainNo() == 9) {
 			
 			if(type.equals("profit")) {
@@ -285,6 +308,17 @@ public class MemoController {
 			}
 			
 			result = mmService.updateABook(ab);
+		} else if(m.getMainNo() == 6 && m.getMemoType().equals("map")) {
+			bm.setMemo_no(m.getMemoNo());
+			
+			String address = mb_main + ", " + mb_sub;
+			bm.setMb_address(address);
+			
+			result = mmService.updateBMap(bm);
+		} else if(m.getMainNo() == 6 && m.getMemoType().equals("url")) {
+			bu.setMemo_no(m.getMemoNo());
+			
+			result = mmService.updateBUrl(bu);
 		}
 		
 		if(result > 0) {
