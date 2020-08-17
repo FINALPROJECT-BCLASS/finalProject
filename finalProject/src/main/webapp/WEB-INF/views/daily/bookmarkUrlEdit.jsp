@@ -143,15 +143,15 @@
                 <table cellpadding="6px">
                     <tr>
                         <td>Title</td>
-                        <td><input type="text" name="ub_title" id="ub_title" placeholder="저장할 링크의 제목을 입력하세요." value="${bmUrl.ub_title }"></td>
+                        <td><input type="text" name="ub_title" id="ub_title" maxlength="16" placeholder="저장할 링크의 제목을 입력하세요." value="${bmUrl.ub_title }"></td>
                     </tr>
                     <tr>
                         <td>Memo</td>
-                        <td><textarea class="b-content" name="ub_con" id="ub_con">${bmUrl.ub_con }</textarea></td>
+                        <td><textarea class="b-content" name="ub_con" id="ub_con" maxlength="160">${bmUrl.ub_con }</textarea></td>
                     </tr>
                     <tr>
                         <td>Url</td>
-                        <td><input type="text" name="ub_url" id="ub_url" placeholder="저장할 링크의 주소를 입력하세요." value="${bmUrl.ub_url }"></td>
+                        <td><input type="text" name="ub_url" id="ub_url" maxlength="160" placeholder="저장할 링크의 주소를 입력하세요." value="${bmUrl.ub_url }"></td>
                     </tr>
                 </table>
                 <div class="button-area">

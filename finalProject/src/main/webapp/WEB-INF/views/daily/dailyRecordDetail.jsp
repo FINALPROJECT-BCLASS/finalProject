@@ -242,11 +242,46 @@
    	    padding-top: 14px;
     }
     
-    
-    
     .photos {
     	vertical-align: top;
    	    padding-top: 14px;
+    }
+    
+    .origin-photo {
+    	height: 700px;
+    }
+    
+    .modal-dialog {
+   	    display: flex;
+	    width: 100%;
+	    align-items: center;
+	    justify-content: center;
+    }
+    
+    .modal {
+    	position: fixed;
+	    top: 0;
+	    left: 0;
+	    z-index: 1050;
+	    display: none;
+	    width: 100%;
+	    overflow: hidden;
+	    outline: 0;
+    }
+    
+    div#myModal, .modal-body {
+    	padding: 0 !important;
+    }
+    
+    .modal-content {
+    	width: initial !important;
+    }
+    
+    .close {
+   	    position: absolute;
+	    right: 10px;
+	    top: 4px;
+    	
     }
 
     </style>
@@ -304,7 +339,7 @@
 			                    	<div class="photos-area">
 			                       		<div class="photos-wrap">
 				                        	<c:forEach var="drp" items="${drplist }">
-				                       			<img src="resources/druploadFiles/${drp.drp_rename }">
+				                       			<img class="drp_item" data-toggle="modal" data-target="#myModal" src="resources/druploadFiles/${drp.drp_rename }">
 				                       			<input type="hidden" name="drp_no" value="${drp.drp_no }">
 				                       			<input type="hidden" name="drp_rename" value="${drp.drp_rename }">
 				                        	</c:forEach>
@@ -323,8 +358,34 @@
             </form>
         </div>
     </div>
+    
+    <!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-body">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <div><img class="origin-photo"></img></div>
+	      </div>
+	    </div>
+	  </div>
+  	</div>
+
 
     <script>
+    
+    	$(".drp_item").on("click", function(){
+    		
+    		// get the src of the image
+    	       var image_src = $(this).attr('src');
+
+    			console.log("image_src : " + image_src);
+    	       // assign it to the modal's body
+    	      $(".origin-photo").attr('src',image_src);
+    	      
+    	      
+    		
+    	})
     
     	function editDailyRecordView() {
     		

@@ -273,19 +273,19 @@
                 <table cellpadding="6px">
                     <tr>
                         <td>Name</td>
-                        <td><input type="text" name="mb_title" id="mb_title" placeholder="저장할 장소의 이름을 입력해 주세요." required></td>
+                        <td><input type="text" name="mb_title" id="mb_title" maxlength="16" placeholder="저장할 장소의 이름을 입력해 주세요." required></td>
                     </tr>
                     <tr>
                         <td>Tell</td>
-                        <td><input type="text" name="mb_phone" id="mb_phone" placeholder="전화번호를 입력해 주세요."></td>
+                        <td><input type="text" name="mb_phone" id="mb_phone" maxlength="16" placeholder="전화번호를 입력해 주세요."></td>
                     </tr>
                     <tr>
                         <td>Time</td>
-                        <td><textarea class="b-content-1" name="mb_time" id="mb_time" placeholder="운영 시간을 입력해 주세요."></textarea></td>
+                        <td><textarea class="b-content-1" name="mb_time" id="mb_time" maxlength="160" placeholder="운영 시간을 입력해 주세요."></textarea></td>
                     </tr>
                     <tr>
                         <td>Memo</td>
-                        <td><textarea class="b-content-2" name="mb_memo" id="mb_memo"></textarea></td>
+                        <td><textarea class="b-content-2" name="mb_memo" id="mb_memo" maxlength="160"></textarea></td>
                     </tr>
                     <tr>
                         <td>Address</td>

@@ -191,6 +191,7 @@
             justify-content: flex-end;
             margin-top: 10px;
             width: 100%;
+            position: relative;
 	    }
 	
         .button-area > button {
@@ -264,7 +265,14 @@
 
         .map-item > span:nth-child(1) {
             font-weight: 700;
-    		font-size: 15px;
+		    font-size: 15px;
+		    display: inline-block;
+		    vertical-align: middle;
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+		    white-space: nowrap;
+		    width: 88%;
+		    text-align: left;
         }
         
         .map-item > span:nth-child(2) {
@@ -384,7 +392,7 @@
 		}
 		
 		.carousel-cell > div:nth-child(2) {
-		    margin-left: 15px;
+		    margin-left: 5px;
 		}
 		
 		.carousel-cell > div:nth-child(3) {
@@ -577,6 +585,24 @@
 			font-size:15px !important;
 			margin-right: 8px;
 		}
+		
+		.tri-main {
+			right: 179px;
+			top: -20px;
+			border: none;
+			border-right: 1px solid #f9dfdf;
+			border-bottom: 1px solid #f9dfdf;
+		}
+		
+		.bl_title {
+			display: inline-block;
+            vertical-align: middle;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 60%;
+    		text-align: left;
+		}
 	
 
 
@@ -592,33 +618,33 @@
                  <!-- 슬라이드 -->
             <div style="width: 100%">
 	            <div class="carousel" data-flickity='{ "draggable": true }' style="width: 100%">
-					<c:forEach var="bm" items="${bm }">
-						<input class="bl_color" id="bl_color" type="hidden" name="bl_con" value="${bm.bl_color }">
-						<input id="bl_con" type="hidden" name="bl_con" value="${bm.bl_con }">
-						<input id="bl_type" type="hidden" name="bl_type" value="${bm.bl_type }">
-						<input class="${bm.bl_no }" id="bl_no" type="hidden" name="bl_no" value="${bm.bl_no }">
-						<div class="carousel-cell" style="background:${bm.bl_color }">
-				  			<div class="image-area">
-				  				<c:if test="${empty bm.bl_rename }">
-									<c:if test="${bm.bl_type eq 'url'}">
-										<span class="material-icons">link</span>
-									</c:if>
-									<c:if test="${bm.bl_type eq 'map'}">
-										<span class="material-icons">place</span>
-									</c:if>
-			                   	</c:if>
-			                   	<c:if test="${!empty bm.bl_rename }">
-			                   		<img class="image" src="resources/bluploadFiles/${bm.bl_rename }">
-			                   	</c:if>
-			                </div>
-							<div class="bl_title">
-								${bm.bl_title }
+						<c:forEach var="bm" items="${bm }">
+							<input class="bl_color" id="bl_color" type="hidden" name="bl_con" value="${bm.bl_color }">
+							<input id="bl_con" type="hidden" name="bl_con" value="${bm.bl_con }">
+							<input id="bl_type" type="hidden" name="bl_type" value="${bm.bl_type }">
+							<input class="${bm.bl_no }" id="bl_no" type="hidden" name="bl_no" value="${bm.bl_no }">
+							<div class="carousel-cell" style="background:${bm.bl_color }">
+					  			<div class="image-area">
+					  				<c:if test="${empty bm.bl_rename }">
+										<c:if test="${bm.bl_type eq 'url'}">
+											<span class="material-icons">link</span>
+										</c:if>
+										<c:if test="${bm.bl_type eq 'map'}">
+											<span class="material-icons">place</span>
+										</c:if>
+				                   	</c:if>
+				                   	<c:if test="${!empty bm.bl_rename }">
+				                   		<img class="image" src="resources/bluploadFiles/${bm.bl_rename }">
+				                   	</c:if>
+				                </div>
+								<div class="bl_title">
+									${bm.bl_title }
+								</div>
+								<div>
+									3
+								</div>
 							</div>
-							<div>
-								3
-							</div>
-						</div>
-					</c:forEach>
+						</c:forEach>
 				</div>
 			</div>
 
@@ -627,6 +653,10 @@
                 <button type = "button" onclick="location.href='addBookmarkView.do'">Add</button>
                 <button type = "button" onclick="editBookmark();">Edit</button>
                 <button type = "button" onclick="deleteBookmark();">Delete</button>
+                <c:if test="${empty bm }">
+            		<div class='tri tri-main' style='padding:0;'></div>
+            		<div class='message' style="top: -68px;">북마크 그룹을 추가해 주세요.</div>
+	            </c:if>
                 <!-- <button type = "button" data-toggle="modal" data-target="#select-type">Add</button> -->
             </div>
             <!-- Button End-->
@@ -889,7 +919,16 @@
 		   						var item = "<div class='url-item' id='"+ data.ubl[i].ub_no +"'>";
 		   						var name = "<span>" + data.ubl[i].ub_title + "</span>";
 		   						var con = "<span>" + data.ubl[i].ub_con + "</span>";
-		   						var url = "<span><span class='material-icons de'>link</span> <a class='link' href='"+data.ubl[i].ub_url+"'>" + data.ubl[i].ub_url + "</a><div class='message'></div></span>";
+		   						if(data.ubl[i].ub_url !=null){
+		   						
+		   							var url = "<span><span class='material-icons de'>link</span> <a class='link' target='_blank' href='"+data.ubl[i].ub_url+"'>" + data.ubl[i].ub_url + "</a></span>";
+		   						
+		   						}else {
+		   							
+		   							var url =  "<span><span class='material-icons de'>link</span></span>";
+			   						
+		   						}
+		   						
 		   						var no = "<input type = 'hidden' class='ub_no' value='" + data.ubl[i].ub_no + "'>";
 		   						var end = "</div>"
 		   						
@@ -1139,8 +1178,14 @@
 	        // 북마크 그룹 삭제 버튼 클릭시 실행
 	        function deleteBookmark() {
 	        	
-	        	var bl_no = $(".clicked").prev().val();
-	        	location.href="deleteBookmark.do?bl_no="+ bl_no;
+	            if(!confirm('정말 삭제하시겠습니까?')){
+	            	return false;
+	            }else {
+	        	
+		        	var bl_no = $(".clicked").prev().val();
+		        	location.href="deleteBookmark.do?bl_no="+ bl_no;
+	        	
+	            }
 	        	
 	        }
 	        

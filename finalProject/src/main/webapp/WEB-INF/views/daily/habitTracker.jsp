@@ -252,6 +252,7 @@
             justify-content: flex-end;
             margin-top: 10px;
             width: 100%;
+            position: relative;
 	    }
 	
         .button-area > button {
@@ -317,11 +318,22 @@
 		}
 	 
 		.bar-info > div:nth-child(1) {
+		    line-height: initial;
 			color: #484848;
 			font-weight: 600;
 			font-size: 20px;
-			height: 20px;
+			height: 35px;
+			margin-top: -5px;
 		}
+		
+		.ht_title_ {
+        	 display: inline-block;
+            vertical-align: middle;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 75%;
+        }
 		
 		.progress > div:nth-child(3) {
 			position: absolute;
@@ -595,6 +607,61 @@
 		    color: gray !important;
         }
         
+        .message {
+			position: absolute;
+		    top: 57px;
+		    right: 100px;
+		    border: 1px solid #f8dbdb;
+		    background: rgb(255 247 247);
+		    width: 500px;
+		    height: 56px;
+		    display: flex;
+		    border-radius: 10px;
+		    justify-content: center;
+		    align-items: center;
+		}
+		
+		.tri {
+			position: absolute;
+		    background: #fff7f7;
+		    right: 163px;
+		    top: 50px;
+		    width: 15px;
+		    height: 15px;
+		    transform: rotate(45deg);
+		    border-left: 1px solid #f9dfdf;
+		    border-top: 1px solid #f9dfdf;
+		    z-index: 1;
+		}
+		
+		.tri {
+	    animation: fadein 0.7s;
+	    -webkit-animation: fadein 0.7s; /* Safari and Chrome */
+		}
+		
+		.message {
+		 animation: fadein 0.7s;
+	    -webkit-animation: fadein 0.7s; /* Safari and Chrome */
+		}
+		
+		@-webkit-keyframes fadein { /* Safari and Chrome */
+		    from {
+		        opacity:0;
+		    }
+		    to {
+		        opacity:1;
+		    }
+		}
+        
+        .tri-main {
+			right: 179px;
+			top: -20px;
+			border: none;
+			border-right: 1px solid #f9dfdf;
+			border-bottom: 1px solid #f9dfdf;
+		}
+        
+      
         
 
 		
@@ -622,7 +689,7 @@
 					<div class="progress carousel-cell habitItem ${h.ht_cycle }">
 				  		<div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:${percent }%; background-color:${h.ht_color};"></div>
 			    		<div class="bar-info">
-							<div class="ht_title">${h.ht_title }</div>
+							<div class="ht_title ht_title_">${h.ht_title }</div>
 							<div>
 								<c:set var="now" value="${h.ht_now }"/>
 								<c:if test="${empty now}">
@@ -648,6 +715,10 @@
                 <button onclick="location.href='addHabitView.do'">Add</button>
                 <button id="d-btn">Delete</button>
                 <button id="e-btn">Edit</button>
+                <c:if test="${empty hlist }">
+            		<div class='tri tri-main' style="padding:0;"></div>
+            		<div class='message' style="top: -68px;">습관을 추가해 주세요.</div>
+	            </c:if>
             </div>
 
     		<!-- 내용 -->
@@ -720,7 +791,7 @@
 					    </div>
 					    <div class="memo-area">
 					      	<div>Memo</div>
-					      	<input id="htr_con" name="htr_con" type="text">
+					      	<input id="htr_con" name="htr_con" type="text" maxlength="16">
 					    </div>
 					    <div class="small-button-area">
 	           				<button type="button" onclick="countModal();">Save</button>
@@ -742,7 +813,7 @@
 				      		<div></div>
 					    </div>
 					    <div class="comment-area">
-					      	<textarea id="ht_comment"></textarea>
+					      	<textarea id="ht_comment" maxlength="160"></textarea>
 					    </div>
 					    <div class="small-button-area">
 	           				<button type="button" onclick="editCommentModal();">Save</button>

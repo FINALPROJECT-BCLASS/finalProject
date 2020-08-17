@@ -328,7 +328,7 @@
 	                <table cellpadding="6px">
 	                    <tr>
 	                        <td>Title</td>
-	                        <td><input type="text" name="bl_title" required></td>
+	                        <td><input type="text" name="bl_title" maxlength="16" required></td>
 	                    </tr>
 	                    <tr>
 	                        <td>Type</td>
@@ -359,7 +359,7 @@
                     </tr>
 	                    <tr>
 	                        <td>Content</td>
-	                        <td><textarea class="b-content" name="bl_con" required></textarea></td>
+	                        <td><textarea class="b-content" name="bl_con" maxlength="160" required></textarea></td>
 	                    </tr>
 	                    <tr>
 	                        <td>Image</td>

@@ -204,7 +204,7 @@
                 <table cellpadding="6px">
                     <tr>
                         <td>Title</td>
-                        <td><input type="text" id="dr_title" name="dr_title"></td>
+                        <td><input type="text" id="dr_title" name="dr_title" maxlength="16"></td>
                     </tr>
                     <tr>
                         <td>Date</td>
@@ -249,7 +249,7 @@
                     </tr>
                     <tr>
                         <td>Content</td>
-                        <td><textarea class="b-content" name="dr_con"></textarea></td>
+                        <td><textarea class="b-content" name="dr_con" maxlength="1300"></textarea></td>
                     </tr>
                     <tr>
                         <td>Photos</td>
@@ -271,7 +271,7 @@
                     </tr>
                 </table>
                 <div class="button-area">
-                    <button type="button">Back</button>
+                    <button type="button" onclick="history.go(-1)">Back</button>
                     <button type="button" onclick="submit_btn()">Save</button>
                 </div>
                 <input type="hidden" id="upFile" name="upFile">

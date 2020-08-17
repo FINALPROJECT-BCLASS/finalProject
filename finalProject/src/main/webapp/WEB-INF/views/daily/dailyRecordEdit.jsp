@@ -269,7 +269,7 @@
                 <table cellpadding="6px">
                     <tr>
                         <td>Title</td>
-                        <td><input type="text" id="dr_title" name="dr_title" value="${dr.dr_title }"></td>
+                        <td><input type="text" id="dr_title" name="dr_title" maxlength="16" value="${dr.dr_title }"></td>
                     </tr>
                     <tr>
                         <td>Date</td>
@@ -314,7 +314,7 @@
                     </tr>
                     <tr>
                         <td>Content</td>
-                        <td><textarea class="b-content" name="dr_con">${dr.dr_con }</textarea></td>
+                        <td><textarea class="b-content" name="dr_con" maxlength="1300">${dr.dr_con }</textarea></td>
                     </tr>
                     <tr>
                         <td>Photos</td>
