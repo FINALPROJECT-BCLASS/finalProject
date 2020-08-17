@@ -15,6 +15,7 @@ import com.kh.finalProject.daily.model.vo.DailyRecordPhoto;
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
 import com.kh.finalProject.daily.model.vo.HabitSum;
+import com.kh.finalProject.group.common.PageInfo;
 
 @Service("dailyService")
 public class DailyServiceImpl implements DailyService {
@@ -247,9 +248,9 @@ public class DailyServiceImpl implements DailyService {
 	}
 
 	@Override
-	public ArrayList<DailyRecord> selectDailyRecordList(String id) {
+	public ArrayList<DailyRecord> selectDailyRecordList(String id, PageInfo pi) {
 
-		return dailyDao.selectDailyRecordList(id);
+		return dailyDao.selectDailyRecordList(id, pi);
 	}
 
 	@Override
@@ -281,6 +282,51 @@ public class DailyServiceImpl implements DailyService {
 
 		return dailyDao.updateDailyRecordThumbnail(drp);
 	}
+
+	@Override
+	public int updateDailyRecordPhoto(String drp_no) {
+
+		return dailyDao.updateDailyRecordPhoto(drp_no);
+	}
+
+	@Override
+	public int updateDailyRecord(DailyRecord dr) {
+		
+		return dailyDao.updateDailyRecord(dr);
+	}
+
+	@Override
+	public int deleteDailyRecord(HashMap<String, String> map) {
+
+		return dailyDao.deleteDailyRecord(map);
+	}
+
+	@Override
+	public ArrayList<DailyRecord> selectDailyRecordList_a(String id) {
+
+		return dailyDao.selectDailyRecordList_a(id);
+	}
+
+	@Override
+	public int getListCount(String id) {
+
+		return dailyDao.getListCount(id);
+	}
+
+	@Override
+	public int getListCountSearch(HashMap<String, String> map) {
+
+		return dailyDao.getListCountSearch(map);
+	}
+
+	@Override
+	public ArrayList<DailyRecord> selectDailyRecordSearchList(HashMap<String, String> map, PageInfo pi) {
+		
+		return dailyDao.selectDailyRecordSearchList(map, pi);
+	}
+	
+
+
 
 
 	

@@ -167,7 +167,7 @@
         }
         .totalBox, #groupWrite{
         	display:inline-block;
-        	width:30%;
+        	
         }
        
          .join-form-area{top:-40px; padding-top:150px !important;position:relative; float: right;display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 40px; width: 81%; background: #F3F3F3; }
@@ -179,10 +179,13 @@
          
          .bodyBox{width:100%; margin:0 auto;}
          .itemBox{width:65%; display:inline-block;}
-         .memoBox{width:10%; display:inline-block; margin:0 auto;position: absolute;right: 0%; overflow-y:scroll; height:980px;width:300px;  }
+         .memoBox{margin-top: 100px; width:10%; display:inline-block; position: absolute;right: 0%; overflow-y:scroll; height:980px;width:300px;  }
          .shareMemo{border-radius:6px;margin-bottom: 10px;padding:20px; background:#FBD14B; width:260px; height:250px; margin: 10px; }
          .memberCheck{width: 17px; height:17px;}
          .cansle{text-align:right; cursor:pointer; color:gray; font-weight:600;}
+         
+         .writeBtn{margin-left:80px;color:#aeaeae !important; font-size:50px !important; cursor:pointer; padding:0 !important;}
+  		 .writeBtn:hover{margin-left:80px;color:#2860E1 !important; font-size:50px !important; cursor:pointer; padding:0 !important;}
     </style>
 </head>
 
@@ -222,9 +225,10 @@
                     	</td>
                     </tr>
                 </table>
+                <br>
                   <div id='calendar'></div>
                  </div>  
-   				 
+   				
      <div class="memoBox">
      	<c:forEach var="c" items="${checkList }">
 	     	<div class="shareMemo">
@@ -295,7 +299,15 @@
      </div>       
 	</div>
 
-    <jsp:include page="../common/footer.jsp"/>	
+    <jsp:include page="../common/footer.jsp"/>
+    	
+	<!-- 작성하기 -->
+	 <script>
+	 	$(".writeBtn").click(function(){
+	 		location.href="insertAccountView.do";
+	 	})
+	 </script>
+	
 	
 	<!-- 메모 체크 -->
 	<script>

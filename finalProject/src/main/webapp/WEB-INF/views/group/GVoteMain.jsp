@@ -45,7 +45,8 @@
 	#groupWrite {text-align:right; width:100%; height: 50px; margin-right:40px; margin-bottom:10px; border:none;}
     .groupWrite {width:50 px; height:40px; cursor: pointer; border-radius: 5px;} 
     button {margin-bottom: 10px; margin-right:40px; background:none; border:0;}
-	.writeBtn{color:#2860E1 !important; font-size:60px !important;  text-shadow: 1.5px 1.5px 1.5px gray !important; cursor:pointer;}
+	.writeBtn{margin-right:30px;color:#aeaeae !important; font-size:50px !important; cursor:pointer; padding:0 !important;}
+    .writeBtn:hover{margin-right:30px;color:#2860E1 !important; font-size:50px !important; cursor:pointer; padding:0 !important;}
 	
 	.groupListCount{width:99%; margin-bottom:10px; text-align:right;}
 	.emptyNoticeList{margin-top:100px; text-align:center; font-size:20px; font-weight:600;}

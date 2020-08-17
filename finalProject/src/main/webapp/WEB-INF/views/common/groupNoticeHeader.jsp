@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,8 +35,8 @@
 </head>
 <body>
 	<!-- 공지사항 -->
+<c:if test="${!empty noticeList }">
 	<div class="noticeText">
-	   	<c:if test="${!empty noticeList }">
         <table class="noticeTb">
           <tr>
 	          <td><span class="material-icons noticeIcon">campaign</span></td>
@@ -45,7 +46,7 @@
           <tr><td></td><td><div class="noticeDate">${noticeList.gnDate }</div></td></tr>
           <tr><td></td><td><div class="noticeContent">${noticeList.gnCon }</div></td></tr>
         </table>
-        </c:if>
       </div>
+</c:if>      
 </body>
 </html>

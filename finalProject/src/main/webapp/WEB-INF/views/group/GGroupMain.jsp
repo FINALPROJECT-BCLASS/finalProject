@@ -10,20 +10,34 @@
     body{background: #F3F3F3;}
     h1, h4{margin-top:20px; text-align:center;}
     
-    #writeBtn { width:50px; height: 50px; margin-right:40px; margin-bottom:10px;}
+    
     button {float:right; margin-bottom: 10px; margin-right:40px; background:none; border:0;}
 
     .groupTb {border-spacing: 20px; border-collapse: separate;}
-    .groupTb td{padding:20px; margin:20px; border:1px solid lightgrey; border-radius: 7px; background:white;}
+    .groupTb td{display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 350px;
+    height: 326px;
+    padding: 20px;
+    margin: 20px;
+    border: 1px solid lightgrey;
+    border-radius: 7px;
+    background: white;}
     
     #gropTbForm{margin-bottom:70px;}
     
     a{background: #F3F3F3;}
-    p{text-align:center; margin-top:5px;}
-    .groupImg {width:300px; height:250px; cursor: pointer; border-radius: 6px;}
+    p{/* text-align:center; margin-top:5px; */ margin:0;}
+    .groupImg {    width: 195px;
+    /* height: 250px; */
+    cursor: pointer;
+    border-radius: 6px;}
 
 	/* 글쓰기 버튼 */
-	.writeBtn{color:#2860E1 !important; font-size:60px !important; margin-right:30px;}
+	.writeBtn{margin-right:30px;color:#aeaeae !important; font-size:50px !important; cursor:pointer; padding:0 !important;}
+    .writeBtn:hover{margin-right:30px;color:#2860E1 !important; font-size:50px !important; cursor:pointer; padding:0 !important;}
 	
 
     /* tooltip 색상 변경 css */
@@ -70,7 +84,7 @@
 	    
 	    <h4>What we have created</h4>
 	
-	    <button id="groupWrite" onclick="location.href='groupInsertView.do'" ><span class="material-icons writeBtn">create</span></button>
+	    <button id="groupWrite"  class="writeBtn" onclick="location.href='groupInsertView.do'" ><span class="material-icons writeBtn">create</span></button>
 	
 	    <div style="clear:both"></div>
 
@@ -82,7 +96,7 @@
 		        		<tr></tr>
 		        	</c:if>
 		        	
-		            <td>
+		            <td style="box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.048);">
 		            	<c:url var="groupCalendar" value="sessionCreate.do">
 								<c:param name="loginUser" value="${sessionScope.loginUser}"/>
 								<c:param name="groupNo" value="${g.gNo}"/>
@@ -90,7 +104,7 @@
 						
 		                <a href="${groupCalendar }" data-toggle="tooltip" data-placement="bottom" title="${g.gName }">
 		                	<c:if test="${empty g.gOrigin }">
-		                		<img class="groupImg" src="resources/groupMainFiles/empty_groupMain.png">
+		                		<img class="groupImg" src="resources/groupMainFiles/group1.png">
 		                	</c:if>
 		                	<c:if test="${!empty g.gOrigin  }">
 		                    	 <img class="groupImg" src="resources/groupMainFiles/${g.gOrigin}">

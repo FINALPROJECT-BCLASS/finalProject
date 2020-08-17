@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -214,21 +215,16 @@ public class GroupController {
 		return filePath;
 	}
 	
-	// 그룹 수정
-	@RequestMapping(value = "voteSettings.do", method = RequestMethod.GET)
-	public ModelAndView voteSettings(ModelAndView mv, HttpSession session) {
+	// 그룹 삭제
+	@RequestMapping(value = "deleteGroup.do", method = RequestMethod.GET)
+	public ModelAndView deleteGroup(ModelAndView mv, HttpSession session,
+			@RequestParam(value="groupNo", required = false ) String groupNo) {
 		GroupInfo gInfo = (GroupInfo)session.getAttribute("gInfo");
+		System.out.println("groupNo : " + groupNo);
 
-		// 원래는 selectOne이었음
-		GroupTable gt = gService.selectOneGroup(gInfo);
-		System.out.println("수정가지전 gt : " + gt);
-		
-		ArrayList<GroupMember> memberList = gService.selectGroupMemberList(gInfo);
-		
-		System.out.println("수정가기전 memberList :" + memberList);
-		mv.addObject("memberList", memberList);
-		mv.addObject("groupTable", gt);
-		mv.setViewName("group/GGroupUpdate");
+		int result = gService.deleteGroup(groupNo);
+		System.out.println("그룹삭제 result : " + result);
+		mv.setViewName("redirect:groupSessionDelete.do");
 		return mv;
 	}
 	
@@ -340,12 +336,6 @@ public class GroupController {
 						int updateResult = gService.updateMember(gm);
 						System.out.println("updateResult : " + updateResult);
 					}
-
-//					System.out.println("그룹 생성 memberList : " + memberList);
-					
-					// GROUP_MEMBER INSERT
-//					int memberResult = gService.groupMemberInsert(memberList);
-//					System.out.println("수정 memberResult : " + memberResult);
 				}
 				return "group/GCalendarMain";
 			} else {
@@ -353,6 +343,24 @@ public class GroupController {
 			}
 		}
 	
+		// 그룹 수정
+		@RequestMapping(value = "voteSettings.do", method = RequestMethod.GET)
+		public ModelAndView voteSettings(ModelAndView mv, HttpSession session) {
+			GroupInfo gInfo = (GroupInfo)session.getAttribute("gInfo");
+
+			// 원래는 selectOne이었음
+			GroupTable gt = gService.selectOneGroup(gInfo);
+			System.out.println("수정가지전 gt : " + gt);
+			
+			ArrayList<GroupMember> memberList = gService.selectGroupMemberList(gInfo);
+			
+			System.out.println("수정가기전 memberList :" + memberList);
+			mv.addObject("gInfo", gInfo);
+			mv.addObject("memberList", memberList);
+			mv.addObject("groupTable", gt);
+			mv.setViewName("group/GGroupUpdate");
+			return mv;
+		}
 		
 	// ---------------------------------- 그룹 메인 & 생성 end// -------------------------------------------
 
@@ -679,16 +687,12 @@ public class GroupController {
 		GroupNotice noticeList = gService.selectNoticeOne(gInfo);
 		GroupTable gt = gService.selectOneGroup(gInfo);
 		
-		System.out.println("게시판 메인 gInfo : " + gInfo);
-		System.out.println("게시판 메인 searchKind : " + searchKind);
-		System.out.println("게시판 메인 searchCon : " + searchCon);
-		
 		int currentPage = 1;
 		if (page != null) {
 			int Cpage = Integer.parseInt(page);
 			currentPage = Cpage;
 		}
-		
+		  
 		String kind = "";
 		if(searchKind != null) {
 			kind = searchKind;
@@ -704,7 +708,6 @@ public class GroupController {
 		
 		gb.setCurrentGmNo(gInfo.getGmNo());
 		gb.setCurrentGroupNo(gInfo.getGroupNo());
-		System.out.println("메인 gb : " + gb);
 		int listCount = gService.boardGetListCount(gb);
 		
 		System.out.println("listCount : " + listCount);
@@ -729,6 +732,9 @@ public class GroupController {
 			@RequestParam(value = "searchCon", required = false) String searchCon) throws IOException {
 		GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 		Member loginUser = (Member) session.getAttribute("loginUser");
+		
+		System.out.println("page : " + page);
+		
 		int currentPage = 1;
 		if (page != null) {
 			int Cpage = Integer.parseInt(page);
@@ -762,13 +768,12 @@ public class GroupController {
 		// 게시판 목록
 		ArrayList<GroupBoard> boardList = gService.selectBoardList(pi);
 		
-		System.out.println("boardList : " + boardList);
 		// 사진 목록
 		ArrayList<GroupBoardPhoto> photoList = gService.selectPhotoList(pi);
-
+		
 		// 좋아요 total
 		ArrayList<GroupLike> likeList = gService.totalLike();
-
+		
 		// 댓글 total
 		ArrayList<GroupReply> replyList = gService.totalReply();
 		ArrayList<GroupReReply> reReplyList = gService.totalReReply();
@@ -1178,8 +1183,7 @@ public class GroupController {
 		// 게시판 작성
 		@RequestMapping(value = "boardInsert.do", method = RequestMethod.POST)
 		public String boardInsert(HttpSession session, GroupBoard gb, HttpServletRequest request,
-				@RequestParam(name = "uploadFile1", required = false) MultipartFile uploadFile1
-				) {
+				@RequestParam(value="file", required=false) List<MultipartFile> file) {
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 			
 			gb.setGmNo(gInfo.getGmNo());
@@ -1195,25 +1199,30 @@ public class GroupController {
 			// 최근 게시판 시퀀스 조회
 			int gbNo = gService.selectGbNo();
 			System.out.println("게시판 작성 gbNo : " + gbNo);
-			// 게시판 사진 파일 저장 
-			if (!uploadFile1.getOriginalFilename().contentEquals("")) { // 빈파일이 아니라면
-				String savePath = boardSaveFile(uploadFile1, request);
-				if (savePath != null) { // 파일이 잘 저장된 경우
-					GroupBoardPhoto gbp = new GroupBoardPhoto(); 
-					gbp.setGbNo(gbNo);
-					gbp.setGmNo(gInfo.getGmNo());
-					gbp.setgNo(gInfo.getGroupNo());
-					gbp.setGbpOrigin(uploadFile1.getOriginalFilename());
-					gbp.setGbpRename(uploadFile1.getOriginalFilename());
-					
-					photoList.add(gbp);
-
-				}
-			}
-			System.out.println("게시판 생성 photoList: " +photoList);
-			int boardPhotoInsert = gService.insertBoardPhoto(photoList);
-			System.out.println("게시판 생성 boardPhotoInsert : " + boardPhotoInsert);
 			
+			// 게시판 사진 파일 저장 
+			if(!file.isEmpty()) {
+				
+				for(MultipartFile mf : file) {
+					String originFileName = mf.getOriginalFilename();
+					String savePath = boardSaveFile(mf, request);
+					if (savePath != null) { // 파일이 잘 저장된 경우
+						GroupBoardPhoto gbp = new GroupBoardPhoto(); 
+						gbp.setGbNo(gbNo);
+						gbp.setGmNo(gInfo.getGmNo());
+						gbp.setgNo(gInfo.getGroupNo());
+						gbp.setGbpOrigin(originFileName);
+						gbp.setGbpRename(originFileName);
+						
+						System.out.println("게시판 작성 gbp : "+ gbp);
+						int boardPhotoInsert = gService.insertBoardPhoto(gbp);
+						System.out.println("boardPhotoInsert : " + boardPhotoInsert);
+					}
+					
+				}
+				
+			}
+
 			
 			return "redirect:boardMain.do";
 			
@@ -1252,21 +1261,19 @@ public class GroupController {
 		// 게시판 수정
 		@RequestMapping(value = "updateBoard.do", method = RequestMethod.POST)
 		public String boardUpdate(HttpSession session, GroupBoard gb, HttpServletRequest request,
-				@RequestParam(name = "uploadFile1", required = false) MultipartFile uploadFile1,
-				@RequestParam(name = "uploadFile2", required = false) MultipartFile uploadFile2,
-				@RequestParam(name = "uploadFile3", required = false) MultipartFile uploadFile3,
-				@RequestParam(name = "uploadFile4", required = false) MultipartFile uploadFile4,
-				@RequestParam(name = "uploadFile5", required = false) MultipartFile uploadFile5
-				) {
+				@RequestParam(value="file", required=false) List<MultipartFile> file,
+				@RequestParam(value="beforeFile", required=false) List<MultipartFile> beforeFile) {
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 			GroupTable gt = gService.selectOneGroup(gInfo);
 			
-			System.out.println("게시판 수정  gb  :" + gb);
-			GroupBoardPhoto gbp = new GroupBoardPhoto();			
-			String gbNo = gb.getGbNo();
-			ArrayList<GroupBoardPhoto> photoList = gService.selectDetailPhotoList(gbNo);
 			
 			int boardUpdateResult = gService.updateBoard(gb);
+			
+			
+				String gbNo = gb.getGbNo();
+				ArrayList<GroupBoardPhoto> photoList = gService.selectDetailPhotoList(gbNo);
+				
+			
 			
 			for(GroupBoardPhoto p : photoList) {
 				if(p.getGbpOrigin() != null) {
@@ -1276,85 +1283,32 @@ public class GroupController {
 			
 			
 			int photoResult = gService.deletePhoto(gbNo);
+			System.out.println("게시판 수정 사진삭제 : " + photoResult);
 			
 			photoList.removeAll(photoList);
-			
-			System.out.println("게시판 수정 팡일:" + uploadFile1);
-			// 게시판 사진 파일 저장 
-			
-			if (!uploadFile1.getOriginalFilename().contentEquals("")) { // 빈파일이 아니라면
-				String savePath = boardSaveFile(uploadFile1, request);
-				if (savePath != null) { // 파일이 잘 저장된 경우
-					gbp = new GroupBoardPhoto(); 
-					gbp.setGbNo(Integer.valueOf(gbNo));
-					gbp.setGmNo(gInfo.getGmNo());
-					gbp.setgNo(gInfo.getGroupNo());
-					gbp.setGbpOrigin(uploadFile1.getOriginalFilename());
-					gbp.setGbpRename(uploadFile1.getOriginalFilename());
-					
-					photoList.add(gbp);
-				}
-			}
-			
-			if (!uploadFile2.getOriginalFilename().contentEquals("")) { // 빈파일이 아니라면
-				String savePath = boardSaveFile(uploadFile2, request);
-				if (savePath != null) { // 파일이 잘 저장된 경우
-					gbp = new GroupBoardPhoto();
-					gbp.setGbNo(Integer.valueOf(gbNo));
-					gbp.setGmNo(gInfo.getGmNo());
-					gbp.setgNo(gInfo.getGroupNo());
-					gbp.setGbpOrigin(uploadFile2.getOriginalFilename());
-					gbp.setGbpRename(uploadFile2.getOriginalFilename());
-					
-					photoList.add(gbp);
-				}
-			}
-			
-			if (!uploadFile3.getOriginalFilename().contentEquals("")) { // 빈파일이 아니라면
-				String savePath = boardSaveFile(uploadFile3, request);
-				if (savePath != null) { // 파일이 잘 저장된 경우
-					gbp = new GroupBoardPhoto();
-					gbp.setGbNo(Integer.valueOf(gbNo));
-					gbp.setGmNo(gInfo.getGmNo());
-					gbp.setgNo(gInfo.getGroupNo());
-					gbp.setGbpOrigin(uploadFile3.getOriginalFilename());
-					gbp.setGbpRename(uploadFile3.getOriginalFilename());
-					
-					photoList.add(gbp);
-				}
-			}
-			
-			if (!uploadFile4.getOriginalFilename().contentEquals("")) { // 빈파일이 아니라면
-				String savePath = boardSaveFile(uploadFile4, request);
-				if (savePath != null) { // 파일이 잘 저장된 경우
-					gbp = new GroupBoardPhoto();
-					gbp.setGbNo(Integer.valueOf(gbNo));
-					gbp.setGmNo(gInfo.getGmNo());
-					gbp.setgNo(gInfo.getGroupNo());
-					gbp.setGbpOrigin(uploadFile4.getOriginalFilename());
-					gbp.setGbpRename(uploadFile4.getOriginalFilename());
-					
-					photoList.add(gbp);
-				}
-			}
-			
-			if (!uploadFile5.getOriginalFilename().contentEquals("")) { // 빈파일이 아니라면
-				String savePath = boardSaveFile(uploadFile5, request);
-				if (savePath != null) { // 파일이 잘 저장된 경우
-					gbp = new GroupBoardPhoto();
-					gbp.setGbNo(Integer.valueOf(gbNo));
-					gbp.setGmNo(gInfo.getGmNo());
-					gbp.setgNo(gInfo.getGroupNo());
-					gbp.setGbpOrigin(uploadFile5.getOriginalFilename());
-					gbp.setGbpRename(uploadFile5.getOriginalFilename());
 
-					photoList.add(gbp);
+			// 게시판 사진 파일 저장 
+			if(!file.isEmpty()) {
+			for(MultipartFile mf : file) {
+				String originFileName = mf.getOriginalFilename();
+				String savePath = boardSaveFile(mf, request);
+				if (savePath != null) { // 파일이 잘 저장된 경우
+					GroupBoardPhoto gbp = new GroupBoardPhoto(); 
+					gbp.setGbNo(Integer.valueOf(gb.getGbNo()));
+					gbp.setGmNo(gInfo.getGmNo());
+					gbp.setgNo(gInfo.getGroupNo());
+					gbp.setGbpOrigin(originFileName);
+					gbp.setGbpRename(originFileName);
+					
+					System.out.println("게시판 작성 gbp : "+ gbp);
+					int boardPhotoInsert = gService.insertBoardPhoto(gbp);
+					System.out.println("boardPhotoInsert : " + boardPhotoInsert);
 				}
+				
 			}
+				
 			
-			
-			int boardPhotoInsert = gService.insertBoardPhoto(photoList);
-			
+			}
 			
 			return "redirect:boardMain.do";
 			
@@ -1904,17 +1858,10 @@ public class GroupController {
 			ga.setgNo(gInfo.getGroupNo());
 			ga.setGmNo(gInfo.getGmNo());
 			
-			System.out.println("ga : " + ga);
 			
 			GroupAccount proTotalList = gService.selectTotalProList(ga);
 			GroupAccount expTotalList = gService.selectTotalExeList(ga);
 			GroupAccount feeTotalList = gService.selectTotalFeeList(ga);
-			
-				
-			
-			System.out.println("proTotalList : " + proTotalList);
-			System.out.println("expTotalList : " + expTotalList);
-			System.out.println("feeTotalList : " + feeTotalList);
 
 			response.setContentType("application/json;charset=utf-8");
 
@@ -1964,7 +1911,6 @@ public class GroupController {
 				@RequestParam(value = "gamAmount", required = false) String amount) {
 			Member loginUser = (Member) session.getAttribute("loginUser");
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
-			System.out.println("작성 ga : " + ga);
 			ga.setgNo(gInfo.getGroupNo());
 			ga.setGmNo(gInfo.getGmNo());
 			
@@ -2000,9 +1946,16 @@ public class GroupController {
 			Member loginUser = (Member) session.getAttribute("loginUser");
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 			GroupTable gt = gService.selectOneGroup(gInfo);
+			
 			GroupAccount gaList = gService.selectGa(gaNo);
 			ArrayList<GroupAccountMember> gamList = gService.selectGam(gaNo);
 			int totalAmount = gService.selectTotalGa(gaNo);
+			
+			System.out.println("상세 view gaList :" + gaList);
+			System.out.println("상세 view gamList :" + gamList);
+			System.out.println("상세 view totalAmount :" + totalAmount);
+			
+			
 			
 			mv.addObject("gInfo", gInfo);
 			mv.addObject("totalAmount", totalAmount);
@@ -2020,7 +1973,6 @@ public class GroupController {
 			Member loginUser = (Member) session.getAttribute("loginUser");
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 			GroupTable gt = gService.selectOneGroup(gInfo);
-			System.out.println("삭제 gaNo : " + gaNo);
 			
 			int result = gService.updateSharing(gaNo);
 			mv.setViewName("redirect:accountMain.do");
@@ -2033,7 +1985,6 @@ public class GroupController {
 				throws JsonIOException, IOException {
 			Member loginUser = (Member) session.getAttribute("loginUser");
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
-			System.out.println("체크 gam : " + gam);
 			
 			int result = gService.checkGam(gam);
 			
@@ -2051,13 +2002,96 @@ public class GroupController {
 			Member loginUser = (Member) session.getAttribute("loginUser");
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 			GroupTable gt = gService.selectOneGroup(gInfo);
-			System.out.println("삭제 gaNo : " + gaNo);
 			
 			int result = gService.deleteAccount(gaNo);
 			mv.setViewName("redirect:accountMain.do");
 				
 			return mv;
 		}
+		
+
+		// 가계부 수정 View
+		@RequestMapping(value = "accountUpdateView.do", method = RequestMethod.GET)
+		public ModelAndView accountUpdateView(ModelAndView mv, HttpSession session, 
+				@RequestParam(value = "gaNo", required = false) String gaNo) {
+			Member loginUser = (Member) session.getAttribute("loginUser");
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			GroupTable gt = gService.selectOneGroup(gInfo);
+			
+			GroupAccount gaList = gService.selectGa(gaNo);
+			ArrayList<GroupAccountMember> gamList = gService.selectGam(gaNo);
+			int totalAmount = gService.selectTotalGa(gaNo);
+
+			mv.addObject("gInfo", gInfo);
+			mv.addObject("totalAmount", totalAmount);
+			mv.addObject("groupTable", gt);
+			mv.addObject("gaList", gaList);
+			mv.addObject("gamList", gamList);
+			mv.setViewName("group/GAccoutUpdate");
+				
+			return mv;
+		}
+		
+		// 가계부 수정
+		@RequestMapping(value = "accountUpdate.do", method = RequestMethod.POST)
+		public ModelAndView accountUpdate(ModelAndView mv, HttpSession session, 
+				GroupAccount ga, GroupAccountMember gam,
+				@RequestParam(value = "gasYn", required = false) String gasYn,
+				@RequestParam(value = "gmNo", required = false) String gmNo,
+				@RequestParam(value = "gamAmount", required = false) String amount) {
+			Member loginUser = (Member) session.getAttribute("loginUser");
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			ga.setgNo(gInfo.getGroupNo());
+			ga.setGmNo(gInfo.getGmNo());
+			System.out.println("수정 ga : " + ga);
+			int result = gService.updateAccount(ga);
+			System.out.println("수정 result : " + result);
+			int deleteDam = gService.deleteAccountMember(ga);
+			System.out.println("수정 deleteDam : " + deleteDam);
+			String[] gmNos = gmNo.split(",");
+			String[] amounts = amount.split(",");
+			ArrayList<GroupAccountMember> gamList = new ArrayList<>();
+			for (int i = 0; i < gmNos.length; i++) {
+				gam = new GroupAccountMember();
+				
+				gam.setgNo(gInfo.getGroupNo());
+				gam.setGaNo(ga.getGaNo());
+				gam.setGamAmount(amounts[i]);
+				gam.setGmNo(Integer.valueOf(gmNos[i]));
+				gam.setGamDelete("N");
+				gam.setGamYn("N");
+
+				gamList.add(gam);
+			}
+			System.out.println("수정 gamList : "+ gamList);
+			
+			int memberResult = gService.insertAccountMember(gamList);			
+			System.out.println("수정 memberResult : " + memberResult);
+			mv.setViewName("redirect:accountMain.do");
+			return mv;
+		}
+		
+		// 가계부수정 이름검색
+		@RequestMapping(value = "searchNameAccountUpdate.do", method = RequestMethod.GET)
+		public void searchNameAccountUpdate(HttpSession session, HttpServletResponse response, String searchName, String gaNo)
+				throws JsonIOException, IOException {
+			Member loginUser = (Member) session.getAttribute("loginUser");
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			
+			gSearch.setLoginUserId(loginUser.getId());
+			gSearch.setSearchName(searchName);
+			gSearch.setgNo(gInfo.getGroupNo());
+			gSearch.setGaNo(gaNo);
+			
+			ArrayList<Member> list = gService.searchNameAccountUpdate(gSearch);
+
+			response.setContentType("application/json;charset=utf-8");
+
+			Gson gson = new GsonBuilder().setDateFormat("yyyy년 MM월 dd일").create();
+			gson.toJson(list, response.getWriter());
+
+		}
+		
 		
 		//------------------------------------------------ 가계부 end ---------------------------------------
 		// 사다리

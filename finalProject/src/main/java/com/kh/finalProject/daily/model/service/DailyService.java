@@ -11,6 +11,7 @@ import com.kh.finalProject.daily.model.vo.DailyRecordPhoto;
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
 import com.kh.finalProject.daily.model.vo.HabitSum;
+import com.kh.finalProject.group.common.PageInfo;
 
 public interface DailyService {
 
@@ -86,7 +87,7 @@ public interface DailyService {
 
 	int deleteBookmarkUrl(BookmarkUrl bu);
 
-	ArrayList<DailyRecord> selectDailyRecordList(String id);
+	ArrayList<DailyRecord> selectDailyRecordList(String id, PageInfo pi);
 
 	ArrayList<DailyRecordPhoto> selectDailyRecordPhotoList(String dr_no);
 
@@ -97,6 +98,20 @@ public interface DailyService {
 	DailyRecord selectDailyRecord(HashMap<String, String> map);
 
 	int updateDailyRecordThumbnail(DailyRecordPhoto drp);
+
+	int updateDailyRecordPhoto(String drp_no);
+	
+	int updateDailyRecord(DailyRecord dr);
+
+	int deleteDailyRecord(HashMap<String, String> map);
+
+	ArrayList<DailyRecord> selectDailyRecordList_a(String id);
+
+	int getListCount(String id);
+
+	int getListCountSearch(HashMap<String, String> map);
+
+	ArrayList<DailyRecord> selectDailyRecordSearchList(HashMap<String, String> map, PageInfo pi);
 
 
 

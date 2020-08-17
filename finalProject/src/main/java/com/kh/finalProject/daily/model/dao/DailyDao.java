@@ -3,6 +3,7 @@ package com.kh.finalProject.daily.model.dao;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,6 +16,7 @@ import com.kh.finalProject.daily.model.vo.DailyRecordPhoto;
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
 import com.kh.finalProject.daily.model.vo.HabitSum;
+import com.kh.finalProject.group.common.PageInfo;
 
 @Repository("dailyDao")
 public class DailyDao {
@@ -208,9 +210,13 @@ public class DailyDao {
 		return sqlSessionTemplate.delete("dailyMapper.deleteBookmarkUrl", bu);
 	}
 
-	public ArrayList<DailyRecord> selectDailyRecordList(String id) {
+	public ArrayList<DailyRecord> selectDailyRecordList(String id, PageInfo pi) {
+		
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 
-		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectDailyRecordList", id);
+		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectDailyRecordList", id, rowBounds);
 	}
 
 	public ArrayList<DailyRecordPhoto> selectDailyRecordPhotoList(String dr_no) {
@@ -241,6 +247,45 @@ public class DailyDao {
 	public int updateDailyRecordThumbnail(DailyRecordPhoto drp) {
 
 		return sqlSessionTemplate.update("dailyMapper.updateDailyRecordThumbnail", drp);
+	}
+
+	public int updateDailyRecordPhoto(String drp_no) {
+
+		return sqlSessionTemplate.update("dailyMapper.updateDailyRecordPhoto", drp_no);
+	}
+
+	public int updateDailyRecord(DailyRecord dr) {
+
+		return sqlSessionTemplate.update("dailyMapper.updateDailyRecord", dr);
+	}
+
+	public int deleteDailyRecord(HashMap<String, String> map) {
+
+		return sqlSessionTemplate.update("dailyMapper.deleteDailyRecord", map);
+	}
+
+	public ArrayList<DailyRecord> selectDailyRecordList_a(String id) {
+
+		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectDailyRecordList_a", id);
+	}
+
+	public int getListCount(String id) {
+		
+		return sqlSessionTemplate.selectOne("dailyMapper.getListCount", id);
+	}
+
+	public int getListCountSearch(HashMap<String, String> map) {
+
+		return sqlSessionTemplate.selectOne("dailyMapper.getListCountSearch", map);
+	}
+
+	public ArrayList<DailyRecord> selectDailyRecordSearchList(HashMap<String, String> map, PageInfo pi) {
+		
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+
+		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectDailyRecordSearchList", map, rowBounds);
 	}
 
 }

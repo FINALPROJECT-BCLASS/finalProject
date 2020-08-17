@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -101,36 +102,55 @@
 		</c:if>
         <div class="join-form-area">
         <h1>Group Diary</h1>
-        <h4 class="pSubject">Account Write</h4><br>
+        <h4 class="pSubject">Account Update</h4><br>
             <div class="groupJoin">
-                <form action="accountInsert.do" method="post" id="accountForm">
+                <form action="accountUpdate.do" method="post" id="accountForm">
+                	<input type="hidden" id="gaNo" name="gaNo" value="${gaList.gaNo }">
+                	<input type="hidden" id="gaNo" name="gaDelete" value="N">
                 	<div class="typeForm">
                 	<div class="typeBox">
-           				<input type="radio" class="type" name="type" value="fee" id="fee" checked>
+                		<c:if test="${gaList.gaFee eq  'Y' }">
+           					<input type="radio" class="type" name="updateType"  value="fee" id="fee" checked >
+           					<input type="hidden" class="type" name="gaFee" value="Y" id="typeFee" >
+           				</c:if>
+           				<c:if test="${gaList.gaFee eq  'N' }">
+           					<input type="radio" class="type"  name="updateType" value="fee" id="fee" >
+           					<input type="hidden" class="type" name="gaFee" value="N" id="typeFee" >
+           				</c:if>
            				<label for="fee">Fee</label>
            			</div>
            			<div class="typeBox">
-           				<input type="radio" class="type" name="type"  value="profit" id="profit">
+           				<c:if test="${gaList.gaPro eq  'Y' }">
+           					<input type="radio" class="type"  name="updateType"  value="profit" id="profit"  checked >
+           					<input type="hidden" class="type" name="gaPro" value="Y" id="typePro" >
+          				</c:if>
+          				<c:if test="${gaList.gaPro eq  'N' }">
+          				<input type="radio" class="type"   name="updateType"  value="profit" id="profit"  >
+          				<input type="hidden" class="type" name="gaPro" value="N" id="typePro" >
+          				</c:if>
            				<label for="profit">Profit</label>	
            			</div>	
            			<div class="typeBox">
-           				<input type="radio" class="type" name="type"  value="expense" id="expense">
+           				<c:if test="${gaList.gaExp eq  'Y' }">
+           					<input type="radio" class="type" name="updateType"  value="expense" id="expense"  checked >
+           					<input type="hidden" class="type" name="gaExp" value="Y" id="typeExp" >
+           				</c:if>
+           				<c:if test="${gaList.gaExp eq  'N' }">
+           					<input type="radio" class="type" name="updateType" value="expense" id="expense"  >
+           					<input type="hidden" class="type" name="gaExp" value="N" id="typeExp" >
+           				</c:if>
            				<label for="expense">Expense</label>
            			</div>
            			</div>
                     <table class="groupTb">
-                    	<input type="hidden" id="typeFee" name="gaFee" value="Y">
-                    	<input type="hidden" id="typePro" name="gaPro" value="N">
-                    	<input type="hidden" id="typeExp" name="gaExp" value="N">
-                    	<input type="hidden" id="deleteYn" name="gaDelete" value="N">
-                        <tr>
+                    	<tr>
                             <td class="groupTbTd">Title&nbsp;</td>
-                            <td><input type="text" name="gaTitle" id="title" placeholder="  제목 입력"></td>
+                            <td><input type="text" name="gaTitle" id="title" value="${gaList.gaTitle }" placeholder="  제목 입력"></td>
                         </tr>
                         <tr>
                             <td class="groupTbTd">Date&nbsp;</td>
                             <td>
-                                <input type="date" name="gaDate" class="date" value="${clickDate }"> 
+                                <input type="date" name="gaDate" class="date" value="${gaList.gaDate }"> 
                                  
                                 
                             </td>
@@ -140,7 +160,7 @@
                             <td>
                                 <div class="textArea">
                                     <span class="material-icons">article</span> <div class="comment">내용 입력</div>
-                                    <textarea id="groupCon" name="gaCon"></textarea>
+                                    <textarea id="groupCon" name="gaCon">${gaList.gaCon }</textarea>
                                 </div>
                             </td> 
                         </tr>
@@ -160,42 +180,51 @@
                             <td class="groupTbTd">Member</td>
                             <td style="height:100px;">
                                 <div class="searchNameAfter">
-                                    &nbsp;&nbsp;Click and remove NameBox.<br>
-                                    
+                                    <c:forEach var="gam" items="${gamList }">
+                                    <button type='button' class='searchNameBox'>
+                                    	<div class='amountName'>${gam.name }</div>
+                                    	<c:set var="amount" value="${gam.gamAmount }"/>
+                						<input type='text' class='amountBox' name='gamAmount'  name="gamAmount" value="${amount }">
+                						<input type="hidden" class="gamDelete"  value="${gam.gamDelete }">
+                						<input type="hidden" name="gmNo" value="${gam.gmNo }">
+                					</button>
+                					</c:forEach>
+                
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td class="groupTbTd"><div class="amount">Total Amount&nbsp;</div></td>
                             <td>
-                                <div class="backgroundWhite"><span class="material-icons">add</span><input type="text" name="gaAmount" class="amount"></div>
+                                <div class="backgroundWhite"><span class="material-icons">add</span><input type="text" name="gaAmount" class="amount" value="${totalAmount }"></div>
                             </td>
                         </tr>
-                        <tr  class="checkSharing">
-                        	<td>Sharing</td>
-                        	<td>
-                        		<span class="material-icons annoIcon">check_box_outline_blank</span>
-                        		<input type='hidden' class='annoIn' name='gasYn' value='N'>
-                        	</td>
-                        </tr>
+                        <c:if test="${gaList.gaFee eq 'Y' }">
+	                        <c:if test="${!empty gaList.gasYn }">
+	                        <tr>
+	                        	<td>Sharing</td>
+	                        	<td>
+	                        		<c:if test="${gaList.gasYn eq  'Y'}">
+	                        			<span class="material-icons annoIcon">check_box</span>
+	                        		</c:if>
+	                        		<c:if test="${gaList.gasYn eq  'N'}">
+	                        			<span class="material-icons annoIcon">check_box_outline_blank</span>
+	                        		</c:if>
+	                        		<input type='hidden' class='annoIn' name='gasYn' value='N'>
+	                        	</td>
+	                        </tr>
+	                        </c:if>
+                        </c:if>
                     </table>
                 </form>
                 <br><br>
                 <div class="groubJoinBtn">
                    <span><button  id="submit">Submit</button>&nbsp;</span>
-                   <span id="reset" onclick="goBack();">Back</span><span id="reset" onclick="goBack();">Back</span>
+                   <span><input type="reset" value="Reset" id="reset"></span>
                 </div>
             </div>
          </div>
          </div>
-         
-          <!-- 뒤로가기 버튼 -->
-		 <script>
-		 	function goBack(){
-		 		window.history.back();	
-		 	}
-		 	
-		 </script>
          <!-- 합계 -->
          <script>
          	$(document).on("keyup",".amountBox",function(){
@@ -235,7 +264,7 @@
          <script>
 	         $(".type").change(function(){
 	             if($("#fee").is(":checked")){
-
+	                 
 	                 $("#typeFee").attr("value","Y");
 	                 $("#typePro").attr("value","N");
 	                 $("#typeExp").attr("value","N");
@@ -277,7 +306,7 @@
              $(document).on("click",".amountName",function(){
                 var who = $(this).parent("button");
                 console.log("who :" + who);
-                who.remove();
+                who.hide();
                    })
          </script>
          
@@ -288,10 +317,10 @@
          		$("#search").keyup(function(){
          			$(".searchList").css("display","block");
          			var searchName = $("#search").val();
-         			
+         			var gaNo = $("#gaNo").val();
          			$.ajax({
-         				url:"searchNameAccount.do",
-         				data:{searchName:searchName},
+         				url:"searchNameAccountUpdate.do",
+         				data:{searchName:searchName,gaNo:gaNo},
          				dataType:"json",
          				success:function(data){
          					 var $search = $(".searchList");

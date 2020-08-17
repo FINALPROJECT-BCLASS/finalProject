@@ -44,7 +44,6 @@
             color: #484848;
             text-align: left;
             padding-left: 46px;
-            max-width: 632px;
         }
 
         input[type="checkbox"] {
@@ -166,6 +165,7 @@
     
     .preview-wrap {
     	width: 100%;
+   	    max-width: 580px;
 	    background: white;
 	    border-radius: 8px;
 	    display: flex;
@@ -184,11 +184,75 @@
     	
     }
     
+    .preview-wrap > img {
+    	height: 130px;
+    	margin: 5px;
+    	
+    }
+    
     .preview-wrap > div {
     	width: 100%;
     	text-align:center;
     }
-
+    
+    .photos {
+    	vertical-align: top;
+   	    padding-top: 14px;
+    }
+    
+    .photos-wrap {
+    	position: relative;
+    	min-height: 50px;
+   	    max-width: 580px;
+    	width: 100%;
+	    background: white;
+	    border-radius: 8px;
+	    display: flex;
+	    align-items: center;
+	    color: #cecece;
+	    font-size: 14px;
+	    border: 10px solid white;
+	    overflow: hidden;
+	    flex-wrap: wrap;
+    }
+    
+     .photos-wrap > img {
+    	height: 130px;
+    	margin: 5px;
+    	
+    }
+    
+    .photos-wrap > div {
+    	width: 100%;
+    	text-align:center;
+    }
+    
+    .img-item {
+    	cursor: pointer;
+    }
+    
+    .remove-item {
+    	display: none;
+    }
+    
+    .photo-reset-btn {
+    	position: absolute;
+	    right: 0;
+	    bottom: 0;
+	    border-radius: 50%;
+	    background: #ffffff8c;
+	    width: 30px !important;
+	    height: 30px;
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    cursor: pointer;
+    }
+    
+    .photo-reset-btn > span {
+    	color: #484848;
+    }
+	
     </style>
     
     
@@ -198,17 +262,18 @@
 	<jsp:include page="../common/sidenaviDaily.jsp"/>
     <div class="right-area">
         <div>
-            <form action="addDailyRecord.do" id="record" name="record" method="post" enctype="multipart/form-data">
-                <span class="pSubject">New Record</span>
-                <input type="hidden" name="dr_no" value="${dr_no }">
+            <form action="editDailyRecord.do" id="record" name="record" method="post" enctype="multipart/form-data">
+                <span class="pSubject">Edit My Record : No.${dr.dr_no }</span>
+                <input type="hidden" name="dr_no" value="${dr.dr_no }">
+                <input type="hidden" name="dr_thumbnail" value="${dr.dr_thumbnail }">
                 <table cellpadding="6px">
                     <tr>
                         <td>Title</td>
-                        <td><input type="text" id="dr_title" name="dr_title"></td>
+                        <td><input type="text" id="dr_title" name="dr_title" value="${dr.dr_title }"></td>
                     </tr>
                     <tr>
                         <td>Date</td>
-                        <td><input type="date" id="dr_date" name="dr_date"></td>
+                        <td><input type="date" id="dr_date" name="dr_date" value="${dr.dr_date }"></td>
                     </tr>
                     <tr>
                         <td>Weather</td>
@@ -225,7 +290,7 @@
                                 <input type="radio" id="snowy" name="weather" value="snowy">
                                 <label class="b-icons" for="snowy"><img src="resources/images/icons/snowy.png"></label>
                         </td>
-                        <input type="hidden" name="dr_weather" id="dr_weather" value="sunny">
+                        <input type="hidden" name="dr_weather" id="dr_weather" value="${dr.dr_weather }">
                     </tr>
                     <tr>
                         <td>Emotion</td>
@@ -245,14 +310,24 @@
                             <input type="radio" id="sad" name="emotion" value="sad">
                             <label for="sad" class="b-icons"><img src="resources/images/icons/sad.png"></label>
                         </td>
-                        <input type="hidden" name="dr_emotion" id="dr_emotion" value="love">
+                        <input type="hidden" name="dr_emotion" id="dr_emotion" value="${dr.dr_emotion }">
                     </tr>
                     <tr>
                         <td>Content</td>
-                        <td><textarea class="b-content" name="dr_con"></textarea></td>
+                        <td><textarea class="b-content" name="dr_con">${dr.dr_con }</textarea></td>
                     </tr>
                     <tr>
                         <td>Photos</td>
+                        <td class="photos-area">
+                    		<div class="photos-wrap">
+                    			<div class="photo-reset-btn">
+                    				<span class="material-icons">replay</span>
+                    			</div>
+                    		</div>
+                    	</td>
+                    </tr>
+                    <tr>
+                        <td>New Photos</td>
                         <td>
                           <div class="file-box"> 
                              <input type="file" id="file" name="file" multiple/> 
@@ -265,31 +340,109 @@
                     	<td></td>
                     	<td class="preview-area">
                     		<div class="preview-wrap">
-                    			<div class="preview-text">사진 미리보기</div>
+                    			<div>사진 미리보기</div>
                     		</div>
                     	</td>
                     </tr>
                 </table>
                 <div class="button-area">
-                    <button type="button">Back</button>
+                    <button type="button" onclick="history.go(-1)">Back</button>
                     <button type="button" onclick="submit_btn()">Save</button>
                 </div>
-                <input type="hidden" id="upFile" name="upFile">
+                <input class="remove_no" type="hidden" name="remove_no">
+                <input class="drp_left" type="hidden" name="drp_left">
             </form>
         </div>
     </div>
 
     <script>
     
-    	function submit_btn() {
+    	$(document).ready(function(){
     		
-    	 $("#record").submit();
+	    	// 지우지 않은 파일들 번호 뽑아내기
+	    	$('.left').each(function(){
+	    		  var text = $(this).next().next().val();
+	    		  console.log(text);
+	    		  left_name.push(text);
+	    		  
+	  	  	});
+	  	  	 
+	  	    $(".drp_left").val(left_name); 
     		
-    	}
+    	});
     
-    console.log("으음 ? : ${dr_no}");
+    	/* 기존 이미지 추가 / 수정 / 삭제 작업 */
     
-	 // 라디오 버튼 히든 태그
+	    /* console.log("drp_rename : ${drp_rename}");
+	    console.log("drp_no : ${drp_no}") */
+    
+	    var drpRenameSplit = "${drp_rename}".split(',');
+	    var drpNoSplit = "${drp_no}".split(',');
+	    
+	    // 이미지 추가
+	    for ( var i in drpRenameSplit ) {	
+	      $(".photos-wrap").append("<img class='img-item left' src='resources/druploadFiles/"+drpRenameSplit[i]+"'><input type='hidden' name='drp_no_all' value='"+drpNoSplit[i]+"'><input type='hidden' value='"+drpRenameSplit[i]+"'>");
+	    }
+	    
+	    var remove_no = new Array();
+	    var left_name = new Array();
+	    
+	    // 이미지 클릭시 화면에서 삭제
+	    $(".img-item").on("click", function(){
+	    	
+	    	left_name = []; // 배열 초기화
+	    	
+	    	$(this).addClass("remove-item");
+	    	$(this).removeClass("left");
+	    	
+	    	var drp_no = $(this).next().val();
+	    	remove_no.push(drp_no);
+	    	
+	    	$(".remove_no").val(remove_no);
+	    	
+	    	// 지우지 않은 파일들 번호 뽑아내기
+	    	$('.left').each(function(){
+	    		  var text = $(this).next().next().val();
+	    		  console.log(text);
+	    		  left_name.push(text);
+	    		  
+	  	  	});
+	  	  	 
+	  	    $(".drp_left").val(left_name); 
+	    	
+	    	
+	    });
+	 
+	    
+	    // 삭제된 이미지 되돌리기
+	    $(".photo-reset-btn").on("click", function() {
+	    	$(".img-item").addClass("left"); 
+	    	$(".img-item").removeClass("remove-item");
+	    	remove_no = [];
+	    	$(".remove_no").val("");
+	    	$(".drp_rename_b").val("");
+	    });
+	    
+	    function submit_btn() {
+	    	
+	    	$(".remove_no").val(remove_no);
+	    	$("#record").submit();
+	    	
+	    
+	    }
+	    
+	    /* 저장된 데이터로 라디오 선택 */
+	    
+	    // 날씨
+	    $("#${dr.dr_weather}").attr("checked", true);
+	    
+	    // 기분
+	    $("#${dr.dr_emotion}").attr("checked", true);
+	    
+	    
+	    /* 인풋 태그에 값 저장 */
+    
+	 	// 라디오 버튼 히든 태그
 		// 색상
 		$(".weather-area > input").click(function(){
 			var value = $(this).val();
@@ -323,6 +476,8 @@
         	
         });
         
+        /* 파일 업로드 미리보기 / 삭제 */
+        
         $(document).ready(function(){
         
 			$("#file").on("change", handleImgFileSelect);
@@ -343,7 +498,6 @@
     		var index = 0;
     		
     		filesArr.forEach(function(f) {
-    			
     			if(!f.type.match("image.*")) {
     				
     				alert("이미지 확장자만 업로드 가능합니다.");
@@ -353,47 +507,17 @@
     			
     			sel_files.push(f);
     			
-    			
     			var reader = new FileReader();
     			reader.onload = function(e) {
-    				var html = "<a href='javascript:void(0);' id='img_id_"+index+"'><img src='" + e.target.result + "' data-file='"+f.name+"' class='selProductFile'></a>";
+    				var html = "<a href='javascript:void(0);' id='img_id_"+index+"'><img src='" + e.target.result + "' data-file='"+f.name+"' class='selProductFile' title='Click to remove'></a>";
     				$(".preview-wrap").append(html);
     				index++;
     			}
-    			
     			reader.readAsDataURL(f);
     			
     		});
         	
         }
-        
-        function deleteImageAction(index) {
-        	queryAdd = "";
-        	
-        	
-        	console.log("index : " + index);
-        	sel_files.splice(index, 1);
-        	
-        	for(var i = 0 ; i < sel_files.length ; i++){
-        		
-        			queryAdd += sel_files[i].name + ",";
-        			
-        	}
-        	
-        	$("#upFile").val(queryAdd);
-        	
-        	/* console.log("queryAdd1 : " + queryAdd); */
-        	
-        	
-        	
-        	/* var img_id = "#img_id_" + index;
-        	$(img_id).remove(); */
-        	
-        }
-        
-        
- 
-
         
     </script>
     <jsp:include page="../common/footer.jsp"/>

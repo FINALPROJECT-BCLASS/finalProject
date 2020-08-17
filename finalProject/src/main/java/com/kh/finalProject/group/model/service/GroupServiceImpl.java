@@ -231,8 +231,8 @@ public class GroupServiceImpl implements GroupService{
 	}
 
 	@Override
-	public int insertBoardPhoto(ArrayList<GroupBoardPhoto> photoList) {
-		return gDao.insertBoardPhoto(photoList);
+	public int insertBoardPhoto(GroupBoardPhoto gbp) {
+		return gDao.insertBoardPhoto(gbp);
 	}
 
 	@Override
@@ -500,7 +500,27 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.deleteAccount(gaNo);
 	}
 
+	@Override
+	public ArrayList<Member> searchNameAccountUpdate(GroupSearchName gSearch) {
+		return gDao.searchNameAccountUpdate(gSearch);
+	}
 
+	@Override
+	public int updateAccount(GroupAccount ga) {
+		return gDao.updateAccount(ga);
+	}
+
+	@Override
+	public int deleteAccountMember(GroupAccount ga) {
+		return gDao.deleteAccountMember(ga);
+	}
+
+	@Override
+	public int deleteGroup(String groupNo) {
+		return gDao.deleteGroup(groupNo);
+	}
+
+	
 
 
 
