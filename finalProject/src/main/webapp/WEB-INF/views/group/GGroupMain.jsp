@@ -18,7 +18,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    width: 350px;
+    width: 310px;
     height: 326px;
     padding: 20px;
     margin: 20px;
@@ -43,7 +43,18 @@
     /* tooltip 색상 변경 css */
     .tooltip .bs-tooltip-bottom .tooltip-inner { background:#2860E1 !important;}
     .tooltip .arrow:before { border-bottom-color:#2860E1 !important; border-top-color:#2860E1 !important; }
+  
+  tr {
+	    display: flex !important;
+	}
+	
+	.groupMain {
+		padding: 70px 0;
+	}
+  
   </style>
+  
+  
 </head>
 <body>
 

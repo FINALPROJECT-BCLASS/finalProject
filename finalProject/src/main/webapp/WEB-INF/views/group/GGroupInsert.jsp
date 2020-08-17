@@ -10,36 +10,41 @@
 
     h1, h4{margin-top:20px; text-align:center;}
 
-    .join-form-area{float: right;display: flex;justify-content: center; flex-direction: column; align-items: center; padding: 65px; width: 100%; background: #F3F3F3; }
+    .join-form-area{float: right;display: flex;justify-content: center; flex-direction: column; align-items: center; padding: 100px 0; width: 100%; background: #F3F3F3; }
 
-    .groupJoin{width:900px;}
-    .groupTb{margin:auto; width:700px; border-spacing: 5px; border-collapse: separate;}
+    .groupJoin{}
+    .groupTb{margin:auto; border-spacing: 5px; border-collapse: separate;}
+    
+    .groupTb  tr td:nth-child(2) {
+    	padding-left:25px;
+    }
+    
     .groupTbTd {text-align:end;}
 
     input{width:100%;height:40px; padding-left: 10px; border:none; border-radius: 6px;}
     .search{border:1px solid grey; background:white; border:none; border-radius: 6px;}
     .searchImg{width:20px; height:20px;}
     #search{width:85%; border:none; }
-    .searchName{width:80px; cursor: pointer; padding-left: 20px;padding-bottom: 10px; padding-top: 10px; display:inline-block;}
+    .searchName{cursor: pointer; padding-left: 20px;padding-bottom: 10px; padding-top: 10px; display:inline-block;}
     /* .searchName:hover{background:#FBD14B;} */
     .oneSearchBox:hover{width:100%; cursor: pointer; background:#FBD14B;}
     .oneSearchBox{width:100%; cursor: pointer; }
-    .searchNameAfter{background:white; border:none; border-radius: 6px; height:100px; color:darkgray; height:150px; width:600px; overflow:scroll;  overflow-x:hidden;} /* width 다시보기*/
+    .searchNameAfter{background:white; padding: 10px; border:none; border-radius: 6px; height:100px; color:darkgray; height:150px; width:600px; overflow:scroll;  overflow-x:hidden;} /* width 다시보기*/
      .adminBtn{ background:#2860E1 !important; color:white !important; }
-    .searchNameBox{margin-bottom:20px; margin:5px; width:100px; height:30px; background:#FBD14B; border:none; border-radius: 5px; font-size:small;}
-    .searchNameBox:hover{margin-bottom:20px; margin:5px; width:100px; height:30px; background:darkgray; border:none; border-radius: 5px; cursor:pointer;font-size:small;}
+    .searchNameBox{margin-bottom:20px; margin:5px; height:30px; background:#FBD14B; border:none; border-radius: 5px; font-size:small;}
+    .searchNameBox:hover{margin-bottom:20px; margin:5px; height:30px; background:darkgray; border:none; border-radius: 5px; cursor:pointer;font-size:small;}
     .searchNameForm{display:none; height:100px; overflow:scroll;  overflow-x:hidden; }
     .deleteBtn{width:20px;height:30px; border-radius: 3px; background:red; border:none; text-align: center;}
 	
     /* 구글 아이콘 */
     .material-icons{padding-top:12px; padding-left: 10px;}
 
-    #groupCon{width:100%; border:none;  border-radius: 6px;}
+    #groupCon{width:100%; height:200px; padding:10px; border:none;  border-radius: 6px; resize: none;}
     .groupPhoto{width:100px; height: 100px;}
 
-    .groubJoinBtn{text-align: center;}
-    #submit{background:none; border:none; color:#2860E1; font-weight: 600; font-size: 20px; }
-    #reset{cursor:pointer; margin-left:30px; background:none; border:none; color:#484848; font-weight: 600; font-size: 20px; width:100px;}
+    .groubJoinBtn{text-align: right;}
+    #submit{background:none; border:none; color:#2860E1; font-weight: 700; font-size: 20px; }
+    #reset{cursor:pointer; margin-left:10px; background:none; border:none; color:#484848; font-weight: 700; font-size: 20px; width:100px;}
 
     tr > td:nth-child(1) {
             color: #484848;
@@ -65,7 +70,7 @@
 	.profile-image {
 		border-radius:6px;
 		width:35%;
-	    height: 35%;
+		display:none;
 	}
      /* 업로드 버튼 */
     .filebox label {
@@ -103,16 +108,24 @@
 	  clip: rect(0, 0, 0, 0);
 	  border: 0;
 	}    
+	
+	.bigTitle {
+		margin-bottom: 50px;
+   		font-size: 35px;
+	}
+	
+	
   </style>
 </head>
 <body>
  	<jsp:include page="../common/header.jsp"/>  
     <div class="join-form-area">
-        <h1>Group Diary</h1>
-        <h4 class="pSubject">Join</h4><br>
+        <h1 class="bigTitle">New Group Diary</h1>
+<!--         <h4 class="pSubject">Join</h4><br> -->
             <div class="groupJoin">
                 <form action="groupInsert.do" method="post" id="groupInsertFrom" enctype="Multipart/form-data">
-                    <table class="groupTb">
+                    <table class="groupTb" cellpadding="5px">
+                    
                     	<%-- <input type="hidden" name="id" value="${loginUser.id }"> --%>
                         <tr>
                             <td class="groupTbTd">Title&nbsp;</td>
@@ -137,14 +150,12 @@
                             <td style="height:100px;">
                                 <div class="searchNameAfter">
                                     &nbsp;&nbsp;Click and remove it.<br>
-                                    <div class="searchNameAfterIn">
-                                    	<button type="button" class="searchNameBox adminBtn" value="${m.id }">
+                                    <button type="button" class="searchNameBox adminBtn" value="${m.id }">
 		                                    	${m.name }&nbsp;${m.id }
 		                                    <input type="hidden" name="groupName" value="${m.name }">
 		                                    <input type="hidden" class='groupId adminId' name="groupId" value="${m.id }">
 	                                    </button>
-                                    
-                                    </div>
+                                    <div class="searchNameAfterIn"></div>
                                 </div>
                             </td>
                         </tr>
@@ -160,7 +171,7 @@
                             <td class="groupTbTd">Profile Image&nbsp;</td>
                             <td>
                                <div class=profile-image-area>
-                        			<img class="profile-image" src="resources/groupMainFiles/group.png">
+                        			<img class="profile-image" src="resources/groupMainFiles/group1.png">
                        			</div>
                               	<div class="filebox">
 								  <input type="file" id="file" class="ex_file" name="uploadFile" onchange="uploadPhoto(this);">
@@ -171,7 +182,6 @@
                         </tr>
                     </table>
                 </form>
-                <br><br>
                 <div class="groubJoinBtn">
                    <span><button id="submit">Submit</button>&nbsp;</span>
                    <span id="reset" onclick="goBack();">Back</span>
@@ -191,6 +201,7 @@
 		 			
 		 				reader.onload = function(e) {
 		 					
+		 					$(".profile-image").show();
 		 					$(".profile-image").attr("src", e.target.result);
 		 					
 		 					var filename = $("#file").val().split('/').pop().split('\\').pop();
@@ -214,7 +225,7 @@
 		 </script>
          
          <script>
-         	
+
 			// submit
 			$("#submit").click(function(){
 			

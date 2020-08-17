@@ -191,10 +191,10 @@
         <br>
         <div class="text" data-swiper-parallax="-100">
           <p>
-            어디서나 노트를 작성하세요. 더 빠르게 정보를 찾으세요.<br>
-            사람들과 아이디어를 공유하세요. 일정, 그룹 다이어리, 일기 등을<br>
-            작성하면 빈틈 없는 정보 관리가 가능해집니다. 라이프노트가 당신의 삶을 좀 더<br>
-            효율적으로 관리해줍니다.당신의 삶의 주인공이 되기 위해 지금 바로 시작하세요 !
+            어디서나 노트를 작성하세요.<br>
+            일정, 일기 등을 작성하면 빈틈 없는 정보 관리가 가능해집니다.<br>
+            라이프노트가 당신의 삶을 좀 더 효율적으로 관리해줍니다.<br>
+            당신의 삶의 주인공이 되기 위해 지금 바로 시작하세요 !
           </p>
             <br>
             <span class="sign-up-btn">Sign up</span>
@@ -209,10 +209,10 @@
         <br>
         <div class="text" data-swiper-parallax="-100">
           <p>
-            어디서나 노트를 작성하세요. 더 빠르게 정보를 찾으세요.<br>
-            사람들과 아이디어를 공유하세요. 일정, 그룹 다이어리, 일기 등을<br>
-            작성하면 빈틈 없는 정보 관리가 가능해집니다. 라이프노트가 당신의 삶을 좀 더<br>
-            효율적으로 관리해줍니다.당신의 삶의 주인공이 되기 위해 지금 바로 시작하세요 !
+            어디서나 노트를 작성하세요.<br>
+            일정, 일기 등을 작성하면 빈틈 없는 정보 관리가 가능해집니다.<br>
+            라이프노트가 당신의 삶을 좀 더 효율적으로 관리해줍니다.<br>
+            당신의 삶의 주인공이 되기 위해 지금 바로 시작하세요 !
           </p>
             <br>
             <span class="sign-up-btn">Sign up</span>
@@ -243,10 +243,10 @@
           </td>
           <td class="main-section-content p-left">
             <span class="main-section-content-sub">Planner</span> <br>
-              어디서나 노트를 작성하세요. 더 빠르게 정보를 찾으세요.<br>
-              사람들과 아이디어를 공유하세요. 일정, 그룹 다이어리, 일기 등을<br>
-              작성하면 빈틈 없는 정보 관리가 가능해집니다. 라이프노트가 당신의 삶을 좀 더<br>
-              효율적으로 관리해줍니다.당신의 삶의 주인공이 되기 위해 지금 바로 시작하세요 !<br>
+              효율적으로 일정을 관리하세요.<br>
+              월별 일정 관리를 통해 한 달의 계획을 세우세요.<br>
+              일별로 일정 관리를 하면 계획적인 생활이 가능합니다.<br>
+              당신의 소중한 시간을 절약하도록 도와줍니다.<br>
             <span class="main-section-content-sub yellow">Go Planner &nbsp; ►►</span>
           </td>
         </tr>
@@ -307,10 +307,10 @@
     <tr>
       <td class="main-section-content p-right">
         <span class="main-section-content-sub">Account Book</span> <br>
-        어디서나 노트를 작성하세요. 더 빠르게 정보를 찾으세요.<br>
-        사람들과 아이디어를 공유하세요. 일정, 그룹 다이어리, 일기 등을<br>
-        작성하면 빈틈 없는 정보 관리가 가능해집니다. 라이프노트가 당신의 삶을 좀 더<br>
-        효율적으로 관리해줍니다.당신의 삶의 주인공이 되기 위해 지금 바로 시작하세요 !<br>
+        당신의 자산을 체계적으로 관리하세요.<br>
+        월별 수익과 지출 통계를 분류별로 제공합니다.<br>
+        연도별 수익과 지출 변화를 한 눈에 확인하세요. <br>
+        불필요한 소비를 피할 수 있습니다.<br>
         <span class="main-section-content-sub blue">Go Account Book &nbsp; ►►</span>
       </td>
       <td class="main-section-image-area">
@@ -325,7 +325,7 @@
 <div class="main-section b-white">
   <table class="main-table">
     <tr>
-      <td class="main-section-subject" colspan="2"><span class="b-bottom-y">Diet</span></td>
+      <td class="main-section-subject" colspan="2"><span class="b-bottom-y">Group</span></td>
     </tr>
     <tr>
       <td class="main-section-image-area">
@@ -334,7 +334,7 @@
         </div>
       </td>
       <td class="main-section-content p-left">
-        <span class="main-section-content-sub">Diet Diary</span> <br>
+        <span class="main-section-content-sub">Group Diary</span> <br>
           어디서나 노트를 작성하세요. 더 빠르게 정보를 찾으세요.<br>
           사람들과 아이디어를 공유하세요. 일정, 그룹 다이어리, 일기 등을<br>
           작성하면 빈틈 없는 정보 관리가 가능해집니다. 라이프노트가 당신의 삶을 좀 더<br>

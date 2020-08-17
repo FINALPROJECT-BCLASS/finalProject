@@ -13,6 +13,7 @@
     <link href='resources/css/main.css' rel='stylesheet' />
     <script src='resources/lib/main.js'></script>
     <script>
+
 	    document.addEventListener('DOMContentLoaded', function() {
 	        var calendarEl = document.getElementById('calendar');
 	
@@ -46,7 +47,10 @@
 	            	}
 	            }],
 	            eventClick: function(info) {
-	            	mpDetailView(info.event.id);
+	            	var gmNo = mpDetailView(info.event.id);
+	            	console.log("gmNo : " + gmNo);
+	            	
+	            	/* $(".btnBox").show(); */
 	            },
 	            dateClick: function(info){
 
@@ -120,11 +124,17 @@
     </script>
     
     <style>
+    	body {
+    		padding-right:none!important;
+    	}
+    
     	.textBox{
-    		height:35px;
-    		border:none;
-    		background:#F3F3F3;
-    		border-radius:6px;
+    		height: 40px;
+		    border: none;
+		    background: #F3F3F3;
+		    border-radius: 8px;
+		    padding: 8px;
+		    width:100%;
     	}
     	.textCon{
     		height:60px;
@@ -186,11 +196,11 @@
 		}
 		
         .modal-content{
-            width: 800px !important;
+           width: 545px !important;
         }
         
 		.modal-dialog{
-			max-width:750px !important;
+			max-width:545px !important;
 		}
 		
 		#deleteBtn{
@@ -292,10 +302,44 @@
         }
          .writeBtn{color:#aeaeae !important; font-size:50px !important; cursor:pointer; padding:0 !important;}
          .writeBtn:hover{color:#2860E1 !important; font-size:50px !important; cursor:pointer; padding:0 !important;}
-         .join-form-area{top:-40px; padding-top:150px !important;position:relative; float: right;display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 40px; width: 81%; background: #F3F3F3; }
+         .join-form-area{position:relative;padding: 165px 40px; float: right;display: flex; justify-content: center; flex-direction: column; align-items: center;width: 81%; background: #F3F3F3; }
          #groupWrite{width:100%; text-align:right; margin-right:100px;margin-top: -100px;display: flex;justify-content: flex-end;align-items: center;}
 		 
 		 .footImg{width:40px; height:40px; cursor:pointer;vertical-align: middle;margin-left: 10px;}
+		 
+		 .bigTitle{
+		 	    font-size: 35px;
+		 }
+		 
+		 #mpStart, #mpEnd {
+		 	width: 48%;
+		 }
+		 
+		 #addTitle {
+		 	width:100%;
+		 }
+		 
+		 .textCon  {
+	 	    height: 140px;
+    		resize: none;
+		 }
+		 
+		 .textBox_ {
+		 	height: 40px;
+		    border: none;
+		    background: #F3F3F3;
+		    border-radius: 8px;
+		    padding: 8px;
+		    width: 48%;
+		 }
+		 
+		 .btnBox {
+	 	    margin: 20px 0;
+	 	    
+		 }
+		 
+		
+		 
     </style>
 </head>
 
@@ -313,10 +357,10 @@
 		</c:if>
 		
 	
-    	<br><br>
+
     	  <div class="join-form-area">
-    <jsp:include page="../common/groupNoticeHeader.jsp"/>
-    	  <h1 align="center">Group Diary</h1>
+    	<jsp:include page="../common/groupNoticeHeader.jsp"/>
+    	  <h1 align="center" class="bigTitle">Group Diary</h1>
         <h4 align="center">Calendar</h4><br>
         
         <br><br>
@@ -338,19 +382,19 @@
                             <div class="modal-body" align="center">
                                 <form action="insertPlan.do" id="insertForm" method="post">
                                 	<input type="hidden" name="id" value="${gInfo }">
-                                    <table id="addTable">
+                                    <table id="addTable" cellpadding="5px;">
                                     <input type="hidden" name="gNo" value="${gInfo.groupNo }">
                                     <input type="hidden" name="gmNo" value="${gInfo.gmNo}">
                                     <input type="hidden" name="gpDelete" value="N">
                                         <tr>
                                             <td>Title</td>
-                                            <td><input type="text" id="addTitle" class="textBox" name="gpTitle" size="42"></td>
+                                            <td><input type="text" id="addTitle" class="textBox" name="gpTitle" size="42" required></td>
                                         </tr>
                                         <tr>
                                             <td>Date</td>
                                             <td>
-                                                <input type="date" id="mpStart" name="gpStart" class="textBox"> - 
-                                                <input type="date" id="mpEnd" name="gpEnd" class="textBox">
+                                                <input type="date" id="mpStart" name="gpStart" class="textBox_"> - 
+                                                <input type="date" id="mpEnd" name="gpEnd" class="textBox_">
                                             </td>
                                         </tr>
                                         <tr>
@@ -394,7 +438,6 @@
                                     </table>
                                     <input type="hidden" id="coordY" name="coordX" value="">
                                     <input type="hidden" id="coordX" name="coordY" value="">
-                                    <button type="button" id="add" class="default-btn b-yell">Add</button>
                                     <button type="button" id="insertBtn" class="default-btn b-yell">Insert</button>
                                 </form>
                             </div>
@@ -416,7 +459,7 @@
 	               <div class="modal-body" align="center">
 	                   <form action="detail" method="post">
 	                   	<input type="hidden" name="gpNo" id="gpNo">
-	                       <table id="detailTable">
+	                       <table id="detailTable" cellpadding="5px">
 	                          <tr>
                                    <td>Title</td>
                                    <td><input type="text" id="gpTitle" class="textBox" name="gpTitle" size="42" readonly></td>
@@ -428,8 +471,8 @@
                          	   <tr>
                                   <td>Date</td>
                                   <td>
-                                      <input type="date" id="gpStart" name="gpStart" class="textBox" readonly> - 
-                                      <input type="date" id="gpEnd" name="gpEnd" class="textBox" readonly>
+                                      <input type="date" id="gpStart" name="gpStart" class="textBox_" readonly> - 
+                                      <input type="date" id="gpEnd" name="gpEnd" class="textBox_" readonly>
                                   </td>
                               </tr>
 	                           <tr>
@@ -444,9 +487,6 @@
                                    <td colspan="2"><input type="text" id="address2" name="address2" class="subAddress textBox" size="49" readonly></td>
                                </tr>
 	                           <tr>
-	                               <td colspan="2"><span id="mpLocation">&nbsp;</span></td>
-	                           </tr>
-	                           <tr>
                                   <td colspan="2">Content</td>
                               </tr>
                               <tr>
@@ -455,14 +495,27 @@
                                   </td>
                               </tr>
 	                       </table>
-	                       <div id="map" style="width:300px;height:200px;"></div>
-	                       <br><br>
-	                       <div class="btnBox"></div>
+	                       <div id="map" style="width:79%;height:300px;"></div>
+	                       <div class="btnBox" >
+	                       		<button type="button" class="default-btn" id="updateBtn">Edit</button>
+    							<button type="button" class="default-btn" id="deleteBtn">Delete</button>
+	                       </div>
 	                   </form>
 	               </div>
 	           </div>
 	       </div>
 	   </div>
+	   
+	   <script>
+	   function compareGmNo(gmNo) {
+	   		console.log("compareGmNo : " + gmNo);
+	   		if("${gInfo.gmNo}" == gmNo){
+					$(".btnBox").css("display","block");
+				}else{
+					$(".btnBox").css("display","none");
+				}
+	   	}
+	   </script>
 	   
 	   <div class="modal fade" id="updateModal" role="dialog">
            <div class="modal-dialog">
@@ -474,17 +527,17 @@
                    <div class="modal-body" align="center">
                        <form action="updatePlan.do" method="post" id="updatePlan">
                            <input type="hidden" name="gpNo" id="updateNo" >
-                           <table id="updateTable">
+                           <table id="updateTable" cellpadding="5px">
                                <tr>
                                    <td>Title</td>
-                                   <td><input type="text" name="gpTitle" class="textBox" id="updateTitle" size="42"></td>
+                                   <td><input type="text" name="gpTitle" class="textBox" id="updateTitle" size="42" required></td>
                                </tr>
                                <tr>
                                    <td>Date</td>
                                    <td>
                                    		
-                                       <input type="date" name="gpStart" class="textBox"  id="updateStart"> - 
-                                       <input type="date" name="gpEnd" class="textBox"  id="updateEnd">
+                                       <input type="date" name="gpStart" class="textBox_"  id="updateStart"> - 
+                                       <input type="date" name="gpEnd" class="textBox_"  id="updateEnd">
                                    </td>
                                </tr>
                                <tr>
@@ -548,8 +601,47 @@
     </script>
 
 	<script>
+	
+	function add(){
 		
-			$(document).on("click","#add",function(){
+					var address1 = $("#insertAddress").val();
+					console.log("address1 : " + address1);
+		    		var geocoder = new kakao.maps.services.Geocoder();
+		    		var coordX = document.getElementById("coordX");
+		    		var coordY = document.getElementById("coordY");
+					// 주소로 좌표를 검색합니다
+					geocoder.addressSearch(address1, function(result, status) {
+					
+					    // 정상적으로 검색이 완료됐으면 
+					     if (status === kakao.maps.services.Status.OK) {
+					
+					        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+					       	xx = result[0].x;
+					       	yy = result[0].y;
+			
+					        // 결과값으로 받은 위치를 마커로 표시합니다
+					        var marker = new kakao.maps.Marker({
+					            map: map,
+					            position: coords
+					        });
+					
+					        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+					        map.setCenter(coords);
+					        
+					        resizeMap(coords);
+					        coordX.value = xx;
+					        coordY.value = yy;
+							console.log(xx+","+yy);
+					    } 
+					});
+				
+				
+				
+		}
+			
+			
+		
+			/* $(document).on("click","#add",function(){
 			if($("#addTitle").val() == ""){
 				alert("제목을 입력해주세요");
 			}else if($("#addTitle").val() != ""){
@@ -590,7 +682,7 @@
 				
 				} 
 			
-		})
+		}) */
 		
 		$("#insertBtn").click(function(){
 			   $("#insertForm").submit(); 
@@ -660,6 +752,10 @@
 	                // 커서를 상세주소 필드로 이동한다.
 	                /* document.getElementByClassName("subAddress").focus(); */
 	                $(".subAddress").focus();
+	                
+	                console.log("실행?");
+	                add();
+	                
 	            }
 	        }).open();
 	    }
@@ -672,7 +768,7 @@
     	}
 	    	    
 	    function mpDetailView(id) {
-	    	
+	    	var gmNo;
 	    	$.ajax({
     			url: 'detailPlan.do',
     			data:{gpNo:id},
@@ -680,7 +776,8 @@
     			success: function(data) {
     				var gpNo = data.gpNo;
     				var gNo = data.gNo;
-    				var gmNo = data.gmNo;
+    				gmNo = data.gmNo;
+    				console.log("ajax gmNo : " + gmNo);
     				var gpTitle = data.gpTitle;
     				var gpCon =  data.gpCon;
     				var gpStart = data.gpStart;
@@ -691,8 +788,8 @@
     				
     				var name = data.name;
 					
-    				var update =  '<button type="button" class="default-btn" id="updateBtn">Edit</button>';
-    				var Delete = '<button type="button" class="default-btn" id="deleteBtn">Delete</button>';
+    				/* var update =  '<button type="button" class="default-btn" id="updateBtn">Edit</button>';
+    				var Delete = '<button type="button" class="default-btn" id="deleteBtn">Delete</button>'; */
     				var btnBox = $(".btnBox");
     				
     				$("#gpNo").val(gpNo);
@@ -704,10 +801,12 @@
     				$("#address2").val(address2);
     				
     				$("#gpCon").val(gpCon);
-    				if("${gInfo.gmNo}" == data.gmNo){
-    					btnBox.append(update);
-    					btnBox.append(Delete);
-    				}
+    				/* if("${gInfo.gmNo}" == data.gmNo){
+    					$(".btnBox").show();
+    				}else{
+    					$(".btnBox").hide();
+    				} */
+    				compareGmNo(data.gmNo);
     				
     				$("#updateNo").val(gpNo);
     				$("#updateTitle").val(gpTitle);
@@ -746,6 +845,8 @@
 	    				        resizeMap(coords);
 	    				    } 
 	    				});
+	    				
+	    				
     				} else {
     					$("#map").css("display", "none");
     				}
@@ -757,7 +858,8 @@
                           +"error: " + errorData);
                 }   
     		})
-	    	
+    		console.log("return 전 gmNo : " + gmNo);
+    		return gmNo;
 	    }
 	    
 	  

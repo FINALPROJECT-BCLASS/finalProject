@@ -26,7 +26,9 @@
 		<result property="mpSub" column="MP_SUB"/>
 		<result property="mpMemo" column="MP_MEMO"/>
 		<result property="abDate" column="AB_DATE"/>
+		<result property="apcNo" column="APC_NO"/>
 		<result property="apcTitle" column="APC_TITLE"/>
+		<result property="aecNo" column="AEC_NO"/>
 		<result property="aecTitle" column="AEC_TITLE"/>
 		<result property="abAmount" column="AB_AMOUNT"/>
 		<result property="abMemo" column="AB_MEMO"/>
@@ -45,6 +47,11 @@
 		<id property="bl_no" column="BL_NO"/>
 		<result property="bl_title" column="BL_TITLE"/>
 		<result property="bl_type" column="BL_TYPE"/>
+	</resultMap>
+	
+	<resultMap type="BookmarkMap" id="mbResultSet">
+		<id property="mb_no" column="MB_NO"/>
+		<result property="mb_address" column="MB_ADDRESS"/>
 	</resultMap>
 
 	<insert id="insertMemo" parameterType="Memo">
@@ -105,7 +112,7 @@
 			JOIN MONTHLY_PLAN MP ON(MEMO.MEMO_NO=MP.MEMO_NO)
 		</if>
 		<if test="mainNo == 9">
-				, TO_CHAR(AB_DATE, 'YYYY-MM-DD') "AB_DATE", APC_TITLE, AEC_TITLE, AB_AMOUNT, AB_MEMO
+				, TO_CHAR(AB_DATE, 'YYYY-MM-DD') "AB_DATE", AB.APC_NO, APC_TITLE, AB.AEC_NO, AEC_TITLE, AB_AMOUNT, AB_MEMO
 			FROM MEMO
 			JOIN ACCOUNT_BOOK AB ON(MEMO.MEMO_NO=AB.MEMO_NO)
 			LEFT JOIN A_PROFIT_CATEGORY AP ON(AB.APC_NO=AP.APC_NO)
@@ -219,6 +226,70 @@
 		UPDATE ACCOUNT_BOOK
 		SET AB_DATE=#{abDate}
 		WHERE MEMO_NO=#{memoNo}
+	</update>
+	
+	<update id="updateMpDate" parameterType="MPlan">
+		UPDATE MONTHLY_PLAN
+		SET MP_START=#{mpStart}, MP_END=#{mpEnd}
+		WHERE MEMO_NO=#{memoNo}
+	</update>
+	
+	<update id="updateMemo" parameterType="Memo">
+		UPDATE MEMO
+		SET MEMO_CON=#{memoCon}
+		WHERE MEMO_NO=#{memoNo}
+	</update>
+	
+	<update id="updateMPlan" parameterType="MPlan">
+		UPDATE MONTHLY_PLAN
+		SET MP_TITLE=#{mpTitle}
+			, MP_START=#{mpStart}
+			, MP_END=#{mpEnd}
+			, MP_TIME=#{mpTime}
+			, MP_MAIN=#{mpMain}
+			, MP_SUB=#{mpSub}
+			, MP_MEMO=#{mpMemo}
+		WHERE MEMO_NO=#{memoNo}
+	</update>
+	
+	<update id="updateABook" parameterType="AccountBook">
+		UPDATE ACCOUNT_BOOK
+		SET AB_DATE=#{abDate}
+			, APC_NO=#{apcNo}
+			, AEC_NO=#{aecNo}
+			, AB_AMOUNT=#{abAmount}
+			, AB_MEMO=#{abMemo}
+		WHERE MEMO_NO=#{memoNo}
+	</update>
+	
+	<update id="updateBMap" parameterType="BookmarkMap">
+		UPDATE MAP_BOOKMARK
+		SET MB_TITLE=#{mb_title}
+			, MB_PHONE=#{mb_phone}
+			, MB_TIME=#{mb_time}
+			, MB_MEMO=#{mb_memo}
+			, MB_ADDRESS=#{mb_address}
+		WHERE MEMO_NO=#{memo_no}
+	</update>
+	
+	<update id="updateBUrl" parameterType="BookmarkUrl">
+		UPDATE URL_BOOKMARK
+		SET UB_TITLE=#{ub_title}
+			, UB_CON=#{ub_con}
+			, UB_URL=#{ub_url}
+		WHERE MEMO_NO=#{memo_no}
+	</update>
+	
+	<select id="selectBMap" parameterType="Memo" resultMap="mbResultSet">
+		SELECT MB_NO, MB_ADDRESS
+		FROM MAP_BOOKMARK
+		WHERE MEMO_NO=#{memoNo}
+	</select>
+	
+	<update id="updateBmAddress" parameterType="BookmarkMap">
+		UPDATE MAP_BOOKMARK
+		SET MB_ADDRESS=#{mb_address}
+		WHERE MB_NO=#{mb_no}
 	</update>
 
 </mapper>

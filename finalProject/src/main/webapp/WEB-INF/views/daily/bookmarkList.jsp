@@ -960,9 +960,19 @@
 							
 		   						var item = "<div class='map-item' id='"+ data.mbl[i].mb_no +"'>";
 		   						var name = "<span>" + data.mbl[i].mb_title + "</span>";
-		   						var phone = "<span>" + data.mbl[i].mb_phone + "</span>"
+		   						
 		   						var no = "<input type = 'hidden' class='mb_no' value='" + data.mbl[i].mb_no + "'>";
 		   						var end = "</div>"
+		   						
+		   						if(data.mbl[i].mb_phone != null) {
+		   							
+		   							var phone = "<span>" + data.mbl[i].mb_phone + "</span>"; 
+		   							
+		   						}else {
+
+		   							var phone = "<span>-</span>"; 
+		   							
+		   						}
 		   						
 		   						$div = item + name + phone + no + end;
 		   						
@@ -1062,11 +1072,17 @@
 						
 						/* console.log("1 : " + address[0]+ " 2 : " + address[1]); */
 						
+						console.log("전화번호 : " + data.mb_phone);
+						
 						$(".mb_title_d").html(data.mb_title);
-						$(".mb_phone_d").html(data.mb_phone);
+						if(data.mb_phone != null) {
+							$(".mb_phone_d").html(data.mb_phone);							
+						}else{
+							$(".mb_phone_d").html("-");
+						}
 						$(".mb_comment_d").html(data.mb_memo);
 						$(".mb_time_d").html(data.mb_time);
-						$(".mb_address_d").html(address[0] + ", " + address[1]);
+						$(".mb_address_d").html(address[0]);
 						
 						var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 					    mapOption = {

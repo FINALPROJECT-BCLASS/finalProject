@@ -2,6 +2,9 @@ package com.kh.finalProject.daily.model.vo;
 
 import java.io.Serializable;
 
+import org.springframework.stereotype.Component;
+
+@Component("bm")
 public class BookmarkMap implements Serializable{
 
 	/**

@@ -34,6 +34,9 @@ public class MemoController {
 	@Autowired
 	MPlan mp;
 	
+	@Autowired
+	BookmarkMap bm;
+	
 	@RequestMapping("mmview.do")
 	public String memoView(HttpSession session, Model model) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
@@ -80,7 +83,7 @@ public class MemoController {
 			int memoNo = mmService.selectMemoNo(m);
 			
 			if(m.getMemoType().equals("map")) {
-				String address = mbMain + " " + mbSub;
+				String address = mbMain + ", " + mbSub;
 
 				bm.setMemo_no(memoNo);
 				bm.setMb_address(address);
@@ -94,7 +97,7 @@ public class MemoController {
 		}
 		
 		if(result1 > 0) {
-			return "memo/memo";
+			return "redirect:mmview.do";
 		} else {
 			throw new MemoException("메모 추가 실패");
 		}
@@ -140,7 +143,9 @@ public class MemoController {
 			
 			if(m.getMainNo() == 9) {
 				jObj.put("abDate", m.getAbDate());
+				jObj.put("apcNo", m.getApcNo());
 				jObj.put("apcTitle", m.getApcTitle());
+				jObj.put("aecNo", m.getAecNo());
 				jObj.put("aecTitle", m.getAecTitle());
 				
 				String formatAmount = String.format("%,d", m.getAbAmount());
@@ -158,6 +163,7 @@ public class MemoController {
 					jObj.put("mbTime", m.getMbTime());
 					jObj.put("mbMemo", m.getMbMemo());
 					jObj.put("mbAddress", m.getMbAddress());
+
 				} else {
 					jObj.put("ubTitle", m.getUbTitle());
 					jObj.put("ubCon", m.getUbCon());
@@ -183,16 +189,25 @@ public class MemoController {
 		int result = mmService.deleteMemo(m);
 		
 		if(result > 0) {
-			return "memo/memo";
+			return "redirect:mmview.do";
 		} else {
 			throw new MemoException("메모 삭제 실패");
 		}
 	}
 	
 	@RequestMapping("mpadd.do")
-	public String mPlanAdd(Memo m) throws MemoException {
+	public String mPlanAdd(Memo m, MPlan mp) throws MemoException {
 		
-		int result1 = mmService.addMPlan(m);
+		int result1 = 0;
+		if(m.getMemoType() != null && m.getMemoType().equals("noDate")) {
+			int result = mmService.updateMpDate(mp);
+			
+			if(result > 0) {
+				result1 = mmService.addMPlan(m);
+			}
+		} else {
+			result1 = mmService.addMPlan(m);
+		}
 		
 		int result2 = 0;
 		int result3 = 0;
@@ -205,7 +220,7 @@ public class MemoController {
 		}
 		
 		if(result3 > 0) {
-			return "memo/memo";
+			return "redirect:mmview.do";
 		} else {
 			throw new MemoException("일정에 추가 실패");
 		}
@@ -213,10 +228,9 @@ public class MemoController {
 	
 	@RequestMapping("abadd.do")
 	public String aBookAdd(Memo m, AccountBook a) throws MemoException {
-		System.out.println(a);
 		
 		int result1 = 0;
-		if(m.getMemoType().equals("noDate")) {
+		if(m.getMemoType() != null && m.getMemoType().equals("noDate")) {
 			int result = mmService.updateAbDate(a);
 			
 			if(result > 0) {
@@ -232,7 +246,7 @@ public class MemoController {
 		}
 		
 		if(result2 > 0) {
-			return "memo/memo";
+			return "redirect:mmview.do";
 		} else {
 			throw new MemoException("가계부에 추가 실패");
 		}
@@ -240,6 +254,16 @@ public class MemoController {
 	
 	@RequestMapping("bmadd.do")
 	public String bookmarkAdd(Memo m) throws MemoException {
+		
+		if(m.getMemoType().equals("map")) {
+			BookmarkMap bm = mmService.selectBMap(m);
+			
+			String[] addArr = bm.getMb_address().split(",");
+			
+			bm.setMb_address(addArr[0] + addArr[1]);
+			
+			int result = mmService.updateBmAddress(bm);
+		}
 		
 		int result1 = mmService.addBookmark(m);
 		
@@ -249,9 +273,50 @@ public class MemoController {
 		}
 		
 		if(result2 > 0) {
-			return "memo/memo";
+			return "redirect:mmview.do";
 		} else {
 			throw new MemoException("북마크에 추가 실패");
+		}
+	}
+	
+	@RequestMapping("mmupdate.do")
+	public String memoUpdate(Memo m, MPlan mp, AccountBook ab, BookmarkMap bm, BookmarkUrl bu,
+							@RequestParam(value="type", required=false) String type,
+							@RequestParam(value="mb_main", required=false) String mb_main,
+							@RequestParam(value="mb_sub", required=false) String mb_sub) throws MemoException {
+		
+		int result = 0;
+		if(m.getMainNo() == 0) {
+			result = mmService.updateMemo(m);			
+		} else if(m.getMainNo() == 1) {
+			result = mmService.updateMPlan(mp);
+			
+		} else if(m.getMainNo() == 9) {
+			
+			if(type.equals("profit")) {
+				ab.setAecNo(0);
+			} else {
+				ab.setApcNo(0);
+			}
+			
+			result = mmService.updateABook(ab);
+		} else if(m.getMainNo() == 6 && m.getMemoType().equals("map")) {
+			bm.setMemo_no(m.getMemoNo());
+			
+			String address = mb_main + ", " + mb_sub;
+			bm.setMb_address(address);
+			
+			result = mmService.updateBMap(bm);
+		} else if(m.getMainNo() == 6 && m.getMemoType().equals("url")) {
+			bu.setMemo_no(m.getMemoNo());
+			
+			result = mmService.updateBUrl(bu);
+		}
+		
+		if(result > 0) {
+			return "redirect:mmview.do";
+		} else {
+			throw new MemoException("메모 수정 실패");
 		}
 	}
 

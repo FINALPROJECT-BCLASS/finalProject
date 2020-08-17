@@ -94,4 +94,44 @@ public class MemoDao {
 		return sqlSessionTemplate.update("memoMapper.updateAbDate", a);
 	}
 
+	public int updateMpDate(MPlan mp) {
+		
+		return sqlSessionTemplate.update("memoMapper.updateMpDate", mp);
+	}
+
+	public int updateMemo(Memo m) {
+		
+		return sqlSessionTemplate.update("memoMapper.updateMemo", m);
+	}
+
+	public int updateMPlan(MPlan mp) {
+	
+		return sqlSessionTemplate.update("memoMapper.updateMPlan", mp);
+	}
+
+	public int updateABook(AccountBook ab) {
+		
+		return sqlSessionTemplate.update("memoMapper.updateABook", ab);
+	}
+
+	public int updateBMap(BookmarkMap bm) {
+	
+		return sqlSessionTemplate.update("memoMapper.updateBMap", bm);
+	}
+
+	public int updateBUrl(BookmarkUrl bu) {
+		
+		return sqlSessionTemplate.update("memoMapper.updateBUrl", bu);
+	}
+
+	public BookmarkMap selectBMap(Memo m) {
+		
+		return sqlSessionTemplate.selectOne("memoMapper.selectBMap", m);
+	}
+
+	public int updateBmAddress(BookmarkMap bm) {
+	
+		return sqlSessionTemplate.update("memoMapper.updateBmAddress", bm);
+	}
+
 }

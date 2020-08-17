@@ -320,13 +320,13 @@
                                         <tr>
                                             <th>Title</th>
                                             <td>
-                                            	<input type="text" name="ttTitle" size="30">
+                                            	<input type="text" name="ttTitle" size="30" required>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>Date</th>
                                             <td>
-                                            	<input type="date" name="ttDate" id="ttDate" style="width: 250px;">
+                                            	<input type="date" name="ttDate" id="ttDate" style="width: 250px;" required>
                                             </td>
                                         </tr>
                                         <tr>
@@ -346,8 +346,8 @@
 						                            <label class="b-icons" for="pink" ><div class="pink"></div></label>
 						                            <input type="radio" name="color" id="purple" value="#C9A8FF">
 						                            <label class="b-icons" for="purple"><div class="light-purple"></div></label>
-						                            <input type="radio" name="color" id="blue" value="#2860E1">
-						                            <label class="b-icons" for="blue" ><div class="sky"></div></label>
+						                            <input type="radio" name="color" id="sky" value="#6B98FF">
+						                            <label class="b-icons" for="sky" ><div class="sky"></div></label>
 						                            <input type="radio" name="color" id="green" value="#50c6b0">
 						                            <label class="b-icons" for="green"><div class="green"></div></label>                                        		
                                         		</div>
