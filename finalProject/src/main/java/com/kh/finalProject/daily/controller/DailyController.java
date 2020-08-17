@@ -22,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -35,6 +36,8 @@ import com.kh.finalProject.daily.model.vo.DailyRecordPhoto;
 import com.kh.finalProject.daily.model.vo.Habit;
 import com.kh.finalProject.daily.model.vo.HabitRecord;
 import com.kh.finalProject.daily.model.vo.HabitSum;
+import com.kh.finalProject.group.common.PageInfo;
+import com.kh.finalProject.group.common.Pagination;
 import com.kh.finalProject.member.model.vo.Member;
 
 @Controller
@@ -1385,40 +1388,39 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 	    }
 	}
 	
-	
+	// 일기 목록
 	@RequestMapping("dailyRecordView.do")
-	public ModelAndView dailyRecordView(ModelAndView mv, HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView dailyRecordView(ModelAndView mv, HttpServletRequest request, HttpServletResponse response
+							, @RequestParam(value="page", required=false) Integer page) {
 		
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
 		String id = member.getId();
 		
-		ArrayList<DailyRecord> drlist = dailyService.selectDailyRecordList(id);
-//		ArrayList<DailyRecordPhoto> drplist = dailyService.selectDailyRecordPhotoList(id);
+		int currentPage = 1;
 		
-//		ArrayList<DailyRecordPhoto> drplist_f = new ArrayList<>();
-//		
-//		for(DailyRecord dr : drlist) {
-//			for(DailyRecordPhoto drp : drplist) {
-//				if(drp.getDr_no().equals(dr.getDr_no())) {
-//					drplist_f.add(drp);
-//				}
-//			}
-//		}
-//		
-//		System.out.println("drplist_f : " + drplist_f);
-//		
-//		System.out.println("drlist : " + drlist);
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		int listCount = dailyService.getListCount(id);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		
+		ArrayList<DailyRecord> drlist = dailyService.selectDailyRecordList(id, pi);
+		
+		System.out.println("1페이지 : " + drlist);
 		
 		if(drlist != null) {
 			
+			mv.addObject("pi", pi);
 			mv.addObject("drlist", drlist);
 			mv.setViewName("daily/dailyRecordBoard");
 			
 		}else {
 			
-			mv.addObject("drlist", drlist);
-			mv.setViewName("daily/dailyRecordBoard");
+//			mv.addObject("drlist", drlist);
+//			mv.setViewName("daily/dailyRecordBoard");
 			
 		}
 		
@@ -1439,23 +1441,17 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 								, @RequestParam(value="file", required=false) List<MultipartFile> file
 								, @RequestParam(value="dr_no", required=false) String dr_no_before) {
 		
+//		System.out.println("dr_no ?? :" + dr_no_before);
+		
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
 		String id = member.getId();
 		
-		System.out.println("dr : " + dr);
-//		System.out.println("file : " + file);
-		
-		dr.setId(id);
-		
-		 
-		int result = dailyService.insertDailyRecord(dr);
-		
-		int dr_no_after = Integer.parseInt(dr_no_before) + 1;
-		String dr_no = Integer.toString(dr_no_after);
-		
+
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "/druploadFiles/";
+		
+		System.out.println(savePath);
 		
 		File folder = new File(savePath);
 		
@@ -1463,47 +1459,78 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 			folder.mkdirs();
 		}
 		
+		System.out.println("dr : " + dr);
+		
+		dr.setId(id);
+		
+		String dr_no = "";
+		
+		ArrayList<DailyRecord> drlist = dailyService.selectDailyRecordList_a(id);
+
+		if(dr_no_before.equals("undefined")) {	
+			
+			if(!drlist.isEmpty()) {
+				
+				int dr_no_after = Integer.parseInt(drlist.get(drlist.size()-1).getDr_no()) + 1;
+				dr_no = Integer.toString(dr_no_after);
+				
+			}else {
+				
+				dr_no = "1";
+			}
+			
+			
+		}else {
+			
+			int dr_no_after = Integer.parseInt(drlist.get(drlist.size()-1).getDr_no()) + 1;
+			dr_no = Integer.toString(dr_no_after);
+			
+		}
+		
+		int result = dailyService.insertDailyRecord(dr);
+		
 		ArrayList<DailyRecordPhoto> drplist  = new ArrayList<>();
 		
 		
 		if(result > 0) {
-		
-			if(!file.isEmpty()) {
 				
 				for(MultipartFile mf : file) {
 					
 					String originFileName = mf.getOriginalFilename();
+						
+						if(!mf.getOriginalFilename().equals("")) {
+						
+						// 파일명 앞에 '사용자 아이디_' 추가
+						String renameFileName = id + "_" + System.currentTimeMillis()
+													+"."+originFileName.substring(originFileName.lastIndexOf(".")+1);
+						
+						String filePath = folder + "/" + renameFileName;
+						
+						DailyRecordPhoto drp = new DailyRecordPhoto();
+						drp.setDrp_origin(originFileName);
+						drp.setDrp_rename(renameFileName);
+						drp.setDr_no(dr_no);
+						
+						int result_drp = dailyService.insertDailyRecordPhoto(drp);
+						
+						try {
+							mf.transferTo(new File(filePath));
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						
+						drplist.add(drp);
+						
+						}
 					
-					// 파일명 앞에 '사용자 아이디_' 추가
-					String renameFileName = id + "_" + System.currentTimeMillis()
-												+"."+originFileName.substring(originFileName.lastIndexOf(".")+1);
-					
-					String filePath = folder + "/" + renameFileName;
-					
-					DailyRecordPhoto drp = new DailyRecordPhoto();
-					drp.setDrp_origin(originFileName);
-					drp.setDrp_rename(renameFileName);
-					drp.setDr_no(dr_no);
-					
-//					System.out.println("drp : "  + drp);
-					
-					int result_drp = dailyService.insertDailyRecordPhoto(drp);
-					
-					try {
-						mf.transferTo(new File(filePath));
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					
-					drplist.add(drp);
 				}
 				
-				int pResult = dailyService.updateDailyRecordThumbnail(drplist.get(0));
-				
+				if(!drplist.isEmpty()) {
+					int pResult = dailyService.updateDailyRecordThumbnail(drplist.get(drplist.size()-1));
+				}
 				
 				return "redirect:dailyRecordView.do";
 			
-			}
 			
 		} else {
 		
@@ -1512,13 +1539,14 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 			
 			return "common/redirect";
 		}
-		
-		return "redirect:dailyRecordView.do";
 	}
 	
-	@RequestMapping("dailyRecordDetailview.do")
-	public String dailyRecordDetailView(Model model, HttpServletRequest request
+	
+	@RequestMapping("dailyRecordDetailView.do")
+	public ModelAndView dailyRecordDetailView(ModelAndView mv, HttpServletRequest request
 										, @RequestParam(value="dr_no", required=true) String dr_no) {
+		
+//		System.out.println(dr_no);
 		
 		HttpSession session = request.getSession();
 		Member member = (Member) session.getAttribute("loginUser");
@@ -1533,13 +1561,286 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		DailyRecord dr = dailyService.selectDailyRecord(map);
 		ArrayList<DailyRecordPhoto> drplist = dailyService.selectDailyRecordPhotoList(dr_no);
 		
-		System.out.println(drplist);
+//		System.out.println("dr : " + dr);
+//		System.out.println("drplist : " + drplist);
 		
-//		
-//		model.addAttribute("dr_no", dr_no);
-//		return "daily/dailyRecordDetail";
 		
-		return null;
+		mv.addObject("drplist", drplist);
+		mv.addObject("dr", dr);
+		mv.setViewName("daily/dailyRecordDetail");
+		
+		return mv; 
 	}
 	
+	
+	@RequestMapping("editDailyRecordView.do")
+	public ModelAndView EditdailyRecordView(ModelAndView mv, HttpServletRequest request
+										, DailyRecord dr
+										, @RequestParam(value="drp_rename", required=false) String drp_rename
+										, @RequestParam(value="drp_no", required=false) String drp_no) {
+		
+//		System.out.println("drp_rename" + drp_rename);
+//		System.out.println("drp_no" + drp_no);
+//		System.out.println("dr : " + dr);
+
+		mv.addObject("drp_no", drp_no);
+		mv.addObject("drp_rename", drp_rename);
+		mv.addObject("dr", dr);
+		mv.setViewName("daily/dailyRecordEdit");
+		
+		return mv;
+	}
+	
+	@RequestMapping("editDailyRecord.do")
+	public String EditDailyRecord(Model model, DailyRecord dr, HttpServletRequest request
+										, @RequestParam(value="drp_left", required=false) String left_name
+										, @RequestPart(value="file", required=false) List<MultipartFile> file
+										, @RequestParam(value="remove_no", required=false) String remove_no) {
+		
+//		System.out.println("dr : " + dr);
+		
+		HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("loginUser");
+		String id = member.getId();
+		dr.setId(id);
+		
+		// 인서트
+		int result = dailyService.updateDailyRecord(dr);
+		
+		if(result > 0) {
+			
+			String root = request.getSession().getServletContext().getRealPath("resources");
+			String savePath = root + "/druploadFiles/";
+			
+			System.out.println(savePath);
+			
+			File folder = new File(savePath);
+			
+			if(!folder.exists()) {
+				folder.mkdirs();
+			}
+			
+			String remove_no_[] = remove_no.split(","); // 삭제된 파일 번호
+			String left_no_[] = left_name.split(","); // 남은 파일 이름
+			
+			if(!remove_no.equals("")) {
+				
+				for(int i = 0 ; i < remove_no_.length ; i++) {
+					
+					System.out.println(remove_no_[i]);
+					
+					// 사진 파일 삭제
+					int drp_update = dailyService.updateDailyRecordPhoto(remove_no_[i]);
+					
+					if(drp_update > 0) {
+						
+						File reFile = new File(savePath + remove_no_[i]);
+						reFile.delete();// 기존에 있던 사진파일 삭제
+						
+					}else {
+						
+						model.addAttribute("msg","수정 실패, 다시 시도해 주세요.");
+			            model.addAttribute("url","/dailyRecordView.do");
+						
+						return "common/redirect";
+						
+					}
+					
+				}
+				
+				if(!left_name.equals("")) {
+				
+					DailyRecordPhoto drp_thumbnail = new DailyRecordPhoto();
+					drp_thumbnail.setDr_no(dr.getDr_no());
+					drp_thumbnail.setDrp_rename(left_no_[0]);
+					
+					int dr_thumbname_re = dailyService.updateDailyRecordThumbnail(drp_thumbnail);
+				}
+				
+			}
+			
+			ArrayList<DailyRecordPhoto> drplist  = new ArrayList<>();
+		
+			for(MultipartFile mf : file) {
+				
+				String originFileName = mf.getOriginalFilename();
+				
+				if(!mf.getOriginalFilename().equals("")) {
+				
+						// 파일명 앞에 '사용자 아이디_' 추가
+						String renameFileName = id + "_" + System.currentTimeMillis()
+													+"."+originFileName.substring(originFileName.lastIndexOf(".")+1);
+						
+						String filePath = folder + "/" + renameFileName;
+						
+						DailyRecordPhoto drp = new DailyRecordPhoto();
+						drp.setDrp_origin(originFileName);
+						drp.setDrp_rename(renameFileName);
+						drp.setDr_no(dr.getDr_no());
+						
+//						System.out.println("drp : "  + drp);
+						
+						int result_drp = dailyService.insertDailyRecordPhoto(drp);
+						
+						try {
+							mf.transferTo(new File(filePath));
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						
+						drplist.add(drp);
+					}
+				}
+			
+				// 기존 사진을 전부 지우고, 올린 사진이 있을 경우
+				if(!drplist.isEmpty() && left_name.equals("")) {
+					
+					int pResult = dailyService.updateDailyRecordThumbnail(drplist.get(drplist.size()-1));
+					
+				} else if(drplist.isEmpty() && left_name.equals("")) {
+					
+
+					DailyRecordPhoto drp = new DailyRecordPhoto();
+					drp.setDrp_rename("");
+					drp.setDr_no(dr.getDr_no());
+					
+					int pResult = dailyService.updateDailyRecordThumbnail(drp);
+					
+				}
+			
+				
+				System.out.println("drplist : " + drplist);
+						
+				return "redirect:dailyRecordDetailView.do?dr_no=" + dr.getDr_no();
+			
+		}else {
+			
+			model.addAttribute("msg","수정 실패, 다시 시도해 주세요.");
+			model.addAttribute("url","/dailyRecordView.do");
+		
+			return "common/redirect";
+		}
+		
+	}
+	
+	@RequestMapping("deleteDailyRecord.do")
+	public String deleteDailyRecord(HttpServletRequest request, Model model,
+									@RequestParam(value = "dr_no", required = false) String dr_no) {
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		
+		String id = member.getId();
+		
+//		System.out.println("dr_no : " + dr_no);
+		
+		//map으로 가져가서 확인해주자
+		HashMap<String, String> map = new HashMap<>();
+		map.put("id", id);
+		map.put("dr_no", dr_no);
+		
+		int result = dailyService.deleteDailyRecord(map);
+		
+		if(result > 0) {
+			
+			return "redirect:dailyRecordView.do";
+			
+		} else {
+			model.addAttribute("msg","수정 실패, 다시 시도해 주세요.");
+			model.addAttribute("url","/dailyRecordView.do");
+		
+			return "common/redirect";
+		}
+		
+		
+	}
+	
+	
+	@RequestMapping("deleteDailyRecordC.do")
+	public void deleteDailyRecordC(HttpServletRequest request, HttpServletResponse response,
+									@RequestParam(value = "dr_no", required = false) String[] dr_no) throws IOException {
+		
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		
+		String id = member.getId();
+		
+//		System.out.println("에이작스 : " + dr_no);
+		
+		int result = 0;
+		
+		for(String dr_no_a : dr_no) {
+			
+			System.out.println("dr_no_a : " + dr_no_a);
+			
+			HashMap<String, String> map = new HashMap<>();
+			map.put("id", id);
+			map.put("dr_no", dr_no_a);
+			
+			result = dailyService.deleteDailyRecord(map);
+			
+		}
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		if(result > 0) {
+			out.print("success");
+			out.flush();
+			out.close();
+		} else {
+			out.print("failed");
+			out.flush();
+			out.close();
+		}
+	}
+	
+	@RequestMapping("searchDailyRecordView.do")
+	public ModelAndView searchDailyRecordView(ModelAndView mv, HttpServletRequest request
+												, @RequestParam(value="select_item", required=false) String select_item
+												, @RequestParam(value="title", required=false) String title
+												, @RequestParam(value="date", required=false) String date
+												, @RequestParam(value="page", required=false) Integer page) {
+		
+		System.out.println("select_item : " + select_item);
+		System.out.println("title : " + title);
+		System.out.println("date : " + date);
+		
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		String id = member.getId();
+		
+		int currentPage = 1;
+		
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		HashMap<String, String> map = new HashMap<>();
+		map.put("id", id);
+		map.put("select_item", select_item);
+		map.put("title", title);
+		map.put("date", date);
+		
+		int listCount = dailyService.getListCountSearch(map);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		
+		ArrayList<DailyRecord> drlist = dailyService.selectDailyRecordSearchList(map, pi);
+		
+		System.out.println("1페이지 : " + drlist);
+		
+		if(drlist != null) {
+			mv.addObject("pi", pi);
+			mv.addObject("drlist", drlist);
+			mv.setViewName("daily/dailyRecordBoard");
+			
+		}else {
+			
+//			mv.addObject("drlist", drlist);
+//			mv.setViewName("daily/dailyRecordBoard");
+			
+		}
+		
+		return mv;
+	}
 }

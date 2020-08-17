@@ -25,7 +25,6 @@
         .board-table {
         	width:100%;
             margin: 9px auto;
-            margin-bottom: 50px;
             border-top: 1px solid #484848;
             border-bottom: 1px solid #484848;
 
@@ -73,7 +72,7 @@
         }
         
         .board-image-area > img {
- 			 height:110%;
+ 			 height:150%;
 		}
 
         td > a {
@@ -102,7 +101,9 @@
         .page-bnf {
             margin: 0 6px;
             font-size: 19px;
-        }
+            display: inline-block;
+            font-weight: 600;
+      	}
 
         .p-num {
             color: #484848;
@@ -110,7 +111,7 @@
 
         /* pagination-end */
 
-        input[type=text] {
+        input[type=text], input[type=date] {
             margin: 0 8px;
             border-style: none;
             border-radius: 8px;
@@ -161,6 +162,7 @@
         }
         
         .button-area {
+        	position: relative;
             display: flex;
             justify-content: flex-end;
 	    }
@@ -177,6 +179,28 @@
         .daily-record-area {
         	width: 77%;
         }
+        
+        .thead {
+        	height: 45px;
+        }
+        
+        #date_a {
+        	display: none;
+        }
+        
+        .allpost {
+        	font-size: 15px !important;
+        	color: gray !important;
+        	position: absolute;
+        	left:0;
+        	
+        }
+        
+        .allpost:hover {
+        	color:#2860E1 !important;
+        }
+        
+
 
     </style>
 </head>
@@ -186,14 +210,18 @@
     <div class="right-area">
         <div class="daily-record-area">
             <span class="pSubject">Daily Record</span>
+                    
+           	
             <div class="button-area">
-                    <button type="button" onclick = "dailyRecordAdd()">Add</button>
-                    <button type="button">Delete</button>
+            		<button class="allpost" type="button" onclick="allPost()">All Post</button>
+                    <button type="button" onclick="dailyRecordAdd()">Add</button>
+                    <button type="button" onclick="deleteDailyRecord()">Delete</button>
              </div>
+             <input type="hidden" name="dr_thumbnail" value="${dr.dr_thumbnail }">
             <table class="board-table" cellpadding="3px">
                 <thead>
-                    <tr>
-                        <th><input type="checkbox"></th>
+                    <tr class="thead">
+                        <th><input id="check_all" name=check type="checkbox"></th>
                         <th>No.</th>
                         <th>Image</th>
                         <th>Title</th>
@@ -203,7 +231,7 @@
                 <tbody class="table-body">
                 	<c:forEach var="dr" items="${drlist }">
 	                    <tr>
-	                        <td><input type="checkbox"></td>
+	                        <td><input class="check_sub" name=check type="checkbox" value="${dr.dr_no }"></td>
 	                        <td>${dr.dr_no }</td>
 	                        <td>
 	                        	<c:if test="${empty dr.dr_thumbnail }">
@@ -213,37 +241,186 @@
 	                        		<div class="board-image-area"><img class="image" src="resources/druploadFiles/${dr.dr_thumbnail }"></div>
 	                        	</c:if>
 	                        </td>
-	                        <c:url var="drview" value="dailyRecordDetailview.do?dr_no=${dr.dr_no }" />
+	                        <c:url var="drview" value="dailyRecordDetailView.do?dr_no=${dr.dr_no }" />
 	                        <td><a href="${drview }">${dr.dr_title }</a></td>
 	                        <td>${dr.dr_date }</td>
 	                    </tr>
 	                </c:forEach>
                 </tbody>
+                
             </table>
+                 
             <div class="pagination-area">
-                <button type="button" class="page-bnf blue">Prev</button>
-                <button type="button" class="p-num">1</button>
-                <button type="button" class="p-num">2</button>
-                <button type="button" class="p-num">3</button>
-                <button type="button" class="page-bnf blue">Next</button>
+            	<c:if test="${!empty drlist }">
+	            <c:if test="${pi.currentPage eq 1 }">
+	            	<p class="page-bnf gray">Prev</p>
+	            </c:if>
+	            </c:if>
+	            <c:if test="${pi.currentPage gt 1 }">
+	            	<c:url var="drlistBack" value="dailyRecordView.do">
+	            		<c:param name="page" value="${pi.currentPage -1 }"/>
+                	</c:url>
+                		<button type="button" class="page-bnf blue" onclick="location.href='${drlistBack }'">Prev</button>
+                </c:if>
+                
+                <c:forEach var="p" begin="${pi.startPage }" end="${pi.endPage }">
+                
+	                <c:if test="${p eq pi.currentPage }">
+						<button class="p-num" color="blue" size="4"><b>${p }</b></button>
+					</c:if>
+                	
+                	<c:if test="${p ne pi.currentPage }">
+                		<c:url var="drlistCheck" value="dailyRecordView.do">
+                			<c:param name="page" value="${p }"/>
+                		</c:url>
+	                	<button type="button" class="p-num"  onclick="location.href='${drlistCheck }'">${p }</button>
+                	</c:if>
+                
+                </c:forEach>
+                
+				 <c:if test="${pi.currentPage eq pi.maxPage }">
+	            	<p class="page-bnf gray">Next</p>
+	            </c:if>
+	            <c:if test="${pi.currentPage lt pi.maxPage }">
+	            	<c:url var="drlistNext" value="dailyRecordView.do">
+	            		<c:param name="page" value="${pi.currentPage +1 }"/>
+                	</c:url>
+		                <button type="button" class="page-bnf blue" onclick="location.href='${drlistNext }'">Next</button>
+                </c:if>
+
             </div>
 
             <div class="search-area">
                 <div style="position:relative;">
-                    <select>
-                        <option>Title</option>
-                        <option>Date</option>
+                    <select id="select_" name="select_item">
+                        <option id="title_" value="Title">Title</option>
+                        <option id="date_" value="Date">Date</option>
                     </select>
                     <div class="select-arrow"></div>
                 </div>
-                    <input type="text"></input>
-                <button class="default-btn b-yell">Search</button>
+                    <input id="title_a" type="text" name="title">
+                    <input id="date_a" type="date" name="date">
+                <button class="default-btn b-yell" onclick="searchList()">Search</button>
             </div>
         </div>
     </div>
+    
     <jsp:include page="../common/footer.jsp"/>
 </body>
 <script>
+	
+	window.onkeydown = function(){
+		
+		var kcode = event.keyCode;
+		
+		if(kcode == 116) {
+			
+			/* history.replaceState({}, null, location.pathname); */
+			window.location = window.location.href.split("?")[0];
+			window.location = window.location.pathname;
+			
+		}
+		
+	}
+	
+	 
+	function allPost() {
+		
+		location.href="dailyRecordView.do";
+		
+	}
+
+	function searchList() {
+		
+		var select_item = $("#select_").val();
+		var title = $("#title_a").val();
+		var date = $("#date_a").val();
+		
+		location.href= "searchDailyRecordView.do?select_item=" + select_item + "&title=" + title + "&date=" + date;
+		
+	}
+
+
+	/* 검색 옵션 */
+	$('#select_').change(function() {
+		var state = $('#select_ option:selected').val();
+		if ( state == 'Title' ) {
+			$("#title_a").show();
+			$("#date_a").hide();
+		} else {
+			$("#title_a").hide();
+			$("#date_a").show();
+		}
+	});
+
+	
+	// 전체 선택
+	$(function(){
+		// 전체 선택 체크박스를 클릭하면,
+	   $("#check_all").click(function(){
+		   
+	       var chk = $(this).is(":checked");//.attr('checked');
+	        // 하위 체크박스의 상태를 checked로 변경
+	       if(chk){
+	    	   $(".check_sub").prop('checked', true);
+	       } else{
+	    	   $(".check_sub").prop('checked', false);
+	       }
+	    });
+	});
+	
+	
+	var arrayList = '';
+	
+	
+	function deleteDailyRecord(){
+	
+	var checkboxList = $("input[name=check]:checked");
+	
+	arrayList = '';
+	
+	for(var i=0; i<checkboxList.length; i++){
+	
+		// checkbox가 체크 되어있을 때만 실행
+		if($(checkboxList[i]).is(":checked")){
+			// 확인
+			console.log(i);
+			
+			if(i != checkboxList.length-1){
+				arrayList += $(checkboxList[i]).val() + ",";
+			} else{
+				arrayList += $(checkboxList[i]).val();
+			}
+		}
+	}	
+	
+	
+	// 하나도 체크 안했을 시 
+	if(arrayList == ''){
+		alert("하나 이상을 선택해주세요.");
+	}else{
+			if(!confirm('삭제하시겠습니까?')){
+			return false;}
+	
+			// post ajax
+	
+			$.ajax({
+				type: "POST",
+				url: "deleteDailyRecordC.do",
+				data: {dr_no : arrayList},
+				success: function(data){
+					if(data == "success") {
+						// 현재 페이지 새로고침
+						history.go(0);
+					}else {
+						alert("오류 발생, 다시 시도해 주세요.");
+						
+					}
+				}		
+			});
+		}
+	}
+
 
 	function dailyRecordAdd() {
 		
