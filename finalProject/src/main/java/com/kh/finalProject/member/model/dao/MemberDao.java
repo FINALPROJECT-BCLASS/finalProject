@@ -41,10 +41,5 @@ public class MemberDao {
 		return sqlSessionTemplate.selectOne("memberMapper.selectOneFindId", m);
 	}
 
-	public Member selectOne_c(Member m) {
-
-		return sqlSessionTemplate.selectOne("memberMapper.selectOne_c", m);
-	}
-
 	
 }

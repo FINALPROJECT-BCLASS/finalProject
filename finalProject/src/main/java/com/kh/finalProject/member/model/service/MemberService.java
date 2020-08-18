@@ -22,6 +22,4 @@ public interface MemberService {
 
 	Member selectOneFindId(Member m);
 
-	Member selectOne_c(Member m);
-
 }

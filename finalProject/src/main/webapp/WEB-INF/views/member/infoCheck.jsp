@@ -98,7 +98,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><button type="button" onclick="submit();" class="login-btn b-blue white">Submit</button>
+                    <td><button type="submit" class="login-btn b-blue white">Submit</button>
                     </td>
                 </tr>
             </table>
@@ -106,9 +106,5 @@
     </div>
     <jsp:include page="../common/footer.jsp"/>
     
-    <script>
-    console.log("아이디" + "${loginUser.id}");
-    
-    </script>
 </body>
 </html>

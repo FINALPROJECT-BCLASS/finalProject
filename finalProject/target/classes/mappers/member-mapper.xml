@@ -24,14 +24,6 @@
 		AND OUT_YN = 'N'
 	</select>
 	
-	<select id="selectOne_c" parameterType="Member" resultMap="memberResultSet">
-		SELECT *
-		FROM MEMBER
-		WHERE ID = #{id}
-		AND PWD = #{pwd}
-		AND OUT_YN = 'N'
-	</select>
-	
 	<select id="checkId" parameterType="String" resultType="_int">
 		SELECT COUNT(*)
 		FROM MEMBER

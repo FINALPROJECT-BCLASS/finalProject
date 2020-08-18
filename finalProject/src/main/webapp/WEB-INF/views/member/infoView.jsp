@@ -388,17 +388,7 @@
     	
     	var mainNo = ${loginUser.main_no}
     	
-    	if(mainNo == "1") {
-    		$("#1").attr("checked", true);
-    	}else if(mainNo == "2") {
-    		$("#2").attr("checked", true);
-    	}else if(mainNo == "3") {
-    		$("#3").attr("checked", true);
-    	}else if(mainNo == "4") {
-    		$("#4").attr("checked", true);
-    	}else if(mainNo == "5") {
-    		$("#5").attr("checked", true);
-    	}
+    	$("#"+mainNo).attr("checked", true);
     	
     	document.getElementById("birth").value = "${loginUser.birthday}";
     	
