@@ -189,6 +189,7 @@
          
          .writeBtn{margin-left:80px;color:#aeaeae !important; font-size:50px !important; cursor:pointer; padding:0 !important;}
   		 .writeBtn:hover{margin-left:80px;color:#2860E1 !important; font-size:50px !important; cursor:pointer; padding:0 !important;}
+  		 .fc-event-title{font-weight:400 !important;}
     </style>
 </head>
 

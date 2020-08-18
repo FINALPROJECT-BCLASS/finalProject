@@ -195,20 +195,22 @@
 
 	<select id="searchNameList" parameterType="GroupSearchName" resultMap="memberResultSet">
 		
-	  SELECT ID, NAME
+	  <!-- SELECT ID, NAME
       FROM MEMBER
       WHERE ID NOT IN(SELECT GM.GM_ID
                    FROM GROUP_MEMBER GM
                   WHERE GM.G_NO= #{gNo})
        AND NAME LIKE '%' || #{searchName} || '%' 
        AND ID NOT IN  #{loginUserId}
-       AND OUT_YN = 'N'
+       AND ID NOT IN  'admin'
+       AND OUT_YN = 'N' -->
 		
-		<!-- SELECT ID, NAME
+		SELECT ID, NAME
 		FROM MEMBER
 		WHERE NAME LIKE '%' || #{searchName} || '%' 
 		AND ID NOT IN  #{loginUserId}
-		AND OUT_YN = 'N' -->
+		AND ID NOT IN  'admin'
+		AND OUT_YN = 'N'
 	</select>
 	
 	<insert id="groupInsert" parameterType="GroupTable">
@@ -865,11 +867,12 @@
         JOIN GROUP_MEMBER GM ON(GM.GM_ID = M.ID)
 		WHERE NAME LIKE '%' || #{searchName} || '%' 
 		AND G_NO = #{gNo}
+		AND GM_DELETE = 'N'
 		AND OUT_YN = 'N'
 	</select>
 	
 	<select id="selectProList" parameterType="GroupInfo" resultMap="groupAccountResultSet">
-		SELECT GA_NO, G_NO, GM_NO, TO_CHAR(TO_DATE(GA_DATE),'YYYY-MM-DD') AS GA_DATE, GA_CON, GA_AMOUNT, GA_PRO, GA_EXP, GA_FEE, GA_DELETE
+		SELECT GA_NO, G_NO, GM_NO, GA_DATE, GA_CON, GA_AMOUNT, GA_PRO, GA_EXP, GA_FEE, GA_DELETE
 		FROM GROUP_ACCOUNT
 		WHERE G_NO = #{groupNo}
 		AND GA_PRO = 'Y'
@@ -877,7 +880,7 @@
 	</select>
 	
 	<select id="selectExeList" parameterType="GroupInfo" resultMap="groupAccountResultSet">
-		SELECT GA_NO, G_NO, GM_NO, TO_CHAR(TO_DATE(GA_DATE),'YYYY-MM-DD') AS GA_DATE, GA_CON, GA_AMOUNT, GA_PRO, GA_EXP, GA_FEE, GA_DELETE
+		SELECT GA_NO, G_NO, GM_NO, GA_DATE, GA_CON, GA_AMOUNT, GA_PRO, GA_EXP, GA_FEE, GA_DELETE
 		FROM GROUP_ACCOUNT
 		WHERE G_NO = #{groupNo}
 		AND GA_EXP = 'Y'

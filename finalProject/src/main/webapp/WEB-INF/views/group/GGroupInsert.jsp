@@ -33,7 +33,7 @@
      .adminBtn{ background:#2860E1 !important; color:white !important; }
     .searchNameBox{margin-bottom:20px; margin:5px; height:30px; background:#FBD14B; border:none; border-radius: 5px; font-size:small;}
     .searchNameBox:hover{margin-bottom:20px; margin:5px; height:30px; background:darkgray; border:none; border-radius: 5px; cursor:pointer;font-size:small;}
-    .searchNameForm{display:none; height:100px; overflow:scroll;  overflow-x:hidden; }
+    .searchNameForm{display:none; height:200px; overflow:scroll;  overflow-x:hidden; }
     .deleteBtn{width:20px;height:30px; border-radius: 3px; background:red; border:none; text-align: center;}
 	
     /* 구글 아이콘 */

@@ -201,7 +201,7 @@
                         </tr>
                         <c:if test="${gaList.gaFee eq 'Y' }">
 	                        <c:if test="${!empty gaList.gasYn }">
-	                        <tr>
+	                        <tr class="checkSharing">
 	                        	<td>Sharing</td>
 	                        	<td>
 	                        		<c:if test="${gaList.gasYn eq  'Y'}">
