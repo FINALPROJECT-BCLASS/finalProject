@@ -294,7 +294,7 @@
     <div class="right-area">
         <div>
             <form action="editDailyRecordView.do" id="record" name="record" method="post" enctype="multipart/form-data">
-            	<span class="pSubject">My Record : No.${dr.dr_no }</span>
+            	<span class="pSubject">My Record</span>
                 <input type="hidden" name="dr_no" id="dr_no" value="${dr.dr_no }">
                 <input type="hidden" name="dr_thumbnail" value="${dr.dr_thumbnail }">
                 <table cellpadding="6px"> 
