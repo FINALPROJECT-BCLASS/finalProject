@@ -178,7 +178,7 @@
     .infoSetMain {
     	opacity: 0;
     	position: absolute;
-	    top: 65px;
+	    top: 280px;
 	    left: 5px;
 	    padding: 12px;
 	    font-size: 13px;
@@ -340,7 +340,7 @@
                 </tr>
             </table>
             <div class="button-area">
-	            <button onclick="history.go(-1)">Back</button>
+	            <button type="button" onclick="history.go(-1)">Back</button>
 	            <button type="reset">Reset</button>
 	            <button type="button" onclick="joinSubmit()">Submit</button>
             </div>

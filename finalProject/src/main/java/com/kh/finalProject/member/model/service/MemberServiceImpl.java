@@ -55,5 +55,11 @@ public class MemberServiceImpl implements MemberService {
 
 		return mDao.updatePwd(m);
 	}
+
+	@Override
+	public Member selectOneFindId(Member m) {
+
+		return mDao.selectOneFindId(m);
+	}
 	
 }

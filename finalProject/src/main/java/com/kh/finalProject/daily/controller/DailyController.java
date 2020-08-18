@@ -737,8 +737,6 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		
 		bookmark = dailyService.selectBookmarkGroupList(id);
 		
-		System.out.println("잘 불러옵니까?" + bookmark);
-		
 		if(bookmark != null) {
 			
 			mv.addObject("ubNum", ubNum);
@@ -765,9 +763,6 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 	public String insertBookmark(Bookmark bm, Model model,
 								HttpServletRequest request, HttpServletResponse response,
 								@RequestParam(value="file", required=false) MultipartFile file) {
-		
-		System.out.println("받아온 bm" + bm);
-		
 		
 		HttpSession session = request.getSession();
 		Member member = (Member) session.getAttribute("loginUser");

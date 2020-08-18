@@ -122,8 +122,8 @@
 
         #calendar {
             max-width: 900px;
-            margin: 0 auto;
-            margin-left: 300px;
+		    margin: 0 auto;
+		    margin-left: 380px;
             /* z-index: 0 !important; */
         }
 
@@ -138,6 +138,21 @@
         .fc-event-time{
         	display: none !important;
         }
+        
+        .top-area {
+        	position: relative;
+		    width: 900px;
+		    margin: 0 auto;
+		    margin-left: 380px;
+		    display: flex;
+		    margin-bottom: 20px;
+        }
+        
+        .add-btn {
+       	    position: absolute;
+    		right: 0;
+        }
+        
     </style>
 </head>
 
@@ -149,24 +164,25 @@
 		<jsp:include page="../common/sidenaviAccount.jsp"/>
         
         <br><br>
-        
-        <div class="row">
+        	<div class="top-area">
+               	<table id="total">
+                   <tr>
+                       <td style="color: blue;"><b>Profit :&nbsp;</b></td>
+                       <td><b id="proSum"></b></td>
+                   </tr>
+                  	<tr>
+                       <td style="color: red;text-align: right;"><b>Expenditure :&nbsp;</b></td>
+                       <td><b id="expSum"></b></td>
+                   </tr>
+               	</table>
+            	<button type="button" class="default-btn add-btn" data-toggle="modal" data-target="#addModal">Add</button>
+           	</div>
+        <div class="row"> 
             <div class="col-md-2"></div>
             <div class="col-md-3">
-                <table id="total">
-                    <tr>
-                        <td style="color: blue; text-align: right;"><b>Profit :&nbsp;</b></td>
-                        <td><b id="proSum"></b></td>
-                    </tr>
-                   	<tr>
-                        <td style="color: red;text-align: right;"><b>Expenditure :&nbsp;</b></td>
-                        <td><b id="expSum"></b></td>
-                    </tr>
-                </table>
             </div>
             <div class="col-md-5"></div>
             <div class="col-md-2">
-            	<button type="button" class="default-btn" data-toggle="modal" data-target="#addModal">Add</button>
             	<div class="modal fade" id="addModal" role="dialog">
                     <div class="modal-dialog">
                         <div class="modal-content">

@@ -89,6 +89,45 @@
     	font-size: 80%;
     	color:#c4c4c4;
     }
+    
+    .id_ {
+    	display: block;
+	    font-weight: 400;
+	    font-size: 14px;
+	    text-align: right;
+	    margin-top: 3px;
+	    margin-right: 3px;
+    }
+    
+    .modal-form-area {
+    	display: flex;
+	    flex-direction: column;
+	    align-items: center;
+	    margin: 30px;
+    }
+    
+    .mSubject {
+   		margin: 0 auto;
+        font-size: 30px;
+        font-weight: 600;
+        padding: 15px;
+        color: #484848;
+    	padding-top: 0;
+    }
+    
+    .close {
+    	position: absolute;
+	    right: 20px;
+	    top: 13px;
+    }
+    
+    .modal-dialog {
+    	max-width: 375px !important;
+    }
+    
+    .modal, .modal-open {
+    	padding-right: 0 !important;
+    }
 
 
 </style>
@@ -103,6 +142,7 @@
                     <td>
                         Id <br>
                         <input type="text" name="id" id="id" placeholder="아이디를 입력해 주세요.">
+                        <span class="id_"><a href="#" data-toggle="modal" data-target="#myModal">Forgot ID? Click here</a></span>
                     </td>
                 </tr>
                 <tr>
@@ -118,6 +158,40 @@
             </table>
         </form>
     </div>
+ 
+	
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-body">
+		        <div class="modal-form-area">
+		        	<div class="back-btn" data-dismiss="modal" aria-label="Close"><a>X</a></div>
+			        <span class="mSubject">Find ID</span>
+			        <form action="findPwd.do" method="post">
+			            <table cellpadding="6px">
+			                <tr>
+			                    <td>
+			                        Name <br>
+			                        <input type="text" name="name" id="name" placeholder="가입시 등록한 이름을 입력해 주세요.">
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>
+			                        Email <br>
+			                        <input type="email" name="email_" id="email_" placeholder="가입시 등록한 이메일을 입력해 주세요.">
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td><button type="button" onclick="findId()" class="login-btn b-blue white">Submit</button>
+			                    </td>
+			                </tr>
+			            </table>
+			        </form>
+			    </div>
+	      </div>
+	    </div>
+	  </div></div>
     
     <script>
     	function findPwd() {
@@ -144,6 +218,32 @@
                             +"error: " + errorData);
            		} 
 			})
+    	}
+    	
+    	function findId() {
+    		
+    		$.ajax({
+				url : "findId.do",
+				type : "POST",
+				data : {
+					name:$("#name").val(),
+					email:$("#email_").val()
+				},
+				success : function(result) {
+						
+					if(result == "입력하신 정보와 일치하는 아이디가 없습니다.") {
+						alert(result);
+					}else {
+						alert(result);
+					}
+				},
+				error:function(request, status, errorData){
+                    alert("error code: " + request.status + "\n"
+                            +"message: " + request.responseText
+                            +"error: " + errorData);
+           		} 
+			})
+    		
     	}
     	
     	

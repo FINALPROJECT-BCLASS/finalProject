@@ -173,7 +173,7 @@
     .infoSetMain {
     	opacity: 0;
     	position: absolute;
-	    top: 65px;
+	    top: 280px;
 	    left: 5px;
 	    padding: 12px;
 	    font-size: 13px;

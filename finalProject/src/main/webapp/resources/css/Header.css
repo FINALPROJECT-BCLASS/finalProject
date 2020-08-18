@@ -98,7 +98,7 @@ body {
 .navi-area > li:hover > ul {
     border-top: 2px solid #FBD14B;
     display: inline-block;
-    z-index: 1;
+    z-index: 3;
 }
 
 .navi-area > li > ul > li:hover {

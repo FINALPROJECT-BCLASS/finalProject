@@ -379,10 +379,16 @@
 	    var drpRenameSplit = "${drp_rename}".split(',');
 	    var drpNoSplit = "${drp_no}".split(',');
 	    
-	    // 이미지 추가
-	    for ( var i in drpRenameSplit ) {	
-	      $(".photos-wrap").append("<img class='img-item left' src='resources/druploadFiles/"+drpRenameSplit[i]+"'><input type='hidden' name='drp_no_all' value='"+drpNoSplit[i]+"'><input type='hidden' value='"+drpRenameSplit[i]+"'>");
-	    }
+	    console.log("drpNoSplit : " + drpNoSplit);
+	    
+	    if(drpNoSplit != "") {
+		    // 이미지 추가
+		    for ( var i in drpRenameSplit ) {	
+		     	$(".photos-wrap").append("<img class='img-item left' src='resources/druploadFiles/"+drpRenameSplit[i]+"'><input type='hidden' name='drp_no_all' value='"+drpNoSplit[i]+"'><input type='hidden' value='"+drpRenameSplit[i]+"'>");
+		    }
+		    
+		}
+	    
 	    
 	    var remove_no = new Array();
 	    var left_name = new Array();

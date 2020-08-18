@@ -397,12 +397,41 @@ public class MemberController {
 	    	
 	    }
 		
-		alert = "메일로 임시 비밀번호가 발송되었습니다.";	
+		alert = "메일로 임시 비밀번호가 발송되었습니다. 로그인하여 비밀번호를 재설정해 주세요.";	
 		return alert;
 				
 	}
 	
-	
+	@RequestMapping("findId.do")
+	public void findId(Member m,
+				Model model,
+				HttpServletRequest request,
+				HttpServletResponse response) throws IOException {
+			
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		System.out.println("멤버 : " + m);
+		
+		Member member = mService.selectOneFindId(m);
+		
+		if(member == null) {
+			
+			out.print("입력하신 정보와 일치하는 아이디가 없습니다.");
+			out.flush();
+			out.close();
+			
+		}else {
+			
+			out.print("회원님의 아이디는 " + member.getId() + " 입니다.");
+			out.flush();
+			out.close();
+		}
+		
+		
+		
+		
+	}
 	
 	
 	
