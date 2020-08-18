@@ -25,8 +25,29 @@
     .material-icons{padding-top:12px; padding-left: 10px; }
     .noticeIcon{color:#F3F3F3; font-size:30px !important;}
     
-	 /* 공지 */
-    .noticeText{ background: linear-gradient(#285fe1b3, #2860E1 ) fixed; box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.048); position:absolute; top:0; float: right; margin:auto; width: 100%; }
+		 /* 공지 */
+	    .noticeText {
+	    	position: absolute;
+		    top: 25px;
+		    left: 95px;
+		    height: 80px;
+		    float: right;
+		    margin: auto;
+		    width: 88%;
+		    border-radius: 0 10px 10px 10px;
+		    background: #dee8ff;
+		    border: 1px solid #bcd0ff;
+	    }
+	    
+	    .noticeIcon {
+	    	position: absolute;
+		    left: -40px;
+		    top: 1px;
+		    padding:0;
+		    font-size: 29px !important;
+		    color: gray;
+	    }
+	    
     .noticeTb{margin-left:20px;}
     .noticeTitle{padding-top:20px; padding-left:5px; font-size: 20px; color:#F3F3F3; }
     .noticeWriter, .noticeDate {padding-left:5px; font-size:12px; font-weight: 600;  color:#F3F3F3; }
