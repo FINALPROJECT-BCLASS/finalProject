@@ -91,7 +91,7 @@
 
     #addBtnArea{
         display: inline-block;
-        width: 500px;
+        width: 260px;
         text-align: right;
     }
     
@@ -304,6 +304,7 @@
             <div class="col-md-8">
                 <span style="font-size: 30px; color: #2860E1; font-weight: bold" id="date"></span>&nbsp;
                 &nbsp;<input type="date" id="selectDate">
+                &nbsp;&nbsp;<b>※ 일정을 클릭하면 삭제됩니다 ※</b>
                 <div id="addBtnArea">
                     <button type="button" class="default-btn" data-toggle="modal" data-target="#addModal">Add</button>
                 </div>
