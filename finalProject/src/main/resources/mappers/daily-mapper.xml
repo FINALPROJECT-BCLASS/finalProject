@@ -546,7 +546,6 @@
 	<select id="selectDailyRecordList_a" parameterType="String" resultMap="DailyRecordResultSet">
 		SELECT *
 		FROM DAILY_RECORD
-		WHERE ID=#{id}
 		ORDER BY DR_NO ASC
 	</select>
 	

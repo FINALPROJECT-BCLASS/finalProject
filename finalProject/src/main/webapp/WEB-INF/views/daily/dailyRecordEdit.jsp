@@ -269,11 +269,11 @@
                 <table cellpadding="6px">
                     <tr>
                         <td>Title</td>
-                        <td><input type="text" id="dr_title" name="dr_title" maxlength="16" value="${dr.dr_title }"></td>
+                        <td><input type="text" id="dr_title" name="dr_title" maxlength="16" value="${dr.dr_title }" required></td>
                     </tr>
                     <tr>
                         <td>Date</td>
-                        <td><input type="date" id="dr_date" name="dr_date" value="${dr.dr_date }"></td>
+                        <td><input type="date" id="dr_date" name="dr_date" value="${dr.dr_date }" required></td>
                     </tr>
                     <tr>
                         <td>Weather</td>

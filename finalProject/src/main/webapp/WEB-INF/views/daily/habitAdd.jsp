@@ -210,7 +210,7 @@
                 <table cellpadding="6px">
                     <tr>
                         <td>Name</td>
-                        <td><input type="text" name="ht_title"></td>
+                        <td><input type="text" name="ht_title" maxlength="16" required></td>
                     </tr>
                     <tr>
                         <td>Type</td>
@@ -224,11 +224,11 @@
                     </tr>
                     <tr>
                         <td>Goal</td>
-                        <td><input type="text" name="ht_goal" placeholder="목표치를 숫자로 입력하세요. ex. 10, 20, 1000"></td>
+                        <td><input type="text" name="ht_goal" maxlength="16" placeholder="목표치를 숫자로 입력하세요. ex. 10, 20, 1000" required></td>
                     </tr>
                     <tr>
                         <td>Unit</td>
-                        <td><input type="text" name="ht_unit" placeholder="단위를 입력하세요. ex. 권, 번, ml, L"></td>
+                        <td><input type="text" name="ht_unit" maxlength="16" placeholder="단위를 입력하세요. ex. 권, 번, ml, L" required></td>
                     </tr>
                     <tr>
                         <td>Period</td>
@@ -265,7 +265,7 @@
                     </tr>
                     <tr>
                         <td>Comment</td>
-                        <td><textarea name="ht_con" class="b-content"></textarea></td>
+                        <td><textarea name="ht_con" maxlength="160" class="b-content"></textarea></td>
                     </tr>
 
                 </table>

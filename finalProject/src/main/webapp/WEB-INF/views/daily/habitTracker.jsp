@@ -789,6 +789,7 @@
 					      	<span>+</span>
 					      	<input id="htr_now" name="htr_now" class="count blue" type="text">
 					      	<span name="htr_unit">ml</span>
+					      	<input id="htr_now_" type="hidden">
 					    </div>
 					    <div class="memo-area">
 					      	<div>Memo</div>
@@ -868,7 +869,6 @@
 			// 습관 삭제하기
 			$(document).on("click","#d-btn",function(){
 				var d_htNum = $(".clicked").prev("#htNum").val();
-				console.log("잘 나오니? " + d_htNum);
 				
 				if($(".habitItem").hasClass("clicked") === true) {
 
@@ -889,7 +889,6 @@
 			// 습관 수정하기
 			$(document).on("click","#e-btn",function(){
 				var d_htNum = $(".clicked").prev("#htNum").val();
-				console.log("잘 나오니? " + d_htNum);
 				
 				if($(".habitItem").hasClass("clicked") === true) {
 
@@ -1257,7 +1256,8 @@
    						
    						// 모달에 세팅 
    				    	$(".modal-t > div:nth-child(2)").html(data.list.ht_title);
-   				    	$(".count-area > input").val(data.list.ht_amount);
+   				    	$(".count-area > #htr_now").val(data.list.ht_amount);
+   				    	$(".count-area > #htr_now_").val(data.list.ht_amount);
    				    	$(".count-area > span:nth-child(3)").html(data.list.ht_unit);
    				    	
    						// for 클릭 트리거 (내용 변경 후 재클릭시 슬라이드 내부의 내용도 동시에 수정하기 위함)
@@ -1322,7 +1322,8 @@
    						// 모달에 세팅 
    						// countModal
    				    	$(".modal-t > div:nth-child(2)").html(data.list.ht_title);
-   				    	$(".count-area > input").val(data.list.ht_amount);
+   				    	$(".count-area > #htr_now").val(data.list.ht_amount);
+   				    	$(".count-area > #htr_now_").val(data.list.ht_amount);
    				    	$(".count-area > span:nth-child(3)").html(data.list.ht_unit);
    				    	
    				 		// for 클릭 트리거 (내용 변경 후 재클릭시 슬라이드 내부의 내용도 동시에 수정하기 위함)
@@ -1387,7 +1388,8 @@
    						
    						// 모달에 세팅 
    				    	$(".modal-t > div:nth-child(2)").html(data.list.ht_title);
-   				    	$(".count-area > input").val(data.list.ht_amount);
+   				    	$(".count-area > #htr_now").val(data.list.ht_amount);
+   				    	$(".count-area > #htr_now_").val(data.list.ht_amount);
    				    	$(".count-area > span:nth-child(3)").html(data.list.ht_unit);
    				    	
    				  		// for 클릭 트리거 (내용 변경 후 재클릭시 슬라이드 내부의 내용도 동시에 수정하기 위함)
@@ -1425,6 +1427,7 @@
 		    	
 		    	var ht_no = $("#ht_no").val();
 		    	var htr_now = $("#htr_now").val();
+		    	var htr_now_ = $("#htr_now_").val();
 		    	var htr_con = $("#htr_con").val();
 		    	var htr_date = $("#period > a").html();
 		    	
@@ -1442,6 +1445,7 @@
 							$("."+htr_date).trigger("click");
 							$("."+htr_date).addClass("event");
 							$("#add-count").modal("hide");
+							$("#htr_now").val(htr_now_);
 							$("#htr_con").val("");
 							// 주석 
 							/* var goal = $(".clicked a.ht_goal").html();
