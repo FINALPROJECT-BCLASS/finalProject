@@ -133,8 +133,10 @@
 	
       <div class="join-form-area">
 	 <!-- 공지사항  -->	
+	 
+	  
+	   	<c:if test="${!empty noticeList}">
 	  <div class="noticeText">
-	   	<c:if test="${!empty noticeList }">
         <table class="noticeTb">
           <tr>
 	          <td><span class="material-icons noticeIcon">campaign</span></td>
@@ -144,8 +146,8 @@
           <tr><td></td><td><div class="noticeDate">${noticeList[0].gnDate }</div></td></tr>
           <tr><td></td><td><div class="noticeContent">${noticeList[0].gnCon }</div></td></tr>
         </table>
-        </c:if>
       </div>
+        </c:if>
   
         <h1>Group Diary</h1>
         
