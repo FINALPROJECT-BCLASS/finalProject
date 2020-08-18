@@ -14,7 +14,6 @@
 
 <!-- 구글 아이콘 링크 -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-
 <link rel="stylesheet" href="resources/css/Header.css">
 <body>
 <c:set var="contextPath" value="${pageContext.servletContext.contextPath }" scope="application"/>

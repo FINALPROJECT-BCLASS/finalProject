@@ -236,9 +236,9 @@
                         <td>
                             <div style="position:relative; width:350px">
                                 <select name="ht_cycle">
-                                    <option value="Daily">Daily</option>
-                                    <option value="Weekly">Weekly</option>
-                                    <option value="Monthly">Monthly</option>
+                                    <option class="Daily" value="Daily">Daily</option>
+                                    <option class="Weekly" value="Weekly">Weekly</option>
+                                    <option class="Monthly" value="Monthly">Monthly</option>
                                 </select>
                                 <div class="select-arrow"></div>
                             </div>
@@ -262,7 +262,7 @@
                             <input type="radio" name="color" id="green" value="#50c6b0">
                             <label class="b-icons" for="green"><div class="green"></div></label>
                         </td>
-                        <input type="hidden" id="h-color" name="ht_color" value="#FBD14B">
+                        <input type="hidden" id="h-color" name="ht_color" value="${habit.ht_color }">
                     </tr>
                     <tr>
                         <td>Comment</td>
@@ -282,6 +282,31 @@
     <script>
     	
     	$(document).ready(function() {
+    		
+  			/* var state = $('#select_ option:selected').val();
+  			if ( state == 'Title' ) {
+  				$("#title_a").show();
+  				$("#date_a").hide();
+  			} else {
+  				$("#title_a").hide();
+  				$("#date_a").show();
+  			} */
+  			
+  			var cycle = "${habit.ht_cycle}";
+  			console.log(cycle);
+  			
+  			if(cycle == "Daily") {
+  				
+  				$(".Daily").attr("selected", true);
+  				
+  			}else if(cycle == "Monthly") {
+  				
+  				$(".Monthly").attr("selected", true);
+  			}else {
+  				
+  				$(".Weekly").attr("selected", true);
+  			}
+  			
     		
     		var type = "${habit.ht_type}";
     		var color = "${habit.ht_color}";

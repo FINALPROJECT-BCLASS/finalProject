@@ -198,6 +198,7 @@
 			font-size: 20px;
 			height: 35px;
 			margin-top: -5px;
+			text-align: left;
 		}
 		
 		.ht_title_ {

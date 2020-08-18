@@ -1178,14 +1178,18 @@
 	        // 북마크 그룹 삭제 버튼 클릭시 실행
 	        function deleteBookmark() {
 	        	
-	            if(!confirm('정말 삭제하시겠습니까?')){
-	            	return false;
-	            }else {
+	        	var bl_no = $(".clicked").prev().val();
 	        	
-		        	var bl_no = $(".clicked").prev().val();
-		        	location.href="deleteBookmark.do?bl_no="+ bl_no;
-	        	
-	            }
+				if(bl_no == "undefined" || bl_no == null || bl_no == ""){
+					alert("삭제할 북마크를 선택해 주세요.");
+				}else {
+					
+		            if(!confirm('정말 삭제하시겠습니까?')){
+		            	return false;
+		            }else {
+			        	location.href="deleteBookmark.do?bl_no="+ bl_no;
+		            }
+				}
 	        	
 	        }
 	        
@@ -1193,8 +1197,14 @@
 	        function editBookmark() {
 	        	
 				var bl_no = $(".clicked").prev().val();
-	        	location.href="editBookmarkView.do?bl_no="+ bl_no;
-	        	
+				
+				if(bl_no == "undefined" || bl_no == null || bl_no == ""){
+					
+					alert("수정할 북마크를 선택해 주세요.");
+				}else {
+				
+	        		location.href="editBookmarkView.do?bl_no="+ bl_no;
+				}
 	        }
 	        
 	        
