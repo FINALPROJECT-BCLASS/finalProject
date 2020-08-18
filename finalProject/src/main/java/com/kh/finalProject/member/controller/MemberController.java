@@ -142,7 +142,38 @@ public class MemberController {
 		
 			if(bcryptPasswordEncoder.matches(m.getPwd(), user.getPwd())) {
 				model.addAttribute("loginUser", user);
-				return "home";
+				
+				int main_no = user.getMain_no();
+				
+				switch(main_no){
+				
+					case 1: return "redirect:mpview.do";
+					
+					case 2: return "redirect:ttview.do";
+							
+					case 3: return "redirect:mcview.do";
+							
+					case 4: return "redirect:dailyRecordView.do";
+					
+					case 5: return "redirect:htList.do";
+					
+					case 6: return "redirect:bookmarkView.do";
+					
+					case 7: return "redirect:DietCalendarView.do";
+					
+					case 8: return "redirect:DietGraphView.do";
+					
+					case 9: return "redirect:mrview.do";
+					
+					case 10: return "redirect:psview.do";
+				
+					case 11: return "redirect:esview.do";
+				
+					case 12: return "redirect:ysview.do";
+				
+					default: return "home";
+						
+				}	
 			
 			} else {
 				
@@ -230,13 +261,50 @@ public class MemberController {
 		
 		if(result > 0) {
 			
+			Member user = mService.loginMember(m);
+			
+			int main_no = user.getMain_no();
+			
 			// 회원 정보 수정 성공
 			model.addAttribute("loginUser", m); // 홈으로 프로필 사진 보내기
 			model.addAttribute("msg","개인정보가 수정되었습니다.");
-            model.addAttribute("url","/home.do");
-            
-			return "common/redirect";
 			
+			switch(main_no){
+			
+				case 1: model.addAttribute("url","/mpview.do"); return "common/redirect";
+				
+				case 2: model.addAttribute("url","/ttview.do"); return "common/redirect";
+						
+				case 3: model.addAttribute("url","/mcview.do"); return "common/redirect";
+						
+				case 4: model.addAttribute("url","/dailyRecordView.do"); return "common/redirect";
+				
+				case 5: model.addAttribute("url","/htList.do"); return "common/redirect";
+				
+				case 6: model.addAttribute("url","/bookmarkView.do"); return "common/redirect";
+				
+				case 7: model.addAttribute("url","/DietCalendarView.do"); return "common/redirect";
+				
+				case 8: model.addAttribute("url","/DietGraphView.do"); return "common/redirect";
+				
+				case 9: model.addAttribute("url","/mrview.do"); return "common/redirect";
+				
+				case 10: model.addAttribute("url","/psview.do"); return "common/redirect";
+			
+				case 11: model.addAttribute("url","/esview.do"); return "common/redirect";
+			
+				case 12: model.addAttribute("url","/ysview.do"); return "common/redirect";
+			
+				default: return "home";
+					
+			}	
+			
+			
+
+//            model.addAttribute("url","/home.do");
+//            
+//			return "common/redirect";
+//			
 		}else {
 			
 			//회원가입 실패

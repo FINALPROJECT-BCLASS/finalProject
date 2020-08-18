@@ -1,22 +1,30 @@
 package com.kh.finalProject.chat.handler;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.socket.BinaryMessage;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.finalProject.chat.model.service.ChatService;
 import com.kh.finalProject.member.model.vo.Member;
@@ -32,7 +40,10 @@ public class oneToOneChatHandler extends TextWebSocketHandler {
 		
 		private static Logger logger = LoggerFactory.getLogger(oneToOneChatHandler.class);
 		
+		private static final String FILE_UPLOAD_PATH = "C:/test/websocket/";
 		
+		static int fileUploadIdx = 0;
+		static String fileUploadSession = "";
 		
 		//클라이언트와 연결 된 후
 		@Override
@@ -68,10 +79,10 @@ public class oneToOneChatHandler extends TextWebSocketHandler {
 		 @Override
 		 protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 			 logger.info("{}로 부터 {} 받음", session.getId(), message.getPayload());
-			  
+			 
 			   //JSON --> MAP으로 변환
 			   ObjectMapper objectMapper = new ObjectMapper();
-			   Map<String, String> mapReceive = objectMapper.readValue(message.getPayload(), Map.class);
+			   Map<String, Object> mapReceive = objectMapper.readValue(message.getPayload(), Map.class);
 			   
 			   //이거 왜넣었을까?
 			   HashMap<String, Object> map = new HashMap<String, Object>();
@@ -105,10 +116,16 @@ public class oneToOneChatHandler extends TextWebSocketHandler {
 			  map.put("yn", yn);
 			  map.put("id", loginid);
 			  map.put("message",String.valueOf(mapReceive.get("msg")));
-			
-			  int result = cService.insertChatmsg(map);//db저장
+			  if(mapReceive.containsKey("filename")) {
+				  map.put("img",String.valueOf(mapReceive.get("filename")));
+				  int result = cService.insertChatmsg2(map);//db저장
+				  
+			  }else {
+				  int result = cService.insertChatmsg(map);//db저장
+			  }
 			  
 			  System.out.println("sessionList 확인...:" + sessionList);
+			  
 			  //메세지 뿌려주기
 			   for(int i=0; i<sessionList.size(); i++) {
 					Map<String, Object> mapSessionList = sessionList.get(i);
@@ -123,14 +140,22 @@ public class oneToOneChatHandler extends TextWebSocketHandler {
 					//만약 Map값을 불러왔는데 방번호가 같다면?
 					if(co_no.equals(mapReceive.get("co_no"))) {
 						
-						System.out.println("msg : " + mapReceive.get("msg"));
-						String name = m.getName();
+						  
+						  if(mapReceive.containsKey("filename")) {
+							  String name = m.getName();
+								String jsonStr2 = co_no + "|" +name+ "|" + mapReceive.get("msg")+"|" +mapReceive.get("img")+"|"+mapReceive.get("filename");
+								sess.sendMessage(new TextMessage(jsonStr2)); //여기잠깐바꿈
+					
+						  }else {
 						
-						String jsonStr2 = co_no + "|" +name+ "|" + mapReceive.get("msg")+"|" +mapReceive.get("img");						
-
-						System.out.println("확인 에욱" + jsonStr2);
-						sess.sendMessage(new TextMessage(jsonStr2)); //여기잠깐바꿈
-						
+								System.out.println("msg : " + mapReceive.get("msg"));
+								String name = m.getName();
+								
+								String jsonStr2 = co_no + "|" +name+ "|" + mapReceive.get("msg")+"|" +mapReceive.get("img");						
+		
+								System.out.println("확인 에욱" + jsonStr2);
+								sess.sendMessage(new TextMessage(jsonStr2)); //여기잠깐바꿈
+						  }	
 					}
 			   }
 			
@@ -155,6 +180,7 @@ public class oneToOneChatHandler extends TextWebSocketHandler {
 		}
 			 	System.out.println("sessionList : " + sessionList);
 		}
+		
 		
 		
 }

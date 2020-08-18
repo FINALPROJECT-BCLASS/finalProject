@@ -202,7 +202,14 @@
     	font-weight: 600;
     }
     
-
+	.main_no {
+		border-style: none;
+	    border-radius: 8px;
+	    background: white;
+	    width: 327px;
+	    padding: 10px;
+	    margin: 5px 0;
+	}
 
 	
 </style>
@@ -319,12 +326,30 @@
                     	<div class="infoSetMain"><div class="square"></div>로그인시 첫 화면에 보여질 서비스를 선택하세요.</div>
                     </td>
                     <td>
-                        <input type="radio" name="main_no" id="1" value="1"> <label for="1">Plan</label>
-                        <input type="radio" name="main_no" id="2" value="2"> <label for="2">Habit Tracker</label><br>
-                        <input type="radio" name="main_no" id="3" value="3"> <label for="3">Daily Record</label>
-                        <input type="radio" name="main_no" id="4" value="4"> <label for="4">Account Book</label><br>
-                        <input type="radio" name="main_no" id="5" value="5"> <label for="5">Diet Diary</label>
-                    	
+                        <div class="main_no" style="height: 115px;">
+                    		<b>Plan</b><br>
+                    		<input type="radio" name="main_no" id="1" value="1" checked> <label for="1">Monthly Planner</label><br>
+                    		<input type="radio" name="main_no" id="2" value="2"> <label for="2">Timetable</label><br>
+                    		<input type="radio" name="main_no" id="3" value="3"> <label for="3">Menstrual Calendar</label><br>
+                    	</div>
+                    	<div class="main_no" style="height: 115px;">
+                    		<b>Daily</b><br>
+                    		<input type="radio" name="main_no" id="4" value="4"> <label for="4">Daily Record</label><br>
+                    		<input type="radio" name="main_no" id="5" value="5"> <label for="5">Habit Tracker</label><br>
+                    		<input type="radio" name="main_no" id="6" value="6"> <label for="6">Bookmark</label><br>
+                    	</div>
+                    	<div class="main_no" style="height: 90px;">
+                    		<b>Diet</b><br>
+                    		<input type="radio" name="main_no" id="7" value="7"> <label for="7">Diet Calendar</label><br>
+                    		<input type="radio" name="main_no" id="8" value="8"> <label for="8">Inbody Graph</label><br>
+                    	</div>
+                    	<div class="main_no" style="height: 140px;">
+							<b>Account</b><br>
+                    		<input type="radio" name="main_no" id="9" value="9"> <label for="9">Monthly Record</label><br>
+                    		<input type="radio" name="main_no" id="10" value="10"> <label for="10">Profit Statistics</label><br>
+                    		<input type="radio" name="main_no" id="11" value="11"> <label for="11">Expenditure Statistics</label><br>
+                    		<input type="radio" name="main_no" id="12" value="12"> <label for="12">Yearly Statistics</label><br>
+                    	</div>
                     </td>
                 </tr>
                 <tr>

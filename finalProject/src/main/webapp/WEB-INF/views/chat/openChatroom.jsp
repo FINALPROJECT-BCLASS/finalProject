@@ -686,7 +686,8 @@ $(document).ready(function(){
 		$(".Toback").click(function() {
 	//어쩌징..
 			var cm_no = $("#cm_no").val()
-			location.href = "openchatroomout.do?cm_no=" + cm_no;
+			location.href = "openchatroom.do";
+			//location.href = "openchatroomout.do?cm_no=" + cm_no;
 		})
 	})
 	

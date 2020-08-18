@@ -226,6 +226,62 @@
 	    background: #f3f3f3;
 	    margin: 10px 0;
 	}
+	.modal-filetransfer{
+	    position: absolute;
+	    top: -40px;
+	    left: 10px;
+	    background: white;
+	    width: 30px;
+	    border: 1px solid gray;
+	    height: 30px;
+	    border-radius: 50%;
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+	    cursor: pointer;
+	}
+	/*모달*/
+	
+	.modal {
+		padding-right:0 !important;
+	}
+	 .modal-content{
+	 	height: 325px;
+	    width: 85% !important;
+		position: auto;
+		top:50%;
+		left:50%;
+		transform:translate(-52%,50%);
+	    display: flex;
+	    align-items: center;
+	    padding: 40px; 
+	}
+		.modal-preview{
+		width: 150px;
+	    height: 150px;
+	    border-radius: 10%;
+	    overflow: hidden;
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+		}
+		.modal-area{
+		height: 325px;
+	    width: 65% !important;
+	    position: auto;
+	    top: 50%;
+	    left: 50%;
+	    transform: translate(-52%,50%);
+	    display: flex;
+  		align-items: center;
+		justify-content: center;	
+	    padding: 40px;
+		}
+		.img-message{
+		width: 100%;
+	    height: 100%;
+		}
+		
 </style>
 <body>
 	<jsp:include page="../common/chatheader.jsp"/>
@@ -245,13 +301,17 @@
 	<c:forEach var="cl" items="${chlist }">
 		<c:if test="${cl.id eq loginUser.id }">
 			<div id="chatdata">
-				<div class="text-con"><span>${cl.ol_cont }</span></div>
+				<c:if test="${cl.ol_cont eq '이미지 입니다.' }">
+					<div class="text-con"><img src='resources/cuploadFiles/${cl.ol_img }' class='img-message'></div>
+				</c:if>
+				<c:if test="${cl.ol_cont ne '이미지 입니다.' }">
+					<div class="text-con"><span>${cl.ol_cont }</span></div>
+				</c:if>
 				<div class="tri-left"></div>
 				<div class="profile-img">
 				<c:if test="${!empty loginUser.rename_file }">
 				<img src='resources/muploadFiles/${loginUser.rename_file}'>
 				</c:if>
-				
 				<c:if test="${empty loginUser.rename_file }">
 				<img src='resources/images/icons/profile_white.png'>
 				</c:if>
@@ -275,7 +335,14 @@
 			<div class="tri-right"></div>
 			<div class="text-con-area">
 				<div>${cl.name }</div>
-				<div class="text-con-someone">${cl.ol_cont}</div>
+				<div class="text-con-someone">
+					<c:if test="${cl.ol_cont eq '이미지 입니다.' }">
+						<img src='resources/cuploadFiles/${cl.ol_img }' class='img-message'>
+					</c:if>
+					<c:if test="${cl.ol_cont ne '이미지 입니다.' }">
+						${cl.ol_cont }
+					</c:if>
+				</div>
 			</div>
 		</div>
 		
@@ -285,16 +352,69 @@
 	</div>
 </div>
 
+
 	<div class="send-area">
+		<div class="modal-filetransfer">
+			<label for="file_transfer" style="display: flex; align-items:center; justify-content: center; margin: 0; cursor: pointer;">
+				<span class="material-icons">
+					attach_file
+				</span>
+			</label>
+			<input type="file" style="display:none;" id="file_transfer" name="file_transfer" class="file_transfer" onchange="uploadPhoto(this);">
+		</div>
+	
 		<textarea id="message"></textarea>
 		<input type="button" id="sendBtn" class="default-btn" value="전송"/>
 			<input type="hidden" value="${loginUser.name }" id="loginuser">
 			<input type="hidden" value="${co_no }" id="co_no">
 	</div>
+	
+	
+	<div class="modal fade" id="modal">
+	<div class="modal-dialog">
+	 	<div class="modal-content modal-area">
+			<div class="modal-preview">
+				<img id="modal-img" height="110%">
+			</div>
+			<div class="button-area" style="margin-top: 10px;">
+				<button class="default-btn b-yell transfer" style="height:40px !important; margin:0;">전송하기</button>
+			</div>
+	 	</div>
+	</div>
+</div>
+	
+	
+	
+	
+	
 </body>
 
 
 <script type="text/javascript">
+	var imgname;
+
+	//파일 업로드
+		    function uploadPhoto(value) {
+	    	
+			if(value.files && value.files[0]) {
+				
+				var reader = new FileReader();
+			
+				reader.onload = function(e) {
+					
+					$("#modal-img").attr("src", e.target.result);
+					
+					//var filename = $("#file").val().split('/').pop().split('\\').pop();
+					
+					//$(".upload-name").val("");
+					//$(".upload-name").val(filename);
+				}
+				
+				reader.readAsDataURL(value.files[0]);
+			}
+			$("#modal").modal();
+	    }
+	
 	//스크롤 위치고정.
 	$(document).ready(function() {
 
@@ -335,6 +455,8 @@
 	
 	let sock2 = new SockJS("<c:url value="/echolist"/>");
 	
+
+	
 	
 	//연결될시 시작되는 메소드
  	/*function onOpen(){
@@ -349,6 +471,67 @@
 		var jsonData = JSON.stringify(msgData);//JSON.stringify란 자바스크립트의 값을 JSON 문자열로 변환한다. 
 		sock.send(jsonData);    
 	} */
+	//파일 전송시 메소드
+	$(".transfer").click(function(){
+		var files = $("input[name=file_transfer]:file")[0].files;
+		var fileReader = new FileReader();
+		
+		var data =  new FormData();
+		if(files.length >0){
+		data.append("file",files[0]);
+		}else{
+			formData.append('files',null); // 파일이 존재하지 않을 때
+		}
+		
+		
+		$.ajax({
+			type : 'post',
+			url : 'filesaves.do',
+			data : data,
+			processData: false,
+			contentType: false,
+			success : function(data){
+				console.log("파일 저장 성공 " + data);
+				var imgname = data;
+				
+				var msgData = {
+						user_id : $("#loginuser").val(),
+						co_no : $("#co_no").val(),
+						img : "${loginUser.rename_file}",
+						msg : "이미지 입니다.",
+						filename : imgname
+					};
+				
+				var msgData2 ={
+						friendid : $("#friendid").val(),
+						co_no : $("#co_no").val(),
+						msg : "이미지 입니다.",
+						
+				};		
+				var msgData3 ={
+						friendid : $("#friendid").val(),
+						count : "countup"
+				};
+			
+				
+				var jsonData = JSON.stringify(msgData);//JSON.stringify란 자바스크립트의 값을 JSON 문자열로 변환한다. 
+				var jsonData2 = JSON.stringify(msgData2);
+				var jsonData3 = JSON.stringify(msgData3);
+				sock.send(jsonData);
+				sock2.send(jsonData2);
+				countsock.send(jsonData3);
+			},
+            error:function(request, status, errorData){
+                alert("error code: " + request.status + "\n"
+                      +"message: " + request.responseText
+                      +"error: " + errorData);
+           } 
+		})
+		
+		console.log("이미지이름 : " + imgname);
+		$("#modal").modal('toggle');
+	})
+	
 	
 	//메세지 전송버튼 클릭 메소드
 	$("#message").keypress(function(event) {
@@ -377,17 +560,27 @@
 			img : "${loginUser.rename_file}"
 		};
 		
+		var jsonData = JSON.stringify(msgData);//JSON.stringify란 자바스크립트의 값을 JSON 문자열로 변환한다. 
+		sock.send(jsonData);
 		var msgData2 ={
 				friendid : $("#friendid").val(),
 				co_no : $("#co_no").val(),
 				msg : $("#message").val(),
 				
 		};
-		var jsonData = JSON.stringify(msgData);//JSON.stringify란 자바스크립트의 값을 JSON 문자열로 변환한다. 
+		
 		var jsonData2 = JSON.stringify(msgData2);
-		sock.send(jsonData);
 		sock2.send(jsonData2);
-	
+		
+		var msgData3 ={
+				friendid : $("#friendid").val(),
+				count : "countup"
+		};
+		var jsonData3 = JSON.stringify(msgData3);
+		countsock.send(jsonData3);
+		
+
+		
 	}          
 	
 	//evt 파라미터는 websocket이 보내준 데이터다.
@@ -403,6 +596,10 @@
 		
 		for(var i=0; i<strArray.length; i++){
 			console.log('str['+i+']: ' + strArray[i]);
+		}
+		if(strArray.length == 5){
+			imgMessage(strArray);
+			return;
 		}
 		
 		//current session id//
@@ -478,6 +675,70 @@
 			location.href = "chatroom.do";
 		})
 	})
+	
+	
+	function imgMessage(strArray){
+		//current session id//
+		var currentuser_session = $("#loginuser").val();
+		console.log('loginuser id: ' + currentuser_session);
+		var current_co_no = $("#co_no").val();
+		console.log("current_co_no : " + current_co_no);
+		
+		//String jsonStr2 = co_no + "|" +loginid+ "|" + mapReceive.get("msg");	
+		co_no = strArray[0];
+		sessionid = strArray[1]; //현재 메세지를 보낸 사람의 세션 등록//
+		message = strArray[2]; //현재 메세지를 저장//
+		img = strArray[3];	//이미지
+		filename = strArray[4];
+		var $printHTML;
+		
+		if(sessionid == currentuser_session){
+			var check ="${loginUser.rename_file}";
+			if(check == ""){
+				printHTML = "<div id='chatdata'>"
+					+ "<div class='text-con'><span>"
+					+ "</span><img src='resources/cuploadFiles/"+filename+"' class='img-message'></div>"
+					+ "<div class='tri-left'></div>"
+					+ "<div class='profile-img'><img src='resources/images/icons/profile_white.png'>"
+					+ "</div>" + "</div>";
+			}else{
+				printHTML = "<div id='chatdata'>"
+					+ "<div class='text-con'><span>"
+					+ "</span><img src='resources/cuploadFiles/"+filename+"' class='img-message'></div>"
+					+ "<div class='tri-left'></div>"
+					+ "<div class='profile-img'><img src='resources/muploadFiles/${loginUser.rename_file}'>"
+					+ "</div>" + "</div>";
+				
+				
+			}
+			$(".chat-area").append(printHTML);
+		} else{
+			if(img ==""){
+				printHTML = "<div id='chatdata' class='left'>"
+					+ "<div class='profile-img'><img src='resources/images/icons/profile_white.png'></div>"
+					+ "<div class='tri-right'></div>"
+					+"<div class='text-con-area'>"
+					+"<div>" + sessionid+"</div>"
+					+"<div class='text-con-someone'>"
+					+"<img src='resources/cuploadFiles/"+filename+"' class='img-message'></div>"
+					+"</div>";
+				
+			}else{
+				printHTML = "<div id='chatdata' class='left'>"
+					+ "<div class='profile-img'><img src='resources/muploadFiles/"+img+"'></div>"
+					+ "<div class='tri-right'></div>"
+					+"<div class='text-con-area'>"
+					+"<div>" + sessionid+"</div>"
+					+"<div class='text-con-someone'>"
+					+"<img src='resources/cuploadFiles/"+filename+"' class='img-message'></div>"
+					+"</div>";
+				
+			}
+			$(".chat-area").append(printHTML);
+		}
+		
+		$(".big-area").scrollTop($(".big-area")[0].scrollHeight);
+	}
 </script>
 
 </html>

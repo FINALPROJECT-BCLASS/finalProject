@@ -21,6 +21,8 @@ public class Chat implements Serializable{
 	private int count;				//안읽은 갯수
 	private String ol_yn;			//읽음여부.
 	
+	private String ol_img;			//이미지
+	
 	public Chat() {
 	}
 	public Chat(int co_no, int ol_no, String id, String id2, String ol_cont, String ol_date) {
@@ -33,6 +35,12 @@ public class Chat implements Serializable{
 	}
 	
 	
+	public String getOl_img() {
+		return ol_img;
+	}
+	public void setOl_img(String ol_img) {
+		this.ol_img = ol_img;
+	}
 	public String getOl_yn() {
 		return ol_yn;
 	}
@@ -100,9 +108,10 @@ public class Chat implements Serializable{
 	public String toString() {
 		return "Chat [co_no=" + co_no + ", ol_no=" + ol_no + ", id=" + id + ", id2=" + id2 + ", ol_cont=" + ol_cont
 				+ ", ol_date=" + ol_date + ", rename_file=" + rename_file + ", name=" + name + ", count=" + count
-				+ ", ol_yn=" + ol_yn + "]";
+				+ ", ol_yn=" + ol_yn + ", ol_img=" + ol_img + "]";
 	}
 
+	
 	
 
 	

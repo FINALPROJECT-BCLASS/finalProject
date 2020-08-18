@@ -168,4 +168,19 @@ public class ChatDao {
 		
 		return sqlSessionTemplate.insert("chatMapper.insertmanagerchat", user);
 	}
+
+	public int insertChatmsg2(HashMap<String, Object> map) {
+
+		return sqlSessionTemplate.insert("chatMapper.insertChatmsg2", map);
+	}
+
+	public String selectreportchk(String user) {
+
+		return sqlSessionTemplate.selectOne("chatMapper.selectreportchk", user);
+	}
+
+	public int unreadcount(String loginUserid) {
+		
+		return sqlSessionTemplate.selectOne("chatMapper.unreadcount", loginUserid);
+	}
 }

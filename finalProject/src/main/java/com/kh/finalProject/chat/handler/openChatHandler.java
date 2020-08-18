@@ -231,6 +231,7 @@ public class openChatHandler extends TextWebSocketHandler {
 				
 				sessionList.remove(map);
 				connectUserList.remove(map2);
+				int result = cService.openchatroomOut(map);
 			}
 		}
 		

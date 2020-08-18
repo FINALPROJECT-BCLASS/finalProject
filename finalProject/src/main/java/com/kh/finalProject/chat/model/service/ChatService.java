@@ -71,4 +71,10 @@ public interface ChatService {
 
 	int insertmanagerchat(String user);
 
+	int insertChatmsg2(HashMap<String, Object> map);
+
+	String selectreportchk(String user);
+
+	int unreadcount(String loginUserid);
+
 }
