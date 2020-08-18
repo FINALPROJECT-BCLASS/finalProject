@@ -31,7 +31,7 @@
     .expense{display:none;}
     
     
-    .searchList{display:none;}
+    .searchList{display:none; overflow-y: scroll; height:200px;}
     .search{border:none; border-radius: 6px;  background:white;}
     .searchImg{width:20px; height:20px;}
     #search{width:85%; border:none; }
@@ -68,7 +68,7 @@
     .backgroundWhite{background:white;border:none; border-radius: 6px; }
     .amount{display: inline-block; width:90%; border:none;}
 
-    #groupCon{width:100%; border:none; padding-left:10px;}
+    #groupCon{width:100%; border:none; padding-left:10px;resize: none;}
     .textArea{border:none; border-radius: 6px;  background:white;}
     .comment{color:grey; display: inline-block; font-size: medium;}
 	.textTitle{font-weight:800;}
@@ -227,7 +227,11 @@
          <!-- submit -->
          <script>
          	$("#submit").click(function(){
-         		$("#accountForm").submit();
+         		if($(".amountBox").val() == ""){
+					alert("금액을 입력해주세요");
+         		}else if($(".amountBox").val() == null){         			
+         			$("#accountForm").submit();
+         		}
          	})
          </script>
          
