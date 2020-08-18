@@ -123,14 +123,13 @@
         #calendar {
             max-width: 900px;
 		    margin: 0 auto;
-		    margin-left: 380px;
-            /* z-index: 0 !important; */
+		    margin-left: 340px;
         }
 
         .fc-today-button{
             display: none !important;
         }
-        
+         
         .default-btn{
         	margin-left: 15px;
         }
@@ -143,7 +142,7 @@
         	position: relative;
 		    width: 900px;
 		    margin: 0 auto;
-		    margin-left: 380px;
+		    margin-left: 340px;
 		    display: flex;
 		    margin-bottom: 20px;
         }
