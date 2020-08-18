@@ -373,11 +373,11 @@
 		 })
 		 
 		 $("#detailbtn").click(function(){
-			 if($("#title").val() == "" && $("#groupCon").val() == ""){
-				 alert("공지 제목 혹은 공지 내용을 입력해주세요.");
-			 }else{
+			 if($("#title").val() != "" && $("#groupCon").val() != ""){
 				 
 			 $("#noticeWriteForm").submit();
+			 }else{
+				 alert("공지 제목 혹은 공지 내용을 입력해주세요.");
 			 }
 		 })
 		 </script>
@@ -458,27 +458,7 @@
 		 })
 		 </script>
 		 <!-- 공지사항 수정하기  modal end -->
-	 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+
 	<jsp:include page="../common/footer.jsp"/>	
 	
 	
