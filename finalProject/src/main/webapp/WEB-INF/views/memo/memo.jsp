@@ -49,6 +49,7 @@
         	display: flex;
 		    align-items: center;
 		    flex-flow: wrap;
+		    margin-bottom: 300px;
         }
         
         .memo-size {
@@ -137,6 +138,15 @@
 		    margin-right: 5px;
 		}
 		
+		.urlA {
+			display: inline-block;
+		    vertical-align: middle;
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+		    white-space: nowrap;
+		    width: 80%;
+		}
+		
 		/* sky:#c5d2ef */
     </style>
 </head>
@@ -161,12 +171,16 @@
         <div id="memoArea"></div>
         
         <script>
+        	var memoYN = 0;
+        	
         	$(function(){
         		$.ajax({
         			url: 'memolist.do',
         			dataType: 'json',
         			success: function(data) {
         				for(var i in data.memoList){
+        					memoYN = 1;
+        					
     	   					if(data.memoList[i].main == 0) {
     	   						$div = $("<div class='memo-size etc'>");
     	   						
@@ -180,7 +194,7 @@
     	   						$table = $("<table class='memo-table'>");
     	   						
     	   						$dateTr = $("<tr>");
-    	   						$dateTd1 = $("<th>").html("Date");
+    	   						$dateTd1 = $("<th width='90px'>").html("Date");
     	   						$dateTd2 = $("<td>").html(data.memoList[i].date);
     	   						
     	   						$conTr1 = $("<tr>");
@@ -218,15 +232,15 @@
     	   						$table = $("<table class='memo-table'>");
     	   						
     	   						$dateTr = $("<tr>");
-    	   						$dateTd1 = $("<th>").html("Date");
+    	   						$dateTd1 = $("<th width='90px'>").html("Date");
     	   						$dateTd2 = $("<td>").html(data.memoList[i].date);
     	   						
     	   						$titleTr = $("<tr>");
-    	   						$titleTd1 = $("<th>").html("Title");
+    	   						$titleTd1 = $("<th width='90px'>").html("Title");
     	   						$titleTd2 = $("<td class='titleTd2'>").html(data.memoList[i].mpTitle);
     	   						
     	   						$startTr = $("<tr>");
-    	   						$startTd1 = $("<th>").html("Start");
+    	   						$startTd1 = $("<th width='90px'>").html("Start");
     	   						if(data.memoList[i].mpStart != null) {
     	   							$startTd2 = $("<td class='startTd2'>").html(data.memoList[i].mpStart);
     	   						} else {
@@ -234,7 +248,7 @@
     	   						}
     	   						
     	   						$endTr = $("<tr>");
-    	   						$endTd1 = $("<th>").html("End");
+    	   						$endTd1 = $("<th width='90px'>").html("End");
     	   						if(data.memoList[i].mpEnd != null) {
     	   							$endTd2 = $("<td class='endTd2'>").html(data.memoList[i].mpEnd);
     	   						} else {
@@ -242,7 +256,7 @@
     	   						}
     	   						
     	   						$timeTr = $("<tr>");
-    	   						$timeTd1 = $("<th>").html("Time");
+    	   						$timeTd1 = $("<th width='90px'>").html("Time");
     	   						$timeTd2 = $("<td class='timeTd2'>").html(data.memoList[i].mpTime);
     	   						
     	   						$locationTr1 = $("<tr>");
@@ -316,13 +330,13 @@
     	   						$table = $("<table class='memo-table'>");
     	   						
     	   						$dateTr = $("<tr>");
-    	   						$dateTd1 = $("<th>").html("Date");
+    	   						$dateTd1 = $("<th width='90px'>").html("Date");
     	   						$dateTd2 = $("<td class='dateTd2'>").html(data.memoList[i].date);
     	   						
     	   						$apcNo = $("<input type='hidden' class='apcNo' value='0'>");
     	   						if(data.memoList[i].apcTitle != "해당없음") {
 	    	   						$titleTr = $("<tr>");
-	    	   						$titleTd1 = $("<th>").html("Category");
+	    	   						$titleTd1 = $("<th width='90px'>").html("Category");
 	    	   						$titleTd2 = $("<td>").html(data.memoList[i].apcTitle);
 	    	   						$apcNo = $("<input type='hidden' class='apcNo' value='" + data.memoList[i].apcNo + "'>");
     	   						}
@@ -330,13 +344,13 @@
     	   						$aecNo = $("<input type='hidden' class='aecNo' value='0'>");
     	   						if(data.memoList[i].aecTitle != "해당없음") {
 	    	   						$titleTr = $("<tr>");
-	    	   						$titleTd1 = $("<th>").html("Category");
+	    	   						$titleTd1 = $("<th width='90px'>").html("Category");
 	    	   						$titleTd2 = $("<td>").html(data.memoList[i].aecTitle);
 	    	   						$aecNo = $("<input type='hidden' class='aecNo' value='" + data.memoList[i].aecNo + "'>");
     	   						}
     	   						
     	   						$budgetTr = $("<tr>");
-    	   						$budgetTd1 = $("<th>").html("Budget Date");
+    	   						$budgetTd1 = $("<th width='110px'>").html("Budget Date");
     	   						if(data.memoList[i].abDate != null) {
     	   							$budgetTd2 = $("<td class='budgetTd2'>").html(data.memoList[i].abDate);
     	   							
@@ -348,7 +362,7 @@
     	   						}
     	   						
     	   						$amountTr = $("<tr>");
-    	   						$amountTd1 = $("<th>").html("Amount");
+    	   						$amountTd1 = $("<th width='90px'>").html("Amount");
     	   						$amountTd2 = $("<td class='amountTd2'>").html(data.memoList[i].abAmount);
     	   						
     	   						$memoTr1 = $("<tr>");
@@ -400,23 +414,23 @@
     	   						$table = $("<table class='memo-table'>");
     	   						
     	   						$dateTr = $("<tr>");
-    	   						$dateTd1 = $("<th>").html("Date");
+    	   						$dateTd1 = $("<th width='90px'>").html("Date");
     	   						$dateTd2 = $("<td>").html(data.memoList[i].date);
 
     	   						$bookmarkTr = $("<tr>");
-    	   						$bookmarkTd1 = $("<th>").html("Bookmark");
+    	   						$bookmarkTd1 = $("<th width='90px'>").html("Bookmark");
     	   						$bookmarkTd2 = $("<td class='bookmarkTd2'>").html(data.memoList[i].blTitle);    	   							
 
     	   						$titleTr = $("<tr>");
-    	   						$titleTd1 = $("<th>").html("Title");
+    	   						$titleTd1 = $("<th width='90px'>").html("Title");
     	   						$titleTd2 = $("<td class='titleTd2'>").html(data.memoList[i].mbTitle);
     	   						
     	   						$phoneTr = $("<tr>");
-    	   						$phoneTd1 = $("<th>").html("Phone");
+    	   						$phoneTd1 = $("<th width='90px'>").html("Phone");
     	   						$phoneTd2 = $("<td class='phoneTd2'>").html(data.memoList[i].mbPhone);
     	   						
     	   						$timeTr = $("<tr>");
-    	   						$timeTd1 = $("<th>").html("Time");
+    	   						$timeTd1 = $("<th width='90px'>").html("Time");
     	   						$timeTd2 = $("<td class='timeTd2'>").html(data.memoList[i].mbTime);
     	   						
     	   						$locationTr1 = $("<tr>");
@@ -484,22 +498,22 @@
     	   						$table = $("<table class='memo-table'>");
     	   						
     	   						$dateTr = $("<tr>");
-    	   						$dateTd1 = $("<th>").html("Date");
+    	   						$dateTd1 = $("<th width='90px'>").html("Date");
     	   						$dateTd2 = $("<td>").html(data.memoList[i].date);
 
     	   						$bookmarkTr = $("<tr>");
-    	   						$bookmarkTd1 = $("<th>").html("Bookmark");
+    	   						$bookmarkTd1 = $("<th width='90px'>").html("Bookmark");
     	   						$bookmarkTd2 = $("<td class='bookmarkTd2'>").html(data.memoList[i].blTitle);
 
     	   						$titleTr = $("<tr>");
-    	   						$titleTd1 = $("<th>").html("Title");
+    	   						$titleTd1 = $("<th width='90px'>").html("Title");
     	   						$titleTd2 = $("<td class='titleTd2'>").html(data.memoList[i].ubTitle);    	   							
     	   						
     	   						$urlTr1 = $("<tr>");
     	   						$urlTd1 = $("<th colspan='2'>").html("Url");
     	   						
     	   						$urlTr2 = $("<tr>");
-    	   						$urlTd2 = $("<td colspan='2' class='urlTd2'>").html(data.memoList[i].ubUrl);    	   							
+    	   						$urlTd2 = $("<td colspan='2' class='urlTd2'>").html("<a class='urlA'>"+data.memoList[i].ubUrl+"</a>");    	   							
     	   						
     	   						$memoTr1 = $("<tr>");
     	   						$memoTd1 = $("<th colspan='2'>").html("Memo");
@@ -540,6 +554,10 @@
     	   						$("#memoArea").append($div);
     	   					}
     	   				};
+    	   				
+    	   				if(memoYN > 0) {
+    	        			$("#memoArea").css("margin-bottom", "100px");
+    	        		}
         			},
         			error:function(request, status, errorData){
                         alert("error code: " + request.status + "\n"
@@ -547,6 +565,7 @@
                               +"error: " + errorData);
                     }   
         		})
+        		
         	})
         </script>
         
