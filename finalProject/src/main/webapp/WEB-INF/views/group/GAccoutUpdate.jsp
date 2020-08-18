@@ -253,12 +253,26 @@
 	         })
          </script>
          
-         <!-- submit -->
+          <!-- submit -->
          <script>
          	$("#submit").click(function(){
-         		$("#accountForm").submit();
+         		var amountYn = 'N';
+         		$('.amountBox').each(function(){
+         		    if($(this).val() == "" || $(this).val() == null){
+         		    	amountYn = 'Y';
+         		    }
+         		    
+         		});
+         		
+         		if(amountYn == 'Y'){
+					alert("금액을 입력해주세요.");         			
+         		}else {
+       			$("#accountForm").submit();
+         			
+         		}
          	})
          </script>
+
          
          <!-- 라디오 박스 선택 -->
          <script>

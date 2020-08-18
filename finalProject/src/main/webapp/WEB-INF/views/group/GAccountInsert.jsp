@@ -188,7 +188,7 @@
             </div>
          </div>
          </div>
-         
+
           <!-- 뒤로가기 버튼 -->
 		 <script>
 		 	function goBack(){
@@ -227,10 +227,19 @@
          <!-- submit -->
          <script>
          	$("#submit").click(function(){
-         		if($(".amountBox").val() == ""){
-					alert("금액을 입력해주세요");
-         		}else if($(".amountBox").val() == null){         			
-         			$("#accountForm").submit();
+         		var amountYn = 'N';
+         		$('.amountBox').each(function(){
+         		    if($(this).val() == "" || $(this).val() == null){
+         		    	amountYn = 'Y';
+         		    }
+         		    
+         		});
+         		
+         		if(amountYn == 'Y'){
+					alert("금액을 입력해주세요.");         			
+         		}else {
+       			$("#accountForm").submit();
+         			
          		}
          	})
          </script>
@@ -270,11 +279,13 @@
                 var $searchNameAfter = $(".searchNameAfter");
                 var $searchNameBox = " <button type='button' class='searchNameBox'>" +
                 "<div class='amountName'>"+$searchName+"</div>" +
-                "<input type='text' class='amountBox' name='gamAmount' placeholder='Enter the amount here'>"+
+                "<input type='text' class='amountBox' name='gamAmount' placeholder='Enter the amount here' >"+
                 "<input type='hidden' name='gmNo' value='"+$gmNo+"' ></button>";
                 
+                
                 $searchNameAfter.append($searchNameBox);
-				$(this).remove();
+                
+                $(this).remove();
                 
             })
             //  클릭된 이름 삭제
