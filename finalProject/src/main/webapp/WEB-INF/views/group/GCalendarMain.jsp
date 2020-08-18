@@ -201,6 +201,7 @@
         
 		.modal-dialog{
 			max-width:545px !important;
+			    top: -105px;
 		}
 		
 		#deleteBtn{
@@ -312,7 +313,7 @@
 		 }
 		 
 		 #mpStart, #mpEnd {
-		 	width: 48%;
+		 	width: 47%;
 		 }
 		 
 		 #addTitle {
@@ -330,7 +331,7 @@
 		    background: #F3F3F3;
 		    border-radius: 8px;
 		    padding: 8px;
-		    width: 48%;
+		    width: 47%;
 		 }
 		 
 		 .btnBox {
