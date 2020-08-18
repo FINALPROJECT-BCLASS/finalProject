@@ -16,8 +16,8 @@
         <nav class="left-sub-navi">
             <span>Diet</span>
             <ul>
-                <li><a href="DietCalendarView.do">Calendar</a></li>
-                <li><a href="DietGraphView.do">Graph</a></li>
+                <li><a href="DietCalendarView.do">Diet Calendar</a></li>
+                <li><a href="DietGraphView.do">Inbody Graph</a></li>
             </ul>
         </nav>
     </div>
