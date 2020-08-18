@@ -86,6 +86,18 @@
 		<result property="dr_thumbnail" column="DR_THUMBNAIL"/>
 	</resultMap>
 	
+	<resultMap type="DailyRecord" id="DailyRecordResultSet_f">
+		<id property="dr_no" column="DR_NO"/>
+		<result property="id" column="ID"/>
+		<result property="dr_title" column="DR_TITLE"/>
+		<result property="dr_date" column="DR_DATE"/>
+		<result property="dr_weather" column="DR_WEATHER"/>
+		<result property="dr_emotion" column="DR_EMOTION"/>
+		<result property="dr_con" column="DR_CON"/>
+		<result property="dr_thumbnail" column="DR_THUMBNAIL"/>
+		<result property="dr_num" column="RNUM"/>
+	</resultMap>
+	
 	<resultMap type="DailyRecordPhoto" id="DailyRecordPhotoResultSet">
 		<id property="drp_no" column="DRP_NO"/>
 		<result property="dr_no" column="DR_NO"/>
@@ -466,12 +478,20 @@
 		AND UB_NO = #{ub_no}
 	</update>
 	
-	<select id="selectDailyRecordList" parameterType="String" resultMap="DailyRecordResultSet">
+<!-- 	<select id="selectDailyRecordList" parameterType="String" resultMap="DailyRecordResultSet">
 		SELECT *
 		FROM DAILY_RECORD
 		WHERE ID=#{id}
 		AND DR_DELETE='N'
 		ORDER BY DR_NO DESC
+	</select> -->
+	
+	<select id="selectDailyRecordList" parameterType="String" resultMap="DailyRecordResultSet_f">
+		SELECT * 
+		FROM (SELECT ROWNUM AS RNUM, A.* 
+                FROM (SELECT * FROM DAILY_RECORD 
+                      WHERE ID = #{id} ORDER BY DR_DATE ASC) A)
+		ORDER BY RNUM DESC
 	</select>
 	
 	<select id="selectDailyRecordPhotoList" parameterType="String" resultMap="DailyRecordPhotoResultSet">
@@ -569,17 +589,19 @@
 		</if>
 	</select>
 	
-	<select id="selectDailyRecordSearchList" parameterType="hashmap" resultMap="DailyRecordResultSet">
-		SELECT *
-		FROM DAILY_RECORD
-		WHERE DR_DELETE = 'N'
-		AND ID = #{id}
-		<if test='select_item == "Title" and title != null'>
-		AND DR_TITLE LIKE '%'||#{title}||'%'
-		</if>
-		<if test='select_item == "Date" and date != null'>
-		AND DR_DATE LIKE '%'||#{date}||'%'
-		</if>
+	<select id="selectDailyRecordSearchList" parameterType="hashmap" resultMap="DailyRecordResultSet_f">
+		SELECT * 
+		FROM (SELECT ROWNUM AS RNUM, A.* 
+		                FROM (SELECT * FROM DAILY_RECORD 
+		                            WHERE ID = #{id} 
+		                            <if test='select_item == "Title" and title != null'>
+		                            AND DR_TITLE LIKE '%'||#{title}||'%'
+		                            </if>
+		                            <if test='select_item == "Date" and date != null'>
+		                            AND DR_DATE LIKE '%'||#{date}||'%'
+		                            </if>
+		                            ORDER BY DR_DATE ASC) A)
+		ORDER BY RNUM DESC
 	</select>
 	
 	

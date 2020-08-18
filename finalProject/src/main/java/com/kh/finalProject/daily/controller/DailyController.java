@@ -76,18 +76,10 @@ public class DailyController {
 			hsm.setId(id);
 			hsm.setHt_start(month);
 			
-//			System.out.println("daily habit : " + hs);
-//			System.out.println("monthly habit : " + hsm);
-			
 			ArrayList<Habit> list = dailyService.selectHabitList(id);			// 전체 목록 조회
 			ArrayList<HabitSum> sum = dailyService.selectHabitSumList(hs);		// daily 합계
 			ArrayList<HabitSum> Wsum = dailyService.selectHabitWSumList(id);	// weekly 합계
 			ArrayList<HabitSum> Msum = dailyService.selectHabitMSumList(hsm);	// monthly 합계
-			
-			
-//			System.out.println("daily sum : " + sum);
-//			System.out.println("weekly sum : " + Wsum);
-//			System.out.println("monthly sum : " + Msum);
 			
 			ArrayList<Habit> hlist = new ArrayList<Habit>();
 			
@@ -330,17 +322,10 @@ public class DailyController {
 		String htr_con = htr[2];
 		String htr_date = htr[3];
 		
-//		System.out.println("으잉?" + htr[3]);
-		
-		
 		SimpleDateFormat dailySet = new SimpleDateFormat ("yyyy-MM-dd"); // 오늘 날짜 저장
-		
 		
 		Date date = new Date();
 		String day = dailySet.format(date);
-		
-//		System.out.println("오늘 날짜 : " + day);
-		
 		
 		HabitRecord hr = new HabitRecord();
 		hr.setHt_no(ht_no);
@@ -353,8 +338,6 @@ public class DailyController {
 		}else {
 			hr.setHtr_date(htr_date);
 		}
-	        
-//		System.out.println("확인" + hr);
 		
 	    int result = dailyService.insertHabitRecord(hr);
 	    // 업데이트 된 습관기록 불러오기
@@ -381,7 +364,6 @@ public class DailyController {
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		
-//		System.out.println("나는 확인을 할 거야 : " +habit);
 		int result = dailyService.updateHabitComment(habit);
 		
 		
@@ -496,6 +478,7 @@ public class DailyController {
 		
 	}
 	
+	// 습관 그래프
 	@RequestMapping("graphView.do")
 	public ModelAndView graphView(ModelAndView mv, HttpServletRequest request) {
 			
@@ -510,9 +493,6 @@ public class DailyController {
 			String day = dailySet.format(date);
 			String month = monthlySet.format(date); // 오늘 날짜
 	
-	//		System.out.println("오늘 날짜 : " + day);
-	//		System.out.println("이번 달 : " + month);
-			
 			if(member != null) {
 				String id = member.getId();
 				
@@ -524,17 +504,10 @@ public class DailyController {
 				hsm.setId(id);
 				hsm.setHt_start(month);
 				
-	//			System.out.println("daily habit : " + hs);
-	//			System.out.println("monthly habit : " + hsm);
-				
 				ArrayList<Habit> list = dailyService.selectHabitList(id);			// 전체 목록 조회
 				ArrayList<HabitSum> sum = dailyService.selectHabitSumList(hs);		// daily 합계
 				ArrayList<HabitSum> Wsum = dailyService.selectHabitWSumList(id);	// weekly 합계
 				ArrayList<HabitSum> Msum = dailyService.selectHabitMSumList(hsm);	// monthly 합계
-				
-	//			System.out.println("daily sum : " + sum);
-	//			System.out.println("weekly sum : " + Wsum);
-	//			System.out.println("monthly sum : " + Msum);
 				
 				ArrayList<Habit> hlist = new ArrayList<Habit>();
 				
@@ -565,8 +538,6 @@ public class DailyController {
 					
 					hlist.add(h);
 				}
-				
-	//			System.out.println("목록 확인 :" + hlist);
 	
 				if(list != null) {
 					mv.addObject("hlist", hlist);
@@ -774,8 +745,7 @@ public class DailyController {
 			
 			bm.setBl_origin(file.getOriginalFilename());
 			bm.setBl_rename(renameFile);
-			
-//			System.out.println("새로 세팅한 bm :" + bm);
+
 		}
 		
 		int result = dailyService.insertBookmarkGroup(bm);
@@ -901,10 +871,6 @@ public class DailyController {
 								HttpServletRequest request, HttpServletResponse response,
 								@RequestParam(value="file", required=false) MultipartFile file) {
 		
-		
-//		System.out.println("받아온 bm " + bm);
-//		System.out.println("file " + file);
-		
 		HttpSession session = request.getSession();
 		Member member = (Member) session.getAttribute("loginUser");
 		String id = member.getId();
@@ -916,9 +882,6 @@ public class DailyController {
 		
 		String rFile = bm.getBl_rename();
 		String oFile = bm.getBl_origin();
-		
-//		System.out.println("원래 리네임 파일" + rFile);
-//		System.out.println("원래 오리진 파일" + oFile);
 		
 		// 프로필 사진 저장
 		if(!file.getOriginalFilename().equals("")) {
@@ -1025,8 +988,6 @@ public class DailyController {
 		
 		ub.setId(id);
 		
-//		System.out.println("ub 값 어떻게 들어오나? :" + ub);
-		
 		int result = dailyService.insertBookmarkUrl(ub);
 		
 		if(result > 0) {
@@ -1061,8 +1022,6 @@ public class DailyController {
 		bm.setId(id);
 		
 		ArrayList<BookmarkMap> mblist = dailyService.selectBookmarkMapList(bm);
-		
-//		System.out.println("널인지?" + mblist);
 		
 		JSONArray mbList = new JSONArray();
 			
@@ -1107,13 +1066,6 @@ public class DailyController {
 		bm.setId(id);
 		
 		BookmarkMap bmMap = dailyService.selectBookmarkMap(bm);
-		
-//		String mb_address[] = bmMap.getMb_address().split("_");
-//        
-//        for(int i=0 ; i<mb_address.length ; i++) {
-//            System.out.println("mb_address["+i+"] : "+mb_address[i]);
-//        }
-		
 		
 		JSONObject jObj = new JSONObject();
 		
@@ -1216,8 +1168,6 @@ public class DailyController {
 		String id = member.getId();
 		
 		bm.setId(id);
-		
-//		System.out.println("bm : " + bm);
 		
 		int result = dailyService.deleteBookmarkMap(bm);
 		
@@ -1366,8 +1316,6 @@ public class DailyController {
 		
 		bu.setId(id);
 		
-		System.out.println("bu : " + bu);
-		
 		int result = dailyService.deleteBookmarkUrl(bu);
 		
 		System.out.println(result);
@@ -1404,18 +1352,17 @@ public class DailyController {
 		
 		ArrayList<DailyRecord> drlist = dailyService.selectDailyRecordList(id, pi);
 		
-		System.out.println("1페이지 : " + drlist);
-		
 		if(drlist != null) {
 			
 			mv.addObject("pi", pi);
 			mv.addObject("drlist", drlist);
 			mv.setViewName("daily/dailyRecordBoard");
 			
-		}else {
+		} else {
 			
-//			mv.addObject("drlist", drlist);
-//			mv.setViewName("daily/dailyRecordBoard");
+			mv.addObject("msg","오류 발생");
+			mv.addObject("url","/editBookmarkUrlView.do");
+			mv.setViewName("common/redirect");
 			
 		}
 		
@@ -1541,24 +1488,17 @@ public class DailyController {
 	public ModelAndView dailyRecordDetailView(ModelAndView mv, HttpServletRequest request
 										, @RequestParam(value="dr_no", required=true) String dr_no) {
 		
-//		System.out.println(dr_no);
-		
 		HttpSession session = request.getSession();
 		Member member = (Member) session.getAttribute("loginUser");
 		
 		String id = member.getId();
 		
-		//map으로 가져가서 확인해주자
 		HashMap<String, String> map = new HashMap<>();
 		map.put("id", id);
 		map.put("dr_no", dr_no);
 		
 		DailyRecord dr = dailyService.selectDailyRecord(map);
 		ArrayList<DailyRecordPhoto> drplist = dailyService.selectDailyRecordPhotoList(dr_no);
-		
-//		System.out.println("dr : " + dr);
-//		System.out.println("drplist : " + drplist);
-		
 		
 		mv.addObject("drplist", drplist);
 		mv.addObject("dr", dr);
@@ -1574,10 +1514,6 @@ public class DailyController {
 										, @RequestParam(value="drp_rename", required=false) String drp_rename
 										, @RequestParam(value="drp_no", required=false) String drp_no) {
 		
-//		System.out.println("drp_rename" + drp_rename);
-//		System.out.println("drp_no" + drp_no);
-//		System.out.println("dr : " + dr);
-
 		mv.addObject("drp_no", drp_no);
 		mv.addObject("drp_rename", drp_rename);
 		mv.addObject("dr", dr);
@@ -1591,8 +1527,6 @@ public class DailyController {
 										, @RequestParam(value="drp_left", required=false) String left_name
 										, @RequestPart(value="file", required=false) List<MultipartFile> file
 										, @RequestParam(value="remove_no", required=false) String remove_no) {
-		
-//		System.out.println("dr : " + dr);
 		
 		HttpSession session = request.getSession();
 		Member member = (Member) session.getAttribute("loginUser");
@@ -1726,9 +1660,6 @@ public class DailyController {
 		
 		String id = member.getId();
 		
-//		System.out.println("dr_no : " + dr_no);
-		
-		//map으로 가져가서 확인해주자
 		HashMap<String, String> map = new HashMap<>();
 		map.put("id", id);
 		map.put("dr_no", dr_no);
@@ -1758,14 +1689,10 @@ public class DailyController {
 		Member member = (Member)session.getAttribute("loginUser");
 		
 		String id = member.getId();
-		
-//		System.out.println("에이작스 : " + dr_no);
-		
+
 		int result = 0;
 		
 		for(String dr_no_a : dr_no) {
-			
-			System.out.println("dr_no_a : " + dr_no_a);
 			
 			HashMap<String, String> map = new HashMap<>();
 			map.put("id", id);
@@ -1796,10 +1723,6 @@ public class DailyController {
 												, @RequestParam(value="date", required=false) String date
 												, @RequestParam(value="page", required=false) Integer page) {
 		
-//		System.out.println("select_item : " + select_item);
-//		System.out.println("title : " + title);
-//		System.out.println("date : " + date);
-		
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
 		String id = member.getId();
@@ -1821,8 +1744,6 @@ public class DailyController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 		
 		ArrayList<DailyRecord> drlist = dailyService.selectDailyRecordSearchList(map, pi);
-		
-//		System.out.println("1페이지 : " + drlist);
 		
 		if(drlist != null) {
 			mv.addObject("pi", pi);
