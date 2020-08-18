@@ -281,7 +281,6 @@
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8">
-                <button class="default-btn" type="button" data-toggle="modal" data-target="#addModal">Add</button>
                 <div class="modal fade" id="addModal" role="dialog">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -354,7 +353,8 @@
                         </div>
                     </div>
                 </div>
-                <div id='calendar'></div>
+                <div style="position:relative" id='calendar'>
+                <button class="default-btn" type="button" data-toggle="modal" data-target="#addModal" style="position:absolute; right: 105px;">Add</button></div>
             </div>
             <div class="col-md-2">
             	<form action="mtinsert.do" method="post">
