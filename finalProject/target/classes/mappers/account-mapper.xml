@@ -130,6 +130,7 @@
 		    AND AB_DELETE='N'
 		    AND AB_VIEW='Y'
 		GROUP BY EXTRACT(MONTH FROM AB_DATE)
+		ORDER BY AB_MONTH ASC
 	</select>
 	
 	<select id="selectMESumList" parameterType="MSumCondition" resultMap="msResultSet">
@@ -141,6 +142,7 @@
 		    AND AB_DELETE='N'
 		    AND AB_VIEW='Y'
 		GROUP BY EXTRACT(MONTH FROM AB_DATE)
+		ORDER BY AB_MONTH ASC
 	</select>
 	
 	<select id="selectECList" parameterType="Condition" resultMap="acResultSet">
