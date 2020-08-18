@@ -197,6 +197,18 @@
 		  color: #cecece;
 		  font-size: 13px;
 		}
+		
+    	.check {
+	    	display: none;
+		    font-size: 13px;
+		    font-weight: 400;
+		    margin-top: 5px;
+		    color: #c65858;
+    	}
+    	
+   	    .success {
+    		color: #50c6b0 !important;
+    	}
        
     </style>
 </head>
@@ -205,7 +217,7 @@
 	<jsp:include page="../common/sidenaviDaily.jsp"/>
     <div class="right-area">
         <div>
-            <form action="insertHabit.do" method="post">
+            <form action="insertHabit.do" id="insert" method="post">
                 <span class="pSubject">Add Habit</span>
                 <table cellpadding="6px">
                     <tr>
@@ -224,7 +236,10 @@
                     </tr>
                     <tr>
                         <td>Goal</td>
-                        <td><input type="text" name="ht_goal" maxlength="16" placeholder="목표치를 숫자로 입력하세요. ex. 10, 20, 1000" required></td>
+                        <td>
+                        	<input type="text" name="ht_goal" id="goal" maxlength="16" placeholder="목표치를 숫자로 입력하세요. ex. 10, 20, 1000" required>
+                        	<div class="check" id="checkGoal"></div>
+                        </td>
                     </tr>
                     <tr>
                         <td>Unit</td>
@@ -272,13 +287,59 @@
                 <div class="button-area">
                     <button type="button" onclick = "history.go(-1)">Back</button>
                     <button type="reset">Reset</button>
-                    <button type="submit">Save</button>
+                    <button type="button" onclick="add_submit()">Save</button>
                 </div>
             </form>
         </div>
     </div>
 
     <script>
+    
+    	function add_submit() {
+    		
+    		var check_g = RegExp(/^[0-9]*$/); 
+    		
+			if(!check_g.test($("#goal").val())){
+				
+	    		alert("형식에 맞게 다시 작성해 주세요.");
+	    		$("#goal").val("");
+	    		$("#goal").focus();
+	    		
+	    		return false;
+	    		
+	    	}else {
+	    		
+	    		$("#insert").submit();
+	    		
+	    	}
+    		
+    	}
+    	
+    	// goal 유효성 검사
+    	var check_g = RegExp(/^[0-9]*$/); 
+    	
+		$("#goal").keyup(function(){
+	    	
+	    	if(!check_g.test($(this).val())){
+	    		
+	    		$("#checkGoal").show();
+	    		$("#checkGoal").html("숫자만 입력해 주세요.");
+	    		$("#checkGoal").removeClass("success");
+	    		
+	    		$(this).focusout(function(){
+	    			$("#checkGoal").show();
+	    		})
+	    	
+	    	}else {
+	    		$("#checkGoal").html("정상적으로 입력되었습니다.");
+	    		$("#checkGoal").addClass("success");
+	    		
+	    		$(this).focusout(function(){
+	    			$("#checkGoal").hide();
+	    		})
+	    	}
+	    })
+    
     	$(document).ready(function() {
     		
     		// 타입 선택시 타이핑 막기

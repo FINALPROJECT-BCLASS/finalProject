@@ -787,7 +787,7 @@
 					    </div>
 					    <div class="count-area b-lightgray">
 					      	<span>+</span>
-					      	<input id="htr_now" name="htr_now" class="count blue" type="text">
+					      	<input id="htr_now" name="htr_now" class="count blue" type="text" maxlength="16">
 					      	<span name="htr_unit">ml</span>
 					      	<input id="htr_now_" type="hidden">
 					    </div>
@@ -857,12 +857,12 @@
             <!-- Button End-->
         </div>
 		
-		<!-- Calendar -->
-		<!-- <script type="text/javascript"  src="https://code.jquery.com/jquery-2.2.4.min.js"
-        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-        crossorigin="anonymous"></script> -->
 		<script type="text/javascript"  src='resources/js/simpleCalendar/jquery.simple-calendar.js'></script>
 		<script>
+		
+		$(".add").on("click", function(){
+			$("#htr_now").val($("#htr_now_").val());
+		});
 			
 		var changeNo = 0;
 		
@@ -998,8 +998,6 @@
       	     					data: {htNum:htNum, htDate:htDate, htCycle:htCycle},
       	     					dataType:"json",
       	     					success:function(caldata){
-      	     						
-      	     						console.log(caldata);
       	     							
      	     							$tableBody = $("#habit-record");
      	     							$tableBody.html("");
@@ -1082,8 +1080,6 @@
      	     							var year = $(".year").html();
      	     							var month = $(".year").next().html();
      	     							
-     	     							console.log(year + month);
-     	     							
      	     							if(htCycle == "This Week"){
      	     								
      	     								if(selectWeek == thisWeek) {
@@ -1111,9 +1107,6 @@
      	     								
      	     								var selectM = date.substr(5,2);
      	     								
-     	     								console.log("month" + month);
-     	     								console.log("tM" + m);
-     	     								
      	     								if(month == m) {
          	         	              			$("#period").html("This Month" + "<br><a class = 'smallA'>" + date + "</a>");
          	         	              		}else{
@@ -1128,9 +1121,6 @@
 	    										var color = $(".clicked").find(".progress-bar").css("background-color");
     	     	   						
     	     	   						if($(".clicked").hasClass("Daily") === true) {
-    	     	   					
-    	     	   						console.log("today" + today);
-    	     	   						console.log("date" + date);
     	     	   							
     	     	   							if(today == date){
     	     	   								
@@ -1156,9 +1146,6 @@
       	  									}
       	  								}else if($(".clicked").hasClass("Monthly") === true){
       	  									
-      	  									console.log("month는?" + month);
-      	  									console.log("m은?" + m);
-      	  									
       	  									if(m == month) {
       	  										
 	    										$(".clicked").find(".percent").html(Math.ceil(sum/goal*100)+"%");
@@ -1170,15 +1157,10 @@
       	  									}
       	  									
       	  								}
-    	     	   						
-										// 와우  
-    	     							
     	     							//현재 값
     	     	   						$("#now").html(sum);
     	     	   						//현재 퍼센트
     	     	   						$("#achieve").html(Math.ceil(sum/goal*100)+"%");
-    	     	   						console.log("goal" + goal);
-    	     	   						console.log("unit" + unit);
     	     	   						//progress bar
     	     	   						$("#progress1").css("width", Math.ceil(sum/goal*100) + "%");
       	     						
@@ -1398,11 +1380,7 @@
    						$(".clicked").find("div.progress-bar").css("background-color", data.list.ht_color);
    						$(".clicked").find("div.percent").html(Math.ceil(sum/data.list.ht_goal*100) + "%");
    						
-   						
    						}
-   					
-
-   			    	console.log("잉" +$("#habit-record").html());
  		
    					},
    					error:function(request, status, errorData){
@@ -1412,56 +1390,58 @@
               		} 
    				})
 		    	 
-		    	
-		    	
-		    	
-		    	
 		    });
-		    
-		    
-		    
 		    
 		    
 		    // 습관 카운트 하기
 		    function countModal() {
 		    	
-		    	var ht_no = $("#ht_no").val();
-		    	var htr_now = $("#htr_now").val();
-		    	var htr_now_ = $("#htr_now_").val();
-		    	var htr_con = $("#htr_con").val();
-		    	var htr_date = $("#period > a").html();
+		    	var check_g = RegExp(/^[0-9]*$/); 
+	    		
+				if(!check_g.test($("#htr_now").val())){
+					
+		    		alert("숫자만 입력 가능합니다.");
+		    		$("#htr_now").val("");
+		    		$("#htr_now").focus();
+		    		
+		    		return false;
+		    		
+		    	}else {
+		    		
+			    	var ht_no = $("#ht_no").val();
+			    	var htr_now = $("#htr_now").val();
+			    	var htr_now_ = $("#htr_now_").val();
+			    	var htr_con = $("#htr_con").val();
+			    	var htr_date = $("#period > a").html();
+			    	
+			    	var htr = [ht_no, htr_now, htr_con, htr_date];
+			    	 
+			    	$.ajax({
+			    	    method: 'POST',
+			    	    url: 'insertHtr.do',
+			    	    traditional: true,
+			    	    data: {'htr':htr},
+			    	    success : function(data) {
+							if(data == "success") {
+								$("."+htr_date).trigger("click");
+								$("."+htr_date).addClass("event");
+								$("#add-count").modal("hide");
+								$("#htr_now").val(htr_now_);
+								$("#htr_con").val("");
+							}else {
+								alert("기록 실패, 다시 시도해 주세요.");
+								
+							}
+			    	    },
+			    	    error:function(request, status, errorData){
+	                        alert("error code: " + request.status + "\n"
+	                              +"message: " + request.responseText
+	                              +"error: " + errorData);
+	             		} 
+			    	 
+			    	});
 		    	
-		    	/* console.log("오늘날짜 찍히는지" + htr_date); */
-		    	
-		    	var htr = [ht_no, htr_now, htr_con, htr_date];
-		    	 
-		    	$.ajax({
-		    	    method: 'POST',
-		    	    url: 'insertHtr.do',
-		    	    traditional: true,
-		    	    data: {'htr':htr},
-		    	    success : function(data) {
-						if(data == "success") {
-							$("."+htr_date).trigger("click");
-							$("."+htr_date).addClass("event");
-							$("#add-count").modal("hide");
-							$("#htr_now").val(htr_now_);
-							$("#htr_con").val("");
-							// 주석 
-							/* var goal = $(".clicked a.ht_goal").html();
-							${(h.ht_now/h.ht_goal)*100+(1-(((h.ht_now/h.ht_goal)*100)%1))%1} */
-						}else {
-							alert("기록 실패, 다시 시도해 주세요.");
-							
-						}
-		    	    },
-		    	    error:function(request, status, errorData){
-                        alert("error code: " + request.status + "\n"
-                              +"message: " + request.responseText
-                              +"error: " + errorData);
-             		} 
-		    	 
-		    	});	
+		    	}
 		    }
 		    
 		    // 습관 내용 수정하기
@@ -1537,11 +1517,8 @@
 							if(data == "success"){
 								$("."+htr_date).trigger("click");
 								
-		      	              	console.log("과연?" + $(".habit-record").html());
-								
 								if(!$(".habit-record").html()){
 									$("."+htr_date).removeClass("event");
-									alert("됨?");
 								}
 								
 							}else{
@@ -1569,9 +1546,6 @@
 				var ht_unit = $(".clicked a.ht_unit").html();
 				var htr_con = $(checkbox).parent().next().next().next().html();
 				
-				console.log(ht_unit);
-				
-				
 				if(checkbox.length > 1){
 					alert("하나만 선택해 주세요.");
 				}else if(checkbox.length < 1){
@@ -1583,10 +1557,8 @@
 					$("#htr_con_m").val(htr_con);
 					$("#htr_unit_m").html(ht_unit);
 					$("#edit-record").modal("show");
-					
 	
 				}	
-				
 		 	}
 		 	
 		 	function editHabitRecordModal(){
