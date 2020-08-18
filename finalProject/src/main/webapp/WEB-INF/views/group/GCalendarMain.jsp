@@ -33,7 +33,10 @@
 		    	   								,end:data.planList[i].gpEnd
 		    	   								,color:data.planList[i].color
 		    	   								,id:data.planList[i].gpNo
+		    	   								
 		    	   								})
+   	   								console.log("캘린더 start : " + data.planList[i].gpStart);
+	   								console.log("캘린더 end : " + data.planList[i].gpEnd);
 		    	   				};
 	            				
 	            				successCallback(events);
@@ -198,7 +201,7 @@
         .modal-content{
            width: 545px !important;
         }
-        
+       
 		.modal-dialog{
 			max-width:545px !important;
 			    top: -105px;

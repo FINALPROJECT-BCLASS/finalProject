@@ -173,7 +173,7 @@
         
         #groupWrite{float:right;}
        
-         .join-form-area{top:-40px; padding-top:150px !important;position:relative; float: right;display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 40px; width: 81%; background: #F3F3F3; }
+         .join-form-area{ padding-top:150px !important;position:relative; float: right;display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 40px; width: 81%; background: #F3F3F3; }
 
          .alert{font-size:14px; color:gray; margin-top:-20px;}
          .proText{color:#2860E1; font-size:18px; font-weight:600;}
@@ -205,7 +205,7 @@
 			<jsp:include page="../common/sidenaviGroup.jsp"/>
 		</c:if>
         
-        <br><br>
+        
            <div class="join-form-area">
     
    <jsp:include page="../common/groupNoticeHeader.jsp"/>
