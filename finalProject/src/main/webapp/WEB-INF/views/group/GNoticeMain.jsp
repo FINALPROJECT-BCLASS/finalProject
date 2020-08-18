@@ -156,7 +156,7 @@
             <button class="groupBtn BoardBtn" onclick="location.href='boardMain.do'">Board</button>
             <button class="groupBtn PhotoBtn">Photo</button>
             <button class="groupBtn VideoBtn">Video</button>
-    	</div>
+    	</div> 
     	
       	<br>
       	<div id="groupWrite" ><span class="material-icons writeBtn" id="writeBtn">create</span></div>
