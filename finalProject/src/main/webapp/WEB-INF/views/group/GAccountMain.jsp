@@ -160,7 +160,8 @@
         
         .total{
         	display:inline-block;
-        	width:150px;
+        	/* width:150px; */
+        	margin-right:18px;
         	color:#484848;
         	font-size:17px;
         	font-weight:400;
@@ -169,6 +170,8 @@
         	display:inline-block;
         	
         }
+        
+        #groupWrite{float:right;}
        
          .join-form-area{top:-40px; padding-top:150px !important;position:relative; float: right;display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 40px; width: 81%; background: #F3F3F3; }
 
