@@ -205,9 +205,24 @@ public class MemberController {
 	}
 	
 	// 회원정보 수정 화면
-	@RequestMapping(value="myInfoView.do", method=RequestMethod.GET)
-	public String myInfoView() {
-		return "member/infoView";
+	@RequestMapping(value="myInfoView.do", method=RequestMethod.POST)
+	public String myInfoView(Member m, Model model) {
+		
+		Member member = mService.selectOne(m);
+		
+		if(member != null && bcryptPasswordEncoder.matches(m.getPwd(), member.getPwd())) {
+		
+			return "member/infoView";
+						
+		}else {
+			
+		    model.addAttribute("msg","정보가 일치하지 않습니다. 다시 시도해 주세요.");
+		    model.addAttribute("url","/myInfoCheckView.do");
+				
+			return "common/redirect";
+		}
+
+		
 	}
 	
 	// 회원정보 수정
@@ -300,11 +315,6 @@ public class MemberController {
 			}	
 			
 			
-
-//            model.addAttribute("url","/home.do");
-//            
-//			return "common/redirect";
-//			
 		}else {
 			
 			//회원가입 실패
@@ -411,8 +421,6 @@ public class MemberController {
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		
-		System.out.println("멤버 : " + m);
-		
 		Member member = mService.selectOneFindId(m);
 		
 		if(member == null) {
@@ -428,12 +436,13 @@ public class MemberController {
 			out.close();
 		}
 		
-		
-		
-		
 	}
 	
-	
+	@RequestMapping("myInfoCheckView.do")
+	public String myInfoCheckView() {
+		
+		return "member/infoCheck";
+	}
 	
 	
 	
