@@ -86,7 +86,7 @@
   	.endBtn{background:#2860E1;}
   	.removeBtn{background:lightgray;}
   	
-  	tr > td:nth-child(1) {
+  	.noticeBoardTb > tr > td:nth-child(1) {
         color: #484848;
         text-align: left;
         font-weight: 600;

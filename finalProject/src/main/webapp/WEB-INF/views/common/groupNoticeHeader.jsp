@@ -27,6 +27,7 @@
     
 		 /* 공지 */
 	    .noticeText {
+	    	padding: 10px;
 	    	position: absolute;
 		    top: 25px;
 		    left: 95px;
@@ -49,23 +50,25 @@
 	    }
 	    
     .noticeTb{margin-left:20px;}
-    .noticeTitle{padding-top:20px; padding-left:5px; font-size: 20px; color:#F3F3F3; }
-    .noticeWriter, .noticeDate {padding-left:5px; font-size:12px; font-weight: 600;  color:#F3F3F3; }
-    .noticeContent{padding-top:5px; padding-left:15px; padding-bottom: 20px; font-size:14px; color:#F3F3F3; }
+    .noticeTitle{font-size: 18px; color:#484848;}
+    .noticeWriter, .noticeDate {font-size:12px; margin: 0px 7px 0px 7px; color:gray;}
+    .noticeContent{padding-top:5px; padding-bottom: 20px; font-size:14px; color:#484848; }
 </style>
 </head>
 <body>
 	<!-- 공지사항 -->
 <c:if test="${!empty noticeList }">
 	<div class="noticeText">
+	<span class="material-icons noticeIcon">campaign</span>
         <table class="noticeTb">
           <tr>
-	          <td><span class="material-icons noticeIcon">campaign</span></td>
+	          
 	          <td><div class="noticeTitle">${noticeList.gnTitle }</div></td>
+	          <td><div class="noticeWriter">${noticeList.name }</div></td>
+          	  <td><div class="noticeDate">${noticeList.gnDate }</div></td>
           </tr>
-          <tr><td></td><td><div class="noticeWriter">${noticeList.name }</div></td></tr>
-          <tr><td></td><td><div class="noticeDate">${noticeList.gnDate }</div></td></tr>
-          <tr><td></td><td><div class="noticeContent">${noticeList.gnCon }</div></td></tr>
+          
+          <tr><td colspan="3"><div class="noticeContent">${noticeList.gnCon }</div></td></tr>
         </table>
       </div>
 </c:if>      

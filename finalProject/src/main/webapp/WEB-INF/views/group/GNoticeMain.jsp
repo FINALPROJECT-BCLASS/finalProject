@@ -23,9 +23,12 @@
    /* 공지 */
     /* .noticeText{ background: linear-gradient(#285fe1b3, #2860E1 ) fixed; box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.048); position:absolute; top:0; float: right; margin:auto; width: 100%; } */
     .noticeTb{margin-left:20px;}
-    .noticeTitle{padding-top:20px; padding-left:5px; font-size: 20px; color:#F3F3F3; }
+    /* .noticeTitle{padding-top:20px; padding-left:5px; font-size: 20px; color:#F3F3F3; }
     .noticeWriter, .noticeDate {padding-left:5px; font-size:12px; font-weight: 600;  color:#F3F3F3; }
-    .noticeContent{padding-top:5px; padding-left:15px; padding-bottom: 20px; font-size:14px; color:#F3F3F3; }
+    .noticeContent{padding-top:5px; padding-left:15px; padding-bottom: 20px; font-size:14px; color:#F3F3F3; } */
+    .noticeTitle{font-size: 18px; color:#484848;}
+    .noticeWriter, .noticeDate {font-size:12px; margin: 0px 7px 0px 7px; color:gray;}
+    .noticeContent{padding-top:5px; padding-bottom: 20px; font-size:14px; color:#484848; }
 
 	/* 글쓰기 버튼 */
 	#groupWrite {text-align:right; width:100%; height: 50px; margin-right:40px; margin-bottom:10px; border:none;}
@@ -85,7 +88,7 @@
      #groupCon, .groupCon{width:100%; border:none; background:#F3F3F3; border-radius: 6px;}
     
     
-    tr > td:nth-child(1) {
+    .noticeBoardTb > tr > td:nth-child(1) {
         color: #484848;
         text-align: left;
         font-weight: 600;
@@ -94,6 +97,7 @@
     }
     
     .noticeText {
+    	padding: 10px;
     	position: absolute;
 	    top: 25px;
 	    left: 95px;
@@ -137,14 +141,15 @@
 	  
 	   	<c:if test="${!empty noticeList}">
 	  <div class="noticeText">
+	  	<span class="material-icons noticeIcon">campaign</span>
         <table class="noticeTb">
           <tr>
-	          <td><span class="material-icons noticeIcon">campaign</span></td>
 	          <td><div class="noticeTitle">${noticeList[0].gnTitle }</div></td>
+	          <td><div class="noticeWriter">${noticeList[0].name }</div></td>
+          	  <td><div class="noticeDate">${noticeList[0].gnDate }</div></td>
           </tr>
-          <tr><td></td><td><div class="noticeWriter">${noticeList[0].name }</div></td></tr>
-          <tr><td></td><td><div class="noticeDate">${noticeList[0].gnDate }</div></td></tr>
-          <tr><td></td><td><div class="noticeContent">${noticeList[0].gnCon }</div></td></tr>
+          
+          <tr><td><div class="noticeContent">${noticeList[0].gnCon }</div></td></tr>
         </table>
       </div>
         </c:if>
