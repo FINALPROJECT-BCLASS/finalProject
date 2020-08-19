@@ -218,12 +218,11 @@
                     </c:if>
                 </table>
 
-
                <br><br>
                
                 <div class="groubJoinBtn">
                     <span id="reset" onclick="goBack();">Back</span>
-                    <span id="submit">To Vote</span>
+                    <span id="submit">Vote</span>
                 </div>
                
             </div>

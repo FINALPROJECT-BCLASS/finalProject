@@ -33,7 +33,10 @@
 		    	   								,end:data.planList[i].gpEnd
 		    	   								,color:data.planList[i].color
 		    	   								,id:data.planList[i].gpNo
+		    	   								
 		    	   								})
+   	   								console.log("캘린더 start : " + data.planList[i].gpStart);
+	   								console.log("캘린더 end : " + data.planList[i].gpEnd);
 		    	   				};
 	            				
 	            				successCallback(events);
@@ -198,9 +201,10 @@
         .modal-content{
            width: 545px !important;
         }
-        
+       
 		.modal-dialog{
 			max-width:545px !important;
+			    top: -105px;
 		}
 		
 		#deleteBtn{
@@ -294,7 +298,7 @@
             text-align: center;
         }
         
-         tr > td:nth-child(1) {
+        .noticeBoardTb > tr > td:nth-child(1) {
             color: #484848;
             text-align: left;
             font-weight: 600;
@@ -312,7 +316,7 @@
 		 }
 		 
 		 #mpStart, #mpEnd {
-		 	width: 48%;
+		 	width: 47%;
 		 }
 		 
 		 #addTitle {
@@ -330,7 +334,7 @@
 		    background: #F3F3F3;
 		    border-radius: 8px;
 		    padding: 8px;
-		    width: 48%;
+		    width: 47%;
 		 }
 		 
 		 .btnBox {

@@ -269,11 +269,11 @@
                 <table cellpadding="6px">
                     <tr>
                         <td>Title</td>
-                        <td><input type="text" id="dr_title" name="dr_title" maxlength="16" value="${dr.dr_title }"></td>
+                        <td><input type="text" id="dr_title" name="dr_title" maxlength="16" value="${dr.dr_title }" required></td>
                     </tr>
                     <tr>
                         <td>Date</td>
-                        <td><input type="date" id="dr_date" name="dr_date" value="${dr.dr_date }"></td>
+                        <td><input type="date" id="dr_date" name="dr_date" value="${dr.dr_date }" required></td>
                     </tr>
                     <tr>
                         <td>Weather</td>
@@ -379,10 +379,16 @@
 	    var drpRenameSplit = "${drp_rename}".split(',');
 	    var drpNoSplit = "${drp_no}".split(',');
 	    
-	    // 이미지 추가
-	    for ( var i in drpRenameSplit ) {	
-	      $(".photos-wrap").append("<img class='img-item left' src='resources/druploadFiles/"+drpRenameSplit[i]+"'><input type='hidden' name='drp_no_all' value='"+drpNoSplit[i]+"'><input type='hidden' value='"+drpRenameSplit[i]+"'>");
-	    }
+	    console.log("drpNoSplit : " + drpNoSplit);
+	    
+	    if(drpNoSplit != "") {
+		    // 이미지 추가
+		    for ( var i in drpRenameSplit ) {	
+		     	$(".photos-wrap").append("<img class='img-item left' src='resources/druploadFiles/"+drpRenameSplit[i]+"'><input type='hidden' name='drp_no_all' value='"+drpNoSplit[i]+"'><input type='hidden' value='"+drpRenameSplit[i]+"'>");
+		    }
+		    
+		}
+	    
 	    
 	    var remove_no = new Array();
 	    var left_name = new Array();

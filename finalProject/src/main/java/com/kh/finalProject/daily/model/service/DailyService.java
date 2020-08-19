@@ -105,7 +105,7 @@ public interface DailyService {
 
 	int deleteDailyRecord(HashMap<String, String> map);
 
-	ArrayList<DailyRecord> selectDailyRecordList_a(String id);
+	ArrayList<DailyRecord> selectDailyRecordList_a();
 
 	int getListCount(String id);
 

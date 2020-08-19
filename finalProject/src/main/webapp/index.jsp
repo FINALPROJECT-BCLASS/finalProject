@@ -12,8 +12,9 @@
 	<% response.sendRedirect(request.getContextPath() + "/home.do"); %>   
 
 
-</body> 
+</body>
 </html>
+
 
 
 

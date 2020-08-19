@@ -36,5 +36,10 @@ public class MemberDao {
 		return sqlSessionTemplate.update("memberMapper.updatePwd", m);
 	}
 
+	public Member selectOneFindId(Member m) {
+
+		return sqlSessionTemplate.selectOne("memberMapper.selectOneFindId", m);
+	}
+
 	
 }

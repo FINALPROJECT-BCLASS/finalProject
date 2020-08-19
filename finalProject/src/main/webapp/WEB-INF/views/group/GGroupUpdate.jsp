@@ -28,9 +28,9 @@
     .searchNameAfter{background:white; border:none; border-radius: 6px; height:100px; color:darkgray; height:150px; width:600px; overflow:scroll;  overflow-x:hidden;} /* width 다시보기*/
     .adminBtn{ background:#2860E1 !important; color:white !important; }
     .gmDeleteY{background:#dc3545 !important; color:white !important; }
-    .searchNameBox{margin-bottom:20px; margin:5px; width:100px; height:30px; background:#FBD14B; border:none; border-radius: 5px; font-size:small;}
-    .searchNameBox:hover{margin-bottom:20px; margin:5px; width:100px; height:30px; background:darkgray; border:none; border-radius: 5px; cursor:pointer;font-size:small;}
-    .searchNameForm{display:none; height:100px; overflow:scroll;  overflow-x:hidden; }
+    .searchNameBox{margin-bottom:20px; margin:5px; height:30px; background:#FBD14B; border:none; border-radius: 5px; font-size:small;}
+    .searchNameBox:hover{margin-bottom:20px; margin:5px;  height:30px; background:darkgray; border:none; border-radius: 5px; cursor:pointer;font-size:small;}
+    .searchNameForm{display:none; height:200px; overflow:scroll;  overflow-x:hidden; }
     .deleteBtn{width:20px;height:30px; border-radius: 3px; background:red; border:none; text-align: center;}
 	
     /* 구글 아이콘 */
@@ -158,16 +158,6 @@
 	                                     	</c:if>
 	                                     	
 	                                     	<c:if test="${ groupTable.id ne m.gmId}">
-	                                     	<c:if test="${ m.gmDelete eq 'Y'}">
-		                                    <button type="button" class="searchNameBox gmDeleteY" value="${m.name }">
-			                                    	${m.name }&nbsp;${m.gmId }
-			                                    <input type="hidden" name="groupName" value="${m.name }">
-			                                    <input type="hidden" class='groupId' name="groupId" value="${m.gmId }">
-			                                    <input type="hidden" class='groupId' name="gmNo" value="${m.gmNO }">
-			                                    <input type="hidden" class='groupId' name="member" value="plus">
-			                                    <input type="hidden" class='groupId' name="gmDelete" value="${m.gmDelete }">
-		                                    </button>
-		                                    </c:if>
 		                                    <c:if test="${ m.gmDelete eq 'N'}">
 		                                    <button type="button" class="searchNameBox" value="${m.name }">
 			                                    	${m.name }&nbsp;${m.gmId }
@@ -199,16 +189,17 @@
                                <div class=profile-image-area>
                                		<c:if test="${!empty groupTable.gOrigin }">
                         				<img class="profile-image" src="resources/groupMainFiles/${groupTable.gOrigin }">
+                        				<input type="hidden" name="originImg" class="originImg" value="N">
                         			</c:if>
                         			<c:if test="${empty groupTable.gOrigin }">
-                        				<img class="profile-image" src="resources/images/icons/profile_default.png">
+                        				<img class="profile-image" src="resources/groupMainFiles/group1.png">
                         			</c:if>
                         			<input type="hidden" name="beforeImg" value="${groupTable.gOrigin }">
                         			<input type="hidden" name="gNo" value="${groupTable.gNo }"> 
                        			</div>
                               	<div class="filebox">
 								  <input type="file" id="file" class="ex_file" name="uploadFile" onchange="uploadPhoto(this);">
-								  <input class="upload-name" value="Select file">
+								  <input class="upload-name" value="${groupTable.gOrigin }">
 								  <label for="file">Upload</label>
 								</div>
                             </td>
@@ -252,6 +243,8 @@
 		 				
 		 				reader.readAsDataURL(value.files[0]);
 		 			}
+		 			
+		 			$(".originImg").val("Y");
 		 	    }
  	   
          </script>
@@ -261,7 +254,7 @@
 		 <script>
 		 
 		 	$("#delete").click(function(){
-		 		var deleteConfirm = confirm("게시글을 삭제하시겠습니까? ");
+		 		var deleteConfirm = confirm("그룹을 삭제하시겠습니까? ");
 		 		if(deleteConfirm){
 		 			alert("게시글이 삭제되었습니다.");
 		 			location.href="deleteGroup.do?groupNo="+${gInfo.groupNo};

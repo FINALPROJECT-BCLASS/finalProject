@@ -1173,8 +1173,6 @@
 			}
 			
 			
-			
-			
 	        // 북마크 그룹 삭제 버튼 클릭시 실행
 	        function deleteBookmark() {
 	        	

@@ -50,5 +50,13 @@
 		WHERE ID=#{id}
 	</update>
 	
+	<select id="selectOneFindId" parameterType="Member" resultMap="memberResultSet">
+		SELECT *
+		FROM MEMBER
+		WHERE NAME = #{name}
+		AND EMAIL = #{email}
+		AND OUT_YN = 'N'
+	</select>
+	
 
 </mapper>

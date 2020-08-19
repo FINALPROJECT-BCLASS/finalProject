@@ -36,7 +36,7 @@
     /* 구글 아이콘 */
     .material-icons{padding-top:12px; padding-left: 10px;}
 
-    #groupCon{width:100%; height:300px; border:none;  border-radius: 6px; margin-bottom:-10px;}
+    #groupCon{resize: none;width:100%; height:300px; border:none;  border-radius: 6px; margin-bottom:-10px;}
     .groupPhoto{width:100px; height: 100px;}
 
     .groubJoinBtn{text-align: center;}

@@ -65,7 +65,7 @@
         #calendar {
             max-width: 900px;
             margin: 0 auto;
-            margin-left: 300px;
+            margin-left: 340px;
             /* z-index: 0 !important; */
         }
 
@@ -76,6 +76,31 @@
         .default-btn{
         	margin-left: 15px;
         }
+        
+        .top-area {
+        	position: relative;
+		    width: 900px;
+		    margin: 0 auto;
+		    margin-left: 340px;
+		    display: flex;
+		    margin-bottom: 20px;
+        }
+        
+        .add-btn {
+       	    position: absolute;
+    		right: 0;
+        }
+        
+        .info-table {
+        	font-size: 18px;
+		    position: absolute;
+		    right: 0;
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		    height: 100%;
+       	}
+        
     </style>
 </head>
 
@@ -118,15 +143,12 @@
         		alert("예정일이 업데이트 되었습니다.");
         	</script>
         </c:if>
-        
-        <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-3">
-            	<form action="mcupdate.do" method="post">
+        <div class="top-area">
+        	<form action="mcupdate.do" method="post">
             		<input type="hidden" name="id" value="${loginUser.id }">
 	                <table id="personalInfo">
 	                    <tr>
-	                        <td style="text-align: right;"><b>Cycle :&nbsp;</b></td>
+	                        <td><b>Cycle :&nbsp;</b></td>
 	                        <c:if test="${empty menstrual }">
 	                        	<td><input type="number" min="1" max="31" value="28" name="mcCycle"><br></td>	                        	
 	                        </c:if>
@@ -144,7 +166,7 @@
 	                        </c:if>
 	                    </tr>
 	                    <tr>
-	                        <td style="text-align: right;"><b>Period :&nbsp;</b></td>
+	                        <td><b>Period :&nbsp;</b></td>
 	                        <c:if test="${empty menstrual }">
 	                        	<td><input type="number" min="1" max="31" value="5" name="mcPeriod"><br></td>	                        	
 	                        </c:if>
@@ -163,10 +185,7 @@
 	                    </tr>
 	                </table>
             	</form>
-            </div>
-            <div class="col-md-5"></div>
-            <div class="col-md-2">
-                <table style="font-size: 18px;">
+            	<table class="info-table" style="font-size: 18px;">
                     <tr>
                         <td style="color: #F781BE;">♥</td>
                         <td>생리 예정일</td>
@@ -176,6 +195,14 @@
                         <td>가임기</td>
                     </tr>
                 </table>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-5"></div>
+            <div class="col-md-2">
+                
             </div>
         </div>
 

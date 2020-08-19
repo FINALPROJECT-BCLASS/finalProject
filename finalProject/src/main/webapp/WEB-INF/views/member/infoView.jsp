@@ -173,7 +173,7 @@
     .infoSetMain {
     	opacity: 0;
     	position: absolute;
-	    top: 65px;
+	    top: 280px;
 	    left: 5px;
 	    padding: 12px;
 	    font-size: 13px;
@@ -382,21 +382,13 @@
 
 
     <script>
+    
+    
     $(document).ready(function(){
     	
-    	var mainNo = ${loginUser.main_no}
+    	var mainNo = ${loginUser.main_no};
     	
-    	if(mainNo == "1") {
-    		$("#1").attr("checked", true);
-    	}else if(mainNo == "2") {
-    		$("#2").attr("checked", true);
-    	}else if(mainNo == "3") {
-    		$("#3").attr("checked", true);
-    	}else if(mainNo == "4") {
-    		$("#4").attr("checked", true);
-    	}else if(mainNo == "5") {
-    		$("#5").attr("checked", true);
-    	}
+    	$("#"+mainNo).attr("checked", true);
     	
     	document.getElementById("birth").value = "${loginUser.birthday}";
     	

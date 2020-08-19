@@ -82,4 +82,8 @@ public interface PlanService {
 
 	ArrayList<MTodolist> selectMtList(MTodolist mt);
 
+	Timetable selectTimetable(int ttNo);
+
+	int updateTimetable(Timetable tt);
+
 }

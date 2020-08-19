@@ -16,9 +16,9 @@
         <nav class="left-sub-navi">
             <span>Daily</span>
             <ul>
-                <li><a href="#">Daily Record</a></li>
-                <li><a href="#">Habit Tracker</a></li>
-                <li class="l-last-line"><a href="#">Bookmark</a></li>
+                <li><a href="dailyRecordView.do">Daily Record</a></li>
+                <li><a href="htList.do">Habit Tracker</a></li>
+                <li class="l-last-line"><a href="bookmarkView.do">Bookmark</a></li>
             </ul>
         </nav>
     </div>

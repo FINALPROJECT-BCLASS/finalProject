@@ -143,7 +143,7 @@
                 <table cellpadding="6px">
                     <tr>
                         <td>Title</td>
-                        <td><input type="text" name="ub_title" id="ub_title" maxlength="16" placeholder="저장할 링크의 제목을 입력하세요." value="${bmUrl.ub_title }"></td>
+                        <td><input type="text" name="ub_title" id="ub_title" maxlength="16" placeholder="저장할 링크의 제목을 입력하세요." value="${bmUrl.ub_title }" required></td>
                     </tr>
                     <tr>
                         <td>Memo</td>
