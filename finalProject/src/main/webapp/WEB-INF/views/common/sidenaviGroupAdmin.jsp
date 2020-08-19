@@ -45,7 +45,7 @@
 		cursor:pointer;
 	}
 
-</style>
+</style> 
 
 <body>
     <div class="left-navi-area">
