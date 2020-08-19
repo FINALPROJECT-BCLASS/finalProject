@@ -183,7 +183,7 @@
                 <br><br>
                 <div class="groubJoinBtn">
                    <span><button  id="submit">Submit</button>&nbsp;</span>
-                   <span id="reset" onclick="goBack();">Back</span><span id="reset" onclick="goBack();">Back</span>
+				   <span id="reset" onclick="goBack();">Back</span>
                 </div>
             </div>
          </div>
