@@ -60,31 +60,31 @@
 					<input type="hidden" value="${dietwhentime }" name="dtWhen">
 					<tr>
 						<td>음식명</td>
-						<td><input type="text" id="FoodName" name="diFood"></td>
+						<td><input type="text" id="FoodName" name="diFood" required></td>
 					</tr>
 					<tr>
 						<td>수량</td>
-						<td><input type="text" id="FoodCount" name="foodCount"> <input type="text" id="FoodCountUnit" name="foodCountUnit"></td>
+						<td><input type="text" id="FoodCount" name="foodCount" required> <input type="text" id="FoodCountUnit" name="foodCountUnit" placeholder="개,회 등" required></td>
 					</tr>
 					<tr>
 						<td>칼로리</td>
-						<td><input type="text" id="Kcal" name="diKcal"></td>
+						<td><input type="text" id="Kcal" name="diKcal" required></td>
 					</tr>
 					<tr>
 						<td>탄수화물</td>
-						<td><input type="text" id="Clabo" name="diCar"></td>
+						<td><input type="text" id="Clabo" name="diCar" required></td>
 					</tr>
 					<tr>
 						<td>단백질</td>
-						<td><input type="text" id="Protain" name="diPro"></td>
+						<td><input type="text" id="Protain" name="diPro" required></td>
 					</tr>
 					<tr>
 						<td>지방</td>
-						<td><input type="text" id="Fat" name="diFat"></td>
+						<td><input type="text" id="Fat" name="diFat" required></td>
 					</tr>
 					<tr>
 						<td>나트륨</td>
-						<td><input type="text" id="Natrium" name="diNa"> <button type="submit" class="default-btn b-yell">Add</button></td>
+						<td><input type="text" id="Natrium" name="diNa" required> <button type="submit" class="default-btn b-yell" required>Add</button></td>
 					</tr>
 				</table>
 			</form>

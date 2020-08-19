@@ -130,7 +130,23 @@ public class DietController {
 		mv.addObject("today", today).setViewName("Diet/InbodyInsertView");
 		return mv;
 	}
-
+	
+	@RequestMapping("InbodyEditView.do")
+	public ModelAndView InbodyEditView(ModelAndView mv,HttpSession session,
+			@RequestParam(value = "today", required = false) String date) {
+		System.out.println("제발 가져와줭!" + date);
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		// 로그인 유저의 아이디와 날짜를 넘기기 위한 map
+		HashMap<String, String> map = new HashMap<>();
+		map.put("Id", loginUser.getId());
+		map.put("date", date);
+		
+		Inbody inbody = dService.selectInbody(map);
+		System.out.println("inbody : " + inbody);
+		mv.addObject("inbody", inbody).addObject("today", date).setViewName("Diet/InbodyEditView");
+		return mv;
+	}
+	
 	@RequestMapping("InbodyInsert.do")
 	public String InbodyInsert(HttpSession session, HttpServletRequest request, Inbody inbody) {
 
@@ -198,10 +214,13 @@ public class DietController {
 		
 		diet = dService.selectTodayDiet(map);
 		
+		System.out.println("diet = " +diet);
+		
 		JSONArray jarr = new JSONArray();
 		for(diet dt: diet) {
 			JSONObject jDiet = new JSONObject();
 //			이름, 칼로리  ( 더 넣어주고 싶은 내용있으면 여기서 추가해주자.)
+			jDiet.put("diNo",dt.getDiNo());
 			jDiet.put("foodname",dt.getDiFood());
 			jDiet.put("kcal",dt.getDiKcal());
 			jDiet.put("amount", dt.getDiAmount());
@@ -301,6 +320,7 @@ public class DietController {
 		
 		for(diet m : Diet) {
 			JSONObject jObj = new JSONObject();
+			jObj.put("kinds","diet");
 			jObj.put("eventTitle", m.getDiKcal());
 			jObj.put("date", m.getDtDate());
 			
@@ -309,6 +329,7 @@ public class DietController {
 		
 		for(Inbody i : Inbody) {
 			JSONObject jObj = new JSONObject();
+			jObj.put("kinds","inbody");
 			jObj.put("eventTitle", i.getInWeight());
 			jObj.put("date", i.getInDate());
 			
@@ -317,6 +338,8 @@ public class DietController {
 		
 		JSONObject sendJson = new JSONObject();
 		sendJson.put("DietList", jArr);
+		
+		System.out.println("sendJson : " + sendJson);
 		
 		PrintWriter out = response.getWriter();
 		out.print(sendJson);
@@ -413,4 +436,38 @@ public class DietController {
 		
 	}
 
+	@RequestMapping("deleteAjax.do")
+	public String deleteAjax(HttpSession session
+			,HttpServletResponse response,String chknum,String currentdate) throws IOException {
+		response.setContentType("application/json;charset=utf-8");		
+		System.out.println("today : "+currentdate+ "chknum : " +chknum);
+		
+		String[] arr = chknum.split(",");
+		
+		for(int i =0;i < arr.length ; i++) {
+		System.out.println("arr : " + arr[i]);
+		int result = dService.deletDiet(arr[i]);
+		}
+		
+		return "redirect:DietDetail.do?currentdate=" + currentdate;
+		
+		
+		
+	}
+	
+	@RequestMapping("InbodyEdit.do")
+	public String InbodyEdit(HttpSession session, HttpServletRequest request, Inbody inbody) {
+		System.out.println("inbody : " + inbody);
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		inbody.setId(loginUser.getId());
+		
+		int result = dService.InbodyEdit(inbody);
+		
+		if(result >0) {
+			return "redirect:DietDetail.do?currentdate=" +  inbody.getInDate(); 
+		}else {
+			return "<script> alert('인바디 등록이 실패했습니다.'); history.back(); </script>";
+		}
+	}
+	
 }

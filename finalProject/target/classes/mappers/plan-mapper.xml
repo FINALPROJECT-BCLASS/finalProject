@@ -318,7 +318,7 @@
 	
 	<select id="selectMPlan" parameterType="MPlan" resultMap="mpResultSet">
 		SELECT MP_NO, MP_TITLE, TO_CHAR(MP_START,'YYYY-MM-DD') "MP_START", TO_CHAR(MP_END-1,'YYYY-MM-DD') "MP_END",
-			MP_TIME, MP_MAIN, MP_SUB, MP_MEMO
+			MP_TIME, MP_COLOR, MP_MAIN, MP_SUB, MP_MEMO
 		FROM MONTHLY_PLAN
 		WHERE MP_NO=#{mpNo}
 	</select>
@@ -368,5 +368,22 @@
 		    	AND MT_DELETE='N')
 		ORDER BY MT_NO ASC
 	</select>
+	
+	<select id="selectTimetable" parameterType="_int" resultMap="ttResultSet">
+		SELECT TT_NO, TT_TITLE, TO_CHAR(TT_DATE, 'YYYY-MM-DD') "TT_DATE", TT_START, TT_END, TT_COLOR, TT_MEMO
+		FROM TIMETABLE
+		WHERE TT_NO=#{ttNO}
+	</select>
+	
+	<update id="updateTimetable" parameterType="Timetable">
+		UPDATE TIMETABLE
+		SET TT_TITLE=#{ttTitle}
+			, TT_DATE=#{ttDate}
+			, TT_START=#{ttStart}
+			, TT_END=#{ttEnd}
+			, TT_COLOR=#{ttColor}
+			, TT_MEMO=#{ttMemo}
+		WHERE TT_NO=#{ttNo}
+	</update>
 	
 </mapper>

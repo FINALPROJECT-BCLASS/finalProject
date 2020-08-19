@@ -113,5 +113,19 @@
 	SELECT *
 	FROM INBODY
 	WHERE ID=#{id}
+        AND EXTRACT(YEAR FROM TO_DATE(IN_DATE)) = EXTRACT(YEAR FROM SYSDATE)
+	ORDER BY IN_DATE
 </select>
+<delete id="deletDiet" parameterType="string">
+DELETE FROM DIET
+WHERE DI_NO=#{chknum}
+</delete>
+
+<update id="InbodyEdit" parameterType="Inbody">
+	UPDATE INBODY
+	SET IN_WEIGHT=#{inWeight}
+		,IN_MUSCLE=#{inMuscle}
+		,IN_FAT=#{inFat}
+	WHERE IN_DATE= #{inDate} AND ID=#{id}
+</update>
 </mapper>

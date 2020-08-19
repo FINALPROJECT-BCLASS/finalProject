@@ -26,4 +26,10 @@ public interface DietService {
 
 	ArrayList<Inbody> selectAllInbody(String id);
 
+	int deletDiet(String chknum);
+
+	Inbody selectInbody(String today);
+
+	int InbodyEdit(Inbody inbody);
+
 }

@@ -396,7 +396,13 @@
 		$(".deletebtn").click(function(){
 			var id = $(this).siblings(".userid").val();
 			
-			location.href="deletefriend.do?id="+id;
+			if(confirm("정말로 삭제하시겠습니까?")){
+				location.href="deletefriend.do?id="+id;
+			}else{
+				
+				return false;
+			}
+			
 		})
 	})
 

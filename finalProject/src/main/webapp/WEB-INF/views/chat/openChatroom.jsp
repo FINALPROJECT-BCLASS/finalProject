@@ -761,11 +761,11 @@ $(document).ready(function(){
 		})
 	
 	
-
+	//방폭파.
 	$(function(){
 		$(".delete").click(function(){
 			var cm_no=$("#cm_no").val();
-			
+			if(confirm("정말로 삭제하시겠습니까?")){
 			var msgData = {
 					cm_no : $("#cm_no").val(),
 					deletemsg : "openchatroom.do"
@@ -773,7 +773,9 @@ $(document).ready(function(){
 				//websocket으로 메시지를 보내겠다.
 				var jsonData = JSON.stringify(msgData);//JSON.stringify란 자바스크립트의 값을 JSON 문자열로 변환한다. 
 				sock.send(jsonData);		
-			
+			}else{
+				return false;
+			}
 		})
 	})
 	

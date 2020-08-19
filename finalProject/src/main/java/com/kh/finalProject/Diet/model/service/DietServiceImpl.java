@@ -70,6 +70,24 @@ public class DietServiceImpl implements DietService {
 		return dDao.seletAllInbody(id);
 	}
 
+	@Override
+	public int deletDiet(String chknum) {
+
+		return dDao.deletDiet(chknum);
+	}
+
+	@Override
+	public Inbody selectInbody(String today) {
+		
+		return dDao.selectInbody(today);
+	}
+
+	@Override
+	public int InbodyEdit(Inbody inbody) {
+	
+		return dDao.InbodyEdit(inbody);
+	}
+
 	
 
 
