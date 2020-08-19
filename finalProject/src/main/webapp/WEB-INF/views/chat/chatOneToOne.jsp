@@ -473,11 +473,6 @@
 		else{
 			$(".big-area").scrollTop($(".big-area")[0].scrollHeight);
 		}
-		//$(".big-area").scrollTop($(".big-area").find("#ol_yn").scrollHeight);
-		
-		// var location = document.querySelector('.big-area').scrollTop;
-		 //console.log("location : " + location);
-		//$(".big-area").scrollTop($(".big-area").find("input[name=ol_yn]").eq(0).scrollHeight);
 	});
 	
 	
