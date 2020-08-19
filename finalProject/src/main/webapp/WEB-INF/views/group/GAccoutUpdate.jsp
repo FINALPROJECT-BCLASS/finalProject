@@ -274,8 +274,10 @@
          			}else if($("#grouopCon").val() == ""){
          				alert("내용을 입력해주세요.");
          				
-         			}else if($(".amountMember").html() == ""){
-         				alert("멤버를 입력해주세요.");
+         			}else if($(".gamDelete").val() == "N"){ 
+         				if($(".amountMember").html() == ""){
+         					alert("멤버를 입력해주세요.");
+         				}
          			}else{
          				
 		       			$("#accountForm").submit();
@@ -330,11 +332,15 @@
             })
             //  클릭된 이름 삭제
              $(document).on("click",".amountName",function(){
-                var who = $(this).parent("button");
-                console.log("who :" + who);
-                who.hide();
-                $(".gamDelete").val("Y");
-                   })
+	                var who = $(this).parent("button");
+	                console.log("who :" + who);
+	                if($(this).next().next().hasClass("gamDelete")){
+	                	$(".gamDelete").val("Y");	   
+	                	who.hide();
+	                }else{
+	                	who.remove();
+	                }
+                  })
          </script>
          
           <!-- 이름 검색  -->
