@@ -869,7 +869,7 @@
 	</select>
 	
 	<select id="selectProList" parameterType="GroupInfo" resultMap="groupAccountResultSet">
-		SELECT GA_NO, G_NO, GM_NO, TO_CHAR(TO_DATE(GA_DATE),'YYYY-MM-DD') AS GA_DATE, GA_CON, GA_AMOUNT, GA_PRO, GA_EXP, GA_FEE, GA_DELETE
+		SELECT GA_NO, G_NO, GM_NO, GA_DATE, GA_CON, GA_AMOUNT, GA_PRO, GA_EXP, GA_FEE, GA_DELETE
 		FROM GROUP_ACCOUNT
 		WHERE G_NO = #{groupNo}
 		AND GA_PRO = 'Y'
@@ -877,7 +877,7 @@
 	</select>
 	
 	<select id="selectExeList" parameterType="GroupInfo" resultMap="groupAccountResultSet">
-		SELECT GA_NO, G_NO, GM_NO, TO_CHAR(TO_DATE(GA_DATE),'YYYY-MM-DD') AS GA_DATE, GA_CON, GA_AMOUNT, GA_PRO, GA_EXP, GA_FEE, GA_DELETE
+		SELECT GA_NO, G_NO, GM_NO, GA_DATE, GA_CON, GA_AMOUNT, GA_PRO, GA_EXP, GA_FEE, GA_DELETE
 		FROM GROUP_ACCOUNT
 		WHERE G_NO = #{groupNo}
 		AND GA_EXP = 'Y'
@@ -885,7 +885,7 @@
 	</select>
 	
 	<select id="selectFeeList" parameterType="GroupInfo" resultMap="groupAccountResultSet">
-		SELECT GA_NO, G_NO, GM_NO, TO_CHAR(TO_DATE(GA_DATE),'YYYY-MM-DD') AS GA_DATE, GA_CON, GA_AMOUNT, GA_PRO, GA_EXP, GA_FEE, GA_DELETE
+		SELECT GA_NO, G_NO, GM_NO, GA_DATE, GA_CON, GA_AMOUNT, GA_PRO, GA_EXP, GA_FEE, GA_DELETE
 		FROM GROUP_ACCOUNT
 		WHERE G_NO = #{groupNo}
 		AND GA_FEE = 'Y'
