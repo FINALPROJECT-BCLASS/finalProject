@@ -346,7 +346,7 @@
           <!-- 이름 검색  -->
          <script>
          	$(function(){
-
+ 
          		$("#search").keyup(function(){
          			$(".searchList").css("display","block");
          			var searchName = $("#search").val();
