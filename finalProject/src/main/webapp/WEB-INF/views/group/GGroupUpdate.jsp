@@ -21,6 +21,7 @@
     .search{border:1px solid grey; background:white; border:none; border-radius: 6px;}
     .searchImg{width:20px; height:20px;}
     #search{width:85%; border:none; }
+    .search{cursor:pointer;}
     .searchName{width:80px; cursor: pointer; padding-left: 20px;padding-bottom: 10px; padding-top: 10px; display:inline-block;}
     /* .searchName:hover{background:#FBD14B;} */
     .oneSearchBox:hover{width:100%; cursor: pointer; background:#FBD14B;}
@@ -133,7 +134,7 @@
                                 <div class="search">
                                     <span class="material-icons">face</span>
                                     <input type="text" id="search" placeholder="참여명 검색">
-                                    <span class="material-icons">search</span>
+                                    <span class="material-icons search">search</span>
                                     <div class="searchNameForm"></div>
                                 </div>
                             </td>
@@ -143,20 +144,20 @@
                             <td style="height:100px;">
                                 <div class="searchNameAfter">
                                     &nbsp;&nbsp;Click and remove it.<br>
+                                    <c:forEach var="m" items="${ memberList}">
+	                                 	<c:if test="${ groupTable.id eq m.gmId}">
+	                               			<button type="button" class="searchNameBox adminBtn" value="${m.gmId }">
+			                                   	${m.name }&nbsp;${m.gmId }
+			                                   <input type="hidden" name="groupName" value="${m.name }">
+			                                   <input type="hidden" class='groupId adminId' name="groupId" value="${m.gmId }">
+			                                   <input type="hidden" class='groupId' name="gmNo" value="${m.gmNO }">
+			                                   <input type="hidden" class='groupId' name="member" value="plus">
+			                                   <input type="hidden" class='groupId' name="gmDelete" value="${m.gmDelete }">
+		                                   </button>
+	                                 	</c:if>
+                                	 </c:forEach>
                                     <div class="searchNameAfterIn">
-                                    
-	                                     <c:forEach var="m" items="${ memberList}">
-	                                     	<c:if test="${ groupTable.id eq m.gmId}">
-	                                   			<button type="button" class="searchNameBox adminBtn" value="${m.gmId }">
-				                                    	${m.name }&nbsp;${m.gmId }
-				                                    <input type="hidden" name="groupName" value="${m.name }">
-				                                    <input type="hidden" class='groupId adminId' name="groupId" value="${m.gmId }">
-				                                    <input type="hidden" class='groupId' name="gmNo" value="${m.gmNO }">
-				                                    <input type="hidden" class='groupId' name="member" value="plus">
-				                                    <input type="hidden" class='groupId' name="gmDelete" value="${m.gmDelete }">
-			                                    </button>
-	                                     	</c:if>
-	                                     	
+                                     	 <c:forEach var="m" items="${ memberList}">
 	                                     	<c:if test="${ groupTable.id ne m.gmId}">
 		                                    <c:if test="${ m.gmDelete eq 'N'}">
 		                                    <button type="button" class="searchNameBox" value="${m.name }">
@@ -170,7 +171,6 @@
 		                                    </c:if>
 		                                    </c:if>
 	                                    </c:forEach>
-                                    
                                     </div>
                                 </div>
                             </td>
@@ -270,9 +270,9 @@
 			
 				if($("#title").val() == "" ){
 					alert("제목을 입력해주세요.");
-				}else if($(".searchNameAfterIn").html() == ""){
-					alert("가입할 멤버를 등록해주세요");
-					}else {
+				/* }else if($(".searchNameAfterIn").not("button")){
+					alert("가입할 멤버를 등록해주세요"); */
+				}else {
 						var aminName = "<input type='hidden' name='groupName' value='${sessionScope.loginUser.id}'>";
 						$("#groupUpdateFrom").submit();
 					}
@@ -353,6 +353,49 @@
          			
          			$.ajax({
          				url:"searchName.do",
+         				data:{searchName:searchName},
+         				dataType:"json",
+         				success:function(data){
+         					var $search = $(".searchNameForm");
+         					$search.empty();
+         					
+         					for(i in data){
+         						
+	         					var $oneSearchBox = $("<div>").attr("class","oneSearchBox");
+	         					var $searchName = $("<span>").text(data[i].name).attr("class","searchName");
+	         					var $searchId = $("<span>").text(data[i].id).css({"display":"inline-block","color":"gray","font-size":"small"}).attr("class","searchId");
+       						
+	         					
+	         					
+	         					$search.append($oneSearchBox);
+
+	         					$oneSearchBox.append($searchName);
+	         					$oneSearchBox.append("&nbsp;");
+	         					$oneSearchBox.append($searchId);
+	         					}
+         					
+         				},
+         				error:function(request, status, errorData){
+							alert("error code: " + request.status + "\n"
+									+"message: " + request.responseText
+									+"error: " + errorData);
+						}
+         			})
+         		})
+         	})
+         
+         </script>
+         
+         <!-- 전체 이름 검색  -->
+         <script>
+         	$(function(){
+
+         		$(".search").click(function(){
+         			$(".searchNameForm").css("display","block");
+         			var searchName = $("#search").val();
+         			
+         			$.ajax({
+         				url:"searchTotalName.do",
          				data:{searchName:searchName},
          				dataType:"json",
          				success:function(data){

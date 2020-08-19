@@ -525,6 +525,11 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.searchNameAccountTotal(gSearch);
 	}
 
+	@Override
+	public ArrayList<Member> searchTotalName(GroupSearchName gSearch) {
+		return gDao.searchTotalName(gSearch);
+	}
+
 	
 
 

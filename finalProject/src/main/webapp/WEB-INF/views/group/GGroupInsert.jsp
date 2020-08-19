@@ -31,6 +31,8 @@
     .oneSearchBox{width:100%; cursor: pointer; }
     .searchNameAfter{background:white; padding: 10px; border:none; border-radius: 6px; height:100px; color:darkgray; height:150px; width:600px; overflow:scroll;  overflow-x:hidden;} /* width 다시보기*/
      .adminBtn{ background:#2860E1 !important; color:white !important; }
+    
+    .search{cursor:pointer;}
     .searchNameBox{margin-bottom:20px; margin:5px; height:30px; background:#FBD14B; border:none; border-radius: 5px; font-size:small;}
     .searchNameBox:hover{margin-bottom:20px; margin:5px; height:30px; background:darkgray; border:none; border-radius: 5px; cursor:pointer;font-size:small;}
     .searchNameForm{display:none; height:200px; overflow:scroll;  overflow-x:hidden; }
@@ -137,7 +139,7 @@
                                 <div class="search">
                                     <span class="material-icons">face</span>
                                     <input type="text" id="search" placeholder="참여명 검색">
-                                    <span class="material-icons">search</span>
+                                    <span class="material-icons search">search</span>
                                     <div class="searchNameForm">
                                     	 
                                     </div>
@@ -284,6 +286,49 @@
          			
          			$.ajax({
          				url:"searchName.do",
+         				data:{searchName:searchName},
+         				dataType:"json",
+         				success:function(data){
+         					var $search = $(".searchNameForm");
+         					$search.empty();
+         					
+         					for(i in data){
+         						
+	         					var $oneSearchBox = $("<div>").attr("class","oneSearchBox");
+	         					var $searchName = $("<span>").text(data[i].name).attr("class","searchName");
+	         					var $searchId = $("<span>").text(data[i].id).css({"display":"inline-block","color":"gray","font-size":"small"}).attr("class","searchId");
+       						
+	         					
+	         					
+	         					$search.append($oneSearchBox);
+
+	         					$oneSearchBox.append($searchName);
+	         					$oneSearchBox.append("&nbsp;");
+	         					$oneSearchBox.append($searchId);
+	         					}
+         					
+         				},
+         				error:function(request, status, errorData){
+							alert("error code: " + request.status + "\n"
+									+"message: " + request.responseText
+									+"error: " + errorData);
+						}
+         			})
+         		})
+         	})
+         
+         </script>
+         
+          <!-- 전체 이름 검색  -->
+         <script>
+         	$(function(){
+
+         		$(".search").click(function(){
+         			$(".searchNameForm").css("display","block");
+         			var searchName = $("#search").val();
+         			
+         			$.ajax({
+         				url:"searchTotalName.do",
          				data:{searchName:searchName},
          				dataType:"json",
          				success:function(data){

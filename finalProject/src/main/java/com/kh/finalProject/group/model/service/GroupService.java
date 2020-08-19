@@ -220,6 +220,8 @@ public interface GroupService {
 
 	ArrayList<Member> searchNameAccountTotal(GroupSearchName gSearch);
 
+	ArrayList<Member> searchTotalName(GroupSearchName gSearch);
+
 
 	
 

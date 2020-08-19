@@ -40,7 +40,7 @@
     .searchClick:hover{background:darkgray; color:#F3F3F3; cursor:pointer;}
     /* .searchName:hover{background:#2860E1; color:#F3F3F3;} */
     
-    .search{cursor:pointer;}
+    
 
     .searchNameAfter{background:white; border:none; border-radius: 6px;  height:100px; color:darkgray; height:150px; width:600px; overflow:scroll;  overflow-x:hidden;}
     

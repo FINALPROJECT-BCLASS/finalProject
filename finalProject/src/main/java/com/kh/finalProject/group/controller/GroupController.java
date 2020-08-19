@@ -126,6 +126,25 @@ public class GroupController {
 		gson.toJson(list, response.getWriter());
 
 	}
+	
+	// 그룹생성 전체 이름검색
+	@RequestMapping(value = "searchTotalName.do", method = RequestMethod.GET)
+	public void searchTotalName(HttpSession session, HttpServletResponse response, String searchName)
+			throws JsonIOException, IOException {
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		gSearch.setLoginUserId(loginUser.getId());
+		gSearch.setSearchName(searchName);
+
+		ArrayList<Member> list = gService.searchTotalName(gSearch);
+
+		System.out.println("그룹 전체 검색 : " + list);
+
+		response.setContentType("application/json;charset=utf-8");
+
+		Gson gson = new GsonBuilder().setDateFormat("yyyy년 MM월 dd일").create();
+		gson.toJson(list, response.getWriter());
+
+	}
 
 	// 그룹생성
 	@RequestMapping(value = "groupInsert.do", method = RequestMethod.POST)

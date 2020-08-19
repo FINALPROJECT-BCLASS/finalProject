@@ -202,6 +202,7 @@
                   WHERE GM.G_NO= #{gNo})
        AND NAME LIKE '%' || #{searchName} || '%' 
        AND ID NOT IN  #{loginUserId}
+       AND ID NOT IN  'admin'
        AND OUT_YN = 'N'
 		
 		<!-- SELECT ID, NAME
@@ -209,6 +210,14 @@
 		WHERE NAME LIKE '%' || #{searchName} || '%' 
 		AND ID NOT IN  #{loginUserId}
 		AND OUT_YN = 'N' -->
+	</select>
+	
+	<select id="searchTotalName" resultMap="memberResultSet">
+	  SELECT ID, NAME
+      FROM MEMBER
+      WHERE ID NOT IN 'admin'
+      AND ID NOT IN  #{loginUserId}
+      AND OUT_YN = 'N'
 	</select>
 	
 	<insert id="groupInsert" parameterType="GroupTable">
@@ -865,6 +874,7 @@
         JOIN GROUP_MEMBER GM ON(GM.GM_ID = M.ID)
 		WHERE NAME LIKE '%' || #{searchName} || '%' 
 		AND G_NO = #{gNo}
+		AND GM_DELETE = 'N'
 		AND OUT_YN = 'N'
 	</select>
 	
@@ -1027,6 +1037,7 @@
                   WHERE GAM.GA_NO=  #{gaNo} )
         AND NAME LIKE '%' || #{searchName} || '%' 
 		AND G_NO = #{gNo}
+		AND GM_DELETE = 'N'
 		AND OUT_YN = 'N'
 	</select>
 	

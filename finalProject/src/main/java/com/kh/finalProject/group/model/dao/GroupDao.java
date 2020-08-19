@@ -447,6 +447,11 @@ public class GroupDao {
 		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.searchNameAccountTotal", gSearch);		
 	}
 
+	public ArrayList<Member> searchTotalName(GroupSearchName gSearch) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.searchTotalName", gSearch);		
+	}
+
+
 	
 	
 	
