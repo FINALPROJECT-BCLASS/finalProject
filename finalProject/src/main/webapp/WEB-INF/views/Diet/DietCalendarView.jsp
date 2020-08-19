@@ -169,7 +169,7 @@
 		      headerToolbar: {
 		        left: 'prev,next today',
 		        center: 'title',
-		        right: ''/*'dayGridMonth,timeGridWeek,timeGridDay,listWeek' */
+		        right: ''
 		      },
 		      initialDate: new Date,
 		      editable: false,		//편집 가능여부(드래그했을떄 옮겨가는것)
@@ -182,16 +182,24 @@
 		    	  		url:"eventDiet.do",
 		    	  		dataType:"json",
 		    	  		success: function(data){
-		    	  			console.log("data" + data);
+		    	  			console.log("data" + data.DietList[0].kinds);
 		    	  				for(var i in data.DietList){	//포문?
+		    	  						if(data.DietList[i].kinds == "diet"){
 		    	  					events.push({
-		    	  						title:data.DietList[i].eventTitle,
-		    	  						date:data.DietList[i].date,
-		    	  						
-		    	  						
+		    	  							title:data.DietList[i].eventTitle + "Kcal",
+		    	  							date:data.DietList[i].date,
 		    	  					})
+		    	  				
+		    	  					}else if(data.DietList[i].kinds =="inbody"){
+		    	  						events.push({
+		    	  							title:data.DietList[i].eventTitle + "kg",
+		    	  							date:data.DietList[i].date,
+		    	  					})
+		    	  					}
+		    	  				
 		    	  			};
 		    	  			
+
 		    	  			successCallback(events);
 		    	  			
 		    	  			},
@@ -201,6 +209,7 @@
 		    	                      +"error: " + errorData);
 		    	           } 
 		    	  		})
+		    	  		
 		        
 		      },
 		       //그날을 클릭했을시
@@ -247,6 +256,39 @@
 				console.log("성공 했니?" + data.list.Dinnersnack);
 				
 				//갑 넣어주기
+				if(data.list.breakfast != 0){
+					$("#breakfast").css("background","#FBD14B")
+				}else{
+					$("#breakfast").css("background","#f3f3f3")
+				}
+				
+				if(data.list.morningSnack != 0){
+					$("#morningSnack").css("background","#FBD14B")
+				}else{
+					$("#morningSnack").css("background","#f3f3f3")
+				}
+				
+				if(data.list.Lunch != 0){
+					$("#Lunch").css("background","#FBD14B")
+				}else{
+					$("#Lunch").css("background","#f3f3f3")
+				}
+				if(data.list.Lunchsnack != 0){
+					$("#Lunchsnack").css("background","#FBD14B")
+				}else{
+					$("#Lunchsnack").css("background","#f3f3f3")
+				}
+				if(data.list.Dinner != 0){
+					$("#Dinner").css("background","#FBD14B")
+				}else{
+					$("#Dinner").css("background","#f3f3f3")
+				}
+				if(data.list.Dinnersnack != 0 ){
+					$("#Dinnersnack").css("background","#FBD14B")
+				}else{
+					$("#Dinnersnack").css("background","#f3f3f3")
+				}
+					
 				$("#breakfast").html(data.list.breakfast +"Kcal");
 				$("#morningSnack").html(data.list.morningSnack +"Kcal");
 				$("#Lunch").html(data.list.Lunch + "Kcal");
@@ -267,7 +309,7 @@
 		
 	}
 	 
-	 
+
 	</script>
 
 

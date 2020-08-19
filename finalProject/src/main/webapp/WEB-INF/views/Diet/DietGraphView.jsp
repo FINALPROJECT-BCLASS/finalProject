@@ -34,7 +34,6 @@ var chart = new CanvasJS.Chart("chartContainer", {
 		text: "체중(kg)"
 	},
 	axisX: {
-			valueFormatString : "####-##-##",
 			titleFontWeight : "bold"
 	},
 	axisY: {
@@ -54,7 +53,7 @@ var yValue;
 		var res = xValue.split("-");
 		yValue =  parseInt("${dataPoints.inWeight}");
 		dps.push({
-			x :  parseInt(res[0]+res[1]+res[2]),
+			x : new Date(res[0],res[1],res[2]),
 			y : yValue
 		});			
 			console.log(xValue);
@@ -77,7 +76,6 @@ var chart = new CanvasJS.Chart("chartContainer2", {
 		text: "골격근량(kg)"
 	},
 	axisX: {
-			valueFormatString : "####-##-##",
 			titleFontWeight : "bold"
 	},
 	axisY: {
@@ -97,7 +95,7 @@ var yValue;
 		var res = xValue.split("-");
 		yValue =  parseInt("${dataPoints.inMuscle}");
 		dps.push({
-			x :  parseInt(res[0]+res[1]+res[2]),
+			x : new Date(res[0],res[1],res[2]),
 			y : yValue
 		});			
 			console.log(xValue);
@@ -120,7 +118,6 @@ var chart = new CanvasJS.Chart("chartContainer3", {
 		text: "체지방량(kg)"
 	},
 	axisX: {
-			valueFormatString : "####-##-##",
 			titleFontWeight : "bold"
 	},
 	axisY: {
@@ -140,7 +137,7 @@ var yValue;
 		var res = xValue.split("-");
 		yValue =  parseInt("${dataPoints.inFat}");
 		dps.push({
-			x : parseInt(res[0]+res[1]+res[2]),
+			x : new Date(res[0],res[1],res[2]),
 			y : yValue
 		});			
 			console.log(xValue);
