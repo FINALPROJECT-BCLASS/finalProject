@@ -327,7 +327,7 @@
                 $searchNameAfter.append($searchNameBox);
 				$(this).remove();
                 
-            })
+            }) 
             //  클릭된 이름 삭제
              $(document).on("click",".amountName",function(){
                 var who = $(this).parent("button");
