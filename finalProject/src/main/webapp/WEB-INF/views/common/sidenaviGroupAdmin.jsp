@@ -40,6 +40,10 @@
 	    right: 85px;
 	    top: 197px;
 	}
+	
+	.subNavTitle{
+		cursor:pointer;
+	}
 
 </style>
 
@@ -54,8 +58,8 @@
                 	<a href="noticeMain.do">Sharing</a>
                 	<div class="tri subNav"></div>
                 	<ul class="sub-box subNav">
-                		<li class="subNavTitle t-radius">Notice</li>
-                		<li class="subNavTitle b-radius">Board</li>
+                		<li class="subNavTitle t-radius" onclick="location.href='noticeMain.do'">Notice</li>
+                		<li class="subNavTitle b-radius" onclick="location.href='boardMain.do'">Board</li>
                 	</ul>
                 </li>
                 
@@ -81,23 +85,6 @@
      	})
      </script>
 
-    <script>
-    	$(function(){
-    		$(window).scroll(function(){
-                let $window = $(this);
-                let scrollTop = $window.scrollTop();
-                let windowHeight = $window.height();
-                let documentHeight = $(document).height();
-                
-                console.log("documentHeight:" + documentHeight + " | scrollTop:" + scrollTop + " | windowHeight: " + windowHeight );
-                
-                if( scrollTop + windowHeight + 200 > documentHeight ){
-                	
-                    $(".left-sub-navi").css("position","absolute");
-                }
-            })
-    	})
-    
-    </script>
+  
 </body>
 </html>
