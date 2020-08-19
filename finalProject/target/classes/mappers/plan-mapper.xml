@@ -318,7 +318,7 @@
 	
 	<select id="selectMPlan" parameterType="MPlan" resultMap="mpResultSet">
 		SELECT MP_NO, MP_TITLE, TO_CHAR(MP_START,'YYYY-MM-DD') "MP_START", TO_CHAR(MP_END-1,'YYYY-MM-DD') "MP_END",
-			MP_TIME, MP_MAIN, MP_SUB, MP_MEMO
+			MP_TIME, MP_COLOR, MP_MAIN, MP_SUB, MP_MEMO
 		FROM MONTHLY_PLAN
 		WHERE MP_NO=#{mpNo}
 	</select>

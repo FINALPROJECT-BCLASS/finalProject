@@ -152,6 +152,10 @@
         .green {
             background-color: #50c6b0;
         }
+        
+        .fixed-bottom {
+        	z-index: 2 !important;
+        }
 </style>
 </head>
 <body>

@@ -567,18 +567,18 @@
                                	<th>Color</th>
                                	<td>
                                		<div style="display: flex;">
-                                		<input type="radio" name="color" id="uYellow" value="#FBD14B" checked>
+                                		<input type="radio" name="color" class="uColor" id="uYellow" value="#FBD14B" checked>
 			                         	<label class="u-icons" for="uYellow"><div class="b-yell"></div></label>
-			                         	<input type="radio" name="color" id="uPink" value="#FFA3E5" >
+			                         	<input type="radio" name="color" class="uColor" id="uPink" value="#FFA3E5" >
 			                         	<label class="u-icons" for="uPink" ><div class="pink"></div></label>
-			                         	<input type="radio" name="color" id="uPurple" value="#C9A8FF">
+			                         	<input type="radio" name="color" class="uColor" id="uPurple" value="#C9A8FF">
 			                         	<label class="u-icons" for="uPurple"><div class="light-purple"></div></label>
-			                         	<input type="radio" name="color" id="uSky" value="#6B98FF">
+			                         	<input type="radio" name="color" class="uColor" id="uSky" value="#6B98FF">
 			                         	<label class="u-icons" for="uSky" ><div class="sky"></div></label>
-			                         	<input type="radio" name="color" id="uGreen" value="#50c6b0">
+			                         	<input type="radio" name="color" class="uColor" id="uGreen" value="#50c6b0">
 			                         	<label class="u-icons" for="uGreen"><div class="green"></div></label>                                        		
                                		</div>
-                               		<input type="hidden" id="updateColor" name="mpColor" value="#FBD14B">
+                               		<input type="hidden" id="updateColor" name="mpColor">
                                	</td>
                                </tr>
                                <tr>
@@ -696,6 +696,19 @@
     				var mpLocation = data.location;
     				var mpMemo = data.memo;
     				var mapAddress = data.map;
+    				var mpColor = data.color;
+ 
+    				if(mpColor == "#FBD14B") {
+    					$("#uYellow").attr("checked", true);
+    				} else if(mpColor == "#FFA3E5") {
+    					$("#uPink").attr("checked", true);
+    				} else if(mpColor == "#C9A8FF") {
+    					$("#uPurple").attr("checked", true);
+    				} else if(mpColor == "#6B98FF") {
+    					$("#uSky").attr("checked", true);
+    				} else if(mpColor == "#50c6b0"){
+    					$("#uGreen").attr("checked", true);
+    				}
     				
     				$("#mpNo").val(mpNo);
     				$("#mpTitle").html(mpTitle);

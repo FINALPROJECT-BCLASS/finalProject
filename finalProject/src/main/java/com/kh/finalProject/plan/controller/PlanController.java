@@ -442,6 +442,7 @@ public class PlanController {
 		jObj.put("start", mp.getMpStart());
 		jObj.put("end", mp.getMpEnd());
 		jObj.put("time", mp.getMpTime());
+		jObj.put("color", mp.getMpColor());
 		jObj.put("main", mp.getMpMain());
 		jObj.put("sub", mp.getMpSub());
 		jObj.put("location", address);
