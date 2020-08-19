@@ -859,6 +859,16 @@
 	</select>
 	
 	<!-- 가계부 -->
+	<select id="searchNameAccountTotal" parameterType="GroupSearchName" resultMap="groupMemberResultSet">
+		SELECT GM_ID, NAME, GM_NO
+		FROM MEMBER M
+        JOIN GROUP_MEMBER GM ON(GM.GM_ID = M.ID)
+		WHERE NAME LIKE '%' || #{searchName} || '%' 
+		AND G_NO = #{gNo}
+		AND OUT_YN = 'N'
+		AND GM_DELETE = 'N'
+	</select>
+	
 	<select id="searchNameAccount" parameterType="GroupSearchName" resultMap="groupMemberResultSet">
 		SELECT GM_ID, NAME, GM_NO
 		FROM MEMBER M
@@ -866,6 +876,7 @@
 		WHERE NAME LIKE '%' || #{searchName} || '%' 
 		AND G_NO = #{gNo}
 		AND OUT_YN = 'N'
+		AND GM_DELETE = 'N'
 	</select>
 	
 	<select id="selectProList" parameterType="GroupInfo" resultMap="groupAccountResultSet">

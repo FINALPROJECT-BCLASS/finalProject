@@ -1802,7 +1802,7 @@ public class GroupController {
 
 		}
 		
-		// 가계부생성 이름검색
+		// 가계부생성 전체  이름검색
 		@RequestMapping(value = "searchNameAccountTotal.do", method = RequestMethod.GET)
 		public void searchNameAccountTotal(HttpSession session, HttpServletResponse response, String searchName)
 				throws JsonIOException, IOException {
