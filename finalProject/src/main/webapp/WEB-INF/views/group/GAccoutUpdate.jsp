@@ -268,19 +268,15 @@
          		if(amountYn == 'Y'){
 					alert("금액을 입력해주세요.");         			
          		}else {
-         		
+         			
          			if($("#title").val() == ""){
          				alert("제목을 입력해주세요.");
-         			}else if($("#grouopCon").val() == ""){
-         				alert("내용을 입력해주세요.");
-         				
          			}else if($(".gamDelete").val() == "N"){ 
          				if($(".amountMember").html() == ""){
          					alert("멤버를 입력해주세요.");
+         				}else{
+         					$("#accountForm").submit();
          				}
-         			}else{
-         				
-		       			$("#accountForm").submit();
          			}
          			
          		}
