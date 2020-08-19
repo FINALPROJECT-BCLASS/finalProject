@@ -145,14 +145,16 @@ public class MemberController {
 				
 				int main_no = user.getMain_no();
 				
-				switch(main_no){
-				
+				if(!user.getId().equals("admin")) {
+					
+					switch(main_no){
+					
 					case 1: return "redirect:mpview.do";
 					
 					case 2: return "redirect:ttview.do";
-							
+					
 					case 3: return "redirect:mcview.do";
-							
+					
 					case 4: return "redirect:dailyRecordView.do";
 					
 					case 5: return "redirect:htList.do";
@@ -166,14 +168,17 @@ public class MemberController {
 					case 9: return "redirect:mrview.do";
 					
 					case 10: return "redirect:psview.do";
-				
+					
 					case 11: return "redirect:esview.do";
-				
+					
 					case 12: return "redirect:ysview.do";
-				
+					
 					default: return "home";
-						
-				}	
+					
+					}	
+				} else {
+					return "home";
+				}
 			
 			} else {
 				

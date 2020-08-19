@@ -152,6 +152,35 @@
         .green {
             background-color: #50c6b0;
         }
+        
+        .fixed-bottom {
+        	z-index: 2 !important;
+        }
+        
+        input[type="radio"]:checked + .u-icons>div{
+            border: 3px solid #484848;
+        }
+        
+        .u-icons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            margin-bottom: 0;
+            margin-right: 10px !important;
+            cursor: pointer;
+        }
+
+        .u-icons > div {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            vertical-align: middle;
+            text-align: center;
+        }
+        
 </style>
 </head>
 <body>
@@ -294,7 +323,7 @@
         		var todayFormat = year.toString()+"-"+month.toString()+"-"+date.toString();
         		$("#selectDate").val(todayFormat);
         		var selectDate = $("#selectDate").val();
-        		$("#ttDate").val(selectDate);
+        		$(".ttDate").val(selectDate);
 			})
 		</script>
          
@@ -326,7 +355,7 @@
                                         <tr>
                                             <th>Date</th>
                                             <td>
-                                            	<input type="date" name="ttDate" id="ttDate" style="width: 250px;" required>
+                                            	<input type="date" name="ttDate" class="ttDate" style="width: 250px;" required>
                                             </td>
                                         </tr>
                                         <tr>
@@ -659,6 +688,70 @@
                 </div>
             <!-- </div> -->
         </div>
+        
+        <div class="modal fade" id="updateModal" role="dialog">
+	        <div class="modal-dialog">
+	            <div class="modal-content">
+	                <div class="modal-header">
+	                    <button type="button" class="close" data-dismiss="modal">×</button>
+	                </div>
+	                <div class="modal-body" align="center">
+	                    <form action="ttupdate.do" method="post">
+	                    	<input type="hidden" id="uNo" name="ttNo">
+	                        <table id="addTable">
+	                            <tr>
+	                                <th>Title</th>
+	                                <td>
+	                                	<input type="text" id="uTitle" name="ttTitle" size="30" required>
+	                                </td>
+	                            </tr>
+	                            <tr>
+	                                <th>Date</th>
+	                                <td>
+	                                	<input type="date" id="uDate" name="ttDate" class="ttDate" style="width: 250px;" required>
+	                                </td>
+	                            </tr>
+	                            <tr>
+	                                <th>Time</th>
+	                                <td>
+	                                    <input type="time" id="uStart" name="ttStart" required> - 
+	                                    <input type="time" id="uEnd" name="ttEnd" required>
+	                                </td>
+	                            </tr>
+	                            <tr>
+	                            	<th>Color</th>
+	                            	<td>
+	                            		<div style="display: flex;">
+	                                		<input type="radio" name="color" class="uColor" id="uYellow" value="#FBD14B">
+				                         	<label class="u-icons" for="uYellow"><div class="b-yell"></div></label>
+				                         	<input type="radio" name="color" class="uColor" id="uPink" value="#FFA3E5" >
+				                         	<label class="u-icons" for="uPink" ><div class="pink"></div></label>
+				                         	<input type="radio" name="color" class="uColor" id="uPurple" value="#C9A8FF">
+				                         	<label class="u-icons" for="uPurple"><div class="light-purple"></div></label>
+				                         	<input type="radio" name="color" class="uColor" id="uSky" value="#6B98FF">
+				                         	<label class="u-icons" for="uSky" ><div class="sky"></div></label>
+				                         	<input type="radio" name="color" class="uColor" id="uGreen" value="#50c6b0">
+				                         	<label class="u-icons" for="uGreen"><div class="green"></div></label>                                        		
+	                               		</div>
+	                               		<input type="hidden" id="uColor" name="ttColor">
+	                            	</td>
+	                            </tr>
+	                            <tr>
+	                                <th colspan="2">Memo</th>
+	                            </tr>
+	                            <tr>
+	                                <td colspan="2">
+	                                    <textarea id="uMemo" name="ttMemo" cols="40" rows="5"></textarea>
+	                                </td>
+	                            </tr>
+	                        </table>
+	                        <button type="submit" class="default-btn">Save</button>
+	                        &nbsp;<button type="button" class="default-btn" id="delete-btn">Delete</button>
+	                    </form>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
                 
        <br><br><br><br><br>
     </section>
@@ -791,21 +884,49 @@
         		})
         		
         		var selectDate = $("#selectDate").val();
-        		$("#ttDate").val(selectDate);
+        		$(".ttDate").val(selectDate);
     			
     		})
     		
     		$(".timeContent").click(function(){
+    			
     			var ttNo = $(this).find(".timeNo").val();
     			
-    			if(ttNo != null) {
-	    			var deleteCheck = confirm("일정을 삭제하시겠습니까?");
-	    			if(deleteCheck == true){
-	    				location.href="ttdelete.do?ttNo="+ttNo;
-	    			}
-	    			else if(deleteCheck == false){
-	    				console.log("일정 삭제를 취소합니다.");
-	    			}    				
+    			if(ttNo !== undefined) {
+	    			$.ajax({
+	        			url: 'ttdetail.do',
+	        			data: {ttNo:ttNo},
+	        			dataType: 'json',
+	        			success: function(data) {
+	        				$("#uNo").val(data.no);
+	        				$("#uTitle").val(data.title);
+	        				$("#uDate").val(data.date);
+	        				$("#uStart").val(data.start);
+	        				$("#uEnd").val(data.end);
+	
+	        				if(data.color == "#FBD14B") {
+	        					$("#uYellow").attr("checked", true);
+	        				} else if(data.color == "#FFA3E5") {
+	        					$("#uPink").attr("checked", true);
+	        				} else if(data.color == "#C9A8FF") {
+	        					$("#uPurple").attr("checked", true);
+	        				} else if(data.color == "#6B98FF") {
+	        					$("#uSky").attr("checked", true);
+	        				} else if(data.color == "#50c6b0"){
+	        					$("#uGreen").attr("checked", true);
+	        				}
+	        				
+	        				$("#uMemo").val(data.memo);
+	        				
+	        				$("#updateModal").modal();
+	        			},
+	        			error:function(request, status, errorData){
+	                        alert("error code: " + request.status + "\n"
+	                              +"message: " + request.responseText
+	                              +"error: " + errorData);
+	                    }   
+	        		})
+    				
     			}
     		})
     		
@@ -821,6 +942,25 @@
     		$(".b-icons").click(function(){
         		var color = $(this).prev().val();
         		$("#ttColor").val(color);
+        	})
+        	
+        	$(".u-icons").click(function(){
+        		var color = $(this).prev().val();
+        		$("#uColor").val(color);
+        	})
+        	
+        	$("#delete-btn").click(function(){
+        		var ttNo = $("#uNo").val();
+        		
+        		if(ttNo != null) {
+	    			var deleteCheck = confirm("일정을 삭제하시겠습니까?");
+	    			if(deleteCheck == true){
+	    				location.href="ttdelete.do?ttNo="+ttNo;
+	    			}
+	    			else if(deleteCheck == false){
+	    				console.log("일정 삭제를 취소합니다.");
+	    			}    				
+    			}
         	})
     	})
     </script>

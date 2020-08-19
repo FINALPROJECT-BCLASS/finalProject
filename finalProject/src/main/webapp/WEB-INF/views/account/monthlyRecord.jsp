@@ -248,9 +248,10 @@
                                             <th colspan="2">Memo</th>
                                         </tr>
                                         <tr>
-                                            <td colspan="2">
-                                            </td>
-                                        </tr>
+			                                <td colspan="2">
+			                                    <textarea name="abMemo" cols="40" rows="5"></textarea>
+			                                </td>
+			                            </tr>
                                     </table>
                                     <button type="submit" class="default-btn">Add</button>
                                 </form>

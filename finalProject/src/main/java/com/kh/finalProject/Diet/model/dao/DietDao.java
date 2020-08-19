@@ -62,4 +62,19 @@ public class DietDao {
 		return (ArrayList)sqlSessionTemplate.selectList("DietMapper.selectAllInbody", id);
 	}
 
+	public int deletDiet(String chknum) {
+		
+		return sqlSessionTemplate.delete("DietMapper.deletDiet", chknum);
+	}
+
+	public Inbody selectInbody(String today) {
+		
+		return sqlSessionTemplate.selectOne("DietMapper.selectInbody", today);
+	}
+
+	public int InbodyEdit(Inbody inbody) {
+	
+		return sqlSessionTemplate.update("DietMapper.InbodyEdit", inbody);
+	}
+
 }

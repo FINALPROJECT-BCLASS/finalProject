@@ -195,4 +195,14 @@ public class PlanDao {
 		return (ArrayList)sqlSessionTemplate.selectList("planMapper.selectMtList", mt);
 	}
 
+	public Timetable selectTimetable(int ttNo) {
+	
+		return sqlSessionTemplate.selectOne("planMapper.selectTimetable", ttNo);
+	}
+
+	public int updateTimetable(Timetable tt) {
+		
+		return sqlSessionTemplate.update("planMapper.updateTimetable", tt);
+	}
+
 }
