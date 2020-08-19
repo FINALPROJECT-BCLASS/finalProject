@@ -2043,16 +2043,20 @@ public class GroupController {
 				GroupAccount ga, GroupAccountMember gam,
 				@RequestParam(value = "gasYn", required = false) String gasYn,
 				@RequestParam(value = "gmNo", required = false) String gmNo,
-				@RequestParam(value = "gamAmount", required = false) String amount) {
+				@RequestParam(value = "gamAmount", required = false) String amount,
+				@RequestParam(value = "gauAmount", required = false) String gauAmount) {
 			Member loginUser = (Member) session.getAttribute("loginUser");
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 			ga.setgNo(gInfo.getGroupNo());
 			ga.setGmNo(gInfo.getGmNo());
+			ga.setGaAmount(Integer.valueOf(gauAmount));
+			
 			System.out.println("수정 ga : " + ga);
 			int result = gService.updateAccount(ga);
 			System.out.println("수정 result : " + result);
 			int deleteDam = gService.deleteAccountMember(ga);
 			System.out.println("수정 deleteDam : " + deleteDam);
+			
 			String[] gmNos = gmNo.split(",");
 			String[] amounts = amount.split(",");
 			ArrayList<GroupAccountMember> gamList = new ArrayList<>();

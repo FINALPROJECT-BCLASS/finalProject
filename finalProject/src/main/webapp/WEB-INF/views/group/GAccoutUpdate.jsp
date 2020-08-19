@@ -197,7 +197,7 @@
                         <tr>
                             <td class="groupTbTd"><div class="amount">Total Amount&nbsp;</div></td>
                             <td>
-                                <div class="backgroundWhite"><span class="material-icons">add</span><input type="text" name="gaAmount" class="amount" value="${totalAmount }"></div>
+                                <div class="backgroundWhite"><span class="material-icons">add</span><input type="text" name="gauAmount" class="amount" value="${totalAmount }"></div>
                             </td>
                         </tr>
                         <c:if test="${gaList.gaFee eq 'Y' }">
@@ -336,7 +336,8 @@
 	                console.log("who :" + who);
 	                if($(this).next().next().hasClass("gamDelete")){
 	                	$(".gamDelete").val("Y");	   
-	                	who.hide();
+	                	/* who.hide(); */
+	                	who.remove();
 	                }else{
 	                	who.remove();
 	                }
