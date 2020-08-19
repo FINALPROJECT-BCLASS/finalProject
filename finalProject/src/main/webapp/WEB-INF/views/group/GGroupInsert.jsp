@@ -162,7 +162,7 @@
                             </td>
                         </tr>
                     
-                        <tr>
+                        <tr> 
                             <td class="groupTbTd">Content&nbsp;</td>
                             <td>
                                 <textarea id="groupCon" name='gCon'></textarea>
