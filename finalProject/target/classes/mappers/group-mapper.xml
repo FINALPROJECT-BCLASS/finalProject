@@ -194,21 +194,21 @@
 	</select> 
 
 	<select id="searchNameList" parameterType="GroupSearchName" resultMap="memberResultSet">
-		
-	  SELECT ID, NAME
+<!-- 	  SELECT ID, NAME
       FROM MEMBER
       WHERE ID NOT IN(SELECT GM.GM_ID
                    FROM GROUP_MEMBER GM
                   WHERE GM.G_NO= #{gNo})
        AND NAME LIKE '%' || #{searchName} || '%' 
        AND ID NOT IN  #{loginUserId}
-       AND OUT_YN = 'N'
+       AND OUT_YN = 'N' -->
 		 
-		<!-- SELECT ID, NAME
+		SELECT ID, NAME
 		FROM MEMBER
 		WHERE NAME LIKE '%' || #{searchName} || '%' 
 		AND ID NOT IN  #{loginUserId}
-		AND OUT_YN = 'N' -->
+		AND ID NOT IN  'admin'
+		AND OUT_YN = 'N'
 	</select>
 	
 	<insert id="groupInsert" parameterType="GroupTable">
