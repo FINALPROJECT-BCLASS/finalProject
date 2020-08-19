@@ -230,4 +230,16 @@ public class PlanServiceImpl implements PlanService {
 		return pDao.selectMtList(mt);
 	}
 
+	@Override
+	public Timetable selectTimetable(int ttNo) {
+		
+		return pDao.selectTimetable(ttNo);
+	}
+
+	@Override
+	public int updateTimetable(Timetable tt) {
+		
+		return pDao.updateTimetable(tt);
+	}
+
 }

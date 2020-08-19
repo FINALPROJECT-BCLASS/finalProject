@@ -354,6 +354,40 @@ public class PlanController {
 		out.close();
 	}
 	
+	@RequestMapping("ttdetail.do")
+	public void timetableDetail(HttpSession session, HttpServletResponse response,
+								@RequestParam(value="ttNo") int ttNo) throws IOException {
+		response.setContentType("application/json;charset=utf-8");
+		
+		Timetable tt = pService.selectTimetable(ttNo);
+		
+		JSONObject jObj = new JSONObject();
+		jObj.put("no", tt.getTtNo());
+		jObj.put("title", tt.getTtTitle());
+		jObj.put("date", tt.getTtDate());
+		jObj.put("start", tt.getTtStart());
+		jObj.put("end", tt.getTtEnd());
+		jObj.put("color", tt.getTtColor());
+		jObj.put("memo", tt.getTtMemo());
+		
+		PrintWriter out = response.getWriter();
+		out.print(jObj);
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("ttupdate.do")
+	public String timetableUpdate(Timetable tt) throws PlanException {
+		
+		int result = pService.updateTimetable(tt);
+		
+		if(result > 0) {
+			return "plan/timetable";
+		} else {
+			throw new PlanException("시간표 수정 실패");
+		}
+	}
+	
 	
 	// MonthlyPlan 시작
 	@RequestMapping("mpview.do")
