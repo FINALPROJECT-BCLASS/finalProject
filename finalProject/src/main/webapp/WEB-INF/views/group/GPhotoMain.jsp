@@ -50,16 +50,13 @@
 	    
     /* 게시판 */
      .groupNotice{ width:100%; height:400px;overflow:scroll; overflow-x:hidden;column-gap: 15px;}
-.all_wrap{margin: 0 auto;}        
-.all_wrap div{width: 550px;margin: 3px; display:inline-block;}
-.all_wrap img{width: 100%; border-radius: 10px;}
-.all_wrap p{margin: 0;font-size: 10px;padding:0 0 10px 15px;}
-
+	.image{display:inline-block; width:500px; height:500px; background:black;}
+	.image img{width:100%;}
 
 
   </style>
   
-<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.js"></script>
+
 
 
       
@@ -94,7 +91,7 @@
     	</div>
      	
      	<br>
-      	
+      	<div id="groupWrite"  ><span class="material-icons writeBtn">create</span></div>
 
         <br>
         
@@ -106,33 +103,22 @@
 				사진이 없습니다.
 			</c:if>
 			<c:if test="${!empty photoList }">
-					<div class="all_wrap">
 				<c:forEach var="p" items="${photoList }" varStatus="status">
-										
+					 <c:if test="${status.index%2 ==0 }">
+						<br>
+					</c:if>					
+					
 					<div  class="image">
 						<img src='resources/groupBoardFiles/${p.gbpOrigin }' >
 					</div>
+					
 				</c:forEach>
-					</div>
 			</c:if>
           </div>
 		</div>
 
      <script>
-     var $grid = $('.all_wrap').imagesLoaded( function() {
-    	  $grid.masonry({
-    	      itemSelector: '.grid-item',
-    	      fitwidth: true
-    	  });
-    	});
-
-
-     $('.all_wrap').masonry({
-    	  // options...
-    	  itemSelector: '.grid-item',
-    	  fitwidth: true
-    	});
-
+   
      </script>
 	  <!-- 스크롤 게시판 -->
 	 <!--  <script>

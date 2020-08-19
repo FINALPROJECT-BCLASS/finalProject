@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -128,19 +128,22 @@
                     <tr>
                         <td><div class="BoardCon">${boardList.gbCon }</div></td>
                     </tr>
-                    
-					<c:if test="${empty photoList }">
-					</c:if>
-					<c:if test="${!empty photoList }">
-						<c:forEach var="p" items="${photoList }">
-							<tr>
-								<td>
-									<img class="boardImg" src="resources/groupBoardFiles/${p.gbpOrigin }" download>
-									
-								</td>
-							<tr>
-						</c:forEach>
-					</c:if>
+
+                    <c:forEach var="p" items="${photoList }">
+						<c:if test="${empty photoList }">
+
+						</c:if>
+						<c:if test="${!empty photoList }">
+							<c:if test="${p.gbpOrigin != null }">
+								<tr>
+									<td>
+										<img class="boardImg" src="resources/groupBoardFiles/${p.gbpOrigin }" download>
+										
+									</td>
+								<tr>
+							</c:if>	
+						</c:if>
+					</c:forEach>
 						
                 </table>
                 <div class="commentBox">

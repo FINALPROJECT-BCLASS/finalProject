@@ -285,6 +285,7 @@
                   	if(data.photoList.length > 0){
                   
                    		for(j in  data.photoList){
+                   			
                    			if(data.photoList[j].gbpOrigin != null){
                    			if(data.boardList[i].gbNo == data.photoList[j].gbNo){
                    				var $img = $("<img src='resources/groupBoardFiles/"+data.photoList[j].gbpOrigin+"' class='boardPhotoList'>");
