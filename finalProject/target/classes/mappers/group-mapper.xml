@@ -203,7 +203,7 @@
        AND NAME LIKE '%' || #{searchName} || '%' 
        AND ID NOT IN  #{loginUserId}
        AND OUT_YN = 'N'
-		
+		 
 		<!-- SELECT ID, NAME
 		FROM MEMBER
 		WHERE NAME LIKE '%' || #{searchName} || '%' 
