@@ -33,6 +33,19 @@
 	    right: 13%;
 	    top: 35%;
 	}
+	<c:if test="${loginUser.id eq 'admin'}">
+		.navi-area > li {
+	    position: relative;
+	    cursor: pointer;
+	    display: inline-block;
+	    text-align: center;
+	    padding: 20px 0px;
+	    width: 49%;
+	    font-size: 16px;
+	    font-weight: 600;
+	    color: rgba(72, 72, 72, 1);
+	}
+	</c:if>
 </style>
 </head>
 <body>
@@ -42,9 +55,16 @@
         <nav class="chatNav">
             <ul class = "navi-area">
                 <li><a href="chatview.do">친구목록</a></li>
+                
                 <li class="chlist"><a onclick="chatroom()">채팅창</a></li>
-                <li><a onclick="openchatroom()">오픈채팅</a></li>
-                <li><a href="managerchat.do">관리자문의</a></li>
+                
+                <c:if test="${loginUser.id ne 'admin'  }">
+               	 <li><a onclick="openchatroom()">오픈채팅</a></li>
+                </c:if>
+                
+                <c:if test="${loginUser.id ne 'admin'  }">
+               	 <li><a href="managerchat.do">관리자문의</a></li>
+                </c:if>
         </nav>
     </header>
 </body>
@@ -61,7 +81,9 @@
 		var $pringHTML;
 		
 		if(data == 0){
-			return;
+			pringHTML = "<a onclick='chatroom()'>채팅창</a>";
+			$(".chlist").empty();
+			$(".chlist").append(pringHTML);
 		}else{
 		pringHTML = "<a onclick='chatroom()'>채팅창</a><span class='allcount'>"+data+"</span>";
 		$(".chlist").empty();

@@ -47,7 +47,7 @@ public class oneToOneChatHandler extends TextWebSocketHandler {
 		
 		//클라이언트와 연결 된 후
 		@Override
-		public void afterConnectionEstablished(WebSocketSession session) {
+		public void afterConnectionEstablished(WebSocketSession session) throws IOException {
 		//채팅방 번호와 보낸이 아이디
 			System.out.println("session uri? : "+ session.toString());
 			Map<String,Object> sessionmap = session.getAttributes();
@@ -68,6 +68,12 @@ public class oneToOneChatHandler extends TextWebSocketHandler {
 			  
 			  int result = cService.chatReadCheck(map2);
 			  
+			  int count =cService.unreadcount(m.getId());
+			  
+				String jsonstr = "count" + String.valueOf(count);
+				System.out.println("보내기전 확인 : " +jsonstr);
+				session.sendMessage(new TextMessage(jsonstr));
+				
 			  System.out.println("session 접속 : " + sessionList);
 			  
 			  sessionList.add(map);

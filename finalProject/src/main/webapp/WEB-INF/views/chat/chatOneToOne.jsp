@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -295,16 +296,23 @@
 		 <input type="hidden" name="friendid" value="${friendid }" class="friendid" id="friendid">
 		</div>
 	</div>
-	
+		
 <div class="big-area">
 	<div class="chat-area">
 	<c:forEach var="cl" items="${chlist }">
 		<c:if test="${cl.id eq loginUser.id }">
 			<div id="chatdata">
-				<c:if test="${cl.ol_cont eq '이미지 입니다.' }">
-					<div class="text-con"><img src='resources/cuploadFiles/${cl.ol_img }' class='img-message'></div>
+				<c:if test="${!empty cl.ol_img}">
+					<c:if test="${fn:contains(cl.ol_img,'jpg') || fn:contains(cl.ol_img,'png') || fn:contains(cl.ol_img,'jpeg') || fn:contains(cl.ol_img,'bmp')
+					 				|| fn:contains(cl.ol_img,'gif')}">
+					 	<div class="text-con"><img src='resources/cuploadFiles/${cl.ol_img }' class='img-message'></div>
+					 				</c:if>
+					 <c:if test="${!(fn:contains(cl.ol_img,'jpg') || fn:contains(cl.ol_img,'png') || fn:contains(cl.ol_img,'jpeg') || fn:contains(cl.ol_img,'bmp')
+					 				|| fn:contains(cl.ol_img,'gif'))}">					 				
+					 	<div class="text-con"><a class='downloadmsg' href='resources/cuploadFiles/${cl.ol_img }' download><span class='material-icons' style='width: 100%; height: 100%; font-size: 50px; color:#2860E1;'>save</span></a></div>
+					 				</c:if>
 				</c:if>
-				<c:if test="${cl.ol_cont ne '이미지 입니다.' }">
+				<c:if test="${empty cl.ol_img}">
 					<div class="text-con"><span>${cl.ol_cont }</span></div>
 				</c:if>
 				<div class="tri-left"></div>
@@ -336,10 +344,17 @@
 			<div class="text-con-area">
 				<div>${cl.name }</div>
 				<div class="text-con-someone">
-					<c:if test="${cl.ol_cont eq '이미지 입니다.' }">
-						<img src='resources/cuploadFiles/${cl.ol_img }' class='img-message'>
+					<c:if test="${!empty cl.ol_img }">
+						<c:if test="${fn:contains(cl.ol_img,'jpg') || fn:contains(cl.ol_img,'png') || fn:contains(cl.ol_img,'jpeg') || fn:contains(cl.ol_img,'bmp')
+					 				|| fn:contains(cl.ol_img,'gif')}">
+					 			<img src='resources/cuploadFiles/${cl.ol_img }' class='img-message'>			
+					 	</c:if>
+						<c:if test="${!(fn:contains(cl.ol_img,'jpg') || fn:contains(cl.ol_img,'png') || fn:contains(cl.ol_img,'jpeg') || fn:contains(cl.ol_img,'bmp')
+					 				|| fn:contains(cl.ol_img,'gif'))}">	
+					 			<a class='downloadmsg' href='resources/cuploadFiles/${cl.ol_img }' download><span class='material-icons' style='width: 100%; height: 100%; font-size: 50px; color: #2860E1;'>save</span></a>
+					 	</c:if>
 					</c:if>
-					<c:if test="${cl.ol_cont ne '이미지 입니다.' }">
+					<c:if test="${empty cl.ol_img }">
 						${cl.ol_cont }
 					</c:if>
 				</div>
@@ -374,7 +389,7 @@
 	<div class="modal-dialog">
 	 	<div class="modal-content modal-area">
 			<div class="modal-preview">
-				<img id="modal-img" height="110%">
+				<!-- <img id="modal-img" height="110%"> -->
 			</div>
 			<div class="button-area" style="margin-top: 10px;">
 				<button class="default-btn b-yell transfer" style="height:40px !important; margin:0;">전송하기</button>
@@ -395,23 +410,45 @@
 
 	//파일 업로드
 		    function uploadPhoto(value) {
-	    	
+		    	 
 			if(value.files && value.files[0]) {
 				
 				var reader = new FileReader();
 			
 				reader.onload = function(e) {
+					var filename = $("#file_transfer").val().split('/').pop().split('\\').pop();
+				
+					if((filename.indexOf("jpg") != -1) || (filename.indexOf("png") != -1)
+							|| (filename.indexOf("jpeg") != -1) || (filename.indexOf("bmp") != -1)
+							|| (filename.indexOf("gif") != -1)){
+						
+						var $printHTML;
+						printHTML ="<img id='modal-img' height='110%'>"
+							$(".modal-preview").html('');
+						
+						$(".modal-preview").append(printHTML);
+						$("#modal-img").attr("src", e.target.result);
+					}else{
+						$("#modal-img").attr("display", "none");
+						var $printHTML;
+						printHTML = "<span class='material-icons' style='width: 100%; height: 100%; font-size: 150px; color: white; background-color: #2860E1;'>save</span>"
+							$(".modal-preview").html('');
+						$(".modal-preview").append(printHTML);
+					}
 					
-					$("#modal-img").attr("src", e.target.result);
+					//chk
 					
-					//var filename = $("#file").val().split('/').pop().split('\\').pop();
-					
+					var filename = $("#file_transfer").val().split('/').pop().split('\\').pop();
+				
 					//$(".upload-name").val("");
 					//$(".upload-name").val(filename);
 				}
-				
+				//jpg ,png, jpeg ,bmp,gif
 				reader.readAsDataURL(value.files[0]);
 			}
+			
+			
+			
 			$("#modal").modal();
 	    }
 	
@@ -508,18 +545,12 @@
 						msg : "이미지 입니다.",
 						
 				};		
-				var msgData3 ={
-						friendid : $("#friendid").val(),
-						count : "countup"
-				};
 			
 				
 				var jsonData = JSON.stringify(msgData);//JSON.stringify란 자바스크립트의 값을 JSON 문자열로 변환한다. 
 				var jsonData2 = JSON.stringify(msgData2);
-				var jsonData3 = JSON.stringify(msgData3);
 				sock.send(jsonData);
 				sock2.send(jsonData2);
-				countsock.send(jsonData3);
 			},
             error:function(request, status, errorData){
                 alert("error code: " + request.status + "\n"
@@ -572,12 +603,6 @@
 		var jsonData2 = JSON.stringify(msgData2);
 		sock2.send(jsonData2);
 		
-		var msgData3 ={
-				friendid : $("#friendid").val(),
-				count : "countup"
-		};
-		var jsonData3 = JSON.stringify(msgData3);
-		countsock.send(jsonData3);
 		
 
 		
@@ -591,6 +616,10 @@
 		var co_no = null;
 		console.log("확인용 : " + evt.data);
 		
+		if(data.indexOf("count") != -1){
+			allcount(data);
+			return;
+		}
 		//문자열을 splite//
 		 var strArray = data.split('|'); 
 		
@@ -662,6 +691,14 @@
 		
 		console.log('chatting data: ' + data);
 		$(".big-area").scrollTop($(".big-area")[0].scrollHeight);
+		
+		var msgData3 ={
+				friendid : $("#friendid").val(),
+				count : "countup"
+		};
+		
+		var jsonData3 = JSON.stringify(msgData3);
+		countsock.send(jsonData3);
 	  	/* sock.close(); */
 	}
 	    
@@ -684,15 +721,20 @@
 		var current_co_no = $("#co_no").val();
 		console.log("current_co_no : " + current_co_no);
 		
-		//String jsonStr2 = co_no + "|" +loginid+ "|" + mapReceive.get("msg");	
 		co_no = strArray[0];
 		sessionid = strArray[1]; //현재 메세지를 보낸 사람의 세션 등록//
 		message = strArray[2]; //현재 메세지를 저장//
 		img = strArray[3];	//이미지
 		filename = strArray[4];
 		var $printHTML;
+		console.log("filename " +filename);
 		
 		if(sessionid == currentuser_session){
+			
+			if((filename.indexOf("jpg") != -1) || (filename.indexOf("png") != -1)
+					|| (filename.indexOf("jpeg") != -1) || (filename.indexOf("bmp") != -1)
+					|| (filename.indexOf("gif") != -1)){
+				
 			var check ="${loginUser.rename_file}";
 			if(check == ""){
 				printHTML = "<div id='chatdata'>"
@@ -711,8 +753,33 @@
 				
 				
 			}
+			}else{
+				
+				var check ="${loginUser.rename_file}";
+				if(check == ""){
+					printHTML = "<div id='chatdata'>"
+						+ "<div class='text-con'><span>"
+						+ "</span><a class='downloadmsg' href='resources/cuploadFiles/"+filename+"' download><span class='material-icons' style='width:100%; height:100%; font-size:50px; color:#2860E1;'>save</span></a></div>"
+						+ "<div class='tri-left'></div>"
+						+ "<div class='profile-img'><img src='resources/images/icons/profile_white.png'>"
+						+ "</div>" + "</div>";
+				}else{
+
+	
+					printHTML = "<div id='chatdata'>"
+						+ "<div class='text-con'><span>"
+						+ "</span><a class='downloadmsg' href='resources/cuploadFiles/"+filename+"' download><span class='material-icons' style='width:100%; height:100%; font-size:50px; color:#2860E1;'>save</span></a></div>"
+						+ "<div class='tri-left'></div>"
+						+ "<div class='profile-img'><img src='resources/muploadFiles/${loginUser.rename_file}'>"
+						+ "</div>" + "</div>";				
+				}
+				
+			}
 			$(".chat-area").append(printHTML);
 		} else{
+			if((filename.indexOf("jpg") != -1) || (filename.indexOf("png") != -1)
+					|| (filename.indexOf("jpeg") != -1) || (filename.indexOf("bmp") != -1)
+					|| (filename.indexOf("gif") != -1)){
 			if(img ==""){
 				printHTML = "<div id='chatdata' class='left'>"
 					+ "<div class='profile-img'><img src='resources/images/icons/profile_white.png'></div>"
@@ -734,10 +801,58 @@
 					+"</div>";
 				
 			}
+			}else{
+				if(img ==""){
+					printHTML = "<div id='chatdata' class='left'>"
+						+ "<div class='profile-img'><img src='resources/images/icons/profile_white.png'></div>"
+						+ "<div class='tri-right'></div>"
+						+"<div class='text-con-area'>"
+						+"<div>" + sessionid+"</div>"
+						+"<div class='text-con-someone'>"
+						+"<a class='downloadmsg' href='resources/cuploadFiles/"+filename+"' download><span class='material-icons' style='width:100%; height:100%; font-size:50px; color:#2860E1;'>save</span></a>"
+						+"</div>";
+					
+				}else{
+					printHTML = "<div id='chatdata' class='left'>"
+						+ "<div class='profile-img'><img src='resources/muploadFiles/"+img+"'></div>"
+						+ "<div class='tri-right'></div>"
+						+"<div class='text-con-area'>"
+						+"<div>" + sessionid+"</div>"
+						+"<div class='text-con-someone'>"
+						+"<a class='downloadmsg' href='resources/cuploadFiles/"+filename+"' download><span class='material-icons' style='width:100%; height:100%; font-size:50px; color:#2860E1;'>save</span></a>"
+						+"</div>";
+					
+				}
+				
+			}
 			$(".chat-area").append(printHTML);
 		}
+		var msgData3 ={
+				friendid : $("#friendid").val(),
+				count : "countup"
+		};
 		
+		var jsonData3 = JSON.stringify(msgData3);
+		countsock.send(jsonData3);
 		$(".big-area").scrollTop($(".big-area")[0].scrollHeight);
+	}
+	
+	function allcount(data){
+		console.log("allcount : " +data);
+		var count = data.substr(5);
+		console.log("count:" + count);
+		
+		var $pringHTML;
+		
+		if(count == 0){
+			pringHTML = "<a onclick='chatroom()'>채팅창</a>";
+			$(".chlist").empty();
+			$(".chlist").append(pringHTML);
+		}else{
+		pringHTML = "<a onclick='chatroom()'>채팅창</a><span class='allcount'>"+count+"</span>";
+		$(".chlist").empty();
+		$(".chlist").append(pringHTML);
+		}
 	}
 </script>
 
