@@ -232,7 +232,7 @@
                 	<c:forEach var="dr" items="${drlist }">
 	                    <tr>
 	                        <td><input class="check_sub" name=check type="checkbox" value="${dr.dr_no }"></td>
-	                        <td>${dr.dr_no }</td>
+	                        <td>${dr.dr_num }</td>
 	                        <td>
 	                        	<c:if test="${empty dr.dr_thumbnail }">
 	                        		<div class="board-image-area"></div>

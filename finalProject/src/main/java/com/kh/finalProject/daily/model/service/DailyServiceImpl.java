@@ -302,9 +302,9 @@ public class DailyServiceImpl implements DailyService {
 	}
 
 	@Override
-	public ArrayList<DailyRecord> selectDailyRecordList_a(String id) {
+	public ArrayList<DailyRecord> selectDailyRecordList_a() {
 
-		return dailyDao.selectDailyRecordList_a(id);
+		return dailyDao.selectDailyRecordList_a();
 	}
 
 	@Override

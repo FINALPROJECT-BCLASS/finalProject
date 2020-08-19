@@ -16,10 +16,26 @@ public class DailyRecord implements Serializable {
 	private String dr_emotion;
 	private String dr_con;
 	private String dr_thumbnail;
+	private String dr_num;
 	
 	
 	public DailyRecord() {
 
+	}
+
+
+	public DailyRecord(String dr_no, String id, String dr_title, String dr_date, String dr_weather, String dr_emotion,
+			String dr_con, String dr_thumbnail, String dr_num) {
+		super();
+		this.dr_no = dr_no;
+		this.id = id;
+		this.dr_title = dr_title;
+		this.dr_date = dr_date;
+		this.dr_weather = dr_weather;
+		this.dr_emotion = dr_emotion;
+		this.dr_con = dr_con;
+		this.dr_thumbnail = dr_thumbnail;
+		this.dr_num = dr_num;
 	}
 
 
@@ -121,12 +137,21 @@ public class DailyRecord implements Serializable {
 		return serialVersionUID;
 	}
 
+	public String getDr_num() {
+		return dr_num;
+	}
+
+
+	public void setDr_num(String dr_num) {
+		this.dr_num = dr_num;
+	}
+
 
 	@Override
 	public String toString() {
 		return "DailyRecord [dr_no=" + dr_no + ", id=" + id + ", dr_title=" + dr_title + ", dr_date=" + dr_date
 				+ ", dr_weather=" + dr_weather + ", dr_emotion=" + dr_emotion + ", dr_con=" + dr_con + ", dr_thumbnail="
-				+ dr_thumbnail + "]";
+				+ dr_thumbnail + ", dr_num=" + dr_num + "]";
 	}
 	
 	

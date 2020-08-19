@@ -264,9 +264,9 @@ public class DailyDao {
 		return sqlSessionTemplate.update("dailyMapper.deleteDailyRecord", map);
 	}
 
-	public ArrayList<DailyRecord> selectDailyRecordList_a(String id) {
+	public ArrayList<DailyRecord> selectDailyRecordList_a() {
 
-		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectDailyRecordList_a", id);
+		return (ArrayList)sqlSessionTemplate.selectList("dailyMapper.selectDailyRecordList_a");
 	}
 
 	public int getListCount(String id) {

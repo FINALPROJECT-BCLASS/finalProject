@@ -124,13 +124,12 @@
             max-width: 900px;
 		    margin: 0 auto;
 		    margin-left: 340px;
-            /* z-index: 0 !important; */
         }
 
         .fc-today-button{
             display: none !important;
         }
-        
+         
         .default-btn{
         	margin-left: 15px;
         }

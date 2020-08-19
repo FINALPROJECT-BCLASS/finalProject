@@ -211,7 +211,7 @@
                 	<input type="hidden" id="ht_no" name="ht_no" value="${habit.ht_no }">
                     <tr>
                         <td>Name</td>
-                        <td><input type="text" name="ht_title" value="${habit.ht_title }"></td>
+                        <td><input type="text" name="ht_title" maxlength="16" value="${habit.ht_title }" required></td>
                     </tr>
                     <tr>
                         <td>Type</td>
@@ -225,11 +225,11 @@
                     </tr>
                     <tr>
                         <td>Goal</td>
-                        <td><input type="text" name="ht_goal" placeholder="목표치를 숫자로 입력하세요. ex. 10, 20, 1000" value="${habit.ht_goal }"></td>
+                        <td><input type="text" name="ht_goal" placeholder="목표치를 숫자로 입력하세요. ex. 10, 20, 1000" value="${habit.ht_goal }" maxlength="16" required></td>
                     </tr>
                     <tr>
                         <td>Unit</td>
-                        <td><input type="text" name="ht_unit" placeholder="단위를 입력하세요. ex. 권, 번, ml, L" value="${habit.ht_unit }"></td>
+                        <td><input type="text" name="ht_unit" placeholder="단위를 입력하세요. ex. 권, 번, ml, L" value="${habit.ht_unit }" maxlength="16" required></td>
                     </tr>
                     <tr>
                         <td>Period</td>
@@ -246,7 +246,7 @@
                     </tr>
                     <tr> 
                         <td>Default Count</td>
-                        <td><input name="ht_amount" id="d-count" type="text" value="1" value="${habit.ht_amount }"></td>
+                        <td><input name="ht_amount" id="d-count" type="text" value="1" maxlength="16" value="${habit.ht_amount }"></td>
                     </tr>
                     <tr>
                         <td>Color</td>
@@ -266,7 +266,7 @@
                     </tr>
                     <tr>
                         <td>Comment</td>
-                        <td><textarea name="ht_con" class="b-content">${habit.ht_con }</textarea></td>
+                        <td><textarea name="ht_con" class="b-content" maxlength="160">${habit.ht_con }</textarea></td>
                     </tr>
 
                 </table>
@@ -283,15 +283,6 @@
     	
     	$(document).ready(function() {
     		
-  			/* var state = $('#select_ option:selected').val();
-  			if ( state == 'Title' ) {
-  				$("#title_a").show();
-  				$("#date_a").hide();
-  			} else {
-  				$("#title_a").hide();
-  				$("#date_a").show();
-  			} */
-  			
   			var cycle = "${habit.ht_cycle}";
   			console.log(cycle);
   			

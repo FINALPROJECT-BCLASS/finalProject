@@ -333,7 +333,7 @@
 	                <table cellpadding="6px">
 	                    <tr>
 	                        <td>Title</td>
-	                        <td><input type="text" name="bl_title" value="${bm.bl_title }" required></td>
+	                        <td><input type="text" name="bl_title" maxlength="16" value="${bm.bl_title }" required></td>
 	                    </tr>
 	                    <!-- <tr>
 	                        <td>Type</td>
@@ -363,7 +363,7 @@
                     </tr>
 	                    <tr>
 	                        <td>Content</td>
-	                        <td><textarea class="b-content" name="bl_con" required>${bm.bl_con }</textarea></td>
+	                        <td><textarea class="b-content" name="bl_con" maxlength="160" required>${bm.bl_con }</textarea></td>
 	                    </tr>
 	                    <tr>
 	                        <td>Image</td>
