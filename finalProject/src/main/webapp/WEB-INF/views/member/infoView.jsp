@@ -374,14 +374,25 @@
                 </tr>
             </table>
             <div class="button-area">
-	            <button onclick="history.go(-1)">Back</button>
 	            <button type="button" onclick="infoSubmit()">Edit</button>
+	            <button type="button" onclick="history.go(-1)">Back</button>
+	            <button type="button" onclick="deleteBtn()">Delete</button>
             </div>
         </form>
     </div>
 
 
     <script>
+    
+    function deleteBtn(){
+    	
+    	if(confirm("정말로 탈퇴하시겠습니까?")){
+    		location.href="deleteMember.do?id=${loginUser.id }";
+    	}else{
+    		return false;
+    	}
+    	
+    }
     
     
     $(document).ready(function(){

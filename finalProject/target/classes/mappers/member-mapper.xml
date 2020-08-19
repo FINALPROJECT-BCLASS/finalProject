@@ -57,6 +57,12 @@
 		AND EMAIL = #{email}
 		AND OUT_YN = 'N'
 	</select>
+
+	<update id="deleteMember" parameterType="String">
+		UPDATE MEMBER
+		SET OUT_YN = 'Y'
+		WHERE ID=#{id}
+	</update>
 	
 
 </mapper>

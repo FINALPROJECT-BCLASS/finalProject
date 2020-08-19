@@ -444,7 +444,20 @@ public class MemberController {
 		return "member/infoCheck";
 	}
 	
-	
-	
+	@RequestMapping("deleteMember.do")
+	public String deleteMember(String id, Model model, SessionStatus status) {
+		
+		int result = mService.deleteMember(id);
+		
+		if(result > 0) {
+			status.setComplete(); // 로그아웃
+			return "home";
+		}else {
+			model.addAttribute("msg","회원 탈퇴 실패, 다시 시도해 주세요.");
+		    model.addAttribute("url","/myInfoView.do");
+			return "common/redirect";
+		}
+		
+	}
 	
 }

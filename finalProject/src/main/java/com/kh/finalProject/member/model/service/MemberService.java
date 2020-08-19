@@ -22,4 +22,6 @@ public interface MemberService {
 
 	Member selectOneFindId(Member m);
 
+	int deleteMember(String id);
+
 }
