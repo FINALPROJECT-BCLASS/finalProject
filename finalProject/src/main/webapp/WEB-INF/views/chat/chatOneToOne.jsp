@@ -467,7 +467,7 @@
 		var offset = $("#ol_yn").offset();
 		var location = $(".big-area").offset();
 		console.log("offset : " + offset);
-		$(".big-area").animate({scrollTop:(offset.top - location.top)},3000);
+		$(".big-area").animate({scrollTop:(offset.top - location.top)},6000);
 		}
 		//없을시에.
 		else{
