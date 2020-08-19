@@ -145,12 +145,12 @@
                     <table class="groupTb">
                     	<tr>
                             <td class="groupTbTd">Title&nbsp;</td>
-                            <td><input type="text" name="gaTitle" id="title" value="${gaList.gaTitle }" placeholder="  제목 입력"></td>
+                            <td><input type="text" name="gaTitle" id="title" value="${gaList.gaTitle }" placeholder="  제목 입력" required></td>
                         </tr>
                         <tr>
                             <td class="groupTbTd">Date&nbsp;</td>
                             <td>
-                                <input type="date" name="gaDate" class="date" value="${gaList.gaDate }"> 
+                                <input type="date" name="gaDate" class="date" value="${gaList.gaDate }" required> 
                                  
                                 
                             </td>
@@ -180,16 +180,17 @@
                             <td class="groupTbTd">Member</td>
                             <td style="height:100px;">
                                 <div class="searchNameAfter">
-                                    <c:forEach var="gam" items="${gamList }">
-                                    <button type='button' class='searchNameBox'>
-                                    	<div class='amountName'>${gam.name }</div>
-                                    	<c:set var="amount" value="${gam.gamAmount }"/>
-                						<input type='text' class='amountBox' name='gamAmount'  name="gamAmount" value="${amount }">
-                						<input type="hidden" class="gamDelete"  value="${gam.gamDelete }">
-                						<input type="hidden" name="gmNo" value="${gam.gmNo }">
-                					</button>
-                					</c:forEach>
-                
+                                	<div class="amountMember">
+	                                    <c:forEach var="gam" items="${gamList }">
+	                                    <button type='button' class='searchNameBox'>
+	                                    	<div class='amountName'>${gam.name }</div>
+	                                    	<c:set var="amount" value="${gam.gamAmount }"/>
+	                						<input type='text' class='amountBox' name='gamAmount'  name="gamAmount" value="${amount }">
+	                						<input type="hidden" class="gamDelete"  value="${gam.gamDelete }">
+	                						<input type="hidden" name="gmNo" value="${gam.gmNo }">
+	                					</button>
+	                					</c:forEach>
+                					</div>
                                 </div>
                             </td>
                         </tr>
@@ -201,7 +202,7 @@
                         </tr>
                         <c:if test="${gaList.gaFee eq 'Y' }">
 	                        <c:if test="${!empty gaList.gasYn }">
-	                        <tr>
+	                        <tr class="checkSharing">
 	                        	<td>Sharing</td>
 	                        	<td>
 	                        		<c:if test="${gaList.gasYn eq  'Y'}">
@@ -256,9 +257,34 @@
          <!-- submit -->
          <script>
          	$("#submit").click(function(){
-         		$("#accountForm").submit();
+         		var amountYn = 'N';
+         		$('.amountBox').each(function(){
+         		    if($(this).val() == "" || $(this).val() == null){
+         		    	amountYn = 'Y';
+         		    }
+         		    
+         		});
+         		
+         		if(amountYn == 'Y'){
+					alert("금액을 입력해주세요.");         			
+         		}else {
+         		
+         			if($("#title").val() == ""){
+         				alert("제목을 입력해주세요.");
+         			}else if($("#grouopCon").val() == ""){
+         				alert("내용을 입력해주세요.");
+         				
+         			}else if($(".amountMember").html() == ""){
+         				alert("멤버를 입력해주세요.");
+         			}else{
+         				
+		       			$("#accountForm").submit();
+         			}
+         			
+         		}
          	})
          </script>
+
          
          <!-- 라디오 박스 선택 -->
          <script>
@@ -292,7 +318,7 @@
            	 $(document).on("click",".searchClick",function(){
                 var $searchName = $(this).children().html();
                 var $gmNo = $(this).children().next().next().val();
-                var $searchNameAfter = $(".searchNameAfter");
+                var $searchNameAfter = $(".amountMember");
                 var $searchNameBox = " <button type='button' class='searchNameBox'>" +
                 "<div class='amountName'>"+$searchName+"</div>" +
                 "<input type='text' class='amountBox' name='gamAmount' placeholder='Enter the amount here'>"+
@@ -301,12 +327,13 @@
                 $searchNameAfter.append($searchNameBox);
 				$(this).remove();
                 
-            })
+            }) 
             //  클릭된 이름 삭제
              $(document).on("click",".amountName",function(){
                 var who = $(this).parent("button");
                 console.log("who :" + who);
                 who.hide();
+                $(".gamDelete").val("Y");
                    })
          </script>
          
