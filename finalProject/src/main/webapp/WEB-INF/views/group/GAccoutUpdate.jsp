@@ -278,7 +278,7 @@
          		    	amountYn = 'Y';
          		    }
          		    
-         		});
+         		}); 
          		
          		if(amountYn == 'Y'){
 					alert("금액을 입력해주세요.");         			
