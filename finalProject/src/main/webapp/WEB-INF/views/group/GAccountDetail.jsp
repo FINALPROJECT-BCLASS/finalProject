@@ -150,7 +150,7 @@
                             <td class="groupTbTd">Content&nbsp;</td>
                             <td>
                                 <div class="textArea">
-                                    <span class="material-icons">article</span> <div class="comment">내용 입력</div>
+                                    <span class="material-icons">article</span> <div class="comment"></div>
                                     <textarea id="groupCon" name="gaCon" readonly>${gaList.gaCon }</textarea>
                                 </div>
                             </td> 

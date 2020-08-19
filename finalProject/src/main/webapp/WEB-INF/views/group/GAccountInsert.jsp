@@ -125,12 +125,12 @@
                     	<input type="hidden" id="deleteYn" name="gaDelete" value="N">
                         <tr>
                             <td class="groupTbTd">Title&nbsp;</td>
-                            <td><input type="text" name="gaTitle" id="title" placeholder="  제목 입력"></td>
+                            <td><input type="text" name="gaTitle" id="title" placeholder="  제목 입력" required></td>
                         </tr>
                         <tr>
                             <td class="groupTbTd">Date&nbsp;</td>
                             <td>
-                                <input type="date" name="gaDate" class="date" value="${clickDate }"> 
+                                <input type="date" name="gaDate" class="date" value="${clickDate }" required> 
                                  
                                 
                             </td>
@@ -161,7 +161,7 @@
                             <td style="height:100px;">
                                 <div class="searchNameAfter">
                                     &nbsp;&nbsp;Click and remove NameBox.<br>
-                                    
+                                    <div class="amountMember"></div>
                                 </div>
                             </td>
                         </tr>
@@ -238,7 +238,18 @@
          		if(amountYn == 'Y'){
 					alert("금액을 입력해주세요.");         			
          		}else {
-       			$("#accountForm").submit();
+         		
+         			if($("#title").val() == ""){
+         				alert("제목을 입력해주세요.");
+         			}else if($("#grouopCon").val() == ""){
+         				alert("내용을 입력해주세요.");
+         				
+         			}else if($(".amountMember").html() == ""){
+         				alert("멤버를 입력해주세요.");
+         			}else{
+         				
+		       			$("#accountForm").submit();
+         			}
          			
          		}
          	})
@@ -276,7 +287,7 @@
            	 $(document).on("click",".searchClick",function(){
                 var $searchName = $(this).children().html();
                 var $gmNo = $(this).children().next().next().val();
-                var $searchNameAfter = $(".searchNameAfter");
+                var $searchNameAfter = $(".amountMember");
                 var $searchNameBox = " <button type='button' class='searchNameBox'>" +
                 "<div class='amountName'>"+$searchName+"</div>" +
                 "<input type='text' class='amountBox' name='gamAmount' placeholder='Enter the amount here' >"+
