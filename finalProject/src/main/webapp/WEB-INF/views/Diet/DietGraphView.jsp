@@ -6,12 +6,23 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </head>
+<style>
+	.inbody_graph{
+            font-size: 35px;
+            margin: 0 0 0;
+		    text-align: center;
+		    padding-bottom: 15px;
+		    padding-top: 15px;
+	}
+</style>
 <body>
 		<jsp:include page="../common/header.jsp"/>
 		<jsp:include page="../common/sidenaviDiet.jsp"/>
 			<div style="Float:right; width:81%">
+			<h1 class="inbody_graph">Inbody Graph</h1>
 			<div id="chartContainer" style="height: 370px; width: 100%;"></div>
 			<br>
 			<div id="chartContainer2" style="height: 370px; width: 100%;"></div>
@@ -34,6 +45,7 @@ var chart = new CanvasJS.Chart("chartContainer", {
 		text: "체중(kg)"
 	},
 	axisX: {
+			valueFormatString:"YY-MM-DD",
 			titleFontWeight : "bold"
 	},
 	axisY: {
@@ -53,14 +65,13 @@ var yValue;
 		var res = xValue.split("-");
 		yValue =  parseInt("${dataPoints.inWeight}");
 		dps.push({
-			x : new Date(res[0],res[1],res[2]),
+			x :  new Date(res[0],res[1],res[2]),
 			y : yValue
 		});			
 			console.log(xValue);
 			console.log(yValue);
 		
 </c:forEach> 
-		console.log("dps : " + dps[1].x);
  
 chart.render();
  
@@ -76,6 +87,7 @@ var chart = new CanvasJS.Chart("chartContainer2", {
 		text: "골격근량(kg)"
 	},
 	axisX: {
+			valueFormatString:"YY-MM-DD",	
 			titleFontWeight : "bold"
 	},
 	axisY: {
@@ -118,6 +130,7 @@ var chart = new CanvasJS.Chart("chartContainer3", {
 		text: "체지방량(kg)"
 	},
 	axisX: {
+			valueFormatString:"YY-MM-DD",
 			titleFontWeight : "bold"
 	},
 	axisY: {

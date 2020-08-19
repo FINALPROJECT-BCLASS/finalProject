@@ -59,43 +59,43 @@ public class DietController {
 		System.out.println(dietlist);
 		// 뿌려줄것 리스트 만들기
 		diet totaldiet = new diet(); // 전체
-		int breakfast = 0; // 아침
-		int morningSnack = 0; // 아침간식
-		int Lunch = 0; // 점심
-		int Lunchsnack = 0; // 점심간식
-		int Dinner = 0; // 저녁
-		int Dinnersnack = 0; // 저녁간식
+		float breakfast = 0; // 아침
+		float morningSnack = 0; // 아침간식
+		float Lunch = 0; // 점심
+		float Lunchsnack = 0; // 점심간식
+		float Dinner = 0; // 저녁
+		float Dinnersnack = 0; // 저녁간식
 
 		
-		int car = 0;
-		int pro = 0;
-		int fat = 0;
-		int na = 0;
+		float car = 0;
+		float pro = 0;
+		float fat = 0;
+		float na = 0;
 		for (int i = 0; i < dietlist.size(); i++) {
 			diet samplediet = dietlist.get(i);
 
-			car += samplediet.getDiCar();
-			pro += samplediet.getDiPro();
-			fat += samplediet.getDiFat();
-			na  += samplediet.getDiNa();
+			car += Float.valueOf(samplediet.getDiCar());
+			pro += Float.valueOf(samplediet.getDiPro());
+			fat += Float.valueOf(samplediet.getDiFat());
+			na  += Float.valueOf(samplediet.getDiNa());
 
-			totaldiet.setDiCar(car);
-			totaldiet.setDiPro(pro);
-			totaldiet.setDiFat(fat);
-			totaldiet.setDiNa(na);
+			totaldiet.setDiCar(String.valueOf(car));
+			totaldiet.setDiPro(String.valueOf(pro));
+			totaldiet.setDiFat(String.valueOf(fat));
+			totaldiet.setDiNa(String.valueOf(na));
 
 			if (samplediet.getDtWhen().equals("아침")) {
-				breakfast += samplediet.getDiKcal();
+				breakfast += Float.valueOf(samplediet.getDiKcal());
 			} else if (samplediet.getDtWhen().equals("아침간식")) {
-				morningSnack += samplediet.getDiKcal();
+				morningSnack += Float.valueOf(samplediet.getDiKcal());
 			} else if (samplediet.getDtWhen().equals("점심")) {
-				Lunch += samplediet.getDiKcal();
+				Lunch += Float.valueOf(samplediet.getDiKcal());
 			} else if (samplediet.getDtWhen().equals("점심간식")) {
-				Lunchsnack += samplediet.getDiKcal();
+				Lunchsnack += Float.valueOf(samplediet.getDiKcal());
 			} else if (samplediet.getDtWhen().equals("저녁")) {
-				Dinner += samplediet.getDiKcal();
+				Dinner += Float.valueOf(samplediet.getDiKcal());
 			} else if (samplediet.getDtWhen().equals("저녁간식")) {
-				Dinnersnack += samplediet.getDiKcal();
+				Dinnersnack += Float.valueOf(samplediet.getDiKcal());
 			}
 
 		}
@@ -169,11 +169,11 @@ public class DietController {
 			@RequestParam(value = "foodCountUnit", required = false) String foodCountUnit) {
 
 		// 수량 갯수만큼 칼로리 등등을 곱해줌.
-		diet.setDiKcal(diet.getDiKcal() * foodCount);
-		diet.setDiCar(diet.getDiCar() * foodCount);
-		diet.setDiPro(diet.getDiPro() * foodCount);
-		diet.setDiFat(diet.getDiFat() * foodCount);
-		diet.setDiNa(diet.getDiNa() * foodCount);
+		diet.setDiKcal(String.valueOf((Float.valueOf(diet.getDiKcal()) * foodCount)));
+		diet.setDiCar(String.valueOf((Float.valueOf(diet.getDiCar()) * foodCount)));
+		diet.setDiPro(String.valueOf((Float.valueOf(diet.getDiPro()) * foodCount)));
+		diet.setDiFat(String.valueOf((Float.valueOf(diet.getDiFat()) * foodCount)));
+		diet.setDiNa(String.valueOf((Float.valueOf(diet.getDiNa()) * foodCount)));
 
 		// 수량
 		String diAmount = foodCount +" "+ foodCountUnit;
@@ -277,12 +277,13 @@ public class DietController {
 			@RequestParam(value = "foodCountUnit", required = false) String foodCountUnit) {
 
 		// 수량 갯수만큼 칼로리 등등을 곱해줌.
-		diet.setDiKcal(diet.getDiKcal() * foodCount);
-		diet.setDiCar(diet.getDiCar() * foodCount);
-		diet.setDiPro(diet.getDiPro() * foodCount);
-		diet.setDiFat(diet.getDiFat() * foodCount);
-		diet.setDiNa(diet.getDiNa() * foodCount);
-
+		diet.setDiKcal(String.valueOf((Float.valueOf(diet.getDiKcal()) * foodCount)));
+		diet.setDiCar(String.valueOf((Float.valueOf(diet.getDiCar()) * foodCount)));
+		diet.setDiPro(String.valueOf((Float.valueOf(diet.getDiPro()) * foodCount)));
+		diet.setDiFat(String.valueOf((Float.valueOf(diet.getDiFat()) * foodCount)));
+		diet.setDiNa(String.valueOf((Float.valueOf(diet.getDiNa()) * foodCount)));
+		
+		
 		// 수량
 		String diAmount = foodCount +" "+ foodCountUnit;
 		diet.setDiAmount(diAmount);
@@ -383,12 +384,12 @@ public class DietController {
 		System.out.println("Diet : " +Diet);
 		
 		// 뿌려줄것 리스트 만들기
-				int breakfast = 0; // 아침
-				int morningSnack = 0; // 아침간식
-				int Lunch = 0; // 점심
-				int Lunchsnack = 0; // 점심간식
-				int Dinner = 0; // 저녁
-				int Dinnersnack = 0; // 저녁간식
+				float breakfast = 0; // 아침
+				float morningSnack = 0; // 아침간식
+				float Lunch = 0; // 점심
+				float Lunchsnack = 0; // 점심간식
+				float Dinner = 0; // 저녁
+				float Dinnersnack = 0; // 저녁간식
 
 
 
@@ -397,17 +398,17 @@ public class DietController {
 
 
 					if (samplediet.getDtWhen().equals("아침")) {
-						breakfast += samplediet.getDiKcal();
+						breakfast += Float.valueOf(samplediet.getDiKcal());
 					} else if (samplediet.getDtWhen().equals("아침간식")) {
-						morningSnack += samplediet.getDiKcal();
+						morningSnack += Float.valueOf(samplediet.getDiKcal());
 					} else if (samplediet.getDtWhen().equals("점심")) {
-						Lunch += samplediet.getDiKcal();
+						Lunch += Float.valueOf(samplediet.getDiKcal());
 					} else if (samplediet.getDtWhen().equals("점심간식")) {
-						Lunchsnack += samplediet.getDiKcal();
+						Lunchsnack += Float.valueOf(samplediet.getDiKcal());
 					} else if (samplediet.getDtWhen().equals("저녁")) {
-						Dinner += samplediet.getDiKcal();
+						Dinner += Float.valueOf(samplediet.getDiKcal());
 					} else if (samplediet.getDtWhen().equals("저녁간식")) {
-						Dinnersnack += samplediet.getDiKcal();
+						Dinnersnack += Float.valueOf(samplediet.getDiKcal());
 					}
 
 				}
