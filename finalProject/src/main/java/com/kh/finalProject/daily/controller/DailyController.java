@@ -60,11 +60,7 @@ public class DailyController {
 		
 		String day = dailySet.format(date);
 		String month = monthlySet.format(date); // 오늘 날짜
-		
-		
-		System.out.println("오늘 날짜 : " + day);
-		System.out.println("이번 달 : " + month);
-		
+	
 		if(member != null) {
 			String id = member.getId();
 			
@@ -341,8 +337,6 @@ public class DailyController {
 		
 	    int result = dailyService.insertHabitRecord(hr);
 	    // 업데이트 된 습관기록 불러오기
-//	    HabitRecord HR = dailyService.selectHabitRecord(hr);
-//	    System.out.println("hr확인" + HR);
 	    
 	    if(result > 0) {
 	    	out.print("success");
@@ -1752,8 +1746,7 @@ public class DailyController {
 			
 		}else {
 			
-//			mv.addObject("drlist", drlist);
-//			mv.setViewName("daily/dailyRecordBoard");
+			mv.setViewName("daily/dailyRecordBoard");
 			
 		}
 		

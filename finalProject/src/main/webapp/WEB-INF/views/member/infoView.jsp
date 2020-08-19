@@ -386,7 +386,7 @@
     
     $(document).ready(function(){
     	
-    	var mainNo = ${loginUser.main_no}
+    	var mainNo = ${loginUser.main_no};
     	
     	$("#"+mainNo).attr("checked", true);
     	

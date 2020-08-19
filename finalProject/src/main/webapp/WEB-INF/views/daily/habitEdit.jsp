@@ -283,15 +283,6 @@
     	
     	$(document).ready(function() {
     		
-  			/* var state = $('#select_ option:selected').val();
-  			if ( state == 'Title' ) {
-  				$("#title_a").show();
-  				$("#date_a").hide();
-  			} else {
-  				$("#title_a").hide();
-  				$("#date_a").show();
-  			} */
-  			
   			var cycle = "${habit.ht_cycle}";
   			console.log(cycle);
   			
