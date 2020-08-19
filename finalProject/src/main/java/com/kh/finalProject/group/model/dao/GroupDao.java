@@ -451,6 +451,9 @@ public class GroupDao {
 		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.searchTotalName", gSearch);		
 	}
 
+	public ArrayList<GroupBoardPhoto> selectPhotoBoardList(GroupInfo gInfo) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.selectPhotoBoardList", gInfo);		
+	}
 
 	
 	

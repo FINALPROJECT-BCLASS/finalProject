@@ -222,6 +222,8 @@ public interface GroupService {
 
 	ArrayList<Member> searchTotalName(GroupSearchName gSearch);
 
+	ArrayList<GroupBoardPhoto> selectPhotoBoardList(GroupInfo gInfo);
+
 
 	
 

@@ -1347,6 +1347,78 @@ public class GroupController {
 
 			return "redirect:boardMain.do";
 		}
+// -------------------------------- 사진 게시판 -------------------------------------------------------		
+		// 사진 게시판 메인
+		@RequestMapping(value = "photoMain.do", method = RequestMethod.GET)
+		public ModelAndView photoMain(HttpSession session, ModelAndView mv,
+				@RequestParam(value = "page", required = false) String page, GroupBoard gb) {
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			GroupNotice noticeList = gService.selectNoticeOne(gInfo);
+			GroupTable gt = gService.selectOneGroup(gInfo);
+			
+			int currentPage = 1;
+			if (page != null) {
+				int Cpage = Integer.parseInt(page);
+				currentPage = Cpage;
+			}
+		
+			gb.setCurrentGmNo(gInfo.getGmNo());
+			gb.setCurrentGroupNo(gInfo.getGroupNo());
+			int listCount = gService.boardGetListCount(gb);
+			ArrayList<GroupBoardPhoto> photoList = gService.selectPhotoBoardList(gInfo);
+			System.out.println("사진게시판 : " + photoList);
+			
+
+			
+			mv.addObject("photoList", photoList);
+			mv.addObject("gInfo", gInfo);
+			mv.addObject("groupTable", gt);
+			mv.addObject("noticeList", noticeList);
+			mv.addObject("pi", pi);
+			mv.setViewName("group/GPhotoMain");
+
+			return mv;
+		}
+
+		// 사진 게시판 메인 ajax
+		@RequestMapping(value = "photoMainAjax.do", method = RequestMethod.GET)
+		public void photoMainAjax(HttpServletResponse response, HttpSession session,GroupBoard gb) throws IOException {
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+			Member loginUser = (Member) session.getAttribute("loginUser");
+
+			gb.setCurrentGmNo(gInfo.getGmNo());
+			gb.setCurrentGroupNo(gInfo.getGroupNo());
+
+			// 사진 목록
+			ArrayList<GroupBoardPhoto> photoList = gService.selectPhotoBoardList(gInfo);
+			System.out.println("photoList : " + photoList);
+			response.setContentType("application/json;charset=utf-8");
+
+			JSONArray pArr = new JSONArray();
+
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			
+			if (photoList != null) {
+				for (GroupBoardPhoto b : photoList) {
+					JSONObject jObj = new JSONObject();
+
+					jObj.put("gbpNo", b.getGbpNo());
+					jObj.put("gbNo", b.getGbNo());
+					jObj.put("gmNo", b.getGmNo());
+					jObj.put("gNo", b.getgNo());
+					jObj.put("gbpOrigin", b.getGbpOrigin());
+					jObj.put("gbpRename", b.getGbpRename());
+
+					pArr.add(jObj);
+				}
+				
+				} else {
+					System.out.println("사진 목록 실패");
+				}
+
+			}
+
 	// ---------------------------------게시판 end--------------------------------
 	//---------------------------------투표 start --------------------------------
 		// 투표 메인

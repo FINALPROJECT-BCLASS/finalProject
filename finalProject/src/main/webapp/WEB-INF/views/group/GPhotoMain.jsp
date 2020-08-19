@@ -6,7 +6,6 @@
 <head>
 	<title>Home</title>
 
-	 <!-- Demo styles -->
   <style>
     html,
     body {
@@ -29,16 +28,14 @@
     h1{text-align:center;}
     .btnList{width:100%; text-align:right;}
     .groupBtn{border:none; font-weight: 600; background:none;}
-    .BoardBtn{color:#2860E1; font-size: 21px;}
+    .photoBtn{color:#2860E1; font-size: 21px;}
     .join-form-area{padding-top:150px !important;position:relative; float: right;display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 40px; width: 81%; background: #F3F3F3; }
     .groupJoin{width:900px;}
     
     /* 구글 아이콘 */
     .material-icons{padding-top:12px; padding-left: 10px; }
     .noticeIcon{color:#F3F3F3;}
-    .like{color:#f3487b;}
-    .reply{color:#2860E1;}
-    
+
    
 	
 	/* 글쓰기 버튼 */
@@ -52,37 +49,18 @@
 	.emptyNoticeList{margin-top:100px; text-align:center; font-size:20px; font-weight:600;}
 	    
     /* 게시판 */
-    .groupNotice{ width:100%; height:400px;overflow:scroll; overflow-x:hidden;}
-    .noticeBoardTb{width:100%; margin-bottom:5px; background:white; border-radius:10px;}
-    .noticeBoardTitle{display:inline-block; padding-top:20px; padding-left:5px;font-weight: 600; font-size: 20px;}
-    
-   	.detailBtn{display:inline-block; margin:10px 10px 0px 0px; float:right; padding:7.2px; display:inline-block; border:none; border-radius:6px; width:60px; height:35px; background:#FBD14B;}
-   	.detailBtn:hover{display:inline-block; margin:10px 10px 0px 0px; float:right; padding:7.2px; display:inline-block; border:none; border-radius:6px; width:60px; height:35px; background:#ffc400; cursor:pointer;}
-   	
-   	.memberImgBox{width:50px; height:50px; display:inline-block;margin:10px;}
-   	.memberImg{width:100%; height:100%;border-radius:50%; }
-    
-    .noticeBoardWriter{padding-left:37px; font-size:12px; font-weight: 600;}
-    .noticeBoardDate{padding-left:37px; font-size:12px; font-weight: 600;}
-    .noticeBoardContent{margin-left:37px; margin-top:10px; padding-top:5px;padding-left:15px; width:1050px; height:70px; overflow:scroll; overflow-x:hidden; font-size:13px; background: #F3F3F3; border-radius: 5px; margin-bottom: 7px;}
-  	.boardPhotoList{width:200px; height:100px; display:inline-block; border-radius:6px;}
-  	.imgBox{display:inline-block; margin-left:20px;}
-  	.etcBox{padding-left:20px; padding-top:10px; padding-bottom:20px;}
-  	.like, .reply{font-size:30px !important;}
-  	.totalLike, .totalReply{margin-left:10px; margin-right:20px; margin-bottom:10px; }
-  	
- 
-  	
-  
-  	.noticeBoardTb > tr > td:nth-child(1) {
-        color: #484848;
-        text-align: left;
-        font-weight: 600;
-        font-size: 16px;
-        width:40px;
-    }
+     .groupNotice{ width:100%; height:400px;overflow:scroll; overflow-x:hidden;column-gap: 15px;}
+.all_wrap{margin: 0 auto;}        
+.all_wrap div{width: 550px;margin: 3px; display:inline-block;}
+.all_wrap img{width: 100%; border-radius: 10px;}
+.all_wrap p{margin: 0;font-size: 10px;padding:0 0 10px 15px;}
+
+
+
   </style>
   
+<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.js"></script>
+
 
       
 </head>
@@ -116,7 +94,7 @@
     	</div>
      	
      	<br>
-      	<div id="groupWrite"  ><span class="material-icons writeBtn">create</span></div>
+      	
 
         <br>
         
@@ -124,16 +102,40 @@
 		<div style="clear:both"></div>
      	
 		 <div class="groupNotice">
-		 
-		 	<br>
- 
+			<c:if test="${empty photoList }">
+				사진이 없습니다.
+			</c:if>
+			<c:if test="${!empty photoList }">
+					<div class="all_wrap">
+				<c:forEach var="p" items="${photoList }" varStatus="status">
+										
+					<div  class="image">
+						<img src='resources/groupBoardFiles/${p.gbpOrigin }' >
+					</div>
+				</c:forEach>
+					</div>
+			</c:if>
           </div>
 		</div>
 
+     <script>
+     var $grid = $('.all_wrap').imagesLoaded( function() {
+    	  $grid.masonry({
+    	      itemSelector: '.grid-item',
+    	      fitwidth: true
+    	  });
+    	});
 
-	
+
+     $('.all_wrap').masonry({
+    	  // options...
+    	  itemSelector: '.grid-item',
+    	  fitwidth: true
+    	});
+
+     </script>
 	  <!-- 스크롤 게시판 -->
-	  <script>
+	 <!--  <script>
 	  
  		/* var gInfo = ${gInfo.gmNo}; */
  		
@@ -161,11 +163,15 @@
            }
         
            $.ajax({
-               url:"boardMainAjax.do",
+               url:"photoMainAjax.do",
                type: "GET",
                dataType: "json",
                data:{page:pagePlus},
                success: function(data){
+            	   if(data.boardList[0] == null){
+      					$(".groupNotice").text("게시글이 없습니다.").css({"text-align":"center","padding-top":"200px","font-weight":"600","color":"gray"});
+      				}
+            	   
             	   
               	 page = data.boardList[0].page;
               	 pagePlus = page + 1;
@@ -173,7 +179,7 @@
                    // 컨트롤러에서 가져온 방명록 리스트는 result.data에 담겨오도록 했다.
                    // 남은 데이터가 5개 이하일 경우 무한 스크롤 종료
               	 let length =  data.boardList.length;
-              	 console.log("length : " + length); 
+              	 /* console.log("length : " + length); */
               	 
               	 
                    if( length < 5 ){
@@ -314,7 +320,7 @@
            });
        }
    
-	    </script>
+	    </script> -->
 		    <!-- 스크롤 게시판 end -->
 	 
 	<!-- detail 버튼 누르기 -->

@@ -530,6 +530,11 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.searchTotalName(gSearch);
 	}
 
+	@Override
+	public ArrayList<GroupBoardPhoto> selectPhotoBoardList(GroupInfo gInfo) {
+		return gDao.selectPhotoBoardList(gInfo);
+	}
+
 	
 
 

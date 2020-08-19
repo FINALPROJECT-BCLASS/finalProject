@@ -689,6 +689,14 @@
 		WHERE GB_NO = #{gbNo}
 	</update>
 	
+	<!-- 사진 게시판 -->
+	<select id="selectPhotoBoardList" resultMap="groupBoardPhotoResultSet">
+		 SELECT *
+	     FROM GROUP_BOARD_PHOTO
+	     WHERE G_NO = #{groupNo}
+	</select>
+	
+	
 	<!-- 투표 -->
 	<select id="voteGetListCount" resultType="_int">
 		SELECT COUNT(*)
