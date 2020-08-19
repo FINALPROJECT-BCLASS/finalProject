@@ -34,6 +34,7 @@ var chart = new CanvasJS.Chart("chartContainer", {
 		text: "체중(kg)"
 	},
 	axisX: {
+			valueFormatString:"YY-MM-DD",
 			titleFontWeight : "bold"
 	},
 	axisY: {
