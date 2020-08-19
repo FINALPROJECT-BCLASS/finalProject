@@ -2050,7 +2050,7 @@ public class GroupController {
 			ga.setgNo(gInfo.getGroupNo());
 			ga.setGmNo(gInfo.getGmNo());
 			ga.setGaAmount(Integer.valueOf(gauAmount));
-			
+			System.out.println("gauAmount : " +  gauAmount);
 			System.out.println("수정 ga : " + ga);
 			int result = gService.updateAccount(ga);
 			System.out.println("수정 result : " + result);

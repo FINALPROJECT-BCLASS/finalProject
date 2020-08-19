@@ -180,6 +180,7 @@
                             <td class="groupTbTd">Member</td>
                             <td style="height:100px;">
                                 <div class="searchNameAfter">
+                                  &nbsp;&nbsp;Click and remove NameBox.<br>
                                 	<div class="amountMember">
 	                                    <c:forEach var="gam" items="${gamList }">
 	                                    <button type='button' class='searchNameBox'>
@@ -197,7 +198,7 @@
                         <tr>
                             <td class="groupTbTd"><div class="amount">Total Amount&nbsp;</div></td>
                             <td>
-                                <div class="backgroundWhite"><span class="material-icons">add</span><input type="text" name="gauAmount" class="amount" value="${totalAmount }"></div>
+                                <div class="backgroundWhite"><span class="material-icons">add</span><input type="text" name="gauAmount" class="amount" value=""></div>
                             </td>
                         </tr>
                         <c:if test="${gaList.gaFee eq 'Y' }">
@@ -228,6 +229,16 @@
          </div>
          <!-- 합계 -->
          <script>
+	         
+	         $(document).ready(function(){
+	        	 var sum = 0;
+	      		$('.amountBox').each(function(){
+	      		    sum += parseInt(this.value);
+	      		});
+	      		
+	      		$(".amount").val(sum);
+	         })
+	         
          	$(document).on("keyup",".amountBox",function(){
          		var sum = 0;
          		$('.amountBox').each(function(){
@@ -237,6 +248,10 @@
          		
          		$(".amount").val(sum);
          	})
+         	
+         	
+         	
+         	
          </script>
          
          <!-- Sharing -->
@@ -254,7 +269,7 @@
 	         })
          </script>
          
-         <!-- submit -->
+          <!-- submit -->
          <script>
          	$("#submit").click(function(){
          		var amountYn = 'N';
@@ -268,20 +283,22 @@
          		if(amountYn == 'Y'){
 					alert("금액을 입력해주세요.");         			
          		}else {
-         			
+         		
          			if($("#title").val() == ""){
          				alert("제목을 입력해주세요.");
-         			}else if($(".gamDelete").val() == "N"){ 
-         				if($(".amountMember").html() == ""){
-         					alert("멤버를 입력해주세요.");
-         				}else{
-         					$("#accountForm").submit();
-         				}
+         			}else if($("#grouopCon").val() == ""){
+         				alert("내용을 입력해주세요.");
+         				
+         			}else if($(".amount").val() == 0){
+         				alert("멤버를 입력해주세요.");
+         			}else {
+		       			$("#accountForm").submit(); 
          			}
          			
          		}
          	})
          </script>
+         
 
          
          <!-- 라디오 박스 선택 -->
@@ -331,11 +348,22 @@
 	                var who = $(this).parent("button");
 	                console.log("who :" + who);
 	                if($(this).next().next().hasClass("gamDelete")){
-	                	$(".gamDelete").val("Y");	   
-	                	/* who.hide(); */
 	                	who.remove();
+	                	var sum = 0;
+	             		$('.amountBox').each(function(){
+	             		    sum += parseInt(this.value);
+
+	             		});
+	             		
+	             		$(".amount").val(sum);
 	                }else{
 	                	who.remove();
+	                	var sum = 0;
+	             		$('.amountBox').each(function(){
+	             		    sum += parseInt(this.value);
+	             		});
+	             		
+	             		$(".amount").val(sum);
 	                }
                   })
          </script>
