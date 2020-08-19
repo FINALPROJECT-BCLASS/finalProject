@@ -123,6 +123,7 @@
             </c:if>
             
 			<c:url var="myInfoView" value="myInfoView.do"/>
+			<c:url var="checkView" value="myInfoCheckView.do"/>
             
             <c:if test="${!empty sessionScope.loginUser}">
             	<c:if test="${sessionScope.loginUser.id ne 'admin' }">
@@ -138,7 +139,7 @@
 		                    </div>
 		                    <div class="hide login-square"></div>
 		                    <ul class="hide login-sub">
-		                        <li class="t-radius"><a href="${myInfoView }">Info</a></li>
+		                        <li class="t-radius"><a href="${checkView }">Info</a></li>
 		                        <li><a onclick="chatview()">Chat</a></li>
 		                        <li><a href="mmview.do">Memo</a></li>
 		                        <li class="b-radius"><a onclick="logout()">Logout</a></li>

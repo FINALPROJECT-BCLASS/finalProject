@@ -91,7 +91,7 @@
                         <td></td>
                         <td class="groupTbTd itemLinst endTime">
                               <span class="material-icons">timer</span>
-                              <span class="endTimePlus">마감시간 설정</span>
+                              <span class="endTimePlus">마감일ㄴ 설정</span>
                         </td>
                       </tr>
                       <tr class="itemPlusTr">

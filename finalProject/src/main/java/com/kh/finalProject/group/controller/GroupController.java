@@ -250,7 +250,8 @@ public class GroupController {
 				@RequestParam(value = "groupName", required = false) String groupName,
 				@RequestParam(value = "member", required = false) String member,
 				@RequestParam(value = "gmNo", required = false) String gmNo,
-				@RequestParam(value = "beforeImg", required = false) String beforeImg) {
+				@RequestParam(value = "beforeImg", required = false) String beforeImg,
+				@RequestParam(value = "originImg", required = false) String originImg) {
 			System.out.println("수정 gm:" + gm);
 			Member m = (Member) session.getAttribute("loginUser");
 			System.out.println("그룹 수정 loginId : " + m.getId());
@@ -264,21 +265,25 @@ public class GroupController {
 			gt.setId(m.getId());
 
 			
-			
+			System.out.println("originImg : " + originImg);
+			System.out.println("beforeImg : " + beforeImg);
 			// 사진 삭제
-			if(beforeImg != null) {
+			if(originImg.equals("Y")) {
 				deleteGroupFile(beforeImg, request);
+				
+				// 사진 파일 저장
+				if (!file.getOriginalFilename().contentEquals("")) { // 빈파일이 아니라면
+					String savePath = SaveFile(file, request);
+					if (savePath != null) { // 파일이 잘 저장된 경우
+						gt.setgOrigin(file.getOriginalFilename());
+					}
+				}
 			}else {
 				System.out.println("기존 사진이 없습니다.");
+				gt.setgOrigin(beforeImg);
 			}
 			
-			// 사진 파일 저장
-			if (!file.getOriginalFilename().contentEquals("")) { // 빈파일이 아니라면
-				String savePath = SaveFile(file, request);
-				if (savePath != null) { // 파일이 잘 저장된 경우
-					gt.setgOrigin(file.getOriginalFilename());
-				}
-			}
+			
 			System.out.println("그룹 수정 gt : " + gt);
 			// GROUP_TABLE UPDATE
 			int result = gService.groupUpdate(gt);

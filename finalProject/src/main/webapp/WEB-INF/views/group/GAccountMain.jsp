@@ -160,7 +160,8 @@
         
         .total{
         	display:inline-block;
-        	width:150px;
+        	/* width:150px; */
+        	margin-right:18px;
         	color:#484848;
         	font-size:17px;
         	font-weight:400;
@@ -169,8 +170,10 @@
         	display:inline-block;
         	
         }
+        
+        #groupWrite{float:right;}
        
-         .join-form-area{top:-40px; padding-top:150px !important;position:relative; float: right;display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 40px; width: 81%; background: #F3F3F3; }
+         .join-form-area{ padding-top:150px !important;position:relative; float: right;display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 40px; width: 81%; background: #F3F3F3; }
 
          .alert{font-size:14px; color:gray; margin-top:-20px;}
          .proText{color:#2860E1; font-size:18px; font-weight:600;}
@@ -186,6 +189,7 @@
          
          .writeBtn{margin-left:80px;color:#aeaeae !important; font-size:50px !important; cursor:pointer; padding:0 !important;}
   		 .writeBtn:hover{margin-left:80px;color:#2860E1 !important; font-size:50px !important; cursor:pointer; padding:0 !important;}
+  		 .fc-event-title{font-weight:400 !important;     font-size: 14px;}
     </style>
 </head>
 
@@ -202,7 +206,7 @@
 			<jsp:include page="../common/sidenaviGroup.jsp"/>
 		</c:if>
         
-        <br><br>
+        
            <div class="join-form-area">
     
    <jsp:include page="../common/groupNoticeHeader.jsp"/>
@@ -212,94 +216,115 @@
         <h4 align="center">Account</h4><br>
         <h6 align="center" class="alert">Group Account는 그룹 관리자만 작성할 수 있습니다.</h6>
          <br>
-         
-                <div class="calBox">
-   
-                <table id="total">
-                    <tr>
-                    	<td>
-                    		<div class="totalBox proText">Profit : <div class="total pro"> </div></div>
-                    		<div class="totalBox expText">Expense : <div class="total exp"> </div></div>
-                    		<div class="totalBox feeText">Fee : <div class="total fee"> </div></div>
-                    		<div id="groupWrite"  ><span class="material-icons writeBtn">create</span></div>
-                    	</td>
-                    </tr>
-                </table>
+         		<c:if test="${empty checkList }">
+                <div class="calBox"  style="width:90%; margin-left:0px;">
+	                <table id="total">
+	                    <tr>
+	                    	<td>
+	                    		<div class="totalBox proText">Profit : <div class="total pro"> </div></div>
+	                    		<div class="totalBox expText">Expense : <div class="total exp"> </div></div>
+	                    		<div class="totalBox feeText">Fee : <div class="total fee"> </div></div>
+	                    		<div id="groupWrite"  ><span class="material-icons writeBtn">create</span></div>
+	                    	</td>
+	                    </tr>
+	                </table>
+	                
                 <br>
                   <div id='calendar'></div>
-                 </div>  
-   				
-     <div class="memoBox">
-     	<c:forEach var="c" items="${checkList }">
-	     	<div class="shareMemo">
-	     		<c:if test="${gInfo.loginUserId eq groupTable.id }">
-	     			<div class="cansle">x</div>
-	     		</c:if>
-	     		<table>
-	     			<input type="hidden" class="gaNo" value="${c.gaNo }">
-	     			
-	     			<tr>
-	     				<td style="font-weight:600;">Title : </td>
-	     				<td colspan="2">${c.gaTitle }</td>
-	     			</tr>
-	     			<tr>
-	     				<td style="font-weight:600;">Date : </td>
-	     				<td colspan="2">${c.gaDate }</td>
-	     			</tr>
-	     			<c:if test="${gInfo.loginUserId eq groupTable.id }">
-	     			<c:forEach var="m" items="${checkMemberList }">
-	     			<c:if test="${c.gaNo eq m.gaNo }">
-	     				<tr>
-	     					<input type="hidden" class="gamNo" value="${m.gamNo }">
-	     					<c:if test="${m.gamYn eq 'Y'}">
-	     						<td>
-	     							<input type="checkBox" class="memberCheck" checked>
-	     							<input type="hidden" class="checkYn"  name="gamYn" value="Y">
-	     						</td>
-	     					</c:if>
-	     					<c:if test="${m.gamYn eq 'N'}">
-	     						<td>
-	     							<input type="checkBox" class="memberCheck" >
-	     							<input type="hidden" class="checkYn" name="gamYn" value="N">
-	     						</td>
-	     					</c:if>
-	     					<td>${m.name } : </td>
-	     					<c:set var="amount" value="${m.gamAmount }"/>
-	     					<td><fmt:formatNumber value="${amount }" groupingUsed="true"/></td>
-	     				</tr>
-	     			</c:if>
-	     			</c:forEach>
-	     			</c:if>
-	     			<c:if test="${gInfo.loginUserId ne groupTable.id }">
-	     			<c:forEach var="m" items="${checkMemberList }">
-	     			<c:if test="${c.gaNo eq m.gaNo }">
-	     				<tr>
-	     					<input type="hidden" class="gamNo" value="${m.gamNo }">
-	     					<c:if test="${m.gamYn eq 'Y'}">
-	     						<td>
-	     							<input type="checkBox" class="memberCheck" checked disabled>
-	     							<input type="hidden" class="checkYn"  name="gamYn" value="Y">
-	     						</td>
-	     					</c:if>
-	     					<c:if test="${m.gamYn eq 'N'}">
-	     						<td>
-	     							<input type="checkBox" class="memberCheck" disabled>
-	     							<input type="hidden" class="checkYn" name="gamYn" value="N">
-	     						</td>
-	     					</c:if>
-	     					<td>${m.name } : </td>
-	     					<td>${m.gamAmount }</td>
-	     				</tr>
-	     			</c:if>
-	     			</c:forEach>
-	     			</c:if>
-	     		</table>
-	     	</div>
-     	</c:forEach>
-     </div>       
-	</div>
+                 </div> 
+                 </c:if> 
+                 <c:if test="${!empty checkList }">
+                <div class="calBox">
+	                <table id="total">
+	                    <tr>
+	                    	<td>
+	                    		<div class="totalBox proText">Profit : <div class="total pro"> </div></div>
+	                    		<div class="totalBox expText">Expense : <div class="total exp"> </div></div>
+	                    		<div class="totalBox feeText">Fee : <div class="total fee"> </div></div>
+	                    		<div id="groupWrite"  ><span class="material-icons writeBtn">create</span></div>
+	                    	</td>
+	                    </tr>
+	                </table>
+	                
+                <br>
+                  <div id='calendar'></div>
+                 </div> 
+                 </c:if> 
+                 
+	   			 <c:if test="${!empty checkList }">	
+			     <div class="memoBox">
+			     	<c:forEach var="c" items="${checkList }">
+				     	<div class="shareMemo">
+				     		<c:if test="${gInfo.loginUserId eq groupTable.id }">
+				     			<div class="cansle">x</div>
+				     		</c:if>
+				     		<table cellpadding="3px;">
+				     			<input type="hidden" class="gaNo" value="${c.gaNo }">
+				     			
+				     			<tr>
+				     				<td style="font-weight:600;">Title : </td>
+				     				<td colspan="2">${c.gaTitle }</td>
+				     			</tr>
+				     			<tr>
+				     				<td style="font-weight:600;">Date : </td>
+				     				<td colspan="2">${c.gaDate }</td>
+				     			</tr>
+				     			<c:if test="${gInfo.loginUserId eq groupTable.id }">
+				     			<c:forEach var="m" items="${checkMemberList }">
+				     			<c:if test="${c.gaNo eq m.gaNo }">
+				     				<tr>
+				     					<input type="hidden" class="gamNo" value="${m.gamNo }">
+				     					<c:if test="${m.gamYn eq 'Y'}">
+				     						<td>
+				     							<input type="checkBox" class="memberCheck" checked>
+				     							<input type="hidden" class="checkYn"  name="gamYn" value="Y">
+				     						</td>
+				     					</c:if>
+				     					<c:if test="${m.gamYn eq 'N'}">
+				     						<td>
+				     							<input type="checkBox" class="memberCheck" >
+				     							<input type="hidden" class="checkYn" name="gamYn" value="N">
+				     						</td>
+				     					</c:if>
+				     					<td>${m.name } : </td>
+				     					<c:set var="amount" value="${m.gamAmount }"/>
+				     					<td><fmt:formatNumber value="${amount }" groupingUsed="true"/></td>
+				     				</tr>
+				     			</c:if>
+				     			</c:forEach>
+				     			</c:if>
+				     			<c:if test="${gInfo.loginUserId ne groupTable.id }">
+				     			<c:forEach var="m" items="${checkMemberList }">
+				     			<c:if test="${c.gaNo eq m.gaNo }">
+				     				<tr>
+				     					<input type="hidden" class="gamNo" value="${m.gamNo }">
+				     					<c:if test="${m.gamYn eq 'Y'}">
+				     						<td>
+				     							<input type="checkBox" class="memberCheck" checked disabled>
+				     							<input type="hidden" class="checkYn"  name="gamYn" value="Y">
+				     						</td>
+				     					</c:if>
+				     					<c:if test="${m.gamYn eq 'N'}">
+				     						<td>
+				     							<input type="checkBox" class="memberCheck" disabled>
+				     							<input type="hidden" class="checkYn" name="gamYn" value="N">
+				     						</td>
+				     					</c:if>
+				     					<td>${m.name } : </td>
+				     					<td>${m.gamAmount }</td>
+				     				</tr>
+				     			</c:if>
+				     			</c:forEach>
+				     			</c:if>
+				     		</table>
+				     	</div>
+			     	</c:forEach>
+			     </div>
+			     </c:if>       
+			</div>
 
     <jsp:include page="../common/footer.jsp"/>
+   
     	
 	<!-- 작성하기 -->
 	 <script>

@@ -52,7 +52,7 @@
 	.emptyNoticeList{margin-top:100px; text-align:center; font-size:20px; font-weight:600;}
 	    
     /* 게시판 */
-    .groupNotice{width:100%; height:400px;overflow:scroll; overflow-x:hidden;}
+    .groupNotice{ width:100%; height:400px;overflow:scroll; overflow-x:hidden;}
     .noticeBoardTb{width:100%; margin-bottom:5px; background:white; border-radius:10px;}
     .noticeBoardTitle{display:inline-block; padding-top:20px; padding-left:5px;font-weight: 600; font-size: 20px;}
     
@@ -74,7 +74,7 @@
  
   	
   
-  	tr > td:nth-child(1) {
+  	.noticeBoardTb > tr > td:nth-child(1) {
         color: #484848;
         text-align: left;
         font-weight: 600;

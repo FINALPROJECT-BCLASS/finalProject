@@ -60,11 +60,7 @@ public class DailyController {
 		
 		String day = dailySet.format(date);
 		String month = monthlySet.format(date); // 오늘 날짜
-		
-		
-		System.out.println("오늘 날짜 : " + day);
-		System.out.println("이번 달 : " + month);
-		
+	
 		if(member != null) {
 			String id = member.getId();
 			
@@ -76,18 +72,10 @@ public class DailyController {
 			hsm.setId(id);
 			hsm.setHt_start(month);
 			
-//			System.out.println("daily habit : " + hs);
-//			System.out.println("monthly habit : " + hsm);
-			
 			ArrayList<Habit> list = dailyService.selectHabitList(id);			// 전체 목록 조회
 			ArrayList<HabitSum> sum = dailyService.selectHabitSumList(hs);		// daily 합계
 			ArrayList<HabitSum> Wsum = dailyService.selectHabitWSumList(id);	// weekly 합계
 			ArrayList<HabitSum> Msum = dailyService.selectHabitMSumList(hsm);	// monthly 합계
-			
-			
-//			System.out.println("daily sum : " + sum);
-//			System.out.println("weekly sum : " + Wsum);
-//			System.out.println("monthly sum : " + Msum);
 			
 			ArrayList<Habit> hlist = new ArrayList<Habit>();
 			
@@ -330,17 +318,10 @@ public class DailyController {
 		String htr_con = htr[2];
 		String htr_date = htr[3];
 		
-		System.out.println("으잉?" + htr[3]);
-		
-		
 		SimpleDateFormat dailySet = new SimpleDateFormat ("yyyy-MM-dd"); // 오늘 날짜 저장
-		
 		
 		Date date = new Date();
 		String day = dailySet.format(date);
-		
-		System.out.println("오늘 날짜 : " + day);
-		
 		
 		HabitRecord hr = new HabitRecord();
 		hr.setHt_no(ht_no);
@@ -353,13 +334,9 @@ public class DailyController {
 		}else {
 			hr.setHtr_date(htr_date);
 		}
-	        
-		System.out.println("확인" + hr);
 		
 	    int result = dailyService.insertHabitRecord(hr);
 	    // 업데이트 된 습관기록 불러오기
-//	    HabitRecord HR = dailyService.selectHabitRecord(hr);
-//	    System.out.println("hr확인" + HR);
 	    
 	    if(result > 0) {
 	    	out.print("success");
@@ -381,7 +358,6 @@ public class DailyController {
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		
-//		System.out.println("나는 확인을 할 거야 : " +habit);
 		int result = dailyService.updateHabitComment(habit);
 		
 		
@@ -496,157 +472,144 @@ public class DailyController {
 		
 	}
 	
-@RequestMapping("graphView.do")
-public ModelAndView graphView(ModelAndView mv, HttpServletRequest request) {
-		
+	// 습관 그래프
+	@RequestMapping("graphView.do")
+	public ModelAndView graphView(ModelAndView mv, HttpServletRequest request) {
+			
+			HttpSession session = request.getSession();
+			Member member = (Member)session.getAttribute("loginUser");
+			
+			SimpleDateFormat dailySet = new SimpleDateFormat ("yy/MM/dd"); // 오늘 날짜 저장
+			SimpleDateFormat monthlySet = new SimpleDateFormat ("yy/MM");
+			
+			Date date = new Date();
+			
+			String day = dailySet.format(date);
+			String month = monthlySet.format(date); // 오늘 날짜
+	
+			if(member != null) {
+				String id = member.getId();
+				
+				Habit hs = new Habit();
+				hs.setId(id);
+				hs.setHt_start(day);
+				
+				Habit hsm = new Habit();
+				hsm.setId(id);
+				hsm.setHt_start(month);
+				
+				ArrayList<Habit> list = dailyService.selectHabitList(id);			// 전체 목록 조회
+				ArrayList<HabitSum> sum = dailyService.selectHabitSumList(hs);		// daily 합계
+				ArrayList<HabitSum> Wsum = dailyService.selectHabitWSumList(id);	// weekly 합계
+				ArrayList<HabitSum> Msum = dailyService.selectHabitMSumList(hsm);	// monthly 합계
+				
+				ArrayList<Habit> hlist = new ArrayList<Habit>();
+				
+				for(Habit h : list) {
+					
+					if(h.getHt_cycle().equals("Daily")) {
+						for(HabitSum hS : sum) {
+							if(hS.getHt_no() == h.getHt_no()) {
+								h.setHt_now(hS.getHt_now());
+							}
+	
+						}
+					}else if(h.getHt_cycle().equals("Weekly")) {
+						for(HabitSum whS : Wsum) {
+							if(whS.getHt_no() == h.getHt_no()) {
+								h.setHt_now(whS.getHt_now());
+							}
+						}
+						
+					}else if(h.getHt_cycle().equals("Monthly")) {	
+						
+						for(HabitSum mhS : Msum) {
+							if(mhS.getHt_no() == h.getHt_no()) {
+								h.setHt_now(mhS.getHt_now());
+							}
+						}
+					}
+					
+					hlist.add(h);
+				}
+	
+				if(list != null) {
+					mv.addObject("hlist", hlist);
+					mv.setViewName("daily/habitTrackerGraph");
+				} else {
+					mv.addObject("message", "목록이 없습니다. 추가해 주세요.");
+					mv.setViewName("daily/habitTrackerGraph");
+				}
+			
+			}else {
+				
+				mv.addObject("msg","로그인 하셔야 이용할 수 있는 서비스 입니다.");
+	            mv.addObject("url","/memberLoginView.do");
+				mv.setViewName("common/redirect");
+			}
+			
+			return mv;
+					
+		}
+	
+	// 습관 지우기
+	@RequestMapping("deleteHabit.do")
+	public String deleteHabit(HttpServletRequest request,
+									@RequestParam(value = "ht_no", required = false) String ht_no) {
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
 		
-		SimpleDateFormat dailySet = new SimpleDateFormat ("yy/MM/dd"); // 오늘 날짜 저장
-		SimpleDateFormat monthlySet = new SimpleDateFormat ("yy/MM");
+		String id = member.getId();
 		
-		Date date = new Date();
+		//map으로 가져가서 확인
+		HashMap<String, String> map = new HashMap<>();
+		map.put("id", id);
+		map.put("ht_no", ht_no);
 		
-		String day = dailySet.format(date);
-		String month = monthlySet.format(date); // 오늘 날짜
+		int result = dailyService.deleteHabit(map);
+		
+		if(result > 0) {
+			return "redirect:htList.do";
+		} else {
+			return "redirect:htList.do";
+		}
 		
 		
-		System.out.println("오늘 날짜 : " + day);
-		System.out.println("이번 달 : " + month);
+	}
+	
+	// 습관 수정 폼
+	@RequestMapping("editHabitView.do")
+	public ModelAndView editHabitView(ModelAndView mv, HttpServletRequest request, @RequestParam(value = "ht_no", required = false) int ht_no) {
+	
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
 		
-		if(member != null) {
-			String id = member.getId();
-			
-			Habit hs = new Habit();
-			hs.setId(id);
-			hs.setHt_start(day);
-			
-			Habit hsm = new Habit();
-			hsm.setId(id);
-			hsm.setHt_start(month);
-			
-			System.out.println("daily habit : " + hs);
-			System.out.println("monthly habit : " + hsm);
-			
-			ArrayList<Habit> list = dailyService.selectHabitList(id);			// 전체 목록 조회
-			ArrayList<HabitSum> sum = dailyService.selectHabitSumList(hs);		// daily 합계
-			ArrayList<HabitSum> Wsum = dailyService.selectHabitWSumList(id);	// weekly 합계
-			ArrayList<HabitSum> Msum = dailyService.selectHabitMSumList(hsm);	// monthly 합계
-			
-			
-			System.out.println("daily sum : " + sum);
-			System.out.println("weekly sum : " + Wsum);
-			System.out.println("monthly sum : " + Msum);
-			
-			ArrayList<Habit> hlist = new ArrayList<Habit>();
-			
-			for(Habit h : list) {
-				
-				if(h.getHt_cycle().equals("Daily")) {
-					for(HabitSum hS : sum) {
-						if(hS.getHt_no() == h.getHt_no()) {
-							h.setHt_now(hS.getHt_now());
-						}
-
-					}
-				}else if(h.getHt_cycle().equals("Weekly")) {
-					for(HabitSum whS : Wsum) {
-						if(whS.getHt_no() == h.getHt_no()) {
-							h.setHt_now(whS.getHt_now());
-						}
-					}
-					
-				}else if(h.getHt_cycle().equals("Monthly")) {	
-					
-					for(HabitSum mhS : Msum) {
-						if(mhS.getHt_no() == h.getHt_no()) {
-							h.setHt_now(mhS.getHt_now());
-						}
-					}
-				}
-				
-				hlist.add(h);
-			}
-			
-			System.out.println("목록 확인 :" + hlist);
-
-			if(list != null) {
-				mv.addObject("hlist", hlist);
-				mv.setViewName("daily/habitTrackerGraph");
-			} else {
-				mv.addObject("message", "목록이 없습니다. 추가해 주세요.");
-				mv.setViewName("daily/habitTrackerGraph");
-			}
+		String id = member.getId();
 		
-		}else {
-			
-			mv.addObject("msg","로그인 하셔야 이용할 수 있는 서비스 입니다.");
-            mv.addObject("url","/memberLoginView.do");
+		Habit habit = new Habit();
+		habit.setHt_no(ht_no);
+		habit.setId(id);
+		
+		Habit h = dailyService.selectHabitNum(habit);
+		
+		System.out.println("잘 조회해 오나? " + h);
+	
+		if(h != null) {
+			mv.addObject("habit", h);
+			mv.setViewName("daily/habitEdit");
+		} else {
+			mv.addObject("msg","조회 실패");
+	        mv.addObject("url","/htList.do");
 			mv.setViewName("common/redirect");
 		}
 		
 		return mv;
-				
-	}
-
-@RequestMapping("deleteHabit.do")
-public String deleteHabit(HttpServletRequest request,
-								@RequestParam(value = "ht_no", required = false) String ht_no) {
-	HttpSession session = request.getSession();
-	Member member = (Member)session.getAttribute("loginUser");
 	
-	String id = member.getId();
-	
-	System.out.println("받아오니?" + id);
-	System.out.println("넘어오니?" + ht_no);
-	
-	//map으로 가져가서 확인해주자
-	HashMap<String, String> map = new HashMap<>();
-	map.put("id", id);
-	map.put("ht_no", ht_no);
-	
-	int result = dailyService.deleteHabit(map);
-	
-	if(result > 0) {
-		return "redirect:htList.do";
-	} else {
-		return "redirect:htList.do";
 	}
 	
-	
-}
-
-@RequestMapping("editHabitView.do")
-public ModelAndView editHabitView(ModelAndView mv, HttpServletRequest request, @RequestParam(value = "ht_no", required = false) int ht_no) {
-
-	HttpSession session = request.getSession();
-	Member member = (Member)session.getAttribute("loginUser");
-	
-	String id = member.getId();
-	
-	Habit habit = new Habit();
-	habit.setHt_no(ht_no);
-	habit.setId(id);
-	
-	Habit h = dailyService.selectHabitNum(habit);
-	
-	System.out.println("잘 조회해 오나? " + h);
-
-	if(h != null) {
-		mv.addObject("habit", h);
-		mv.setViewName("daily/habitEdit");
-	} else {
-		mv.addObject("msg","조회 실패");
-        mv.addObject("url","/htList.do");
-		mv.setViewName("common/redirect");
-	}
-	
-	return mv;
-
-}
-
-@RequestMapping(value="selectGraphData.do" , method=RequestMethod.POST)
-public void selectGraphData(HttpServletResponse response, HttpServletRequest request, String ht_no, String ht_cycle, String today) throws IOException {
+	// 그래프 화면
+	@RequestMapping(value="selectGraphData.do" , method=RequestMethod.POST)
+	public void selectGraphData(HttpServletResponse response, HttpServletRequest request, String ht_no, String ht_cycle, String today) throws IOException {
 		System.out.println(ht_no + ht_cycle + today);
 		
 		response.setContentType("application/json;charset=utf-8");
@@ -737,8 +700,6 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		
 		bookmark = dailyService.selectBookmarkGroupList(id);
 		
-		System.out.println("잘 불러옵니까?" + bookmark);
-		
 		if(bookmark != null) {
 			
 			mv.addObject("ubNum", ubNum);
@@ -754,6 +715,7 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		return mv;
 	}
 	
+	// 북마크 그룹 추가 폼
 	@RequestMapping("addBookmarkView.do")
 	public String addbookmarkView() {
 		
@@ -766,9 +728,6 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 								HttpServletRequest request, HttpServletResponse response,
 								@RequestParam(value="file", required=false) MultipartFile file) {
 		
-		System.out.println("받아온 bm" + bm);
-		
-		
 		HttpSession session = request.getSession();
 		Member member = (Member) session.getAttribute("loginUser");
 		String id = member.getId();
@@ -780,8 +739,7 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 			
 			bm.setBl_origin(file.getOriginalFilename());
 			bm.setBl_rename(renameFile);
-			
-//			System.out.println("새로 세팅한 bm :" + bm);
+
 		}
 		
 		int result = dailyService.insertBookmarkGroup(bm);
@@ -901,14 +859,11 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 			
 	}
 	
+	// 북마크 그룹 수정
 	@RequestMapping("editBookmark.do")
 	public String updateBookmark(Bookmark bm, Model model,
 								HttpServletRequest request, HttpServletResponse response,
 								@RequestParam(value="file", required=false) MultipartFile file) {
-		
-		
-//		System.out.println("받아온 bm " + bm);
-//		System.out.println("file " + file);
 		
 		HttpSession session = request.getSession();
 		Member member = (Member) session.getAttribute("loginUser");
@@ -921,9 +876,6 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		
 		String rFile = bm.getBl_rename();
 		String oFile = bm.getBl_origin();
-		
-//		System.out.println("원래 리네임 파일" + rFile);
-//		System.out.println("원래 오리진 파일" + oFile);
 		
 		// 프로필 사진 저장
 		if(!file.getOriginalFilename().equals("")) {
@@ -1030,8 +982,6 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		
 		ub.setId(id);
 		
-//		System.out.println("ub 값 어떻게 들어오나? :" + ub);
-		
 		int result = dailyService.insertBookmarkUrl(ub);
 		
 		if(result > 0) {
@@ -1066,8 +1016,6 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		bm.setId(id);
 		
 		ArrayList<BookmarkMap> mblist = dailyService.selectBookmarkMapList(bm);
-		
-//		System.out.println("널인지?" + mblist);
 		
 		JSONArray mbList = new JSONArray();
 			
@@ -1112,13 +1060,6 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		bm.setId(id);
 		
 		BookmarkMap bmMap = dailyService.selectBookmarkMap(bm);
-		
-//		String mb_address[] = bmMap.getMb_address().split("_");
-//        
-//        for(int i=0 ; i<mb_address.length ; i++) {
-//            System.out.println("mb_address["+i+"] : "+mb_address[i]);
-//        }
-		
 		
 		JSONObject jObj = new JSONObject();
 		
@@ -1221,8 +1162,6 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		String id = member.getId();
 		
 		bm.setId(id);
-		
-//		System.out.println("bm : " + bm);
 		
 		int result = dailyService.deleteBookmarkMap(bm);
 		
@@ -1371,8 +1310,6 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		
 		bu.setId(id);
 		
-		System.out.println("bu : " + bu);
-		
 		int result = dailyService.deleteBookmarkUrl(bu);
 		
 		System.out.println(result);
@@ -1409,18 +1346,17 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		
 		ArrayList<DailyRecord> drlist = dailyService.selectDailyRecordList(id, pi);
 		
-		System.out.println("1페이지 : " + drlist);
-		
 		if(drlist != null) {
 			
 			mv.addObject("pi", pi);
 			mv.addObject("drlist", drlist);
 			mv.setViewName("daily/dailyRecordBoard");
 			
-		}else {
+		} else {
 			
-//			mv.addObject("drlist", drlist);
-//			mv.setViewName("daily/dailyRecordBoard");
+			mv.addObject("msg","오류 발생");
+			mv.addObject("url","/editBookmarkUrlView.do");
+			mv.setViewName("common/redirect");
 			
 		}
 		
@@ -1465,7 +1401,7 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		
 		String dr_no = "";
 		
-		ArrayList<DailyRecord> drlist = dailyService.selectDailyRecordList_a(id);
+		ArrayList<DailyRecord> drlist = dailyService.selectDailyRecordList_a();
 
 		if(dr_no_before.equals("undefined")) {	
 			
@@ -1546,24 +1482,17 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 	public ModelAndView dailyRecordDetailView(ModelAndView mv, HttpServletRequest request
 										, @RequestParam(value="dr_no", required=true) String dr_no) {
 		
-//		System.out.println(dr_no);
-		
 		HttpSession session = request.getSession();
 		Member member = (Member) session.getAttribute("loginUser");
 		
 		String id = member.getId();
 		
-		//map으로 가져가서 확인해주자
 		HashMap<String, String> map = new HashMap<>();
 		map.put("id", id);
 		map.put("dr_no", dr_no);
 		
 		DailyRecord dr = dailyService.selectDailyRecord(map);
 		ArrayList<DailyRecordPhoto> drplist = dailyService.selectDailyRecordPhotoList(dr_no);
-		
-//		System.out.println("dr : " + dr);
-//		System.out.println("drplist : " + drplist);
-		
 		
 		mv.addObject("drplist", drplist);
 		mv.addObject("dr", dr);
@@ -1579,10 +1508,6 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 										, @RequestParam(value="drp_rename", required=false) String drp_rename
 										, @RequestParam(value="drp_no", required=false) String drp_no) {
 		
-//		System.out.println("drp_rename" + drp_rename);
-//		System.out.println("drp_no" + drp_no);
-//		System.out.println("dr : " + dr);
-
 		mv.addObject("drp_no", drp_no);
 		mv.addObject("drp_rename", drp_rename);
 		mv.addObject("dr", dr);
@@ -1596,8 +1521,6 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 										, @RequestParam(value="drp_left", required=false) String left_name
 										, @RequestPart(value="file", required=false) List<MultipartFile> file
 										, @RequestParam(value="remove_no", required=false) String remove_no) {
-		
-//		System.out.println("dr : " + dr);
 		
 		HttpSession session = request.getSession();
 		Member member = (Member) session.getAttribute("loginUser");
@@ -1731,9 +1654,6 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		
 		String id = member.getId();
 		
-//		System.out.println("dr_no : " + dr_no);
-		
-		//map으로 가져가서 확인해주자
 		HashMap<String, String> map = new HashMap<>();
 		map.put("id", id);
 		map.put("dr_no", dr_no);
@@ -1763,14 +1683,10 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		Member member = (Member)session.getAttribute("loginUser");
 		
 		String id = member.getId();
-		
-//		System.out.println("에이작스 : " + dr_no);
-		
+
 		int result = 0;
 		
 		for(String dr_no_a : dr_no) {
-			
-			System.out.println("dr_no_a : " + dr_no_a);
 			
 			HashMap<String, String> map = new HashMap<>();
 			map.put("id", id);
@@ -1801,10 +1717,6 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 												, @RequestParam(value="date", required=false) String date
 												, @RequestParam(value="page", required=false) Integer page) {
 		
-		System.out.println("select_item : " + select_item);
-		System.out.println("title : " + title);
-		System.out.println("date : " + date);
-		
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
 		String id = member.getId();
@@ -1827,8 +1739,6 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 		
 		ArrayList<DailyRecord> drlist = dailyService.selectDailyRecordSearchList(map, pi);
 		
-		System.out.println("1페이지 : " + drlist);
-		
 		if(drlist != null) {
 			mv.addObject("pi", pi);
 			mv.addObject("drlist", drlist);
@@ -1836,8 +1746,7 @@ public void selectGraphData(HttpServletResponse response, HttpServletRequest req
 			
 		}else {
 			
-//			mv.addObject("drlist", drlist);
-//			mv.setViewName("daily/dailyRecordBoard");
+			mv.setViewName("daily/dailyRecordBoard");
 			
 		}
 		

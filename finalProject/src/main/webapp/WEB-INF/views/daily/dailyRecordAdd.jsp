@@ -204,11 +204,11 @@
                 <table cellpadding="6px">
                     <tr>
                         <td>Title</td>
-                        <td><input type="text" id="dr_title" name="dr_title" maxlength="16"></td>
+                        <td><input type="text" id="dr_title" name="dr_title" maxlength="16" required></td>
                     </tr>
                     <tr>
                         <td>Date</td>
-                        <td><input type="date" id="dr_date" name="dr_date"></td>
+                        <td><input type="date" id="dr_date" name="dr_date" required></td>
                     </tr>
                     <tr>
                         <td>Weather</td>

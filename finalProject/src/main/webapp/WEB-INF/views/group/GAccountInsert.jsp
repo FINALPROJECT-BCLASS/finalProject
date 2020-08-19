@@ -31,7 +31,7 @@
     .expense{display:none;}
     
     
-    .searchList{display:none;}
+    .searchList{display:none; overflow-y: scroll; height:200px;}
     .search{border:none; border-radius: 6px;  background:white;}
     .searchImg{width:20px; height:20px;}
     #search{width:85%; border:none; }
@@ -68,7 +68,7 @@
     .backgroundWhite{background:white;border:none; border-radius: 6px; }
     .amount{display: inline-block; width:90%; border:none;}
 
-    #groupCon{width:100%; border:none; padding-left:10px;}
+    #groupCon{width:100%; border:none; padding-left:10px;resize: none;}
     .textArea{border:none; border-radius: 6px;  background:white;}
     .comment{color:grey; display: inline-block; font-size: medium;}
 	.textTitle{font-weight:800;}
@@ -125,12 +125,12 @@
                     	<input type="hidden" id="deleteYn" name="gaDelete" value="N">
                         <tr>
                             <td class="groupTbTd">Title&nbsp;</td>
-                            <td><input type="text" name="gaTitle" id="title" placeholder="  제목 입력"></td>
+                            <td><input type="text" name="gaTitle" id="title" placeholder="  제목 입력" required></td>
                         </tr>
                         <tr>
                             <td class="groupTbTd">Date&nbsp;</td>
                             <td>
-                                <input type="date" name="gaDate" class="date" value="${clickDate }"> 
+                                <input type="date" name="gaDate" class="date" value="${clickDate }" required> 
                                  
                                 
                             </td>
@@ -161,7 +161,7 @@
                             <td style="height:100px;">
                                 <div class="searchNameAfter">
                                     &nbsp;&nbsp;Click and remove NameBox.<br>
-                                    
+                                    <div class="amountMember"></div>
                                 </div>
                             </td>
                         </tr>
@@ -188,7 +188,7 @@
             </div>
          </div>
          </div>
-         
+
           <!-- 뒤로가기 버튼 -->
 		 <script>
 		 	function goBack(){
@@ -227,7 +227,31 @@
          <!-- submit -->
          <script>
          	$("#submit").click(function(){
-         		$("#accountForm").submit();
+         		var amountYn = 'N';
+         		$('.amountBox').each(function(){
+         		    if($(this).val() == "" || $(this).val() == null){
+         		    	amountYn = 'Y';
+         		    }
+         		    
+         		});
+         		
+         		if(amountYn == 'Y'){
+					alert("금액을 입력해주세요.");         			
+         		}else {
+         		
+         			if($("#title").val() == ""){
+         				alert("제목을 입력해주세요.");
+         			}else if($("#grouopCon").val() == ""){
+         				alert("내용을 입력해주세요.");
+         				
+         			}else if($(".amountMember").html() == ""){
+         				alert("멤버를 입력해주세요.");
+         			}else{
+         				
+		       			$("#accountForm").submit();
+         			}
+         			
+         		}
          	})
          </script>
          
@@ -263,14 +287,16 @@
            	 $(document).on("click",".searchClick",function(){
                 var $searchName = $(this).children().html();
                 var $gmNo = $(this).children().next().next().val();
-                var $searchNameAfter = $(".searchNameAfter");
+                var $searchNameAfter = $(".amountMember");
                 var $searchNameBox = " <button type='button' class='searchNameBox'>" +
                 "<div class='amountName'>"+$searchName+"</div>" +
-                "<input type='text' class='amountBox' name='gamAmount' placeholder='Enter the amount here'>"+
+                "<input type='text' class='amountBox' name='gamAmount' placeholder='Enter the amount here' >"+
                 "<input type='hidden' name='gmNo' value='"+$gmNo+"' ></button>";
                 
+                
                 $searchNameAfter.append($searchNameBox);
-				$(this).remove();
+                
+                $(this).remove();
                 
             })
             //  클릭된 이름 삭제

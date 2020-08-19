@@ -210,9 +210,24 @@ public class MemberController {
 	}
 	
 	// 회원정보 수정 화면
-	@RequestMapping(value="myInfoView.do", method=RequestMethod.GET)
-	public String myInfoView() {
-		return "member/infoView";
+	@RequestMapping(value="myInfoView.do", method=RequestMethod.POST)
+	public String myInfoView(Member m, Model model) {
+		
+		Member member = mService.selectOne(m);
+		
+		if(member != null && bcryptPasswordEncoder.matches(m.getPwd(), member.getPwd())) {
+		
+			return "member/infoView";
+						
+		}else {
+			
+		    model.addAttribute("msg","정보가 일치하지 않습니다. 다시 시도해 주세요.");
+		    model.addAttribute("url","/myInfoCheckView.do");
+				
+			return "common/redirect";
+		}
+
+		
 	}
 	
 	// 회원정보 수정
@@ -305,11 +320,6 @@ public class MemberController {
 			}	
 			
 			
-
-//            model.addAttribute("url","/home.do");
-//            
-//			return "common/redirect";
-//			
 		}else {
 			
 			//회원가입 실패
@@ -402,14 +412,42 @@ public class MemberController {
 	    	
 	    }
 		
-		alert = "메일로 임시 비밀번호가 발송되었습니다.";	
+		alert = "메일로 임시 비밀번호가 발송되었습니다. 로그인하여 비밀번호를 재설정해 주세요.";	
 		return alert;
 				
 	}
 	
+	@RequestMapping("findId.do")
+	public void findId(Member m,
+				Model model,
+				HttpServletRequest request,
+				HttpServletResponse response) throws IOException {
+			
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		Member member = mService.selectOneFindId(m);
+		
+		if(member == null) {
+			
+			out.print("입력하신 정보와 일치하는 아이디가 없습니다.");
+			out.flush();
+			out.close();
+			
+		}else {
+			
+			out.print("회원님의 아이디는 " + member.getId() + " 입니다.");
+			out.flush();
+			out.close();
+		}
+		
+	}
 	
-	
-	
+	@RequestMapping("myInfoCheckView.do")
+	public String myInfoCheckView() {
+		
+		return "member/infoCheck";
+	}
 	
 	
 	
