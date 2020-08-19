@@ -1030,6 +1030,15 @@
 		AND OUT_YN = 'N'
 	</select>
 	
+	<select id="searchNameAccountTotal" parameterType="GroupSearchName" resultMap="groupMemberResultSet">	
+		SELECT GM_ID, NAME, GM_NO
+		FROM MEMBER M
+        JOIN GROUP_MEMBER GM ON(GM.GM_ID = M.ID)
+		WHERE G_NO = #{gNo}
+		AND GM_DELETE = 'N'
+		AND OUT_YN = 'N'
+	</select>
+	
 	<update id="updateAccount" parameterType="GroupAccount">
 		UPDATE GROUP_ACCOUNT
 		SET G_NO = #{gNo},

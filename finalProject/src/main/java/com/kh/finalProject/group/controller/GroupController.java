@@ -1783,6 +1783,28 @@ public class GroupController {
 
 		}
 		
+		// 가계부생성 이름검색
+		@RequestMapping(value = "searchNameAccountTotal.do", method = RequestMethod.GET)
+		public void searchNameAccountTotal(HttpSession session, HttpServletResponse response, String searchName)
+				throws JsonIOException, IOException {
+			Member loginUser = (Member) session.getAttribute("loginUser");
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+					
+			gSearch.setLoginUserId(loginUser.getId());
+			gSearch.setSearchName(searchName);
+			gSearch.setgNo(gInfo.getGroupNo());
+			
+			ArrayList<Member> list = gService.searchNameAccountTotal(gSearch);
+	
+			System.out.println("가계부 전체 검색 : " + list);
+	
+			response.setContentType("application/json;charset=utf-8");
+	
+			Gson gson = new GsonBuilder().setDateFormat("yyyy년 MM월 dd일").create();
+			gson.toJson(list, response.getWriter());
+	
+		}
+		
 		// 가계부 메인 금액
 		@RequestMapping("accountList.do")
 		public void accountList(HttpSession session, HttpServletResponse response) throws IOException {
