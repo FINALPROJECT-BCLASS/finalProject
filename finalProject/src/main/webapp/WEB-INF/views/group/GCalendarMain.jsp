@@ -689,13 +689,21 @@
 		}) */
 		
 		$("#insertBtn").click(function(){
-			   $("#insertForm").submit(); 
+			if($("#addTitle").val() == ""){
+				alert("제목을 입력해주새요.");				
+			}else{
+			   $("#insertForm").submit(); 				
+			}
 		})
 	</script>
 	
 	 <script>
 		$("#updatePlanBtn").click(function(){
-			$("#updatePlan").submit();
+			if($("#updateTitle").val() == ""){
+				alert("제목을 입력해주새요.");				
+			}else{
+				$("#updatePlan").submit();
+			}
 		})
 	</script>
 	

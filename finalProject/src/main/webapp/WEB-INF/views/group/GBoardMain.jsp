@@ -111,8 +111,8 @@
         <div class="btnList">
             <button class="groupBtn noticeBtn" onclick="location.href='noticeMain.do'">Notice</button>
             <button class="groupBtn BoardBtn" onclick="location.href='boardMain.do'">Board</button>
-            <button class="groupBtn PhotoBtn">Photo</button>
-            <button class="groupBtn VideoBtn">Video</button>
+            <!-- <button class="groupBtn PhotoBtn">Photo</button>
+            <button class="groupBtn VideoBtn">Video</button> -->
     	</div>
      	
      	<br>
