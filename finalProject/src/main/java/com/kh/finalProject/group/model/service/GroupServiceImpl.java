@@ -520,6 +520,16 @@ public class GroupServiceImpl implements GroupService{
 		return gDao.deleteGroup(groupNo);
 	}
 
+	@Override
+	public ArrayList<Member> searchNameAccountTotal(GroupSearchName gSearch) {
+		return gDao.searchNameAccountTotal(gSearch);
+	}
+
+	@Override
+	public ArrayList<Member> searchTotalName(GroupSearchName gSearch) {
+		return gDao.searchTotalName(gSearch);
+	}
+
 	
 
 

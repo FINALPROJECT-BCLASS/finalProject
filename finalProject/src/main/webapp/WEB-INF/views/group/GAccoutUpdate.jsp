@@ -41,7 +41,7 @@
     .searchClick:hover{background:darkgray; color:#F3F3F3; cursor:pointer;}
     /* .searchName:hover{background:#2860E1; color:#F3F3F3;} */
     
-    
+    .search{cursor:pointer;}
 
     .searchNameAfter{background:white; border:none; border-radius: 6px;  height:100px; color:darkgray; height:150px; width:600px; overflow:scroll;  overflow-x:hidden;}
     
@@ -170,7 +170,7 @@
                                 <div class="search">
                                      <span class="material-icons">face</span>
                                     <input type="text" id="search" placeholder="참여명 검색">
-                                    <span class="material-icons">search</span>
+                                    <span class="material-icons search">search</span>
                                     <div class="searchList">
                                     </div>
                                 </div>
@@ -180,6 +180,7 @@
                             <td class="groupTbTd">Member</td>
                             <td style="height:100px;">
                                 <div class="searchNameAfter">
+                                  &nbsp;&nbsp;Click and remove NameBox.<br>
                                 	<div class="amountMember">
 	                                    <c:forEach var="gam" items="${gamList }">
 	                                    <button type='button' class='searchNameBox'>
@@ -197,7 +198,7 @@
                         <tr>
                             <td class="groupTbTd"><div class="amount">Total Amount&nbsp;</div></td>
                             <td>
-                                <div class="backgroundWhite"><span class="material-icons">add</span><input type="text" name="gaAmount" class="amount" value="${totalAmount }"></div>
+                                <div class="backgroundWhite"><span class="material-icons">add</span><input type="text" name="gauAmount" class="amount" value=""></div>
                             </td>
                         </tr>
                         <c:if test="${gaList.gaFee eq 'Y' }">
@@ -228,6 +229,16 @@
          </div>
          <!-- 합계 -->
          <script>
+	         
+	         $(document).ready(function(){
+	        	 var sum = 0;
+	      		$('.amountBox').each(function(){
+	      		    sum += parseInt(this.value);
+	      		});
+	      		
+	      		$(".amount").val(sum);
+	         })
+	         
          	$(document).on("keyup",".amountBox",function(){
          		var sum = 0;
          		$('.amountBox').each(function(){
@@ -237,6 +248,10 @@
          		
          		$(".amount").val(sum);
          	})
+         	
+         	
+         	
+         	
          </script>
          
          <!-- Sharing -->
@@ -254,7 +269,7 @@
 	         })
          </script>
          
-         <!-- submit -->
+          <!-- submit -->
          <script>
          	$("#submit").click(function(){
          		var amountYn = 'N';
@@ -263,7 +278,7 @@
          		    	amountYn = 'Y';
          		    }
          		    
-         		});
+         		}); 
          		
          		if(amountYn == 'Y'){
 					alert("금액을 입력해주세요.");         			
@@ -274,16 +289,16 @@
          			}else if($("#grouopCon").val() == ""){
          				alert("내용을 입력해주세요.");
          				
-         			}else if($(".amountMember").html() == ""){
+         			}else if($(".amount").val() == 0){
          				alert("멤버를 입력해주세요.");
-         			}else{
-         				
-		       			$("#accountForm").submit();
+         			}else {
+		       			$("#accountForm").submit(); 
          			}
          			
          		}
          	})
          </script>
+         
 
          
          <!-- 라디오 박스 선택 -->
@@ -330,17 +345,33 @@
             }) 
             //  클릭된 이름 삭제
              $(document).on("click",".amountName",function(){
-                var who = $(this).parent("button");
-                console.log("who :" + who);
-                who.hide();
-                $(".gamDelete").val("Y");
-                   })
+	                var who = $(this).parent("button");
+	                console.log("who :" + who);
+	                if($(this).next().next().hasClass("gamDelete")){
+	                	who.remove();
+	                	var sum = 0;
+	             		$('.amountBox').each(function(){
+	             		    sum += parseInt(this.value);
+
+	             		});
+	             		
+	             		$(".amount").val(sum);
+	                }else{
+	                	who.remove();
+	                	var sum = 0;
+	             		$('.amountBox').each(function(){
+	             		    sum += parseInt(this.value);
+	             		});
+	             		
+	             		$(".amount").val(sum);
+	                }
+                  })
          </script>
          
           <!-- 이름 검색  -->
          <script>
          	$(function(){
-
+ 
          		$("#search").keyup(function(){
          			$(".searchList").css("display","block");
          			var searchName = $("#search").val();
@@ -350,6 +381,54 @@
          				data:{searchName:searchName,gaNo:gaNo},
          				dataType:"json",
          				success:function(data){
+         					 var $search = $(".searchList");
+         					 $search.empty();
+         					
+         					
+         					for(i in data){
+         						
+	         					var $searchList = $(".searchList");
+	         					var $searchClick = $("<div>").attr("class","searchClick");
+	         					var $searchName = $("<div>").text(data[i].name).attr("class","searchName");
+	         					var $searchId = $("<span>").text(data[i].gmId).attr("class","searchId");
+	         					var $gmNo = $(' <input type="hidden" class="gmNo" value="'+data[i].gmNO+'">');
+       						
+	         					
+	         					$searchList.append($searchClick);
+	         					$searchClick.append($searchName);
+	         					$searchClick.append("&nbsp;");
+	         					$searchClick.append($searchId);
+	         					$searchClick.append($gmNo);
+
+	         				
+	         					}
+         					
+         				},
+         				error:function(request, status, errorData){
+							alert("error code: " + request.status + "\n"
+									+"message: " + request.responseText
+									+"error: " + errorData);
+						}
+         			})
+         		})
+         	})
+         
+         </script>
+
+         <!-- 전체 이름 검색  -->
+         <script>
+         	$(function(){
+ 
+         		$(".search").click(function(){
+         			$(".searchList").css("display","block");
+         			var searchName = $("#search").val();
+         			var gaNo = $("#gaNo").val();
+         			$.ajax({
+         				url:"searchNameAccountTotal.do",
+         				data:{searchName:searchName,gaNo:gaNo},
+         				dataType:"json",
+         				success:function(data){
+         					 
          					 var $search = $(".searchList");
          					 $search.empty();
          					

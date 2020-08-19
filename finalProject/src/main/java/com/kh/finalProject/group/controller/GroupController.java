@@ -126,6 +126,25 @@ public class GroupController {
 		gson.toJson(list, response.getWriter());
 
 	}
+	
+	// 그룹생성 전체 이름검색
+	@RequestMapping(value = "searchTotalName.do", method = RequestMethod.GET)
+	public void searchTotalName(HttpSession session, HttpServletResponse response, String searchName)
+			throws JsonIOException, IOException {
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		gSearch.setLoginUserId(loginUser.getId());
+		gSearch.setSearchName(searchName);
+
+		ArrayList<Member> list = gService.searchTotalName(gSearch);
+
+		System.out.println("그룹 전체 검색 : " + list);
+
+		response.setContentType("application/json;charset=utf-8");
+
+		Gson gson = new GsonBuilder().setDateFormat("yyyy년 MM월 dd일").create();
+		gson.toJson(list, response.getWriter());
+
+	}
 
 	// 그룹생성
 	@RequestMapping(value = "groupInsert.do", method = RequestMethod.POST)
@@ -1783,6 +1802,28 @@ public class GroupController {
 
 		}
 		
+		// 가계부생성 이름검색
+		@RequestMapping(value = "searchNameAccountTotal.do", method = RequestMethod.GET)
+		public void searchNameAccountTotal(HttpSession session, HttpServletResponse response, String searchName)
+				throws JsonIOException, IOException {
+			Member loginUser = (Member) session.getAttribute("loginUser");
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+					
+			gSearch.setLoginUserId(loginUser.getId());
+			gSearch.setSearchName(searchName);
+			gSearch.setgNo(gInfo.getGroupNo());
+			
+			ArrayList<Member> list = gService.searchNameAccountTotal(gSearch);
+	
+			System.out.println("가계부 전체 검색 : " + list);
+	
+			response.setContentType("application/json;charset=utf-8");
+	
+			Gson gson = new GsonBuilder().setDateFormat("yyyy년 MM월 dd일").create();
+			gson.toJson(list, response.getWriter());
+	
+		}
+		
 		// 가계부 메인 금액
 		@RequestMapping("accountList.do")
 		public void accountList(HttpSession session, HttpServletResponse response) throws IOException {
@@ -2043,16 +2084,20 @@ public class GroupController {
 				GroupAccount ga, GroupAccountMember gam,
 				@RequestParam(value = "gasYn", required = false) String gasYn,
 				@RequestParam(value = "gmNo", required = false) String gmNo,
-				@RequestParam(value = "gamAmount", required = false) String amount) {
+				@RequestParam(value = "gamAmount", required = false) String amount,
+				@RequestParam(value = "gauAmount", required = false) String gauAmount) {
 			Member loginUser = (Member) session.getAttribute("loginUser");
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 			ga.setgNo(gInfo.getGroupNo());
 			ga.setGmNo(gInfo.getGmNo());
+			ga.setGaAmount(Integer.valueOf(gauAmount));
+			System.out.println("gauAmount : " +  gauAmount);
 			System.out.println("수정 ga : " + ga);
 			int result = gService.updateAccount(ga);
 			System.out.println("수정 result : " + result);
 			int deleteDam = gService.deleteAccountMember(ga);
 			System.out.println("수정 deleteDam : " + deleteDam);
+			
 			String[] gmNos = gmNo.split(",");
 			String[] amounts = amount.split(",");
 			ArrayList<GroupAccountMember> gamList = new ArrayList<>();
