@@ -224,7 +224,9 @@
 	                    		<div class="totalBox proText">Profit : <div class="total pro"> </div></div>
 	                    		<div class="totalBox expText">Expense : <div class="total exp"> </div></div>
 	                    		<div class="totalBox feeText">Fee : <div class="total fee"> </div></div>
-	                    		<div id="groupWrite"  ><span class="material-icons writeBtn">create</span></div>
+	                    		<c:if test="${gInfo.loginUserId  eq groupTable.id }" >
+	                    			<div id="groupWrite"  ><span class="material-icons writeBtn">create</span></div>
+	                    		</c:if>
 	                    	</td>
 	                    </tr>
 	                </table>
