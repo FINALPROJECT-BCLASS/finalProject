@@ -29,7 +29,7 @@
             </ul>
         </nav>
     </div>
-    <script>
+    <!-- <script>
     	$(function(){
     		$(window).scroll(function(){
                 let $window = $(this);
@@ -37,7 +37,7 @@
                 let windowHeight = $window.height();
                 let documentHeight = $(document).height();
                 
-                console.log("documentHeight:" + documentHeight + " | scrollTop:" + scrollTop + " | windowHeight: " + windowHeight );
+                /* console.log("documentHeight:" + documentHeight + " | scrollTop:" + scrollTop + " | windowHeight: " + windowHeight ); */
                 
                 if( scrollTop + windowHeight + 200 > documentHeight ){
                 	
@@ -46,6 +46,6 @@
             })
     	})
     
-    </script>
+    </script> -->
 </body>
 </html>

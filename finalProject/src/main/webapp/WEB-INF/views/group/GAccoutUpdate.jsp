@@ -36,7 +36,7 @@
     .search{border:none; border-radius: 6px;  background:white;}
     .searchImg{width:20px; height:20px;}
     #search{width:85%; border:none; }
-
+	.search{cursor:pointer;}
     .searchName{display:inline-block;cursor: pointer; padding-left: 20px;padding-bottom: 10px; padding-top: 10px;}
     .searchClick:hover{background:darkgray; color:#F3F3F3; cursor:pointer;}
     /* .searchName:hover{background:#2860E1; color:#F3F3F3;} */

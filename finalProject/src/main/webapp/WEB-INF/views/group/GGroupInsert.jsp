@@ -254,7 +254,8 @@
                 $searchNameBox = "<button type='button' class='searchNameBox' value='"+ $searchName + "'>"+ $searchName + "&nbsp;" + $searchId 
                 +"<input type='hidden' name='groupName' value='" + $searchName + "'>" +"<input type='hidden' name='groupId' value='" + $searchId + "'></button>";
                 $searchNameAfter.append($searchNameBox);
-
+				
+                $(this).remove();
                 
             })
             

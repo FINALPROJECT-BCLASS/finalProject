@@ -128,17 +128,19 @@
                     <tr>
                         <td><div class="BoardCon">${boardList.gbCon }</div></td>
                     </tr>
-                    
 					<c:if test="${empty photoList }">
 					</c:if>
 					<c:if test="${!empty photoList }">
 						<c:forEach var="p" items="${photoList }">
+						<c:if test="${p.gbpOrigin ne null }">
+						
 							<tr>
 								<td>
 									<img class="boardImg" src="resources/groupBoardFiles/${p.gbpOrigin }" download>
 									
 								</td>
 							<tr>
+							</c:if>
 						</c:forEach>
 					</c:if>
 						
