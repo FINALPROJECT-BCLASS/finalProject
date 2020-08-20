@@ -793,7 +793,9 @@
     				var gpTitle = data.gpTitle;
     				var gpCon =  data.gpCon;
     				var gpStart = data.gpStart;
+    				console.log("ajax gpStart : " + gpStart);
     				var gpEnd = data.gpEnd;
+    				console.log("ajax gpEnd : " + gpEnd);
     				var address1 = data.address1;
     				var address2 = data.address2;
     				var color = data.color;

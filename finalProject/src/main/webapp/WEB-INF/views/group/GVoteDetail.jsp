@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -296,7 +296,7 @@
         		
                     if (distDt < 0) {
                         clearInterval(timer);	// setInterval()과 함께 사용(시간을 끝내주는 함수)
-                        document.getElementById(id).textContent = '해당 투표는 종료된 투표입니다.';
+                        document.getElementById(id).textContent = '';
                         return;
                     }
         
@@ -314,8 +314,7 @@
             }
        
               /* countDownTimer('sample04', '2020/10/28'); // 2024년 4월 1일까지 */ 
-             
-              countDownTimer('sample04', '${voteList.gvEnd }');
+              countDownTimer('sample04', '${voteList.gvEnd }'); 
    			   </script>
          
          
