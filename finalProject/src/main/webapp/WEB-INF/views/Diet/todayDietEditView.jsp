@@ -91,4 +91,69 @@
 		<jsp:include page="../common/footer.jsp"/>	
 
 </body>
+<script>
+//소수 와 숫자
+var check_i_f = RegExp(/^[0-9]+([,.][0-9]+)?$/);
+//숫자만
+var check_i = RegExp( /^[0-9]+$/);
+
+$("#FoodCount").blur(function(){
+	if($(this).val() == ''){
+		return;
+	}
+	
+	if(!check_i.test($(this).val())){
+		alert("숫자만 입력해주세요.");
+		$("#FoodCount").val('');
+	}
+
+})
+
+$("#Kcal").blur(function(){
+	if($(this).val() == ''){
+		return;
+	}
+	if(!check_i_f.test($(this).val())){
+		$("#Kcal").val('');
+		alert("숫자만 입력해 주세요.");
+	}
+})
+
+$("#Clabo").blur(function(){
+	if($(this).val() == ''){
+		return;
+	}
+	if(!check_i_f.test($(this).val())){
+		alert("숫자만 입력해 주세요.");
+		$("#Clabo").val('');
+	}
+})
+$("#Protain").blur(function(){
+	if($(this).val() == ''){
+		return;
+	}
+	if(!check_i_f.test($(this).val())){
+		alert("숫자만 입력해 주세요.");
+		$("#Protain").val('');
+	}
+})
+$("#Fat").blur(function(){
+	if($(this).val() == ''){
+		return;
+	}
+	if(!check_i_f.test($(this).val())){
+		alert("숫자만 입력해 주세요.");
+		$("#Fat").val('');
+	}
+})
+$("#Natrium").blur(function(){
+	if($(this).val() = ''){
+		return;
+	}
+	if(!check_i_f.test($(this).val())){
+		alert("숫자만 입력해 주세요.");
+		$("#Natrium").val('');
+	}
+})
+</script>
 </html>

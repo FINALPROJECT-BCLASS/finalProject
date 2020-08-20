@@ -218,6 +218,10 @@ public interface GroupService {
 
 	int deleteGroup(String groupNo);
 
+	ArrayList<Member> searchNameAccountTotal(GroupSearchName gSearch);
+
+	ArrayList<Member> searchTotalName(GroupSearchName gSearch);
+
 
 	
 

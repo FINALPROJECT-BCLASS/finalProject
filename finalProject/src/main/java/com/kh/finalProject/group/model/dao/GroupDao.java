@@ -443,6 +443,15 @@ public class GroupDao {
 		return sqlSessionTemplate.update("groupMapper.deleteGroup", groupNo);		
 	}
 
+	public ArrayList<Member> searchNameAccountTotal(GroupSearchName gSearch) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.searchNameAccountTotal", gSearch);		
+	}
+
+	public ArrayList<Member> searchTotalName(GroupSearchName gSearch) {
+		return (ArrayList)sqlSessionTemplate.selectList("groupMapper.searchTotalName", gSearch);		
+	}
+
+
 	
 	
 	

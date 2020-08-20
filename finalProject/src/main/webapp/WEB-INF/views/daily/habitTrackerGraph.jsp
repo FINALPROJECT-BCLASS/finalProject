@@ -517,7 +517,7 @@
 		
 		$(".content").hide();
 		
-		
+		 
 		var data = [];
 		var target = $('.habitItem');
 		

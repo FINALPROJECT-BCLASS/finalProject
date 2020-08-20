@@ -40,7 +40,7 @@
     .searchClick:hover{background:darkgray; color:#F3F3F3; cursor:pointer;}
     /* .searchName:hover{background:#2860E1; color:#F3F3F3;} */
     
-    
+    .search{cursor:pointer;}
 
     .searchNameAfter{background:white; border:none; border-radius: 6px;  height:100px; color:darkgray; height:150px; width:600px; overflow:scroll;  overflow-x:hidden;}
     
@@ -150,7 +150,7 @@
                                 <div class="search">
                                      <span class="material-icons">face</span>
                                     <input type="text" id="search" placeholder="참여명 검색">
-                                    <span class="material-icons">search</span>
+                                    <span class="material-icons search">search</span>
                                     <div class="searchList">
                                     </div>
                                 </div>
@@ -183,7 +183,7 @@
                 <br><br>
                 <div class="groubJoinBtn">
                    <span><button  id="submit">Submit</button>&nbsp;</span>
-                   <span id="reset" onclick="goBack();">Back</span><span id="reset" onclick="goBack();">Back</span>
+				   <span id="reset" onclick="goBack();">Back</span>
                 </div>
             </div>
          </div>
@@ -320,6 +320,53 @@
          				data:{searchName:searchName},
          				dataType:"json",
          				success:function(data){
+         					 var $search = $(".searchList");
+         					 $search.empty();
+         					
+         					
+         					for(i in data){
+         						
+	         					var $searchList = $(".searchList");
+	         					var $searchClick = $("<div>").attr("class","searchClick");
+	         					var $searchName = $("<div>").text(data[i].name).attr("class","searchName");
+	         					var $searchId = $("<span>").text(data[i].gmId).attr("class","searchId");
+	         					var $gmNo = $(' <input type="hidden" class="gmNo" value="'+data[i].gmNO+'">');
+       						
+	         					
+	         					$searchList.append($searchClick);
+	         					$searchClick.append($searchName);
+	         					$searchClick.append("&nbsp;");
+	         					$searchClick.append($searchId);
+	         					$searchClick.append($gmNo);
+
+	         				
+	         					}
+         					
+         				},
+         				error:function(request, status, errorData){
+							alert("error code: " + request.status + "\n"
+									+"message: " + request.responseText
+									+"error: " + errorData);
+						}
+         			})
+         		})
+         	})
+         
+         </script>
+         <!-- 전체 이름 검색  -->
+         <script>
+         	$(function(){
+ 
+         		$(".search").click(function(){
+         			$(".searchList").css("display","block");
+         			var searchName = $("#search").val();
+         			var gaNo = $("#gaNo").val();
+         			$.ajax({
+         				url:"searchNameAccountTotal.do",
+         				data:{searchName:searchName,gaNo:gaNo},
+         				dataType:"json",
+         				success:function(data){
+
          					 var $search = $(".searchList");
          					 $search.empty();
          					
