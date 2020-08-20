@@ -221,7 +221,7 @@
             <table class="board-table" cellpadding="3px">
                 <thead>
                     <tr class="thead">
-                        <th><input id="check_all" name=check type="checkbox"></th>
+                        <th><input id="check_all" type="checkbox"></th>
                         <th>No.</th>
                         <th>Image</th>
                         <th>Title</th>

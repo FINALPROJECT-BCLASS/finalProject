@@ -640,9 +640,9 @@
 								<div class="bl_title">
 									${bm.bl_title }
 								</div>
-								<div>
+								<!-- <div>
 									3
-								</div>
+								</div> -->
 							</div>
 						</c:forEach>
 				</div>

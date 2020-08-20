@@ -4,8 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -119,6 +122,25 @@ public class GroupController {
 		ArrayList<Member> list = gService.searchNameList(gSearch);
 
 		System.out.println("그룹생성 검색 : " + list);
+
+		response.setContentType("application/json;charset=utf-8");
+
+		Gson gson = new GsonBuilder().setDateFormat("yyyy년 MM월 dd일").create();
+		gson.toJson(list, response.getWriter());
+
+	}
+	
+	// 그룹생성 전체 이름검색
+	@RequestMapping(value = "searchTotalName.do", method = RequestMethod.GET)
+	public void searchTotalName(HttpSession session, HttpServletResponse response, String searchName)
+			throws JsonIOException, IOException {
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		gSearch.setLoginUserId(loginUser.getId());
+		gSearch.setSearchName(searchName);
+
+		ArrayList<Member> list = gService.searchTotalName(gSearch);
+
+		System.out.println("그룹 전체 검색 : " + list);
 
 		response.setContentType("application/json;charset=utf-8");
 
@@ -1478,13 +1500,18 @@ public class GroupController {
 			GroupNotice noticeList = gService.selectNoticeOne(gInfo);
 			
 			GroupVote voteList = gService.selectOneVote(gv);
-
+			System.out.println("투표 목록: " + voteList);
 			ArrayList<GroupVote> itemList = gService.selectOneItem(gv);
-
+			
+			
 			GroupVote voteTotalList = gService.selectTotalItem(gv);
-	
+			System.out.println("투표 전체 : " + voteTotalList);
+			
+			
+			
 			ArrayList<GroupVote> memberList = gService.selectMemberList(gv);
 			System.out.println("투표 상세 memberList : " + memberList);
+			
 			mv.addObject("gvNo", gv.getGvNo());
 			mv.addObject("noticeList", noticeList);
 			mv.addObject("gInfo", gInfo);
@@ -1597,6 +1624,7 @@ public class GroupController {
 			pi.setGmNo(gInfo.getGmNo());
 		
 			ArrayList<GroupVote> voteList = gService.selectfinishedVoteList(pi);
+			System.out.println("finished voteList : " + voteList);
 			ArrayList<GroupVote> itemList = gService.selectfinishedItemList(gInfo);
 			ArrayList<GroupVote> voteMemberList = gService.selectfinishedVoteMemberLsit(gInfo);
 			
@@ -1702,7 +1730,9 @@ public class GroupController {
 			gv.setgNo(String.valueOf(gInfo.getGroupNo()));
 			gv.setGmNo(String.valueOf(gInfo.getGmNo()));
 
-			if(anno.equals("anno")) {
+			if(anno == null) {
+				gv.setGvAno("N");
+			}else if(anno.equals("anno")) {
 				gv.setGvAno("Y");
 			}else if(anno.equals("no")){
 				gv.setGvAno("N");
@@ -1781,6 +1811,28 @@ public class GroupController {
 			Gson gson = new GsonBuilder().setDateFormat("yyyy년 MM월 dd일").create();
 			gson.toJson(list, response.getWriter());
 
+		}
+		
+		// 가계부생성 전체  이름검색
+		@RequestMapping(value = "searchNameAccountTotal.do", method = RequestMethod.GET)
+		public void searchNameAccountTotal(HttpSession session, HttpServletResponse response, String searchName)
+				throws JsonIOException, IOException {
+			Member loginUser = (Member) session.getAttribute("loginUser");
+			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+					
+			gSearch.setLoginUserId(loginUser.getId());
+			gSearch.setSearchName(searchName);
+			gSearch.setgNo(gInfo.getGroupNo());
+			
+			ArrayList<Member> list = gService.searchNameAccountTotal(gSearch);
+	
+			System.out.println("가계부 전체 검색 : " + list);
+	
+			response.setContentType("application/json;charset=utf-8");
+	
+			Gson gson = new GsonBuilder().setDateFormat("yyyy년 MM월 dd일").create();
+			gson.toJson(list, response.getWriter());
+	
 		}
 		
 		// 가계부 메인 금액
@@ -2043,16 +2095,20 @@ public class GroupController {
 				GroupAccount ga, GroupAccountMember gam,
 				@RequestParam(value = "gasYn", required = false) String gasYn,
 				@RequestParam(value = "gmNo", required = false) String gmNo,
-				@RequestParam(value = "gamAmount", required = false) String amount) {
+				@RequestParam(value = "gamAmount", required = false) String amount,
+				@RequestParam(value = "gauAmount", required = false) String gauAmount) {
 			Member loginUser = (Member) session.getAttribute("loginUser");
 			GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
 			ga.setgNo(gInfo.getGroupNo());
 			ga.setGmNo(gInfo.getGmNo());
+			ga.setGaAmount(Integer.valueOf(gauAmount));
+			System.out.println("gauAmount : " +  gauAmount);
 			System.out.println("수정 ga : " + ga);
 			int result = gService.updateAccount(ga);
 			System.out.println("수정 result : " + result);
 			int deleteDam = gService.deleteAccountMember(ga);
 			System.out.println("수정 deleteDam : " + deleteDam);
+			
 			String[] gmNos = gmNo.split(",");
 			String[] amounts = amount.split(",");
 			ArrayList<GroupAccountMember> gamList = new ArrayList<>();

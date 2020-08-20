@@ -49,7 +49,7 @@
     .noticeBoardWriter{padding-left:40px; font-size:12px; font-weight: 600;}
     .noticeBoardDate{padding-left:40px; font-size:12px; font-weight: 600;}
     .noticeBoardContent{padding-top:5px; padding-left:40px; height:50px; overflow:scroll; overflow-x:hidden; overflow-y:hidden; font-size:13px;}
-	
+	#groupCon, #conModi{resize:none;}
 	/* 수정버튼  */
 	.aditBtn{border:none; cursor:pointer; padding-top:6px; text-align:center; border-radius:6px; background:#FBD14B; width:60px; height:35px; margin:0 auto;}
 	.aditBtn:hover{border:none; cursor:pointer; padding-top:6px; text-align:center; border-radius:6px; background:#fac107; width:60px; height:35px; margin:0 auto;}
@@ -159,8 +159,8 @@
         <div class="btnList">
             <button class="groupBtn noticeBtn" onclick="location.href='noticeMain.do'">Notice</button>
             <button class="groupBtn BoardBtn" onclick="location.href='boardMain.do'">Board</button>
-            <button class="groupBtn PhotoBtn">Photo</button>
-            <button class="groupBtn VideoBtn">Video</button>
+            <!-- <button class="groupBtn PhotoBtn">Photo</button>
+            <button class="groupBtn VideoBtn">Video</button> -->
     	</div> 
     	
       	<br>

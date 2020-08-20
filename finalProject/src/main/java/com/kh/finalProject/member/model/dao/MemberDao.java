@@ -41,5 +41,10 @@ public class MemberDao {
 		return sqlSessionTemplate.selectOne("memberMapper.selectOneFindId", m);
 	}
 
+	public int deleteMember(String id) {
+
+		return sqlSessionTemplate.update("memberMapper.deleteMember", id);
+	}
+
 	
 }

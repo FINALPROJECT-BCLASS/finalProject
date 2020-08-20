@@ -15,18 +15,20 @@ public class diet implements Serializable{
 	private String dtWhen;		//먹은 시간
 	private String diFood;		//음식명
 	private String diAmount;	//수량
-	private int diCar;		//탄수화물
-	private int diPro;		//단백질
-	private int diFat;		//지방
-	private int diNa;		//나트륨
-	private int diKcal;		//칼로리
+	private String diCar;		//탄수화물
+	private String diPro;		//단백질
+	private String diFat;		//지방
+	private String diNa;		//나트륨
+	private String diKcal;		//칼로리
 	private String diDelete;	//삭제여부
 	
 	public diet() {
 	}
-	
-	public diet(String diNo, String id, String dtDate, String dtWhen, String diFood, String diAmount, int diCar,
-			int diPro, int diFat, int diNa, int diKcal, String diDelete) {
+
+
+
+	public diet(String diNo, String id, String dtDate, String dtWhen, String diFood, String diAmount, String diCar,
+			String diPro, String diFat, String diNa, String diKcal, String diDelete) {
 		this.diNo = diNo;
 		this.id = id;
 		this.dtDate = dtDate;
@@ -40,81 +42,111 @@ public class diet implements Serializable{
 		this.diKcal = diKcal;
 		this.diDelete = diDelete;
 	}
+
+
+
 	public String getDiNo() {
 		return diNo;
 	}
+
 	public void setDiNo(String diNo) {
 		this.diNo = diNo;
 	}
+
 	public String getId() {
 		return id;
 	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
+
 	public String getDtDate() {
 		return dtDate;
 	}
+
 	public void setDtDate(String dtDate) {
 		this.dtDate = dtDate;
 	}
+
 	public String getDtWhen() {
 		return dtWhen;
 	}
+
 	public void setDtWhen(String dtWhen) {
 		this.dtWhen = dtWhen;
 	}
+
 	public String getDiFood() {
 		return diFood;
 	}
+
 	public void setDiFood(String diFood) {
 		this.diFood = diFood;
 	}
+
 	public String getDiAmount() {
 		return diAmount;
 	}
+
 	public void setDiAmount(String diAmount) {
 		this.diAmount = diAmount;
 	}
-	public int getDiCar() {
+
+	public String getDiCar() {
 		return diCar;
 	}
-	public void setDiCar(int diCar) {
+
+	public void setDiCar(String diCar) {
 		this.diCar = diCar;
 	}
-	public int getDiPro() {
+
+	public String getDiPro() {
 		return diPro;
 	}
-	public void setDiPro(int diPro) {
+
+	public void setDiPro(String diPro) {
 		this.diPro = diPro;
 	}
-	public int getDiFat() {
+
+	public String getDiFat() {
 		return diFat;
 	}
-	public void setDiFat(int diFat) {
+
+	public void setDiFat(String diFat) {
 		this.diFat = diFat;
 	}
-	public int getDiNa() {
+
+	public String getDiNa() {
 		return diNa;
 	}
-	public void setDiNa(int diNa) {
+
+	public void setDiNa(String diNa) {
 		this.diNa = diNa;
 	}
-	public int getDiKcal() {
+
+	public String getDiKcal() {
 		return diKcal;
 	}
-	public void setDiKcal(int diKcal) {
+
+	public void setDiKcal(String diKcal) {
 		this.diKcal = diKcal;
 	}
+
 	public String getDiDelete() {
 		return diDelete;
 	}
+
 	public void setDiDelete(String diDelete) {
 		this.diDelete = diDelete;
 	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
+
+
 	@Override
 	public String toString() {
 		return "diet [diNo=" + diNo + ", id=" + id + ", dtDate=" + dtDate + ", dtWhen=" + dtWhen + ", diFood=" + diFood
