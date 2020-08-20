@@ -4,8 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -1497,13 +1500,18 @@ public class GroupController {
 			GroupNotice noticeList = gService.selectNoticeOne(gInfo);
 			
 			GroupVote voteList = gService.selectOneVote(gv);
-
+			System.out.println("투표 목록: " + voteList);
 			ArrayList<GroupVote> itemList = gService.selectOneItem(gv);
-
+			
+			
 			GroupVote voteTotalList = gService.selectTotalItem(gv);
-	
+			System.out.println("투표 전체 : " + voteTotalList);
+			
+			
+			
 			ArrayList<GroupVote> memberList = gService.selectMemberList(gv);
 			System.out.println("투표 상세 memberList : " + memberList);
+			
 			mv.addObject("gvNo", gv.getGvNo());
 			mv.addObject("noticeList", noticeList);
 			mv.addObject("gInfo", gInfo);
@@ -1616,6 +1624,7 @@ public class GroupController {
 			pi.setGmNo(gInfo.getGmNo());
 		
 			ArrayList<GroupVote> voteList = gService.selectfinishedVoteList(pi);
+			System.out.println("finished voteList : " + voteList);
 			ArrayList<GroupVote> itemList = gService.selectfinishedItemList(gInfo);
 			ArrayList<GroupVote> voteMemberList = gService.selectfinishedVoteMemberLsit(gInfo);
 			
@@ -1721,7 +1730,9 @@ public class GroupController {
 			gv.setgNo(String.valueOf(gInfo.getGroupNo()));
 			gv.setGmNo(String.valueOf(gInfo.getGmNo()));
 
-			if(anno.equals("anno")) {
+			if(anno == null) {
+				gv.setGvAno("N");
+			}else if(anno.equals("anno")) {
 				gv.setGvAno("Y");
 			}else if(anno.equals("no")){
 				gv.setGvAno("N");
