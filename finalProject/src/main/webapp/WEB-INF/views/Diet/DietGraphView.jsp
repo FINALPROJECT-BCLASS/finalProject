@@ -99,7 +99,7 @@ var chart = new CanvasJS.Chart("chartContainer2", {
 		dataPoints: dps
 	}]
 });
- 
+
 var xValue;
 var yValue;
 <c:forEach items="${dataPointsList}" var="dataPoints">	
