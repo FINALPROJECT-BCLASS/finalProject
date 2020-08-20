@@ -368,12 +368,13 @@
         <h4 align="center">Calendar</h4><br>
         
         <br><br>
-         
+         		
             	
-           		<div id="groupWrite"  >
-           			<span class="material-icons writeBtn" data-toggle="modal" data-target="#addModal">create</span>
-           			<img class="footImg" src="resources/images/icons/grayFoot.png" onclick="location.href='footPrintMain.do'">
-           		</div>
+	           		<div id="groupWrite"  >
+	           			<span class="material-icons writeBtn" data-toggle="modal" data-target="#addModal">create</span>
+	           			<img class="footImg" src="resources/images/icons/grayFoot.png" onclick="location.href='footPrintMain.do'">
+	           		</div>
+           		
            		<br>
                 
                 <div class="modal fade" id="addModal" role="dialog">
