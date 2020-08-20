@@ -478,19 +478,13 @@
 		AND UB_NO = #{ub_no}
 	</update>
 	
-<!-- 	<select id="selectDailyRecordList" parameterType="String" resultMap="DailyRecordResultSet">
-		SELECT *
-		FROM DAILY_RECORD
-		WHERE ID=#{id}
-		AND DR_DELETE='N'
-		ORDER BY DR_NO DESC
-	</select> -->
-	
 	<select id="selectDailyRecordList" parameterType="String" resultMap="DailyRecordResultSet_f">
 		SELECT * 
 		FROM (SELECT ROWNUM AS RNUM, A.* 
                 FROM (SELECT * FROM DAILY_RECORD 
-                      WHERE ID = #{id} ORDER BY DR_DATE ASC) A)
+                      WHERE ID = #{id}
+                      AND DR_DELETE = 'N'
+                   	  ORDER BY DR_DATE ASC) A)
 		ORDER BY RNUM DESC
 	</select>
 	
@@ -593,7 +587,8 @@
 		SELECT * 
 		FROM (SELECT ROWNUM AS RNUM, A.* 
 		                FROM (SELECT * FROM DAILY_RECORD 
-		                            WHERE ID = #{id} 
+		                            WHERE ID = #{id}
+		                            AND DR_DELETE = 'N'
 		                            <if test='select_item == "Title" and title != null'>
 		                            AND DR_TITLE LIKE '%'||#{title}||'%'
 		                            </if>

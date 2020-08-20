@@ -62,5 +62,11 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.selectOneFindId(m);
 	}
 
+	@Override
+	public int deleteMember(String id) {
+
+		return mDao.deleteMember(id);
+	}
+
 	
 }

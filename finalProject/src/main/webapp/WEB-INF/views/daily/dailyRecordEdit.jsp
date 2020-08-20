@@ -432,9 +432,18 @@
 	    function submit_btn() {
 	    	
 	    	$(".remove_no").val(remove_no);
-	    	$("#record").submit();
 	    	
-	    
+    		if($("#dr_title").val() == ""){
+    			alert("제목을 입력해 주세요.");
+    			$("#dr_title").focus();
+    			return false;
+    		}else if($("#dr_date").val() == ""){
+    			alert("날짜를 등록해 주세요.");
+    			$("#dr_date").focus();
+    			return false;
+    		}else{
+	    	 	$("#record").submit();    			
+    		}
 	    }
 	    
 	    /* 저장된 데이터로 라디오 선택 */
