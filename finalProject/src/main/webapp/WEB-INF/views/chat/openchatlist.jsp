@@ -184,16 +184,13 @@ $(function(){
 	
 	$(".my-chat-item").click(function(){
 		var cm_no = $(this).find("input[name = cm_no]").val();
-		console.log("cm_no : " + cm_no);
 		
 		location.href="openchatview.do?cm_no=" + cm_no;
 	})
 	
 	$(".chat-list-item").click(function(){
 		var cm_no = $(this).find("input[name = cm_no]").val();
-		console.log("cm_no : " + cm_no);
 		var pwdchk = $(this).find("input[name = pwdchk]").val();
-		console.log("pwdchk : " + pwdchk);
 		if(pwdchk == null){
 		var result = prompt("패스워드를 입력하세요.");
 		
@@ -202,7 +199,6 @@ $(function(){
 			data:{result:result,cm_no:cm_no},
 			success:function(data){
 				
-				console.log("data = " + data + "," + cm_no);
 				check(data,cm_no);
 			},
             error:function(request, status, errorData){
@@ -212,14 +208,12 @@ $(function(){
            } 
 		}) 
 		}else{
-			console.log("드러가장");
 			location.href="openchatview.do?cm_no=" + cm_no;
 		}
 	})
 })
 
 function check(data,cm_no){
-	console.log("에욱 : " + data + ", " + cm_no);
 	if(data == "비밀번호가 일치하지 않습니다."){
 		alert("비밀번호가 일치하지 않습니다. 다시 시도해주세요.");
 	}else{

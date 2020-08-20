@@ -319,7 +319,6 @@
 			var foodname = $(this).html();
 			var today =$("#today").val();
 			var foodwhen=$("#foodwhen").html();
-			console.log("잘 나오니? " + foodname + " " + today + " " + foodwhen);
 			
 			 location.href="fooddetail.do?foodname="+ foodname+"&today="+today+"&foodwhen="+foodwhen; 
 		}); 
@@ -328,11 +327,10 @@
 		$(function(){
 			$("#InbodyInsertbtn").click(function(){
 				var today = $("#today").val();
-				console.log(today);
+
 				var inWeight = $(".inWeight").html();
 				var inMuscle = $(".inMuscle").html();
 				var inFat = $(".inFat").html();
-				console.log("inWeight"+inWeight + "inMuscle : " + inMuscle +"inFat " +inFat);
 		 		if(inWeight == "" && inMuscle == "" && inFat == ""){
 				  location.href="InbodyInsertView.do?today=" + today; 
 				}else{
@@ -413,7 +411,7 @@
 	function modalAjax(){
 		var today =$("#today").val();
 		var dtwhen = $("#foodwhen").html();
-		console.log("today: "  + today + ", dtwhen: " + dtwhen);
+
 		$.ajax({
 			url:"todayDietDetailAjax.do",
 			data:{today:today,dtwhen:dtwhen},

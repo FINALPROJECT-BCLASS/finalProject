@@ -466,7 +466,7 @@
 		if(ol_yn != null){
 		var offset = $("#ol_yn").offset();
 		var location = $(".big-area").offset();
-		console.log("offset : " + offset);
+
 		$(".big-area").animate({scrollTop:(offset.top - location.top)},1000);
 		}
 		//없을시에.
@@ -523,7 +523,7 @@
 			processData: false,
 			contentType: false,
 			success : function(data){
-				console.log("파일 저장 성공 " + data);
+
 				var imgname = data;
 				
 				var msgData = {
@@ -554,7 +554,6 @@
            } 
 		})
 		
-		console.log("이미지이름 : " + imgname);
 		$("#modal").modal('toggle');
 	})
 	
@@ -569,14 +568,14 @@
 
 	$("#sendBtn").click(function() {
 		sendMessage();
-		console.log('send message...');
+
 		$("#message").val('');
 	});
 	        
 	//메세지 전송 메소드
 	function sendMessage() {
 		var friendid = $("#friendid").val();
-		console.log("친구아이디 :" +friendid);
+
 		var user = $("#loginuser").val();
 		
 		var msgData = {
@@ -609,7 +608,7 @@
 		var sessionid = null;
 		var message = null;
 		var co_no = null;
-		console.log("확인용 : " + evt.data);
+
 		
 		if(data.indexOf("count") != -1){
 			allcount(data);
@@ -618,9 +617,7 @@
 		//문자열을 splite//
 		 var strArray = data.split('|'); 
 		
-		for(var i=0; i<strArray.length; i++){
-			console.log('str['+i+']: ' + strArray[i]);
-		}
+
 		if(strArray.length == 5){
 			imgMessage(strArray);
 			return;
@@ -628,9 +625,8 @@
 		
 		//current session id//
 		var currentuser_session = $("#loginuser").val();
-		console.log('loginuser id: ' + currentuser_session);
+
 		var current_co_no = $("#co_no").val();
-		console.log("current_co_no : " + current_co_no);
 		
 		//String jsonStr2 = co_no + "|" +loginid+ "|" + mapReceive.get("msg");	
 		co_no = strArray[0];
@@ -684,7 +680,6 @@
 			$(".chat-area").append(printHTML);
 		}
 		
-		console.log('chatting data: ' + data);
 		$(".big-area").scrollTop($(".big-area")[0].scrollHeight);
 		
 		var msgData3 ={
@@ -712,9 +707,9 @@
 	function imgMessage(strArray){
 		//current session id//
 		var currentuser_session = $("#loginuser").val();
-		console.log('loginuser id: ' + currentuser_session);
+
 		var current_co_no = $("#co_no").val();
-		console.log("current_co_no : " + current_co_no);
+
 		
 		co_no = strArray[0];
 		sessionid = strArray[1]; //현재 메세지를 보낸 사람의 세션 등록//
@@ -722,7 +717,7 @@
 		img = strArray[3];	//이미지
 		filename = strArray[4];
 		var $printHTML;
-		console.log("filename " +filename);
+
 		
 		if(sessionid == currentuser_session){
 			
@@ -833,9 +828,8 @@
 	}
 	
 	function allcount(data){
-		console.log("allcount : " +data);
+
 		var count = data.substr(5);
-		console.log("count:" + count);
 		
 		var $pringHTML;
 		

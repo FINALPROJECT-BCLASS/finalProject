@@ -49,14 +49,14 @@ public class oneToOneChatHandler extends TextWebSocketHandler {
 		@Override
 		public void afterConnectionEstablished(WebSocketSession session) throws IOException {
 		//채팅방 번호와 보낸이 아이디
-			System.out.println("session uri? : "+ session.toString());
+
 			Map<String,Object> sessionmap = session.getAttributes();
 			
 			Member m = (Member)sessionmap.get("loginUser");
 			
 			//co_no가져오기
 			String co_no = String.valueOf(sessionmap.get("co_no"));
-			System.out.println("co_no 에욱 :" + co_no);
+
 			//list<map<string,object>>에 들어갈 map저장
 			  Map<String, Object> map = new HashMap<String, Object>();
 			  map.put("co_no",co_no);
@@ -71,10 +71,9 @@ public class oneToOneChatHandler extends TextWebSocketHandler {
 			  int count =cService.unreadcount(m.getId());
 			  
 				String jsonstr = "count" + String.valueOf(count);
-				System.out.println("보내기전 확인 : " +jsonstr);
+
 				session.sendMessage(new TextMessage(jsonstr));
 				
-			  System.out.println("session 접속 : " + sessionList);
 			  
 			  sessionList.add(map);
 				logger.info("{} 연결됨", session.getId()); 
@@ -130,7 +129,6 @@ public class oneToOneChatHandler extends TextWebSocketHandler {
 				  int result = cService.insertChatmsg(map);//db저장
 			  }
 			  
-			  System.out.println("sessionList 확인...:" + sessionList);
 			  
 			  //메세지 뿌려주기
 			   for(int i=0; i<sessionList.size(); i++) {
@@ -139,9 +137,6 @@ public class oneToOneChatHandler extends TextWebSocketHandler {
 					//sessionList에 담긴 Map에 값 가져옴 
 					String co_no = String.valueOf(mapSessionList.get("co_no"));
 					WebSocketSession sess = (WebSocketSession)mapSessionList.get("session");
-					System.out.println("sess : " + sess.getId()); //확인1 .
-					System.out.println("session확인2 :" +  mapSessionList.get("session"));
-					System.out.println("co_no" + co_no);
 					
 					//만약 Map값을 불러왔는데 방번호가 같다면?
 					if(co_no.equals(mapReceive.get("co_no"))) {
@@ -154,12 +149,10 @@ public class oneToOneChatHandler extends TextWebSocketHandler {
 					
 						  }else {
 						
-								System.out.println("msg : " + mapReceive.get("msg"));
 								String name = m.getName();
 								
 								String jsonStr2 = co_no + "|" +name+ "|" + mapReceive.get("msg")+"|" +mapReceive.get("img");						
 		
-								System.out.println("확인 에욱" + jsonStr2);
 								sess.sendMessage(new TextMessage(jsonStr2)); //여기잠깐바꿈
 						  }	
 					}
@@ -184,7 +177,6 @@ public class oneToOneChatHandler extends TextWebSocketHandler {
 						sessionList.remove(map);
 					}
 		}
-			 	System.out.println("sessionList : " + sessionList);
 		}
 		
 		

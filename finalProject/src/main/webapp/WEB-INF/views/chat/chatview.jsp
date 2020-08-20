@@ -384,8 +384,7 @@
 		$(".chatgobtn").click(function(){
 			var id = $(this).siblings(".userid").val();
 			var name = $(this).siblings(".username").val();
-			console.log("name:" + name);
-			console.log("id : " +id);
+
 			location.href="ChatOneToOneView.do?id="+id;
 		})
 		
@@ -478,7 +477,6 @@
 	//친구리스트 보여주기	
 		$("#memberListSearch").click(function(){
 			var name = $("#membername").val();
-			console.log("name : " +name);
 			$(".List").hide();	//친구목록 숨김..List	
 			$(".SearchList").show();	//친구 리스트 보여줌.
 			$(".recommendList").hide();
@@ -547,7 +545,7 @@
 	//친구 추가
 	$(document).on("click",".plus-btn",function(){
 		var id = $(this).next().val();
-		console.log("id : " + id);
+
 		location.href="insertFriendList.do?id=" + id;
 		
 	})

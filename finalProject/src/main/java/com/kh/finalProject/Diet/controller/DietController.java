@@ -42,7 +42,7 @@ public class DietController {
 	@RequestMapping("DietDetail.do")
 	public ModelAndView DietDetail(ModelAndView mv, HttpSession session,
 			@RequestParam(value = "currentdate", required = false) String date) {
-		System.out.println("에욱" + date);
+
 		String today = date;
 
 		Member loginUser = (Member) session.getAttribute("loginUser");
@@ -53,10 +53,10 @@ public class DietController {
 		//check1
 		Inbody inbody = dService.selectInbody(map);
 
-		System.out.println(inbody);
+
 		ArrayList<diet> dietlist = dService.selectDiet(map);
 
-		System.out.println(dietlist);
+
 		// 뿌려줄것 리스트 만들기
 		diet totaldiet = new diet(); // 전체
 		float breakfast = 0; // 아침
@@ -112,7 +112,7 @@ public class DietController {
 	public ModelAndView TodayDietInsertView(ModelAndView mv,
 			@RequestParam(value = "today", required = false) String date,
 			@RequestParam(value = "dietwhen", required = false) String dietwhen) {
-		System.out.println("제발 가져와줭! " + date + " 에욱!! " + dietwhen);
+
 		String today = date;
 		String dietwhentime = dietwhen;
 
@@ -125,7 +125,7 @@ public class DietController {
 	public ModelAndView InbodyInsertView(ModelAndView mv,
 			@RequestParam(value = "today", required = false) String date) {
 
-		System.out.println("제발 가져와줭!" + date);
+
 		String today = date;
 		mv.addObject("today", today).setViewName("Diet/InbodyInsertView");
 		return mv;
@@ -134,7 +134,7 @@ public class DietController {
 	@RequestMapping("InbodyEditView.do")
 	public ModelAndView InbodyEditView(ModelAndView mv,HttpSession session,
 			@RequestParam(value = "today", required = false) String date) {
-		System.out.println("제발 가져와줭!" + date);
+
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		// 로그인 유저의 아이디와 날짜를 넘기기 위한 map
 		HashMap<String, String> map = new HashMap<>();
@@ -142,7 +142,7 @@ public class DietController {
 		map.put("date", date);
 		
 		Inbody inbody = dService.selectInbody(map);
-		System.out.println("inbody : " + inbody);
+
 		mv.addObject("inbody", inbody).addObject("today", date).setViewName("Diet/InbodyEditView");
 		return mv;
 	}
@@ -152,7 +152,7 @@ public class DietController {
 
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		inbody.setId(loginUser.getId());
-//		System.out.println("인바디 객체에 담긴것 : " + inbody);
+
 
 		int result = dService.InbodyInsert(inbody);
 
@@ -183,7 +183,7 @@ public class DietController {
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		diet.setId(loginUser.getId());
 
-		System.out.println("diet : " + diet);
+
 
 		int result = dService.DietInsert(diet);
 
@@ -201,7 +201,7 @@ public class DietController {
 										,HttpServletResponse response,
 										String today, String dtwhen) throws IOException {
 		response.setContentType("application/json;charset=utf-8");
-		System.out.println("들어오니?" + today + "dtwhen" + dtwhen);
+
 		
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		
@@ -214,7 +214,6 @@ public class DietController {
 		
 		diet = dService.selectTodayDiet(map);
 		
-		System.out.println("diet = " +diet);
 		
 		JSONArray jarr = new JSONArray();
 		for(diet dt: diet) {
@@ -247,7 +246,7 @@ public class DietController {
 									,@RequestParam(value = "foodname", required = false) String foodname
 									,@RequestParam(value = "foodwhen", required = false) String foodwhen) {
 		String[] str = foodname.split(" ");	//음식이름과 양을 나눠주자
-		System.out.println("today :" + today + "foodname " + str[0] + "amount" + str[1] + " foodwhen " + foodwhen );
+
 		String amount = str[1]+ " " + str[2];
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		
@@ -261,8 +260,7 @@ public class DietController {
 
 		diet diet = dService.fooddetail(map);
 		
-		System.out.println("diet : " + diet);
-		System.out.println("에욱 : " +diet.getDiCar());
+
 		String[] str2 = diet.getDiAmount().split(" ");
 		
 		
@@ -292,7 +290,7 @@ public class DietController {
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		diet.setId(loginUser.getId());
 
-		System.out.println("diet : " + diet);
+
 
 		int result = dService.DietEdit(diet);
 
@@ -307,16 +305,16 @@ public class DietController {
 	@RequestMapping("eventDiet.do")
 	public void eventDiet(HttpSession session, HttpServletResponse response) throws IOException {
 		response.setContentType("application/json;charset=utf-8");
-		System.out.println("들어왔니?");
+
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		String id = loginUser.getId();
 		
 		ArrayList<diet> Diet= dService.selectAllDiet(id);
-		System.out.println("Diet : " +Diet);
+
 		
 		ArrayList<Inbody> Inbody = dService.selectAllInbody(id);
-		System.out.println("inbody" + Inbody);
+
 		JSONArray jArr = new JSONArray();
 		
 		for(diet m : Diet) {
@@ -340,7 +338,7 @@ public class DietController {
 		JSONObject sendJson = new JSONObject();
 		sendJson.put("DietList", jArr);
 		
-		System.out.println("sendJson : " + sendJson);
+
 		
 		PrintWriter out = response.getWriter();
 		out.print(sendJson);
@@ -358,7 +356,7 @@ public class DietController {
 		ArrayList<Inbody> Inbody = dService.selectAllInbody(id);
 		
 
-		System.out.println("inbody" + Inbody);
+
 		
 		mv.addObject("dataPointsList", Inbody).setViewName("Diet/DietGraphView");
 		
@@ -371,8 +369,7 @@ public class DietController {
 	public void todayDietAjax(HttpSession session, HttpServletResponse response,
 									String currentdate) throws IOException {
 		response.setContentType("application/json;charset=utf-8");
-		System.out.println("들어왔니?");
-		System.out.println("currentdate" + currentdate);
+
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		String id = loginUser.getId();
 		
@@ -381,7 +378,7 @@ public class DietController {
 		map.put("date", currentdate);
 
 		ArrayList<diet> Diet= dService.selectDiet(map);
-		System.out.println("Diet : " +Diet);
+
 		
 		// 뿌려줄것 리스트 만들기
 				float breakfast = 0; // 아침
@@ -441,7 +438,7 @@ public class DietController {
 	public String deleteAjax(HttpSession session
 			,HttpServletResponse response,String chknum,String currentdate) throws IOException {
 		response.setContentType("application/json;charset=utf-8");		
-		System.out.println("today : "+currentdate+ "chknum : " +chknum);
+
 		
 		String[] arr = chknum.split(",");
 		
@@ -458,7 +455,7 @@ public class DietController {
 	
 	@RequestMapping("InbodyEdit.do")
 	public String InbodyEdit(HttpSession session, HttpServletRequest request, Inbody inbody) {
-		System.out.println("inbody : " + inbody);
+
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		inbody.setId(loginUser.getId());
 		

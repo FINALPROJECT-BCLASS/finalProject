@@ -516,7 +516,6 @@ $(document).ready(function(){
 
 	$("#sendBtn").click(function() {
 		sendMessage();
-		console.log('send message...');
 		$("#message").val('');
 	});
 
@@ -541,7 +540,6 @@ $(document).ready(function(){
 		var sessionid = null;
 		var message = null;
 		var cm_no = null;
-		console.log("확인용 : " + evt.data);
 		//문자열을 splite//
 		var strArray = data.split('|');
 
@@ -555,15 +553,12 @@ $(document).ready(function(){
 			return;
 		}
 
-		for (var i = 0; i < strArray.length; i++) {
-			console.log('str[' + i + ']: ' + strArray[i]);
-		}
 
 		//current session id//
 		var currentuser_session = $("#loginusernickname").val();
-		console.log('loginuser id: ' + currentuser_session);
+
 		var current_cm_no = $("#cm_no").val();
-		console.log("current_cm_no : " + current_cm_no);
+
 
 		//String jsonStr2 = co_no + "|" +loginid+ "|" + mapReceive.get("msg");	
 		cm_no = strArray[0];
@@ -571,7 +566,7 @@ $(document).ready(function(){
 		message = strArray[2]; //현재 메세지를 저장//
 		img = strArray[3];
 		var $printHTML;
-		console.log("img : " +img);
+
 		//나와 상대방이 보낸 메세지를 구분하여 영역을 나눈다.//
 		if (sessionid == currentuser_session) {
 			var check = "${loginUser.rename_file}";
@@ -620,7 +615,6 @@ $(document).ready(function(){
 			$(".chat-area").append(printHTML);
 		}
 
-		console.log('chatting data: ' + data);
 		$(".big-area").scrollTop($(".big-area")[0].scrollHeight);
 
 		/* sock.close(); */
@@ -639,26 +633,22 @@ $(document).ready(function(){
 
 	
 	function memberList(strArray) {
-		for (var i = 0; i < strArray.length; i++) {
-			console.log('str[' + i + ']: ' + strArray[i]);
-		}
+
 
 		var currentuser_session = $("#loginuser").val();
-		console.log('loginuser id: ' + currentuser_session);
+
 		var current_cm_no = $("#cm_no").val();
-		console.log("current_cm_no : " + current_cm_no);
+
 
 		//String jsonStr2 = co_no + "|" +loginid+ "|" + mapReceive.get("msg");	
 		var cm_no = strArray[0];
 		var connectid = strArray[1]; //현재 메세지를 보낸 사람의 세션 등록//
 		var message = strArray[2]; //현재 메세지를 저장//
 		var joinORout = strArray[3];
-		console.log("joinORout : " + joinORout);
-		console.log("sessionid : " + connectid);
+
 
 		var connectidArray = connectid.split(',');
 
-		console.log("에욱" + connectidArray[1]);
 
 		var $printHTML;
 		var count;
@@ -675,7 +665,7 @@ $(document).ready(function(){
 		$(".member-list").append(printHTML);
 
 		count = $(".member-list").find("li").length;
-		console.log("count : " + count);
+
 
 		$(".listcount").html(count);
 		
@@ -717,17 +707,15 @@ $(document).ready(function(){
 			$(".modal-nickname").html(nickname);
 			
 			var content =$(this).siblings(".text-con-area").find(".text-con-someone").html();
-			console.log("내용 : " + content);
+
 			
 			var chatid = $(this).siblings(".text-con-area").find("input[name='chatid']").val();
-			console.log("chatid : " + chatid);
+
 			$("#modal").modal();
 			
 			//신고버튼 누를시..모달교체
 			$(".report").click(function(){
-				console.log("nickname : " + nickname);
-				
-				console.log("내용 : " + content);
+
 				$(".reporteduser").html(nickname);
 				$(".reportcontent").html(content);
 				$("#modal").modal('toggle');
@@ -737,12 +725,12 @@ $(document).ready(function(){
 			//신고 접수
 			$(".reportsubmit").click(function(){
 				var option = $(".reportoption").val();
-				console.log("option : " + option);
+
 				
 				if(option == "기타"){
 					option =$(".reportoption5").val();
 				}
-				console.log("옵션 : " +option);
+
 				$.ajax({
 					url:"report.do",
 					data:{chatid:chatid,content:content,option:option},
@@ -781,7 +769,7 @@ $(document).ready(function(){
 	
 	function getout(data){
 		var cm_no=$("#cm_no").val();
-		console.log("data : " +data);
+
 		location.href="openchatroomdelete.do?cm_no="+cm_no;
 	}
 

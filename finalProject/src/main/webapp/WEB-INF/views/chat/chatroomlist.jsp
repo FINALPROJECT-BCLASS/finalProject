@@ -175,7 +175,6 @@ $(".chat").click(function(){
 	var co_no = $(this).find(".co_no").val();
 	var friendid = $(this).find(".friendid").val();
 	
-	console.log("제발 " + co_no + " " + friendid);
 	
 	location.href="chatroomdetail.do?co_no="+co_no+"&friendid=" + friendid; 
 })
@@ -191,13 +190,10 @@ let sock = new SockJS("<c:url value="/echolist"/>");
 		var message = null;
 		var co_no = null;
 		
-		console.log("확인 :" + data);
 		
 		var strArray = data.split('|');
 		
-		for(var i=0; i<strArray.length; i++){
-			console.log('str['+i+']: ' + strArray[i]);
-		}
+
 		
 		co_no = strArray[0];
 		message = strArray[1];
@@ -208,10 +204,8 @@ let sock = new SockJS("<c:url value="/echolist"/>");
 		$(".number"+co_no).html(printHTML);
 		
 		var count= $(".number"+co_no).next(".chatroom-count").text();
-		console.log("count : " +count );
 		
 		count++;
-		console.log("올라씬?" + count);
 		
 		var $countHTML;
 		countHTML = "<span>"+count+"</span>";

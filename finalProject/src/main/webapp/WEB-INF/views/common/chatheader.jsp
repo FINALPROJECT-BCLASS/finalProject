@@ -75,7 +75,7 @@
 
 	function onMessage2(evt){
 		var data = evt.data;
-		console.log("에우우욱: " +data);
+
 		
 		
 		var $pringHTML;
@@ -95,7 +95,7 @@
  		$.ajax({
  			url:"reportcheck.do",
  			success:function(data){
- 				console.log("체크 : " + data);
+
  				if(data == 'Y'){
  					location.href="chatroom.do";
  				}else{
@@ -114,7 +114,7 @@
 		$.ajax({
  			url:"reportcheck.do",
  			success:function(data){
- 				console.log("체크 : " + data);
+
  				if(data == 'Y'){
  					location.href="openchatroom.do";
  				}else{
