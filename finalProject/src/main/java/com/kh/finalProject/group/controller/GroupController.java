@@ -290,7 +290,13 @@ public class GroupController {
 			System.out.println("originImg : " + originImg);
 			System.out.println("beforeImg : " + beforeImg);
 			// 사진 삭제
-			if(originImg.equals("Y")) {
+			
+			if(originImg == null) {
+				String savePath = SaveFile(file, request);
+				if (savePath != null) { // 파일이 잘 저장된 경우
+					gt.setgOrigin(file.getOriginalFilename());
+				}
+			}else if(originImg.equals("Y")) {
 				deleteGroupFile(beforeImg, request);
 				
 				// 사진 파일 저장
@@ -400,15 +406,15 @@ public class GroupController {
 		System.out.println("gInfo : " + groupNo);
 		gInfo.setLoginUserId(id);
 		gInfo.setGroupNo(groupNo);
-
+		
 		int memberNo = gService.memberNoSelect(gInfo);
 		gInfo.setGmNo(memberNo);
 		
 		session.setAttribute("gInfo", gInfo);
 		GroupTable gt = gService.selectOneGroup(gInfo);
-		
-		System.out.println("gInfo : " + gInfo);
-		System.out.println("gt : " + gt);
+
+		System.out.println("세션 생성 loginUser: " + loginUser);
+		System.out.println("세션 생성 gInfo: " + gInfo);
 		
 		mv.addObject("gInfo", gInfo);
 		mv.addObject("groupTable", gt);
@@ -664,6 +670,8 @@ public class GroupController {
 	public String gNoticeWrite(Model model, HttpSession session, GroupNotice gn) {
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		GroupInfo gInfo = (GroupInfo) session.getAttribute("gInfo");
+		System.out.println("공지작성 loginUser : " + loginUser);
+		System.out.println("공지작성 gInfo : " + gInfo);
 
 		gn.setgNo(gInfo.getGroupNo());
 		gn.setGmNo(gInfo.getGmNo());
