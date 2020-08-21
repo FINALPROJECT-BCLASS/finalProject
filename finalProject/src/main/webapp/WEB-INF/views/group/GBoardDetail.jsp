@@ -27,6 +27,7 @@
     .detailBox{width:1000px; background:white; border-radius:10px 10px 0px 0px;}
     .MemberImgBox{text-align:center; padding:10px 0px 0px 10px;}
     .MemberImg{width:60px; height:60px; border-radius:40%;}
+    .BoardTitle{font-size:18px; font-weight:700;}
     .BoardTitle, .BoardName, .BoardDate, .BoardCount{display:inline-block; color:#484848;margin-right:10px;}
     .BoardTitle, .BoardName{padding:10px 0px 0px 10px;}
     .BoardName{font-size:15px; font-weight:600; }
@@ -38,7 +39,7 @@
 	/* 게시판 내용 칸  */
     .contentBox{width:1000px; text-align:center;}
     .contentBox tr{background:white;}
-	.boardImg{width:50%; height: 40%;}
+	.boardImg{width:50%; height: 60%;}
 	
 	/* 좋아요, 댓글칸 */
     .commentBox{width:1000px; background:white;border:1px solid #F3F3F3;}
@@ -98,10 +99,11 @@
                     <tr>
                         <td rowspan="2" style="width:20px">
                         	<div class="MemberImgBox">
-                        		<c:if test="${gInfo.gmNo ne boardList.gmNo}">
+                        		<c:if test="${boardList.renameFile eq null }">
                         			 <img src="resources/images/icons/profile_default.png" class="MemberImg">
                         		</c:if>
-                        		<c:if test="${gInfo.gmNo eq boardList.gmNo}">
+                        		<c:if test="${boardList.renameFile ne null }">
+                        		
                         			<img src="resources/muploadFiles/${boardList.renameFile }" class="MemberImg">
                         		</c:if>
                         	</div>

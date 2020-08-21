@@ -13,7 +13,7 @@
     .join-form-area{float: right;display: flex;justify-content: center; flex-direction: column; align-items: center; padding: 100px 0; width: 100%; background: #F3F3F3; }
 
     .groupJoin{}
-    .groupTb{margin:auto; border-spacing: 5px; border-collapse: separate;}
+    .groupTb{margin:auto; border-spacing: 5px; border-collapse: separate;width:47%;}
     
     .groupTb  tr td:nth-child(2) {
     	padding-left:25px;
