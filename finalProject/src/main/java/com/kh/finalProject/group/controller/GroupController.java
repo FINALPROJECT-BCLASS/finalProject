@@ -409,7 +409,7 @@ public class GroupController {
 		
 		int memberNo = gService.memberNoSelect(gInfo);
 		gInfo.setGmNo(memberNo);
-		
+		 
 		session.setAttribute("gInfo", gInfo);
 		GroupTable gt = gService.selectOneGroup(gInfo);
 
