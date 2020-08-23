@@ -384,8 +384,24 @@
 		$(".chatgobtn").click(function(){
 			var id = $(this).siblings(".userid").val();
 			var name = $(this).siblings(".username").val();
+			
+		 		$.ajax({
+		 			url:"reportcheck.do",
+		 			success:function(data){
 
-			location.href="ChatOneToOneView.do?id="+id;
+		 				if(data == 'Y'){
+		 					location.href="ChatOneToOneView.do?id="+id;
+		 				}else{
+		 					alert("신고된 아이디입니다. 채팅에 접속 할 수 없습니다.");
+		 				}
+		 			},
+		            error:function(request, status, errorData){
+		                alert("error code: " + request.status + "\n"
+		                      +"message: " + request.responseText
+		                      +"error: " + errorData);
+		           } 
+		 		})
+			
 		})
 		
 	})
@@ -549,6 +565,8 @@
 		location.href="insertFriendList.do?id=" + id;
 		
 	})
+	
+
 	
 </script>
 
