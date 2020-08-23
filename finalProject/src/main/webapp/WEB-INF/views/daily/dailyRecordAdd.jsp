@@ -204,7 +204,7 @@
                 <table cellpadding="6px">
                     <tr>
                         <td>Title</td>
-                        <td><input type="text" id="dr_title" name="dr_title" maxlength="16" required></td>
+                        <td><input type="text" id="dr_title" name="dr_title" maxlength="20" required></td>
                     </tr>
                     <tr>
                         <td>Date</td>
