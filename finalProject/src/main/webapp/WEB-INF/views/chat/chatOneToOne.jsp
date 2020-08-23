@@ -467,7 +467,7 @@
 		var offset = $("#ol_yn").offset();
 		var location = $(".big-area").offset();
 		console.log("offset : " + offset);
-		$(".big-area").animate({scrollTop:(offset.top - location.top)},6000);
+		$(".big-area").animate({scrollTop:(offset.top - location.top)},1000);
 		}
 		//없을시에.
 		else{
@@ -530,14 +530,14 @@
 						user_id : $("#loginuser").val(),
 						co_no : $("#co_no").val(),
 						img : "${loginUser.rename_file}",
-						msg : "이미지 입니다.",
+						msg : "파일",
 						filename : imgname
 					};
 				
 				var msgData2 ={
 						friendid : $("#friendid").val(),
 						co_no : $("#co_no").val(),
-						msg : "이미지 입니다.",
+						msg : "파일",
 						
 				};		
 			

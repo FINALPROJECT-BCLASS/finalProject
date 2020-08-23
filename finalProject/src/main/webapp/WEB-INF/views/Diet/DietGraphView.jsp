@@ -65,7 +65,7 @@ var yValue;
 		var res = xValue.split("-");
 		yValue =  parseInt("${dataPoints.inWeight}");
 		dps.push({
-			x :  new Date(res[0],res[1],res[2]),
+			x :  new Date(res[0],res[1]-1,res[2]),
 			y : yValue
 		});			
 			console.log(xValue);
@@ -99,7 +99,7 @@ var chart = new CanvasJS.Chart("chartContainer2", {
 		dataPoints: dps
 	}]
 });
- 
+
 var xValue;
 var yValue;
 <c:forEach items="${dataPointsList}" var="dataPoints">	
@@ -107,7 +107,7 @@ var yValue;
 		var res = xValue.split("-");
 		yValue =  parseInt("${dataPoints.inMuscle}");
 		dps.push({
-			x : new Date(res[0],res[1],res[2]),
+			x : new Date(res[0],res[1]-1,res[2]),
 			y : yValue
 		});			
 			console.log(xValue);
@@ -150,7 +150,7 @@ var yValue;
 		var res = xValue.split("-");
 		yValue =  parseInt("${dataPoints.inFat}");
 		dps.push({
-			x : new Date(res[0],res[1],res[2]),
+			x : new Date(res[0],res[1]-1,res[2]),
 			y : yValue
 		});			
 			console.log(xValue);

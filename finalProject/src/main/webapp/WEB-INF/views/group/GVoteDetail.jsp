@@ -27,9 +27,11 @@
     .detailBox{width:1000px; background:white; border-radius:10px 10px 0px 0px;}
     .MemberImgBox{text-align:center; padding:10px 0px 0px 10px;}
     .MemberImg{width:60px; height:60px; border-radius:40%;}
+    .BoardTitle{font-size:17px; font-weight:600;}
     .BoardTitle, .BoardName, .BoardDate, .BoardCount{display:inline-block; color:#484848;margin-right:10px;}
-    .BoardTitle, .BoardName{padding:10px 0px 0px 10px;}
-    .BoardName{font-size:15px; font-weight:600; }
+    .BoardTitle{padding:10px 0px 0px 10px;}
+    .BoardName{padding-left:10px; padding-bottom:0px;}
+    .BoardName{font-size:13px; font-weight:600; }
     .BoardCon{background: #F3F3F3;  border-radius: 6px;   margin: 20px; text-align:left; padding:20px 0px 20px 20px;}
     .done{font-weight:600 !important; font-size:14px !important; padding-right:2px !important;}
     
@@ -120,10 +122,11 @@
                     </tr>
                     <tr>
                         <td colspan="2">
-                        	<div class="BoardName">${voteList.name }</div>
-                        	
-                        	<div class="BoardCount">
-                        	<span class="material-icons done">done</span> 3
+                        	<div class="boardConBox">
+	                        	<div class="BoardName">${voteList.name }</div>
+	                        	<div class="BoardCount">
+	                        	<span class="material-icons done">done</span> 3
+                        	</div>
                         	</div>
                         	<c:if test="${voteList.gvAno eq 'Y' }">
                         		<div class="anno">익명 투표 입니다.</div>
