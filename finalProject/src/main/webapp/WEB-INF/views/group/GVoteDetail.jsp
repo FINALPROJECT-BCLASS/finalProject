@@ -193,13 +193,13 @@
 						                <c:if test="${voteList.gvAno eq 'N' }">
 						                  <div class="memberList">
 						                  	<span class="material-icons re">subdirectory_arrow_right</span>
-						                  	<c:if test="${empty memberList }">
+						                  		<c:if test="${empty memberList }">
 						                    		투표에 참여한 인원이 없습니다. 
 						                    	</c:if>	
 					                    	<c:forEach var="m" items="${memberList }">
 					                    		<c:if test="${!empty m.name }">
-						                    		투표에 참여한 인원이 없습니다. 
-						                    	</c:if>		
+						                    		<!-- 투표에 참여한 인원이 없습니다.  -->
+						                    	</c:if>
 						                    	<c:if test="${i.gviNo eq m.gviNo }">
 						                    		${m.name } 
 						                    	</c:if>		
