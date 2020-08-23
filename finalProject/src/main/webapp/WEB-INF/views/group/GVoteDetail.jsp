@@ -197,11 +197,14 @@
 						                    		투표에 참여한 인원이 없습니다. 
 						                    	</c:if>	
 					                    	<c:forEach var="m" items="${memberList }">
-					                    		<c:if test="${!empty m.name }">
-						                    		<!-- 투표에 참여한 인원이 없습니다.  -->
-						                    	</c:if>
+					                    		<c:if test="${i.gviNo ne null }">
 						                    	<c:if test="${i.gviNo eq m.gviNo }">
-						                    		${m.name } 
+						                    	
+							                    	<c:if test="${m.name ne null }">
+							                    			${m.name }
+							                    	</c:if>
+						                    	 
+						                    	</c:if>
 						                    	</c:if>		
 					                    	</c:forEach>
 					                    </div>
