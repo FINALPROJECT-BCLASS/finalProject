@@ -1214,7 +1214,7 @@
 				location.href="memodelete.do?memoNo="+memoNo;
 			}
 			else if(deleteCheck == false){
-				console.log("메모 삭제를 취소합니다.");
+				alert("메모 삭제를 취소합니다.");
 			}
 		});
 	    
@@ -1226,7 +1226,7 @@
 				location.href="mpadd.do?memoNo="+memoNo;
 			}
 			else if(addCheck == false){
-				console.log("일정 추가를 취소합니다.");
+				alert("일정 추가를 취소합니다.");
 			}
 		});
 	    
@@ -1243,7 +1243,7 @@
 				$("#mpDateModal").modal();
 			}
 			else if(addCheck == false){
-				console.log("일정에 추가를 취소합니다.");
+				alert("일정에 추가를 취소합니다.");
 			}
 		});
 	    
@@ -1255,7 +1255,7 @@
 				location.href="abadd.do?memoNo="+memoNo;
 			}
 			else if(addCheck == false){
-				console.log("가계부 추가를 취소합니다.");
+				alert("가계부 추가를 취소합니다.");
 			}
 		});
 	    
@@ -1269,7 +1269,7 @@
 				$("#abDateModal").modal();
 			}
 			else if(addCheck == false){
-				console.log("가계부 추가를 취소합니다.");
+				alert("가계부 추가를 취소합니다.");
 			}
 		});
 	    
@@ -1282,7 +1282,7 @@
 				location.href="bmadd.do?memoNo="+memoNo+"&memoType="+memoType;
 			}
 			else if(addCheck == false){
-				console.log("가계부 추가를 취소합니다.");
+				alert("가계부 추가를 취소합니다.");
 			}
 		});
 	    

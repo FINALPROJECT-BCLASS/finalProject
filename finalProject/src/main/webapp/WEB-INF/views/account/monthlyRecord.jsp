@@ -321,7 +321,7 @@
 				location.href="abdelete.do?abNo="+abNo;
 			}
 			else if(deleteCheck == false){
-				console.log("일정 삭제를 취소합니다.");
+				alert("내역 삭제를 취소합니다.");
 			}    				
 		}); 
     	

@@ -204,7 +204,7 @@
 	    				location.href="updatechatn.do?selectID="+selectID;
 	    			}
 	    			else if(deleteCheck == false){
-	    				console.log("작업을 취소합니다.");
+	    				alert("작업을 취소합니다.");
 	    			}    				    				
     			} else {
     				var deleteCheck = confirm("해당 사용자의 채팅 기능 정지를 해제하시겠습니까?");
@@ -212,7 +212,7 @@
 	    				location.href="updatechaty.do?selectID="+selectID;
 	    			}
 	    			else if(deleteCheck == false){
-	    				console.log("작업을 취소합니다.");
+	    				alert("작업을 취소합니다.");
 	    			}  
     			}
     			
