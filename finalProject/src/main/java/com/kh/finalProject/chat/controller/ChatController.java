@@ -36,13 +36,13 @@ public class ChatController {
 	public ModelAndView chatview(ModelAndView mv,HttpSession session) {
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		
-		System.out.println("로그인 아이디" + loginUser.getId());
+
 		
 		ArrayList<Member> member = new ArrayList();
 		
 		member = cService.selectFriendList(loginUser.getId());
 		
-		System.out.println("member(친구정보) : " + member);
+
 		mv.addObject("freindList", member).setViewName("chat/chatview");
 		
 		return mv;
@@ -51,13 +51,13 @@ public class ChatController {
 	@RequestMapping("selectMember.do")
 	public void selectMember(HttpSession session,HttpServletResponse response,String name) throws IOException {
 		response.setContentType("application/json;charset=utf-8");
-		System.out.println("name : " +name);
+
 		
 		Member loginMember = (Member)session.getAttribute("loginUser");
 		
 		String str = loginMember.getId();// 자신의 이름.
 		
-		System.out.println("str : " + str);
+
 		
 		HashMap<String,Object> map = new HashMap<String, Object>();
 		map.put("id", str);
@@ -68,7 +68,6 @@ public class ChatController {
 		
 		member =cService.selectMember(map);
 		
-		System.out.println("member : " + member);
 		
 		JSONArray jarr = new JSONArray();
 		
@@ -97,10 +96,10 @@ public class ChatController {
 	@RequestMapping("insertFriendList.do")
 	public String insertFriendList(HttpSession session,
 						@RequestParam(value = "id")String id ) {
-		System.out.println(" 받아온 아이디" + id);
+
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		
-		System.out.println("로그인 아이디" + loginUser.getId());
+
 		
 		HashMap<String, String> map = new HashMap<>();
 		map.put("Id", loginUser.getId());
@@ -129,10 +128,9 @@ public class ChatController {
 		map.put("friendId", id);
 		String friendName = cService.selectfriendName(id);
 		
-		System.out.println("friendName : " +friendName);
+
 		Chat ch1 = new Chat();
 			ch1 = cService.selectChatOnetoOne(map);
-			System.out.println("검색결과 " + ch1);
 			//참고 에욱
 		if( ch1 == null) {
 			int result = cService.insertChatOnetoTOne(map);
@@ -152,12 +150,6 @@ public class ChatController {
 		ArrayList<Chat> chatlist = new ArrayList<Chat>();
 		
 		chatlist = cService.selectOneToOnechatlist(ch1.getCo_no());
-		System.out.println("chatlist : " + chatlist);
-//		mv.addObject("chlist", chatlist).addObject("friendName", friendName);
-		/*
-		 * System.out.println("받아온 아이디" +id); System.out.println("본인 아이디" +
-		 * loginUser.getId());
-		 */
 		
 		return "redirect:chatroomdetail.do?co_no="+co_no+"&friendid="+id;
 		
@@ -176,9 +168,7 @@ public class ChatController {
 		
 		ArrayList<Chat> count = new ArrayList<Chat>();
 				count = cService.selectcount();
-		System.out.println("count : " + count);
-		System.out.println("loginUser id : " + loginUser.getId());
-		//if(ch.isEmpty() && count.isEmpty()) {
+
 		for(int i=0; i<ch.size();i++) {
 			Chat temporarychat = new Chat();
 					temporarychat =	ch.get(i);
@@ -212,8 +202,7 @@ public class ChatController {
 		}
 		//}
 		
-		System.out.println("ch : " + ch);
-		System.out.println("ch2 : " + ch2);
+
 		mv.addObject("chroomlist2", ch2).addObject("chroomlist", ch).setViewName("chat/chatroomlist");
 		return mv;
 	}
@@ -222,9 +211,7 @@ public class ChatController {
 	public ModelAndView chatroomdetail(ModelAndView mv,HttpSession session,
 										@RequestParam(value="co_no") int co_no,
 										@RequestParam(value="friendid")String friendid) {
-		System.out.println("friendid : " + friendid);
-		System.out.println("co_no :" + co_no);
-		
+
 		String friendName = cService.selectfriendName(friendid);
 		
 		
@@ -234,7 +221,6 @@ public class ChatController {
 		ArrayList<Chat> chatlist = new ArrayList<Chat>();
 		
 		chatlist = cService.selectOneToOnechatlist(co_no);
-		System.out.println("chatlist : " + chatlist);
 		//에욱
 		session.setAttribute("co_no", co_no);
 		mv.addObject("friendid", friendid).addObject("co_no", co_no).addObject("friendName", friendName).addObject("chlist",chatlist ).setViewName("chat/chatOneToOne");
@@ -250,7 +236,7 @@ public class ChatController {
 		if(oclist != null) {
 			System.out.println("oc : " + oclist);
 		}else {
-		System.out.println("조회된 방이 없습니다.");
+			System.out.println("조회된 방이 없습니다.");
 		}
 		
 		
@@ -282,7 +268,7 @@ public class ChatController {
 			
 			return "redirect:openchatview.do?cm_no=" + cm_no;
 		}else {
-			System.out.println("방만들기 실패");
+
 			return "<script> alert('방만들기에 실패하였습니다..'); history.back(); </script>";
 		}
 		
@@ -290,16 +276,13 @@ public class ChatController {
 	@RequestMapping("openchatview.do")
 	public ModelAndView openchatView(ModelAndView mv,HttpSession session, int cm_no) {
 		
-		System.out.println("잘넘어왔습니까?" + cm_no);
 		
 		
 		Member loginUser = (Member) session.getAttribute("loginUser");
 			//추가할것.. 방인원..
 		openChat openchat = cService.selectopenchatroomdetail(cm_no);
-		System.out.println("openchat : " + openchat);
+
 		ArrayList<openChat> chatlist = cService.selectchatlist(cm_no);
-		
-		System.out.println("chatlist : " + chatlist);
 		
 		
 		session.setAttribute("cm_no", cm_no);
@@ -317,14 +300,13 @@ public class ChatController {
 		
 		response.setContentType("text/html;charset=utf-8");
 		
-		System.out.println("입력받은  password:" + result);
-		System.out.println("방번호 cm_no : " + cm_no);
+
 		HashMap<String,Object> check = new HashMap<String, Object>();
 		check.put("cm_no", cm_no);
 		check.put("pwd", result);
 		
 		openChat opcheck = cService.passwordcheck(check);
-		System.out.println("opcheck : " + opcheck);
+
 		String str = "";
 		if(opcheck == null) {
 			str="비밀번호가 일치하지 않습니다.";
@@ -345,11 +327,11 @@ public class ChatController {
 	}
 	@RequestMapping("deletefriend.do")
 	public String deletefriend(HttpSession session,String id) {
-		System.out.println("친구 아이디 : " + id);
+
 		Member m = (Member)session.getAttribute("loginUser");
 		
 		String str =  m.getId();
-		System.out.println("사용자 아이디 : " + str);
+
 		
 		HashMap<String,Object> map = new HashMap<String, Object>();
 		
@@ -373,13 +355,12 @@ public class ChatController {
 		Member m =(Member)session.getAttribute("loginUser");
 		
 		String id = m.getId();
-		System.out.println("아이디 : " + id);
+
 		//어레이리스트로 작업하기
 		ArrayList<Member> recommendinformation = new ArrayList<Member>();
 		
 		recommendinformation = cService.recommendList(id);
 		
-		System.out.println("recommendinformation : " + recommendinformation);
 		
 		JSONArray jarr = new JSONArray();
 		
@@ -409,12 +390,12 @@ public class ChatController {
 	public void report(HttpSession session,HttpServletResponse response,
 						String chatid,String content, String option) throws IOException {
 		response.setContentType("text/html;charset=utf-8");
-		System.out.println("chatid : " + chatid + ",content : " +content + ",option : " +option);
+
 		
 		Member m =(Member)session.getAttribute("loginUser");
 		
 		String id = m.getId();
-		System.out.println("아이디 : " + id);
+
 		
 		HashMap<String,Object> map = new HashMap<String, Object>();
 		map.put("chatid", chatid);
@@ -440,12 +421,12 @@ public class ChatController {
 	}
 	@RequestMapping("openchatroomdelete.do")
 	public String openchatroomdelete(HttpSession session, String cm_no) {
-		System.out.println("ㄴㅁㅇㄴㅁㅇㄴㅁㅇㅁㄴㅇㅁㄴㅇㄴㅁㅇcm_no : " + cm_no);
+
 		//방에서의 채팅기록 삭제
 		int result = cService.deleteopenchatlist(cm_no);
 		//방삭제
 		int result2 = cService.deleteopenchatroom(cm_no);
-		 System.out.println("여기까지오나?");
+
 		return "redirect:openchatroom.do";
 	}
 	//뒤로가기시 채팅방인원 -1
@@ -480,7 +461,7 @@ public class ChatController {
 		ArrayList<Chat> chatlist = new ArrayList<Chat>();
 		
 		chatlist = cService.selectOneToOnechatlist(co_no);
-		System.out.println("chatlist : " + chatlist);
+
 		
 		session.setAttribute("co_no", co_no);
 		
@@ -494,15 +475,13 @@ public class ChatController {
 	@RequestMapping("filesaves.do")
 	public void filesaves(HttpSession session,HttpServletRequest request,HttpServletResponse response,
 											MultipartFile file ) throws IOException {
-		System.out.println("data : " + file.getOriginalFilename());
+
 		
 		response.setContentType("text/html;charset=utf-8");
 		 String str ="";
 		 String renameFileName ="";
 		 if(!file.getOriginalFilename().equals("")) {
 			 renameFileName = saveFile(file,request);
-			 
-			 System.out.println("오리진 파일 : " + renameFileName);
 			 
 			 str="파일 저장 성공";
 

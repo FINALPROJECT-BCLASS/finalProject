@@ -176,9 +176,6 @@
 	<jsp:include page="common/header.jsp"/>
 	
 	
-	
-<%-- <c:url var="memberJoin" value="memberJoin.do"></c:url>
-	<button onclick="location.href='${memberJoin}'">이동하기</button> --%>
 	<!-- Swiper -->
 	
   <div class="swiper-container">
@@ -253,7 +250,7 @@
       </table>
   </div>
 
-  <div class="main-section b-rightgray">
+  <div class="main-section b-lightgray">
     <table class="main-table">
       <tr>
         <td class="main-section-subject" colspan="2"><span class="b-bottom-b">Daily</span></td>
@@ -299,7 +296,7 @@
   </table>
 </div>
 
-<div class="main-section b-rightgray">
+<div class="main-section b-lightgray">
   <table class="main-table">
     <tr>
       <td class="main-section-subject" colspan="2"><span class="b-bottom-b">Account</span></td>

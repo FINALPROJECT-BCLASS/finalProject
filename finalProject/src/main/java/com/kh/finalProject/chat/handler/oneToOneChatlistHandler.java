@@ -39,14 +39,10 @@ public class oneToOneChatlistHandler extends TextWebSocketHandler {
 			
 			Member m = (Member)sessionmap.get("loginUser");
 			String  loginUserid =m.getId();
-			System.out.println("id : " + loginUserid);
 			
 			//자신의 채팅반번호를 가진 리스트 가져오기
 			myco_noList = cService.selectMyChatRoomNo(loginUserid);
 			
-			System.out.println("myco_noList : " + myco_noList);
-			  
-			  System.out.println("session 접속 : " + session.getId());
 			  
 			  Map<String, Object> map = new HashMap<String, Object>();
 			  map.put("loginUser",loginUserid);
@@ -54,7 +50,6 @@ public class oneToOneChatlistHandler extends TextWebSocketHandler {
 			  
 			  sessionList.add(map);
 				logger.info("{} 연결됨", session.getId()); 
-				System.out.println("sessionList : " + sessionList);
 			//연결 완료.
 		}
 		
@@ -62,7 +57,7 @@ public class oneToOneChatlistHandler extends TextWebSocketHandler {
 		 @Override
 		 protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 			 logger.info("{}로 부터 {} 받음", session.getId(), message.getPayload());
-			  System.out.println("list handler입니다.");
+
 			   //JSON --> MAP으로 변환
 			   ObjectMapper objectMapper = new ObjectMapper();
 			   Map<String, String> mapReceive = objectMapper.readValue(message.getPayload(), Map.class);
@@ -71,7 +66,7 @@ public class oneToOneChatlistHandler extends TextWebSocketHandler {
 				
 				Member m = (Member)sessionmap.get("loginUser");
 				String  loginUserid =m.getId();
-				System.out.println("id : " + loginUserid);
+
 			   
 			   
 			   
@@ -81,23 +76,20 @@ public class oneToOneChatlistHandler extends TextWebSocketHandler {
 			   map.put("session", session);
 			   
 			  
-			   System.out.println("방번호 : " + mapReceive.get("co_no"));
+
 			   //메세지 뿌려주기
-			   System.out.println("sessionList 확인..123.:" + sessionList);
    		
 				   		for(int i=0;i<sessionList.size();i++) {
 				   			Map<String, Object> mapSessionList = sessionList.get(i);
 				   			String loginUser = String.valueOf(mapSessionList.get("loginUser"));
 				   			String friendid = mapReceive.get("friendid");
-				   			System.out.println("loginUser : " + loginUser);
-				   			System.out.println("friendid : " +friendid);
 				   					if(loginUser.equals(friendid)) {
 				   						
 				   					
 									WebSocketSession sess = (WebSocketSession)mapSessionList.get("session");
 									
 									String jsonstr = mapReceive.get("co_no") + "|" + mapReceive.get("msg");
-									System.out.println("보내기전 확인 : " +jsonstr);
+
 									sess.sendMessage(new TextMessage(jsonstr));
 				   					}
 				   		}
@@ -132,7 +124,6 @@ public class oneToOneChatlistHandler extends TextWebSocketHandler {
 					}
 					
 		}
-			 	System.out.println("sessionList : " + sessionList);
 		}
 		
 		

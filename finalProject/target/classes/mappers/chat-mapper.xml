@@ -63,7 +63,7 @@
 	WHERE ID NOT IN(SELECT FL.FL_ID
 		            FROM FRIEND_LIST FL
 		            WHERE FL.ID=#{id})
-        AND ID !=#{id}
+        AND ID !=#{id} AND ID !='admin'
         AND NAME LIKE '%' || #{nickname} || '%'
         AND OUT_YN = 'N'
 </select>

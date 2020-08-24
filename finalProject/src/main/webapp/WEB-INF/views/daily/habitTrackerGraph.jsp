@@ -545,7 +545,6 @@
 				data: {ht_cycle:cycle, ht_no:no, today:today},
 				dataType:"json",
 				success:function(data){
-					console.log("data" + data);
 					graph(data); 
 				},
 				error:function(request, status, errorData){

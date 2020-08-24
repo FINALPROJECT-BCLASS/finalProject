@@ -81,7 +81,7 @@
 			<table cellpadding="8px">
 				<tr>
 					<td>이름</td>
-					<td><input type="text" id="cm_title" name="cm_title"></td>
+					<td><input type="text" id="cm_title" name="cm_title" required></td>
 				</tr>
 				<tr>
 					<td>비밀번호</td>
@@ -89,7 +89,7 @@
 				</tr>
 				<tr>
 					<td>소개</td>
-					<td><textarea id="cm_con" name="cm_con" ></textarea></td>
+					<td><textarea id="cm_con" name="cm_con" required></textarea></td>
 				</tr>
 			</table>
 			<div class="btn-area">

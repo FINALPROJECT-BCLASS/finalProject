@@ -35,9 +35,7 @@ public class UnreadChatCountHandler extends TextWebSocketHandler {
 			
 			Member m = (Member)sessionmap.get("loginUser");
 			String  loginUserid =m.getId();
-			System.out.println("id : " + loginUserid);
-			  
-			  System.out.println("session 접속 : " + session.getId());
+
 			  
 			  Map<String, Object> map = new HashMap<String, Object>();
 			  map.put("loginUser",loginUserid);
@@ -45,13 +43,11 @@ public class UnreadChatCountHandler extends TextWebSocketHandler {
 			  
 			  int count =cService.unreadcount(loginUserid);
 			  String jsonstr = String.valueOf(count);
-				System.out.println("보내기전 확인 : " +jsonstr);
 			  
 			  session.sendMessage(new TextMessage(jsonstr));
 			  
 			  sessionList.add(map);
 				logger.info("{} 연결됨", session.getId()); 
-				System.out.println("sessionList : " + sessionList);
 			//연결 완료.
 		}
 		
@@ -59,7 +55,6 @@ public class UnreadChatCountHandler extends TextWebSocketHandler {
 		 @Override
 		 protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 			 logger.info("{}로 부터 {} 받음", session.getId(), message.getPayload());
-			  System.out.println("count handler입니다.");
 			   //JSON --> MAP으로 변환
 			   ObjectMapper objectMapper = new ObjectMapper();
 			   Map<String, String> mapReceive = objectMapper.readValue(message.getPayload(), Map.class);
@@ -68,7 +63,6 @@ public class UnreadChatCountHandler extends TextWebSocketHandler {
 				
 				Member m = (Member)sessionmap.get("loginUser");
 				String  loginUserid =m.getId();
-				System.out.println("id : " + loginUserid);
 			   
 			   
 			   
@@ -77,14 +71,11 @@ public class UnreadChatCountHandler extends TextWebSocketHandler {
 			   map.put("session", session);
 			   
 			   //메세지 뿌려주기
-			   System.out.println("sessionList 확인..123e	w.:" + sessionList);
   		
 				   		for(int i=0;i<sessionList.size();i++) {
 				   			Map<String, Object> mapSessionList = sessionList.get(i);
 				   			String loginUser = String.valueOf(mapSessionList.get("loginUser"));
 				   			String friendid = mapReceive.get("friendid");
-				   			System.out.println("loginUser : " + loginUser);
-				   			System.out.println("friendid : " +friendid);
 				   					if(loginUser.equals(friendid)) {
 				   						
 				   					
@@ -93,7 +84,6 @@ public class UnreadChatCountHandler extends TextWebSocketHandler {
 									int count =cService.unreadcount(friendid);
 									 
 									String jsonstr = String.valueOf(count);
-									System.out.println("보내기전 확인 : " +jsonstr);
 									sess.sendMessage(new TextMessage(jsonstr));
 				   					}
 				   		}
@@ -119,7 +109,6 @@ public class UnreadChatCountHandler extends TextWebSocketHandler {
 						}
 						
 			}
-				 	System.out.println("sessionList : " + sessionList);
 			}
 
 }

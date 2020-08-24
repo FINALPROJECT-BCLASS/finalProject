@@ -383,8 +383,6 @@
 	
 		// checkbox가 체크 되어있을 때만 실행
 		if($(checkboxList[i]).is(":checked")){
-			// 확인
-			console.log(i);
 			
 			if(i != checkboxList.length-1){
 				arrayList += $(checkboxList[i]).val() + ",";
@@ -425,7 +423,6 @@
 	function dailyRecordAdd() {
 		
 		var dr_no = $(".table-body > tr:nth-child(1) > td:nth-child(2)").html();
-		console.log("dr_no : " + dr_no);
 		
 		location.href='addDailyRecordView.do?dr_no='+ dr_no;
 	}

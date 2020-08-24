@@ -379,7 +379,6 @@
     		// get the src of the image
     	       var image_src = $(this).attr('src');
 
-    			console.log("image_src : " + image_src);
     	       // assign it to the modal's body
     	      $(".origin-photo").attr('src',image_src);
     	      

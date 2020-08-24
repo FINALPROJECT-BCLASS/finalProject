@@ -204,7 +204,7 @@
                 <table cellpadding="6px">
                     <tr>
                         <td>Title</td>
-                        <td><input type="text" id="dr_title" name="dr_title" maxlength="16" required></td>
+                        <td><input type="text" id="dr_title" name="dr_title" maxlength="20" required></td>
                     </tr>
                     <tr>
                         <td>Date</td>
@@ -295,8 +295,6 @@
     		}
     	}
     
-    console.log("으음 ? : ${dr_no}");
-    
 	 // 라디오 버튼 히든 태그
 		// 색상
 		$(".weather-area > input").click(function(){
@@ -378,8 +376,6 @@
         function deleteImageAction(index) {
         	queryAdd = "";
         	
-        	
-        	console.log("index : " + index);
         	sel_files.splice(index, 1);
         	
         	for(var i = 0 ; i < sel_files.length ; i++){

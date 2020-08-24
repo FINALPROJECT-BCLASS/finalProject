@@ -591,8 +591,6 @@ public class DailyController {
 		habit.setId(id);
 		
 		Habit h = dailyService.selectHabitNum(habit);
-		
-		System.out.println("잘 조회해 오나? " + h);
 	
 		if(h != null) {
 			mv.addObject("habit", h);
@@ -610,8 +608,7 @@ public class DailyController {
 	// 그래프 화면
 	@RequestMapping(value="selectGraphData.do" , method=RequestMethod.POST)
 	public void selectGraphData(HttpServletResponse response, HttpServletRequest request, String ht_no, String ht_cycle, String today) throws IOException {
-		System.out.println(ht_no + ht_cycle + today);
-		
+
 		response.setContentType("application/json;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		
@@ -630,8 +627,7 @@ public class DailyController {
 		ArrayList<Habit> habit = new ArrayList<Habit>();
 		
 		habit = dailyService.selectGraphData(map);
-		
-		System.out.println("잘 되는가요?"+habit);
+
 		JSONArray HabitData = new JSONArray();
 			
 			// 이번 주로 조회한 습관 기록 배열에 담기
@@ -667,7 +663,6 @@ public class DailyController {
 		
 		habit.setId(id); // 세션에서 받아온 아이디 저장
 		
-		System.out.println("확인" + habit);
 		int result = dailyService.updateHabit(habit);
 		
 		if(result > 0) {
@@ -808,8 +803,7 @@ public class DailyController {
 		bm.setBl_no(bl_no);
 		
 		int result = dailyService.deleteBookmark(bm);
-		
-		System.out.println(result);
+
 		if(result > 0) {
 			
 			return "redirect:bookmarkView.do";
@@ -840,8 +834,6 @@ public class DailyController {
 		bm.setBl_no(bl_no);
 		
 		Bookmark result = dailyService.selectBookmark(bm);
-		
-		System.out.println(result);
 		
 		if(result != null) {
 		
@@ -884,8 +876,6 @@ public class DailyController {
 			
 			bm.setBl_origin(file.getOriginalFilename());
 			bm.setBl_rename(renameFile);
-			
-			System.out.println("세팅한 bm" + bm);
 			
 			if(rFile != null) { 
 				
@@ -948,11 +938,7 @@ public class DailyController {
 		bmm.setId(id);
 		bmm.setMb_address(mainAddress+"_"+subAddress);
 		
-		System.out.println("값 어떻게 들어오나? :" + bmm);
-		
-		
 		int result = dailyService.insertBookmarkMap(bmm);
-		
 		
 		if(result > 0) {
 			
@@ -1164,8 +1150,6 @@ public class DailyController {
 		bm.setId(id);
 		
 		int result = dailyService.deleteBookmarkMap(bm);
-		
-		System.out.println(result);
 		 
 		if(result > 0) {
 	    	out.print("success");
@@ -1197,8 +1181,6 @@ public class DailyController {
 		bu.setId(id);
 		
 		ArrayList<BookmarkUrl> ublist = dailyService.selectBookmarkUrlList(bu);
-		
-		System.out.println("ublist? : " +ublist);
 		
 		JSONArray ubList = new JSONArray();
 			
@@ -1273,9 +1255,6 @@ public class DailyController {
 		
 		bu.setId(id);
 		
-		System.out.println("북마크 링크 편집 : " + bu);
-		
-		
 		int result = dailyService.updateBookmarkUrl(bu);
 		
 		if(result > 0) {
@@ -1311,8 +1290,6 @@ public class DailyController {
 		bu.setId(id);
 		
 		int result = dailyService.deleteBookmarkUrl(bu);
-		
-		System.out.println(result);
 		 
 		if(result > 0) {
 	    	out.print("success");
@@ -1377,8 +1354,6 @@ public class DailyController {
 								, @RequestParam(value="file", required=false) List<MultipartFile> file
 								, @RequestParam(value="dr_no", required=false) String dr_no_before) {
 		
-//		System.out.println("dr_no ?? :" + dr_no_before);
-		
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
 		String id = member.getId();
@@ -1387,15 +1362,11 @@ public class DailyController {
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "/druploadFiles/";
 		
-		System.out.println(savePath);
-		
 		File folder = new File(savePath);
 		
 		if(!folder.exists()) {
 			folder.mkdirs();
 		}
-		
-		System.out.println("dr : " + dr);
 		
 		dr.setId(id);
 		
@@ -1535,8 +1506,6 @@ public class DailyController {
 			String root = request.getSession().getServletContext().getRealPath("resources");
 			String savePath = root + "/druploadFiles/";
 			
-			System.out.println(savePath);
-			
 			File folder = new File(savePath);
 			
 			if(!folder.exists()) {
@@ -1549,8 +1518,6 @@ public class DailyController {
 			if(!remove_no.equals("")) {
 				
 				for(int i = 0 ; i < remove_no_.length ; i++) {
-					
-					System.out.println(remove_no_[i]);
 					
 					// 사진 파일 삭제
 					int drp_update = dailyService.updateDailyRecordPhoto(remove_no_[i]);
@@ -1601,8 +1568,6 @@ public class DailyController {
 						drp.setDrp_rename(renameFileName);
 						drp.setDr_no(dr.getDr_no());
 						
-//						System.out.println("drp : "  + drp);
-						
 						int result_drp = dailyService.insertDailyRecordPhoto(drp);
 						
 						try {
@@ -1631,9 +1596,6 @@ public class DailyController {
 					
 				}
 			
-				
-				System.out.println("drplist : " + drplist);
-						
 				return "redirect:dailyRecordDetailView.do?dr_no=" + dr.getDr_no();
 			
 		}else {
