@@ -150,7 +150,7 @@
                                 <div class="search">
                                      <span class="material-icons">face</span>
                                     <input type="text" id="search" placeholder="참여명 검색">
-                                    <span class="material-icons search">search</span>
+                                    <span class="material-icons search" id="searchClick">search</span>
                                     <div class="searchList">
                                     </div>
                                 </div>
@@ -362,7 +362,7 @@
          <script>
          	$(function(){
  
-         		$(".search").click(function(){
+         		$("#searchClick").click(function(){
          			$(".searchList").css("display","block");
          			var searchName = $("#search").val();
          			var gaNo = $("#gaNo").val();

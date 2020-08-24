@@ -403,9 +403,15 @@ public class ChatController {
 		map.put("option", option);
 		map.put("id", id);
 		
+		
 		//신고 인서트
 		int result = cService.insertreport(map);
 		String str="";
+		map.remove("chatid", chatid);
+		map.remove("content", content);
+		map.remove("option", option);
+		map.remove("id", id);
+		
 		if(result > 0) {
 			str="신고가 접수되었습니다";
 		}else {

@@ -450,7 +450,7 @@
 			</tr>
 			<tr>
 				<td>신고항목</td>
-				<td><select id="reportoption" name="reportoption" class="reportoption" onchange="CheckText(this.options[this.selectedIndex].value);">
+				<td><select id="reportoption" name="reportoption" class="reportoption">
                    <option class="reportoption" value="욕설/비방">욕설/비방</option>
                    <option class="reportoption" value="음란물 유포">음란물 유포</option>
                    <option class="reportoption" value="금전요구">금전요구</option>
@@ -685,15 +685,15 @@ $(document).ready(function(){
 	})
 	
 	//신고 옵션 기타일떄 텍스트 띄우기
-	function CheckText(name){
-		
+	$("#reportoption").change(function(){
+		var name = $(this).val();
 		if(name == "기타"){//<textarea class="reportoption5" rows="" cols=""></textarea>
 			
 			document.getElementById("text-area").innerHTML="<td>내용입력 : </td><td><textarea class='reportoption5'></textarea></td>";
 		}else{
 			document.getElementById("text-area").innerHTML="";
 		}
-	}
+	})
 	
 	//스크롤 위치 고정
 	$(document).ready(function(){
@@ -701,18 +701,22 @@ $(document).ready(function(){
 	})
 	
 	//모달
-	
+		var nickname = "";
+		var content ="";
+		var chatid ="";
+		var src ="";
+		
 		$(document).on("click",".profile-img",function(){
-			var src =$(this).find("img").attr('src');
+			 src =$(this).find("img").attr('src');
 			$("#modal-img").attr("src", src);
 			
-			var nickname = $(this).siblings(".text-con-area").find(".text-nickname").html();
+			 nickname = $(this).siblings(".text-con-area").find(".text-nickname").html();
 			$(".modal-nickname").html(nickname);
 			
-			var content =$(this).siblings(".text-con-area").find(".text-con-someone").html();
+			 content =$(this).siblings(".text-con-area").find(".text-con-someone").html();
 
 			
-			var chatid = $(this).siblings(".text-con-area").find("input[name='chatid']").val();
+			 chatid = $(this).siblings(".text-con-area").find("input[name='chatid']").val();
 			
 			if(chatid == null){
 				return;
@@ -720,7 +724,9 @@ $(document).ready(function(){
 
 			$("#modal").modal();
 			
-			//신고버튼 누를시..모달교체
+		})
+		
+		//신고버튼 누를시..모달교체
 			$(".report").click(function(){
 
 				$(".reporteduser").html(nickname);
@@ -728,6 +734,7 @@ $(document).ready(function(){
 				$("#modal").modal('toggle');
 				$("#report-modal").modal();
 			})
+			
 			
 			//신고 접수
 			$(".reportsubmit").click(function(){
@@ -737,6 +744,8 @@ $(document).ready(function(){
 				if(option == "기타"){
 					option =$(".reportoption5").val();
 				}
+				console.log("chatid : " + chatid + "content : " +content + "option : " + option);
+				
 				
 				$.ajax({
 					url:"report.do",
@@ -752,8 +761,6 @@ $(document).ready(function(){
 				}) 
 				$("#report-modal").modal('toggle');
 			})
-			
-		})
 	
 	
 	//방폭파.
@@ -779,7 +786,7 @@ $(document).ready(function(){
 
 		location.href="openchatroomdelete.do?cm_no="+cm_no;
 	}
-
+	
 	
 </script>
 </html>

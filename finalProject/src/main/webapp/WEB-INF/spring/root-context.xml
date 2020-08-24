@@ -32,7 +32,7 @@
 		class="org.mybatis.spring.SqlSessionTemplate">
 	<constructor-arg ref="sqlSession"></constructor-arg>
 	</bean>
-	 
+	  
 	<!-- 파일 업로드 -->
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

@@ -283,7 +283,7 @@
     
     <script>
     	function updateReport(rpNo, rprNo, rpedId) {
-    		var updateCheck = confirm("저장 하시겠습니까? 한 번 저장하면 수정이 불가합니다.");
+    		 var updateCheck = confirm("저장 하시겠습니까? 한 번 저장하면 수정이 불가합니다.");
 			if(updateCheck == true){
 				location.href="updatereport.do?rpNo="+rpNo+"&rprNo="+rprNo+"&rpedId="+rpedId;
 			}
