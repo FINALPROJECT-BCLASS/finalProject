@@ -5,7 +5,7 @@
 <html>
 <head>  
 <meta charset="UTF-8">
-    <title>Document</title>
+    <title>Memo</title>
     <script type="text/javascript"></script>
     <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>	<!-- 주소 api -->
     

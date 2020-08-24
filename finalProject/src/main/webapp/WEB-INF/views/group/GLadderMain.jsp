@@ -337,7 +337,7 @@ var Yl = {
 		</c:if>
 		
 		<c:if test="${ groupTable.id ne gInfo.loginUserId}">
-	
+			<jsp:include page="../common/sidenaviGroup.jsp"/>
 		</c:if>
 		
 		 <div class="join-form-area">

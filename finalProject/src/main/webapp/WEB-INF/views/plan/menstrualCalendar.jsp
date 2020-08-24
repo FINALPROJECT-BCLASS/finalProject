@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-    <title>Document</title>
+    <title>Menstrual Calendar</title>
     <script type="text/javascript"></script>
     
     <link href='resources/css/main.css' rel='stylesheet' />
