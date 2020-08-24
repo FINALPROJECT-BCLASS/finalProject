@@ -62,8 +62,8 @@ public class GroupController {
 	@Autowired
 	GroupMemberList gmList;
 
-	@Autowired
-	GroupInfo gInfo;
+//	@Autowired
+//	GroupInfo gInfo;
 
 	@Autowired
 	GroupSearchName gSearch;
@@ -400,7 +400,7 @@ public class GroupController {
 	// ---------------------------------- 캘린더// ------------------------------------------------------
 	// 세션 생성 (그룹번호 세션생성)
 	@RequestMapping(value = "sessionCreate.do", method = RequestMethod.GET)
-	public ModelAndView sessionCreate(ModelAndView mv, HttpSession session, Member m, @RequestParam("groupNo") int groupNo) {
+	public ModelAndView sessionCreate(ModelAndView mv, HttpSession session, Member m, @RequestParam("groupNo") int groupNo,GroupInfo gInfo) {
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		String id = loginUser.getId();
 		System.out.println("gInfo : " + groupNo);
