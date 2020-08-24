@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-    <title>Document</title>
+    <title>Monthly Planner</title>
     <script type="text/javascript"></script>
     <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>	<!-- 주소 api -->
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b636d978e4a9f9da9633851dddc7bb99&libraries=services"></script> <!-- 지도 api -->
@@ -567,7 +567,7 @@
                                	<th>Color</th>
                                	<td>
                                		<div style="display: flex;">
-                                		<input type="radio" name="color" class="uColor" id="uYellow" value="#FBD14B" checked>
+                                		<input type="radio" name="color" class="uColor" id="uYellow" value="#FBD14B">
 			                         	<label class="u-icons" for="uYellow"><div class="b-yell"></div></label>
 			                         	<input type="radio" name="color" class="uColor" id="uPink" value="#FFA3E5" >
 			                         	<label class="u-icons" for="uPink" ><div class="pink"></div></label>
@@ -709,6 +709,7 @@
     				} else if(mpColor == "#50c6b0"){
     					$("#uGreen").attr("checked", true);
     				}
+    				$("#updateColor").val(mpColor);
     				
     				$("#mpNo").val(mpNo);
     				$("#mpTitle").html(mpTitle);
@@ -805,7 +806,7 @@
         	
         	$(".u-icons").click(function(){
         		var color = $(this).prev().val();
-        		console.log(color);
+        		
         		$("#updateColor").val(color);
         	})
         	

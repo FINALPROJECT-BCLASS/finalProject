@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Timetable</title>
 <style>
 	#listTable{
     	margin-top: 5px;
@@ -915,6 +915,7 @@
 	        				} else if(data.color == "#50c6b0"){
 	        					$("#uGreen").attr("checked", true);
 	        				}
+	        				$("#uColor").val(data.color);
 	        				
 	        				$("#uMemo").val(data.memo);
 	        				

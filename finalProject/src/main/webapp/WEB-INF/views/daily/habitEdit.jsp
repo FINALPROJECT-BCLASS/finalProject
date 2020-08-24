@@ -284,7 +284,6 @@
     	$(document).ready(function() {
     		
   			var cycle = "${habit.ht_cycle}";
-  			console.log(cycle);
   			
   			if(cycle == "Daily") {
   				
@@ -308,7 +307,6 @@
     			$("#count").attr("checked",true);
     			
     		}else if(type == "check") {
-    			console.log("if조건");
     			$("#count").removeAttr("checked",true);
     			$("#check").attr("checked",true);
     		}

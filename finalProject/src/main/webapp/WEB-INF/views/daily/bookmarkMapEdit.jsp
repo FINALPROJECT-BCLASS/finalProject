@@ -443,8 +443,7 @@
 
 	    // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
 	    function placesSearchCB(data, status, pagination) {
-	    	console.log("data : " + data);
-	    	
+
 	        if (status === kakao.maps.services.Status.OK) {
 				
 	            // 정상적으로 검색이 완료됐으면
@@ -614,8 +613,6 @@
 	    function displayInfowindow(marker, title) {
 	        var content = '<div style="padding:5px;z-index:1;">' + title.place_name + '</div>';
 			
-	        console.log("주소" + title.address_name);
-	        
 	        $("#mainAddress").val(title.address_name);
 	        $("#subAddress").val(title.place_name);
 	        $("#mb_phone").val(title.phone);

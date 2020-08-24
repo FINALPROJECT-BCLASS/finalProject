@@ -176,9 +176,6 @@
 	<jsp:include page="common/header.jsp"/>
 	
 	
-	
-<%-- <c:url var="memberJoin" value="memberJoin.do"></c:url>
-	<button onclick="location.href='${memberJoin}'">이동하기</button> --%>
 	<!-- Swiper -->
 	
   <div class="swiper-container">
@@ -253,7 +250,7 @@
       </table>
   </div>
 
-  <div class="main-section b-rightgray">
+  <div class="main-section b-lightgray">
     <table class="main-table">
       <tr>
         <td class="main-section-subject" colspan="2"><span class="b-bottom-b">Daily</span></td>
@@ -299,7 +296,7 @@
   </table>
 </div>
 
-<div class="main-section b-rightgray">
+<div class="main-section b-lightgray">
   <table class="main-table">
     <tr>
       <td class="main-section-subject" colspan="2"><span class="b-bottom-b">Account</span></td>
@@ -335,10 +332,12 @@
       </td>
       <td class="main-section-content p-left">
         <span class="main-section-content-sub">Group Diary</span> <br>
-          어디서나 노트를 작성하세요. 더 빠르게 정보를 찾으세요.<br>
-          사람들과 아이디어를 공유하세요. 일정, 그룹 다이어리, 일기 등을<br>
-          작성하면 빈틈 없는 정보 관리가 가능해집니다. 라이프노트가 당신의 삶을 좀 더<br>
-          효율적으로 관리해줍니다.당신의 삶의 주인공이 되기 위해 지금 바로 시작하세요 !<br>
+          그룹 멤버와 함께 하는 공간입니다.<br>
+          사람들과 아이디어를 공유하세요.<br>
+          일정, 가계부 , 투표로 효율적으로 관리가 가능합니다.<br>
+          동호회, 스터디 주제별 모임을 LIFE NOTE로 시작해보세요.<br>
+          <br>
+          <br>
         <span class="main-section-content-sub yellow">Go Diet Diary &nbsp; ►►</span>
       </td>
     </tr>

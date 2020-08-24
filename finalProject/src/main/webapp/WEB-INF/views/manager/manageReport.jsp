@@ -2,10 +2,10 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html>
+<html>     
 <head>
 <meta charset="UTF-8">
-    <title>Document</title>
+    <title>Report</title>
     <script type="text/javascript"></script>
     
     <link href='resources/css/main.css' rel='stylesheet' />

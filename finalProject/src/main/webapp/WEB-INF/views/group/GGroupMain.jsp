@@ -30,7 +30,7 @@
     
     a{background: #F3F3F3;}
     p{/* text-align:center; margin-top:5px; */ margin:0;}
-    .groupImg {    width: 195px;
+    .groupImg {    width: 195px; height: 180px;
     /* height: 250px; */
     cursor: pointer;
     border-radius: 6px;}

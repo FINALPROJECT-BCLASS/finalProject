@@ -832,9 +832,6 @@
 				var mb_no = $(".select").find(".mb_no").val();
 				var ub_no = $(".select-url").find(".ub_no").val();
 				
-				console.log("북마크 번호 : " + mb_no);
-				console.log("북마크 타입 : " + bl_type);
-				
 				if(mb_no != undefined || ub_no != undefined) {
 					
 					if(bl_type == "map") {
@@ -878,7 +875,6 @@
 				$(".title-content").html(bl_con);
 				
 				var bl_type = $(".clicked").prev().prev().val();
-				console.log("bl_type : " + bl_type);
 				
 			 	if(bl_type == "map") {
 					// 지도 북마크 리스트 불러오기
@@ -902,8 +898,7 @@
 		    	    data: {'bl_no':bl_no},
 		    	    dataType:"json",
 		    	    success : function(data) {
-							console.log("data : " + data.ubl);
-							
+						
 							$(".tri").remove();	
 							$(".message").remove();
 							
@@ -913,8 +908,6 @@
 	   						var $div;
 	   						
 							for(var i in data.ubl){
-								
-								console.log(data.ubl[i]);
 							
 		   						var item = "<div class='url-item' id='"+ data.ubl[i].ub_no +"'>";
 		   						var name = "<span>" + data.ubl[i].ub_title + "</span>";
@@ -984,7 +977,7 @@
 		    	    data: {'bl_no':bl_no},
 		    	    dataType:"json",
 		    	    success : function(data) {
-							console.log("data : " + data);
+
 							$(".tri").remove();
 							$(".message").remove();
 							
@@ -994,8 +987,6 @@
 	   						var $div;
 	   						
 							for(var i in data.mbl){
-								
-								console.log(data.mbl[i]);
 							
 		   						var item = "<div class='map-item' id='"+ data.mbl[i].mb_no +"'>";
 		   						var name = "<span>" + data.mbl[i].mb_title + "</span>";
@@ -1078,8 +1069,6 @@
 				mb_no = $(this).find(".mb_no").val();
 				color = $(".clicked").prev().prev().prev().prev().val();
 				
-				console.log("find : " + color);
-				
 				// 선택된 북마크의 왼쪽 테두리 색 변경
 				$(this).css("border-left", "3px solid" + color);
 				$(this).addClass("select");
@@ -1104,15 +1093,10 @@
 		    	    data: {'mb_no':mb_no},
 		    	    dataType:"json",
 		    	    success : function(data) {
-						console.log("data : " + data);
-						
+		    	    	
 						var add = data.mb_address;
 						var address = add.split("_");
-						
-						/* console.log("1 : " + address[0]+ " 2 : " + address[1]); */
-						
-						console.log("전화번호 : " + data.mb_phone);
-						
+
 						$(".mb_title_d").html(data.mb_title);
 						if(data.mb_phone != null) {
 							$(".mb_phone_d").html(data.mb_phone);							

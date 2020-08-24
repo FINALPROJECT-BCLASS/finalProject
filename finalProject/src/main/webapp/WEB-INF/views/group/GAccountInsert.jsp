@@ -204,8 +204,13 @@
          		    sum += parseInt(this.value);
          		    
          		});
-         		
+         		console.log("sum :  " + sum);
+         		if(isNaN(sum)){
+         			$(".amount").val("");
+         		}else{
+         			
          		$(".amount").val(sum);
+         		}
          	})
          </script>
          

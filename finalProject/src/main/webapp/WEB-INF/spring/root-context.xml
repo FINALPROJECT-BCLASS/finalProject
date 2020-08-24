@@ -27,7 +27,7 @@
 	</property>
 	<property name="dataSource" ref="dataSource"></property>
 	</bean>
-	
+	 
 	<bean id="sqlSessionTemplate"
 		class="org.mybatis.spring.SqlSessionTemplate">
 	<constructor-arg ref="sqlSession"></constructor-arg>
@@ -45,7 +45,7 @@
 		<property name="host" value="smtp.naver.com" />
 		<property name="port" value="465" />
 		<property name="username" value="toadl21" />
-		<property name="password" value="Hongsam6" />
+		<property name="password" value="Hongsam7" />
 		<property name="defaultEncoding" value="utf-8" />
 		<property name="javaMailProperties">
 			<props>

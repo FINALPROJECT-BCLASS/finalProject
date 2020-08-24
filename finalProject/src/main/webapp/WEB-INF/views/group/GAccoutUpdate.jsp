@@ -236,7 +236,11 @@
 	      		    sum += parseInt(this.value);
 	      		});
 	      		
-	      		$(".amount").val(sum);
+	      		if(isNaN(sum)){
+         			$(".amount").val("");
+         		}else{
+         			
+         		$(".amount").val(sum);
 	         })
 	         
          	$(document).on("keyup",".amountBox",function(){
