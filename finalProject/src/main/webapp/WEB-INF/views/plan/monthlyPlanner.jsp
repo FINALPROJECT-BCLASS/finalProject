@@ -813,7 +813,13 @@
         	$("#deleteBtn").click(function(){
         		var deleteNo = $("#mpNo").val();
         		
-      			location.href="mpdelete.do?mpNo="+deleteNo;
+        		var deleteCheck = confirm("일정을 삭제하시겠습니까?");
+        		if(deleteCheck == true){
+        			location.href="mpdelete.do?mpNo="+deleteNo;
+    			}
+    			else if(deleteCheck == false){
+    				alert("일정 삭제를 취소합니다.");
+    			}    				
       		})
       		
       		$("#updateBtn").click(function(){

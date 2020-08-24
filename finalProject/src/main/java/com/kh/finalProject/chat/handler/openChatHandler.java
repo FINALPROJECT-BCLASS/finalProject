@@ -39,15 +39,13 @@ public class openChatHandler extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) {
 		// 채팅방 번호와 보낸이 아이디
-		System.out.println("session uri? : " + session.toString());
+
 		Map<String, Object> sessionmap = session.getAttributes();
 
 		// cm_no가져오기
 		String cm_no = String.valueOf(sessionmap.get("cm_no"));
 		Member m = (Member) sessionmap.get("loginUser");
 
-		System.out.println("cm_no 에욱 :" + cm_no);
-		System.out.println("loginUser id : " + m.getId());
 		// list<map<string,object>>에 들어갈 map저장
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("cm_no", cm_no);
@@ -59,7 +57,6 @@ public class openChatHandler extends TextWebSocketHandler {
 		
 		int result = cService.joinchatroom(map2);
 
-		System.out.println("session 접속 : " + session.getId());
 
 		sessionList.add(map);
 		connectUserList.add(map2);
@@ -97,7 +94,6 @@ public class openChatHandler extends TextWebSocketHandler {
 				   } 
 			   }
 			 
-				System.out.println("접속해있는 유저 아이디 : " + joinUser);
 				
 			for (int i = 0; i < sessionList.size(); i++) {
 				Map<String, Object> mapSessionList = sessionList.get(i);
@@ -105,9 +101,6 @@ public class openChatHandler extends TextWebSocketHandler {
 				// sessionList에 담긴 Map에 값 가져옴
 				String cm_no = String.valueOf(mapSessionList.get("cm_no")); // 세션리스트에 담긴번호
 				WebSocketSession sess = (WebSocketSession) mapSessionList.get("session"); // 세션리스트에 담긴 세션
-				System.out.println("sess : " + sess.getId()); // 확인1 .
-				System.out.println("session확인2 :" + mapSessionList.get("session"));
-				System.out.println("cm_no" + cm_no);
 				// 만약 Map값을 불러왔는데 방번호가 같다면?
 				if (cm_no.equals(mapReceive.get("cm_no"))) {
 
@@ -116,9 +109,8 @@ public class openChatHandler extends TextWebSocketHandler {
 
 					//String nickname = m.getNickname();
 
-					String jsonStr2 = cm_no + "|" + joinUser + "|" + mapReceive.get("msg") + "|" + mapReceive.get("join")+"|"+"join";
+					String jsonStr2 = cm_no + "|" + joinUser + "|" + mapReceive.get("msg") + "|" + mapReceive.get("join")+"|"+"join"+"|"+ "dumpdata";
 
-					System.out.println("확인 에욱" + jsonStr2);
 					sess.sendMessage(new TextMessage(jsonStr2)); // 여기잠깐바꿈
 
 				}
@@ -126,6 +118,8 @@ public class openChatHandler extends TextWebSocketHandler {
 
 			return;
 		}
+		
+		
 		//채팅방 삭제시 모두 방나가게하기
 		if(mapReceive.containsKey("deletemsg")) {
 			
@@ -135,9 +129,7 @@ public class openChatHandler extends TextWebSocketHandler {
 				// sessionList에 담긴 Map에 값 가져옴
 				String cm_no = String.valueOf(mapSessionList.get("cm_no")); // 세션리스트에 담긴번호
 				WebSocketSession sess = (WebSocketSession)mapSessionList.get("session"); // 세션리스트에 담긴 세션
-				System.out.println("sess : " + sess.getId()); // 확인1 .
-				System.out.println("session확인2 :" + mapSessionList.get("session"));
-				System.out.println("cm_no" + cm_no);
+
 				// 만약 Map값을 불러왔는데 방번호가 같다면?
 				if (cm_no.equals(mapReceive.get("cm_no"))) {
 
@@ -148,7 +140,6 @@ public class openChatHandler extends TextWebSocketHandler {
 
 					String jsonStr2 = mapReceive.get("deletemsg");
 
-					System.out.println("확인 에욱" + jsonStr2);
 					sess.sendMessage(new TextMessage(jsonStr2)); // 여기잠깐바꿈
 
 				}
@@ -175,36 +166,32 @@ public class openChatHandler extends TextWebSocketHandler {
 		dbmap.put("cm_no", mapReceive.get("cm_no"));
 		dbmap.put("id", loginid);
 		dbmap.put("message", String.valueOf(mapReceive.get("msg")));
-		int result = cService.insertOpenChatmsg(dbmap);// db저장
+		int result = cService.insertOpenChatmsg(dbmap);
+		// db저장
 		for (int i = 0; i < sessionList.size(); i++) {
 			Map<String, Object> mapSessionList = sessionList.get(i);
 
 			// sessionList에 담긴 Map에 값 가져옴
 			String cm_no = String.valueOf(mapSessionList.get("cm_no"));
 			WebSocketSession sess = (WebSocketSession) mapSessionList.get("session");
-			System.out.println("sess : " + sess.getId()); // 확인1 .
-			System.out.println("session확인2 :" + mapSessionList.get("session"));
-			System.out.println("cm_no" + cm_no);
+
 			// 만약 Map값을 불러왔는데 방번호가 같다면?
 			if (cm_no.equals(mapReceive.get("cm_no"))) {
-				System.out.println("msg : " + mapReceive.get("msg"));
 				
 				// int result =1;
 				if (result > 0) {
 
 					String nickname =m.getNickname();
 					
-					String jsonStr2 = cm_no + "|" + nickname + "|" + mapReceive.get("msg")+ "|" +mapReceive.get("img");
+					String jsonStr2 = cm_no + "|" + nickname + "|" + mapReceive.get("msg")+ "|" +mapReceive.get("img") + "|"+loginid;
 
-					System.out.println("확인 에욱" + jsonStr2);
 					sess.sendMessage(new TextMessage(jsonStr2)); // 여기잠깐바꿈
 
 				} else {
 					String nickname =m.getNickname();
 					
-					String jsonStr2 = cm_no + "|" + nickname+ "|" + mapReceive.get("msg")+"|" +mapReceive.get("img");
+					String jsonStr2 = cm_no + "|" + nickname+ "|" + mapReceive.get("msg")+"|" +mapReceive.get("img") + "|" +loginid;
 
-					System.out.println("db저장 실패");
 					sess.sendMessage(new TextMessage(jsonStr2));
 				}
 			}
@@ -253,7 +240,6 @@ public class openChatHandler extends TextWebSocketHandler {
 			   } 
 		   }
 		
-			System.out.println("접속해있는 유저 아이디 : " + joinUser);
 			
 			
 		//리스트 갱신 메시지 보내주자
@@ -263,9 +249,7 @@ public class openChatHandler extends TextWebSocketHandler {
 				// sessionList에 담긴 Map에 값 가져옴
 				String cm_no = String.valueOf(mapSessionList.get("cm_no")); // 세션리스트에 담긴번호
 				WebSocketSession sess = (WebSocketSession) mapSessionList.get("session"); // 세션리스트에 담긴 세션
-				System.out.println("sess : " + sess.getId()); // 확인1 .
-				System.out.println("session확인2 :" + mapSessionList.get("session"));
-				System.out.println("cm_no" + cm_no);
+
 				// 만약 Map값을 불러왔는데 방번호가 같다면?
 				if (cm_no.equals(sessioncm_no)) {
 
@@ -274,9 +258,8 @@ public class openChatHandler extends TextWebSocketHandler {
 
 					String nickname = m.getNickname();
 
-					String jsonStr2 = cm_no + "|" + joinUser + "|" + "퇴장하셨습니다." + "|" + "out" + "|"+"퇴장";
+					String jsonStr2 = cm_no + "|" + joinUser + "|" + "퇴장하셨습니다." + "|" + "out" + "|"+"퇴장" + "|"+"dumpdata";
 
-					System.out.println("확인 에욱" + jsonStr2);
 					sess.sendMessage(new TextMessage(jsonStr2)); // 여기잠깐바꿈
 
 				}
@@ -284,7 +267,6 @@ public class openChatHandler extends TextWebSocketHandler {
 			
 			
 		
-		System.out.println("sessionList : " + sessionList);
 	}
 
 }

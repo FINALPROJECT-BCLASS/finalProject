@@ -68,8 +68,7 @@ var yValue;
 			x :  new Date(res[0],res[1]-1,res[2]),
 			y : yValue
 		});			
-			console.log(xValue);
-			console.log(yValue);
+
 		
 </c:forEach> 
  
@@ -110,11 +109,10 @@ var yValue;
 			x : new Date(res[0],res[1]-1,res[2]),
 			y : yValue
 		});			
-			console.log(xValue);
-			console.log(yValue);
+
 		
 </c:forEach> 
-		console.log("dps : " + dps[1].x);
+
  
 chart.render();
  
@@ -153,11 +151,10 @@ var yValue;
 			x : new Date(res[0],res[1]-1,res[2]),
 			y : yValue
 		});			
-			console.log(xValue);
-			console.log(yValue);
+
 		
 </c:forEach> 
-		console.log("dps : " + dps[1].x);
+
  
 chart.render();
  

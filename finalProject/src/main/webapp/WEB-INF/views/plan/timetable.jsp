@@ -959,7 +959,7 @@
 	    				location.href="ttdelete.do?ttNo="+ttNo;
 	    			}
 	    			else if(deleteCheck == false){
-	    				console.log("일정 삭제를 취소합니다.");
+	    				alert("일정 삭제를 취소합니다.");
 	    			}    				
     			}
         	})

@@ -304,11 +304,13 @@
 			<div id="chatdata">
 				<c:if test="${!empty cl.ol_img}">
 					<c:if test="${fn:contains(cl.ol_img,'jpg') || fn:contains(cl.ol_img,'png') || fn:contains(cl.ol_img,'jpeg') || fn:contains(cl.ol_img,'bmp')
-					 				|| fn:contains(cl.ol_img,'gif')}">
+					 				|| fn:contains(cl.ol_img,'gif')|| fn:contains(cl.ol_img,'JPG') || fn:contains(cl.ol_img,'PNG') || fn:contains(cl.ol_img,'JPEG') || fn:contains(cl.ol_img,'BMP')
+					 				|| fn:contains(cl.ol_img,'GIF')}">
 					 	<div class="text-con"><img src='resources/cuploadFiles/${cl.ol_img }' class='img-message'></div>
 					 				</c:if>
 					 <c:if test="${!(fn:contains(cl.ol_img,'jpg') || fn:contains(cl.ol_img,'png') || fn:contains(cl.ol_img,'jpeg') || fn:contains(cl.ol_img,'bmp')
-					 				|| fn:contains(cl.ol_img,'gif'))}">					 				
+					 				|| fn:contains(cl.ol_img,'gif') || fn:contains(cl.ol_img,'JPG') || fn:contains(cl.ol_img,'PNG') || fn:contains(cl.ol_img,'JPEG') || fn:contains(cl.ol_img,'BMP')
+					 				|| fn:contains(cl.ol_img,'GIF'))}">					 				
 					 	<div class="text-con"><a class='downloadmsg' href='resources/cuploadFiles/${cl.ol_img }' download><span class='material-icons' style='width: 100%; height: 100%; font-size: 50px; color:#2860E1;'>save</span></a></div>
 					 				</c:if>
 				</c:if>
@@ -346,11 +348,13 @@
 				<div class="text-con-someone">
 					<c:if test="${!empty cl.ol_img }">
 						<c:if test="${fn:contains(cl.ol_img,'jpg') || fn:contains(cl.ol_img,'png') || fn:contains(cl.ol_img,'jpeg') || fn:contains(cl.ol_img,'bmp')
-					 				|| fn:contains(cl.ol_img,'gif')}">
+					 				|| fn:contains(cl.ol_img,'gif') || fn:contains(cl.ol_img,'JPG') || fn:contains(cl.ol_img,'PNG') || fn:contains(cl.ol_img,'JPEG') || fn:contains(cl.ol_img,'BMP')
+					 				|| fn:contains(cl.ol_img,'GIF')}">
 					 			<img src='resources/cuploadFiles/${cl.ol_img }' class='img-message'>			
 					 	</c:if>
 						<c:if test="${!(fn:contains(cl.ol_img,'jpg') || fn:contains(cl.ol_img,'png') || fn:contains(cl.ol_img,'jpeg') || fn:contains(cl.ol_img,'bmp')
-					 				|| fn:contains(cl.ol_img,'gif'))}">	
+					 				|| fn:contains(cl.ol_img,'gif') || fn:contains(cl.ol_img,'JPG') || fn:contains(cl.ol_img,'PNG') || fn:contains(cl.ol_img,'JPEG') || fn:contains(cl.ol_img,'BMP')
+					 				|| fn:contains(cl.ol_img,'GIF'))}">	
 					 			<a class='downloadmsg' href='resources/cuploadFiles/${cl.ol_img }' download><span class='material-icons' style='width: 100%; height: 100%; font-size: 50px; color: #2860E1;'>save</span></a>
 					 	</c:if>
 					</c:if>
@@ -418,9 +422,13 @@
 				reader.onload = function(e) {
 					var filename = $("#file_transfer").val().split('/').pop().split('\\').pop();
 				
+					
+					console.log("filename : " + filename)
 					if((filename.indexOf("jpg") != -1) || (filename.indexOf("png") != -1)
 							|| (filename.indexOf("jpeg") != -1) || (filename.indexOf("bmp") != -1)
-							|| (filename.indexOf("gif") != -1)){
+							|| (filename.indexOf("gif") != -1) || (filename.indexOf("JPG") != -1) || (filename.indexOf("PNG") != -1)
+							|| (filename.indexOf("JPEG") != -1) || (filename.indexOf("BMP") != -1)
+							|| (filename.indexOf("GIF") != -1)){
 						
 						var $printHTML;
 						printHTML ="<img id='modal-img' height='110%'>"
@@ -466,7 +474,7 @@
 		if(ol_yn != null){
 		var offset = $("#ol_yn").offset();
 		var location = $(".big-area").offset();
-		console.log("offset : " + offset);
+
 		$(".big-area").animate({scrollTop:(offset.top - location.top)},1000);
 		}
 		//없을시에.
@@ -523,7 +531,7 @@
 			processData: false,
 			contentType: false,
 			success : function(data){
-				console.log("파일 저장 성공 " + data);
+
 				var imgname = data;
 				
 				var msgData = {
@@ -554,7 +562,6 @@
            } 
 		})
 		
-		console.log("이미지이름 : " + imgname);
 		$("#modal").modal('toggle');
 	})
 	
@@ -569,14 +576,14 @@
 
 	$("#sendBtn").click(function() {
 		sendMessage();
-		console.log('send message...');
+
 		$("#message").val('');
 	});
 	        
 	//메세지 전송 메소드
 	function sendMessage() {
 		var friendid = $("#friendid").val();
-		console.log("친구아이디 :" +friendid);
+
 		var user = $("#loginuser").val();
 		
 		var msgData = {
@@ -609,7 +616,7 @@
 		var sessionid = null;
 		var message = null;
 		var co_no = null;
-		console.log("확인용 : " + evt.data);
+
 		
 		if(data.indexOf("count") != -1){
 			allcount(data);
@@ -618,9 +625,7 @@
 		//문자열을 splite//
 		 var strArray = data.split('|'); 
 		
-		for(var i=0; i<strArray.length; i++){
-			console.log('str['+i+']: ' + strArray[i]);
-		}
+
 		if(strArray.length == 5){
 			imgMessage(strArray);
 			return;
@@ -628,9 +633,8 @@
 		
 		//current session id//
 		var currentuser_session = $("#loginuser").val();
-		console.log('loginuser id: ' + currentuser_session);
+
 		var current_co_no = $("#co_no").val();
-		console.log("current_co_no : " + current_co_no);
 		
 		//String jsonStr2 = co_no + "|" +loginid+ "|" + mapReceive.get("msg");	
 		co_no = strArray[0];
@@ -684,7 +688,6 @@
 			$(".chat-area").append(printHTML);
 		}
 		
-		console.log('chatting data: ' + data);
 		$(".big-area").scrollTop($(".big-area")[0].scrollHeight);
 		
 		var msgData3 ={
@@ -712,9 +715,9 @@
 	function imgMessage(strArray){
 		//current session id//
 		var currentuser_session = $("#loginuser").val();
-		console.log('loginuser id: ' + currentuser_session);
+
 		var current_co_no = $("#co_no").val();
-		console.log("current_co_no : " + current_co_no);
+
 		
 		co_no = strArray[0];
 		sessionid = strArray[1]; //현재 메세지를 보낸 사람의 세션 등록//
@@ -722,13 +725,15 @@
 		img = strArray[3];	//이미지
 		filename = strArray[4];
 		var $printHTML;
-		console.log("filename " +filename);
+
 		
 		if(sessionid == currentuser_session){
 			
 			if((filename.indexOf("jpg") != -1) || (filename.indexOf("png") != -1)
 					|| (filename.indexOf("jpeg") != -1) || (filename.indexOf("bmp") != -1)
-					|| (filename.indexOf("gif") != -1)){
+					|| (filename.indexOf("gif") != -1) || (filename.indexOf("JPG") != -1) || (filename.indexOf("PNG") != -1)
+					|| (filename.indexOf("JPEG") != -1) || (filename.indexOf("BMP") != -1)
+					|| (filename.indexOf("GIF") != -1)){
 				
 			var check ="${loginUser.rename_file}";
 			if(check == ""){
@@ -774,7 +779,9 @@
 		} else{
 			if((filename.indexOf("jpg") != -1) || (filename.indexOf("png") != -1)
 					|| (filename.indexOf("jpeg") != -1) || (filename.indexOf("bmp") != -1)
-					|| (filename.indexOf("gif") != -1)){
+					|| (filename.indexOf("gif") != -1) || (filename.indexOf("JPG") != -1) || (filename.indexOf("PNG") != -1)
+					|| (filename.indexOf("JPEG") != -1) || (filename.indexOf("BMP") != -1)
+					|| (filename.indexOf("GIF") != -1)){
 			if(img ==""){
 				printHTML = "<div id='chatdata' class='left'>"
 					+ "<div class='profile-img'><img src='resources/images/icons/profile_white.png'></div>"
@@ -833,9 +840,8 @@
 	}
 	
 	function allcount(data){
-		console.log("allcount : " +data);
+
 		var count = data.substr(5);
-		console.log("count:" + count);
 		
 		var $pringHTML;
 		

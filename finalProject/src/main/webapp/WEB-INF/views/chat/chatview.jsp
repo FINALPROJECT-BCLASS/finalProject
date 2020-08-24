@@ -384,9 +384,24 @@
 		$(".chatgobtn").click(function(){
 			var id = $(this).siblings(".userid").val();
 			var name = $(this).siblings(".username").val();
-			console.log("name:" + name);
-			console.log("id : " +id);
-			location.href="ChatOneToOneView.do?id="+id;
+			
+		 		$.ajax({
+		 			url:"reportcheck.do",
+		 			success:function(data){
+
+		 				if(data == 'Y'){
+		 					location.href="ChatOneToOneView.do?id="+id;
+		 				}else{
+		 					alert("신고된 아이디입니다. 채팅에 접속 할 수 없습니다.");
+		 				}
+		 			},
+		            error:function(request, status, errorData){
+		                alert("error code: " + request.status + "\n"
+		                      +"message: " + request.responseText
+		                      +"error: " + errorData);
+		           } 
+		 		})
+			
 		})
 		
 	})
@@ -478,7 +493,6 @@
 	//친구리스트 보여주기	
 		$("#memberListSearch").click(function(){
 			var name = $("#membername").val();
-			console.log("name : " +name);
 			$(".List").hide();	//친구목록 숨김..List	
 			$(".SearchList").show();	//친구 리스트 보여줌.
 			$(".recommendList").hide();
@@ -547,10 +561,12 @@
 	//친구 추가
 	$(document).on("click",".plus-btn",function(){
 		var id = $(this).next().val();
-		console.log("id : " + id);
+
 		location.href="insertFriendList.do?id=" + id;
 		
 	})
+	
+
 	
 </script>
 

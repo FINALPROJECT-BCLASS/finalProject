@@ -103,7 +103,7 @@
 			  </div>
 			  
 			
-			  <div id='loading'>loading...</div><!-- 로딩을 보여주는곳? -->
+			  <div id='loading' style="display:none;">loading...</div><!-- 로딩을 보여주는곳? -->
 			
 			  <div id='calendar'></div>
 				
@@ -149,7 +149,6 @@
 	<script>
 		function currentdate(date){
 			var currentdate = date;
-			console.log("에욱 " +currentdate);
 			
 			modalAjax(currentdate);
 			
@@ -177,12 +176,10 @@
 		      dayMaxEvents: true, // allow "more" link when too many events
 		      events: function(info,successCallback,failureCallback){
 		    	  				var events=[];
-		    	  				console.log("나오니?");
 		    	  	$.ajax({
 		    	  		url:"eventDiet.do",
 		    	  		dataType:"json",
 		    	  		success: function(data){
-		    	  			console.log("data" + data.DietList[0].kinds);
 		    	  				for(var i in data.DietList){	//포문?
 		    	  						if(data.DietList[i].kinds == "diet"){
 		    	  					events.push({
@@ -223,10 +220,6 @@
 		    	 	/*  alert('Clicked on: ' + info.dateStr); */
 		    	 	 
 		    	 	   	 	
-		      },
-		      loading: function(bool) {
-		        document.getElementById('loading').style.display =
-		          bool ? 'block' : 'none';
 		      }
 		    });
 
@@ -238,7 +231,6 @@
 	 //modal ajax
 	 	function modalAjax(date){
 	 		var currentdate = date;
-		console.log("currentdate: "  + currentdate);
 		 $.ajax({
 			url:"todayDietAjax.do",
 			data:{currentdate:currentdate},
@@ -247,13 +239,7 @@
 				/* $dietDetail = $("#dietDetail");
 				$dietDetail.html(""); */
 				
-				//콘솔확인
-				console.log("성공 했니?" + data.list.breakfast);
-				console.log("성공 했니?" + data.list.morningSnack);
-				console.log("성공 했니?" + data.list.Lunch);
-				console.log("성공 했니?" + data.list.Lunchsnack);
-				console.log("성공 했니?" + data.list.Dinner);
-				console.log("성공 했니?" + data.list.Dinnersnack);
+
 				
 				//갑 넣어주기
 				if(data.list.breakfast != 0){

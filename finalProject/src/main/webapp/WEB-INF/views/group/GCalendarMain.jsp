@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +14,7 @@
     <link href='resources/css/main.css' rel='stylesheet' />
     <script src='resources/lib/main.js'></script>
     <script>
-
+ 
 	    document.addEventListener('DOMContentLoaded', function() {
 	        var calendarEl = document.getElementById('calendar');
 	
