@@ -220,7 +220,7 @@
         				<td style="width: 100px;">${r.rpRDate }</td>
         				<td style="width: 100px;">${r.rpCount }</td>
         			<c:if test="${empty r.rpRDate }">
-        				<td style="width: 100px;"><button type="button" class="save-btn" onclick="updateReport()">Save</button></td>
+        				<td style="width: 100px;"><button type="button" class="save-btn">Save</button></td>
         			</c:if>
         			<c:if test="${!empty r.rpRDate }">
         				<td style="width: 100px;"><button type="button" class="no-btn" onclick="viewAlert()">Save</button></td>
@@ -283,7 +283,7 @@
     
     <script>
     	function updateReport(rpNo, rprNo, rpedId) {
-    		var updateCheck = confirm("저장 하시겠습니까? 한 번 저장하면 수정이 불가합니다.");
+    		 var updateCheck = confirm("저장 하시겠습니까? 한 번 저장하면 수정이 불가합니다.");
 			if(updateCheck == true){
 				location.href="updatereport.do?rpNo="+rpNo+"&rprNo="+rprNo+"&rpedId="+rpedId;
 			}

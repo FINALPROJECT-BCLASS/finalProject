@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -356,7 +356,7 @@
 		<c:if test="${ groupTable.id eq gInfo.loginUserId}">
 		<jsp:include page="../common/sidenaviGroupAdmin.jsp"/>
 		</c:if>
-		
+		${gInfo } && ${groupTable }
 		<c:if test="${ groupTable.id ne gInfo.loginUserId}">
 		<jsp:include page="../common/sidenaviGroup.jsp"/>
 		</c:if>
