@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -80,8 +81,8 @@
   	
   	.endBtn{background:#2860E1;}
   	.removeBtn{background:lightgray;}
-  	
-  	tr > td:nth-child(1) {
+  	 
+  	.noticeBoardTb > tr > td:nth-child(1) {
         color: #484848;
         text-align: left;
         font-weight: 600;
@@ -105,9 +106,17 @@
 
       
       <div class="join-form-area">
-	
-  		<jsp:include page="../common/groupNoticeHeader.jsp"/>
+		
+
+		<c:if test="${ groupTable.id eq gInfo.loginUserId}">
+		<jsp:include page="../common/sidenaviGroupAdmin.jsp"/>
+		</c:if>
+		
+		<c:if test="${ groupTable.id ne gInfo.loginUserId}">
+		<jsp:include page="../common/sidenaviGroup.jsp"/>
+		</c:if>
   		
+  			<jsp:include page="../common/groupNoticeHeader.jsp"/>
   		
         <h1>Group Diary</h1>
         <div class="btnList">

@@ -134,7 +134,7 @@
                                 <div class="search">
                                     <span class="material-icons">face</span>
                                     <input type="text" id="search" placeholder="참여명 검색">
-                                    <span class="material-icons search">search</span>
+                                    <span class="material-icons search" id="searchClick">search</span>
                                     <div class="searchNameForm"></div>
                                 </div>
                             </td>
@@ -390,7 +390,7 @@
          <script>
          	$(function(){
 
-         		$(".search").click(function(){
+         		$("#searchClick").click(function(){
          			$(".searchNameForm").css("display","block");
          			var searchName = $("#search").val();
          			

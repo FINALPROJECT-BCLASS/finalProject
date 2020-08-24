@@ -349,7 +349,7 @@ public class GroupController {
 	public ModelAndView sessionCreate(ModelAndView mv, HttpSession session, Member m, @RequestParam("groupNo") int groupNo,GroupInfo gInfo) {
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		String id = loginUser.getId();
-		System.out.println("gInfo : " + groupNo);
+		
 		gInfo.setLoginUserId(id);
 		gInfo.setGroupNo(groupNo);
 		
@@ -1990,8 +1990,7 @@ public class GroupController {
 			ga.setgNo(gInfo.getGroupNo());
 			ga.setGmNo(gInfo.getGmNo());
 			ga.setGaAmount(Integer.valueOf(gauAmount));
-			System.out.println("gauAmount : " +  gauAmount);
-
+			
 			int result = gService.updateAccount(ga);
 
 			int deleteDam = gService.deleteAccountMember(ga);
