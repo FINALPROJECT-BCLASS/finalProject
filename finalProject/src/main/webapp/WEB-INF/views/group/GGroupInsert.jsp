@@ -334,7 +334,6 @@
          				data:{searchName:searchName},
          				dataType:"json",
          				success:function(data){
-         					alert("ajax");
          					var $search = $(".searchNameForm");
          					$search.empty();
          					
