@@ -109,7 +109,7 @@ public class openChatHandler extends TextWebSocketHandler {
 
 					//String nickname = m.getNickname();
 
-					String jsonStr2 = cm_no + "|" + joinUser + "|" + mapReceive.get("msg") + "|" + mapReceive.get("join")+"|"+"join";
+					String jsonStr2 = cm_no + "|" + joinUser + "|" + mapReceive.get("msg") + "|" + mapReceive.get("join")+"|"+"join"+"|"+ "dumpdata";
 
 					sess.sendMessage(new TextMessage(jsonStr2)); // 여기잠깐바꿈
 
@@ -118,6 +118,8 @@ public class openChatHandler extends TextWebSocketHandler {
 
 			return;
 		}
+		
+		
 		//채팅방 삭제시 모두 방나가게하기
 		if(mapReceive.containsKey("deletemsg")) {
 			
@@ -164,7 +166,8 @@ public class openChatHandler extends TextWebSocketHandler {
 		dbmap.put("cm_no", mapReceive.get("cm_no"));
 		dbmap.put("id", loginid);
 		dbmap.put("message", String.valueOf(mapReceive.get("msg")));
-		int result = cService.insertOpenChatmsg(dbmap);// db저장
+		int result = cService.insertOpenChatmsg(dbmap);
+		// db저장
 		for (int i = 0; i < sessionList.size(); i++) {
 			Map<String, Object> mapSessionList = sessionList.get(i);
 
@@ -180,14 +183,14 @@ public class openChatHandler extends TextWebSocketHandler {
 
 					String nickname =m.getNickname();
 					
-					String jsonStr2 = cm_no + "|" + nickname + "|" + mapReceive.get("msg")+ "|" +mapReceive.get("img");
+					String jsonStr2 = cm_no + "|" + nickname + "|" + mapReceive.get("msg")+ "|" +mapReceive.get("img") + "|"+loginid;
 
 					sess.sendMessage(new TextMessage(jsonStr2)); // 여기잠깐바꿈
 
 				} else {
 					String nickname =m.getNickname();
 					
-					String jsonStr2 = cm_no + "|" + nickname+ "|" + mapReceive.get("msg")+"|" +mapReceive.get("img");
+					String jsonStr2 = cm_no + "|" + nickname+ "|" + mapReceive.get("msg")+"|" +mapReceive.get("img") + "|" +loginid;
 
 					sess.sendMessage(new TextMessage(jsonStr2));
 				}
@@ -255,7 +258,7 @@ public class openChatHandler extends TextWebSocketHandler {
 
 					String nickname = m.getNickname();
 
-					String jsonStr2 = cm_no + "|" + joinUser + "|" + "퇴장하셨습니다." + "|" + "out" + "|"+"퇴장";
+					String jsonStr2 = cm_no + "|" + joinUser + "|" + "퇴장하셨습니다." + "|" + "out" + "|"+"퇴장" + "|"+"dumpdata";
 
 					sess.sendMessage(new TextMessage(jsonStr2)); // 여기잠깐바꿈
 

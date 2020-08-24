@@ -548,7 +548,7 @@ $(document).ready(function(){
 			return;
 		}
 		
-		if (strArray.length == 5) {
+		if (strArray.length == 6) {
 			memberList(strArray);
 			return;
 		}
@@ -565,8 +565,9 @@ $(document).ready(function(){
 		sessionid = strArray[1]; //현재 메세지를 보낸 사람의 세션 등록//
 		message = strArray[2]; //현재 메세지를 저장//
 		img = strArray[3];
+		loginid = strArray[4]; 
 		var $printHTML;
-
+		
 		//나와 상대방이 보낸 메세지를 구분하여 영역을 나눈다.//
 		if (sessionid == currentuser_session) {
 			var check = "${loginUser.rename_file}";
@@ -578,7 +579,7 @@ $(document).ready(function(){
 					+ "<div class='tri-left'></div>"
 					+ "<div class='profile-img'><img src='resources/images/icons/profile_white.png'>"
 					+ "</div>" + "</div>";
-				
+				//여기
 			}else{
 				printHTML = "<div id='chatdata'>"
 					+ "<div class='text-con'><span>"
@@ -598,8 +599,9 @@ $(document).ready(function(){
 					+ "<div class='tri-right'></div>"
 					+"<div class='text-con-area'>"
 					+"<div>" + sessionid+"</div>"
-					+"<div class='text-con-someone'>"+message+"</div>";
-					+"</div>";
+					+"<div class='text-con-someone'>"+message+"</div>"
+					+ "<input type='hidden' value="+loginid+" name='chatid' class='chatid'>"
+					+"</div>"+"</div>";
 				
 			}else{
 				printHTML = "<div id='chatdata' class='left'>"
@@ -607,8 +609,9 @@ $(document).ready(function(){
 					+ "<div class='tri-right'></div>"
 					+"<div class='text-con-area'>"
 					+"<div>" + sessionid+"</div>"
-					+"<div class='text-con-someone'>"+message+"</div>";
-					+"</div>";
+					+"<div class='text-con-someone'>"+message+"</div>"
+					+ "<input type='hidden' value="+loginid+" name='chatid' class='chatid'>"
+					+"</div>"+"</div>";
 			}
 			
 				
@@ -710,6 +713,10 @@ $(document).ready(function(){
 
 			
 			var chatid = $(this).siblings(".text-con-area").find("input[name='chatid']").val();
+			
+			if(chatid == null){
+				return;
+			}
 
 			$("#modal").modal();
 			
@@ -730,7 +737,7 @@ $(document).ready(function(){
 				if(option == "기타"){
 					option =$(".reportoption5").val();
 				}
-
+				
 				$.ajax({
 					url:"report.do",
 					data:{chatid:chatid,content:content,option:option},
