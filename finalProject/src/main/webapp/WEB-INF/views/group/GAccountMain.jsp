@@ -291,8 +291,9 @@
 				     						</td>
 				     					</c:if>
 				     					<td>${m.name } : </td>
-				     					<c:set var="amount" value="${m.gamAmount }"/>
-				     					<td><fmt:formatNumber value="${amount }" groupingUsed="true"/></td>
+				     					<td>${m.gamAmount }  </td>
+				     					<%-- <c:set var="amount" value="${m.gamAmount }"/>
+				     					<td><fmt:formatNumber value="${amount }" groupingUsed="true"/></td> --%>
 				     				</tr>
 				     			</c:if>
 				     			</c:forEach>
