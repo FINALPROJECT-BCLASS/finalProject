@@ -14,7 +14,7 @@
     <link href='resources/css/main.css' rel='stylesheet' />
     <script src='resources/lib/main.js'></script>
     <script>
-
+ 
 	    document.addEventListener('DOMContentLoaded', function() {
 	        var calendarEl = document.getElementById('calendar');
 	
@@ -356,7 +356,7 @@
 		<c:if test="${ groupTable.id eq gInfo.loginUserId}">
 		<jsp:include page="../common/sidenaviGroupAdmin.jsp"/>
 		</c:if>
-		${gInfo } && ${groupTable }
+		
 		<c:if test="${ groupTable.id ne gInfo.loginUserId}">
 		<jsp:include page="../common/sidenaviGroup.jsp"/>
 		</c:if>

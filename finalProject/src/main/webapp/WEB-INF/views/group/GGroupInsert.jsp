@@ -140,7 +140,7 @@
                                 <div class="search">
                                     <span class="material-icons">face</span>
                                     <input type="text" id="search" placeholder="참여명 검색">
-                                    <span class="material-icons search">search</span>
+                                    <span class="material-icons search" id="searchClick">search</span>
                                     <div class="searchNameForm">
                                     	 
                                     </div>
@@ -325,7 +325,7 @@
          <script>
 
 
-         		$(".search").click(function(){
+         		$("#searchClick").click(function(){
          			$(".searchNameForm").css("display","block");
          			var searchName = $("#search").val();
          			
@@ -334,6 +334,7 @@
          				data:{searchName:searchName},
          				dataType:"json",
          				success:function(data){
+         					alert("ajax");
          					var $search = $(".searchNameForm");
          					$search.empty();
          					
