@@ -2075,6 +2075,6 @@ public class GroupController {
 			mv.addObject("groupTable",gt);
 			mv.setViewName("group/GFootPrintMain");
 				
-			return mv;
+		 	return mv;
 		}
 }
