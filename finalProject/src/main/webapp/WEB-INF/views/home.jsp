@@ -180,7 +180,7 @@
 	
   <div class="swiper-container">
     <div class="swiper-wrapper">
-      <div class="swiper-slide" style="background-image: url(resources/images/main-images/maintest.jpg);">
+      <div class="swiper-slide" style="background-image: url(resources/images/main-images/main.jpg);">
         <div class="title" data-swiper-parallax="-300"><div class="logo-area swiper-logo">
           <a class="blue">LIFE</a>NOTE </div>
         </div>
@@ -244,7 +244,7 @@
               월별 일정 관리를 통해 한 달의 계획을 세우세요.<br>
               일별로 일정 관리를 하면 계획적인 생활이 가능합니다.<br>
               당신의 소중한 시간을 절약하도록 도와줍니다.<br>
-            <span class="main-section-content-sub yellow">Go Planner &nbsp; ►►</span>
+            <span class="main-section-content-sub yellow">Sign Up &nbsp; ►►</span>
           </td>
         </tr>
       </table>
@@ -258,11 +258,11 @@
       <tr>
         <td class="main-section-content p-right">
           <span class="main-section-content-sub">Daily Record</span> <br>
-          어디서나 노트를 작성하세요. 더 빠르게 정보를 찾으세요.<br>
-          사람들과 아이디어를 공유하세요. 일정, 그룹 다이어리, 일기 등을<br>
-          작성하면 빈틈 없는 정보 관리가 가능해집니다. 라이프노트가 당신의 삶을 좀 더<br>
-          효율적으로 관리해줍니다.당신의 삶의 주인공이 되기 위해 지금 바로 시작하세요 !<br>
-          <span class="main-section-content-sub blue">Go Daily Record &nbsp; ►►</span>
+	          나만의 습관을 정하고 달성도를 체크하세요.<br>
+			  특별한 이벤트나 소소한 일상 등 당신의 하루를 기록하세요.<br>
+			  좋아하는 장소나 음악 등을 한곳에 정리하세요.<br>
+		      당신의 소중한 일상을 LIFENOTE와 함께하세요.<br>
+          <span class="main-section-content-sub blue">Sign Up &nbsp; ►►</span>
         </td>
         <td class="main-section-image-area">
           <div class="image-round b-blue">
@@ -280,17 +280,17 @@
     </tr>
     <tr>
       <td class="main-section-image-area">
-        <div class="image-round b-yell">
-          <img class="main-section-img" src="resources/images/main-images/calendar.png">
+        <div class="image-round b-lightgray">
+          <img style="width: 270px; height: 270px;" class="main-section-img" src="resources/images/main-images/exercise.png">
         </div>
       </td>
       <td class="main-section-content p-left">
         <span class="main-section-content-sub">Diet Diary</span> <br>
-          어디서나 노트를 작성하세요. 더 빠르게 정보를 찾으세요.<br>
-          사람들과 아이디어를 공유하세요. 일정, 그룹 다이어리, 일기 등을<br>
-          작성하면 빈틈 없는 정보 관리가 가능해집니다. 라이프노트가 당신의 삶을 좀 더<br>
-          효율적으로 관리해줍니다.당신의 삶의 주인공이 되기 위해 지금 바로 시작하세요 !<br>
-        <span class="main-section-content-sub yellow">Go Diet Diary &nbsp; ►►</span>
+	       자신의 식단을 관리해 보세요.<br>
+	       그날의 인바디를 기록하세요.<br>
+	       인바디 그래프를 통해 변화를 한눈에 확인하세요.<br>
+	       LIFENOTE가 책임지고 당신의 건강 관리를 도와줍니다.<br>
+        <span class="main-section-content-sub yellow">Sign Up &nbsp; ►►</span>
       </td>
     </tr>
   </table>
@@ -304,15 +304,15 @@
     <tr>
       <td class="main-section-content p-right">
         <span class="main-section-content-sub">Account Book</span> <br>
-        당신의 자산을 체계적으로 관리하세요.<br>
-        월별 수익과 지출 통계를 분류별로 제공합니다.<br>
-        연도별 수익과 지출 변화를 한 눈에 확인하세요. <br>
-        불필요한 소비를 피할 수 있습니다.<br>
-        <span class="main-section-content-sub blue">Go Account Book &nbsp; ►►</span>
+	        당신의 자산을 체계적으로 관리하세요.<br>
+	        월별 수익과 지출 통계를 분류별로 제공합니다.<br>
+	        연도별 수익과 지출 변화를 한 눈에 확인하세요. <br>
+	        불필요한 소비를 피할 수 있습니다.<br>
+        <span class="main-section-content-sub blue">Sign Up &nbsp; ►►</span>
       </td>
       <td class="main-section-image-area">
         <div class="image-round b-blue">
-          <img class="main-section-img-2" src="resources/images/main-images/diary.png">
+          <img class="main-section-img-2" style="margin-left: -50px;" src="resources/images/main-images/piggy-bank.png">
         </div>
       </td>
     </tr>
@@ -326,8 +326,8 @@
     </tr>
     <tr>
       <td class="main-section-image-area">
-        <div class="image-round b-yell">
-          <img class="main-section-img" src="resources/images/main-images/calendar.png">
+        <div class="image-round b-lightgray">
+          <img class="main-section-img" src="resources/images/main-images/dialogue.png">
         </div>
       </td>
       <td class="main-section-content p-left">
@@ -336,9 +336,7 @@
           사람들과 아이디어를 공유하세요.<br>
           일정, 가계부 , 투표로 효율적으로 관리가 가능합니다.<br>
           동호회, 스터디 주제별 모임을 LIFE NOTE로 시작해보세요.<br>
-          <br>
-          <br>
-        <span class="main-section-content-sub yellow">Go Diet Diary &nbsp; ►►</span>
+        <span class="main-section-content-sub yellow">Sign Up &nbsp; ►►</span>
       </td>
     </tr>
   </table>
