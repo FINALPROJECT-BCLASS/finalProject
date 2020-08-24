@@ -840,7 +840,7 @@
 	}
 	
 	function allcount(data){
-
+		
 		var count = data.substr(5);
 		
 		var $pringHTML;
