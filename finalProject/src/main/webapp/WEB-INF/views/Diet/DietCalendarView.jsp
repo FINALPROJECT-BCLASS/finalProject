@@ -103,7 +103,7 @@
 			  </div>
 			  
 			
-			  <div id='loading'>loading...</div><!-- 로딩을 보여주는곳? -->
+			  <div id='loading' style="display:none;">loading...</div><!-- 로딩을 보여주는곳? -->
 			
 			  <div id='calendar'></div>
 				
@@ -220,10 +220,6 @@
 		    	 	/*  alert('Clicked on: ' + info.dateStr); */
 		    	 	 
 		    	 	   	 	
-		      },
-		      loading: function(bool) {
-		        document.getElementById('loading').style.display =
-		          bool ? 'block' : 'none';
 		      }
 		    });
 
