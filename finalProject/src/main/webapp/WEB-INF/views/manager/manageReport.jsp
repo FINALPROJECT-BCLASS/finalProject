@@ -220,7 +220,7 @@
         				<td style="width: 100px;">${r.rpRDate }</td>
         				<td style="width: 100px;">${r.rpCount }</td>
         			<c:if test="${empty r.rpRDate }">
-        				<td style="width: 100px;"><button type="button" class="save-btn" onclick="updateReport()">Save</button></td>
+        				<td style="width: 100px;"><button type="button" class="save-btn">Save</button></td>
         			</c:if>
         			<c:if test="${!empty r.rpRDate }">
         				<td style="width: 100px;"><button type="button" class="no-btn" onclick="viewAlert()">Save</button></td>
