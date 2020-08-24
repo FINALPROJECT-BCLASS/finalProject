@@ -362,7 +362,6 @@
 	    	// 지우지 않은 파일들 번호 뽑아내기
 	    	$('.left').each(function(){
 	    		  var text = $(this).next().next().val();
-	    		  console.log(text);
 	    		  left_name.push(text);
 	    		  
 	  	  	});
@@ -378,8 +377,6 @@
     
 	    var drpRenameSplit = "${drp_rename}".split(',');
 	    var drpNoSplit = "${drp_no}".split(',');
-	    
-	    console.log("drpNoSplit : " + drpNoSplit);
 	    
 	    if(drpNoSplit != "") {
 		    // 이미지 추가
@@ -409,7 +406,6 @@
 	    	// 지우지 않은 파일들 번호 뽑아내기
 	    	$('.left').each(function(){
 	    		  var text = $(this).next().next().val();
-	    		  console.log(text);
 	    		  left_name.push(text);
 	    		  
 	  	  	});
