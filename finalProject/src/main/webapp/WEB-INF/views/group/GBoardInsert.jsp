@@ -40,9 +40,9 @@
     #groupCon{resize: none;width:100%; height:300px; border:none;  border-radius: 6px; margin-bottom:-10px;}
     .groupPhoto{width:100px; height: 100px;}
 
-    .groubJoinBtn{text-align: center;}
-    #submit{background:none; border:none; color:#2860E1; font-weight: 600; font-size: 20px; }
-    #reset{background:none; border:none; color:#484848; font-weight: 600; font-size: 20px; width:100px;}
+    .groubJoinBtn{text-align: center;margin-left:180px;}
+    #submit{margin-right:20px;background:none; border:none; color:#2860E1; font-weight: 700; font-size: 20px; }
+    #reset{background:none; border:none; color:#484848; font-weight: 700; font-size: 20px; width:100px;}
 
     tr > td:nth-child(1) {
             color: #484848;
@@ -186,13 +186,17 @@
                 <br><br>
                 <div class="groubJoinBtn">
                    <span><button id="submit">Submit</button>&nbsp;</span>
-                   <span><input type="reset" value="Reset" id="reset"></span>
+                   <span id="reset" onclick="goBack();">Back</span>
                 </div>
             </div>
          </div>
+             <!-- 뒤로가기 버튼 -->
+		 <script>
+		 	function goBack(){
+		 		window.history.back();	
+		 	}
          
          
-         <script>
          /* 파일 업로드 */
          $(document).ready(function(){
          	

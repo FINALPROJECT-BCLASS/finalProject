@@ -166,11 +166,11 @@
         	<div class="top-area">
                	<table id="total">
                    <tr>
-                       <td style="color: blue;"><b>Profit :&nbsp;</b></td>
+                       <td style="color: #007bff;"><b>Profit :&nbsp;</b></td>
                        <td><b id="proSum"></b></td>
                    </tr>
                   	<tr>
-                       <td style="color: red;text-align: right;"><b>Expenditure :&nbsp;</b></td>
+                       <td style="color: #dc3545;text-align: right;"><b>Expenditure :&nbsp;</b></td>
                        <td><b id="expSum"></b></td>
                    </tr>
                	</table>
@@ -278,10 +278,10 @@
                     			<td><span id="detailDate"></span></td>
                     		</tr>
                     		<tr id="pContent">
-                    			<td colspan="2"><b style="color: blue;">Profit</b></td>
+                    			<td colspan="2"><b style="color: #007bff;">Profit</b></td>
                     		</tr>
                     		<tr id="eContent">
-                    			<td colspan="2"><b style="color: red;">Expenditure</b></td>
+                    			<td colspan="2"><b style="color: #dc3545;">Expenditure</b></td>
                     		</tr>
                     		<tr>
                     			<th colspan="2">Memo</th>

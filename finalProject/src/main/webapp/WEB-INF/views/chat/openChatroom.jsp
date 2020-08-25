@@ -152,12 +152,17 @@
 	}
 	
 	.profile-img > img {
-		height: 100%;
+		height: 150%;
 	}
 	
 	.member-list {
 	   	position: absolute;
-	    right: 20px;
+	   	<c:if test="${loginUser.id eq openchat.cm_id }">
+	   	right: 55px;
+	   	</c:if>
+	   	<c:if test="${loginUser.id ne openchat.cm_id }">
+	   	right: 20px;
+	   	</c:if>
 	    top: 43px;
 	    padding-left: 0;
 	    background: lightblue;

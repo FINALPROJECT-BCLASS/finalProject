@@ -40,12 +40,12 @@
 	    		data: [
 	    			{
 	    				type: "line",
-	    				color: "blue",
+	    				color: "#007bff",
 	    				dataPoints: dps1
 	    			},
 	    			{
 	    				type: "line",
-	    				color: "red",
+	    				color: "#dc3545",
 	    				dataPoints: dps2
 	    			}
 	    		]
@@ -78,12 +78,12 @@
 		    		data: [
 		    			{
 		    				type: "line",
-		    				color: "blue",
+		    				color: "#007bff",
 		    				dataPoints: newDps1
 		    			},
 		    			{
 		    				type: "line",
-		    				color: "red",
+		    				color: "#dc3545",
 		    				dataPoints: newDps2
 		    			}
 		    		]
@@ -117,12 +117,12 @@
 		    		data: [
 		    			{
 		    				type: "line",
-		    				color: "blue",
+		    				color: "#007bff",
 		    				dataPoints: newDps1
 		    			},
 		    			{
 		    				type: "line",
-		    				color: "red",
+		    				color: "#dc3545",
 		    				dataPoints: newDps2
 		    			}
 		    		]
@@ -178,8 +178,8 @@
         <div class="row">
         	<div class="col-md-5"></div>
         	<div class="col-md-7">
-        		<b style="color: blue; font-size: 30px; margin-left: 70px;">Profit</b>
-        		<b style="color: red; font-size: 30px; margin-left: 100px;">Expenditure</b>
+        		<b style="color: #007bff; font-size: 30px; margin-left: 70px;">Profit</b>
+        		<b style="color: #dc3545; font-size: 30px; margin-left: 100px;">Expenditure</b>
         	</div>
         </div>
         

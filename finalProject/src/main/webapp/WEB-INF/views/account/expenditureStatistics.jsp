@@ -158,7 +158,7 @@
         	display: flex;
 		    align-items: center;
 		    float: right;
-		    width: 75%;
+		    width: 68%;
 		    margin-top: 30px;
 		    margin-bottom: 100px;
         }
@@ -168,7 +168,7 @@
         }
         
         #notice {
-        	margin-left: 550px;
+        	margin-left: 650px;
         	width: 500px;
         	text-align: center;
         }
@@ -195,9 +195,9 @@
         
         <div class="row">
         	<div id="notice">
-        		<b style="color: blue; font-size: 20px;">Profit :&nbsp;</b>
+        		<b style="color: #007bff; font-size: 20px;">Profit :&nbsp;</b>
         		<span><b id="profit" style="font-size: 20px;"></b></span>
-        		<b style="color: red; font-size: 20px; margin-left: 50px;">Expenditure :&nbsp;</b>
+        		<b style="color: #dc3545; font-size: 20px; margin-left: 50px;">Expenditure :&nbsp;</b>
         		<span><b id="expenditure" style="font-size: 20px;"></b></span>
         		<br>
         		<b id="gapAmount" style="font-size: 40px;"></b>
@@ -321,9 +321,9 @@
     				
     				if(data.ecList.length > 0) {
 	    				if(data.gap == "plus") {
-	    					$("#gapAmount").html("+" + data.gapAmount).css("color", "blue");
+	    					$("#gapAmount").html("+" + data.gapAmount).css("color", "#007bff");
 	    				} else {
-	    					$("#gapAmount").html(data.gapAmount).css("color", "red");
+	    					$("#gapAmount").html(data.gapAmount).css("color", "#dc3545");
 	    				}
 	    				
 	    				if(data.maxExp != "") {

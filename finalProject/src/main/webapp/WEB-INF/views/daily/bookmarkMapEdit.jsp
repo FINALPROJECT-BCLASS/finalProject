@@ -277,7 +277,7 @@
                         <td><input type="text" name="mb_title" id="mb_title" maxlength="16" placeholder="저장할 장소의 이름을 입력해 주세요." required value="${bmMap.mb_title }"></td>
                     </tr>
                     <tr>
-                        <td>Tell</td>
+                        <td>Tel.</td>
                         <td><input type="text" name="mb_phone" id="mb_phone" maxlength="16" placeholder="전화번호를 입력해 주세요." value="${bmMap.mb_phone }"></td>
                     </tr>
                     <tr>

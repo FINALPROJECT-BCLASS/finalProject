@@ -76,7 +76,7 @@ public class AccountController {
 			String formatSum = String.format("%,d", p.getSum());
 			jObj.put("eventTitle", formatSum);
 			jObj.put("date", p.getDate());
-			jObj.put("color", "blue");
+			jObj.put("color", "#007bff");
 			jObj.put("type", "profit");
 			
 			jArr.add(jObj);
@@ -88,7 +88,7 @@ public class AccountController {
 			String formatSum = String.format("%,d", e.getSum());
 			jObj.put("eventTitle", formatSum);
 			jObj.put("date", e.getDate());
-			jObj.put("color", "red");
+			jObj.put("color", "#dc3545");
 			jObj.put("type", "expenditure");
 			
 			jArr.add(jObj);
