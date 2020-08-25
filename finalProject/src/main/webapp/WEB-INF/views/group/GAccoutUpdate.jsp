@@ -32,7 +32,7 @@
     .expense{display:none;}
     
     
-    .searchList{display:none;}
+    .searchList{display:none; height:200px; overflow-y:scroll;}
     .search{border:none; border-radius: 6px;  background:white;}
     .searchImg{width:20px; height:20px;}
     #search{width:85%; border:none; }
@@ -241,7 +241,7 @@
          		}else{
          			
          		$(".amount").val(sum);
-	         })
+	         }
 	         
          	$(document).on("keyup",".amountBox",function(){
          		var sum = 0;
@@ -253,7 +253,7 @@
          		$(".amount").val(sum);
          	})
          	
-         	
+	         })
          	
          	
          </script>
@@ -293,8 +293,8 @@
          			}else if($("#grouopCon").val() == ""){
          				alert("내용을 입력해주세요.");
          				
-         			}else if($(".amount").val() == 0){
-         				alert("멤버를 입력해주세요.");
+         			/* }else if($(".amountMember").val() == 0){
+         				alert("멤버를 입력해주세요."); */
          			}else {
 		       			$("#accountForm").submit(); 
          			}

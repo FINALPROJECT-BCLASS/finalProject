@@ -162,7 +162,7 @@
 	                        <td>
 	                      	  <span class="material-icons reply">sms</span>
 	                        </td>
-	                        <td><div class="totalReply">${totalReply }</div></td>
+	                        <td><div id="totalReply" class="totalReply">${totalReply }</div></td>
 	                    </tr>
 	                </table>
                 </div>
@@ -429,11 +429,14 @@
                         dataType: "json",
                      	data:{gmNo:gmNo, grNo:grNo, gbNo:gbNo, grrCon:grrCon},
                      	success:function(data){
-
+							console.log(data.totalReply[0]);
+             				var $totalReply = $(".totalReply");
                      		$("#replyWirte").val("");	
                      		$replyName.remove();
              				$reset.remove();
-             		   
+                       		
+                   			$totalReply.html("");
+                   			$totalReply.html(data.totalReply[0]);
                      	   for(i in data.reReplyList){ 
                      		 
                      		 var $replyTr = $replyNameLocation.closest(".replyTr");

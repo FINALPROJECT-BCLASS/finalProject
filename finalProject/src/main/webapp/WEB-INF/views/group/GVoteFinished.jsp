@@ -186,10 +186,7 @@
                data:{page:pagePlus},
                success: function(data){
             	   
-            	   if(data.voteList[0] == null){
-    					$(".groupNotice").text("종료된 투표가 없습니다.").css({"text-align":"center","padding-top":"200px","font-weight":"600","color":"gray"});
-    				}
-				console.log(data);
+            	  
 				 page = parseInt(data.voteList[0].page);
              	 pagePlus = page + 1;
              	 

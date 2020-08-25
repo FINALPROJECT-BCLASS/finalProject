@@ -996,6 +996,9 @@ public class GroupController {
 		ArrayList<GroupReReply> reReplyList = gService.selectOneReReplyList(reReplyCurrval);
 		
 		int totalReply = gService.totalReplyList(gbNo);
+		int totalReReply = gService.totalReReplyList(gbNo);
+		
+		int total = totalReply + totalReReply;
 
 		response.setContentType("application/json;charset=utf-8");
 
@@ -1005,7 +1008,8 @@ public class GroupController {
 		JSONArray tArr = new JSONArray();
 		JSONArray rrArr = new JSONArray();
 		
-		tArr.add(totalReply);
+//		tArr.add(totalReply);
+		tArr.add(total);
 		
 		if (replyList != null) {
 			for (GroupReply r : replyList) {

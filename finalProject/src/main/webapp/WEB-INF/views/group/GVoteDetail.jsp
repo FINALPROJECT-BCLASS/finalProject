@@ -247,7 +247,7 @@
 		 <!-- 뒤로가기 버튼 -->
 		 <script>
 		 	function goBack(){
-		 		window.history.back();	
+		 		location.href="voteMain.do";
 		 	}
 		 	
 		 </script>
