@@ -939,14 +939,16 @@ public class GroupController {
 		ArrayList<GroupReply> replyList = gService.selectOneReplyList(replyCurrval);
 
 		int totalReply = gService.totalReplyList(gbNo);
+		int totalReReply = gService.totalReReplyList(gbNo);
 		
+		int total = totalReply + totalReReply;
 		response.setContentType("application/json;charset=utf-8");
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
 		JSONArray rArr = new JSONArray();
 		JSONArray tArr = new JSONArray();
-		tArr.add(totalReply);
+		tArr.add(total);
 		
 		if (replyList != null) {
 			for (GroupReply r : replyList) {
