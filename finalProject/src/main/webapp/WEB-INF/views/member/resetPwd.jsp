@@ -134,7 +134,7 @@
 <body>
 	<jsp:include page="../common/header.jsp"/>
     <div class="login-form-area">
-        <div onclick="history.go(-1)" class="back-btn"><a>X</a></div>
+        <div onclick="location.href='memberLoginView.do'" class="back-btn"><a>X</a></div>
         <span class="pSubject">Reset Password</span>
         <form action="findPwd.do" method="post">
             <table cellpadding="6px">
