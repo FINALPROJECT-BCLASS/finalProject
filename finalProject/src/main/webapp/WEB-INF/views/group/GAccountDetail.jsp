@@ -77,9 +77,9 @@
     .groubJoinBtn{text-align: center;}
     .annoIcon{cursor:pointer;}
     
-    #submit{background:none; border:none; color:#2860E1; font-weight: 600; font-size: 20px; }
-    #reset{background:none; border:none; color:#484848; font-weight: 600; font-size: 20px; width:100px;}
-	#delete{background:none; border:none; color:#ee1212d0; font-weight: 600; margin-right:10px; font-size: 20px; width:100px; cursor:pointer;
+    #submit{background:none; border:none; color:#2860E1; font-weight: 700; font-size: 20px; }
+    #reset{background:none; border:none; color:#484848; font-weight: 700; font-size: 20px; width:100px; cursor:pointer;}
+	#delete{background:none; border:none; color:#ee1212d0; font-weight: 700; margin-right:10px; font-size: 20px; width:100px; cursor:pointer;
     tr > td:nth-child(1) {
             color: #484848;
             text-align: left;
