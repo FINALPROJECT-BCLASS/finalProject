@@ -52,7 +52,7 @@
 	}
 	
 	.profile-img > img {
-		height: 100%;
+		height: 150%;
 	}
 	
 	.chatroom-con {

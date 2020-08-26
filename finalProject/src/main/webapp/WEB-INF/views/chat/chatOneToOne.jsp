@@ -153,7 +153,7 @@
 	}
 	
 	.profile-img > img {
-		height: 100%;
+		height: 150%;
 	}
 	
 	.member-list {
@@ -282,7 +282,9 @@
 		width: 100%;
 	    height: 100%;
 		}
-		
+		.Toback{
+		cursor: pointer;
+		}
 </style>
 <body>
 	<jsp:include page="../common/chatheader.jsp"/>

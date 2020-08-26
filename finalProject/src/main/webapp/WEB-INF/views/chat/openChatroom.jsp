@@ -348,6 +348,9 @@
 	.admin{
 		right:10% !important;
 	}
+	.Toback{
+	cursor: pointer;
+	}
 </style>
 <body>
 	
