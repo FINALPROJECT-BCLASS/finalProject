@@ -48,7 +48,7 @@
 	  /* 투표 내용 시작 */
     .voteBox{ margin-bottom: 10px; margin-left:17px; width:950px !important; border-radius:10px; border:1px solid #F3F3F3; display: flex; align-items: center;}
     .voteTitle{width:80%; height:50px; cursor: pointer !important; border:0; outline:0 !important; background:none; }
-    .anno{display: inline-block;color: gray;font-size: 11px;}
+    .anno{display: inline-block;color:#2860E1;font-size: 11px;margin-left:10px; font-weight:600;}
     .voteSubmit{font-weight: 600;font-size: 17px;color:white; margin-left: 3px; margin-top:20px; margin-bottom:10px; width:45%; height:50px; border:none; background:#2860E1; border-radius: 5px; }
     .voteEnd{background:#FBD14B;}
     .voteUpdate{background:#2860E1 ;}
@@ -127,10 +127,10 @@
 	                        	<div class="BoardCount">
 	                        	<span class="material-icons done">done</span> 3
                         	</div>
-                        	</div>
                         	<c:if test="${voteList.gvAno eq 'Y' }">
                         		<div class="anno">익명 투표 입니다.</div>
                         	</c:if>
+                        	</div>
                         </td>
                     </tr>
                      <tr>

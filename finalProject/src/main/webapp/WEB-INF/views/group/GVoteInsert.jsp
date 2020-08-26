@@ -36,7 +36,7 @@
 
     .groubJoinBtn{text-align: center;}
     #submit{background:none; border:none; color:#2860E1; font-weight: 700; font-size: 20px; }
-    #reset{background:none; border:none; color:#484848; font-weight: 7	00; font-size: 20px; width:100px;}
+    #reset{background:none; border:none; color:#484848; font-weight: 700; font-size: 20px; width:100px;}
 
     tr > td:nth-child(1) , .btnRemove{
             color: #484848;
